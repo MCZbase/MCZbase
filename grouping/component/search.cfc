@@ -37,7 +37,7 @@ limitations under the License.
 				underscore_agent_id, 
 				case underscore_agent_id
 					when null then '[No Agent]'
-					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
+					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
 				as agentname
 			from underscore_collection
@@ -59,7 +59,7 @@ limitations under the License.
 				underscore_agent_id, 
 				case underscore_agent_id
 					when null then '[No Agent]'
-					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
+					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 					end
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -76,7 +76,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfset message = trim("Error processing getCollections: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>

@@ -19,10 +19,10 @@ limitations under the License.
 
 --->
 <cfif not isdefined("action")>
-	<cfset action="findAll">
+	<cfset action="search">
 </cfif>
 <cfswitch expression="#action#">
-	<cfcase value="findAll">
+	<cfcase value="search">
 		<cfset pageTitle = "Search ____ Collections">
 	</cfcase>
 	<cfcase value="new">
@@ -39,7 +39,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
-	<cfcase value="findAll">
+	<cfcase value="search">
 		<div id="overlaycontainer" style="position: relative;">
 			<!--- ensure fields have empty values present if not defined. --->
 			<cfif not isdefined("collection_name")><cfset collection_name=""></cfif>
@@ -74,7 +74,8 @@ limitations under the License.
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=findAll';" >New Search</button>
+											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
+											<button type="button" class="btn-xs btn-secondary" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new Collection</button>
 										</div>
 									</div>
 								</form>
@@ -157,7 +158,7 @@ limitations under the License.
 					            } else { 
 					               message = jqXHR.responseText;
 					            }
-					            messageDialog('Error:' + message ,'Error: ' + error);
+					            messageDialog('Error:' + error,'Error: ' + message);
 								},
 								async: true
 							};
@@ -211,7 +212,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/grouping/UnderscoreCollection.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/grouping/UnderscoreCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','collecting event number');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
