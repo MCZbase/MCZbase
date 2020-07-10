@@ -420,7 +420,7 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
-				select underscore_collection, description, underscore_agent_id,
+				select underscore_collection_id, collection_name, description, underscore_agent_id,
 					MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred') as agentname
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
