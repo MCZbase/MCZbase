@@ -423,7 +423,7 @@ limitations under the License.
 				select underscore_collection, description, underscore_agent_id,
 					MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred') as agentname
 				from underscore_collection
-				where underscore_collection_id = <cfquery:param cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
 			<cfoutput query="undColl">
 				<div class="container">
