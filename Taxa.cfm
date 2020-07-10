@@ -378,7 +378,7 @@ limitations under the License.
 													</li>
 													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which specimens exist?</label>
+														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which cataloged items exist?</label>
 													</li>
 													<li class="list-group-item px-0 py-1">
 														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
@@ -717,7 +717,7 @@ limitations under the License.
 							{ text: 'Subsepecies', datafield: 'SUBSPECIES', width:100, hideable: true, hidden: false },
 							{ text: 'Infraspecific Rank', datafield: 'INFRASPECIFIC_RANK', width:100, hideable: true, hidden: false },
 							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
-							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:100, hideable: true, hidden: false },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:150, hideable: true, hidden: false },
 							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
