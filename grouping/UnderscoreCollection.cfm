@@ -202,7 +202,7 @@ limitations under the License.
 								showtoolbar: false,
 								columns: [
 									{text: '__ Collection', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
-									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellserenderer: linkIdCellRenderer },
+									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
 									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
