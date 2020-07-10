@@ -413,11 +413,11 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
-		<cfif not isDefined("underscore_collection")>
-			<cfset underscore_collection = "">
+		<cfif not isDefined("underscore_collection_id")>
+			<cfset underscore_collection_id = "">
 		</cfif>
-		<cfif len("underscore_collection") EQ 0>
-			<cfthrow type="Application" message="Error: No value provided for underscore_collection">
+		<cfif len("underscore_collection_id") EQ 0>
+			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
 			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				select underscore_collection, description, underscore_agent_id,
