@@ -15,7 +15,7 @@ function messageDialog(dialogText, dialogTitle) {
 		draggable: true,
 		width: 'auto',
 		minHeight: 80,
-		title: dialogTitle,
+		title: dialogTitle.substring(0,50),
 		buttons: {
 			OK: function () {
 				$(this).dialog('destroy');

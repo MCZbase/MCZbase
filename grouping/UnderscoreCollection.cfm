@@ -164,7 +164,7 @@ limitations under the License.
 					            } else { 
 					               message = jqXHR.responseText;
 					            }
-					            messageDialog('Error:' + error,'Error: ' + message);
+					            messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -507,7 +507,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving ____ collection: '+message, 'Error: '+error);
+																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0.50));
 															}
 														});
 													} else { 
@@ -564,7 +564,7 @@ limitations under the License.
 														} else {
 															message = jqXHR.responseText;
 														}
-														messageDialog('Error: ' + error, 'Error saving ____ collection: '+message);
+														messageDialog('Error saving ____ collection: '+message, 'Error: ' + error.substring(0.50));
 														$('##addResultDiv').html("Error.");
 													}
 												});

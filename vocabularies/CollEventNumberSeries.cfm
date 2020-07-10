@@ -154,7 +154,7 @@ limitations under the License.
 					            } else { 
 					               message = jqXHR.responseText;
 					            }
-					            messageDialog('Error:' + message ,'Error: ' + error);
+					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -514,7 +514,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error.substring(0.50));
 															}
 														});
 													} else { 
