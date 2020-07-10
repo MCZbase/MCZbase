@@ -539,7 +539,7 @@ limitations under the License.
 												value="" aria-labelledby="guid_list_label" >					
 										</div>
 										<script>
-											function addCollectionObject(){ 
+											function addCollectionObjects(){ 
 												$('##addResultDiv').html("Saving.... ");
 												jQuery.ajax({
 													url : "/grouping/component/functions.cfc",
@@ -579,7 +579,6 @@ limitations under the License.
 												>
 										</div>
 									</div>
-									<div class="form-row mb-2">
 								</form>
 							</div>
 						</div><!--- col --->
