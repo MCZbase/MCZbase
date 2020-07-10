@@ -193,7 +193,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 
 		<cfset i = 1>
 		<cfset row = StructNew()>
-		<cfset row["added"] = "#search.rows#">
+		<cfset row["added"] = "#rows#">
 		<cfset data[i] = row>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
