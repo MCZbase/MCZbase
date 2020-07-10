@@ -526,7 +526,7 @@ limitations under the License.
 								<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
 									<input type="hidden" name="action" value="delete">
 									<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-									<button class="btn btn-warning" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+									<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
 									<script>
 										$(document).ready(function() {
 											$('##deleteButton').bind('click', function(evt){
