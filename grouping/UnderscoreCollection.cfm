@@ -540,6 +540,7 @@ limitations under the License.
 										</div>
 										<script>
 											function addCollectionObject(){ 
+												$('##addResultDiv').html("Saving.... ");
 												jQuery.ajax({
 													url : "/grouping/component/functions.cfc",
 													type : "post",
@@ -553,7 +554,8 @@ limitations under the License.
 															success : function(data2){
 																$('##divListOfContainedObjects').html(data2);
 															}
-														}
+														});
+														$('##addResultDiv').html("Added " + data.added);
 													},
 													error: function(jqXHR,textStatus,error){
 														var message = "";
@@ -563,12 +565,14 @@ limitations under the License.
 															message = jqXHR.responseText;
 														}
 														messageDialog('Error saving ____ collection: '+message, 'Error: '+error);
+														$('##addResultDiv').html("Error.");
 													}
 												});
 											};
 										</script>
 										<div class="col-md-2">
-											<input type="button" 
+											<div id="addResultDiv">&nbsp;</div>
+											<input type="button" id="addbutton"
 												value="Save" title="Save" aria-label="Save"
 												class="btn btn-xs btn-primary"
 												onClick=" addCollectionObjects(); " 
