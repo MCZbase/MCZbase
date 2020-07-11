@@ -102,7 +102,9 @@ limitations under the License.
 				CONCATCOMMONNAME(taxonomy.TAXON_NAME_ID) as common_names,
 				count(#session.flatTableName#.collection_object_id) as specimen_count
 			 from taxonomy
-				left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
+				<cfif isdefined("common_name") AND len(common_name) gt 0>
+					left join common_name on taxonomy.taxon_name_id = common_name.taxon_name_id
+				</cfif>
 				left join identification_taxonomy on taxonomy.taxon_name_id = identification_taxonomy.taxon_name_id
 				left join #session.flatTableName# on identification_taxonomy.identification_id = #session.flatTableName#.identification_id
 			WHERE
@@ -394,6 +396,17 @@ limitations under the License.
 					AND #session.flatTableName#.collection_object_id is not null
 				<cfelseif isdefined("we_have_some") AND we_have_some EQ 0>
 					AND #session.flatTableName#.collection_object_id is null
+				</cfif>
+				<cfif isdefined("common_name") AND len(common_name) gt 0>
+					<cfif left(common_name,1) is "=">
+						AND upper(common_name.common_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(common_name,len(common_name)-1))#">
+					<cfelse>
+						<cfif find(',',common_name) GT 0>
+							AND upper(common_name.common_name) in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(common_name)#" list="yes"> )
+						<cfelse>
+							AND upper(common_name.common_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(common_name)#%">
+						</cfif>
+					</cfif>
 				</cfif>
 			GROUP BY
 				taxonomy.TAXON_NAME_ID,
