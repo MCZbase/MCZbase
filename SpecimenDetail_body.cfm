@@ -871,7 +871,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						where
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> 
 					</cfquery>
-					<cfif len(one.coll_event_remarks) gt 0>
+					<cfif collEventNumbers.recordcount gt 0>
 					<tr class="detailData">
 						<td id="SDCellLeft" class="innerDetailLabel" nowrap>Collecting Event/Field Number:</td>
 						<td id="SDCellRight"><ul>
