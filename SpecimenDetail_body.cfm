@@ -918,6 +918,35 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					</cfloop>
 				</div>
 			</cfif>
+<!------------------------------------ collections ---------------------------------------------->
+			<cfif oneofus is 1>
+				<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select distinct collection_name 
+					from underscore_relation
+						left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+					where
+						underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+				</cfquery>
+				<div class="detailCell">
+					<div class="detailLabel">Included in Collections
+						<!---  TODO: Implement edit 
+						<cfif oneOfUs is 1>
+							<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
+						</cfif>
+						--->
+					</div>
+					<cfloop query="colls">
+						<div class="detailBlock">
+							<ul>
+								<cfloop query="collectionsQuery">
+									<li>#collection_name#</li>
+								</cfloop>
+							</ul>
+						</span>
+					</div>
+				</cfloop>
+			</div>
+			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
 				<div class="detailCell">
