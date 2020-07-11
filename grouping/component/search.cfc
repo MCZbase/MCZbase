@@ -30,7 +30,7 @@ limitations under the License.
 		<cfset rows = 0>
 		<!--- TODO: Join to collection objects --->
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select count(*) as specimen_count, 
+			select count(underscore_relation.collection_object_id) as specimen_count, 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
 				description,
@@ -41,6 +41,7 @@ limitations under the License.
 					end
 				as agentname
 			from underscore_collection
+				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
 			WHERE
 				underscore_collection.underscore_collection_id is not null
 				<cfif isDefined("collection_name") and len(collection_name) gt 0>
