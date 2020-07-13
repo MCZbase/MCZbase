@@ -476,17 +476,18 @@ limitations under the License.
 											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection</label>
 											<div class="input-group mb-3">
   <div class="input-group-prepend">
-	  <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+	  <span class="input-group-text" id="underscore_agent_name_label"><i class="fa fa-user" aria-hidden="true"></i></span>
   </div>
-  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+  <input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+	<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 </div>
 											
 											
 											<span>
 												<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
-											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm border-0" value="#agentname#" aria-labelledby="underscore_agent_name_label" >
-											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#"  >
+											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm border-0" value="#agentname#" aria-labelledby="underscore_agent_name_label">
+											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 											</div>
 											<script>
 												function changed(){
