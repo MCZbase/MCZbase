@@ -143,6 +143,55 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- Given the primary key value for underscore_relations, remove that record of the relation
+ between a collection object and an underscore collection.
+ @param underscore_relation_id the primary key value of the row to remove.
+ @return a structure with status deleted, count of rows deleted and the id of the deleted row, or an http 500
+--->
+<cffunction name="removeObjectFromUndColl" access="remote" returntype="any" returnformat="json">
+	<cfargument name="underscore_relation_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+		<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+			delete from underscore_relation 
+			where underscore_relation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_relation_id#" >
+		</cfquery>
+		<cfset rows = deleteQuery_result.recordcount>
+		<cfif rows EQ 0>
+			<cfthrow message="No matching underscore_relation found for underscore_relation_id=[#underscore_relation_id#].">
+		<cfelseif rows GT 1>
+			<cfthrow message="More than one match found for underscore_relation_id=[#underscore_relation_id#].">
+			<cftransaction action="rollback">
+		<cfif>
+		<cfset row = StructNew()>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "deleted">
+		<cfset row["count"] = rows>
+		<cfset row["id"] = "#underscore_relation_id#">
+		<cfset data[1] = row>
+		</cftransaction>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing removeObjectFromUndColl: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---- function addOIbjectToUndColl 
   Given an underscore_collection_id and a string delimited list of guids, look up the collection object id 
   values for the guids and insert the underscore_collection_id - collection_object_id relationships into
@@ -200,6 +249,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 
 		<cfset i = 1>
 		<cfset row = StructNew()>
+		<cfset row["status"] = "success">
 		<cfset row["added"] = "#rows#">
 		<cfset row["matches"] = "#find_result.recordcount#">
 		<cfset row["findquery"] = "#rereplace(find_result.sql,'[\n\r\t]+',' ','ALL')#">
