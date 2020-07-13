@@ -529,7 +529,7 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-									<div class="col-12 row mx-0 px-2">
+									<div class="col-12 row mx-0 px-1 my-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
 												class="btn btn-xs btn-primary"
