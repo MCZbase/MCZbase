@@ -162,7 +162,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfelseif rows GT 1>
 			<cfthrow message="More than one match found for underscore_relation_id=[#underscore_relation_id#].">
 			<cftransaction action="rollback">
-		<cfif>
+		</cfif>
 		<cfset row = StructNew()>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "deleted">
