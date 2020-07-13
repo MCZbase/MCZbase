@@ -528,13 +528,13 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-									<div class="col-12 px-2">
+									<div class="col-12 row mx-0 px-2">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
-												class="btn btn-xs btn-primary ml-2"
+												class="btn btn-xs btn-primary"
 												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " 
 												>
-										<div id="saveResultDiv">&nbsp;</div>
+										<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 									</div>
 								</div>
 							</form>
