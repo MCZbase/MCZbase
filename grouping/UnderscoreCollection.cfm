@@ -439,22 +439,22 @@ limitations under the License.
 				<cfset collname = collection_name><!--- save name for later use outside this output section --->
 				<div class="container">
 					<div class="row">
-						<div class="col-12">
-							<div role="region" aria-labelledby="formheading" class="border border-secondary">
-								<h2 id="formheading">Edit "Collection" (arbitrary grouping of collection objects)</h2>
+						<div class="col-12 border">
+							<div role="region" aria-labelledby="formheading" class="">
+								<h1 class="h2" id="formheading">Edit "Collection" (arbitrary grouping of collection objects)</h2>
 								<form name="editUndColl" id="editUndColl"> 
 									<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 									<input type="hidden" id="method" name="method" value="saveUndColl" >
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="collection_name" id="collection_name_label">Name for the Collection</label>
+											<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Collection</label>
 											<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >					
 										</div>
 									</div>
 									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="description" id="description_label">Description (<span id="length_description"></span>)</label>
+										<div class="col-12">
+											<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description"></span>)</label>
 											<textarea id="description" name="description" class="data-entry-textarea mt-1 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#description#</textarea>
@@ -469,14 +469,38 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										});
 									</script>
-									<div class="form-row mb-5">
+									<style>
+										input{
+  border:none;
+  background-color: transparent;
+}
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.fa-user-circle-o{
+  color: gray;
+}
+
+.input-group{
+  border: 1px gray solid;
+  padding: 5px;
+}
+									</style>
+									<div class="form-row mb-3">
 										<div class="col-12 col-md-6"> 
+											<div class="input-group">
 											<span>
 												<label for="underscore_agent_name" id="underscore_agent_name_label">Agent Associated with this Collection</label>
 												<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<i class="fa fa-user-circle-o" aria-hidden="true"></i>
 											</span>
-											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="underscore_agent_name_label" >
+											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm border-0" value="#agentname#" aria-labelledby="underscore_agent_name_label" >
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#"  >
+											</div>
 											<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
@@ -517,7 +541,7 @@ limitations under the License.
 												};
 											</script>
 										</div>
-										<div class="col-12 col-md-6"> 
+										<div class="col-12 px-0"> 
 											<div id="saveResultDiv">&nbsp;</div>
 											<input type="button" 
 												value="Save" title="Save" aria-label="Save"
