@@ -94,7 +94,7 @@ limitations under the License.
 			<!--- Results table as a jqxGrid. --->
 			<div class="container-fluid">
 				<div class="row mx-0">
-					<div class="text-left col-md-12">
+					<div class="col-12">
 						<main role="main">
 							<div class="mb-5"> 
 								
