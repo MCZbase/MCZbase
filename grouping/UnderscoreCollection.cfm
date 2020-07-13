@@ -76,11 +76,11 @@ limitations under the License.
 									</div>
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 px-0 pt-2">
-											<button class="btn-xs btn-primary px-2 mt-2" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning mt-2" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-2" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
+											<button class="btn-xs btn-primary px-2 my-2" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning my-2" aria-label="Reset search form to inital values" onclick="">Reset</button>
+											<button type="button" class="btn-xs btn-warning my-2" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
 											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button type="button" class="btn-xs btn-secondary mt-2" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new "Collection"</button>
+												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new "Collection"</button>
 											</cfif>
 										</div>
 									</div>
