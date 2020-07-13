@@ -470,33 +470,13 @@ limitations under the License.
 										});
 									</script>
 									<style>
-										input{
-  border:none;
-  background-color: transparent;
-}
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
-}
-
-.fa-user-circle-o{
-  color: gray;
-}
-
-.input-group{
-  border: 1px gray solid;
-  padding: 5px;
-}
-									</style>
+								</style>
 									<div class="form-row mb-3">
 										<div class="col-12 col-md-6"> 
-											<div class="input-group">
+											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection</label>
+											<div class="input-group-sm">
 											<span>
-												<label for="underscore_agent_name" id="underscore_agent_name_label">Agent Associated with this Collection</label>
-												<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-												<i class="fa fa-user-circle-o" aria-hidden="true"></i>
+												<i class="fa fa-user-circle-o" aria-hidden="true"></i><span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
 											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm border-0" value="#agentname#" aria-labelledby="underscore_agent_name_label" >
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#"  >
