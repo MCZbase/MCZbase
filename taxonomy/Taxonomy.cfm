@@ -259,7 +259,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select w-75">
+							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select col-12 col-md-8">
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -271,14 +271,14 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select col-12 col-md-8">
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select w-75">
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select col-12 col-md-8">
 								<cfloop query="ctnomenclatural_code">
 									<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
