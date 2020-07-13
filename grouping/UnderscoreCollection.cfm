@@ -573,7 +573,7 @@ limitations under the License.
 										<div class="col-md-2">
 											<div id="addResultDiv">&nbsp;</div>
 											<input type="button" id="addbutton"
-												value="Save" title="Save" aria-label="Save"
+												value="Add" title="Add" aria-label="Add"
 												class="btn btn-xs btn-primary"
 												onClick=" addCollectionObjects(); " 
 												>
