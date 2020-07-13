@@ -481,14 +481,10 @@ limitations under the License.
   <input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 	<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 </div>
-											
-											
 											<span>
 												<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
-											<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm border-0" value="#agentname#" aria-labelledby="underscore_agent_name_label">
-											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
-											</div>
+										
 											<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
