@@ -190,7 +190,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 					guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#">
 				</cfif>
 		</cfquery>
-		<cfif find_result.recordcount GT 1>
+		<cfif find_result.recordcount GT 0>
 			<cfloop query=find>
 			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 				insert into underscore_relation
@@ -211,6 +211,8 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfset i = 1>
 		<cfset row = StructNew()>
 		<cfset row["added"] = "#rows#">
+		<cfset row["matches"] = "#fund_result.recordcount">
+		<cfset row["findquery"] = "#fund_result.sql#">
 		<cfset data[i] = row>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
