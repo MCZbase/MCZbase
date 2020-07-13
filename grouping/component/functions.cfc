@@ -155,13 +155,22 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_collection_id" type="string" required="yes">
 	<cfargument name="guid_list" type="string" required="yes">
 	<cfset guids = "">
+	<cfset list = false>
 	<cfif Find(',', guid_list) GT 0>
 		<cfset guidArray = guid_list.Split(',')>
 		<cfset separator ="">
+		<cfset i = 0>
 		<cfloop array="#guidArray#" index=#idx#>
-			<!--- trim to prevent guid, guid from failing --->
-			<cfset guids = guids & separator & trim(idx)>
-			<cfset separator = ",">
+			<!--- skip any empty elements --->
+			<cfif len(trim(idx)) GT 0>
+				<!--- trim to prevent guid, guid from failing --->
+				<cfset guids = guids & separator & trim(idx)>
+				<cfset separator = ",">
+				<cfset i = i + 1>
+				<cfif i GT 1>
+					<cfset list = true>
+				</cfif>
+			</cfif>
 		</cfloop>
 	<cfelse>
 		<cfset guids = trim(guid_list)>
@@ -175,7 +184,11 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			select distinct 
 				collection_object_id from #session.flatTableName# 
 			where 
-				guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+				<cfif list>
+					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+				<cfelse>
+					guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#">
+				</cfif>
 		</cfquery>
 		<cfif find_result.recordcount GT 1>
 			<cfloop query=find>

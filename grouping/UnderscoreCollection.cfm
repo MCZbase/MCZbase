@@ -440,7 +440,7 @@ limitations under the License.
 				<div class="container">
 					<div class="row">
 						<div class="col-12">
-							<div role="region" aria-labelledby="formheading">
+							<div role="region" aria-labelledby="formheading" class="border border-secondary">
 								<h2 id="formheading">Edit "Collection" (arbitrary grouping of collection objects)</h2>
 								<form name="editUndColl" id="editUndColl"> 
 									<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -528,7 +528,7 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!--- region --->
-							<div role="region" aria-labelledby="formheading">
+							<div role="region" aria-labelledby="guid_list_label" class="border border-secondary" >
 								<form name="addCollObjectsUndColl" id="addCollObjectsUndColl"> 
 									<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 									<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
