@@ -50,7 +50,7 @@ limitations under the License.
 			<cfif not isdefined("guid")><cfset guid=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<div class="container">
+				<div class="container my-3">
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
@@ -75,7 +75,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row my-2 mx-0">
-										<div class="col-12 text-left">
+										<div class="col-12 px-0 pt-2">
 											<button class="btn-xs btn-primary px-2" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
@@ -93,10 +93,10 @@ limitations under the License.
 	
 			<!--- Results table as a jqxGrid. --->
 			<div class="container-fluid">
-				<div class="row">
+				<div class="row mx-0">
 					<div class="text-left col-md-12">
 						<main role="main">
-							<div class="pl-2 mb-5"> 
+							<div class="mb-5"> 
 								
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 									<h4>Results: </h4>
