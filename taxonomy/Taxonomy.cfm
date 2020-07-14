@@ -233,16 +233,18 @@ limitations under the License.
 				<div class="col-12">
 					<div class="row mx-0">
 					<h2>Edit Taxon:
-						<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> </h2>
+						<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> 	
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+						</cfif>
+					</h2>
 					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 					<cfif len(getTaxa.taxonid) GT 0>
 						<cfset hasTaxonID = true>
 						<cfelse>
 						<cfset hasTaxonID = false>
 					</cfif>
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
-						</cfif>
+					
 							</div>
 					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
