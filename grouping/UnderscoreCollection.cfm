@@ -477,7 +477,7 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										});
 									</script>
-								<div class="form-row mb-3">
+								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection</label>
 										<div class="input-group">
@@ -583,7 +583,7 @@ limitations under the License.
 										<div id="addResultDiv">&nbsp;</div>
 										<input type="button" id="addbutton"
 												value="Add" title="Add" aria-label="Add"
-												class="btn btn-xs btn-primary"
+												class="btn btn-xs btn-primary mt-1"
 												onClick=" addCollectionObjects(); " 
 												>
 									</div>
