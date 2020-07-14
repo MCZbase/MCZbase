@@ -608,7 +608,7 @@ limitations under the License.
 				</cfquery>
 			<cfoutput>
 				<div class="container mt-0">
-				<div class="row">
+					<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 							<cfif undCollUse_result.recordcount EQ 0>
@@ -630,12 +630,13 @@ limitations under the License.
 								<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
 								<ul>
 									<cfloop query="undCollUse">
-										<li><a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
+										<li><a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a></li>
 									</cfloop>
 								</ul>
 							</cfif>
 						</div>
 					</div>
+				</div>
 				</div>
 			</cfoutput>
 		</cfif>
