@@ -1505,7 +1505,7 @@ textarea {
 	margin-bottom: -1px;
 }
 .jqx-grid-column-menubutton {border-left:0;}
-.jqx-grid-column-header .jqx-widget-header:nth-child(2){color: blue;}
+#columntablesearchResultsGrid .jqx-widget-header:nth-child(2){color: blue !important;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
