@@ -448,11 +448,8 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading">
-							Edit "Collection" (arbitrary grouping of collection objects)
-							</h1>
+						<h1 class="h2" id="formheading"> Edit "Collection" (arbitrary grouping of collection objects) </h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
-							
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
@@ -487,9 +484,7 @@ limitations under the License.
 											<div class="input-group-prepend"> <span class="input-group-text" id="underscore_agent_name_label"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
-												<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										</div>
-									
+											<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </div>
 										<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
@@ -613,16 +608,16 @@ limitations under the License.
 				</cfquery>
 			<cfoutput>
 				<div class="container mt-0">
-					<div class="row">
-						<div class="col-12">
+				<div class="row">
+					<div class="col-12">
 						<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
-						<cfif undCollUse_result.recordcount EQ 0>
-							<h2 class="h3" id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
-							<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
-								<input type="hidden" name="action" value="delete">
-								<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-								<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
-								<script>
+							<cfif undCollUse_result.recordcount EQ 0>
+								<h2 class="h3" id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
+								<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
+									<input type="hidden" name="action" value="delete">
+									<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
+									<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+									<script>
 										$(document).ready(function() {
 											$('##deleteButton').bind('click', function(evt){
 												evt.preventDefault();
@@ -630,15 +625,16 @@ limitations under the License.
 											});
 										});
 									</script>
-							</form>
-							<cfelse>
-							<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
-							<ul>
-								<cfloop query="undCollUse">
-									<li><a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
-								</cfloop>
-							</ul>
-						</cfif>
+								</form>
+								<cfelse>
+								<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
+								<ul>
+									<cfloop query="undCollUse">
+										<li><a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
+									</cfloop>
+								</ul>
+							</cfif>
+						</div>
 					</div>
 				</div>
 			</cfoutput>
