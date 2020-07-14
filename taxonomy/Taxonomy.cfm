@@ -229,10 +229,10 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mb-4 mx-0">
 		<div class="col-12 px-0">
-			<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mb-5">
+			<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mt-3 mb-5">
 				<div class="col-12">
 					<div class="row mx-0">
-					<h2 class="mt-1">Edit Taxon:
+					<h2>Edit Taxon:
 						<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> </h2>
 					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 					<cfif len(getTaxa.taxonid) GT 0>
