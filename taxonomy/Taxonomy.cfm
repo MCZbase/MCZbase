@@ -692,7 +692,7 @@ limitations under the License.
 												});
 												function saveChanges(){ 
 													var taxonid = $('##taxon_name_id').val();
-													if (taxonid.length > 0) { 
+													if (taxonid.length == 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
