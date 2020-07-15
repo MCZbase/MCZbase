@@ -678,7 +678,7 @@ limitations under the License.
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					</div>
-									<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+									<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>
 									
 										<script>
 												function changed(){
@@ -694,7 +694,7 @@ limitations under the License.
 													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
-															url : "/taxonomy/component/functions.cfc",
+															url : "/component/functions.cfc",
 															type : "post",
 															dataType : "json",
 															data :  $('##taxon_form').serialize(),
