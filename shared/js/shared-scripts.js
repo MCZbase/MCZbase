@@ -191,7 +191,7 @@ function makeAgentPicker(nameControl, idControl) {
  *    iconControl are initialized in a picked agent state.
  */
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
-	if (agentid) { 
+	if (agentId) { 
 		$('#'+iconControl).removeClass('bg-success');
 		$('#'+iconControl).addClass('bg-light');
 		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
