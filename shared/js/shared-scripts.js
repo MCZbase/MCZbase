@@ -230,16 +230,12 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 			})
 		},
 		select: function (event, result) {
-			console.log(event);
-			console.log(result);
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+iconControl).addClass('bg-success');
-			$('#'+iconControl).addClass('bg-light');
+			$('#'+iconControl).removeClass('bg-light');
 		},
 		change: function(event,ui) { 
-			console.log(event);
-			console.log(ui);
 			if(!ui.item){
 				$('#'+idControl).val();
 				$('#'+nameControl).val();
@@ -247,10 +243,10 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
 			} else { 
-				$('#'+idControl).val(result.item.id);
-				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+				$('#'+idControl).val(ui.item.id);
+				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + ui.item.id + "' target='_blank'>View</a>");
 				$('#'+iconControl).addClass('bg-success');
-				$('#'+iconControl).addClass('bg-light');
+				$('#'+iconControl).removeClass('bg-light');
 			}
 		},
 		minLength: 3
