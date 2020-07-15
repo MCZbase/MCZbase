@@ -234,7 +234,7 @@ limitations under the License.
 
 </script> 
 </cfoutput> 
-<cfswitch>
+<cfswitch expression="editTaxon">
 
 	<!---------------------------------------------------------------------------------------------------->
 	
