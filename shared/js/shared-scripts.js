@@ -191,6 +191,7 @@ function makeAgentPicker(nameControl, idControl) {
  *    iconControl are initialized in a picked agent state.
  */
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
+	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
 		$('#'+iconControl).addClass('bg-success');
 		$('#'+iconControl).removeClass('bg-light');
@@ -209,9 +210,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 				data: { term: request.term, method: 'getAgentAutocomplete' },
 				dataType: 'json',
 				success : function (data) { 
-					$('#'+iconControl).addClass('bg-success');
-					$('#'+iconControl).removeClass('bg-light');
-					$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+					// return the result to the autocomplete widget, select event will fire if item is selected.
 					response(data); 
 				},
 				error : function (jqXHR, status, error) {
@@ -230,6 +229,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 			})
 		},
 		select: function (event, result) {
+			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+iconControl).addClass('bg-success');
@@ -237,16 +237,12 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 		},
 		change: function(event,ui) { 
 			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the controls.
 				$('#'+idControl).val();
 				$('#'+nameControl).val();
 				$('#'+iconControl).removeClass('bg-success');
 				$('#'+iconControl).addClass('bg-light');	
-				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
-			} else { 
-				$('#'+idControl).val(ui.item.id);
-				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + ui.item.id + "' target='_blank'>View</a>");
-				$('#'+iconControl).addClass('bg-success');
-				$('#'+iconControl).removeClass('bg-light');
+				$('#'+linkControl).html("");
 			}
 		},
 		minLength: 3
