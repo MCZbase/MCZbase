@@ -680,7 +680,13 @@ limitations under the License.
 					</div>
 									
 										<script>
-			
+						function changed(){
+													$('##saveResultDiv').html('Unsaved changes.');
+												};
+												$(document).ready(function() {
+													$('##saveTaxonomy input[type=text]').on("change",changed);
+													$('##taxon_remarks').on("change",changed);
+												});
 												function saveChanges(){ 
 													var taxonid = $('##taxon_name_id').val();
 													if (taxonid.length > 0) { 
