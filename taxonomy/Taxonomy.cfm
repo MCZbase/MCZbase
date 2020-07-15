@@ -246,11 +246,11 @@ limitations under the License.
 						</cfif>
 					</div>
 					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
-					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
+		<!---			<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" saveChanges(); ">
 						<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
-					</div>
+					</div>--->
 				</div>
 				<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 					<div class="tInput form-row mx-2 mb-2">
@@ -683,7 +683,7 @@ limitations under the License.
 			
 												function saveChanges(){ 
 										var taxonid = $('##taxon_name_id').val();
-													if (taxonid.length == 0) { 
+													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
