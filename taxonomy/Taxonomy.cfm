@@ -733,19 +733,19 @@ limitations under the License.
 											</script>
 					<script>
 
-//				function qcTaxonEdits() { 
-//					$("##taxon_form_action_input").val('saveTaxonEdits');
-//					<cfif hasTaxonId>
-//						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
-//							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-//							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
-//						} else { 
-//							$('##taxon_form').submit();
-//						}
-//					<cfelse>
-//						$('##taxon_form').submit();
-//					</cfif>
-//				}
+				function qcTaxonEdits() { 
+					$("##taxon_form_action_input").val('saveTaxonEdits');
+					<cfif hasTaxonId>
+						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+						} else { 
+							$('##taxon_form').submit();
+						}
+					<cfelse>
+						$('##taxon_form').submit();
+					</cfif>
+				}
 			</script>
 									<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 				</form>
