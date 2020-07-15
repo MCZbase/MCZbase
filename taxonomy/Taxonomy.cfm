@@ -1900,5 +1900,5 @@ limitations under the License.
 	</cfcase>
 
 <!---------------------------------------------------------------------------------------------------->
-			</cfswitch>
+	
 <cfinclude template="/shared/_footer.cfm">
