@@ -702,7 +702,7 @@ limitations under the License.
 													$('##subsection input[type=text]').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
 												});
-												function saveChanges(){ 
+												function qcTaxonEdits(){ 
 													var taxon_form_action_input = $('##taxon_form_action_input').val();
 													var taxaid = $('##taxon_name_id').val();
 													if (agenttext.length == 0 || (taxaid.length>0 && genustext.length>0)) { 
