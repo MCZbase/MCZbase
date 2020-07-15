@@ -702,15 +702,15 @@ limitations under the License.
 													$('##taxon_remarks').on("change",changed);
 												});
 												function saveChanges(){ 
-													var scientifictext = $('##scientific_name').val();
+													var genustext = $('##genus').val();
 													var taxaid = $('##taxon_name_id').val();
-													if (agenttext.length == 0 || (taxaid.length>0 && scientifictext.length>0)) { 
+													if (agenttext.length == 0 || (taxaid.length>0 && genustext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
 															type : "post",
 															dataType : "json",
-															data :  $('##editNumSeries').serialize(),
+															data :  $('##qcTaxonEdits').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
 															},
