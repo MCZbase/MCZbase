@@ -232,20 +232,19 @@ limitations under the License.
 			<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mt-3 mb-5">
 				<div class="col-12">
 					<div class="row mx-0">
-					<h2>Edit Taxon:
-						<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> 	
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+						<h2>Edit Taxon:
+							<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> 	
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+							</cfif>
+						</h2>
+						<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
+						<cfif len(getTaxa.taxonid) GT 0>
+							<cfset hasTaxonID = true>
+							<cfelse>
+							<cfset hasTaxonID = false>
 						</cfif>
-					</h2>
-					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
-					<cfif len(getTaxa.taxonid) GT 0>
-						<cfset hasTaxonID = true>
-						<cfelse>
-						<cfset hasTaxonID = false>
-					</cfif>
-					
-							</div>
+					</div>
 					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
 						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
@@ -340,7 +339,7 @@ limitations under the License.
 									<cfset link = gettaxa.taxonid>
 								</cfif>
 								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
-								<script>
+				<script>
 					$(document).ready(function () { 
 						$(document).ready(function () { 
 						if ($('##taxonid').val().length > 0) {
@@ -426,7 +425,7 @@ limitations under the License.
 								</cfif>
 							</div>
 							<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
-							<script>
+					<script>
 						$(document).ready(function () { 
 							if ($('##scientificnameid').val().length > 0) {
 								$('##scientificnameid').hide();
@@ -650,7 +649,7 @@ limitations under the License.
 							<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
 							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
-								<span class="float-left d-inline brackets">)</span><small> #subgenus_message# </small> </div>
+								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
 						</div>
 						<div class="col-6 px-0">
 							<label for="subsection" class="col-sm-3 col-form-label float-left">SubSection</label>
@@ -678,22 +677,79 @@ limitations under the License.
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
+									
+										<script>
+												function changed(){
+													$('##qcTaxonEdits').html('Unsaved changes.');
+												};
+												$(document).ready(function() {
+													$('##scientific_name input[type=text]').on("change",changed);
+													$('##full_taxon_name input[type=text]').on("change",changed);
+													$('##common_name input[type=text]').on("change",changed);
+													$('##genus input[type=text]').on("change",changed);
+													$('##subgenus input[type=text]').on("change",changed);
+													$('##species input[type=text]').on("change",changed);
+													$('##subspecies input[type=text]').on("change",changed);
+													$('##author input[type=text]').on("change",changed);
+													$('##infraspecific_rank input[type=text]').on("change",changed);
+													$('##nomenclatural_status input[type=text]').on("change",changed);
+													$('##kingdom input[type=text]').on("change",changed);
+													$('##phylum input[type=text]').on("change",changed);
+													$('##subphylum input[type=text]').on("change",changed);
+													$('##tribe input[type=text]').on("change",changed);
+													$('##subgenus input[type=text]').on("change",changed);
+													$('##subsection input[type=text]').on("change",changed);
+													$('##taxon_remarks').on("change",changed);
+												});
+												function saveChanges(){ 
+													var scientifictext = $('##scientific_name').val();
+													var taxaid = $('##taxon_name_id').val();
+													if (agenttext.length == 0 || (taxaid.length>0 && scientifictext.length>0)) { 
+														$('##saveResultDiv').html('Saving....');
+														jQuery.ajax({
+															url : "/taxonomy/component/functions.cfc",
+															type : "post",
+															dataType : "json",
+															data :  $('##editNumSeries').serialize(),
+															success : function (data) {
+																$('##saveResultDiv').html('Saved.');
+															},
+															error: function(jqXHR,textStatus,error){
+																$('##saveResultDiv').html('Error.');
+																var message = "";
+																if (error == 'timeout') {
+																	message = ' Server took too long to respond.';
+																} else {
+																	message = jqXHR.responseText;
+																}
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
+															}
+														});
+													} else { 
+														messageDialog('Error saving collecting event number series: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														$('##saveResultDiv').html('Fix error in Agent field.');
+													}
+												};
+											</script>
 					<script>
-				function qcTaxonEdits() { 
-					$("##taxon_form_action_input").val('saveTaxonEdits');
-					<cfif hasTaxonId>
-						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
-							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
-						} else { 
-							$('##taxon_form').submit();
-						}
-					<cfelse>
-						$('##taxon_form').submit();
-					</cfif>
-				}
+
+//				function qcTaxonEdits() { 
+//					$("##taxon_form_action_input").val('saveTaxonEdits');
+//					<cfif hasTaxonId>
+//						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+//							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+//							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+//						} else { 
+//							$('##taxon_form').submit();
+//						}
+//					<cfelse>
+//						$('##taxon_form').submit();
+//					</cfif>
+//				}
 			</script>
+									<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 				</form>
+								
 			</div>
 			<div class="col-12 col-xl-3 float-left px-0 my-5">
 				<div class="border rounded p-2 bg-grayish float-left w-100">
@@ -1366,7 +1422,7 @@ limitations under the License.
 										<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
 										<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span> 
 											<input type="text" name="subgenus" id="subgenus" value="#subgenus#" class="data-entry-input my-1 w-75 float-left">
-											<span class="float-left d-inline brackets">)</span><small> #subgenus_message# </small>
+											<span class="float-left d-inline brackets">)</span><!---<small> #subgenus_message# </small>--->
 										</div>
 									</div>
 									<div class="col-6 px-0">
@@ -1670,7 +1726,7 @@ limitations under the License.
 	<cfoutput>
 		<cfset subgenus_message = "">
 		<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
-			<cfset subgenus_message = "<strong>Do Not include parethesies</strong>">
+			<cfset subgenus_message = "Do Not include parethesies">
 			<cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
 		</cfif>
 		<cfset hasError = 0 >
