@@ -18,7 +18,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+	
+	<cfif not isdefined("action")>
+	<cfset action="search">
+</cfif>
+<cfswitch expression="#action#">
+	<cfcase value="search">
+	<cfset pageTitle = "Search Taxonomy">
+	</cfcase>
+	<cfcase value="newTaxon">
+	<cfset pageTitle = "Add New Taxon">
+	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+		<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
+	</cfif>
+	</cfcase>
+	<cfcase value="editTaxon">
+	<cfset pageTitle = "Edit a Taxon">
+	</cfcase>
+	<cfdefaultcase>
+	<cfset pageTitle = "Taxonomy">
+	</cfdefaultcase>
+</cfswitch>
+<!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<!---------------------------------------------------------------------------------->
+<cfswitch expression="#action#">
+	<cfcase value="search">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
 </cfquery>
@@ -210,13 +235,13 @@ limitations under the License.
 </script> 
 </cfoutput> 
 <!------------------------------------------------>
-<cfif action is "nothing">
+<!---<cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/Taxa.cfm">
 	<cfabort>
-</cfif>
+</cfif>--->
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "edit">
+<cfcase value="editTaxon">
 <cfset title="Edit Taxonomy">
 <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -718,22 +743,7 @@ limitations under the License.
 														$('##saveResultDiv').html('');
 													}
 												};
-											</script>
-<!---			<script>
-				function qcTaxonEdits() { 
-					$("##taxon_form_action_input").val('saveTaxonEdits');
-					<cfif hasTaxonId>
-						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
-							 GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
-						} else { 
-							$('##taxon_form').submit();
-						}
-					<cfelse>
-						$('##taxon_form').submit();
-					</cfif>
-				}
-			</script>--->
+
 			
 				</form>
 								
@@ -1009,7 +1019,7 @@ limitations under the License.
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxon">
+<cfcase value="new">
 	<cfset title = "Add Taxon">
 	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -1436,9 +1446,9 @@ limitations under the License.
 			</div>
 		</div>
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "saveNewtaxa">
+<cfcase value="saveNewTaxon">
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1650,9 +1660,9 @@ limitations under the License.
 		</cftransaction>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxonRelation">
+<cfcase value = "newTaxonRelation">
 	<cfoutput>
 		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		INSERT INTO taxon_relations (
@@ -1669,9 +1679,9 @@ limitations under the License.
 	</cfquery>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<cfif Action is "deleReln">
+<cfcase value = "deleReln">
 	<cfoutput>
 		<cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	DELETE FROM
@@ -1683,9 +1693,9 @@ limitations under the License.
 		</cfquery>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveRelnEdit">
+<cfcase value="saveRelnEdit">
 	<cfoutput>
 		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	UPDATE taxon_relations SET
@@ -1707,9 +1717,9 @@ limitations under the License.
 </cfquery>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<!---<cfif #Action# is "saveTaxonEdits">
+<cfcase value="saveTaxonEdit">
 	<cfoutput>
 		<cfset subgenus_message = "">
 		<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
@@ -1722,11 +1732,11 @@ limitations under the License.
 			<cfset hasError = 1 >
 		</cfif>
 		<cfif hasError eq 0>
-			<cftransaction>
-				<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
-	UPDATE taxonomy SET
-		valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
-		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
+		<cftransaction>
+		<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
+			UPDATE taxonomy SET
+			valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+			source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 		<cfif len(#author_text#) gt 0>
 			,author_text=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
 		<cfelse>
@@ -1890,10 +1900,10 @@ limitations under the License.
 	WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 			</cftransaction>
-			<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
+			<!---<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">--->
 		</cfif>
 	</cfoutput>
-</cfif>--->
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
