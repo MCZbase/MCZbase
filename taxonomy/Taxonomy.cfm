@@ -28,9 +28,9 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="newTaxon">
 	<cfset pageTitle = "Add New Taxon">
-	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+<!---	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
 		<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
-	</cfif>
+	</cfif>--->
 	</cfcase>
 	<cfcase value="editTaxon">
 	<cfset pageTitle = "Edit a Taxon">
