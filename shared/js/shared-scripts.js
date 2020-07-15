@@ -209,10 +209,10 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 				data: { term: request.term, method: 'getAgentAutocomplete' },
 				dataType: 'json',
 				success : function (data) { 
-					response(data); 
 					$('#'+iconControl).addClass('bg-success');
 					$('#'+iconControl).removeClass('bg-light');
 					$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+					response(data); 
 				},
 				error : function (jqXHR, status, error) {
 					var message = "";
@@ -222,23 +222,35 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 						message = jqXHR.responseText;
 					}
 					messageDialog('Error:' + message ,'Error: ' + error);
-					$('#'+iconControl).html(baseIconHtml);
+					$('#'+iconControl).removeClass('bg-success');
+					$('#'+iconControl).addClass('bg-light');
+					$('#'+linkControl).html("");
+					$('#'+idControl).val("");
 				}
 			})
 		},
 		select: function (event, result) {
+			console.log(event);
+			console.log(result);
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+iconControl).addClass('bg-success');
 			$('#'+iconControl).addClass('bg-light');
 		},
 		change: function(event,ui) { 
+			console.log(event);
+			console.log(ui);
 			if(!ui.item){
 				$('#'+idControl).val();
 				$('#'+nameControl).val();
 				$('#'+iconControl).removeClass('bg-success');
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+			} else { 
+				$('#'+idControl).val(result.item.id);
+				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+				$('#'+iconControl).addClass('bg-success');
+				$('#'+iconControl).addClass('bg-light');
 			}
 		},
 		minLength: 3
