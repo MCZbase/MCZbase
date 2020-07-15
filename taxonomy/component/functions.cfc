@@ -17,11 +17,8 @@ limitations under the License.
 
 --->
 <cfcomponent>
-<cffunction name="qcTaxonEdits" access="remote" returntype="any" returnformat="json">
+<cffunction name="saveUndColl" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxon_name_id" type="string" required="yes">
-	<cfargument name="genus" type="string" required="no">
-	<cfargument name="species" type="string" required="no">
-
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#collection_name#)) EQ 0>
@@ -30,13 +27,13 @@ limitations under the License.
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update taxonomy set
 				taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_name_id#">
-				<cfif isdefined("genus")>
-					,genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#genus#">
+				<cfif isdefined("tribe")>
+					,tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tribe#">
 				</cfif>
-				<cfif isdefined("species") and len(species) GT 0>
-					,species = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#species#">
+				<cfif isdefined("taxon_name_id") and len(taxon_name_id) GT 0>
+					,taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 				<cfelse>
-					,species = NULL
+					,taxon_name_id = NULL
 				</cfif>
 			where 
 				taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -47,7 +44,7 @@ limitations under the License.
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing qcTaxonEdits: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing saveUndColl: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">

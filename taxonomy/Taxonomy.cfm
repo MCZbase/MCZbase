@@ -674,38 +674,16 @@ limitations under the License.
 						$("textarea").keyup(autogrow);  
 					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" class="btn-xs btn-primary mx-1" onclick=" qcTaxonEdits(); ">
+						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " ><div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
 									
 										<script>
-												function changed(){
-													$('##qcTaxonEdits').html('Unsaved changes.');
-												};
-												$(document).ready(function() {
-													$('##scientific_name input[type=text]').on("change",changed);
-													$('##full_taxon_name input[type=text]').on("change",changed);
-													$('##common_name input[type=text]').on("change",changed);
-													$('##genus input[type=text]').on("change",changed);
-													$('##subgenus input[type=text]').on("change",changed);
-													$('##species input[type=text]').on("change",changed);
-													$('##subspecies input[type=text]').on("change",changed);
-													$('##author input[type=text]').on("change",changed);
-													$('##infraspecific_rank input[type=text]').on("change",changed);
-													$('##nomenclatural_status input[type=text]').on("change",changed);
-													$('##kingdom input[type=text]').on("change",changed);
-													$('##phylum input[type=text]').on("change",changed);
-													$('##subphylum input[type=text]').on("change",changed);
-													$('##tribe input[type=text]').on("change",changed);
-													$('##subgenus input[type=text]').on("change",changed);
-													$('##subsection input[type=text]').on("change",changed);
-													$('##taxon_remarks').on("change",changed);
-												});
-												function qcTaxonEdits(){ 
-											//		var taxon_form_action_input = $('##taxon_form_action_input').val();
-													var taxaid = $('##taxon_name_id').val();
-													if (agenttext.length == 0 || (taxaid.length>0 && genustext.length>0)) { 
+			
+												function saveChanges(){ 
+												var taxaid = $('##taxon_name_id').val();
+													if (taxaid.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
