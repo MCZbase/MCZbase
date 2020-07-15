@@ -674,7 +674,7 @@ limitations under the License.
 						$("textarea").keyup(autogrow);  
 					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " ><div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick=" saveChanges(); " ><div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
@@ -725,7 +725,7 @@ limitations under the License.
 					</cfif>
 				}
 			</script>--->
-				<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+			
 				</form>
 								
 			</div>
