@@ -682,8 +682,8 @@ limitations under the License.
 										<script>
 			
 												function saveChanges(){ 
-												var taxaid1 = $('##taxon_name_id').val();
-													if (taxaid1.length>0) { 
+										var taxonid = $('##taxon_name_id').val();
+													if (taxonid.length == 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
