@@ -256,7 +256,7 @@ limitations under the License.
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-							<input type="hidden" id="method" name="method" value="saveUndColl" >
+							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 							
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
