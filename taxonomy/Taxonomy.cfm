@@ -673,6 +673,7 @@ limitations under the License.
 						// Make all textareas currently defined autogrow as text is entered.
 						$("textarea").keyup(autogrow);  
 					</script>
+									#taxon_name_id#
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="if (checkFormValidity($('##taxon_form')[0])) { saveChanges();  }" >
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
@@ -694,7 +695,7 @@ limitations under the License.
 													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
-															url : "/component/functions.cfc",
+															url : "/taxonomy/component/functions.cfc",
 															type : "post",
 															dataType : "json",
 															data :  $('##taxon_form').serialize(),
