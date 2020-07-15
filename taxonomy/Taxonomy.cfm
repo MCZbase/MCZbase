@@ -703,7 +703,7 @@ limitations under the License.
 													$('##taxon_remarks').on("change",changed);
 												});
 												function qcTaxonEdits(){ 
-													var taxon_form_action_input = $('##taxon_form_action_input').val();
+											//		var taxon_form_action_input = $('##taxon_form_action_input').val();
 													var taxaid = $('##taxon_name_id').val();
 													if (agenttext.length == 0 || (taxaid.length>0 && genustext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
@@ -732,23 +732,22 @@ limitations under the License.
 													}
 												};
 											</script>
-					<script>
-
-			//	function qcTaxonEdits() { 
-//					$("##taxon_form_action_input").val('saveTaxonEdits');
-//					<cfif hasTaxonId>
-//						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
-//							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-//							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
-//						} else { 
-//							$('##taxon_form').submit();
-//						}
-//					<cfelse>
-//						$('##taxon_form').submit();
-//					</cfif>
-//				}
+			<script>
+				function qcTaxonEdits() { 
+					$("##taxon_form_action_input").val('saveTaxonEdits');
+					<cfif hasTaxonId>
+						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+							 GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+						} else { 
+							$('##taxon_form').submit();
+						}
+					<cfelse>
+						$('##taxon_form').submit();
+					</cfif>
+				}
 			</script>
-									<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+				<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 				</form>
 								
 			</div>
@@ -1723,7 +1722,7 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveTaxonEdits">
+<!---<cfif #Action# is "saveTaxonEdits">
 	<cfoutput>
 		<cfset subgenus_message = "">
 		<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
@@ -1907,7 +1906,7 @@ limitations under the License.
 			<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
 		</cfif>
 	</cfoutput>
-</cfif>
+</cfif>--->
 <!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
