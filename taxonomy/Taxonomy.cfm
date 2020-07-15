@@ -257,6 +257,7 @@ limitations under the License.
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
+							<input type="hidden" id="method" name="method" value="saveUndColl" >
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									(#getTaxa.source_authority#)
@@ -702,7 +703,7 @@ limitations under the License.
 													$('##taxon_remarks').on("change",changed);
 												});
 												function saveChanges(){ 
-													var genustext = $('##genus').val();
+													var taxon_form_action_input = $('##taxon_form_action_input').val();
 													var taxaid = $('##taxon_name_id').val();
 													if (agenttext.length == 0 || (taxaid.length>0 && genustext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
