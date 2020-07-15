@@ -1898,7 +1898,12 @@ limitations under the License.
 			<!---<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">--->
 		</cfif>
 	</cfoutput>
-</cfcase>
+	</cfcase>
+	<!---------------------------------------------------------------------------------->
+	<cfdefaultcase>
+	<cfthrow type="Application" message="Unknown action.">
+	</cfdefaultcase>
+</cfswitch>
 <!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
