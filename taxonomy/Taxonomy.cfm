@@ -42,8 +42,7 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
-<cfswitch expression="#action#">
-	<cfcase value="search">
+	
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
 </cfquery>
@@ -76,6 +75,12 @@ limitations under the License.
 <cfif !isdefined("subgenus_message")>
 	<cfset subgenus_message ="">
 </cfif>
+	
+<!---------------------------------------------------------------------------------->	
+	
+
+<cfswitch expression="#action#">
+	<cfcase value="search">
 
 <cfoutput> 
 	<script>
@@ -234,7 +239,7 @@ limitations under the License.
 
 </script> 
 </cfoutput> 
-<!------------------------------------------------>
+
 
 <!---------------------------------------------------------------------------------------------------->
 <cfcase value="editTaxon">
@@ -985,7 +990,7 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "saveCommon">
+<cfcase value = "saveCommon">
 	<cfoutput>
 		<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE
@@ -998,9 +1003,9 @@ limitations under the License.
 	</cfquery>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "deleteHabitat">
+<cfcase value = "deleteHabitat">
 	<cfoutput>
 		<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		DELETE FROM
@@ -1011,12 +1016,12 @@ limitations under the License.
 	</cfquery>
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
-</cfif>
+</cfcase>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfcase value="new">
+<cfcase value="newTaxon">
 	<cfset title = "Add Taxon">
-	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 </cfquery>
 	<cfoutput>
@@ -1105,13 +1110,13 @@ limitations under the License.
 									</select>
 								</div>
 									<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
-													</div>
+										<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#> #searchtext#</a> 
+									</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									<div class="col-12 col-md-7 px-0 float-left">
-									<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
-									<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> 
-								</div>
+										<input name="taxonid" id="taxonid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
+										<a id="taxonid_link" href="" target="_blank" class="px-2 py-0"></a> 
+									</div>
 									<script>
 										$(document).ready(function () { 
 											if ($('##taxonid').val().length > 0) {
@@ -1432,7 +1437,7 @@ limitations under the License.
 								</div>
 									</div>
 									</div>
-									<div class="form-row col-12 px-0 justify-content-center mt-2">
+								<div class="form-row col-12 px-0 justify-content-center mt-2">
 								<input type="submit" value="Create" class="btn-xs btn-primary">
 									</div>
 							</form>
@@ -1899,11 +1904,7 @@ limitations under the License.
 		</cfif>
 	</cfoutput>
 	</cfcase>
-	<!---------------------------------------------------------------------------------->
-	<cfdefaultcase>
-	<cfthrow type="Application" message="Unknown action.">
-	</cfdefaultcase>
-</cfswitch>
+
 <!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
