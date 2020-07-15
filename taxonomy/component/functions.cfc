@@ -21,8 +21,8 @@ limitations under the License.
 	<cfargument name="taxon_name_id" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfif len(trim(#collection_name#)) EQ 0>
-			<cfthrow type="Application" message="Taxon must contain a value.">
+		<cfif len(trim(#source_authority#)) EQ 0>
+			<cfthrow type="Application" message="Source must contain a value.">
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update taxonomy set

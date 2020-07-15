@@ -235,11 +235,7 @@ limitations under the License.
 </script> 
 </cfoutput> 
 <!------------------------------------------------>
-<!---<cfif action is "nothing">
-	<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="/Taxa.cfm">
-	<cfabort>
-</cfif>--->
+
 <!---------------------------------------------------------------------------------------------------->
 <cfcase value="editTaxon">
 <cfset title="Edit Taxonomy">
@@ -698,7 +694,6 @@ limitations under the License.
 						// Make all textareas currently defined autogrow as text is entered.
 						$("textarea").keyup(autogrow);  
 					</script>
-									#taxon_name_id#
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="if (checkFormValidity($('##taxon_form')[0])) { saveChanges();  }" >
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
