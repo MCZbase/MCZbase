@@ -193,7 +193,7 @@ function makeAgentPicker(nameControl, idControl) {
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
 	if (agentId) { 
 		$('#'+iconControl).addClass('bg-success');
-		$('#'+iconControl).addClass('bg-light');
+		$('#'+iconControl).removeClass('bg-light');
 		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
 		$('#'+idControl).val(agentId);
 	} else {
