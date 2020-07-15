@@ -247,7 +247,7 @@ limitations under the License.
 					</div>
 					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 					<div class="col-12 col-sm-6 px-0 float-left text-right my-2">
-						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
+						<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" saveChanges(); ">
 						<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>
@@ -255,9 +255,9 @@ limitations under the License.
 				<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-6">
-							<input type="hidden" name="taxon_name_id" class="data-entry-input" value="#getTaxa.taxon_name_id#">
-							<input type="hidden" name="Action" class="data-entry-input" id="taxon_form_action_input">
+							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveUndColl" >
+							
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									(#getTaxa.source_authority#)
@@ -682,14 +682,14 @@ limitations under the License.
 										<script>
 			
 												function saveChanges(){ 
-												var taxaid = $('##taxon_name_id').val();
-													if (taxaid.length>0)) { 
+												var taxaid1 = $('##taxon_name_id').val();
+													if (taxaid1.length>0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
 															type : "post",
 															dataType : "json",
-															data :  $('##qcTaxonEdits').serialize(),
+															data :  $('##taxa').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
 															},
