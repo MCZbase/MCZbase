@@ -234,9 +234,10 @@ limitations under the License.
 
 </script> 
 </cfoutput> 
-
+<cfswitch>
 
 	<!---------------------------------------------------------------------------------------------------->
+	
 <cfcase value="editTaxon">
 <cfset title="Edit Taxonomy">
 	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1900,5 +1901,5 @@ limitations under the License.
 	</cfcase>
 
 <!---------------------------------------------------------------------------------------------------->
-	
+			</cfswitch>
 <cfinclude template="/shared/_footer.cfm">
