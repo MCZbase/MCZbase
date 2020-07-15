@@ -178,6 +178,71 @@ function makeAgentPicker(nameControl, idControl) {
 	});
 };
 
+
+/** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
+ *  autocomplete agent picker.  Not intended for use to pick agents for transaction roles where agent flags may apply.
+ *  
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param iconControl the id for an input that can take a background color to indicate a successfull pick of an agent
+ *    (without an leading # selector)
+ *  @param linkControl the id for a page element that can contain a hyperlink to an agent, by agent id.
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *    iconControl are initialized in a picked agent state.
+ */
+function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
+	if (agentid) { 
+		$('#'+iconControl).removeClass('bg-success');
+		$('#'+iconControl).addClass('bg-light');
+		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+idControl).val(agentId);
+	} else {
+		$('#'+iconControl).addClass('bg-success');
+		$('#'+iconControl).addClass('bg-light');
+	}
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocomplete' },
+				dataType: 'json',
+				success : function (data) { 
+					response(data); 
+					$('#'+iconControl).addClass('bg-success');
+					$('#'+iconControl).removeClass('bg-light');
+					$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+				},
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+					$('#'+iconControl).html(baseIconHtml);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+iconControl).addClass('bg-success');
+			$('#'+iconControl).addClass('bg-light');
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				$('#'+idControl).val();
+				$('#'+nameControl).val();
+				$('#'+iconControl).removeClass('bg-success');
+				$('#'+iconControl).addClass('bg-light');	
+				$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+			}
+		},
+		minLength: 3
+	});
+};
+
 /**
  * Determine the largest z-index value currently on an element in the DOM.
  * 

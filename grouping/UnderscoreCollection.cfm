@@ -481,7 +481,7 @@ limitations under the License.
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection</label>
 										<div class="input-group">
-											<div class="input-group-prepend"> <span class="input-group-text" id="underscore_agent_name_label"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
+											<div class="input-group-prepend"> <span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> </div>
 											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 											<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </div>
@@ -490,7 +490,7 @@ limitations under the License.
 													$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
-													$(makeAgentPicker('underscore_agent_name','underscore_agent_id'));
+													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
 													$('##editUndColl input[type=text]').on("change",changed);
 													$('##description').on("change",changed);
 												});
