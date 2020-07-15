@@ -43,8 +43,7 @@ limitations under the License.
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
 
-<cfswitch expression="#action#">
-	<cfcase value="search">
+
 	
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
@@ -235,7 +234,7 @@ limitations under the License.
 
 </script> 
 </cfoutput> 
-	</cfcase>
+
 
 	<!---------------------------------------------------------------------------------------------------->
 <cfcase value="editTaxon">
