@@ -732,7 +732,7 @@ limitations under the License.
 													}
 												};
 											</script>
-			<script>
+<!---			<script>
 				function qcTaxonEdits() { 
 					$("##taxon_form_action_input").val('saveTaxonEdits');
 					<cfif hasTaxonId>
@@ -746,7 +746,7 @@ limitations under the License.
 						$('##taxon_form').submit();
 					</cfif>
 				}
-			</script>
+			</script>--->
 				<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
 				</form>
 								
