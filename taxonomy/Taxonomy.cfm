@@ -252,7 +252,7 @@ limitations under the License.
 						<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
 					</div>--->
 				</div>
-				<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
+				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
@@ -682,14 +682,14 @@ limitations under the License.
 										<script>
 			
 												function saveChanges(){ 
-										var taxonid = $('##taxon_name_id').val();
+													var taxonid = $('##taxon_name_id').val();
 													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
 															type : "post",
 															dataType : "json",
-															data :  $('##taxa').serialize(),
+															data :  $('##taxon_form').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
 															},
@@ -705,8 +705,8 @@ limitations under the License.
 															}
 														});
 													} else { 
-														messageDialog('Error saving collecting event number series: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
-														$('##saveResultDiv').html('Fix error in Agent field.');
+														messageDialog('Error saving taxon: ', 'Error: ');
+														$('##saveResultDiv').html('');
 													}
 												};
 											</script>
