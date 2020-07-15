@@ -684,7 +684,7 @@ limitations under the License.
 													$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
-													$('##saveTaxonomy input[type=text]').on("change",changed);
+													$('##taxon_form input[type=text]').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
 												});
 												function saveChanges(){ 
