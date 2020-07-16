@@ -604,7 +604,7 @@ limitations under the License.
 		<cfif undColl_result.recordcount GT 0>
 			<!--- list specimens in the collection, link out by guid --->
 			<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
-					select guid 
+					select guid, underscore_relation_id
 					from #session.flatTableName#
 						left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
 					where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
