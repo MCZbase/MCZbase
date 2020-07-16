@@ -268,7 +268,7 @@
 				<cfloop query="common_name">
 					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 				</cfloop>
-				<span>
+				<div class="float-right">
 				<cfif len(session.username) gt 0>
 					<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) cnt from annotations
@@ -281,7 +281,7 @@
 					</cfif>
 					</a>
 				</cfif>
-				</span>
+				</div>
 	
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
 						<h1 class="h2">#one.display_name# <span class="text-uppercase">#one.AUTHOR_TEXT#</span></h1>
