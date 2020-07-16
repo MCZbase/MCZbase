@@ -238,6 +238,10 @@
 <cfif len(one.scientificnameid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
 	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 </cfif>
+	
+<div class="container">
+	<div class="row">
+		<div class="col-12">
 <cfoutput>
 	<script>
 		jQuery(document).ready(function(){
@@ -554,4 +558,7 @@
 	----->
     </div>
 </cfoutput>
+			</div>
+	</div>
+</div>
 <cfinclude template = "/shared/_footer.cfm">
