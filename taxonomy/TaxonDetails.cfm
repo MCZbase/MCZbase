@@ -1,4 +1,5 @@
 <cfinclude template = "/shared/_header.cfm">
+	<cfset pageTitle = "Taxon Details">
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
     <cfset scientific_name = replace(scientific_name,'%3F','?') >
 	<cfset checkSql(scientific_name)>
