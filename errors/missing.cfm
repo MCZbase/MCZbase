@@ -114,7 +114,7 @@ limitations under the License.
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"name","/")>
 			<cfset scientific_name = listgetat(rdurl,gPos+1,"/")>
-			<cfinclude template="/TaxonomyDetails.cfm">
+			<cfinclude template="/taxonomy/TaxonDetails.cfm">
 			<cfcatch>
 				<cfinclude template="/errors/404.cfm">
 			</cfcatch>
