@@ -359,10 +359,12 @@ limitations under the License.
 									$('##description').keyup(autogrow);
 								</script>
 							<div class="form-row mb-5">
-								<div class="col-12 col-md-6"> <span>
-									<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+								<div class="col-12 col-md-6">
+									<span>
+										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
 										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-									</label>
+										</label>
+									</span>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
