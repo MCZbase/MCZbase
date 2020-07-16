@@ -292,7 +292,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfset result="<h2 id='existingvalues'>Collection objects in this (arbitrary) collection</h2><ul>" >
 	<cfloop query="undCollUse">
 		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a> " >
-		<cfset result =  result & "<button class="btn-xs btn-secondary mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>" >
+		<cfset result =  result & "<button class='btn-xs btn-secondary mx-1' onclick='removeUndRelation(#undCollUse.underscore_relation_id#);'>Remove</button>" >
 		<cfset result =  result & "</li>" >
 	</cfloop>
 	<cfset result=result & '</ul>'>
