@@ -285,8 +285,8 @@
 				<div>
 				
 										<div class="input-group">
-											<div class="input-group-prepend"> <span class="input-group-text text-success border-success" id="underscore_agent_name_label"><i class="fa fa-user text-white" aria-hidden="true"></i></span> </div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="Agent Name">
+											<div class="input-group-prepend"> <span class="input-group-text text-success border-success" id="underscore_agent_name_label"><i class="fa fa-user text-success" aria-hidden="true"></i></span> </div>
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm border-success" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="Agent Name">
 					</div>
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
 						
