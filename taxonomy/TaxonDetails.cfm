@@ -282,16 +282,9 @@
 					</a>
 				</cfif>
 				</span>
-				<div>
-				
-										<div class="input-group">
-											<div class="input-group-prepend"> <span class="input-group-text text-success border-success" id="underscore_agent_name_label"><i class="fa fa-user text-success" aria-hidden="true"></i></span> </div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm border-success" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="Agent Name">
-					</div>
+	
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						
 						<h1 class="h2">#one.display_name# <span class="text-uppercase">#one.AUTHOR_TEXT#</span></h1>
-				
 						<cfif len(one.AUTHOR_TEXT) gt 0>
 							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
 						</cfif>
@@ -300,7 +293,7 @@
 						<br>
 						<span class="text-danger">This name is not accepted for current identifications. </span>
 					</cfif>
-				</div>
+		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
 					<p> <a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
 				</cfif>
