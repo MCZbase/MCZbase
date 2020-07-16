@@ -265,14 +265,13 @@
 			})
 		}
 	</script>
-    <div class="taxaDetailsbox">
 	<cfset title="#one.scientific_name#">
 	<cfset metaDesc="Taxon Detail for #one.scientific_name#">
 	<cfset thisSearch = "%22#one.scientific_name#%22">
 	<cfloop query="common_name">
 		<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 	</cfloop>
-           <div style="width: 50em; margin:0;padding: 2em 0 0em 0;">
+ 
 	<span class="annotateSpace">
 		<cfif len(session.username) gt 0>
 			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -305,9 +304,9 @@
 			</font>
 	   </cfif>
 	</div>
-            </div>
+
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-        <p style="margin-bottom: 1em;">	<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
+        <p>	<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
 	</cfif>
 	<table border>
 		<tr>
@@ -349,7 +348,7 @@
 			<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
 		</cfif>
 	</ul>
-	<div class="relatedPubs">
+
 		Related Publications:
 		<ul>
 		 	<cfif tax_pub.recordcount is 0>
@@ -364,9 +363,9 @@
 				</cfloop>
 			</cfif>
 		</ul>
-    </div>
+ 
 
-	<div class="relatedTaxa">
+
 		Related Taxa:
 		<ul>
 		 	<cfif related.recordcount is 0 and imp_related.recordcount is 0>
@@ -391,7 +390,7 @@
 				</cfloop>
 			</cfif>
 		</ul>
-    </div>
+
 	<div id="specTaxMedia"></div>
 	<!---div id="mapTax"></div--->
 	<p>
@@ -556,7 +555,7 @@
 		</div>
 	</cfif>
 	----->
-    </div>
+
 </cfoutput>
 			</div>
 	</div>
