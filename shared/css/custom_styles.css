@@ -1469,7 +1469,7 @@ textarea {
 }
 .infoLink:hover {
    text-decoration:none;
-	text-shadow: 1px 1px 1px #555;
+	text-shadow: 1px 1px 1px #eee;
 }
 .shipments {
 	border: 1px solid #bac5c6;
