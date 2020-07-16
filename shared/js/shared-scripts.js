@@ -207,7 +207,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 		source: function (request, response) { 
 			$.ajax({
 				url: "/agents/component/search.cfc",
-				data: { term: request.term, method: 'getAgentAutocomplete' },
+				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { 
 					// return the result to the autocomplete widget, select event will fire if item is selected.
@@ -246,7 +246,10 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 			}
 		},
 		minLength: 3
-	});
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
 };
 
 /**
