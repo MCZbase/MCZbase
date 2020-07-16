@@ -1,15 +1,14 @@
-	<cfset pageTitle = "Taxon Details">
+<cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
-
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
-    <cfset scientific_name = replace(scientific_name,'%3F','?') >
+	<cfset scientific_name = replace(scientific_name,'%3F','?') >
 	<cfset checkSql(scientific_name)>
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT taxon_name_id FROM taxonomy WHERE upper(scientific_name)	= '#ucase(scientific_name)#'
 	</cfquery>
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
-	<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
+		<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
 		<cfset s=listdeleteat(scientific_name,listlen(scientific_name," ")," ")>
 		<cfset checkSql(s)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -20,7 +19,7 @@
 			<cfheader name="Location" value="/name/#s#">
 			<cfabort>
 		</cfif>
-	<cfelseif listlen(scientific_name," ") is 3>
+		<cfelseif listlen(scientific_name," ") is 3>
 		<cfset checkSql(scientific_name)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -37,7 +36,7 @@
 			<cfheader name="Location" value="/name/#getTID.scientific_name#">
 			<cfabort>
 		</cfif>
-	<cfelseif listlen(scientific_name," ") is 4>
+		<cfelseif listlen(scientific_name," ") is 4>
 		<cfset checkSql(scientific_name)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -56,7 +55,6 @@
 		</cfif>
 	</cfif>
 </cfif>
-
 <cfif isdefined("taxon_name_id")>
 	<cfset checkSql(taxon_name_id)>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -69,6 +67,7 @@
 		<cfabort>
 	</cfif>
 </cfif>
+
 <cfif not isdefined("tnid") or not tnid gt 0>
 	<cfheader statuscode="404" statustext="Not found">
 	<div class="error">Not Found</div>
@@ -238,12 +237,10 @@
 <cfif len(one.scientificnameid) GT 0 AND ctguid_type_taxon.recordcount GT 0 >
 	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 </cfif>
-	
 <div class="container">
 	<div class="row">
-		<div class="col-12">
-<cfoutput>
-	<script>
+		<div class="col-12"> <cfoutput> 
+				<script>
 		jQuery(document).ready(function(){
 			//var elemsToLoad='specTaxMedia,taxRelatedNames,mapTax';
 			//var elemsToLoad='taxRelatedNames,mapTax';
@@ -265,276 +262,170 @@
 			})
 		}
 	</script>
-	<cfset title="#one.scientific_name#">
-	<cfset metaDesc="Taxon Detail for #one.scientific_name#">
-	<cfset thisSearch = "%22#one.scientific_name#%22">
-	<cfloop query="common_name">
-		<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
-	</cfloop>
- 
-	<span class="annotateSpace">
-		<cfif len(session.username) gt 0>
-			<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfset title="#one.scientific_name#">
+				<cfset metaDesc="Taxon Detail for #one.scientific_name#">
+				<cfset thisSearch = "%22#one.scientific_name#%22">
+				<cfloop query="common_name">
+					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
+				</cfloop>
+				<span>
+				<cfif len(session.username) gt 0>
+					<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) cnt from annotations
 				where taxon_name_id = #tnid#
 			</cfquery>
-			<a href="javascript: openAnnotation('taxon_name_id=#tnid#')">
-				[Annotate]
-			<cfif #existingAnnotations.cnt# gt 0>
-				<br>(#existingAnnotations.cnt# existing)
-			</cfif>
-			</a>
-		</cfif>
-    </span>
-     
-	<div align="left">
-		<cfif one.VALID_CATALOG_TERM_FG is 1>
-	   	<font size="+1">
-		    	<h3>#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h3>
-			</font>
-			<cfif len(one.AUTHOR_TEXT) gt 0>
-				<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
-        	</cfif>
-      <cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
-	    	<h3>#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h3>
-	        <br>
-	        <font color="##FF0000" size="-1">
-		    	&nbsp;
-		    	This name is not accepted for current identifications.
-			</font>
-	   </cfif>
-	</div>
-
-	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-        <p>	<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
-	</cfif>
-	<table border>
-		<tr>
-			<cfloop list="#taxaRanksList#" index="i">
-				<cfif len(evaluate("one." & i)) gt 0>
-					<cfset lbl=replace(i,"PHYL",'')>
-					<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
-						<cfset lbl=one.infraspecific_rank>
+					<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [Annotate]
+					<cfif #existingAnnotations.cnt# gt 0>
+						<br>
+						(#existingAnnotations.cnt# existing)
 					</cfif>
-					<th>#lbl#</th>
+					</a>
 				</cfif>
-			</cfloop>
-		</tr>
-		<tr>
-			<cfloop list="#taxaRanksList#" index="i">
-				<cfif len(evaluate("one." & i)) gt 0>
-					<td>#evaluate("one." & i)#</td>
-					<cfset metaDesc=metaDesc & "; #replace(i,'PHYL','')#: #evaluate('one.' & i)#">
+				</span>
+				<div align="left">
+					<cfif one.VALID_CATALOG_TERM_FG is 1>
+						<font size="+1">
+						<h1 class="h3">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
+						</font>
+						<cfif len(one.AUTHOR_TEXT) gt 0>
+							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
+						</cfif>
+						<cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
+						<h1 class="h3">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
+						<br>
+						<font color="##FF0000" size="-1"> &nbsp;
+						This name is not accepted for current identifications. </font>
+					</cfif>
+				</div>
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
+					<p> <a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
 				</cfif>
-			</cfloop>
-		</tr>
-	</table>
-	<p>Name Authority: <b>#one.source_Authority#</b></p>
-	<cfif len(taxonidlink) GT 0>
-		<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
-	</cfif>
-	<cfif len(scientificnameidlink) GT 0>
-		<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
-	</cfif>
-	<p>Common Name(s):
-	<ul>
-		<cfif len(common_name.common_name) is 0>
-			<li><b>No common names recorded.</b></li>
-		<cfelse>
-			<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
-			<cfloop query="common_name">
-				<li><b>#common_name#</b></li>
-			</cfloop>
-			<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
-		</cfif>
-	</ul>
-
-		Related Publications:
-		<ul>
-		 	<cfif tax_pub.recordcount is 0>
-				<li><b>No related publications recorded.</b></li>
-			<cfelse>
-				<cfloop query="tax_pub">
-					<li>
-						<a href="/SpecimenUsage.cfm?publication_id=#publication_id#">
-							#formatted_publication#
-						</a>
-					</li>
-				</cfloop>
-			</cfif>
-		</ul>
- 
-
-
-		Related Taxa:
-		<ul>
-		 	<cfif related.recordcount is 0 and imp_related.recordcount is 0>
-				<li><b>No related taxa recorded.</b></li>
-			<cfelse>
-				<cfloop query="related">
-					<li>
-						#TAXON_RELATIONSHIP# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><i><b>#related_name#</b></i></a>
-						<cfif len(RELATION_AUTHORITY) gt 0>
-							(Authority: #RELATION_AUTHORITY#)
-						</cfif>
-					</li>
-				</cfloop>
-				<cfloop query="imp_related">
-					<li>
-						<a href="/TaxonomyDetails.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><i><b>#imp_related_name#</b></i></a>
-						is #imp_TAXON_RELATIONSHIP#
-						<cfif len(imp_RELATION_AUTHORITY) gt 0>
-							(Authority: #imp_RELATION_AUTHORITY#)
-						</cfif>
-					</li>
-				</cfloop>
-			</cfif>
-		</ul>
-
-	<div id="specTaxMedia"></div>
-	<!---div id="mapTax"></div--->
-	<p>
-		MCZbase Links:
-		<ul>
-			<cfquery name="sidas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<table class="table table-responsive">
+					<tr>
+						<cfloop list="#taxaRanksList#" index="i">
+							<cfif len(evaluate("one." & i)) gt 0>
+								<cfset lbl=replace(i,"PHYL",'')>
+								<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
+									<cfset lbl=one.infraspecific_rank>
+								</cfif>
+								<th>#lbl#</th>
+							</cfif>
+						</cfloop>
+					</tr>
+					<tr>
+						<cfloop list="#taxaRanksList#" index="i">
+							<cfif len(evaluate("one." & i)) gt 0>
+								<td>#evaluate("one." & i)#</td>
+								<cfset metaDesc=metaDesc & "; #replace(i,'PHYL','')#: #evaluate('one.' & i)#">
+							</cfif>
+						</cfloop>
+					</tr>
+				</table>
+				<p>Name Authority: <b>#one.source_Authority#</b></p>
+				<cfif len(taxonidlink) GT 0>
+					<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
+				</cfif>
+				<cfif len(scientificnameidlink) GT 0>
+					<p>dwc:scientificNameID: <a href="#scientificnameidlink#" target="_blank">#one.scientificnameid#</a></p>
+				</cfif>
+				<h2 class="h4">Common Name(s):</h2>
+				<ul>
+					<cfif len(common_name.common_name) is 0>
+						<li><b>No common names recorded.</b></li>
+						<cfelse>
+						<cfset metaDesc=metaDesc & "; Common Names: #valuelist(common_name.common_name)#">
+						<cfloop query="common_name">
+							<li><b>#common_name#</b></li>
+						</cfloop>
+						<cfset title = title & ' (#valuelist(common_name.common_name, "; ")#)'>
+					</cfif>
+				</ul>
+				<h2 class="h4">Related Publications:</h2>
+				<ul>
+					<cfif tax_pub.recordcount is 0>
+						<li><b>No related publications recorded.</b></li>
+						<cfelse>
+						<cfloop query="tax_pub">
+							<li> <a href="/SpecimenUsage.cfm?publication_id=#publication_id#"> #formatted_publication# </a> </li>
+						</cfloop>
+					</cfif>
+				</ul>
+					<h2 class="h4">Related Taxa:</h2>
+				<ul>
+					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
+						<li><b>No related taxa recorded.</b></li>
+						<cfelse>
+						<cfloop query="related">
+							<li> #TAXON_RELATIONSHIP# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><i><b>#related_name#</b></i></a>
+								<cfif len(RELATION_AUTHORITY) gt 0>
+									(Authority: #RELATION_AUTHORITY#)
+								</cfif>
+							</li>
+						</cfloop>
+						<cfloop query="imp_related">
+							<li> <a href="/TaxonomyDetails.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><i><b>#imp_related_name#</b></i></a> is #imp_TAXON_RELATIONSHIP#
+								<cfif len(imp_RELATION_AUTHORITY) gt 0>
+									(Authority: #imp_RELATION_AUTHORITY#)
+								</cfif>
+							</li>
+						</cfloop>
+					</cfif>
+				</ul>
+				<div id="specTaxMedia"></div>
+				<!---div id="mapTax"></div--->
+					<h2 class="h4"> MCZbase Links:</h2>
+				<ul>
+					<cfquery name="sidas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select count(*) c from identification_taxonomy where taxon_name_id=#one.taxon_name_id#
 			</cfquery>
-			<cfif sidas.c gt 0>
-				<li>
-					<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#">
-						Specimens currently identified as #one.display_name#
-					</a>
-					<a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#">
-						[ include unaccepted IDs ]
-					</a>
-					<a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#">
-						[ exact matches only ]
-					</a>
-					<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any">
-						[ with Media ]
-					</a>
-				</li>
-				<li>
-					<a href="/bnhmMaps/kml.cfm?method=gmap&amp;ampaction=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank">
-						Google Map of MCZbase specimens
-					</a>
-				</li>
-				<li>
-					<a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank">
-						BerkeleyMapper + RangeMaps
-					</a>
-				</li>
-			<cfelse>
-				<li>No specimens use this name in Identifications.</li>
-			</cfif>
-			<li>
-				 <cfquery name="citas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfif sidas.c gt 0>
+						<li> <a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> <a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a> </li>
+						<li> <a href="/bnhmMaps/kml.cfm?method=gmap&amp;ampaction=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a> </li>
+						<li> <a href="/bnhmMaps/bnhmMapData.cfm?showRangeMaps=true&scientific_name=#one.scientific_name#" class="external" target="_blank"> BerkeleyMapper + RangeMaps </a> </li>
+						<cfelse>
+						<li>No specimens use this name in Identifications.</li>
+					</cfif>
+					<li>
+						<cfquery name="citas" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select count(*) c from citation where cited_taxon_name_id=#one.taxon_name_id#
 				</cfquery>
-				<cfif citas.c gt 0>
-					<a href="/SpecimenResults.cfm?cited_taxon_name_id=#one.taxon_name_id#">
-						Specimens cited as #one.display_name#
-					</a>
-				<cfelse>
-					No specimens are cited as this name.
-				</cfif>
-			</li>
-		</ul>
-	</p>
-	External Links:
-
-	<p>
-			<cfset srchName = URLEncodedFormat(one.scientific_name)></p>
-		<ul>
-			<li id="ispecies">
-				<a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li id="wikipedia">
-				<a class="external " target="_blank" href="http://wikipedia.org/wiki/#srchName#">Search Wikipedia for #one.scientific_name#</a>
-			</li>
-			<cfif one.kingdom is not "Plantae">
-			<li>
-				<a class="external soft404" target="_blank" href="http://animaldiversity.ummz.umich.edu/site/search?SearchableText=#srchName#">
-					Animal Diversity Web
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			</cfif>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=#srchName#">
-					NCBI
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li>
-				<a class="external soft404" href="http://images.google.com/images?q=#thisSearch#" target="_blank">
-					Google Images
-				</a>
-				<span class="infoLink" onclick="alert('This site does not allow pre-fetching. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.eol.org/search/?q=#srchName#">
-					Encyclopedia of Life
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.ubio.org/browser/search.php?search_all=#srchName#">
-					uBio
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<cfif one.kingdom is "Plantae">
-				<li>
-					<a class="external soft404" target="_blank" href="http://www.efloras.org/browse.aspx?name_str=#srchName#">Flora of North America</a>
-				</li>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-				<li>
-					<a class="external soft404" target="_blank" href="http://www.ipni.org/ipni/simplePlantNameSearch.do?find_wholeName=#srchName#">
-						The International Plant Names Index
-					</a>
-					<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-				</li>
-				<li>
-					<a class="external soft404" target="_blank" href="http://epic.kew.org/searchepic/summaryquery.do?scientificName=#srchName#&searchAll=true&categories=names&categories=bibl&categories=colln&categories=taxon&categories=flora&categories=misc">
-						electronic plant information centre
-					</a>
-					<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-				</li>
-			</cfif>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=#srchName#&search_kingdom=every&search_span=containing&categories=All&source=html&search_credRating=all">
-					ITIS
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.catalogueoflife.org/col/search/all/key/#srchName#/match/1">
-					Catalogue of Life
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li>
-				<a class="external" target="_blank" href="
-					http://www.google.com/custom?q=#srchName#&sa=Go!&cof=S:http://www.unep-wcmc.org;AH:left;LH:56;L:http://www.unep-wcmc.org/wdpa/I/unepwcmcsml.gif;LW:100;AWFID:681b57e6eabf5be6;&domains=unep-wcmc.org&sitesearch=unep-wcmc.org">
-					UNEP (CITES)
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-			<li id="wikispecies">
-				<a class="external " target="_blank" href="http://species.wikimedia.org/wiki/#srchName#">Search WikiSpecies for #one.scientific_name#</a>
-			</li>
-			<li>
-				<a class="external soft404" target="_blank" href="http://www.biodiversitylibrary.org/name/#srchName#">
-					Biodiversity Heritage Library
-				</a>
-				<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
-			</li>
-		</ul>
-	</p>
-	<p id="taxRelatedNames"></p>
-	<!-------
+						<cfif citas.c gt 0>
+							<a href="/SpecimenResults.cfm?cited_taxon_name_id=#one.taxon_name_id#"> Specimens cited as #one.display_name# </a>
+							<cfelse>
+							No specimens are cited as this name.
+						</cfif>
+					</li>
+				</ul>
+					<h2 class="h4">External Links:</h2>
+				<p>
+					<cfset srchName = URLEncodedFormat(one.scientific_name)>
+				</p>
+				<ul>
+					<li id="ispecies"> <a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li id="wikipedia"> <a class="external " target="_blank" href="http://wikipedia.org/wiki/#srchName#">Search Wikipedia for #one.scientific_name#</a> </li>
+					<cfif one.kingdom is not "Plantae">
+						<li> <a class="external soft404" target="_blank" href="http://animaldiversity.ummz.umich.edu/site/search?SearchableText=#srchName#"> Animal Diversity Web </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					</cfif>
+					<li> <a class="external soft404" target="_blank" href="http://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?name=#srchName#"> NCBI </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li> <a class="external soft404" href="http://images.google.com/images?q=#thisSearch#" target="_blank"> Google Images </a> <span class="infoLink" onclick="alert('This site does not allow pre-fetching. The link may or may not work.')";>[status unknown]</span> </li>
+					<li> <a class="external soft404" target="_blank" href="http://www.eol.org/search/?q=#srchName#"> Encyclopedia of Life </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li> <a class="external soft404" target="_blank" href="http://www.ubio.org/browser/search.php?search_all=#srchName#"> uBio </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<cfif one.kingdom is "Plantae">
+						<li> <a class="external soft404" target="_blank" href="http://www.efloras.org/browse.aspx?name_str=#srchName#">Flora of North America</a> </li>
+						<span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span>
+						<li> <a class="external soft404" target="_blank" href="http://www.ipni.org/ipni/simplePlantNameSearch.do?find_wholeName=#srchName#"> The International Plant Names Index </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+						<li> <a class="external soft404" target="_blank" href="http://epic.kew.org/searchepic/summaryquery.do?scientificName=#srchName#&searchAll=true&categories=names&categories=bibl&categories=colln&categories=taxon&categories=flora&categories=misc"> electronic plant information centre </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					</cfif>
+					<li> <a class="external soft404" target="_blank" href="http://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=Scientific_Name&search_value=#srchName#&search_kingdom=every&search_span=containing&categories=All&source=html&search_credRating=all"> ITIS </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li> <a class="external soft404" target="_blank" href="http://www.catalogueoflife.org/col/search/all/key/#srchName#/match/1"> Catalogue of Life </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li> <a class="external" target="_blank" href="
+					http://www.google.com/custom?q=#srchName#&sa=Go!&cof=S:http://www.unep-wcmc.org;AH:left;LH:56;L:http://www.unep-wcmc.org/wdpa/I/unepwcmcsml.gif;LW:100;AWFID:681b57e6eabf5be6;&domains=unep-wcmc.org&sitesearch=unep-wcmc.org"> UNEP (CITES) </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li id="wikispecies"> <a class="external " target="_blank" href="http://species.wikimedia.org/wiki/#srchName#">Search WikiSpecies for #one.scientific_name#</a> </li>
+					<li> <a class="external soft404" target="_blank" href="http://www.biodiversitylibrary.org/name/#srchName#"> Biodiversity Heritage Library </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+				</ul>
+				</p>
+				<p id="taxRelatedNames"></p>
+				<!-------
 	<cfif len(one.genus) gt 0>
 		<cfquery name="samegen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select scientific_name,display_name from taxonomy where genus='#one.genus#'
@@ -554,10 +445,9 @@
 			</cfif>
 		</div>
 	</cfif>
-	----->
-
-</cfoutput>
-			</div>
+	-----> 
+				
+			</cfoutput> </div>
 	</div>
 </div>
 <cfinclude template = "/shared/_footer.cfm">
