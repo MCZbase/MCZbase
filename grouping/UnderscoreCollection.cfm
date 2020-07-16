@@ -618,8 +618,8 @@ limitations under the License.
 								url : "/grouping/component/functions.cfc",
 								type : "post",
 								dataType : "json",
-								data :  { 
-									method: "removeObjectFromUndColl"
+								data : { 
+									method: "removeObjectFromUndColl",
 									underscore_relation_id: id 
 								},
 								success : function (data) {
