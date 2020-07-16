@@ -285,13 +285,13 @@
 				<div align="left">
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
 						<font size="+1">
-						<h1 class="h3">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
+						<h1 class="h2">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
 						</font>
 						<cfif len(one.AUTHOR_TEXT) gt 0>
 							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
 						</cfif>
 						<cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h3">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
+						<h1 class="h2">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
 						<br>
 						<font color="##FF0000" size="-1"> &nbsp;
 						This name is not accepted for current identifications. </font>
@@ -321,7 +321,7 @@
 						</cfloop>
 					</tr>
 				</table>
-				<p>Name Authority: <b>#one.source_Authority#</b></p>
+				<h2 class="h4">Name Authority: <b>#one.source_Authority#</b></h2>
 				<cfif len(taxonidlink) GT 0>
 					<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
 				</cfif>
