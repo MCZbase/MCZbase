@@ -1,4 +1,4 @@
-<cfinclude template = "includes/_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
     <cfset scientific_name = replace(scientific_name,'%3F','?') >
 	<cfset checkSql(scientific_name)>
@@ -552,4 +552,4 @@
 	----->
     </div>
 </cfoutput>
-<cfinclude template = "includes/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">
