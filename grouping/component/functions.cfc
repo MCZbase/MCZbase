@@ -283,7 +283,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 
 	<cfset result = "">
 	<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
-		select guid
+		select guid, underscore_relation_id
 			from #session.flatTableName#
 				left join underscore_relation on underscore_relation.collection_object_id = flat.collection_object_id
 			where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
@@ -291,7 +291,9 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	</cfquery>
 	<cfset result="<h2 id='existingvalues'>Collection objects in this (arbitrary) collection</h2><ul>" >
 	<cfloop query="undCollUse">
-		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a>" >
+		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a> " >
+		<cfset result =  result & "<button class="btn-xs btn-secondary mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>" >
+		<cfset result =  result & "</li>" >
 	</cfloop>
 	<cfset result=result & '</ul>'>
 

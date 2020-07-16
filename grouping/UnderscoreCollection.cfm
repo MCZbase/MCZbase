@@ -612,35 +612,71 @@ limitations under the License.
 				</cfquery>
 			<cfoutput>
 				<div class="container pt-0">
+					<script>
+						function removeUndRelation(id) { 
+							jQuery.ajax({
+								url : "/grouping/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data :  { 
+									method: "removeObjectFromUndColl"
+									underscore_relation_id: id 
+								},
+								success : function (data) {
+									$.ajax({
+										url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
+										type : "get",
+										dataType : "html",
+										success : function(data2){
+											$('##divListOfContainedObjects').html(data2);
+										}
+									});
+								},
+								error: function(jqXHR,textStatus,error){
+									$('##saveResultDiv').html('Error.');
+									var message = "";
+									if (error == 'timeout') {
+										message = ' Server took too long to respond.';
+									} else {
+										message = jqXHR.responseText;
+									}
+									messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+								}
+							});
+						}
+					</script>
 					<div class="row mx-0">
-					<div class="col-12 mb-5">
-						<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
-							<cfif undCollUse_result.recordcount EQ 0>
-								<h2 class="h3" id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
-								<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
-									<input type="hidden" name="action" value="delete">
-									<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-									<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
-									<script>
-										$(document).ready(function() {
-											$('##deleteButton').bind('click', function(evt){
-												evt.preventDefault();
-												confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+						<div class="col-12 mb-5">
+							<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
+								<cfif undCollUse_result.recordcount EQ 0>
+									<h2 class="h3" id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
+									<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
+										<input type="hidden" name="action" value="delete">
+										<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
+										<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+										<script>
+											$(document).ready(function() {
+												$('##deleteButton').bind('click', function(evt){
+													evt.preventDefault();
+													confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
+												});
 											});
-										});
-									</script>
-								</form>
-								<cfelse>
-								<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
-								<ul>
-									<cfloop query="undCollUse">
-										<li><a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a></li>
-									</cfloop>
-								</ul>
-							</cfif>
+										</script>
+									</form>
+									<cfelse>
+									<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
+									<ul>
+										<cfloop query="undCollUse">
+											<li>
+												<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
+												<button class="btn-xs btn-secondary mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
+											</li>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			</cfoutput>
 		</cfif>
