@@ -360,15 +360,21 @@ limitations under the License.
 								</script>
 							<div class="form-row mb-5">
 								<div class="col-12 col-md-6"> <span>
-									<label for="underscore_agent_name">Agent associated with this Collection</label>
-									<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
-									<input name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm" value="" aria-label="Agent associated with this arbitrary collection:" >
-									<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value=""  >
+									<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										</div>
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control-sm" value="" aria-label="Agent associated with this arbitrary collection:" aria-describedby="underscore_agent_name_label">
+										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+									</div>
 									<script>
-											$(document).ready(function() {
-												$(makeAgentPicker('underscore_agent_name','underscore_agent_id'));
-											});
-										</script> 
+										$(document).ready(function() {
+											$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
+										});
+									</script> 
 								</div>
 								<div class="col-12 col-md-6 px-2 my-3 px-sm-2 my-4">
 									<input type="button" 
