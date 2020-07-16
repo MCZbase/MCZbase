@@ -282,19 +282,23 @@
 					</a>
 				</cfif>
 				</span>
-				<div align="left">
+				<div>
+				
+										<div class="input-group">
+											<div class="input-group-prepend"> <span class="input-group-text text-success border-success" id="underscore_agent_name_label"><i class="fa fa-user text-white" aria-hidden="true"></i></span> </div>
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="Agent Name">
+					</div>
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<font size="+1">
-						<h1 class="h2">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
-						</font>
+						
+						<h1 class="h2">#one.display_name# <span class="text-uppercase">#one.AUTHOR_TEXT#</span></h1>
+				
 						<cfif len(one.AUTHOR_TEXT) gt 0>
 							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
 						</cfif>
 						<cfelseIF #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h2">#one.display_name# <span style="font-variant: small-caps;">#one.AUTHOR_TEXT#</span></h1>
+						<h1 class="h2">#one.display_name# <span class="text-uppercase">#one.AUTHOR_TEXT#</span></h1>
 						<br>
-						<font color="##FF0000" size="-1"> &nbsp;
-						This name is not accepted for current identifications. </font>
+						<span class="text-danger">This name is not accepted for current identifications. </span>
 					</cfif>
 				</div>
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
