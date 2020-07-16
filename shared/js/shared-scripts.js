@@ -238,8 +238,8 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 		change: function(event,ui) { 
 			if(!ui.item){
 				// handle a change that isn't a selection from the pick list, clear the controls.
-				$('#'+idControl).val();
-				$('#'+nameControl).val();
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
 				$('#'+iconControl).removeClass('bg-success');
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html("");
