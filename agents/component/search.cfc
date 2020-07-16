@@ -183,7 +183,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 			<cfset row = StructNew()>
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.agent_id#">
-			<cfset row["value"] = "#search.agent_name#" >
+			<cfset row["value"] = "#search.preferred_agent_name#" >
 			<cfif search.preferred_agent_name EQ search.agent_name >
 				<cfset row["meta"] = "#search.agent_name# #edited_marker#" >
 			<cfelse>
