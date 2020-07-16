@@ -193,12 +193,12 @@ function makeAgentPicker(nameControl, idControl) {
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
-		$('#'+iconControl).addClass('bg-success');
+		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
 		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
 		$('#'+idControl).val(agentId);
 	} else {
-		$('#'+iconControl).removeClass('bg-success');
+		$('#'+iconControl).removeClass('bg-lightgreen');
 		$('#'+iconControl).addClass('bg-light');
 		$('#'+linkControl).html("");
 		$('#'+idControl).val("");
@@ -221,7 +221,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 						message = jqXHR.responseText;
 					}
 					messageDialog('Error:' + message ,'Error: ' + error);
-					$('#'+iconControl).removeClass('bg-success');
+					$('#'+iconControl).removeClass('bg-lightgreen');
 					$('#'+iconControl).addClass('bg-light');
 					$('#'+linkControl).html("");
 					$('#'+idControl).val("");
@@ -232,7 +232,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
-			$('#'+iconControl).addClass('bg-success');
+			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
 		},
 		change: function(event,ui) { 
@@ -240,7 +240,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 				// handle a change that isn't a selection from the pick list, clear the controls.
 				$('#'+idControl).val("");
 				$('#'+nameControl).val("");
-				$('#'+iconControl).removeClass('bg-success');
+				$('#'+iconControl).removeClass('bg-lightgreen');
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html("");
 			}
