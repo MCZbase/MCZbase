@@ -19,12 +19,12 @@ limitations under the License.
 <cfcomponent>
 <cffunction name="saveTaxonomy" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxon_name_id" type="string" required="yes">
+	<cfargument name="source_authority" type="string" required="yes">
 	<cfargument name="genus" type="string" required="no">		
 	<cfargument name="species" type="string" required="no">
 	<cfargument name="subspecies" type="string" required="no">
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="infraspecific_author" type="string" required="no">
-	<cfargument name="source_authority" type="string" required="no">
 	<cfargument name="valid_catalog_term_fg" type="string" required="no">	
 	<cfargument name="taxonid_guid_type" type="string" required="no">
 	<cfargument name="scientific_name_guid_type" type="string" required="no">
@@ -61,8 +61,8 @@ limitations under the License.
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update taxonomy set
 				taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_name_id#">
-				<cfif isdefined("tribe")>
-					,tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#tribe#">
+				<cfif isdefined("source_authority")>
+					,source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 				</cfif>
 				<cfif isdefined("taxon_name_id") and len(taxon_name_id) GT 0>
 					,taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">

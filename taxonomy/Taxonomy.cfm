@@ -675,18 +675,20 @@ limitations under the License.
 					</script>
 				
 									
-					<script>
-											function changed(){
-												$('##saveResultDiv').html('Unsaved changes.');
+				<script>
+												function changed(){
+													$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
+													
 													$('##taxon_form input[type=text]').on("change",changed);
 													$('##taxon_form select').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
 												});
-											function saveEdits(){ 
+												function saveEdits(){ 
+													var sourcetext = $('##source_authority').val();
 													var taxonid = $('##taxon_name_id').val();
-													if (taxonid.length > 0) { 
+													if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
 														jQuery.ajax({
 															url : "/taxonomy/component/functions.cfc",
@@ -704,12 +706,12 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
+																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
-														messageDialog('Error saving taxon: ', 'Error: ');
-														$('##saveResultDiv').html('');
+														messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														$('##saveResultDiv').html('Fix error in Agent field.');
 													}
 												};
 											</script>
