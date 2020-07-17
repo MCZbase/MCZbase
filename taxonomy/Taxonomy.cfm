@@ -475,8 +475,7 @@ limitations under the License.
 							<div class="">
 								<input name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
-						</div>
-					
+						</div>		
 						<div class="col-6 col-md px-1 bg-light border ml-md-1">
 							<label for="subspecies" class="ml-1">Subspecies</label>
 							<div class="">
@@ -676,7 +675,7 @@ limitations under the License.
 					</script>
 				
 									
-										<script>
+					<script>
 											function changed(){
 												$('##saveResultDiv').html('Unsaved changes.');
 												};
@@ -685,7 +684,7 @@ limitations under the License.
 													$('##taxon_form select').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
 												});
-											function saveChanges(){ 
+											function saveEdits(){ 
 													var taxonid = $('##taxon_name_id').val();
 													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
@@ -715,7 +714,7 @@ limitations under the License.
 												};
 											</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##taxon_form')[0])) { saveChanges();  } ">
+						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } ">
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					

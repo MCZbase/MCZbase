@@ -25,11 +25,33 @@ limitations under the License.
 	<cfargument name="author_text" type="string" required="no">
 	<cfargument name="infraspecific_author" type="string" required="no">
 	<cfargument name="source_authority" type="string" required="no">
-	<cfargument name="tribe" type="string" required="no">	
-	<cfargument name="tribe" type="string" required="no">
-	<cfargument name="tribe" type="string" required="no">
-	<cfargument name="tribe" type="string" required="no">
-	<cfargument name="tribe" type="string" required="no">														
+	<cfargument name="valid_catalog_term_fg" type="string" required="no">	
+	<cfargument name="taxonid_guid_type" type="string" required="no">
+	<cfargument name="scientific_name_guid_type" type="string" required="no">
+	<cfargument name="scientificnameid" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">		
+	<cfargument name="infraspecific_rank" type="string" required="no">	
+	<cfargument name="phylclass" type="string" required="no">
+	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="suborder" type="string" required="no">
+	<cfargument name="family" type="string" required="no">	
+	<cfargument name="subfamily" type="string" required="no">	
+	<cfargument name="subgenus" type="string" required="no">
+	<cfargument name="phylum" type="string" required="no">
+	<cfargument name="taxon_remarks" type="string" required="no">
+	<cfargument name="kingdom" type="string" required="no">		
+	<cfargument name="nomenclatural_code" type="string" required="no">	
+	<cfargument name="subphylum" type="string" required="no">
+	<cfargument name="superclass" type="string" required="no">
+	<cfargument name="subclass" type="string" required="no">
+	<cfargument name="superorder" type="string" required="no">	
+	<cfargument name="infraorder" type="string" required="no">
+	<cfargument name="superfamily" type="string" required="no">
+	<cfargument name="division" type="string" required="no">
+	<cfargument name="subdivision" type="string" required="no">	
+	<cfargument name="subsection" type="string" required="no">	
+	<cfargument name="infraclass" type="string" required="no">
+	<cfargument name="taxon_status" type="string" required="no">	
 	
 	<cfset data = ArrayNew(1)>
 	<cftry>
