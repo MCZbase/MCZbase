@@ -83,6 +83,9 @@ limitations under the License.
 				<cfloop query="getAgent">
 					<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 					<h2>#preferred_agent_name# #edited_marker#</h2>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+						<a href="https://mczbase.mcz.harvard.edu/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
+					</cfif>
 					<ul>
 						<li>#agent_type#</li>
 						<cfif len(agentguid) GT 0>
