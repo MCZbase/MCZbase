@@ -910,7 +910,7 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-	</cfcase>
+	</cfif>
 </div>
 </cfoutput>
 </cfcase>
