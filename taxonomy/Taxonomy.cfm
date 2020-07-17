@@ -913,6 +913,7 @@ limitations under the License.
 	</div>
 </cfoutput>
 </cfif>
+</cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "removePub">
 	<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
