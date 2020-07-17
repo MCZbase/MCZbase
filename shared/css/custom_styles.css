@@ -27,6 +27,12 @@ form input.anchor-button:hover {
 	text-decoration: none;
 	background-color: #f8f9fa;
 }*/
+ /*********************************************/
+/* BELOW  Misc. Additions to Bootstrap Styles*/
+/*********************************************/
+.bg-lightgreen { 
+	background-color: #CAEAAD;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/

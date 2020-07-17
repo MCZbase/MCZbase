@@ -9,13 +9,14 @@
  * @prarm dialogTitle
  */
 function messageDialog(dialogText, dialogTitle) {
+	var titleTrimmed = dialogTitle.substring(0,50);
 	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
 		resizable: false,
 		draggable: true,
 		width: 'auto',
 		minHeight: 80,
-		title: dialogTitle,
+		title: titleTrimmed,
 		buttons: {
 			OK: function () {
 				$(this).dialog('destroy');
@@ -65,13 +66,13 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 	});
 };
 
+
 function confirmDelete(formName,msg){
 	console.log('TODO: use confirmDialog instead of confirmDelete.');
 	// TODO: Old code, don't use, rewrite invocations to use confirmDialog instead. 
 	// var formName;var msg=msg||"this record";
 	// confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
 }
-
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.
@@ -182,6 +183,80 @@ function makeAgentPicker(nameControl, idControl) {
 		},
 		minLength: 3
 	});
+};
+
+
+/** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
+ *  autocomplete agent picker.  Not intended for use to pick agents for transaction roles where agent flags may apply.
+ *  
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param iconControl the id for an input that can take a background color to indicate a successfull pick of an agent
+ *    (without an leading # selector)
+ *  @param linkControl the id for a page element that can contain a hyperlink to an agent, by agent id.
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *    iconControl are initialized in a picked agent state.
+ */
+function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
+	// initialize the controls for appropriate state given an agentId or not.
+	if (agentId) { 
+		$('#'+iconControl).addClass('bg-lightgreen');
+		$('#'+iconControl).removeClass('bg-light');
+		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+idControl).val(agentId);
+	} else {
+		$('#'+iconControl).removeClass('bg-lightgreen');
+		$('#'+iconControl).addClass('bg-light');
+		$('#'+linkControl).html("");
+		$('#'+idControl).val("");
+	}
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { 
+					// return the result to the autocomplete widget, select event will fire if item is selected.
+					response(data); 
+				},
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+					$('#'+iconControl).removeClass('bg-lightgreen');
+					$('#'+iconControl).addClass('bg-light');
+					$('#'+linkControl).html("");
+					$('#'+idControl).val("");
+				}
+			})
+		},
+		select: function (event, result) {
+			// Handle case of a selection from the pick list.  Indicate successfull pick.
+			$('#'+idControl).val(result.item.id);
+			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+iconControl).addClass('bg-lightgreen');
+			$('#'+iconControl).removeClass('bg-light');
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+				$('#'+iconControl).removeClass('bg-lightgreen');
+				$('#'+iconControl).addClass('bg-light');	
+				$('#'+linkControl).html("");
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
 };
 
 /**
