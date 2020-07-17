@@ -274,7 +274,7 @@
 				select count(*) cnt from annotations
 				where taxon_name_id = #tnid#
 			</cfquery>
-					<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [Annotate]
+					<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [ Annotate ]
 					<cfif #existingAnnotations.cnt# gt 0>
 						<br>
 						(#existingAnnotations.cnt# existing)
