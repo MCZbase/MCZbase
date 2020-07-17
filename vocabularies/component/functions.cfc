@@ -99,7 +99,11 @@ Function getNumSeriesList.  Search for collector number series returning json su
 			SELECT 
 				coll_event_number_series_id, number_series, pattern, remarks,
 				collector_agent_id, 
-				MCZBASE.get_agentnameoftype(collector_agent_id,'preferred') preferred_agent_name
+				case 
+					when collector_agent_id is null then '[No Agent]'
+					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
+					end
+				as agentname
 			FROM 
 				coll_event_number_series
 			WHERE
@@ -114,7 +118,7 @@ Function getNumSeriesList.  Search for collector number series returning json su
 			<cfset row["number_series"] = "#search.number_series#">
 			<cfset row["pattern"] = "#search.pattern#">
 			<cfset row["remarks"] = "#search.remarks#">
-			<cfset row["preferred_agent_name"] = "#search.preferred_agent_name#">
+			<cfset row["agentname"] = "#search.agentname#">
 			<cfset row["id_link"] = "<a href='/vocabularies/CollEventNumberSeries.cfm?method=edit&coll_event_num_series_id#search.coll_event_num_series_id#' target='_blank'>#search.number_series#</a>">
 			<cfset data[i] = row>
 			<cfset i = i + 1>

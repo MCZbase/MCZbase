@@ -32,8 +32,8 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			select count(coll_event_number_id) as number_count, number_series, coll_event_num_series.coll_event_num_series_id as id, pattern, remarks,
 				collector_agent_id,
-				case collector_agent_id
-					when null then '[No Agent]'
+				case 
+					when collector_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
 					end
 				as agentname
@@ -56,8 +56,8 @@ limitations under the License.
 			group by 
 				number_series, coll_event_num_series.coll_event_num_series_id, pattern, remarks,
 				collector_agent_id,
-				case collector_agent_id
-					when null then '[No Agent]'
+				case 
+					when collector_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
 					end
 		</cfquery>

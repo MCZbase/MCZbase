@@ -149,4 +149,70 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Function getAgentAutocompleteMeta.  Search for agents by name with a substring match on any name, returning json suitable for jquery-ui autocomplete
+ with a _renderItem overriden to display more detail on the picklist, and just the agent name as the selected value.
+
+@param term agent name to search for.
+@return a json structure containing id and value, with matching agents with matched name in value and agent_id in id, and matched name 
+  with * and preferred name in meta.
+--->
+<cffunction name="getAgentAutocompleteMeta" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<!--- perform wildcard search anywhere in agent_name.agent_name --->
+	<cfset name = "%#term#%"> 
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+      <cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT 
+				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
+				agent.agent_type, agent.edited,
+				prefername.agent_name as preferred_agent_name
+			FROM 
+				agent_name searchname
+				left join agent on searchname.agent_id = agent.agent_id
+				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+			WHERE
+				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+		</cfquery>
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+			<cfset row["id"] = "#search.agent_id#">
+			<cfset row["value"] = "#search.preferred_agent_name#" >
+			<cfif search.preferred_agent_name EQ search.agent_name >
+				<cfset row["meta"] = "#search.agent_name# #edited_marker#" >
+			<cfelse>
+				<cfset row["meta"] = "#search.agent_name# (#search.preferred_agent_name#)#edited_marker#" >
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing getAgentList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ unauthorized access ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

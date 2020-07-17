@@ -860,8 +860,8 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select
 							coll_event_number, number_series, 
-							case collector_agent_id
-								when null then '[No Agent]'
+							case 
+								when collector_agent_id is null then '[No Agent]'
 								else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
 							end
 							as collector_agent_name
@@ -871,7 +871,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						where
 							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> 
 					</cfquery>
-					<cfif len(one.coll_event_remarks) gt 0>
+					<cfif collEventNumbers.recordcount gt 0>
 					<tr class="detailData">
 						<td id="SDCellLeft" class="innerDetailLabel" nowrap>Collecting Event/Field Number:</td>
 						<td id="SDCellRight"><ul>
@@ -917,6 +917,35 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</div>
 					</cfloop>
 				</div>
+			</cfif>
+<!------------------------------------ collections ---------------------------------------------->
+			<cfif oneofus is 1>
+				<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
+					select distinct collection_name 
+					from underscore_relation
+						left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+					where
+						underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+				</cfquery>
+				<cfif collectionsQuery.recordcount GT 0>
+					<div class="detailCell">
+						<div class="detailLabel">Included in these Collections
+							<!---  TODO: Implement edit 
+							<cfif oneOfUs is 1>
+								<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
+							</cfif>
+							--->
+						</div>
+						<div class="detailBlock">
+							<ul>
+								<cfloop query="collectionsQuery">
+									<!--- TODO: Link to search --->
+									<li>#collection_name#</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</cfif>
 			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfif len(relns.biol_indiv_relationship) gt 0 >

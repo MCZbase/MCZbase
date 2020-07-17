@@ -86,7 +86,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 				console.log(status);
 				console.log("ajax request for getGuidTypeInfo failed with no error or message");
 			} else { 
-			   messageDialog('Error:' + message ,'Error: ' + error);
+			   messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 			}
 		}
 	});

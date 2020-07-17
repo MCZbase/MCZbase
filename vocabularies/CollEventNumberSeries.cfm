@@ -154,7 +154,7 @@ limitations under the License.
 					            } else { 
 					               message = jqXHR.responseText;
 					            }
-					            messageDialog('Error:' + message ,'Error: ' + error);
+					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -430,7 +430,11 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeries_result">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
-					MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') as agentname
+					case 
+						when collector_agent_id is null then '[No Agent]'
+						else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
+						end
+					as agentname
 				from coll_event_num_series 
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
@@ -510,7 +514,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 

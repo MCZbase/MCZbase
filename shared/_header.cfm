@@ -225,10 +225,10 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>_
+								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
+								<i class="fas fa-user-cog text-body"></i>
+							</cfif>
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
