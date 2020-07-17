@@ -60,7 +60,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
-							<h2 id="formheading">Find "______ Collections" (arbitrary groups of collection objects)</h2>
+							<h2 id="formheading">Find "______ Collections" (arbitrary groups of cataloged items)</h2>
 							<p>These records can represent collections by workers in natural history or any arbitrary grouping of cataloged items in MCZbase.
  See, for cases of collections by workers in natural history: <a href="http://id.lib.harvard.edu/alma/990011227530203941/catalog">Sherborn, 1940.</a> <i>Where is the _______ collection? An account of the various natural history collections which have come under the notice of the compiler Charles Davies Sherborn D.Sc. Oxon. Between 1880 and 1939.</i> Cambridge University Press, Cambridge, 149 pp.</p>
 							<form name="searchForm" id="searchForm">
@@ -457,7 +457,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit "Collection" (arbitrary grouping of collection objects) </h1>
+						<h1 class="h2" id="formheading"> Edit "____ Collection" (arbitrary grouping of cataloged items)</h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -556,7 +556,7 @@ limitations under the License.
 								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-10">
-										<label for="guid_list" id="guid_list_label" class="data-entry-label">Collection objects to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+										<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 										<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
 												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 									</div>
@@ -704,8 +704,8 @@ limitations under the License.
 			</cfquery>
 		<h2>"Collection" successfully deleted.</h2>
 		<ul>
-			<li><a href="/grouping/UnderscoreCollection.cfm">Search for "Collections"</a> (arbitrary groupings of collection objects).</li>
-			<li><a href="/grouping/UnderscoreCollection.cfm?action=new">Create a new "Collection"</a> (arbitrary grouping of collection objects).</li>
+			<li><a href="/grouping/UnderscoreCollection.cfm">Search for "____ Collections"</a> (arbitrary groupings of cataloged items).</li>
+			<li><a href="/grouping/UnderscoreCollection.cfm?action=new">Create a new "____ Collection"</a> (arbitrary grouping of cataloged items).</li>
 		</ul>
 		<cfcatch>
 			<cfthrow type="Application" message="Error deleting _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
