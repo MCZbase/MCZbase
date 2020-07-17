@@ -85,7 +85,12 @@ limitations under the License.
 				<ul>
 					<li>#agent_type#</li>
 					<cfif len(agentguid) GT 0>
-						<li><a href="#REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement)#">#agentguid#</a></li>
+						<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+							<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+						<cfelse>
+							<cfset guidLink = agentguid >
+						</cfif>
+						<li><a href="#guidLink#">#agentguid#</a></li>
 					</cfif>
 				</ul>
 				<cfif oneOfUs EQ 1>
