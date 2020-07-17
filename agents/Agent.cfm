@@ -49,6 +49,11 @@ limitations under the License.
 <cfelse>
 	<cfset oneOfUs = 0>
 </cfif>
+<cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
+   from ctguid_type 
+   where applies_to like '%agent.agentguid%'
+</cfquery>
 
 
 <cfswitch expression="#action#">
@@ -62,7 +67,9 @@ limitations under the License.
 		<!--- TODO: Add full implementation of agent details. --->
 		<cfquery name="getAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
-				agent.agent_type, agent.edited,
+				agent.agent_type, agent.edited, 
+				agent_remarks, 
+				agentguid_guid_type, agentguid,
 				prefername.agent_name as preferred_agent_name
 			FROM 
 				agent
@@ -72,13 +79,29 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-		<cfloop query="getAgent">
-			<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-			<h2>#preferred_agent_name# #edited_marker#</h2>
-			<ul>
-				<li>#agent_type#</li>
-			</ul>
-		</cfloop>		
+			<div class="container">
+				<cfloop query="getAgent">
+					<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+					<h2>#preferred_agent_name# #edited_marker#</h2>
+					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_agents")>
+						<a href="https://mczbase.mcz.harvard.edu/agents.cfm?agent_id=#agent_id#" class="btn btn-primary">Edit</a>
+					</cfif>
+					<ul>
+						<li>#agent_type#</li>
+						<cfif len(agentguid) GT 0>
+							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+							<cfelse>
+								<cfset guidLink = agentguid >
+							</cfif>
+							<li><a href="#guidLink#">#agentguid#</a></li>
+						</cfif>
+					</ul>
+					<cfif oneOfUs EQ 1>
+						<div>#agent_remarks#</div>
+					</cfif>
+				</cfloop>
+			</div>
 		</cfoutput>
 		
 	</cfif>
