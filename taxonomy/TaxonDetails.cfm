@@ -239,7 +239,7 @@
 </cfif>
 <div class="container">
 	<div class="row px-0">
-		<div class="col-12"> <cfoutput> 
+		<div class="col-12 mb-5"> <cfoutput> 
 				<script>
 		jQuery(document).ready(function(){
 			//var elemsToLoad='specTaxMedia,taxRelatedNames,mapTax';
