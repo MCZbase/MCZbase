@@ -219,11 +219,7 @@ limitations under the License.
 <cfif not isdefined("action")>
 	<cfset action="edit">
 </cfif>
-<cfswitch expression="#action#">
-	<cfcase value="edit">
-<cfset pageTitle = "Edit Taxonomy">
-	</cfcase>
-</cfswitch>
+
 <cfswitch expression="#action#">
 <cfcase value="edit">
 <cfif not isDefined("taxon_name_id")>
