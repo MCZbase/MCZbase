@@ -257,6 +257,7 @@ limitations under the License.
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
+							<input type="hidden" name="Action" id="taxon_form_action_input">
 							
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
@@ -682,14 +683,15 @@ limitations under the License.
 									<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 									
 										<script>
-						function changed(){
-													$('##saveResultDiv').html('Unsaved changes.');
+											function changed(){
+												$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
 													$('##taxon_form input[type=text]').on("change",changed);
+													$('##taxon_form select').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
 												});
-												function saveChanges(){ 
+											function saveChanges(){ 
 													var taxonid = $('##taxon_name_id').val();
 													if (taxonid.length > 0) { 
 														$('##saveResultDiv').html('Saving....');
@@ -906,7 +908,6 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->

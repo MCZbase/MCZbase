@@ -19,6 +19,18 @@ limitations under the License.
 <cfcomponent>
 <cffunction name="saveTaxonomy" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxon_name_id" type="string" required="yes">
+	<cfargument name="genus" type="string" required="no">		
+	<cfargument name="species" type="string" required="no">
+	<cfargument name="subspecies" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="infraspecific_author" type="string" required="no">
+	<cfargument name="source_authority" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">	
+	<cfargument name="tribe" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">
+	<cfargument name="tribe" type="string" required="no">														
+	
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfif len(trim(#source_authority#)) EQ 0>
@@ -44,7 +56,7 @@ limitations under the License.
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing saveUndColl: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing saveChanges: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">
