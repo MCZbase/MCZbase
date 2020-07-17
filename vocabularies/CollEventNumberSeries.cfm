@@ -84,19 +84,13 @@ limitations under the License.
 					</div>
 				</div>
 			</cfoutput>
-			<div class="container-fluid">
-			<div class="row mx-0">
-				<div class="text-left col-md-12">
-					<main role="main">
-						<div class="pl-0 mb-5"> 
-							
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+	
 			<!--- Results table as a jqxGrid. --->
 			<div class="container-fluid">
-				<div class="row mx-0">
+				<div class="row">
 					<div class="text-left col-md-12">
 						<main role="main">
-							<div class="mb-5"> 
+							<div class="pl-2 mb-5"> 
 								
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 									<h4>Results: </h4>
@@ -160,7 +154,7 @@ limitations under the License.
 					            } else { 
 					               message = jqXHR.responseText;
 					            }
-					            messageDialog('Error:' + message ,'Error: ' + error);
+					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -436,7 +430,11 @@ limitations under the License.
 		<cfelse>
 			<cfquery name="numSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeries_result">
 				select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
-					MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') as agentname
+					case 
+						when collector_agent_id is null then '[No Agent]'
+						else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred')
+						end
+					as agentname
 				from coll_event_num_series 
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
@@ -516,7 +514,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error);
+																messageDialog('Error saving collecting event number series: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
