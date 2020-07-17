@@ -79,24 +79,26 @@ limitations under the License.
 		</cfquery>
 
 		<cfoutput>
-			<cfloop query="getAgent">
-				<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
-				<h2>#preferred_agent_name# #edited_marker#</h2>
-				<ul>
-					<li>#agent_type#</li>
-					<cfif len(agentguid) GT 0>
-						<cfif len(ctguid_type_agent.resolver_regex) GT 0>
-							<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
-						<cfelse>
-							<cfset guidLink = agentguid >
+			<div class="container">
+				<cfloop query="getAgent">
+					<cfif getAgent.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
+					<h2>#preferred_agent_name# #edited_marker#</h2>
+					<ul>
+						<li>#agent_type#</li>
+						<cfif len(agentguid) GT 0>
+							<cfif len(ctguid_type_agent.resolver_regex) GT 0>
+								<cfset guidLink = REReplace(agentguid,ctguid_type_agent.resolver_regex,ctguid_type_agent.resolver_replacement) >
+							<cfelse>
+								<cfset guidLink = agentguid >
+							</cfif>
+							<li><a href="#guidLink#">#agentguid#</a></li>
 						</cfif>
-						<li><a href="#guidLink#">#agentguid#</a></li>
+					</ul>
+					<cfif oneOfUs EQ 1>
+						<div>#agent_remarks#</div>
 					</cfif>
-				</ul>
-				<cfif oneOfUs EQ 1>
-					<div>#agent_remarks#</div>
-				</cfif>
-			</cfloop>		
+				</cfloop>
+			</div>
 		</cfoutput>
 		
 	</cfif>
