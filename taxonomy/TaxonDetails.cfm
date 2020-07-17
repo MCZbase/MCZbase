@@ -238,7 +238,7 @@
 	<cfset scientificnameidlink =  REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 </cfif>
 <div class="container">
-	<div class="row">
+	<div class="row px-0">
 		<div class="col-12"> <cfoutput> 
 				<script>
 		jQuery(document).ready(function(){
