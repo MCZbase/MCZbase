@@ -219,9 +219,6 @@ limitations under the License.
 <cfif not isdefined("action")>
 	<cfset action="edit">
 </cfif>
-
-<cfswitch expression="#action#">
-<cfcase value="edit">
 <cfif not isDefined("taxon_name_id")>
 	<cfset taxon_name_id = "">
 </cfif>
@@ -234,6 +231,8 @@ limitations under the License.
 	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
+<cfswitch expression="#action#">
+<cfcase value="edit">
 <cfoutput>
 	<div class="container-fluid">
 		<div class="row mb-4 mx-0">
