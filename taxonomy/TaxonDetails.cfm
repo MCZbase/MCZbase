@@ -398,7 +398,7 @@
 					<cfset srchName = URLEncodedFormat(one.scientific_name)>
 				</p>
 				<ul>
-					<li id="ispecies"> <a class="external soft404" target="_blank" href="http://ispecies.org/?q=Bufo%20bufo">iSpecies</a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
+					<li id="ispecies"> <a class="external soft404" target="_blank" href="http://ispecies.org/?q=#srchName#">iSpecies</a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
 					<li id="wikipedia"> <a class="external " target="_blank" href="http://wikipedia.org/wiki/#srchName#">Search Wikipedia for #one.scientific_name#</a> </li>
 					<cfif one.kingdom is not "Plantae">
 						<li> <a class="external soft404" target="_blank" href="http://animaldiversity.ummz.umich.edu/site/search?SearchableText=#srchName#"> Animal Diversity Web </a> <span class="infoLink" onclick="alert('This site does not properly return page status. The link may or may not work.')";>[status unknown]</span> </li>
