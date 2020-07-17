@@ -714,7 +714,7 @@ limitations under the License.
 												};
 											</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary" onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } ">
+						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary" onClick="taxon_form.saveEdits();">
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					
