@@ -1,4 +1,4 @@
-<cfset pageTitle = "Edit Taxon">
+<!---<cfset pageTitle = "Edit Taxon">--->
 <!--
 taxonomy/Taxonomy.cfm
 
