@@ -216,16 +216,21 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "edit">
-<cfset title="Edit Taxonomy">
-<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfcase value="edit">
+		<cfset pageTitle = "Edit Taxonomy">
+	<cfif not isDefined("taxon_name_id")>
+		<cfset taxon_name_id = "">
+	</cfif>
+	<cfif len("taxon_name_id") EQ 0>
+		<cfthrow type="Application" message="Error: No value provided for taxon_name_id">
+		<cfelse>
+  	<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-
 <div class="container-fluid">
 	<div class="row mb-4 mx-0">
 		<div class="col-12 px-0">
