@@ -910,10 +910,10 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-	</div>
+	</cfcase>
 </div>
 </cfoutput>
-</cfif>
+</cfcase>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "removePub">
 	<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
