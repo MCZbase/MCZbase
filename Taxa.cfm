@@ -559,7 +559,7 @@ limitations under the License.
 								<div id="columnPickDialogButton"></div>
 								<div id="resultDownloadButtonContainer"></div>
 							</div>
-							<div class="row mt-0">
+							<div class="row mt-0 mx-0">
 								<!--- Grid Related code is below along with search handlers --->
 								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 								<div id="enableselection"></div>
