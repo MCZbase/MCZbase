@@ -89,10 +89,10 @@ nav .navbar-nav li a.nav-link {
 	text-decoration: none;
 	background-color: #ddd;
 }
-/*.navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
+.navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	border-right: 2px solid transparent;
 	border-left: 2px solid transparent;
-}*/
+}
 .navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
 	color: #000000;
 	background-color: #ffffff;
