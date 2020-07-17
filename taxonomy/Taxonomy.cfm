@@ -257,7 +257,7 @@ limitations under the License.
 						<div class="col-12 col-sm-6">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							<input type="hidden" name="Action" id="taxon_form_action_input">
+						<!---	<input type="hidden" name="Action" id="taxon_form_action_input">--->
 							
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
@@ -674,13 +674,7 @@ limitations under the License.
 						// Make all textareas currently defined autogrow as text is entered.
 						$("textarea").keyup(autogrow);  
 					</script>
-					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="taxon_form.Action.saveChanges();" >
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
-					
-					</div>
-									<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
+				
 									
 										<script>
 											function changed(){
@@ -720,6 +714,13 @@ limitations under the License.
 													}
 												};
 											</script>
+					<div class="form-row col-12 px-0 justify-content-center mt-1">
+						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary"	onClick="taxon_form.Action.saveChanges();" >
+						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
+						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
+					
+					</div>
+									<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 <!---			<script>
 				function qcTaxonEdits() { 
 					$("##taxon_form_action_input").val('saveTaxonEdits');
