@@ -216,8 +216,16 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfcase value="edit">
+<cfif not isdefined("action")>
+	<cfset action="edit">
+</cfif>
+<cfswitch expression="#action#">
+	<cfcase value="edit">
 <cfset pageTitle = "Edit Taxonomy">
+	</cfcase>
+</cfswitch>
+<cfswitch expression="#action#">
+<cfcase value="edit">
 <cfif not isDefined("taxon_name_id")>
 	<cfset taxon_name_id = "">
 </cfif>
@@ -914,6 +922,7 @@ limitations under the License.
 </cfoutput>
 </cfif>
 </cfcase>
+</cfswitch>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "removePub">
 	<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
