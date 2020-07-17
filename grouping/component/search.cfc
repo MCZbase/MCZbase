@@ -24,6 +24,7 @@ limitations under the License.
 	<cfargument name="underscore_agent_id" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
+	<cfargument name="guid" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -42,6 +43,9 @@ limitations under the License.
 				as agentname
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
+				<cfif isDefined("guid") and len(guid) gt 0>
+					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
+				</cfif>
 			WHERE
 				underscore_collection.underscore_collection_id is not null
 				<cfif isDefined("collection_name") and len(collection_name) gt 0>
@@ -52,6 +56,13 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(pattern) gt 0>
 					and underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+				</cfif>
+				<cfif isDefined("guid") and len(guid) gt 0>
+					<cfif find(',',guid) GT 0> 
+						and #session.flatTableName#.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#" list="yes">)
+					<cfelse>
+						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
+					</cfif>
 				</cfif>
 			group by 
 				underscore_collection.underscore_collection_id,
