@@ -218,9 +218,6 @@ limitations under the License.
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 <cfset title="Edit Taxonomy">
-<cfif not isDefined("taxon_name_id")>
-	<cfset taxon_name_id = "">
-</cfif>
 <cfif len("taxon_name_id") EQ 0>
 	<cfthrow type="Application" message="Error: No value provided for taxon_name_id">
 <cfelse>
