@@ -356,11 +356,16 @@ limitations under the License.
 											<label for="collector_agent_name">Numbers in this series assigned by Agent</label>
 											<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
-										<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" aria-label="This is a number series of collector: " >
-										<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" aria-label="This is a number series of collector: " >
+											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
+										</div>
 										<script>
 											$(document).ready(function() {
-												$(makeAgentPicker('collector_agent_name','collector_agent_id'));
+												$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', ''));
 											});
 										</script>
 									</div>
@@ -482,14 +487,19 @@ limitations under the License.
 												<label for="collector_agent_name" id="collector_agent_name_label">Numbers in this series assigned by Agent</label>
 												<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
-											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
+												<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
+											</div>
 											<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
-													$(makeAgentPicker('collector_agent_name','collector_agent_id'));
+													$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', '#collector_agent_id#'));
 													$('##editNumSeries input[type=text]').on("change",changed);
 													$('##remarks').on("change",changed);
 												});
