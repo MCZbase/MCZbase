@@ -289,7 +289,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			order by guid
 	</cfquery>
-	<cfset result="<h2 id='existingvalues'>Collection objects in this (arbitrary) collection</h2><ul>" >
+	<cfset result="<h2 id='existingvalues'>Collection objects in this named collection</h2><ul>" >
 	<cfloop query="undCollUse">
 		<cfset result =  result & "<li><a href='/guid/#undCollUse.guid#' target='_blank'>#undCollUse.guid#</a> " >
 		<cfset result =  result & "<button class='btn-xs btn-secondary mx-1' onclick='removeUndRelation(#undCollUse.underscore_relation_id#);'>Remove</button>" >
