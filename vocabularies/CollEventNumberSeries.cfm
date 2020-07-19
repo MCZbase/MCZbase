@@ -360,7 +360,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="" aria-label="This is a number series of collector: " >
+											<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="" aria-label="This is a number series of collector: " >
 											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
 										</div>
 										<script>
@@ -491,7 +491,7 @@ limitations under the License.
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input name="collector_agent_name" id="collector_agent_name" class="form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
+												<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
 												<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 											</div>
 											<script>
