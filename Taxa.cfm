@@ -328,7 +328,7 @@ limitations under the License.
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
-												<p class="smaller-text mt-2">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
+												<p class="smaller-text mt-2" aria-label="introduction">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<input type="hidden" name="action" value="search">
 												<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
