@@ -51,7 +51,7 @@ limitations under the License.
 					and collection_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#collection_name#%">
 				</cfif>
 				<cfif isDefined("description") and len(description) gt 0>
-					and coll_event_description like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
+					and description like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
 				</cfif>
 				<cfif isDefined("underscore_agent_id") and len(pattern) gt 0>
 					and underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
@@ -59,6 +59,8 @@ limitations under the License.
 				<cfif isDefined("guid") and len(guid) gt 0>
 					<cfif find(',',guid) GT 0> 
 						and #session.flatTableName#.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#" list="yes">)
+					<cfelseif guid EQ "NULL"> 
+						and #session.flatTableName#.guid is NULL
 					<cfelse>
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
 					</cfif>
