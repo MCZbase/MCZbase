@@ -77,7 +77,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="guid" id="guid_label">A cataloged item that is a member of the named group</label>
+										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 										<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
