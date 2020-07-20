@@ -329,8 +329,9 @@ limitations under the License.
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
 												<p class="smaller-text mt-2" aria-label="introduction">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
-												<input type="hidden" name="action" value="search">
-												<ul class="list-group list-group-flush p-2 border rounded">
+												<fieldset>
+													<input type="hidden" name="action" value="search">
+													<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -357,8 +358,8 @@ limitations under the License.
 														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
 													</li>
 												</ul>
-												<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
-												<ul class="list-group list-group-flush p-2 border rounded">
+													<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
+													<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -385,6 +386,7 @@ limitations under the License.
 														<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
 													</li>
 												</ul>
+												</fieldset>
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
