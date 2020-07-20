@@ -390,7 +390,7 @@ limitations under the License.
 												<div class="col-12">
 													<p class="small text-success" aria-label="input info">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
-												<div class="form-row bg-light border rounded p-2">
+												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
 														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match.">(=) </span></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
