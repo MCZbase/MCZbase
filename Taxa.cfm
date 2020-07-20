@@ -477,7 +477,7 @@ limitations under the License.
 														<input type="text text-success" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
 													</div>
 													<div class="col-md-2">
-														<label for="subphylum" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+														<label for="family" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
 														<input type="text" class="data-entry-input" id="family" name="family" value="#family#" placeholder="family">
 													</div>
 													<div class="col-md-2">
