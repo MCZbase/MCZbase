@@ -639,10 +639,10 @@ limitations under the License.
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
-		<div class="row">
+		<div class="row mx-0">
 			<div class="text-left col-md-12">
 				<main role="main">
-					<div class="pl-2 mb-5"> 
+					<div class="mb-5"> 
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
