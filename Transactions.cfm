@@ -761,12 +761,12 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			ready: function () {
-				$("##searchResultsGrid").jqxGrid('selectrow', 0);
-			},
+//			ready: function () {
+//				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+//			},
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
