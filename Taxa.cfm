@@ -392,7 +392,7 @@ limitations under the License.
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
-														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" title="Add equals sign for exact match.">(=) </span></label>
+														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" title="Add equals sign for exact match.">(=) </span></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
@@ -432,7 +432,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#kingdom#" placeholder="kingdom">
 													</div>
 													<div class="col-md-2">
-														<label for="phylum" class="data-entry-label align-left-center">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
+														<label for="phylum" class="data-entry-label align-left-center">Phylum <span class="small text-success" onclick="var e=document.getElementById('phylum');e.value='='+e.value;" title="add equals sign before entry for exact match"> (=) </span></label>
 														<input type="text" class="data-entry-input" id="phylum" name="phylum" value="#phylum#" placeholder="phylum">
 													</div>
 													<div class="col-md-2">
