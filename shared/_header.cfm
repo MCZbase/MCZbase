@@ -207,6 +207,19 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Manage Data
+						</a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" name="named collections" href="/grouping/UnderscoreCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+							</cfif>
+						</div>
+					</li>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Transactions
 						</a>
@@ -284,6 +297,10 @@ limitations under the License.
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 							<a class="dropdown-item" name="projects" href="##">Projects</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" name="named collections" href="/grouping/UnderscoreCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+							</cfif>
 							<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 							<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
 							<a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
