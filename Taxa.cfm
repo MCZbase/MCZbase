@@ -316,7 +316,7 @@ limitations under the License.
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100">
-								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 w-50">Search Taxonomy <i class="fa fa-info-circle small" onClick="getMCZDocs('Taxonomy Search')" aria-label="help link"></i> <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 w-50">Search Taxonomy <i class="fa fa-info-circle small" onClick="getMCZDocs('Taxonomy Search')" aria-label="hidden"></i> <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
@@ -392,7 +392,7 @@ limitations under the License.
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
-														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" aria-label="Add equals sign for exact match.">(=) </span></label>
+														<label for="taxonomic_scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" title="Add equals sign for exact match.">(=) </span></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
