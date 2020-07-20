@@ -889,6 +889,9 @@ limitations under the License.
 				$("##searchResultsGrid").jqxGrid(action, 'INFRASPECIFIC_RANK');
 				$("##searchResultsGrid").jqxGrid('endupdate');
 			}
+			
+			onMouseDown={this.handleClick} onKeyUp={(e) => {if (e.keyCode === 13 || e.keyCode === 32) {this.handleClick()}}}
+			handleClick(e) { if (e) {e.preventDefault()}; }
 		</script>
 
 		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
