@@ -347,6 +347,7 @@ span.data-entry-addon {
 .text-success {color:#1e5d16 !important;}
 .btn-link,.helpText {color:#2f6eb1 !important;}
 .btn-link,.helpText {color:#046aa2 !important;}
+.btn-link,.helpText, a {color: #036ee0 !important;}
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
