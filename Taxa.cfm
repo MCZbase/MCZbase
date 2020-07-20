@@ -393,7 +393,7 @@ limitations under the License.
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
 														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="small text-success" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >(=) </span></label>
-														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" aria-label="Add equals sign for exact match" placeholder="scientific name" value="#scientific_name#">
+														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" aria-label="Add equals sign before entry for exact match" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
 														<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
@@ -401,7 +401,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-4">
 														<label for="common_name" class="data-entry-label align-left-center">Common Name <span class="small text-success" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">(=) </span></label>
-														<input type="text" class="data-entry-input" id="common_name" name="common_name" aria-label="Add equals sign for exact match"  value="#common_name#" placeholder="common name" aria-label="common name">
+														<input type="text" class="data-entry-input" id="common_name" name="common_name" aria-label="Add equals sign before entry for exact match"  value="#common_name#" placeholder="common name" aria-label="common name">
 													</div>
 												</div>
 												<div class="form-row mt-2">
@@ -437,11 +437,11 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="subphylum" class="data-entry-label align-left-center">Subphylum <span class="small text-success" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </span></label>
-														<input type="small" class="data-entry-input" id="subphylum" aria-label="Add equals sign for exact match" name="subphylum" value="#subphylum#" placeholder="subphylum">
+														<input type="small" class="data-entry-input" id="subphylum" aria-label="Add equals sign before entry for exact match" name="subphylum" value="#subphylum#" placeholder="subphylum">
 													</div>
 													<div class="col-md-2">
 														<label for="superclass" class="data-entry-label align-left-center">Superclass <span class="small text-success" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </span></label>
-														<input type="small" class="data-entry-input" id="superclass" aria-label="Add equals sign for exact match" name="superclass" value="#superclass#" placeholder="superclass">
+														<input type="small" class="data-entry-input" id="superclass" aria-label="Add equals sign before entry for exact match" name="superclass" value="#superclass#" placeholder="superclass">
 													</div>
 													<div class="col-md-2">
 														<label for="phylclass" class="data-entry-label align-left-center">Class <span class="small text-success" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </span></label>
@@ -456,7 +456,7 @@ limitations under the License.
 											
 													<div class="col-md-2">
 														<label for="superorder" class="data-entry-label align-left-center">Superorder <span class="small text-success" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </span></label>
-														<input type="text" class="data-entry-input" id="superorder" aria-label="Add equals sign for exact match" name="superorder" value="#superorder#" placeholder="superorder">
+														<input type="text" class="data-entry-input" id="superorder" aria-label="Add equals sign before entry for exact match" name="superorder" value="#superorder#" placeholder="superorder">
 													</div>
 													<div class="col-md-2">
 														<label for="phylorder" class="data-entry-label align-left-center">Order <span class="small text-success" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </span></label>
@@ -468,17 +468,17 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="infraorder" class="data-entry-label align-left-center">Infraorder <span class="small text-success" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </span></label>
-														<input type="text" class="data-entry-input" id="infraorder" name="infraorder" aria-label="Add equals sign for exact match" value="#infraorder#" placeholder="infraorder">
+														<input type="text" class="data-entry-input" id="infraorder" name="infraorder" aria-label="Add equals sign before entry for exact match" value="#infraorder#" placeholder="infraorder">
 													</div>
 												</div>
 												<div class="form-row mb-1">
 													<div class="col-md-2">
 														<label for="superfamily" class="data-entry-label align-left-center">Superfamily <span class="small text-success" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </span></label>
-														<input type="text text-success" class="data-entry-input" id="superfamily"  aria-label="Add equals sign for exact match" name="superfamily" value="#superfamily#" placeholder="superfamily">
+														<input type="text text-success" class="data-entry-input" id="superfamily"  aria-label="Add equals sign before entry for exact match" name="superfamily" value="#superfamily#" placeholder="superfamily">
 													</div>
 													<div class="col-md-2">
 														<label for="family" class="data-entry-label align-left-center">Family <span class="small text-success" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </span></label>
-														<input type="text" class="data-entry-input" id="family" aria-label="add equals sign before entry for exact match"name="family" value="#family#" placeholder="family">
+														<input type="text" class="data-entry-input" id="family" aria-label="add equals sign before entry for exact match" name="family" value="#family#" placeholder="family">
 													</div>
 													<div class="col-md-2">
 														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="small text-success" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;" aria-label="add equals sign before entry for exact match"> (=) </span></label>
@@ -486,7 +486,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="tribe" class="data-entry-label align-left-center">Tribe <span class="small text-success" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
-														<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#"  aria-label="add equals sign before entry for exact match" placeholder="tribe">
+														<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#" aria-label="add equals sign before entry for exact match" placeholder="tribe">
 													</div>
 													<div class="col-md-2">
 														<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
