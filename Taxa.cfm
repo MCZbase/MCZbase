@@ -546,9 +546,9 @@ limitations under the License.
 		<!--- Results table as a jqxGrid. --->
 		<div class="container-fluid">
 			<div class="row mx-0">
-				<div class="text-left col-md-12">
+				<div class="col-12">
 					<main role="main">
-						<div class="pl-0 mb-5"> 
+						<div class="mb-5"> 
 							
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 								<h4>Results: </h4>
@@ -827,7 +827,7 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border rounded p-1 mx-2">Show/Hide 
+					`<span class="border rounded p-1 mx-lg-2">Show/Hide 
 						<button id='columnPickDialogOpener' onclick=" $('##columnPickDialog').dialog('open'); " class='btn-xs btn-secondary px-1 py-1 my-2' >Select Columns</button>
 					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Common Names</button>
 					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Super/Sub/Infra</button>
