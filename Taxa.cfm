@@ -490,7 +490,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-														<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#" placeholder="taxon_remarks">
+														<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#" placeholder="taxon remarks">
 													</div>
 												</div>
 												<div class="form-row mb-2 mt-2">
@@ -529,7 +529,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
 													</div>
 												</div>
-												<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
 												<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
 												<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';" >New Search</button>
 											</div>
