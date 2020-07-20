@@ -59,7 +59,7 @@ limitations under the License.
 				<cfif isDefined("guid") and len(guid) gt 0>
 					<cfif find(',',guid) GT 0> 
 						and #session.flatTableName#.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#" list="yes">)
-					<cfif guid EQ "NULL"> 
+					<cfelseif guid EQ "NULL"> 
 						and #session.flatTableName#.guid is NULL
 					<cfelse>
 						and #session.flatTableName#.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#">
