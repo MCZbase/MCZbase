@@ -212,7 +212,7 @@ limitations under the License.
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
 								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 							</cfif>
 						</div>
@@ -298,7 +298,7 @@ limitations under the License.
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 							<a class="dropdown-item" name="projects" href="##">Projects</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
 								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 							</cfif>
 							<a class="dropdown-item" name="statistics" href="##">Statistics</a>
