@@ -116,7 +116,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 			<cfset row["collection_name"] = "#search.collection_name#">
 			<cfset row["description"] = "#search.description#">
 			<cfset row["agent_name"] = "#search.agent_name#">
-			<cfset row["id_link"] = "<a href='/grouping/UnderscoreCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
+			<cfset row["id_link"] = "<a href='/grouping/NamedCollection.cfm?method=edit&underscore_collection_id#search.underscore_collection_id#' target='_blank'>#search.collection_name#</a>">
 			<cfset data[i] = row>
 			<cfset i = i + 1>
 		</cfloop>
