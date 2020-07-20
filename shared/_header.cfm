@@ -110,6 +110,9 @@ limitations under the License.
 </cfif>
 
 <cfif not isdefined("session.header_color")>
+	<cfif NOT isDefined('setDbUser')>
+		<cfinclude template="/shared/loginFunctions.cfm">
+	</cfif>
 	<cfset setDbUser()>
 </cfif>
 </head>
@@ -184,7 +187,7 @@ limitations under the License.
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
 						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
 						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-						<!---old---><a class="dropdown-item" aria-label="places search" name="places" href="/showLocality.cfm">Places</a>
+						<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a>
 						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
@@ -199,6 +202,19 @@ limitations under the License.
 						</a>
 						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
 							<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
+						</div>
+					</li>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Manage Data
+						</a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" name="named collections" href="/grouping/UnderscoreCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+							</cfif>
 						</div>
 					</li>
 				</cfif>
@@ -225,10 +241,10 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>
+								<i class="fas fa-user-check color-green"></i>_
 							<cfelse>
-								<i class="fas fa-user-cog text-body"></i>
-							</cfif>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
@@ -253,7 +269,7 @@ limitations under the License.
 					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
 						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
 						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
-						<a class="dropdown-item" aria-label="places search" name="places" href="##">Places</a>
+						<a class="dropdown-item" aria-label="places search" name="locations" href="##">Locations</a>
 						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
 						<a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
 						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
@@ -281,6 +297,10 @@ limitations under the License.
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 							<a class="dropdown-item" name="projects" href="##">Projects</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" name="named collections" href="/grouping/UnderscoreCollections.cfm">Named Collections</a>
+								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+							</cfif>
 							<a class="dropdown-item" name="statistics" href="##">Statistics</a>
 							<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
 							<a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
