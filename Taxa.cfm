@@ -388,7 +388,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
-													<p class="helpText" aria-label="input info">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="helpText smaller-text">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
