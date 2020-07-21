@@ -360,7 +360,7 @@ limitations under the License.
 													</li>
 												</ul>
 												</fieldset>
-													<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
+													<p class="smaller-text mt-3" tabindex="0">Not all taxa in MCZbase have associated specimens.</p>
 												<fieldset>
 													<legend>Specimens?</legend>
 													<ul class="list-group list-group-flush p-2 bg-light border rounded">
