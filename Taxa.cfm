@@ -394,7 +394,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
-													<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
