@@ -315,8 +315,8 @@ limitations under the License.
 						<div class="tab-card-main mt-4 pb-2 tab-card"> 
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
-							<div class="card-header tab-card-header pb-0 w-100">
-								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 w-50" tabindex="0">Search Taxonomy <span class="count font-italic text-grayish mx-0"> <small>(#getCount.cnt# records)</small></span></h1><a class="" style="color: white !important;" onClick="getMCZDocs('Taxonomy Search')"  href="##" aria-label="Link to MCZbase Wiki for more information"><i class="fa fa-info-circle small"></i></a>
+							<div class="card-header tab-card-header pb-0 col-12 px-0 row mx-0">
+								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 col px-1" tabindex="0">Search Taxonomy <span class="count font-italic text-grayish mx-0"> <small>(#getCount.cnt# records)</small></span></h1><a class="col px-0" style="color: white !important;" onClick="getMCZDocs('Taxonomy Search')"  href="##" aria-label="Link to MCZbase Wiki for more information"><i class="fa fa-info-circle small"></i></a>
 							</div>
 							<!--- End tab header div ---> 
 												
