@@ -429,7 +429,7 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
-														<input type="text" class="data-entry-input" id="author_text" name="author_text" aria-labelledby="authorship equals" value="#author_text#" placeholder="author text">
+														<input type="text" class="data-entry-input" id="author_text" name="author_text" aria-labelledby="author_text equals" value="#author_text#" placeholder="author text">
 													</div>
 												</div>
 												<div class="form-row mb-1">
