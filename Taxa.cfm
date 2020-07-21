@@ -379,22 +379,22 @@ limitations under the License.
 													</cfif>
 													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-														<label for="wehavesomeAll" class="smaller-text">Find all taxa without regard for use?</label>
+														<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
 													</li>
 													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-														<label for="wehavesomeHave" class="smaller-text">Find only taxa for which cataloged items exist?</label>
+														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which cataloged items exist?</label>
 													</li>
 													<li class="list-group-item px-0 py-1">
 														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-														<label for="wehavesomeNot" class="smaller-text">Show only taxa not used in identifications?</label>
+														<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
 													</li>
 												</ul>
 												</fieldset>
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
-													<p class="helpText smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
