@@ -332,7 +332,7 @@ limitations under the License.
 												<fieldset>
 													<legend>Accepted Names?</legend>
 													<input type="hidden" name="action" value="search">
-													<ul class="list-group list-group-flush p-2 border rounded">
+													<ul class="list-group btn-link list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
 														<cfset validFlagAllSelected = ''>
 														<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -363,7 +363,7 @@ limitations under the License.
 													<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
 												<fieldset>
 													<legend>Specimens?</legend>
-													<ul class="list-group list-group-flush p-2 border rounded">
+													<ul class="list-group list-group-flush btn-link p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>

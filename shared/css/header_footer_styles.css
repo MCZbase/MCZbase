@@ -3,7 +3,6 @@
 /*.menu-div, .bg-light {
 	background-color: #f8f9fa;
 }*/
-.btn-link,.helpText, a {color: #036ee0 !important;}
 :focus:not(:focus-visible) {
     outline:0;
 }
