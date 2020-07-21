@@ -429,7 +429,7 @@ limitations under the License.
 			</cfquery>
 		<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 		<cfcatch>
-			<cfthrow type="Application" message="Error Saving new _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
+			<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 	</cftry>
 	</cfcase>
@@ -457,7 +457,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit "____ Collection" (named groups of cataloged items)</h1>
+						<h1 class="h2" id="formheading"> Edit named group of cataloged items</h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -528,11 +528,11 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+																messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
-														messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
 													}
 												};
@@ -586,7 +586,7 @@ limitations under the License.
 														} else {
 															message = jqXHR.responseText;
 														}
-														messageDialog('Error saving ____ collection: '+message, 'Error: ' + error.substring(0,50));
+														messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
 														$('##addResultDiv').html("Error.");
 													}
 												});
@@ -649,7 +649,7 @@ limitations under the License.
 									} else {
 										message = jqXHR.responseText;
 									}
-									messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+									messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 								}
 							});
 						}
