@@ -407,7 +407,7 @@ limitations under the License.
 					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
 					<label for="Login" class="mr-1 sr-only"> Password:</label>
 					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-					<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
+					<label for="create_account" class="mr-1 sr-only"> Password:</label>
 					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 				</div>
 			</form>
