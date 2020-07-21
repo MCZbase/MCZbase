@@ -487,7 +487,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="family" aria-labelledby="family equals" name="family" value="#family#" placeholder="family">
 													</div>
 													<div class="col-md-2">
-														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
+														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="btn-link form-control" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
 														<input type="text" class="data-entry-input" id="subfamily" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
 													</div>
 													<div class="col-md-2">
