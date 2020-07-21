@@ -401,11 +401,11 @@ limitations under the License.
 				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 				<input type="hidden" name="gotopage" value="#gtp#">
 				<div class="login-form" id="header_login_form_div">
-					<label for="Username" class="sr-only"> Username:</label>
-					<input type="text" name="username" id="Username" placeholder="username" class="loginButtons">
-					<label for="Password" class="mr-1 sr-only"> Password:</label>
-					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
-					<label for="Login" class="mr-1 sr-only"> Password:</label>
+					<label for="username" class="sr-only"> Username:</label>
+					<input type="text" name="username" id="username" placeholder="username" class="loginButtons">
+					<label for="password" class="mr-1 sr-only"> Password:</label>
+					<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
+					<label for="login" class="mr-1 sr-only"> Password:</label>
 					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 					<label for="create_account" class="mr-1 sr-only"> Password:</label>
 					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
