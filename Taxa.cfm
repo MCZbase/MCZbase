@@ -556,7 +556,7 @@ limitations under the License.
 					<main role="main">
 						<div class="mb-5"> 						
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-								<h3 class="h4">Results: </h3>
+								<h2 class="h4">Results: </h2>
 								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 								<div id="columnPickDialog">
 									<div id="columnPick" class="px-1"></div>
