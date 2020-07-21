@@ -316,7 +316,7 @@ limitations under the License.
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100">
-								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 col-11">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
@@ -394,7 +394,7 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
-													<p class="helpText smaller-text"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="helpText smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
