@@ -330,7 +330,7 @@ limitations under the License.
 											<div class="col-12 col-xl-4">
 												<p class="smaller-text mt-2" aria-label="introduction">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
 												<fieldset>
-													<legend>Accepted Names?</legend>
+													<legend class="text-transparent">Accepted Names?</legend>
 													<input type="hidden" name="action" value="search">
 													<ul class="list-group btn-link list-group-flush p-2 border rounded">
 													<cfif valid_catalog_term_fg EQ 1>
@@ -363,7 +363,7 @@ limitations under the License.
 													<p class="smaller-text mt-3">Not all taxa in MCZbase have associated specimens.</p>
 												<fieldset>
 													<legend>Specimens?</legend>
-													<ul class="list-group list-group-flush btn-link p-2 border rounded">
+													<ul class="list-group list-group-flush p-2 border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -379,15 +379,15 @@ limitations under the License.
 													</cfif>
 													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-														<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
+														<label for="wehavesomeAll" class="smaller-text">Find all taxa without regard for use?</label>
 													</li>
 													<li class="list-group-item px-0 pb-0 pt-1">
 														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which cataloged items exist?</label>
+														<label for="wehavesomeHave" class="smaller-text">Find only taxa for which cataloged items exist?</label>
 													</li>
 													<li class="list-group-item px-0 py-1">
 														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-														<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
+														<label for="wehavesomeNot" class="smaller-text">Show only taxa not used in identifications?</label>
 													</li>
 												</ul>
 												</fieldset>
