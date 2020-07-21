@@ -316,7 +316,7 @@ limitations under the License.
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100">
-								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 col-11">Search Taxonomy <i class="fa fa-info-circle small"onClick="getMCZDocs('Taxonomy Search')" aria-label="hidden"></i> <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1 col-11">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
@@ -328,7 +328,7 @@ limitations under the License.
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-4">
-												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative.</p>
+												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. <i class="fa fa-info-circle small"onClick="getMCZDocs('Taxonomy Search')" aria-label="hidden"></i></p>
 												<fieldset>
 													<legend class="text-transparent">Accepted Names?</legend>
 													<input type="hidden" name="action" value="search">
