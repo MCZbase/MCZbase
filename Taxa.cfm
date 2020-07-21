@@ -398,7 +398,7 @@ limitations under the License.
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
-														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
+														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
 														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
