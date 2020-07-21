@@ -406,7 +406,7 @@ limitations under the License.
 														<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 													</div>
 													<div class="col-md-4">
-														<label for="common_name" class="data-entry-label align-left-center aria-labeled-by">Common Name <a aria-labelledby="equals" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
+														<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-labelledby="equals" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
 														<input type="text" class="data-entry-input" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
 													</div>
 												</div>
