@@ -425,7 +425,7 @@ limitations under the License.
 													</div>
 													<div class="form-group col-md-2">
 														<label for="subspecies" class="data-entry-label align-left-center">Subspecies <span class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </span></label>
-														<input type="text" class="data-entry-input" id="genus" aria-labelledby="subspecies equals" name="subspecies" value="#subspecies#" placeholder="subspecific name">
+														<input type="text" class="data-entry-input" id="subspecies" aria-labelledby="subspecies equals" name="subspecies" value="#subspecies#" placeholder="subspecific name">
 													</div>
 													<div class="col-md-2">
 														<label for="author_text" class="data-entry-label align-left-center">Authorship <span class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </span> </label>
@@ -488,15 +488,15 @@ limitations under the License.
 													</div>
 													<div class="col-md-2">
 														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <span class="btn-link" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </span></label>
-														<input type="text" class="data-entry-input" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
+														<input type="text" class="data-entry-input" id="subfamily" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
 													</div>
 													<div class="col-md-2">
 														<label for="tribe" class="data-entry-label align-left-center">Tribe <span class="btn-link" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </span></label>
-														<input type="text" class="data-entry-input" name="tribe" value="#tribe#" aria-labelledby="tribe equals" placeholder="tribe">
+														<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#" aria-labelledby="tribe equals" placeholder="tribe">
 													</div>
 													<div class="col-md-2">
 														<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-														<input type="text" class="data-entry-input" name="taxon_remarks" value="#taxon_remarks#"  aria-labelledby="taxon_remarks equals" placeholder="taxon remarks">
+														<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  aria-labelledby="taxon_remarks equals" placeholder="taxon remarks">
 													</div>
 												</div>
 												<div class="form-row mb-3 mt-2">
