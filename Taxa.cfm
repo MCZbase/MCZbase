@@ -323,7 +323,7 @@ limitations under the License.
 							<!--- Tab content div --->
 							<div class="tab-content pb-0" id="myTabContent">
 								<!---Keyword Search--->
-								<div class="tab-pane fade show active py-3 mb-1" id="one" role="tabpanel" aria-label="tab 1">
+								<div class="tab-pane fade show active py-3 mb-0" id="one" role="tabpanel" aria-label="tab 1">
 									<form name="searchForm" id="searchForm">
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
