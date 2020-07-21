@@ -90,7 +90,7 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
-.btn-link,.helpText, .container-fluid a {color: #036ee0 !important;}
+.btn-link,.helpText, .container-fluid a, .fas-info {color: #036ee0 !important;}
 #resultLink a {padding: .15em .25em; outline:0;}
 #resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
 #resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
@@ -1507,12 +1507,13 @@ textarea {
 	right: 9px;
 	top: 3px;
 	color: #46a1dc;
+	color: #036ee0 !important;
 }
 .fas-info2 {
 	position: absolute;
 	right: 35px;
 	top: 40px;
-	color: #46a1dc;
+	color: #036ee0 !important;
 }
 .nav-tabs .nav-item {
 	margin-bottom: -1px;
