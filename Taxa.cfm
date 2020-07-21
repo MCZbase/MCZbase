@@ -412,7 +412,7 @@ limitations under the License.
 												</div>
 												<div class="form-row mt-2">
 													<div class="form-group col-md-2">
-														<label for="genus" class="data-entry-label align-left-center">Genus <span class="btn-link" tabindex="0" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </span></label>
+														<label for="genus" class="data-entry-label align-left-center">Genus <span class="btn-link" tabindex="1" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </span></label>
 														<input type="text" class="data-entry-input" name="genus" aria-labelledby="genus equals" value="#genus#" placeholder="generic name">
 													</div>
 													<div class="col-md-2">
