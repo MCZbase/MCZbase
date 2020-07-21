@@ -394,20 +394,20 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-xl-8 mt-2">
 												<div class="col-12">
-													<p class="helpText smaller-text">Add equals sign for exact match.  Name fields accept comma separated lists.  NULL finds blanks.</p>
+													<p class="helpText smaller-text"><span id="equals">Add equals sign for exact match.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
 												<div class="form-row bg-light border rounded p-2 mx-0">
 													<div class="col-md-4">
-														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="btn-link" tabindex="0" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >(=) </span></label>
-														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" aria-label="add scientific name Add equals sign before entry for exact match" placeholder="scientific name" value="#scientific_name#">
+														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <span class="btn-link" tabindex="0" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" >(=)</span></label>
+														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name"  aria-labelledby="scientific_name equals" placeholder="scientific name" value="#scientific_name#">
 													</div>
 													<div class="col-md-4">
 														<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
 														<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 													</div>
 													<div class="col-md-4">
-														<label for="common_name" class="data-entry-label align-left-center">Common Name <span class="btn-link" tabindex="0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">(=) </span></label>
-														<input type="text" class="data-entry-input" id="common_name" name="common_name" aria-label="add common name add equals sign before entry for exact match"  value="#common_name#" placeholder="common name" aria-label="common name">
+														<label for="common_name" class="data-entry-label align-left-center aria-labeled-by">Common Name <span class="btn-link" tabindex="0" onclick="var e=document.getElementById('common_name');e.value='='+e.value;">(=) </span></label>
+														<input type="text" class="data-entry-input" id="common_name" name="common_name" aria-label="add common name add equals sign before entry for exact match"  value="#common_name#" placeholder="common name">
 													</div>
 												</div>
 												<div class="form-row mt-2">
