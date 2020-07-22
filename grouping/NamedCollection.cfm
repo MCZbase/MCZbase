@@ -81,7 +81,7 @@ function makeNamedCollectionPicker(nameControl) {
             success : function (data) { response(data); },
             error : function (jqXHR, textStatus, error) {
                var message = "";
-					if (Array.isArray(error) { error = error.toString() }
+					if (Array.isArray(error)) { error = error.toString() }
                if (error == 'timeout') {
                   message = ' Server took too long to respond.';
                } else if (error.startsWith('Syntax Error: "JSON.parse:')) {
