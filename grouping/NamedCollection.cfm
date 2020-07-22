@@ -97,7 +97,7 @@ function makeNamedCollectionPicker(nameControl) {
 };
 											$(document).ready(function() {
 												makeNamedCollectionPicker('collection_name');
-											)};
+											});
 										</script>
 									</div>
 									<div class="col-md-6">
