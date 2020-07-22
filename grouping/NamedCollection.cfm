@@ -83,7 +83,7 @@ function makeNamedCollectionPicker(nameControl) {
                var message = "";
                if (error == 'timeout') {
                   message = ' Server took too long to respond.';
-               } else if (error.startsWith('Syntax Error: "JSON.parse:') {
+               } else if (error.startsWith('Syntax Error: "JSON.parse:')) {
                   message = ' Backing method did not return JSON.';
                } else {
                   message = jqXHR.responseText;
