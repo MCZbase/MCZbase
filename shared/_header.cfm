@@ -281,15 +281,8 @@ limitations under the License.
 							Data Entry
 						</a>
 						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<a class="dropdown-submenu  <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">New Record <span class="caret"></span></a>
-										<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
-											<a class="dropdown-item" aria-label="specimen" name="media" href="##">Specimen</a>
-											<a class="dropdown-item" aria-label="media" name="media" href="##">Media</a>
-											<a class="dropdown-item" aria-label="locality" name="locations" href="##">Locality</a>
-											<a class="dropdown-item" aria-label="publication" name="publications" href="##">Publications</a>
-											<a class="dropdown-item" aria-label="agent" name="agents" href="##">Agents</a>
-											<a class="dropdown-item" aria-label="taxonomy" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
-										</div>
+							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">New Record</a>
+					
 							<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
 							<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
 							<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
