@@ -125,7 +125,6 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.underscore_collection_id#">
 			<cfset row["value"] = "#search.collection_name#" >
-			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
