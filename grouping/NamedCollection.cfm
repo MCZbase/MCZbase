@@ -76,7 +76,7 @@ function makeNamedCollectionPicker(nameControl) {
       source: function (request, response) {
          $.ajax({
             url: "/grouping/component/functions.cfc",
-            data: { term: request.term, method: 'get' },
+            data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
             dataType: 'json',
             success : function (data) { response(data); },
             error : function (jqXHR, textSstatus, error) {
@@ -90,11 +90,13 @@ function makeNamedCollectionPicker(nameControl) {
             }
          })
       },
+      select: function (event, result) {
+      },
       minLength: 3
    });
 };
 											$(document).ready(function() {
-												makeNamedCollectionPicker('collection name');
+												makeNamedCollectionPicker('collection_name');
 											)};
 										</script>
 									</div>
