@@ -75,18 +75,21 @@ function makeNamedCollectionPicker(nameControl) {
    $('##'+nameControl).autocomplete({
       source: function (request, response) {
          $.ajax({
-            url: "/grouping/component/functions.cfc",
+            url: "/grouping/component/search.cfc",
             data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
             dataType: 'json',
             success : function (data) { response(data); },
-            error : function (jqXHR, textSstatus, error) {
+            error : function (jqXHR, textStatus, error) {
                var message = "";
                if (error == 'timeout') {
                   message = ' Server took too long to respond.';
+               if (error.startsWith('Syntax Error: "JSON.parse:') {
+                  message = ' Backing method did not return JSON.';
                } else {
                   message = jqXHR.responseText;
                }
-               messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+					console.log(error);
+               messageDialog('Error:' + message ,'Error: ' + error);
             }
          })
       },
