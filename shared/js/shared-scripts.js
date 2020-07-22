@@ -164,6 +164,8 @@ function makeAgentPicker(nameControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -219,6 +221,8 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -364,3 +368,43 @@ function countCharsLeft(elementid, maxsize, outputelementid){
 	var result = current + " characters, " + remaining + " left";
 	$('#'+outputelementid).html(result);
 }
+			
+
+/** Make a paired hidden underscore_collection_id and text collection_name control into an autocomplete agent picker
+ *     the underscore_collection_id control is optional, and can be left off on a search form that can take a free text
+ *     search term.
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the optional id for a hidden input that is to hold the selected id (without a leading # selector),
+ *    use null if there is no control to hold the selected underscore_collection_id (as in a search widget).
+ */
+function makeNamedCollectionPicker(nameControl,idControl) {
+   $('#'+nameControl).autocomplete({
+      source: function (request, response) {
+         $.ajax({
+            url: "/grouping/component/search.cfc",
+            data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
+            dataType: 'json',
+            success : function (data) { response(data); },
+            error : function (jqXHR, textStatus, error) {
+               var message = "";
+               if (error == 'timeout') {
+                  message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+               } else {
+                  message = jqXHR.responseText;
+               }
+					console.log(error);
+               messageDialog('Error:' + message ,'Error: ' + error);
+            }
+         })
+      },
+      select: function (event, result) {
+			if (idControl) { 
+				// if idControl is non null, non-empty, non-false
+				$('#'+idControl).val(result.item.id);
+			}
+      },
+      minLength: 3
+   });
+};

@@ -70,38 +70,6 @@ limitations under the License.
 										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
-			
-function makeNamedCollectionPicker(nameControl,idControl) {
-   $('##'+nameControl).autocomplete({
-      source: function (request, response) {
-         $.ajax({
-            url: "/grouping/component/search.cfc",
-            data: { term: request.term, method: 'getNamedCollectionAutocomplete' },
-            dataType: 'json',
-            success : function (data) { response(data); },
-            error : function (jqXHR, textStatus, error) {
-               var message = "";
-               if (error == 'timeout') {
-                  message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
-               } else {
-                  message = jqXHR.responseText;
-               }
-					console.log(error);
-               messageDialog('Error:' + message ,'Error: ' + error);
-            }
-         })
-      },
-      select: function (event, result) {
-			if (idControl) { 
-				// if idControl is non null, non-empty, non-false
-				$('##'+idControl).val(result.item.id);
-			}
-      },
-      minLength: 3
-   });
-};
 											$(document).ready(function() {
 												makeNamedCollectionPicker('collection_name',null);
 											});
