@@ -69,6 +69,34 @@ limitations under the License.
 									<div class="col-md-6">
 										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
+										<script>
+			
+function makeNamedCollectionPicker(nameControl) {
+   $('##'+nameControl).autocomplete({
+      source: function (request, response) {
+         $.ajax({
+            url: "/grouping/component/functions.cfc",
+            data: { term: request.term, method: 'get' },
+            dataType: 'json',
+            success : function (data) { response(data); },
+            error : function (jqXHR, textSstatus, error) {
+               var message = "";
+               if (error == 'timeout') {
+                  message = ' Server took too long to respond.';
+               } else {
+                  message = jqXHR.responseText;
+               }
+               messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+            }
+         })
+      },
+      minLength: 3
+   });
+};
+											$(document).ready(function() {
+												makeNamedCollectionPicker('collection name');
+											};
+										</script>
 									</div>
 									<div class="col-md-6">
 										<label for="description" id="description_label">Description</label>
