@@ -113,7 +113,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
-				collection_name,
+				collection_name
 			FROM 
 				underscore_collection
 			WHERE
