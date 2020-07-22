@@ -117,9 +117,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			FROM 
 				underscore_collection
 			WHERE
-				upper(collection_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#">
+				upper(collection_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 		</cfquery>
-	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>

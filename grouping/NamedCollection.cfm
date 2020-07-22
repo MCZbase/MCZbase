@@ -71,7 +71,7 @@ limitations under the License.
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
 			
-function makeNamedCollectionPicker(nameControl) {
+function makeNamedCollectionPicker(nameControl,idControl) {
    $('##'+nameControl).autocomplete({
       source: function (request, response) {
          $.ajax({
@@ -94,12 +94,16 @@ function makeNamedCollectionPicker(nameControl) {
          })
       },
       select: function (event, result) {
+			if (idControl) { 
+				// if idControl is non null, non-empty, non-false
+				$('##'+idControl).val(result.item.id);
+			}
       },
       minLength: 3
    });
 };
 											$(document).ready(function() {
-												makeNamedCollectionPicker('collection_name');
+												makeNamedCollectionPicker('collection_name',null);
 											});
 										</script>
 									</div>
@@ -240,7 +244,7 @@ function makeNamedCollectionPicker(nameControl) {
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: '__ Collection', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
+									{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
 									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
@@ -462,7 +466,7 @@ function makeNamedCollectionPicker(nameControl) {
 			</cfquery>
 		<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 		<cfcatch>
-			<cfthrow type="Application" message="Error Saving new _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
+			<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 	</cftry>
 	</cfcase>
@@ -490,7 +494,7 @@ function makeNamedCollectionPicker(nameControl) {
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit "____ Collection" (named groups of cataloged items)</h1>
+						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -561,11 +565,11 @@ function makeNamedCollectionPicker(nameControl) {
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+																messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
-														messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
 													}
 												};
@@ -619,7 +623,7 @@ function makeNamedCollectionPicker(nameControl) {
 														} else {
 															message = jqXHR.responseText;
 														}
-														messageDialog('Error saving ____ collection: '+message, 'Error: ' + error.substring(0,50));
+														messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
 														$('##addResultDiv').html("Error.");
 													}
 												});
@@ -682,7 +686,7 @@ function makeNamedCollectionPicker(nameControl) {
 									} else {
 										message = jqXHR.responseText;
 									}
-									messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+									messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 								}
 							});
 						}
