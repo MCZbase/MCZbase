@@ -145,38 +145,7 @@ $(document).ready(function() {
 }); // jquery end
 </script>
 <style type="text/css">
-	nav .navbar-nav a {color: #1b1b1b;
-	}
-.dropdown-menu .dropdown-toggle:after {
-	border-top: 0 solid transparent;
-	border-right: .25em solid orange;
-	border-bottom: 0 solid transparent;
-	border-left: .25em solid orange;
-}
-.dropdown-menu .dropdown-menu {
-	margin-left: 0;
-	margin-right: 0;
-}
-.dropdown-menu li {
-	position: relative;
-}
-.nav-item .submenu {
-	display: none;
-	position: absolute;
-	left: 100%;
-	top: 1px;
-}
-.nav-item .submenu-left {
-	right: 100%;
-	left: auto;
-}
-.dropdown-menu > li:hover {
-	background-color: #f1f1f1;
 
-}
-.dropdown-menu > li:hover > .submenu {
-	display: block;
-}
 </style>
 </head>
 <body class="default">
