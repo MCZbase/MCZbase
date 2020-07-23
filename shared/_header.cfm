@@ -146,10 +146,10 @@ $(document).ready(function() {
 </script>
 <style type="text/css">
 .dropdown-menu .dropdown-toggle:after {
-	border-top: .3em solid transparent;
+	border-top: 0 solid transparent;
 	border-right: 0;
-	border-bottom: .3em solid transparent;
-	border-left: .3em solid;
+	border-bottom: 0 solid transparent;
+	border-left: 0 solid;
 }
 .dropdown-menu .dropdown-menu {
 	margin-left: 0;
@@ -169,7 +169,8 @@ $(document).ready(function() {
 	left: auto;
 }
 .dropdown-menu > li:hover {
-	background-color: ##f1f1f1
+	background-color: ##f1f1f1;
+	background-color: red;
 }
 .dropdown-menu > li:hover > .submenu {
 	display: block;
