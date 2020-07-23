@@ -203,7 +203,7 @@ nav button {
 .nav-fill .nav-item {
 	text-align: left;
 }
-.navbar-light .navbar-nav .nav-link {
+/*.navbar-light .navbar-nav .nav-link {
 	color: rgba(0, 0, 0, .7);
 }
 .navbar-nav li:hover > ul.dropdown-menu {
@@ -221,7 +221,7 @@ nav button {
 .dropdown-menu > li > a:hover:after {
 	text-decoration: underline;
 	transform: rotate(-90deg);
-}
+}*/
 .headerCollectionTextSmall {
 	font-size: smaller;
 }
