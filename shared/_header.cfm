@@ -279,37 +279,63 @@ $(document).ready(function() {
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> More items </a>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Transactions</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="##"> Dropdown item 1 </a></li>
-						<li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 2 </a>
+						<li><a class="dropdown-item">Search All Transactions </a>
+						</li>
+						<li><a class="dropdown-item">Accessions &raquo; </a>
 							<ul class="submenu dropdown-menu">
-								<li><a class="dropdown-item" href="">Submenu item 1</a></li>
-								<li><a class="dropdown-item" href="">Submenu item 2</a></li>
-								<li><a class="dropdown-item" href="">Submenu item 3</a></li>
+								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="">New Accession</a></li>
 							</ul>
 						</li>
-						<li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 3 </a>
+						<li><a class="dropdown-item">Borrows &raquo; </a>
 							<ul class="submenu dropdown-menu">
-								<li><a class="dropdown-item" href="">Another submenu 1</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 2</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 3</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 4</a></li>
+								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="">New Borrow</a></li>
 							</ul>
 						</li>
-						<li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 4 </a>
+						<li><a class="dropdown-item">Deaccessions &raquo; </a>
 							<ul class="submenu dropdown-menu">
-								<li><a class="dropdown-item" href="">Another submenu 1</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 2</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 3</a></li>
-								<li><a class="dropdown-item" href="">Another submenu 4</a></li>
+								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="">New Deaccession</a></li>
 							</ul>
 						</li>
-						<li><a class="dropdown-item" href="##"> Dropdown item 4 </a></li>
-						<li><a class="dropdown-item" href="##"> Dropdown item 5 </a></li>
+						<li><a class="dropdown-item">Loans &raquo; </a>
+							<ul class="submenu dropdown-menu">
+								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="">New Loan</a></li>
+							</ul>
+						</li>
+						<li><a class="dropdown-item">Permits &raquo; </a>
+							<ul class="submenu dropdown-menu">
+								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="">New Permit</a></li>
+							</ul>
+						</li>
+					
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Tools</a>
+					<ul class="dropdown-menu">
+						<li><a class="dropdown-item">Projects </a></li>
+						<li><a class="dropdown-item">Named Collections </a></li>
+						<li><a class="dropdown-item">Collecting Event Number Series </a></li>
+						<li><a class="dropdown-item">Object Tracking </a></li>
+						<li><a class="dropdown-item">Encumbrances </a></li>
 					</ul>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="##"> About </a></li>
+				<li class="nav-item"><a class="nav-link" href="##"> Using MCZbase (Wiki) </a></li>
+				<li class="nav-item"><a class="nav-link" href="##"> About MCZbase &amp; Arctos </a></li>
+				<li class="nav-item"><a class="nav-link" href="##"> MCZbase Statistics </a></li>
+				<li class="nav-item"><a class="nav-link" href="##"> Self-service reports </a>
+					<ul class="submenu dropdown-menu">
+						<li><a class="dropdown-item" href="">Loan</a></li>
+						<li><a class="dropdown-item" href="">By Taxonomy</a></li>
+						<li><a class="dropdown-item" href="">Part Usage</a></li>
+					</ul>
+				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					</ul>
 					<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
