@@ -310,7 +310,7 @@ $(document).ready(function() {
 			    <li><a class="dropdown-item" href="">Submenu item 4</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 4 </a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 4 </a></li>
 	    </ul>
 	</li>
 
