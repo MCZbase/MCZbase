@@ -157,7 +157,7 @@ limitations under the License.
 			<cfset idToAdd = unColl.id>
 			<cfif unColl.recordcount NEQ 1>
 				<cfthrow message="No such named grouping found, unable to add cataloged items">
-			<cfelse>
+			</cfif>
 			<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 				INSERT into underscore_relation 
 					(underscore_collection_id, collection_object_id)
