@@ -160,21 +160,22 @@
 			</cfquery>
 			
 			<!--- If table constains description column, place it last --->
-			<cfif listFind(docs.columnlist,"DESCRIPTION") GT 0>
-				<cfset columnList = listDeleteAt(docs.columnlist,listFind(docs.columnlist,"DESCRIPTION"))>
+			<cfif listFind(orderedDocs.columnlist,"DESCRIPTION") GT 0>
+				<cfset columnList = listDeleteAt(orderedDocs.columnlist,listFind(orderedDocs.columnlist,"DESCRIPTION"))>
 				<cfset columnList = listAppend(columnList,"Description")>
 			<cfelse>
-				<cfset columnList = docs.columnlist>
+				<cfset columnList = orderedDocs.columnlist>
 			</cfif>
 			<!--- place the code value field first --->
 			<cfif listFind(columnList,ucase(theColumnName)) GT 1>
 				<cfset columnList = listDeleteAt(columList,listFind(columnList,ucase(theColummName)))>
 				<cfset columnList = listPrepend(columnList,ucase(thecolumnName))>
 			</cfif>
+			<cfset columnArr = ListToArray(columnList)>
 
 			<table border="1">
 				<tr>
-					<cfloop list="#columnList#" index="colName">
+					<cfloop array="#columnARr#" index="colName">
 						<td>
 							<strong>#colName#</strong>
 						</td>
@@ -188,11 +189,11 @@
 				<cfset i=1>
 				<cfloop query="orderedDocs">
 					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-						<cfloop list="#columnList#" index="colName">
-							<cfif docs[colName][currentrow] EQ field>
-								<td nowrap><span aria-label="highlighted value you searched for"><strong>#docs[colName][currentrow]#</strong></span></td>
+						<cfloop array="#columnArr#" index="colName">
+							<cfif orderedDocs[colName][currentrow] EQ field>
+								<td nowrap><span aria-label="highlighted value you searched for"><strong>#orderedDocs[colName][currentrow]#</strong></span></td>
 							<cfelse>
-								<td nowrap>#docs[colName][currentrow]#</td>
+								<td nowrap>#orderedDocs[colName][currentrow]#</td>
 							</cfif>
 						</cfloop>
 						<cfif NOT #columnList# contains "collection_cde">
