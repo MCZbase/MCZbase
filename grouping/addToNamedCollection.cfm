@@ -37,8 +37,6 @@ limitations under the License.
 					collecting_event.verbatim_date,
 					identification.scientific_name,
 					collection.institution_acronym,
-					trans.institution_acronym transInst,
-					trans.transaction_id,
 					collection.collection
 				FROM
 					cataloged_item,
