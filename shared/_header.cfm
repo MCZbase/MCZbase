@@ -188,7 +188,7 @@ $(document).ready(function() {
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
-				<li class="nav-item dropdown active"> 
+				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Search </a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="##"> Specimens</a></li>
