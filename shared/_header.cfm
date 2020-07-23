@@ -338,19 +338,22 @@ $(document).ready(function() {
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Data Entry
 						</a>
+				
 						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">New Record &raquo;</a>
+							<li><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="##">New Record &raquo;</a>
 								<ul class="submenu dropdown-menu">
-									<li><a class="dropdown-item" href="##">Specimen</a></li>
+									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
 									<li><a class="dropdown-item" href="##">Media</a></li>
 									<li><a class="dropdown-item" href="##">Publication</a></li>
 									
 								</ul>
-							<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
-							<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
-							<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
-							<a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
-							<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
+							</li>
+							<li><a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a></li>
+							<li><a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a></li>
+							<li><a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a></li>
+							<li><a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a></li>
+							<li><a class="dropdown-item" name="batch tools" href="##">Batch Tools</a></li>
+						</ul>
 						</div>
 					</li>
 				</cfif>
