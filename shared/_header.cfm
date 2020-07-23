@@ -226,7 +226,7 @@ $(document).ready(function() {
 
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid bg-light">
 <nav class="navbar navbar-expand-lg navbar-dark bg-light">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##main_nav">
     <span class="navbar-toggler-icon"></span>
@@ -234,7 +234,17 @@ $(document).ready(function() {
   <div class="collapse navbar-collapse" id="main_nav">
 
 <ul class="navbar-nav">
-	<li class="nav-item active"> <a class="nav-link" href="##">Home </a> </li>
+	<li class="nav-item dropdown active">
+		<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">  Search  </a>
+	    <ul class="dropdown-menu">
+			<li><a class="dropdown-item" href="##"> Specimens</a></li>
+			<li><a class="dropdown-item" href="##"> Taxonomy </a></li>
+			<li><a class="dropdown-item" href="##"> Media </a></li>
+			<li><a class="dropdown-item" href="##"> Publications </a></li>
+			<li><a class="dropdown-item" href="##"> Localities </a></li>
+			<li><a class="dropdown-item" href="##"> Agents </a></li>
+	    </ul>
+	</li>
 	<li class="nav-item"><a class="nav-link" href="##"> About </a></li>
 	<li class="nav-item dropdown">
 		<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">  Treeview menu  </a>
@@ -289,17 +299,28 @@ $(document).ready(function() {
 		  <li><a class="dropdown-item" href="##"> Dropdown item 5 </a></li>
 	    </ul>
 	</li>
+	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 </ul>
 
 <ul class="navbar-nav ml-auto">
 	<li class="nav-item"><a class="nav-link" href="##"> Menu item </a></li>
 	<li class="nav-item"><a class="nav-link" href="##"> Menu item </a></li>
 	<li class="nav-item dropdown">
-		<a class="nav-link  dropdown-toggle" href="##" data-toggle="dropdown"> Dropdown right </a>
+		<a class="nav-link  dropdown-toggle" href="##" data-toggle="dropdown"> Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i> 
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	 </a>
 	    <ul class="dropdown-menu dropdown-menu-right">
-		  <li><a class="dropdown-item" href="##"> Dropdown item 1</a></li>
-		  <li><a class="dropdown-item" href="##"> Dropdown item 2 </a></li>
-		  <li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 3 </a>
+		<cfif session.roles contains "coldfusion_user">
+			<form name="profile" method="post" action="/UserProfile.cfm">
+				<input type="hidden" name="action" value="nothing">
+				<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+			</form>
+		</cfif>
+		  <li><a class="dropdown-item pl-5 pl-lg-2" href="/customSettings.cfm">Custom Settings</a> </li>
+		  <li><a class="dropdown-item pl-5 pl-lg-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 		  	 <ul class="submenu submenu-left dropdown-menu">
 			    <li><a class="dropdown-item" href="">Submenu item 1</a></li>
 			    <li><a class="dropdown-item" href="">Submenu item 2</a></li>
@@ -307,11 +328,58 @@ $(document).ready(function() {
 			    <li><a class="dropdown-item" href="">Submenu item 4</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item" href="##"> Dropdown item 4 </a></li>
 	    </ul>
 	</li>
 
-</ul>
+		
+		<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+				<input type="hidden" name="action" value="signOut">	
+				<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
+				<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+				</cfif>
+				</button>
+			</form>
+	<cfelse>
+			<cfif isdefined("gotopage") and len(gotopage) GT 0>
+				<cfset gtp = gotopage>
+			<cfelse>
+				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+				<cfelse>
+					<cfset requestData = #GetHttpRequestData()#>
+					<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+						<cfset gtp=requestData.headers.referer>
+					<cfelse>
+						<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+					</cfif>
+				</cfif>
+			</cfif>
+			<cfif gtp EQ '/errors/forbidden.cfm'>
+				<cfset gtp = "/UserProfile.cfm">
+			</cfif>
+			<form name="logIn" method="post" action="/login.cfm" class="m-0">
+				<input type="hidden" name="action" value="signIn">
+				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+				<input type="hidden" name="gotopage" value="#gtp#">
+				<div class="login-form" id="header_login_form_div">
+					<label for="username" class="sr-only"> Username:</label>
+					<input type="text" name="username" id="username" placeholder="username" class="loginButtons">
+					<label for="password" class="mr-1 sr-only"> Password:</label>
+					<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
+					<label for="login" class="mr-1 sr-only"> Password:</label>
+					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+					<label for="create_account" class="mr-1 sr-only"> Password:</label>
+					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+				</div>
+			</form>
+		</cfif>
+		
+		<!----start of old--->		
+				</cfif>	
+		
+		</ul><!--- end of menu ul --->
 
   </div> <!-- navbar-collapse.// -->
 
