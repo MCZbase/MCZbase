@@ -593,9 +593,13 @@ If your item needs to be sorted in a special way, then do that here. --->
 		} else {
 			i='#collObjIdList#';
 		}
-		u += sep + 'collection_object_id=' + i;
-		u += '&table_name=' + t;
-		u += '&sort=' + s;
+		if (f = '/grouping/addToNamedCollection.cfm') {
+			// leave off list of collection object ids.
+		} else { 
+			u += sep + 'collection_object_id=' + i;
+			u += '&table_name=' + t;
+			u += '&sort=' + s;
+		}
 		var reportWin=window.open(u);
 	}
 
