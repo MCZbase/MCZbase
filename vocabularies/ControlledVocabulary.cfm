@@ -160,12 +160,12 @@
 			</cfquery>
 			
 			<!--- If table constains description column, place it last --->
-			<cfif listFind(docs.colummlist,"DESCRIPTION") GT 0>
+			<cfif listFind(docs.columnlist,"DESCRIPTION") GT 0>
 				<cfset columnList = listDeleteAt(docs.columlist,listFind(docs.columnlist,"DESCRIPTION"))>
 				<cfset columnList = listAppend(columnList,"Description")>
 			</cfif>
 			<!--- place the code value field first --->
-			<cfif listFind(docs.colummlist,ucase(theColumnName)) GT 1>
+			<cfif listFind(columnList,ucase(theColumnName)) GT 1>
 				<cfset columnList = listDeleteAt(columList,listFind(columnList,ucase(theColummName)))>
 				<cfset columnList = listPrepend(columnList,ucase(thecolumnName))>
 			</cfif>
