@@ -548,9 +548,11 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/tools/bulkPart.cfm">
 						Parts (Modify)
 					</option>
-					<option value="/grouping/addToNamedCollection.cfm">
-						Add To Named Group
-					</option>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+						<option value="/grouping/addToNamedCollection.cfm">
+							Add To Named Group
+						</option>
+					</cfif>
                <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
 						Print Any Report
 					</option>
