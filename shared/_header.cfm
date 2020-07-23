@@ -245,7 +245,7 @@ limitations under the License.
 							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
 							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 						</cfif>
-						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
+						<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a>
 					</div>
 				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -348,7 +348,7 @@ limitations under the License.
 							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
 							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 						</cfif>
-						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
+						<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
