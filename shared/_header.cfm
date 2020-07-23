@@ -149,7 +149,7 @@ $(document).ready(function() {
 	border-top: 0 solid transparent;
 	border-right: 0;
 	border-bottom: 0 solid transparent;
-	border-left: 0 solid;
+	border-left: .1em solid orange;
 }
 .dropdown-menu .dropdown-menu {
 	margin-left: 0;
@@ -170,7 +170,7 @@ $(document).ready(function() {
 }
 .dropdown-menu > li:hover {
 	background-color: ##f1f1f1;
-	background-color: red;
+
 }
 .dropdown-menu > li:hover > .submenu {
 	display: block;
