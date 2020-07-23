@@ -26,11 +26,8 @@
 
 <cfset tableName = right(table,len(table)-2)>
 <cfif not isdefined("field")>
+	<!--- this is the field value for the ct{name}.{name} field to put first --->
 	<cfset field="">
-<cfelse>
-	<cfif refind('^[A-Z_]+$',ucase(field)) EQ 0>
-  		<cfthrow message="Field name provided is not a recognized field name.">
-	</cfif>
 </cfif>
 
 <div style="margin: 1em;">
@@ -114,15 +111,21 @@
 	<cfelse>
 		<!--- figure out the name of the field they want info about - already have the table name,
 			passed in as a JS variable ---->
-		<cfloop list="#docs.columnlist#" index="colName">
-			<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
-				<cfset theColumnName = #colName#>
-			</cfif>
-		</cfloop>
+		<cfif ListContainsNoCase(docs.columnList,tableName>
+			<!--- expected form of code tables ct{name} has field {name}.  Applies in most cases --->
+			<cfset theColumnName = tableName>
+		<cfelse>
+			<!--- get a column name, may not be the right one --->
+			<cfloop list="#docs.columnlist#" index="colName">
+				<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
+					<cfset theColumnName = #colName#>
+				</cfif>
+			</cfloop>
+		</cfif
 		
 		<!---- first, documentation for the field they selected ---->
 		<cfquery name="chosenOne" dbtype="query">
-			select * from docs where #theColumnName# = '#field#'
+			select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
 			<cfif #docs.columnlist# contains "collection_cde">
 				order by collection_cde
 			</cfif>
@@ -141,12 +144,16 @@
 			<cfif len(#field#) gt 0>
 				<cfif #docs.columnList# contains "collection_cde">
 					<cfloop query="chosenOne">
-						<tr style="background-color:##339999 ">
+						<tr style="background-color: ##339999; ">
 							<td nowrap>#field#</td>
 							<td>#collection_cde#</td>
 							<td>
-								<cfif isdefined("description")>
-									#description#&nbsp;
+								<cfif chosenOne.recordCount EQ 0>
+									<span style="color: red"><strong>Invalid Value</strong><span>
+								<cfelse>
+									<cfif isdefined("description")>
+										#description#&nbsp;
+									</cfif>
 								</cfif>
 							</td>
 						</tr>

@@ -36,11 +36,8 @@
 	<cfset tableName = right(table,len(table)-2)>
 	
 	<cfif not isdefined("field")>
+		<!--- controlled vocabualry value to highlight --->
 		<cfset field="">
-	<cfelse>
-		<cfif refind('^[A-Z_]+$',ucase(field)) EQ 0>
-   		<cfthrow message="Field name provided is not a recognized field name.">
-		</cfif>
 	</cfif>
 	
 	<cfquery name="docs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -49,9 +46,6 @@
 	
 	<div class="container my-3">
 		<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
-		<cfif table is 'ctspecimen_part_name'>
-			<p>If you need to search for two values, put a pipe in between them and no spaces (e.g., skin|skull)</p>
-		</cfif>
 
 		<cfif table is "ctmedia_license">
 			<table border="1">
@@ -123,92 +117,73 @@
 				</cfloop>
 			</table>
 		<cfelse>
-			<!--- figure out the name of the field they want info about - already have the table name,
-				passed in as a JS variable ---->
-			<cfloop list="#docs.columnlist#" index="colName">
-				<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
-					<cfset theColumnName = #colName#>
-				</cfif>
-			</cfloop>
+
+			<cfset theColumnName = "">
+			<cfif ListContainsNoCase(docs.columnList,tableName>
+				<!--- expected form of code tables ct{name} has field {name}.  Applies in most cases --->
+				<cfset theColumnName = tableName>
+			<cfelse>
+				<cfloop list="#docs.columnlist#" index="colName">
+					<cfif #colName# is not "COLLECTION_CDE" and #colName# is not "DESCRIPTION">
+						<cfif ucase(tableName) EQ ucase(colName)>
+							<cfset theColumnName = #colName#>
+						</cfif>
+					</cfif>
+				</cfloop>
+			</cfif>
 			
-			<!---- first, documentation for the field they selected ---->
+			<!---- check if the value provided in field for theColumnName is valid ---->
 			<cfquery name="chosenOne" dbtype="query">
-				select * from docs where #theColumnName# = '#field#'
+				select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
 				<cfif #docs.columnlist# contains "collection_cde">
 					order by collection_cde
+				</cfif>
+			</cfquery>
+		
+			<cfif chosenOne.RecordCount EQ 0>
+				<h3>Warning: #field# is not a valid value for tableName</h3>
+			</cfif>
+
+
+			<cfquery name="orderedDocs" dbtype="query">
+				select * from docs 
+				<cfif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# EQ 0 >
+					order by collection_cde
+				<cfelseif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# GT 0 >
+					order by collection_cde, #theColumnName#
+				<cfelseif #len(theColumnName)# GT 0 >
+					order by collection_cde, #theColumnName#
 				</cfif>
 			</cfquery>
 			
 			<table border="1">
 				<tr>
-					<td>
-						<strong>Data Value</strong>
-					</td>
-					<td><strong>Collection</strong></td>
-					<td>
-						<strong>Documentation</strong>
-					</td>
+					<cfloop list="#docs.columnlist#" index="colName">
+						<td>
+							<strong>#colName#</strong>
+						</td>
+					</cfloop>
+					<cfif NOT #docs.columnList# contains "collection_cde">
+						<td>
+							<strong>Collection</strong>
+						</td>
+					</cfif>
 				</tr>
-				<cfif len(#field#) gt 0>
-					<cfif #docs.columnList# contains "collection_cde">
-						<cfloop query="chosenOne">
-							<tr style="background-color:##339999 ">
-								<td nowrap>#field#</td>
-								<td>#collection_cde#</td>
-								<td>
-									<cfif isdefined("description")>
-										#description#&nbsp;
-									</cfif>
-								</td>
-							</tr>
-						</cfloop>
-					<cfelse>
-							<tr style="">
-								<td nowrap>#field#</td>
-								<td>All</td>
-								<td>
-									<cfif isdefined("chosenOne.description")>
-										#chosenOne.description#&nbsp;
-									</cfif>
-								</td>
-							</tr>					
-					</cfif>
-				</cfif>
-			<cfquery name="theRest" dbtype="query">
-				select * from docs where #theColumnName# <> '#field#'
-					order by #theColumnName#
-				<cfif #docs.columnlist# contains "collection_cde">
-					 ,collection_cde
-				</cfif>
-			</cfquery>
 				<cfset i=1>
-				<cfif #docs.columnList# contains "collection_cde">
-						<cfloop query="theRest">
-							 <tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-								<td nowrap>#evaluate(theColumnName)#</td>
-								<td>#collection_cde#</td>
-								<td>
-									<cfif isdefined("description")>
-										#description#&nbsp;
-									</cfif>
-								</td>
-							</tr>
-							<cfset i=#i#+1>
-						</cfloop>
-					<cfelse>
-							<cfloop query="theRest">
-							<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-								<td nowrap>#evaluate(theColumnName)#</td>
-								<td>All</td>
-								<td>
-									<cfif isdefined("description")>
-										#description#&nbsp;
-									</cfif>
-								</td>
-								<cfset i=#i#+1>
-							</tr>
-						</cfloop>	
-					</cfif>
+				<cfloop query="orderedDocs">
+					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+						<cfloop list="#docs.columnlist#" index="colName">
+							<cfif docs[colName] EQ field>
+								<td nowrap><span aria-label="highlighted value you searched for"><strong>#docs[colName]#</strong></span></td>
+							<cfelse>
+								<td nowrap>#docs[colName]#</td>
+						</cfif>
+						</cfif>
+						<cfif #docs.columnList# contains "collection_cde">
+							<td>All</td>
+						</cfif>
+					</tr>
+				</cfloop>
 			</table>
 		</cfif>
 	</div>
