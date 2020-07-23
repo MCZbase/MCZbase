@@ -236,6 +236,18 @@ limitations under the License.
 						</div>
 					</li>
 				</cfif>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Help
+					</a>
+					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
+							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+						</cfif>
+						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
+					</div>
+				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -332,7 +344,10 @@ limitations under the License.
 						Help
 					</a>
 					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-						<a class="dropdown-item" name="MCZbase Wiki" href="##">MCZbase Wiki</a>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
+							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+						</cfif>
 						<a class="dropdown-item" name="about MCZbase" href="##">About MCZbase</a>
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>

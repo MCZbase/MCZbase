@@ -86,7 +86,7 @@
 				</tr>
 			</cfloop>
 		</table>
-	<cfelseif table is "ctspecfic_permit_type">
+	<cfelseif table is "ctspecific_permit_type">
 		<table border="1">
 			<tr>
 				<td>
