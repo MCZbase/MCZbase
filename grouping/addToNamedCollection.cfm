@@ -40,7 +40,6 @@ limitations under the License.
 					trans.institution_acronym transInst,
 					trans.transaction_id,
 					collection.collection,
-					a_coll.collection accnColln
 				FROM
 					cataloged_item,
 					collecting_event,
@@ -55,7 +54,6 @@ limitations under the License.
 						,#session.SpecSrchTab#
 					</cfif>
 				WHERE
-					cataloged_item.accn_id = accn.transaction_id AND
 					cataloged_item.collection_object_id = collector.collection_object_id AND
 					collector.agent_id = preferred_agent_name.agent_id AND
 					collector_role='c' AND
