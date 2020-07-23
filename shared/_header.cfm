@@ -233,7 +233,7 @@ $(document).ready(function() {
   </button>
   <div class="collapse navbar-collapse" id="main_nav">
 
-<ul class="navbar-nav">
+		<ul class="navbar-nav">
 		<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
@@ -414,7 +414,6 @@ $(document).ready(function() {
 				</cfif>	
 			</cfif> <!--- End of Menu for redesign --->
 		</ul><!--- end of menu ul --->
-	</div><!--- end navbarToggler1 --->
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
