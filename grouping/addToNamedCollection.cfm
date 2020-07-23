@@ -65,13 +65,13 @@ limitations under the License.
 					locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 					cataloged_item.collection_object_id = identification.collection_object_id AND
 					identification.accepted_id_fg = 1 AND
-					cataloged_item.collection_object_id = 
+					cataloged_item.collection_object_id
 					<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
 						IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 					<cfelse>
-						#session.SpecSrchTab#.collection_object_id
+						= #session.SpecSrchTab#.collection_object_id
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
