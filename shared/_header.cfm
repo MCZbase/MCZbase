@@ -281,8 +281,7 @@ $(document).ready(function() {
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Transactions</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item">Search All Transactions </a>
-						</li>
+						<li><a class="dropdown-item">Search All Transactions </a></li>
 						<li><a class="dropdown-item">Accessions &raquo; </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Search & Edit</a></li>
@@ -313,7 +312,6 @@ $(document).ready(function() {
 								<li><a class="dropdown-item" href="">New Permit</a></li>
 							</ul>
 						</li>
-					
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Tools</a>
@@ -327,10 +325,10 @@ $(document).ready(function() {
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> About</a>
 					<ul class="dropdown-menu">
-						<li class="nav-item"><a class="nav-link" href="##"> Using MCZbase</a></li>
-						<li class="nav-item"><a class="nav-link" href="##"> About MCZbase </a></li>
-						<li class="nav-item"><a class="nav-link" href="##"> MCZbase Statistics </a></li>
-						<li class="nav-item"><a class="nav-link" href="##"> Self-service reports &raquo; </a>
+						<li><a class="dropdown-item">Using MCZbase </a></li>
+						<li><a class="dropdown-item">About MCZbase</a></li>
+						<li><a class="dropdown-item">MCZbase Statistics </a></li>
+						<li><a class="dropdown-item">Self-service Reports &raquo; </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Loan</a></li>
 								<li><a class="dropdown-item" href="">By Taxonomy</a></li>
@@ -338,7 +336,7 @@ $(document).ready(function() {
 							</ul>
 						</li>
 					</ul>
-					</li>
+				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					</ul>
 					<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
