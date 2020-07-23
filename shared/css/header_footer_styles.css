@@ -372,14 +372,7 @@ input#Username {
 input#Password {
 	width: 75px;
 }
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: -1px;
-}
+
 @media only screen and (max-width: 990px) {
 	.logout {
 	padding: 0.3em .45em;
