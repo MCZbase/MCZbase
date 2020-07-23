@@ -1,4 +1,5 @@
 <cfoutput>
+<cfset pageTitle = "MCZbase Controlled Vocabularies">
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("table") OR len(table) EQ 0>
 	<div class="container my-3">
