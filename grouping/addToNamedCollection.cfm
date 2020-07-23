@@ -81,9 +81,9 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
 								<div class="form-row mb-2">
-									<div class="col-md-12">
+									<div class="col-md-10">
 										<label for="underscore_collection">Named Collection</label>
-										<input type="text" name="collection_name" id="collection_name">
+										<input type="text" name="collection_name" id="collection_name" class="form-control-sm">
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 										<script>
 											$(document).ready(function() {
@@ -91,8 +91,13 @@ limitations under the License.
 											});
 										</script>
 									</div>
+									<div class="col-md-2">
+										<a href="/grouping/NamedCollections.cfm" target="_blank">Manage/Add named groups</a>
+									</div>
+								<div>
+								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<input type="submit" id="s_btn" value="Add Items" class="savBtn">
+										<input type="submit" id="add_button" value="Add Items" class="btn btn-primary">
 									</div>
 								</div>
 							</form>
