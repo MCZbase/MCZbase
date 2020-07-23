@@ -167,7 +167,7 @@ $(document).ready(function() {
 			right:100%; left:auto;
 		}
 
-		.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+		.dropdown-menu > li:hover{ background-color: ##f1f1f1 }
 		.dropdown-menu > li:hover > .submenu{
 			display: block;
 		}
