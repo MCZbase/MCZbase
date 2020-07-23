@@ -143,7 +143,7 @@ $(document).ready(function() {
 }); // jquery end
 </script>
 <style type="text/css">
-	@media (min-width: 992px){
+
 		.dropdown-menu .dropdown-toggle:after{
 			border-top: .3em solid transparent;
 		    border-right: 0;
@@ -171,7 +171,7 @@ $(document).ready(function() {
 		.dropdown-menu > li:hover > .submenu{
 			display: block;
 		}
-	}
+
 </style>
 </head>
 <body class="default">
