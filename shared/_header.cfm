@@ -238,7 +238,7 @@ $(document).ready(function() {
 								<li><a class="dropdown-item" href="">Agent</a></li>
 							</ul>
 						</li>
-						<li><a class="dropdown-item" href="#"> Bulkloader &raquo </a>
+						<li><a class="dropdown-item" href="##"> Bulkloader &raquo </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Bulkload Specimens</a></li>
 								<li><a class="dropdown-item" href="">Bulkloader Status</a></li>
@@ -246,7 +246,7 @@ $(document).ready(function() {
 								<li><a class="dropdown-item" href="">Browse &amp; Edit</a></li>
 							</ul>
 						</li>
-						<li><a class="dropdown-item" href="#"> Batch Tools &raquo </a>
+						<li><a class="dropdown-item" href="##"> Batch Tools &raquo </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Agents</a></li>
 								<li><a class="dropdown-item" href="">Attributes</a></li>
