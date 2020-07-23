@@ -191,8 +191,8 @@ $(document).ready(function() {
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Search </a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="##"> Specimens</a></li>
-						<li><a class="dropdown-item" href="Taxa.cfm"> Taxonomy </a></li>
+						<li><a class="dropdown-item" href="/Specimens"> Specimens</a></li>
+						<li><a class="dropdown-item" href="/Taxa.cfm"> Taxonomy </a></li>
 						<li><a class="dropdown-item" href="##"> Media </a></li>
 						<li><a class="dropdown-item" href="##"> Publications </a></li>
 						<li><a class="dropdown-item" href="##"> Localities </a></li>
@@ -204,7 +204,7 @@ $(document).ready(function() {
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item" href="##"> New Record &raquo </a>
 							<ul class="submenu dropdown-menu">
-								<li><a class="dropdown-item" href="">Specimen</a></li>
+								<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
 								<li><a class="dropdown-item" href="">Taxonomy</a></li>
 								<li><a class="dropdown-item" href="">Media</a></li>
 								<li><a class="dropdown-item" href="">Publication</a></li>
@@ -256,7 +256,7 @@ $(document).ready(function() {
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Transactions</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item">Search All Transactions </a></li>
+						<li><a class="dropdown-item" href="/Transactions.cfm?action=findAll">Search All Transactions </a></li>
 						<li><a class="dropdown-item">Accessions &raquo; </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Search & Edit</a></li>
@@ -277,7 +277,7 @@ $(document).ready(function() {
 						</li>
 						<li><a class="dropdown-item">Loans &raquo; </a>
 							<ul class="submenu dropdown-menu">
-								<li><a class="dropdown-item" href="">Search & Edit</a></li>
+								<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit</a></li>
 								<li><a class="dropdown-item" href="">New Loan</a></li>
 							</ul>
 						</li>
@@ -302,7 +302,7 @@ $(document).ready(function() {
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> About</a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item">Using MCZbase </a></li>
+						<li><a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase </a></li>
 						<li><a class="dropdown-item">About MCZbase</a></li>
 						<li><a class="dropdown-item">MCZbase Statistics </a></li>
 						<li><a class="dropdown-item">Self-service Reports &raquo; </a>
