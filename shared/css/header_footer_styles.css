@@ -33,7 +33,7 @@
 nav.navbar {
 	padding: 0 1em;
 }
-/*
+
 nav.navbar-nav .nav-item a {
 	font-weight: 600;
 	margin: 0;
@@ -51,6 +51,7 @@ nav.navbar-nav .nav-item a:hover {
 	background-color: #f1f2f4;
 	padding: .9em 2em .9em 1em;
 }
+/*
 nav .navbar-nav li a.nav-link {
 	display: block;
 }
