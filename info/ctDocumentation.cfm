@@ -122,6 +122,8 @@
 				</cfif>
 			</cfloop>
 		</cfif>
+		<!--- Special case handling for reserved words --->
+		<cfif ucase(tableName) EQ "CLASS"><cfset theColumnName = "phylclass"></cfif>
 		
 		<!---- first, documentation for the field they selected ---->
 		<cfquery name="chosenOne" dbtype="query">

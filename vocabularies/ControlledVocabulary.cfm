@@ -131,6 +131,8 @@
 					</cfif>
 				</cfloop>
 			</cfif>
+			<!--- Special case handling for reserved words --->
+			<cfif ucase(tableName) EQ "CLASS"><cfset theColumnName = "phylclass"></cfif>
 			
 			<cfif len(field) GT 0>
 				<!---- check if the value provided in field for theColumnName is valid ---->
@@ -164,7 +166,7 @@
 							<strong>#colName#</strong>
 						</td>
 					</cfloop>
-					<cfif NOT #docs.columnList# contains "collection_cde">
+					<cfif NOT #docs.columnlist# contains "collection_cde">
 						<td>
 							<strong>Collection</strong>
 						</td>
@@ -174,13 +176,13 @@
 				<cfloop query="orderedDocs">
 					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 						<cfloop list="#docs.columnlist#" index="colName">
-							<cfif docs[colName] EQ field>
-								<td nowrap><span aria-label="highlighted value you searched for"><strong>#docs[colName]#</strong></span></td>
+							<cfif docs[colName][currentrow] EQ field>
+								<td nowrap><span aria-label="highlighted value you searched for"><strong>#docs[colName][currentrow]#</strong></span></td>
 							<cfelse>
-								<td nowrap>#docs[colName]#</td>
+								<td nowrap>#docs[colName][currentrow]#</td>
 							</cfif>
 						</cfloop>
-						<cfif #docs.columnList# contains "collection_cde">
+						<cfif NOT #docs.columnlist# contains "collection_cde">
 							<td>All</td>
 						</cfif>
 					</tr>
