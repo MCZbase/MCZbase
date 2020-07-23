@@ -327,10 +327,10 @@ $(document).ready(function() {
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> About</a>
 					<ul class="dropdown-menu">
-						<li class="nav-item"><a class="nav-link" href="##"> Using MCZbase (Wiki) </a></li>
-						<li class="nav-item"><a class="nav-link" href="##"> About MCZbase &amp; Arctos </a></li>
+						<li class="nav-item"><a class="nav-link" href="##"> Using MCZbase</a></li>
+						<li class="nav-item"><a class="nav-link" href="##"> About MCZbase </a></li>
 						<li class="nav-item"><a class="nav-link" href="##"> MCZbase Statistics </a></li>
-						<li class="nav-item"><a class="nav-link" href="##"> Self-service reports </a>
+						<li class="nav-item"><a class="nav-link" href="##"> Self-service reports &raquo; </a>
 							<ul class="submenu dropdown-menu">
 								<li><a class="dropdown-item" href="">Loan</a></li>
 								<li><a class="dropdown-item" href="">By Taxonomy</a></li>
