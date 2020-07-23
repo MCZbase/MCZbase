@@ -237,13 +237,13 @@ $(document).ready(function() {
   <div class="collapse navbar-collapse" id="main_nav">
 
 <ul class="navbar-nav">
-	<li class="nav-item active"> <a class="nav-link" href="#">Home </a> </li>
-	<li class="nav-item"><a class="nav-link" href="#"> About </a></li>
+	<li class="nav-item active"> <a class="nav-link" href="##">Home </a> </li>
+	<li class="nav-item"><a class="nav-link" href="##"> About </a></li>
 	<li class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  Treeview menu  </a>
+		<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">  Treeview menu  </a>
 	    <ul class="dropdown-menu">
-		  <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 2 &raquo </a>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 1 </a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 2 &raquo </a>
 		  	 <ul class="submenu dropdown-menu">
 			    <li><a class="dropdown-item" href="">Submenu item 1</a></li>
 			    <li><a class="dropdown-item" href="">Submenu item 2</a></li>
@@ -257,22 +257,22 @@ $(document).ready(function() {
 			    <li><a class="dropdown-item" href="">Submenu item 5</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 3 </a></li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 4 </a>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 3 </a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 4 </a>
 	    </ul>
 	</li>
 	<li class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">  More items  </a>
+		<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">  More items  </a>
 	    <ul class="dropdown-menu">
-		  <li><a class="dropdown-item" href="#"> Dropdown item 1 </a></li>
-		  <li><a class="dropdown-item dropdown-toggle" href="#"> Dropdown item 2 </a>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 1 </a></li>
+		  <li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 2 </a>
 		  	 <ul class="submenu dropdown-menu">
 			    <li><a class="dropdown-item" href="">Submenu item 1</a></li>
 			    <li><a class="dropdown-item" href="">Submenu item 2</a></li>
 			    <li><a class="dropdown-item" href="">Submenu item 3</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item dropdown-toggle" href="#"> Dropdown item 3 </a>
+		  <li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 3 </a>
 		  	 <ul class="submenu dropdown-menu">
 			    <li><a class="dropdown-item" href="">Another submenu 1</a></li>
 			    <li><a class="dropdown-item" href="">Another submenu 2</a></li>
@@ -280,7 +280,7 @@ $(document).ready(function() {
 			    <li><a class="dropdown-item" href="">Another submenu 4</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item dropdown-toggle" href="#"> Dropdown item 4 </a>
+		  <li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 4 </a>
 		  	 <ul class="submenu dropdown-menu">
 			    <li><a class="dropdown-item" href="">Another submenu 1</a></li>
 			    <li><a class="dropdown-item" href="">Another submenu 2</a></li>
@@ -288,21 +288,21 @@ $(document).ready(function() {
 			    <li><a class="dropdown-item" href="">Another submenu 4</a></li>
 			 </ul>
 		  </li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 4 </a></li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 5 </a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 4 </a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 5 </a></li>
 	    </ul>
 	</li>
 </ul>
 
 <ul class="navbar-nav ml-auto">
-	<li class="nav-item"><a class="nav-link" href="#"> Menu item </a></li>
-	<li class="nav-item"><a class="nav-link" href="#"> Menu item </a></li>
+	<li class="nav-item"><a class="nav-link" href="##"> Menu item </a></li>
+	<li class="nav-item"><a class="nav-link" href="##"> Menu item </a></li>
 	<li class="nav-item dropdown">
-		<a class="nav-link  dropdown-toggle" href="#" data-toggle="dropdown"> Dropdown right </a>
+		<a class="nav-link  dropdown-toggle" href="##" data-toggle="dropdown"> Dropdown right </a>
 	    <ul class="dropdown-menu dropdown-menu-right">
-		  <li><a class="dropdown-item" href="#"> Dropdown item 1</a></li>
-		  <li><a class="dropdown-item" href="#"> Dropdown item 2 </a></li>
-		  <li><a class="dropdown-item dropdown-toggle" href="#"> Dropdown item 3 </a>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 1</a></li>
+		  <li><a class="dropdown-item" href="##"> Dropdown item 2 </a></li>
+		  <li><a class="dropdown-item dropdown-toggle" href="##"> Dropdown item 3 </a>
 		  	 <ul class="submenu submenu-left dropdown-menu">
 			    <li><a class="dropdown-item" href="">Submenu item 1</a></li>
 			    <li><a class="dropdown-item" href="">Submenu item 2</a></li>
