@@ -163,6 +163,8 @@
 			<cfif listFind(docs.columnlist,"DESCRIPTION") GT 0>
 				<cfset columnList = listDeleteAt(docs.columlist,listFind(docs.columnlist,"DESCRIPTION"))>
 				<cfset columnList = listAppend(columnList,"Description")>
+			<cfelse>
+				<cfset columnList = docs.columlist>
 			</cfif>
 			<!--- place the code value field first --->
 			<cfif listFind(columnList,ucase(theColumnName)) GT 1>
