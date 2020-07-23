@@ -184,7 +184,7 @@ $(document).ready(function() {
 		</ul>
 	</div>
 	<div class="container-fluid bg-light">
-		<nav class="navbar navbar-expand-lg navbar-dark bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
