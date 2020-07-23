@@ -232,91 +232,8 @@ $(document).ready(function() {
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="main_nav">
-
 		<ul class="navbar-nav">
-		<cfif isdefined("Application.header_image")>
-				<!---  Redesign menu for integration on production --->
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Search
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
-						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-						<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a>
-						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
-						</cfif>
-						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
-					</div>
-				</li>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Data Entry
-						</a>
-						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Manage Data
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
-								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
-							</cfif>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Transactions
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-							<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-							<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
-							<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
-							<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-							<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
-							<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
-							<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
-							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
-							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Account
-							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>_
-							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-							<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-							</cfif>
-							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-							</cfif>
-						</div>
-					</li>
-				</cfif>	
-				<!---  End Redesign menu for integration on production --->
-			<cfelse>
+
 	<li class="nav-item dropdown active">
 		<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">  Search  </a>
 	    <ul class="dropdown-menu">
@@ -412,8 +329,8 @@ $(document).ready(function() {
 				</ul>
 				
 				</cfif>	
-			</cfif> <!--- End of Menu for redesign --->
-		</ul><!--- end of menu ul --->
+	
+
 	<cfif isdefined("session.username") and len(#session.username#) gt 0>
 			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 				<input type="hidden" name="action" value="signOut">	
