@@ -191,12 +191,12 @@ $(document).ready(function() {
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Search </a>
 					<ul class="dropdown-menu">
-						<li><a class="dropdown-item" href="/Specimens"> Specimens</a></li>
-						<li><a class="dropdown-item" href="/Taxa.cfm"> Taxonomy </a></li>
-						<li><a class="dropdown-item" href="##"> Media </a></li>
-						<li><a class="dropdown-item" href="##"> Publications </a></li>
-						<li><a class="dropdown-item" href="##"> Localities </a></li>
-						<li><a class="dropdown-item" href="##"> Agents </a></li>
+						<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
+						<li><a class="dropdown-item" href="/Taxa.cfm">Taxonomy </a></li>
+						<li><a class="dropdown-item" href="##">Media </a></li>
+						<li><a class="dropdown-item" href="##">Publications </a></li>
+						<li><a class="dropdown-item" href="##">Localities </a></li>
+						<li><a class="dropdown-item" href="##">Agents </a></li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> 
