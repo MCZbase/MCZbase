@@ -12,7 +12,7 @@
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
 
-.navbar-collapse {
+/*.navbar-collapse {
 	font-size: .9em;
 }
 .anchor-button {
@@ -33,7 +33,7 @@
 nav.navbar {
 	padding: 0 1em;
 }
-nav.navbar-nav .nav-item li a {
+nav.navbar-nav .nav-item a {
 	font-weight: 600;
 	margin: 0;
 	font-family: 'Open Sans', sans-serif;
@@ -42,7 +42,7 @@ nav.navbar-nav .nav-item li a {
 	display: block;
 	padding: .9em 2em .9em 1em;
 }
-nav.navbar-nav .nav-item li a:hover {
+nav.navbar-nav .nav-item a:hover {
 	font-weight: 600;
 	margin: 0;
 	text-decoration: none;
@@ -56,20 +56,18 @@ nav .navbar-nav li a.nav-link {
 .navbar-expand-lg .navbar-nav .nav-link {
 	padding-right: 1rem;
 	padding-left: 1rem;
-	/*max-width: 15em;*/
 }
 .navbar-expand-lg .navbar-nav .nav-link:hover {
 	background-color: #ebebeb;
 }
 .dropdown-menu {
-/*	width: 16em;*/
 	padding: 0;
 	margin-left: 1px;
 	margin-top: -1px;
 	background-color: #f8f9fa !important;
 	border: 1px solid #f5f5f5;
 }
-.dropdown-menu li a.dropdown-item {
+.dropdown-menu a.dropdown-item {
 	font-size: .9em;
 	border: 1px solid aliceblue;
 }
@@ -77,7 +75,7 @@ nav .navbar-nav li a.nav-link {
 	padding: .25em .5em;
 	color: rgba(0, 0, 0, .7);
 }
-.dropdown-menu li a.dropdown-item:hover {
+.dropdown-menu a.dropdown-item:hover {
 	background-color: #ddd;
 	color: #000;
 	width: 100%;
@@ -118,7 +116,7 @@ nav .navbar-nav li a.nav-link {
     content: "";
     background: no-repeat center center;
     background-size: 100% 100%;
-}
+}*/
 .mczbase a span {
 	font-size: smaller;
 } /*This is for the "base" of MCZbase*/
