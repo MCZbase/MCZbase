@@ -231,7 +231,7 @@ $(document).ready(function() {
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 
   <a class="navbar-brand" href="#">Brand</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main_nav">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##main_nav">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="main_nav">
