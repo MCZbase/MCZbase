@@ -17,7 +17,7 @@
 			<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
 		   <cfloop query="getCTName">
 				<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-      		<li><a href="/vocabularies/ControlledVocabulary?table=#getCTName.table_name#">#name#</a></li>
+      		<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a></li>
 		   </cfloop>
 		</ul>
 	</div>
