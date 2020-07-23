@@ -39,7 +39,7 @@ limitations under the License.
 					collection.institution_acronym,
 					trans.institution_acronym transInst,
 					trans.transaction_id,
-					collection.collection,
+					collection.collection
 				FROM
 					cataloged_item,
 					collecting_event,
@@ -48,10 +48,9 @@ limitations under the License.
 					collector,
 					preferred_agent_name,
 					identification,
-					collection,
-					collection a_coll
+					collection
 					<cfif (not isdefined("collection_object_id")) > 
-						,#session.SpecSrchTab#
+						, #session.SpecSrchTab#
 					</cfif>
 				WHERE
 					cataloged_item.collection_object_id = collector.collection_object_id AND
