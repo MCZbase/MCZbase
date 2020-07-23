@@ -115,7 +115,7 @@ nav .navbar-nav li a.nav-link {
 .navbar-dark .navbar-nav .nav-link.active, 
 .navbar-dark .navbar-nav .nav-link.show, 
 .navbar-dark .navbar-nav .show>.nav-link {
-	color: #1b1b1b;
+	color: #1b1b1b !important;
 }
 .dropdown-menu .dropdown-toggle:after {
 	border-top: 0 solid transparent;
