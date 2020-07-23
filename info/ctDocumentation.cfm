@@ -27,6 +27,10 @@
 <cfset tableName = right(table,len(table)-2)>
 <cfif not isdefined("field")>
 	<cfset field="">
+<cfelse>
+	<cfif refind('^[A-Z_]+$',ucase(field)) EQ 0>
+  		<cfthrow message="Field name provided is not a recognized field name.">
+	</cfif>
 </cfif>
 
 <div style="margin: 1em;">
