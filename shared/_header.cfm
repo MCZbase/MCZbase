@@ -289,7 +289,7 @@ $(document).ready(function() {
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> 
+<!---				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Tools</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item">Projects </a></li>
@@ -298,7 +298,7 @@ $(document).ready(function() {
 						<li><a class="dropdown-item">Object Tracking </a></li>
 						<li><a class="dropdown-item">Encumbrances </a></li>
 					</ul>
-				</li>
+				</li>--->
 				<li class="nav-item dropdown"> 
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> About</a>
 					<ul class="dropdown-menu">
