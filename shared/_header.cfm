@@ -337,6 +337,8 @@ $(document).ready(function() {
 								<li><a class="dropdown-item" href="">Part Usage</a></li>
 							</ul>
 						</li>
+					</ul>
+					</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					</ul>
 					<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
