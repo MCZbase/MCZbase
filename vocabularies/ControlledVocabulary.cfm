@@ -175,15 +175,15 @@
 
 			<table border="1">
 				<tr>
-					<cfloop array="#columnARr#" index="colName">
-						<td>
+					<cfloop array="#columnArr#" index="colName">
+						<th>
 							<strong>#colName#</strong>
-						</td>
+						</th>
 					</cfloop>
 					<cfif NOT #columnList# contains "collection_cde">
-						<td>
+						<th>
 							<strong>Collection</strong>
-						</td>
+						</th>
 					</cfif>
 				</tr>
 				<cfset i=1>
@@ -191,9 +191,9 @@
 					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
 						<cfloop array="#columnArr#" index="colName">
 							<cfif orderedDocs[colName][currentrow] EQ field>
-								<td nowrap><span aria-label="highlighted value you searched for"><strong>#orderedDocs[colName][currentrow]#</strong></span></td>
+								<td><span aria-label="highlighted value you searched for"><strong>#orderedDocs[colName][currentrow]#</strong></span></td>
 							<cfelse>
-								<td nowrap>#orderedDocs[colName][currentrow]#</td>
+								<td>#orderedDocs[colName][currentrow]#</td>
 							</cfif>
 						</cfloop>
 						<cfif NOT #columnList# contains "collection_cde">
