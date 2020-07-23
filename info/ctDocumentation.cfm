@@ -121,7 +121,7 @@
 					<cfset theColumnName = #colName#>
 				</cfif>
 			</cfloop>
-		</cfif
+		</cfif>
 		
 		<!---- first, documentation for the field they selected ---->
 		<cfquery name="chosenOne" dbtype="query">

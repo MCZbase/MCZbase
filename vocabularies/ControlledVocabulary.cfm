@@ -132,18 +132,19 @@
 				</cfloop>
 			</cfif>
 			
-			<!---- check if the value provided in field for theColumnName is valid ---->
-			<cfquery name="chosenOne" dbtype="query">
-				select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
-				<cfif #docs.columnlist# contains "collection_cde">
-					order by collection_cde
-				</cfif>
-			</cfquery>
+			<cfif len(field) GT 0>
+				<!---- check if the value provided in field for theColumnName is valid ---->
+				<cfquery name="chosenOne" dbtype="query">
+					select * from docs where #theColumnName# = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#field#">
+					<cfif #docs.columnlist# contains "collection_cde">
+						order by collection_cde
+					</cfif>
+				</cfquery>
 		
-			<cfif chosenOne.RecordCount EQ 0>
-				<h3>Warning: #field# is not a valid value for tableName</h3>
+				<cfif chosenOne.RecordCount EQ 0>
+					<h3>Warning: #field# is not a valid value for tableName</h3>
+				</cfif>
 			</cfif>
-
 
 			<cfquery name="orderedDocs" dbtype="query">
 				select * from docs 
@@ -152,7 +153,7 @@
 				<cfelseif #docs.columnlist# contains "collection_cde" AND #len(theColumnName)# GT 0 >
 					order by collection_cde, #theColumnName#
 				<cfelseif #len(theColumnName)# GT 0 >
-					order by collection_cde, #theColumnName#
+					order by #theColumnName#
 				</cfif>
 			</cfquery>
 			
