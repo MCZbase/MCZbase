@@ -119,7 +119,7 @@
 		<cfelse>
 
 			<cfset theColumnName = "">
-			<cfif ListContainsNoCase(docs.columnList,tableName>
+			<cfif ListContainsNoCase(docs.columnList,tableName)>
 				<!--- expected form of code tables ct{name} has field {name}.  Applies in most cases --->
 				<cfset theColumnName = tableName>
 			<cfelse>

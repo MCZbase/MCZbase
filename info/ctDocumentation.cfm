@@ -111,7 +111,7 @@
 	<cfelse>
 		<!--- figure out the name of the field they want info about - already have the table name,
 			passed in as a JS variable ---->
-		<cfif ListContainsNoCase(docs.columnList,tableName>
+		<cfif ListContainsNoCase(docs.columnList,tableName)>
 			<!--- expected form of code tables ct{name} has field {name}.  Applies in most cases --->
 			<cfset theColumnName = tableName>
 		<cfelse>
