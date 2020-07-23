@@ -83,7 +83,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-10">
 										<label for="underscore_collection">Named Collection</label>
-										<input type="text" name="collection_name" id="collection_name" class="form-control-sm">
+										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 										<script>
 											$(document).ready(function() {
@@ -159,8 +159,8 @@ limitations under the License.
 				<cfthrow message="No such named grouping found, unable to add cataloged items">
 			</cfif>
 			<cfquery name="addItemsToColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
-				INSERT into underscore_relation 
-					(underscore_collection_id, collection_object_id)
+				INSERT /*+ ignore_row_on_dupkey_index ( underscore_relation (collection_object_id, underscore_collection_id ) ) */
+					into underscore_relation (underscore_collection_id, collection_object_id)
 				select #idToAdd#, collection_object_id 
 				from #session.SpecSrchTab# 
 			</cfquery>
