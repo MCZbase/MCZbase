@@ -177,8 +177,8 @@
 								<td nowrap><span aria-label="highlighted value you searched for"><strong>#docs[colName]#</strong></span></td>
 							<cfelse>
 								<td nowrap>#docs[colName]#</td>
-						</cfif>
-						</cfif>
+							</cfif>
+						</cfloop>
 						<cfif #docs.columnList# contains "collection_cde">
 							<td>All</td>
 						</cfif>
