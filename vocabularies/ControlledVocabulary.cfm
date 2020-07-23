@@ -14,10 +14,17 @@
    	    order by table_name
 	   </cfquery>
 		<ul>
-			<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+				<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
+			</cfif>
 		   <cfloop query="getCTName">
-				<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
-      		<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a></li>
+   			<cfquery name="getCTRows" datasource="uam_god">
+					select count(*) as ct from #getCtName.table_name#
+				</cfquery>
+				<cfif getCTRows.ct GT 0>
+					<cfset name = REReplace(getCtName.table_name,"^CT","") ><!--- strip CT from names in list for better readability --->
+   	   		<li><a href="/vocabularies/ControlledVocabulary.cfm?table=#getCTName.table_name#">#name#</a> (#getCTRows.ct# values)</li>
+				</cfif>
 		   </cfloop>
 		</ul>
 	</div>
