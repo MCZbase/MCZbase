@@ -1551,6 +1551,9 @@ document.getElementById('saveme').submit();
 			<option value="compDGR.cfm?collection_object_id=#collObjIdList#">
 				MSB<->DGR
 			</option>
+			<option value="/grouping/addToNamedCollection.cfm">
+				Add To Named Group
+			</option>
 			<option value="/Reports/print_nk.cfm?collection_object_id=#collObjIdList#">
 				Print NK pages
 			</option>

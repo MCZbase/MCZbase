@@ -548,7 +548,10 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/tools/bulkPart.cfm">
 						Parts (Modify)
 					</option>
-                    <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
+					<option value="/grouping/addToNamedCollection.cfm">
+						Add To Named Group
+					</option>
+               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
 						Print Any Report
 					</option>
 				</select>
