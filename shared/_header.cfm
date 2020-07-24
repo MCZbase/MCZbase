@@ -389,29 +389,6 @@ $(document).ready(function() {
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
-	/** add active class and stay opened when selected */ 
-//	var url = window.location; 
-//	// for sidebar menu entirely but not cover treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-//	// for treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-//	
-//	
-//	$(".navbar-nav .nav-link").on("click", function(){
-//	 $(".nav-link").find(".show").removeClass("show");
-//	 $(this).addClass("show");
-	
-	$("li.dropdown a.nav-link").on("click", function(){
-    var trigger_id =  $(this).attr('.dropdown-menu li');
-    $(trigger_id).toggleClass("active");
-    $('body').toggleClass("offcanvas-active");
-});
-
-// close button 
-$(".btn-close").click(function(e){
-    $(".navbar-collapse").removeClass("active");
-    $("body").removeClass("offcanvas-active");
-}); 
 
 </script>
 <cf_rolecheck>
