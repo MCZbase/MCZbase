@@ -392,9 +392,11 @@ $(document).ready(function() {
 	/** add active class and stay opened when selected */ 
 	var url = window.location; 
 	// for sidebar menu entirely but not cover treeview 
-	$('.nav-link a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+	$('.nav-item.show').filter(function() { return this.href == url; }).parent().addClass('active'); 
 	// for treeview 
 	$('.nav-link a').filter(function() { return this.href == url; }).parentsUntil("a > .nav-link").addClass('active');
+	
+	
 	
 </script>
 <cf_rolecheck>
