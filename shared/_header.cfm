@@ -402,7 +402,7 @@ $(document).ready(function() {
 	 $(this).addClass("show");
 		});
 	$(".nav-link a").on("click", function(){
-	 $(".nav-link").find(".active").removeClass("active");
+	 $(".nav-link").find("a").removeClass("active");
 	 $(this).addClass("active");
 	});
 </script>
