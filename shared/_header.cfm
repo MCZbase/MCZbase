@@ -293,8 +293,8 @@ $(document).ready(function() {
 					<a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown"> Tools</a>
 					<ul class="dropdown-menu">
 						<li><a class="dropdown-item">Projects </a></li>
-						<li><a class="dropdown-item">Named Collections </a></li>
-						<li><a class="dropdown-item">Collecting Event Number Series </a></li>
+						<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+						<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
 						<li><a class="dropdown-item">Object Tracking </a></li>
 						<li><a class="dropdown-item">Encumbrances </a></li>
 					</ul>
