@@ -392,13 +392,13 @@ $(document).ready(function() {
 	/** add active class and stay opened when selected */ 
 	var url = window.location; 
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-	//$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-//	
-	    var element = $('ul.navbar-nav a').filter(function() {
-        return this.href == url || url.href.indexOf(this.href) == 0; }).parent().addClass('active');
-        if (element.is('a')) { 
-             element.addClass('active').parent().parent('li').addClass('active')
-         }
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	
+//	    var element = $('ul.navbar-nav a').filter(function() {
+//        return this.href == url || url.href.indexOf(this.href) == 0; }).parent().addClass('active');
+//        if (element.is('a')) { 
+//             element.addClass('active').parent().parent('li').addClass('active')
+//         }
 	$(".navbar-nav .nav-link a").on("click", function(){
 	 $(".nav-link").find(".show").removeClass("show");
 	 $(this).addClass("show");
