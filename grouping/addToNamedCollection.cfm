@@ -92,7 +92,7 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-md-2">
-										<a href="/grouping/NamedCollection.cfm" target="_blank">Manage/Add named groups</a>
+										<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
 									</div>
 								<div>
 								<div class="form-row mb-2">
