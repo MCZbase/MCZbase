@@ -116,9 +116,9 @@ nav .navbar-nav li a.nav-link {
 @media (min-width: 992px){
 
 
-	.dropdown-menu .dropdown-menu{
+.dropdown, .dropdown-menu .dropdown-menu{
 		margin-left:0; margin-right: 0;
-		font-size: inherit;
+		font-size: .78em ;
 	}
 	.dropdown-menu li{
 		position: relative;
@@ -131,7 +131,9 @@ nav .navbar-nav li a.nav-link {
 	.nav-item .submenu-left{ 
 		right:100%; left:auto;
 	}
-	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+	.dropdown-menu > li:hover{ 
+		background-color: #f1f1f1 
+	}
 	.dropdown-menu > li:hover > .submenu{
 		display: block;
 	}
