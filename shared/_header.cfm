@@ -404,13 +404,13 @@ $(document).ready(function() {
 //	 $(this).addClass("show");
 	$(document).ready(function() {
 
-    $( ".submenu" ).click(function(event) {
+    $( ".dropdown-menu" ).click(function(event) {
         // stop bootstrap.js to hide the parents
         event.stopPropagation();
         // hide the open children
-        $( this ).find(".submenu").removeClass('open');
+        $( this ).find(".dropdown-menu").removeClass('open');
         // add 'open' class to all parents with class 'dropdown-submenu'
-        $( this ).parents(".submenu").addClass('open');
+        $( this ).parents(".dropdown-menu").addClass('open');
         // this is also open (or was)
         $( this ).toggleClass('open');
     });
