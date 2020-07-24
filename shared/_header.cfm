@@ -390,7 +390,7 @@ $(document).ready(function() {
 </header>
 <script type="text/javascript"> 
 // Get the container element
-var btnContainer = document.getElementsByClassName("main-nav");
+var btnContainer = document.getElementsByClassName("main_nav");
 
 // Get all buttons with class="btn" inside the container
 var btns = btnContainer.getElementsByClassName("li a");
