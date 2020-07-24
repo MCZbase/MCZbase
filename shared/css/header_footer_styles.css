@@ -114,11 +114,11 @@ nav .navbar-nav li a.nav-link {
 
 
 @media (min-width: 992px){
-	a.active{border: none;text-shadow: none;box-shadow: none;}
-	.dropdown-menu .dropdown-toggle:after{
+
+.dropdown-toggle:after{
 		border-top: .3em solid transparent;
 	    border-right: 0;
-	    border-bottom: .3em solid transparent;
+	    border-bottom: 0 solid transparent;
 	    border-left: .3em solid;
 	}
 	.dropdown-menu .dropdown-menu{
