@@ -394,21 +394,16 @@ $(document).ready(function() {
 //	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
 //	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 //	
-//	
-//	$(".navbar-nav .nav-link a").on("click", function(){
-//	 $(".nav-link").find(".show").removeClass("show");
-//	 $(this).addClass("show");
+	    var element = $('ul.navbar-nav a').filter(function() {
+        return this.href == url || url.href.indexOf(this.href) == 0; }).parent().addClass('active');
+        if (element.is('li')) { 
+             element.addClass('active').parent().parent('li').addClass('active')
+         }
+	$(".navbar-nav .nav-link a").on("click", function(){
+	 $(".nav-link").find(".show").removeClass("show");
+	 $(this).addClass("show");
 	
-var url = window.location;
-// for sidebar menu but not for treeview submenu
-$('ul.dropdown .dropdown a').filter(function() {
-    return this.href == url;
-}).parent().siblings().removeClass('active').end().addClass('active');
-// for treeview which is like a submenu
-$('ul.dropdown dropdown .submenu a').filter(function() {
-    return this.href == url;
-}).parentsUntil(".dropdown > .submenu").siblings().removeClass('active menu-open').end().addClass('active menu-open');
-});
+
 </script>
 <cf_rolecheck>
 </cfoutput>
