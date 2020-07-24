@@ -128,7 +128,7 @@ nav .navbar-nav li a.nav-link {
 		margin-left:0; margin-right: 0;
 
 	}
-	.dropdown li.show {background-color: yellow;}
+		.dropdown-menu li.show, .dropdown-menu .dropdown-menu li.show { {background-color: yellow;}
 	.dropdown-menu li, .dropdown-menu .dropdown-menu li {
 		
 		font-size: .9em;
