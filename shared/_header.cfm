@@ -394,7 +394,7 @@ $(document).ready(function() {
 	// for sidebar menu entirely but not cover treeview 
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
 	// for treeview 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-item").addClass('active');
+	$('.nav-link a').filter(function() { return this.href == url; }).parentsUntil("a > .nav-link").addClass('active');
 	
 	
 	$(".navbar-nav .nav-link a").on("click", function(){
