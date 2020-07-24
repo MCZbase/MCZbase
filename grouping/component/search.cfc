@@ -101,7 +101,8 @@ limitations under the License.
 Function getNamedCollectionAutocomplete.  Search for named collections by name with a substring match on any name, returning json suitable for jquery-ui autocomplete.
 
 @param term named collection name to search for.
-@return a json structure containing id and value, with matching named collections with matched name in value and underscore_collection_id in id.
+@return a json structure containing id, meta, and value, with matching named collections with matched name in value and underscore_collection_id in id,
+  and the begining of the description in meta.
 --->
 <cffunction name="getNamedCollectionAutocomplete" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
@@ -113,7 +114,14 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
-				collection_name
+				collection_name,
+				case length(description) 
+					when > 40 then
+						substr(description,1,40) || '...'
+					else
+						description
+					end
+					as description_trim,
 			FROM 
 				underscore_collection
 			WHERE
@@ -124,6 +132,7 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.underscore_collection_id#">
 			<cfset row["value"] = "#search.collection_name#" >
+			<cfset row["meta"] = "#search.description_trim#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

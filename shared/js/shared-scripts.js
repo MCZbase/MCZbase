@@ -406,5 +406,8 @@ function makeNamedCollectionPicker(nameControl,idControl) {
 			}
       },
       minLength: 3
-   });
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "collection name * (description)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.value + " (" + item.meta + ")</span>").appendTo(ul);
+	};
 };
