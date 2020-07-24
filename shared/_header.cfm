@@ -397,7 +397,7 @@ $(document).ready(function() {
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	
-	$(".navbar-nav .nav-link a").on("click", function(){
+	$(".navbar-nav .dropdown a.nav-link").on("click", function(){
 	 $(".nav-link").find(".show").removeClass("show");
 	 $(this).addClass("show");
 });
