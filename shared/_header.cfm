@@ -400,11 +400,11 @@ $(document).ready(function() {
 	$(".navbar-nav .nav-link a").on("click", function(){
 	 $(".nav-link").find(".show").removeClass("show");
 	 $(this).addClass("show");
-		
+		});
 	$(".nav-link a").on("click", function(){
 	 $(".nav-link").find(".active").removeClass("active");
 	 $(this).addClass("active");
-});
+	});
 </script>
 <cf_rolecheck>
 </cfoutput>
