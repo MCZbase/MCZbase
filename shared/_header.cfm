@@ -394,7 +394,7 @@ $(document).ready(function() {
 var btnContainer = document.getElementById("main_nav");
 
 // Get all buttons with class="btn" inside the container
-var btns = btnContainer.getElementsByClassName("li a");
+var btns = btnContainer.getElementsByClassName("show");
 
 // Loop through the buttons and add the active class to the current/clicked button
 for (var i = 0; i < btns.length; i++) {
