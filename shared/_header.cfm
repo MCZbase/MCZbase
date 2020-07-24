@@ -401,7 +401,7 @@ $(document).ready(function() {
 	 $(".nav-link").find(".show").removeClass("show");
 	 $(this).addClass("show");
 		
-	$(".navbar-nav .nav-link a").on("click", function(){
+	$(".nav-link a").on("click", function(){
 	 $(".nav-link").find(".active").removeClass("active");
 	 $(this).addClass("active");
 });
