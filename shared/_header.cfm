@@ -390,11 +390,11 @@ $(document).ready(function() {
 </header>
 <script type="text/javascript"> 
 	/** add active class and stay opened when selected */ 
-	var url = window.location; 
-	// for sidebar menu entirely but not cover treeview 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-	// for treeview 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+//	var url = window.location; 
+//	// for sidebar menu entirely but not cover treeview 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+//	// for treeview 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	
 	$(".navbar-nav .dropdown a.nav-link").on("click", function(){
