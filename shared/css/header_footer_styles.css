@@ -150,7 +150,7 @@ nav .navbar-nav li a.nav-link {
 	.dropdown-menu > li:hover > .submenu{
 		display: block;
 	}
-	.navbar-nav.show {
+	.nav-item.dropdown.show {
 		background-color:white;
 		color:black;
 	}
