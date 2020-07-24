@@ -389,7 +389,22 @@ $(document).ready(function() {
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
-
+	/** add active class and stay opened when selected */ 
+	var url = window.location; 
+	// for sidebar menu entirely but not cover treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+	// for treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .nav-item").addClass('active');
+	
+	
+	$(".navbar-nav .nav-link a").on("click", function(){
+	 $(".nav-link").find(".show").removeClass("show");
+	 $(this).addClass("show");
+		
+	$(".navbar-nav .nav-link a").on("click", function(){
+	 $(".nav-link").find(".active").removeClass("active");
+	 $(this).addClass("active");
+});
 </script>
 <cf_rolecheck>
 </cfoutput>
