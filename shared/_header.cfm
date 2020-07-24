@@ -389,13 +389,20 @@ $(document).ready(function() {
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
-$(document).ready(function(){
-    // activate left navigation based on current link
-    var current_url = window.location;
-    $('.dropdown-menu li a').filter(function () {
-        return this.href == current_url;
-    }).last().parents('li').addClass('active');
-});
+// Get the container element
+var btnContainer = document.getElementsByClassName("main-nav");
+
+// Get all buttons with class="btn" inside the container
+var btns = btnContainer.getElementsByClassName("li a");
+
+// Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
 	
 </script>
 <cf_rolecheck>
