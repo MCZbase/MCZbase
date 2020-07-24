@@ -115,12 +115,7 @@ nav .navbar-nav li a.nav-link {
 
 @media (min-width: 992px){
 
-.dropdown-toggle:after{
-		border-top: .3em solid transparent;
-	    border-right: 0;
-	    border-bottom: 0 solid transparent;
-	    border-left: .3em solid;
-	}
+
 	.dropdown-menu .dropdown-menu{
 		margin-left:0; margin-right: 0;
 		font-size: inherit;
