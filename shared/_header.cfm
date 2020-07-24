@@ -185,7 +185,7 @@ $(document).ready(function() {
 	</div>
 	<div class="container-fluid bg-light">
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
 				<li class="nav-item dropdown"> 
