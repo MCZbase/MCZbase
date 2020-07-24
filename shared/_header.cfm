@@ -131,13 +131,13 @@ $(document).ready(function() {
 
     // make it as accordion for smaller screens
     if ($(window).width() < 992) {
-	  	$('.dropdown-menu li').click(function(e){
+	  	$('li.dropdown-menu').click(function(e){
 	  		e.preventDefault();
 	        if($(this).next('.submenu').length){
 	        	$(this).next('.submenu').toggle();
 	        }
 	        $('.dropdown').on('hide.bs.dropdown', function () {
-			   $(this).find('.submenu').hide();
+			   $(this).find('ul.submenu').hide();
 			})
 	  	});
 	}
