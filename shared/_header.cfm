@@ -401,15 +401,15 @@ $(document).ready(function() {
 //	 $(".nav-link").find(".show").removeClass("show");
 //	 $(this).addClass("show");
 	
-	$("a.nav-link").on("click", function(){
+	$("li.dropdown a.nav-link").on("click", function(){
     var trigger_id =  $(this).attr('.dropdown-menu li');
-    $(trigger_id).toggleClass("show");
+    $(trigger_id).toggleClass("active");
     $('body').toggleClass("offcanvas-active");
 });
 
 // close button 
 $(".btn-close").click(function(e){
-    $(".navbar-collapse").removeClass("show");
+    $(".navbar-collapse").removeClass("active");
     $("body").removeClass("offcanvas-active");
 }); 
 
