@@ -412,7 +412,7 @@ $(".btn-close").click(function(e){
     $(".navbar-collapse").removeClass("show");
     $("body").removeClass("offcanvas-active");
 }); 
-});
+
 </script>
 <cf_rolecheck>
 </cfoutput>
