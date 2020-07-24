@@ -115,13 +115,13 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 			SELECT 
 				underscore_collection.underscore_collection_id as underscore_collection_id, 
 				collection_name,
-				case length(description) 
-					when > 40 then
+				case 
+					when length(description) > 40 then
 						substr(description,1,40) || '...'
 					else
 						description
 					end
-					as description_trim,
+					as description_trim
 			FROM 
 				underscore_collection
 			WHERE
