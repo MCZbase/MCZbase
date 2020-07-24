@@ -401,8 +401,8 @@ $(document).ready(function() {
 //	 $(".nav-link").find(".show").removeClass("show");
 //	 $(this).addClass("show");
 	
-	$(".dropdown a").on("click", function(){
-    var trigger_id =  $(this).attr('.dropdown a');
+	$(".dropdown-menu li").on("click", function(){
+    var trigger_id =  $(this).attr('.dropdown-menu li');
     $(trigger_id).toggleClass("show");
     $('body').toggleClass("offcanvas-active");
 });
