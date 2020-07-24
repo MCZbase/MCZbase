@@ -452,7 +452,7 @@
 				</cfswitch>
 			</cfif>
 			<cfif isdefined("onlyShared") and len(#onlyShared#) gt 0>
-				AND locality.locality_id in (select locality_id from VPD_COLLECTION_LOCALITY group by locality_id having count(*) > 1)
+				AND locality.locality_id in (select locality_id from FLAT group by locality_id having count(distinct collection_cde) > 1)
 			</cfif>
 
 	</cfquery>
