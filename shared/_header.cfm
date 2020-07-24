@@ -390,19 +390,32 @@ $(document).ready(function() {
 </header>
 <script type="text/javascript"> 
 	/** add active class and stay opened when selected */ 
-	var url = window.location; 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+//	var url = window.location; 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 //	    var element = $('ul.navbar-nav a').filter(function() {
 //        return this.href == url || url.href.indexOf(this.href) == 0; }).parent().addClass('active');
 //        if (element.is('a')) { 
 //             element.addClass('active').parent().parent('li').addClass('active')
 //         }
-	$(".navbar-nav .nav-link a").on("click", function(){
-	 $(".nav-link").find(".show").removeClass("show");
-	 $(this).addClass("show");
-	
+//	$(".navbar-nav .nav-link a").on("click", function(){
+//	 $(".nav-link").find(".show").removeClass("show");
+//	 $(this).addClass("show");
+	$(document).ready(function() {
+
+    $( ".dropdown-submenu" ).click(function(event) {
+        // stop bootstrap.js to hide the parents
+        event.stopPropagation();
+        // hide the open children
+        $( this ).find(".dropdown-submenu").removeClass('open');
+        // add 'open' class to all parents with class 'dropdown-submenu'
+        $( this ).parents(".dropdown-submenu").addClass('open');
+        // this is also open (or was)
+        $( this ).toggleClass('open');
+    });
+    
+});
 
 </script>
 <cf_rolecheck>
