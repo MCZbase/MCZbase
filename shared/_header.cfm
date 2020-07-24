@@ -312,9 +312,9 @@ $(document).ready(function() {
 							Data Entry
 						</a>
 						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">New Record &raquo;</a>
+							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="##">New Record &raquo;</a>
 								<ul class="submenu dropdown-menu">
-									<li><a class="dropdown-item" href="##">Specimen</a></li>
+									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
 									<li><a class="dropdown-item" href="##">Media</a></li>
 									<li><a class="dropdown-item" href="##">Publication</a></li>
 									
@@ -330,7 +330,7 @@ $(document).ready(function() {
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Manage Data
+							Tools
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 							<a class="dropdown-item" name="projects" href="##">Projects</a>
@@ -350,18 +350,49 @@ $(document).ready(function() {
 				</cfif>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
+						
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Transactions
 						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
+						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink4">
+							<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Search All Transactions</a>
+							<a class="dropdown-item" name="bulkload records" href="##">Accessions</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="/DataEntry.cfm">Search &amp; Edit</a></li>
+									<li><a class="dropdown-item" href="##">New Accession</a></li>
+								</ul>
+							<a class="dropdown-item" name="borrows" href="##">Borrows</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="/Borrows.cfm">Search &amp; Edit</a></li>
+									<li><a class="dropdown-item" href="##">New Borrow</a></li>
+								</ul>
+								<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="##">Search &amp; Edit</a></li>
+									<li><a class="dropdown-item" href="##">New Deaccession</a></li>
+								</ul>
+								<a class="dropdown-item" name="deaccessions" href="/Transactions.cfm?action=findLoans">Loans</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="##">Search &amp; Edit</a></li>
+									<li><a class="dropdown-item" href="##">New Loan</a></li>
+								</ul>
+							<a class="dropdown-item" name="deaccessions" href="##">Permits</a>
+								<ul class="submenu dropdown-menu">
+									<li><a class="dropdown-item" href="##">Search &amp; Edit</a></li>
+									<li><a class="dropdown-item" href="##">New Permit</a></li>
+								</ul>
+						
+						</div>
+		<!---				<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
 							<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
+							
 							<a class="dropdown-item" name="accessions" href="##">Accessions</a>
 							<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
 							<a class="dropdown-item" name="borrows" href="##">Borrows</a>
 							<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
 							<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
 							<a class="dropdown-item" name="permits" href="##">Permits</a>
-						</div>
+						</div>--->
 					</li>
 				</cfif>
 				<li class="nav-item dropdown">
