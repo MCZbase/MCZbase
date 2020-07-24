@@ -390,9 +390,9 @@ $(document).ready(function() {
 </header>
 <script type="text/javascript"> 
 	/** add active class and stay opened when selected */ 
-//	var url = window.location; 
+	var url = window.location; 
 //	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 //	
 	    var element = $('ul.navbar-nav a').filter(function() {
         return this.href == url || url.href.indexOf(this.href) == 0; }).parent().addClass('active');
