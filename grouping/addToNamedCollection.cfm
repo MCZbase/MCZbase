@@ -18,7 +18,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 --->
-<cfset pageTitle = "Add to Named Collections">
+<cfset pageTitle = "Add to Named Collection">
 <cfinclude template="/shared/_header.cfm">
 <cfif NOT isdefined("action") >
 	<cfset action="selectColl">
@@ -82,7 +82,7 @@ limitations under the License.
 								</cfif>
 								<div class="form-row mb-2">
 									<div class="col-md-10">
-										<label for="underscore_collection">Named Collection</label>
+										<label for="underscore_collection">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
 										<script>
