@@ -70,7 +70,7 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
-		    <div class="container my-3">
+		    <div class="container">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
@@ -101,7 +101,7 @@ limitations under the License.
 							</form>
 						</div>
 		
-							<div class="form-row mb-2">
+							<div class="form-row mb-5">
 								<table class="table table-responsive">
 									<thead>
 									<tr>
