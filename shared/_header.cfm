@@ -244,12 +244,12 @@ nav ul {
 	margin-top: -3px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
-	border-left-color: ##deebec;
+	border-left-color: ##666;
 	margin-top: -3px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 3px solid transparent;
-	border-right-color: ##deebec;
+	border-right-color: ##666;
 	right: 10px;
 }
 ##main_nav ul li:hover > ul,
