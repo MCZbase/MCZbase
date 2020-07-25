@@ -156,23 +156,23 @@ nav ul {
 }
 .nav a {
   display:block; 
-  background: #111; 
-  color: #fff; 
+  background: ##111; 
+  color: ##fff; 
   text-decoration: none;
   padding: 0.8em 1.8em;
   text-transform: uppercase;
   font-size: 80%;
   letter-spacing: 2px;
-  text-shadow: 0 -1px 0 #000;
+  text-shadow: 0 -1px 0 ##000;
   position: relative;
 }
 .nav{  
   vertical-align: top; 
   display: inline-block;
   box-shadow: 
-    1px -1px -1px 1px #000, 
-    -1px 1px -1px 1px #fff, 
-    0 0 6px 3px #fff;
+    1px -1px -1px 1px ##000, 
+    -1px 1px -1px 1px ##fff, 
+    0 0 6px 3px ##fff;
   border-radius:6px;
 }
 .nav li {
@@ -180,16 +180,16 @@ nav ul {
 }
 .nav > li { 
   float: left; 
-  border-bottom: 4px #aaa solid; 
+  border-bottom: 4px ##aaa solid; 
   margin-right: 1px; 
 } 
 .nav > li > a { 
   margin-bottom: 1px;
-  box-shadow: inset 0 2em .33em -0.5em #555; 
+  box-shadow: inset 0 2em .33em -0.5em ##555; 
 }
 .nav > li:hover, 
 .nav > li:hover > a { 
-  border-bottom-color: orange;
+  border-bottom-color: blue;
 }
 .nav li:hover > a { 
   color:orange; 
@@ -223,7 +223,7 @@ nav ul {
 .nav ul {
   position: absolute;
   white-space: nowrap;
-  border-bottom: 5px solid  orange;
+  border-bottom: 5px solid  blue;
   z-index: 1;
   left: -99999em;
 }
@@ -239,20 +239,20 @@ nav ul {
 }
 /* arrow hover styling */
 .nav > li > a:first-child:nth-last-child(2):before { 
-  border-top-color: #aaa; 
+  border-top-color: ##aaa; 
 }
 .nav > li:hover > a:first-child:nth-last-child(2):before {
   border: 5px solid transparent; 
-  border-bottom-color: orange; 
+  border-bottom-color: blue; 
   margin-top:-5px
 }
 .nav li li > a:first-child:nth-last-child(2):before {  
-  border-left-color: #aaa; 
+  border-left-color: ##aaa; 
   margin-top: -5px
 }
 .nav li li:hover > a:first-child:nth-last-child(2):before {
   border: 5px solid transparent; 
-  border-right-color: orange;
+  border-right-color: blue;
   right: 10px; 
 }
 </style>
@@ -496,40 +496,52 @@ nav ul {
 		</nav>--->
 		<nav>
   <ul class="nav">
-    <li><a href="#">About</a></li>
-    <li><a href="#">Portfolio</a>
+    <li><a href="##">home</a></li>
+    <li><a href="#">Search</a>
       <ul>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
+        <li><a href="/Specimens.cfm">Specimens</a></li>
+        <li><a href="##">Taxonomy</a></li>
+        <li><a href="##">Media</a></li>
+        <li><a href="##">Publications</a></li>
+		  <li><a href="/Taxa.cfm">Publications</a></li>
       </ul>
     </li>
-    <li><a href="#">Resume</a>
+    <li><a href="#">Enter Data</a>
       <ul>
-        <li><a href="#">item a lonng submenu</a></li>
-        <li><a href="#">item</a>
+   
+        <li><a href="##">New Record</a>
           <ul>
-            <li><a href="#">Ray</a></li>
-            <li><a href="#">Veronica</a></li>
-            <li><a href="#">Bushy</a></li>
-            <li><a href="#">Havoc</a></li>
+            <li><a href="/DataEntry.cfm">Specimen</a></li>
+            <li><a href="##">Media</a></li>
+            <li><a href="##">Publication</a></li>
+            <li><a href="##">Agent</a></li>
           </ul>
         </li>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
+        <li><a href="##">Bulkloader</a>
+		  <ul>
+            <li><a href="##">Bulkload Specimens</a></li>
+            <li><a href="##">Bulkloader Status</a></li>
+            <li><a href="##">Bulkload .CSV Builder</a></li>
+            <li><a href="##">Browse and Edit Staged Records</a></li>
+          </ul></li>
+        <li><a href="##">Batch Tools</a>	  <ul>
+            <li><a href="##">Agents</a></li>
+            <li><a href="##">Attributes</a></li>
+            <li><a href="##">Containers</a></li>
+            <li><a href="##">Media</a></li>
+          </ul>
+		  </li>
       </ul>
     </li>
-    <li><a href="#">Download</a></li>
-    <li><a href="#">Rants</a>
+    <li><a href="##">Transactions</a>
       <ul>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
-        <li><a href="#">item</a></li>
+        <li><a href="##">item</a></li>
+        <li><a href="##">item</a></li>
+        <li><a href="##">item</a></li>
+        <li><a href="##">item</a></li>
       </ul>
     </li>
-    <li><a href="#">Contact</a></li>
+    <li><a href="##">About</a></li>
   </ul>
 </nav>
 	</div>
