@@ -80,7 +80,7 @@ limitations under the License.
 								<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
-								<div class="row mb-2">
+								<div class="form-row mb-2">
 									<div class="col-12 col-sm-8">
 										<label for="underscore_collection">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
@@ -99,8 +99,9 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							<div class="form-row mb-2">
+						</div>
 		
+							<div class="form-row mb-2">
 								<table class="table table-responsive">
 									<thead>
 									<tr>
