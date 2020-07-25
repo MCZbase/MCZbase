@@ -251,10 +251,10 @@ nav ul {
 	border-right-color: blue;
 	right: 10px;
 }
-#main_nav ul li:hover > ul,
-#main_nav ul li:focus-within > ul,
-#main_nav ul li ul:hover,
-#main_nav ul li ul:focus {
+##main_nav ul li:hover > ul,
+##main_nav ul li:focus-within > ul,
+##main_nav ul li ul:hover,
+##main_nav ul li ul:focus {
   visibility: visible;
   opacity: 1;
   display: block
