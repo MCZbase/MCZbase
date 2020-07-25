@@ -156,8 +156,8 @@ nav ul {
 }
 .nav-menu a {
 	display: block;
-	background: ##111;
-	color: ##fff;
+	background: ##f8f9fa;
+	color: rgba(0,0,0,.7);
 	text-decoration: none;
 	padding: 0.8em 1.8em;
 	text-transform: uppercase;
@@ -177,18 +177,18 @@ nav ul {
 }
 .nav-menu > li {
 	float: left;
-	border-bottom: 4px ##aaa solid;
+	border-bottom: 4px ##deebec solid;
 	margin-right: 1px;
 }
 .nav-menu > li > a {
 	margin-bottom: 1px;
-	box-shadow: inset 0 2em .33em -0.5em ##555;
+	box-shadow: inset 0 2em .33em -0.5em ##deebec;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
-	border-bottom-color: blue;
+	border-bottom-color: black;
 }
 .nav-menu li:hover > a {
-	color: blue;
+	color: rgba(0,0,0,.7);
 }
 .nav-menu > li:first-child {
 	border-radius: 4px 0 0 4px;
@@ -219,7 +219,7 @@ nav ul {
 .nav-menu ul {
 	position: absolute;
 	white-space: nowrap;
-	border-bottom: 5px solid blue;
+	border-bottom: 5px solid rgba(0,0,0,.7);
 	z-index: 1;
 	left: -99999em;
 }
@@ -235,20 +235,20 @@ nav ul {
 }
 /* arrow hover styling */
 .nav-menu > li > a:first-child:nth-last-child(2):before {
-	border-top-color: ##aaa;
+	border-top-color: ##deebec;
 }
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
-	border-bottom-color: blue;
+	border-bottom-color: ##deebec;
 	margin-top: -5px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
-	border-left-color: ##aaa;
+	border-left-color: ##deebec;
 	margin-top: -5px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
-	border-right-color: blue;
+	border-right-color: ##deebec;
 	right: 10px;
 }
 ##main_nav ul li:hover > ul,
@@ -277,7 +277,7 @@ nav ul {
 .nav-menu ul {
 	position: relative;
 	white-space: nowrap;
-	border-bottom: 5px solid blue;
+	border-bottom: 5px solid ##deebec;
 	z-index: 1;
 	left: -99999em;
 }
