@@ -157,7 +157,7 @@ nav ul {
 .nav-menu a {
 	display: block;
 	background: ##f8f9fa;
-	color: rgba(0,0,0,.7);
+	color: rgba(0,0,0,.5);
 	text-decoration: none;
 	padding: 0.8em 1.8em;
 	text-transform: uppercase;
@@ -177,7 +177,7 @@ nav ul {
 }
 .nav-menu > li {
 	float: left;
-	border-bottom: 4px ##deebec solid;
+	border-bottom: 2px ##deebec solid;
 	margin-right: 1px;
 }
 .nav-menu > li > a {
@@ -185,10 +185,10 @@ nav ul {
 	box-shadow: inset 0 2em .33em -0.5em ##deebec;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
-	border-bottom-color: rgba(0,0,0,.7);
+	border-bottom-color: rgba(0,0,0,.5);
 }
 .nav-menu li:hover > a {
-	color: rgba(0,0,0,.7);
+	color: rgba(0,0,0,.5);
 }
 .nav-menu > li:first-child {
 	border-radius: 4px 0 0 4px;
@@ -219,7 +219,7 @@ nav ul {
 .nav-menu ul {
 	position: absolute;
 	white-space: nowrap;
-	border-bottom: 5px solid rgba(0,0,0,.7);
+	border-bottom: 3px solid rgba(0,0,0,.5);
 	z-index: 1;
 	background-color:white;
 	left: -99999em;
@@ -241,14 +241,14 @@ nav ul {
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-bottom-color: ##deebec;
-	margin-top: -5px
+	margin-top: -3px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##deebec;
-	margin-top: -5px
+	margin-top: -3px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-	border: 5px solid transparent;
+	border: 3px solid transparent;
 	border-right-color: ##deebec;
 	right: 10px;
 }
