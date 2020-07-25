@@ -255,36 +255,18 @@ nav ul {
   border-right-color: blue;
   right: 10px; 
 }
-@media (max-width: 992px){
-	.nav li a:first-child:nth-last-child(2):before { 
-  content: ""; 
+@media (max-width: 44em){
+.nav li a:first-child:nth-last-child(2):before { 
   position: relative; 
-  height: 0; 
-  width: 0; 
-  border: 5px solid transparent; 
- 
  }
 	/* submenu positioning*/
 .nav ul {
   position: relative;
-  white-space: nowrap;
-  border-bottom: 5px solid  blue;
-  z-index: 1;
-
 }
-	.nav > li:hover > ul {
-  left:0;
-width:100%;
-  margin-top: 5px;
-  min-width: 100%;
-}
-.nav > li li:hover > ul { 
-  left: 100%;
-  margin-left: 1px;
-  top: -1px;
-	left:0;
-	Width:100%;
-}
+  nav[role="full-horizontal"] {
+    ul > li {
+      width: 100%;
+    }
 }
 </style>
 </head>
@@ -525,7 +507,7 @@ width:100%;
 			<!-- navbar-collapse.// --> 
 			
 		</nav>--->
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav role="full-horizontal">
 <button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 <div class="collapse navbar-collapse" id="main_nav">
 <ul class="nav">
