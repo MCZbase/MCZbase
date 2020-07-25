@@ -263,6 +263,25 @@ nav ul {
     }
  ul > li li {
   width: 100%;
+
+	 
+}
+.nav ul {
+  position:relative;
+  white-space: nowrap;
+  border-bottom: 5px solid  blue;
+  z-index: 1;
+  left: -99999em;
+}
+.nav > li:hover > ul {
+  left: 0;
+  margin-top: 5px;
+  min-width: 100%;
+}
+.nav > li li:hover > ul { 
+  left: 0;
+  margin-left: 1px;
+  top: 0px;
 }
 }
 </style>
