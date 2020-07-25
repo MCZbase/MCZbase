@@ -185,7 +185,7 @@ nav ul {
 	box-shadow: inset 0 2em .33em -0.5em ##deebec;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
-	border-bottom-color: rgba(0,0,0,.5);
+	border-bottom-color:#3E6F7D;
 }
 .nav-menu li:hover > a {
 	color: rgba(0,0,0,.5);
