@@ -147,7 +147,7 @@ limitations under the License.
 <style type="text/css">
 nav {
 	display: block;
-	text-align: center;
+	text-align: left;
 }
 nav ul {
 	margin: 0;
