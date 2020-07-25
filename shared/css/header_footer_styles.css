@@ -59,9 +59,7 @@ nav .navbar-nav li a.nav-link {
 	padding-right: 1rem;
 	padding-left: 1rem;
 }
-.dropdown-menu {
-	margin: 0 0 0;
-}
+
 .nav-bar .dropdown-menu.submenu{ 
 		display: none;
 		position: absolute;
@@ -128,6 +126,9 @@ nav .navbar-nav li a.nav-link {
 
 
 @media (min-width: 992px){
+	.dropdown-menu {
+	margin: 0 0 0;
+}
 	.dropdown-menu .dropdown-menu{
 		margin-left:0; margin-right: 0;
 
