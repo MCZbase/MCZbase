@@ -251,8 +251,21 @@ nav ul {
 	border-right-color: blue;
 	right: 10px;
 }
+ul li:hover > ul,
+ul li:focus-within > ul,
+ul li ul:hover,
+ul li ul:focus {
+  visibility: visible;
+  opacity: 1;
+  display: block
+}
 
+ul li ul li {
+	clear: both;
+  width: 100%;
+}
 @media (max-width: 44em) {
+	.nav {display:block;}
 ul > li {
 	width: 100%;
 }
@@ -273,7 +286,6 @@ ul > li li {
 	left: 0;
 	margin-top: 5px;
 	min-width: 100%;
-	height:auto;
 }
 .nav > li li:hover > ul {
 	left: 0;
@@ -527,18 +539,18 @@ ul > li li {
 				<ul class="nav">
 					<li><a href="##">home</a></li>
 					<li><a href="##">Search</a>
-						<ul>
+						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Taxonomy</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
-							<li><a href="/Taxa.cfm">Publications</a></li>
+							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
 					<li><a href="##">Enter Data</a>
-						<ul>
+						   <ul class="dropdown" aria-label="submenu">
 							<li><a href="##">New Record</a>
-								<ul>
+							   <ul class="dropdown" aria-label="submenu">
 									<li><a href="/DataEntry.cfm">Specimen</a></li>
 									<li><a href="##">Media</a></li>
 									<li><a href="##">Publication</a></li>
@@ -546,7 +558,7 @@ ul > li li {
 								</ul>
 							</li>
 							<li><a href="##">Bulkloader</a>
-								<ul>
+								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Bulkload Specimens</a></li>
 									<li><a href="##">Bulkloader Status</a></li>
 									<li><a href="##">Bulkload .CSV Builder</a></li>
@@ -554,7 +566,7 @@ ul > li li {
 								</ul>
 							</li>
 							<li><a href="##">Batch Tools</a>
-								<ul>
+								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Agents</a></li>
 									<li><a href="##">Attributes</a></li>
 									<li><a href="##">Containers</a></li>
@@ -564,7 +576,7 @@ ul > li li {
 						</ul>
 					</li>
 					<li><a href="##">Transactions</a>
-						<ul>
+						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">item</a></li>
 							<li><a href="##">item</a></li>
 							<li><a href="##">item</a></li>
