@@ -81,7 +81,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
 								<div class="row mb-2">
-									<div class="col-8">
+									<div class="col-12 col-sm-8">
 										<label for="underscore_collection">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
@@ -91,24 +91,28 @@ limitations under the License.
 											});
 										</script>
 									</div>					
-									<div class="col-2">
-												
+									<div class="col-6 col-sm-3 mt-2 mt-sm-4">
 										<input type="submit" id="add_button" value="Add Items" class="btn-sm btn-primary">
 									</div>
-									<div class="col-2"><a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a></div>
+									<div class="col-6 col-sm-3 mt-2 mt-sm-4">
+									<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
+									</div>
 								</div>
 							</form>
 							<div class="form-row mb-2">
 		
-								<table border width="100%">
+								<table class="table table-responsive">
+									<thead>
 									<tr>
-										<td>Cat Num</td>
-										<td>Scientific Name</td>
-										<td>Collectors</td>
-										<td>Geog</td>
-										<td>Spec Loc</td>
-										<td>Date</td>
+										<th>Cat Num</th>
+										<th>Scientific Name</th>
+										<th>Collectors</th>
+										<th>Geog</th>
+										<th>Spec Loc</th>
+										<th>Date</th>
 									</tr>
+								</thead>
+									<tbody>
 									<cfloop query="getItems" group="collection_object_id">
 									<tr>
 										<td>#collection# #cat_num#</td>
@@ -132,6 +136,7 @@ limitations under the License.
 										<td style="width:100px;">#verbatim_date#</td>
 									</tr>
 									</cfloop>
+									</tbody>
 								</table>
 		
 							</div>
