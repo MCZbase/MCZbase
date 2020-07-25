@@ -81,7 +81,7 @@ limitations under the License.
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
 								<div class="row mb-2">
-									<div class="col-10">
+									<div class="col-8">
 										<label for="underscore_collection">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
@@ -92,9 +92,10 @@ limitations under the License.
 										</script>
 									</div>					
 									<div class="col-2">
-												<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
-										<input type="submit" id="add_button" value="Add Items" class="btn-xs btn-primary">
+												
+										<input type="submit" id="add_button" value="Add Items" class="btn-sm btn-primary">
 									</div>
+									<div class="col-2"><a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a></div>
 								</div>
 							</form>
 							<div class="form-row mb-2">
