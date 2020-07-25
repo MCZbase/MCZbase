@@ -251,10 +251,10 @@ nav ul {
 	border-right-color: blue;
 	right: 10px;
 }
-.nav-menu ul li:hover > ul,
-.nav-menu ul li:focus-within > ul,
-.nav-menu ul li ul:hover,
-.nav-menu ul li ul:focus {
+#main_nav ul li:hover > ul,
+#main_nav ul li:focus-within > ul,
+#main_nav ul li ul:hover,
+#main_nav ul li ul:focus {
   visibility: visible;
   opacity: 1;
   display: block
@@ -265,11 +265,13 @@ nav ul {
   width: 100%;
 }
 @media (max-width: 44em) {
-	.nav {display:block;}
-.nav-menu ul > li {
+.nav-menu {
+	display:block;
+}
+ ul.nav-menu > li {
 	width: 100%;
 }
-.nav-menu ul > li li {
+ ul.nav-menu > li li {
 	width: 100%;
 }
 .nav-menu ul {
