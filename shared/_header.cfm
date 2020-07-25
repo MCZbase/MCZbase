@@ -213,7 +213,7 @@ nav ul {
 	width: 0;
 	border: 5px solid transparent;
 	top: 50%;
-	right: 3px;
+	right: 5px;
 }
 /* submenu positioning*/
 .nav-menu ul {
@@ -245,12 +245,12 @@ nav ul {
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##666;
-	margin-top: -3px
+	margin-top: -5px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-	border: 3px solid transparent;
+	border: 5px solid transparent;
 	border-right-color: ##666;
-	right: 10px;
+	right: 5px;
 }
 ##main_nav ul li:hover > ul,
 ##main_nav ul li:focus-within > ul,
