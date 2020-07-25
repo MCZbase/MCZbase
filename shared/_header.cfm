@@ -145,143 +145,141 @@ limitations under the License.
 //}); // jquery end
 </script>
 <style type="text/css">
-nav {    
-  display: block;
-  text-align: center;
+nav {
+	display: block;
+	text-align: center;
 }
 nav ul {
-  margin: 0;
-  padding:0;
-  list-style: none;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 .nav a {
-  display:block; 
-  background: ##111; 
-  color: ##fff; 
-  text-decoration: none;
-  padding: 0.8em 1.8em;
-  text-transform: uppercase;
-  font-size: 80%;
-  letter-spacing: 2px;
-  text-shadow: 0 -1px 0 ##000;
-  position: relative;
+	display: block;
+	background: ##111;
+	color: ##fff;
+	text-decoration: none;
+	padding: 0.8em 1.8em;
+	text-transform: uppercase;
+	font-size: 80%;
+	letter-spacing: 2px;
+	text-shadow: 0 -1px 0 ##000;
+	position: relative;
 }
-.nav{  
-  vertical-align: top; 
-  display: inline-block;
-  box-shadow: 
-    1px -1px -1px 1px ##000, 
-    -1px 1px -1px 1px ##fff, 
-    0 0 6px 3px ##fff;
-  border-radius:6px;
+.nav {
+	vertical-align: top;
+	display: inline-block;
+	box-shadow: 1px -1px -1px 1px ##000, -1px 1px -1px 1px ##fff, 0 0 6px 3px ##fff;
+	border-radius: 6px;
 }
 .nav li {
-  position: relative;
+	position: relative;
 }
-.nav > li { 
-  float: left; 
-  border-bottom: 4px ##aaa solid; 
-  margin-right: 1px; 
-} 
-.nav > li > a { 
-  margin-bottom: 1px;
-  box-shadow: inset 0 2em .33em -0.5em ##555; 
+.nav > li {
+	float: left;
+	border-bottom: 4px ##aaa solid;
+	margin-right: 1px;
 }
-.nav > li:hover, 
-.nav > li:hover > a { 
-  border-bottom-color: blue;
+.nav > li > a {
+	margin-bottom: 1px;
+	box-shadow: inset 0 2em .33em -0.5em ##555;
 }
-.nav li:hover > a { 
-  color:blue; 
+.nav > li:hover, .nav > li:hover > a {
+	border-bottom-color: blue;
 }
-.nav > li:first-child { 
-  border-radius: 4px 0 0 4px;
-} 
-.nav > li:first-child > a { 
-  border-radius: 4px 0 0 0;
+.nav li:hover > a {
+	color: blue;
 }
-.nav > li:last-child { 
-  border-radius: 0 0 4px 0; 
-  margin-right: 0;
-} 
-.nav > li:last-child > a { 
-  border-radius: 0 4px 0 0;
+.nav > li:first-child {
+	border-radius: 4px 0 0 4px;
 }
-.nav li li a { 
-  margin-top: 1px;
+.nav > li:first-child > a {
+	border-radius: 4px 0 0 0;
 }
-.nav li a:first-child:nth-last-child(2):before { 
-  content: ""; 
-  position: absolute; 
-  height: 0; 
-  width: 0; 
-  border: 5px solid transparent; 
-  top: 50% ;
-  right:5px;  
- }
-	/* submenu positioning*/
+.nav > li:last-child {
+	border-radius: 0 0 4px 0;
+	margin-right: 0;
+}
+.nav > li:last-child > a {
+	border-radius: 0 4px 0 0;
+}
+.nav li li a {
+	margin-top: 1px;
+}
+.nav li a:first-child:nth-last-child(2):before {
+	content: "";
+	position: absolute;
+	height: 0;
+	width: 0;
+	border: 5px solid transparent;
+	top: 50%;
+	right: 5px;
+}
+/* submenu positioning*/
 .nav ul {
-  position: absolute;
-  white-space: nowrap;
-  border-bottom: 5px solid  blue;
-  z-index: 1;
-  left: -99999em;
+	position: absolute;
+	white-space: nowrap;
+	border-bottom: 5px solid blue;
+	z-index: 1;
+	left: -99999em;
 }
 .nav > li:hover > ul {
-  left: auto;
-  margin-top: 5px;
-  min-width: 100%;
+	left: auto;
+	margin-top: 5px;
+	min-width: 100%;
 }
-.nav > li li:hover > ul { 
-  left: 100%;
-  margin-left: 1px;
-  top: -1px;
+.nav > li li:hover > ul {
+	left: 100%;
+	margin-left: 1px;
+	top: -1px;
 }
 /* arrow hover styling */
-.nav > li > a:first-child:nth-last-child(2):before { 
-  border-top-color: ##aaa; 
+.nav > li > a:first-child:nth-last-child(2):before {
+	border-top-color: ##aaa;
 }
 .nav > li:hover > a:first-child:nth-last-child(2):before {
-  border: 5px solid transparent; 
-  border-bottom-color: blue; 
-  margin-top:-5px
+	border: 5px solid transparent;
+	border-bottom-color: blue;
+	margin-top: -5px
 }
-.nav li li > a:first-child:nth-last-child(2):before {  
-  border-left-color: ##aaa; 
-  margin-top: -5px
+.nav li li > a:first-child:nth-last-child(2):before {
+	border-left-color: ##aaa;
+	margin-top: -5px
 }
 .nav li li:hover > a:first-child:nth-last-child(2):before {
-  border: 5px solid transparent; 
-  border-right-color: blue;
-  right: 10px; 
+	border: 5px solid transparent;
+	border-right-color: blue;
+	right: 10px;
 }
-@media (max-width: 44em){
 
-
- ul > li {
-      width: 100%;
-    }
- ul > li li {
-  width: 100%;
-
-	 
+@media (max-width: 44em) {
+ul > li {
+	width: 100%;
+}
+ul > li li {
+	width: 100%;
 }
 .nav ul {
-  position:relative;
-  white-space: nowrap;
-  border-bottom: 5px solid  blue;
-  z-index: 1;
-  left: -99999em;
+	position: relative;
+	white-space: nowrap;
+	border-bottom: 5px solid blue;
+	z-index: 1;
+	left: -99999em;
+}
+.nav li {
+	height: 40px;
 }
 .nav > li:hover > ul {
-  left: 0;
-  margin-top: 5px;
-  min-width: 100%;
+	left: 0;
+	margin-top: 5px;
+	min-width: 100%;
+	height:auto;
 }
-.nav > li li:hover > ul { 
-  left: 0;
-  margin-left: 1px;
-  top: 0px;
+.nav > li li:hover > ul {
+	left: 0;
+	margin-left: 1px;
+	top: 0px;
+	display:block;
 }
 }
 </style>
@@ -321,8 +319,8 @@ nav ul {
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-<div class="container-fluid bg-light">
-	<!---	<nav class="navbar navbar-expand-lg navbar-light">
+	<div class="container-fluid bg-light"> 
+		<!---	<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
@@ -523,58 +521,59 @@ nav ul {
 			<!-- navbar-collapse.// --> 
 			
 		</nav>--->
-<nav class="navbar navbar-expand-lg navbar-light">
-<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
-<div class="collapse navbar-collapse" id="main_nav">
-<ul class="nav">
-    <li><a href="##">home</a></li>
-    <li><a href="##">Search</a>
-      <ul>
-        <li><a href="/Specimens.cfm">Specimens</a></li>
-        <li><a href="##">Taxonomy</a></li>
-        <li><a href="##">Media</a></li>
-        <li><a href="##">Publications</a></li>
-		  <li><a href="/Taxa.cfm">Publications</a></li>
-      </ul>
-    </li>
-    <li><a href="##">Enter Data</a>
-      <ul>
-   
-        <li><a href="##">New Record</a>
-          <ul>
-            <li><a href="/DataEntry.cfm">Specimen</a></li>
-            <li><a href="##">Media</a></li>
-            <li><a href="##">Publication</a></li>
-            <li><a href="##">Agent</a></li>
-          </ul>
-        </li>
-        <li><a href="##">Bulkloader</a>
-		  <ul>
-            <li><a href="##">Bulkload Specimens</a></li>
-            <li><a href="##">Bulkloader Status</a></li>
-            <li><a href="##">Bulkload .CSV Builder</a></li>
-            <li><a href="##">Browse and Edit Staged Records</a></li>
-          </ul></li>
-        <li><a href="##">Batch Tools</a>	  <ul>
-            <li><a href="##">Agents</a></li>
-            <li><a href="##">Attributes</a></li>
-            <li><a href="##">Containers</a></li>
-            <li><a href="##">Media</a></li>
-          </ul>
-		  </li>
-      </ul>
-    </li>
-    <li><a href="##">Transactions</a>
-      <ul>
-        <li><a href="##">item</a></li>
-        <li><a href="##">item</a></li>
-        <li><a href="##">item</a></li>
-        <li><a href="##">item</a></li>
-      </ul>
-    </li>
-    <li><a href="##">About</a></li>
-  </ul>
-<cfif isdefined("session.username") and len(#session.username#) gt 0>
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
+			<div class="collapse navbar-collapse" id="main_nav">
+				<ul class="nav">
+					<li><a href="##">home</a></li>
+					<li><a href="##">Search</a>
+						<ul>
+							<li><a href="/Specimens.cfm">Specimens</a></li>
+							<li><a href="##">Taxonomy</a></li>
+							<li><a href="##">Media</a></li>
+							<li><a href="##">Publications</a></li>
+							<li><a href="/Taxa.cfm">Publications</a></li>
+						</ul>
+					</li>
+					<li><a href="##">Enter Data</a>
+						<ul>
+							<li><a href="##">New Record</a>
+								<ul>
+									<li><a href="/DataEntry.cfm">Specimen</a></li>
+									<li><a href="##">Media</a></li>
+									<li><a href="##">Publication</a></li>
+									<li><a href="##">Agent</a></li>
+								</ul>
+							</li>
+							<li><a href="##">Bulkloader</a>
+								<ul>
+									<li><a href="##">Bulkload Specimens</a></li>
+									<li><a href="##">Bulkloader Status</a></li>
+									<li><a href="##">Bulkload .CSV Builder</a></li>
+									<li><a href="##">Browse and Edit Staged Records</a></li>
+								</ul>
+							</li>
+							<li><a href="##">Batch Tools</a>
+								<ul>
+									<li><a href="##">Agents</a></li>
+									<li><a href="##">Attributes</a></li>
+									<li><a href="##">Containers</a></li>
+									<li><a href="##">Media</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><a href="##">Transactions</a>
+						<ul>
+							<li><a href="##">item</a></li>
+							<li><a href="##">item</a></li>
+							<li><a href="##">item</a></li>
+							<li><a href="##">item</a></li>
+						</ul>
+					</li>
+					<li><a href="##">About</a></li>
+				</ul>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
 						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -617,9 +616,9 @@ nav ul {
 						</div>
 					</form>
 				</cfif>
-</div>
-</nav>
-</div>
+			</div>
+		</nav>
+	</div>
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
