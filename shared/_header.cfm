@@ -118,34 +118,143 @@ limitations under the License.
 	<cfset setDbUser()>
 </cfif>
 <script type="text/javascript">
-/// some script
-
-// jquery ready start
-$(document).ready(function() {
-	// jQuery code
-
-	//////////////////////// Prevent closing from click inside dropdown
-    $(document).on('click', '.dropdown-menu', function (e) {
-      e.stopPropagation();
-    });
-
-    // make it as accordion for smaller screens
-    if ($(window).width() < 992) {
-	  	$('.dropdown-menu li a').click(function(e){
-	  		e.preventDefault();
-	        if($(this).next('.submenu').length){
-	        	$(this).next('.submenu').toggle();
-	        }
-	        $('.dropdown').on('hide.bs.dropdown', function () {
-			   $(this).find('.submenu').hide();
-			})
-	  	});
-	}
-	
-}); // jquery end
+///// some script
+//
+//// jquery ready start
+//$(document).ready(function() {
+//	// jQuery code
+//
+//	//////////////////////// Prevent closing from click inside dropdown
+//    $(document).on('click', '.dropdown-menu', function (e) {
+//      e.stopPropagation();
+//    });
+//
+//    // make it as accordion for smaller screens
+//    if ($(window).width() < 992) {
+//	  	$('.dropdown-menu li a').click(function(e){
+//	  		e.preventDefault();
+//	        if($(this).next('.submenu').length){
+//	        	$(this).next('.submenu').toggle();
+//	        }
+//	        $('.dropdown').on('hide.bs.dropdown', function () {
+//			   $(this).find('.submenu').hide();
+//			})
+//	  	});
+//	}
+//	
+//}); // jquery end
 </script>
 <style type="text/css">
-
+nav {    
+  display: block;
+  text-align: center;
+}
+nav ul {
+  margin: 0;
+  padding:0;
+  list-style: none;
+}
+.nav a {
+  display:block; 
+  background: #111; 
+  color: #fff; 
+  text-decoration: none;
+  padding: 0.8em 1.8em;
+  text-transform: uppercase;
+  font-size: 80%;
+  letter-spacing: 2px;
+  text-shadow: 0 -1px 0 #000;
+  position: relative;
+}
+.nav{  
+  vertical-align: top; 
+  display: inline-block;
+  box-shadow: 
+    1px -1px -1px 1px #000, 
+    -1px 1px -1px 1px #fff, 
+    0 0 6px 3px #fff;
+  border-radius:6px;
+}
+.nav li {
+  position: relative;
+}
+.nav > li { 
+  float: left; 
+  border-bottom: 4px #aaa solid; 
+  margin-right: 1px; 
+} 
+.nav > li > a { 
+  margin-bottom: 1px;
+  box-shadow: inset 0 2em .33em -0.5em #555; 
+}
+.nav > li:hover, 
+.nav > li:hover > a { 
+  border-bottom-color: orange;
+}
+.nav li:hover > a { 
+  color:orange; 
+}
+.nav > li:first-child { 
+  border-radius: 4px 0 0 4px;
+} 
+.nav > li:first-child > a { 
+  border-radius: 4px 0 0 0;
+}
+.nav > li:last-child { 
+  border-radius: 0 0 4px 0; 
+  margin-right: 0;
+} 
+.nav > li:last-child > a { 
+  border-radius: 0 4px 0 0;
+}
+.nav li li a { 
+  margin-top: 1px;
+}
+.nav li a:first-child:nth-last-child(2):before { 
+  content: ""; 
+  position: absolute; 
+  height: 0; 
+  width: 0; 
+  border: 5px solid transparent; 
+  top: 50% ;
+  right:5px;  
+ }
+	/* submenu positioning*/
+.nav ul {
+  position: absolute;
+  white-space: nowrap;
+  border-bottom: 5px solid  orange;
+  z-index: 1;
+  left: -99999em;
+}
+.nav > li:hover > ul {
+  left: auto;
+  margin-top: 5px;
+  min-width: 100%;
+}
+.nav > li li:hover > ul { 
+  left: 100%;
+  margin-left: 1px;
+  top: -1px;
+}
+/* arrow hover styling */
+.nav > li > a:first-child:nth-last-child(2):before { 
+  border-top-color: #aaa; 
+}
+.nav > li:hover > a:first-child:nth-last-child(2):before {
+  border: 5px solid transparent; 
+  border-bottom-color: orange; 
+  margin-top:-5px
+}
+.nav li li > a:first-child:nth-last-child(2):before {  
+  border-left-color: #aaa; 
+  margin-top: -5px
+}
+.nav li li:hover > a:first-child:nth-last-child(2):before {
+  border: 5px solid transparent; 
+  border-right-color: orange;
+  right: 10px; 
+}
 </style>
 </head>
 <body class="default">
@@ -184,7 +293,7 @@ $(document).ready(function() {
 		</ul>
 	</div>
 	<div class="container-fluid bg-light">
-		<nav class="navbar navbar-expand-lg navbar-light">
+	<!---	<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav">
@@ -384,7 +493,45 @@ $(document).ready(function() {
 			</div>
 			<!-- navbar-collapse.// --> 
 			
-		</nav>
+		</nav>--->
+		<nav>
+  <ul class="nav">
+    <li><a href="#">About</a></li>
+    <li><a href="#">Portfolio</a>
+      <ul>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Resume</a>
+      <ul>
+        <li><a href="#">item a lonng submenu</a></li>
+        <li><a href="#">item</a>
+          <ul>
+            <li><a href="#">Ray</a></li>
+            <li><a href="#">Veronica</a></li>
+            <li><a href="#">Bushy</a></li>
+            <li><a href="#">Havoc</a></li>
+          </ul>
+        </li>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Download</a></li>
+    <li><a href="#">Rants</a>
+      <ul>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+        <li><a href="#">item</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
 	</div>
 	<!-- container //  --> 
 </header>
