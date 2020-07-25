@@ -74,14 +74,14 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
-							<h2 id="formheading">Add all the items listed below to the selected named group of cataloged items.</h2>
+							<h1 class="h2" id="formheading">Add all the items listed below to the selected named group of cataloged items.</h1>
 							<form name="addItems" method="post" action="addToNamedCollection.cfm">
 								<input type="hidden" name="Action" value="addItems">
 								<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
-								<div class="form-row mb-2">
-									<div class="col-md-10">
+								<div class="row mb-2">
+									<div class="col-10">
 										<label for="underscore_collection">Select a Named Group</label>
 										<input type="text" name="collection_name" id="collection_name" class="form-control-sm reqdClr" required>
 										<input type="hidden" name="underscore_collection_id" id="underscore_collection_id">
@@ -90,14 +90,10 @@ limitations under the License.
 												makeNamedCollectionPicker('collection_name','underscore_collection_id');
 											});
 										</script>
-									</div>
-									<div class="col-md-2">
-										<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
-									</div>
-								<div>
-								<div class="form-row mb-2">
-									<div class="col-md-12">
-										<input type="submit" id="add_button" value="Add Items" class="btn btn-primary">
+									</div>					
+									<div class="col-2">
+												<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
+										<input type="submit" id="add_button" value="Add Items" class="btn-xs btn-primary">
 									</div>
 								</div>
 							</form>
