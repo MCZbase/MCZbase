@@ -176,3 +176,4 @@ limitations under the License.
 		<cfthrow message="Action for addToNamedCollection.cfm not recognized.">
 	</cfdefaultcase>
 </cfswitch>
+<cfinclude template = "shared/_footer.cfm">
