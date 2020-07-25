@@ -221,6 +221,7 @@ nav ul {
 	white-space: nowrap;
 	border-bottom: 5px solid rgba(0,0,0,.7);
 	z-index: 1;
+	background-color:white;
 	left: -99999em;
 }
 .nav-menu > li:hover > ul {
