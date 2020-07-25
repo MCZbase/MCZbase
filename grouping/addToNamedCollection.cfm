@@ -91,10 +91,10 @@ limitations under the License.
 											});
 										</script>
 									</div>					
-									<div class="col-6 col-sm-3 mt-2 mt-sm-4">
+									<div class="col-6 col-sm-2 mt-1 mt-sm-4">
 										<input type="submit" id="add_button" value="Add Items" class="btn-sm btn-primary">
 									</div>
-									<div class="col-6 col-sm-3 mt-2 mt-sm-4">
+									<div class="col-6 col-sm-2 mt-2 mt-sm-4">
 									<a href="/grouping/NamedCollection.cfm?action=new" target="_blank">Add new named group</a>
 									</div>
 								</div>
