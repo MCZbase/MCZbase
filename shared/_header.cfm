@@ -159,7 +159,7 @@ nav ul {
 	background: ##f8f9fa;
 	color: rgba(0,0,0,.5);
 	text-decoration: none;
-	padding: 0.8em 1.8em;
+	padding: 0.5em 1.8em;
 	text-transform: uppercase;
 	font-size: 80%;
 	letter-spacing: 2px;
@@ -211,9 +211,9 @@ nav ul {
 	position: absolute;
 	height: 0;
 	width: 0;
-	border: 5px solid transparent;
+	border: 3px solid transparent;
 	top: 50%;
-	right: 5px;
+	right: 3px;
 }
 /* submenu positioning*/
 .nav-menu ul {
@@ -226,7 +226,7 @@ nav ul {
 }
 .nav-menu > li:hover > ul {
 	left: auto;
-	margin-top: 5px;
+	margin-top: 3px;
 	min-width: 100%;
 }
 .nav-menu > li li:hover > ul {
@@ -239,7 +239,7 @@ nav ul {
 	border-top-color: ##deebec;
 }
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
-	border: 5px solid transparent;
+	border: 3px solid transparent;
 	border-bottom-color: ##deebec;
 	margin-top: -3px
 }
