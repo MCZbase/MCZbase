@@ -261,6 +261,9 @@ nav ul {
  ul > li {
       width: 100%;
     }
+ ul > li li {
+  width: 100%;
+}
 }
 </style>
 </head>
