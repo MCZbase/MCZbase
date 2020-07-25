@@ -146,8 +146,8 @@ nav .navbar-nav li a.nav-link {
 		position: relative;
 	}
 	.nav-item .submenu{ 
-		display: none;
-		position: absolute;
+		display: block;
+		position: relative;
 		left:100%; top:-7px;
 	}
 	.nav-item .submenu-left{ 
