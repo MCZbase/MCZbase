@@ -206,6 +206,11 @@ nav ul {
 .nav-menu li li a {
 	margin-top: 1px;
 }
+.nav-menu li a:first-child:nth-last-child(2):active {
+
+	border: 5px solid green;
+
+}
 .nav-menu li a:first-child:nth-last-child(2):before {
 	content: "";
 	position: absolute;
