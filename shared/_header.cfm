@@ -154,7 +154,7 @@ nav ul {
 	padding: 0;
 	list-style: none;
 }
-.nav a {
+.nav-menu a {
 	display: block;
 	background: ##111;
 	color: ##fff;
@@ -166,47 +166,47 @@ nav ul {
 	text-shadow: 0 -1px 0 ##000;
 	position: relative;
 }
-.nav {
+.nav-menu {
 	vertical-align: top;
 	display: inline-block;
 	box-shadow: 1px -1px -1px 1px ##000, -1px 1px -1px 1px ##fff, 0 0 6px 3px ##fff;
 	border-radius: 6px;
 }
-.nav li {
+.nav-menu li {
 	position: relative;
 }
-.nav > li {
+.nav-menu > li {
 	float: left;
 	border-bottom: 4px ##aaa solid;
 	margin-right: 1px;
 }
-.nav > li > a {
+.nav-menu > li > a {
 	margin-bottom: 1px;
 	box-shadow: inset 0 2em .33em -0.5em ##555;
 }
-.nav > li:hover, .nav > li:hover > a {
+.nav-menu > li:hover, .nav-menu > li:hover > a {
 	border-bottom-color: blue;
 }
-.nav li:hover > a {
+.nav-menu li:hover > a {
 	color: blue;
 }
-.nav > li:first-child {
+.nav-menu > li:first-child {
 	border-radius: 4px 0 0 4px;
 }
-.nav > li:first-child > a {
+.nav-menu > li:first-child > a {
 	border-radius: 4px 0 0 0;
 }
-.nav > li:last-child {
+.nav-menu > li:last-child {
 	border-radius: 0 0 4px 0;
 	margin-right: 0;
 }
-.nav > li:last-child > a {
+.nav-menu > li:last-child > a {
 	border-radius: 0 4px 0 0;
 }
-.nav li li a {
+.nav-menu li li a {
 	margin-top: 1px;
 }
-.nav li a:first-child:nth-last-child(2):before {
+.nav-menu li a:first-child:nth-last-child(2):before {
 	content: "";
 	position: absolute;
 	height: 0;
@@ -216,78 +216,78 @@ nav ul {
 	right: 5px;
 }
 /* submenu positioning*/
-.nav ul {
+.nav-menu ul {
 	position: absolute;
 	white-space: nowrap;
 	border-bottom: 5px solid blue;
 	z-index: 1;
 	left: -99999em;
 }
-.nav > li:hover > ul {
+.nav-menu > li:hover > ul {
 	left: auto;
 	margin-top: 5px;
 	min-width: 100%;
 }
-.nav > li li:hover > ul {
+.nav-menu > li li:hover > ul {
 	left: 100%;
 	margin-left: 1px;
 	top: -1px;
 }
 /* arrow hover styling */
-.nav > li > a:first-child:nth-last-child(2):before {
+.nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: ##aaa;
 }
-.nav > li:hover > a:first-child:nth-last-child(2):before {
+.nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-bottom-color: blue;
 	margin-top: -5px
 }
-.nav li li > a:first-child:nth-last-child(2):before {
+.nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##aaa;
 	margin-top: -5px
 }
-.nav li li:hover > a:first-child:nth-last-child(2):before {
+.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-right-color: blue;
 	right: 10px;
 }
-ul li:hover > ul,
-ul li:focus-within > ul,
-ul li ul:hover,
-ul li ul:focus {
+.nav-menu ul li:hover > ul,
+.nav-menu ul li:focus-within > ul,
+.nav-menu ul li ul:hover,
+.nav-menu ul li ul:focus {
   visibility: visible;
   opacity: 1;
   display: block
 }
 
-ul li ul li {
+.nav-menu ul li ul li {
 	clear: both;
   width: 100%;
 }
 @media (max-width: 44em) {
 	.nav {display:block;}
-ul > li {
+.nav-menu ul > li {
 	width: 100%;
 }
-ul > li li {
+.nav-menu ul > li li {
 	width: 100%;
 }
-.nav ul {
+.nav-menu ul {
 	position: relative;
 	white-space: nowrap;
 	border-bottom: 5px solid blue;
 	z-index: 1;
 	left: -99999em;
 }
-.nav li {
+.nav-menu li {
 	height: 40px;
 }
-.nav > li:hover > ul {
+.nav-menu > li:hover > ul {
 	left: 0;
 	margin-top: 5px;
 	min-width: 100%;
 }
-.nav > li li:hover > ul {
+.nav-menu > li li:hover > ul {
 	left: 0;
 	margin-left: 1px;
 	top: 0px;
@@ -536,7 +536,7 @@ ul > li li {
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
-				<ul class="nav">
+				<ul class="nav-menu">
 					<li><a href="##">home</a></li>
 					<li><a href="##">Search</a>
 						<ul class="dropdown" aria-label="submenu">
