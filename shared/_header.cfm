@@ -211,7 +211,7 @@ nav ul {
 	position: absolute;
 	height: 0;
 	width: 0;
-	border: 3px solid transparent;
+	border: 5px solid transparent;
 	top: 50%;
 	right: 3px;
 }
@@ -239,9 +239,9 @@ nav ul {
 	border-top-color: ##deebec;
 }
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
-	border: 3px solid transparent;
+	border: 5px solid transparent;
 	border-bottom-color: ##deebec;
-	margin-top: -3px
+	margin-top: -5px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##666;
