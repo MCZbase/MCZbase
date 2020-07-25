@@ -256,13 +256,8 @@ nav ul {
   right: 10px; 
 }
 @media (max-width: 44em){
-.nav li a:first-child:nth-last-child(2):before { 
-  position: relative; 
- }
-	/* submenu positioning*/
-.nav ul {
-  position: relative;
-}
+
+
  ul > li {
       width: 100%;
     }
