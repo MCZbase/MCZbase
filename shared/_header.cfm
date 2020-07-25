@@ -206,11 +206,7 @@ nav ul {
 .nav-menu li li a {
 	margin-top: 1px;
 }
-.nav-menu li a:first-child:nth-last-child(2):active {
 
-	border: 5px solid green;
-
-}
 .nav-menu li a:first-child:nth-last-child(2):before {
 	content: "";
 	position: absolute;
@@ -219,6 +215,11 @@ nav ul {
 	border: 5px solid transparent;
 	top: 50%;
 	right: 5px;
+}
+	.nav-menu li:first-child:nth-last-child(2):active {
+
+	background-color: 5px solid green;
+
 }
 /* submenu positioning*/
 .nav-menu ul {
