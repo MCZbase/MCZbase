@@ -497,7 +497,7 @@ nav ul {
 		<nav>
   <ul class="nav">
     <li><a href="##">home</a></li>
-    <li><a href="#">Search</a>
+    <li><a href="##">Search</a>
       <ul>
         <li><a href="/Specimens.cfm">Specimens</a></li>
         <li><a href="##">Taxonomy</a></li>
@@ -506,7 +506,7 @@ nav ul {
 		  <li><a href="/Taxa.cfm">Publications</a></li>
       </ul>
     </li>
-    <li><a href="#">Enter Data</a>
+    <li><a href="##">Enter Data</a>
       <ul>
    
         <li><a href="##">New Record</a>
