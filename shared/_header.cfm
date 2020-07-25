@@ -192,7 +192,7 @@ nav ul {
   border-bottom-color: blue;
 }
 .nav li:hover > a { 
-  color:orange; 
+  color:blue; 
 }
 .nav > li:first-child { 
   border-radius: 4px 0 0 4px;
@@ -254,6 +254,37 @@ nav ul {
   border: 5px solid transparent; 
   border-right-color: blue;
   right: 10px; 
+}
+@media (max-width: 992px){
+	.nav li a:first-child:nth-last-child(2):before { 
+  content: ""; 
+  position: relative; 
+  height: 0; 
+  width: 0; 
+  border: 5px solid transparent; 
+ 
+ }
+	/* submenu positioning*/
+.nav ul {
+  position: relative;
+  white-space: nowrap;
+  border-bottom: 5px solid  blue;
+  z-index: 1;
+
+}
+	.nav > li:hover > ul {
+  left:0;
+width:100%;
+  margin-top: 5px;
+  min-width: 100%;
+}
+.nav > li li:hover > ul { 
+  left: 100%;
+  margin-left: 1px;
+  top: -1px;
+	left:0;
+	Width:100%;
+}
 }
 </style>
 </head>
