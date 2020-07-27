@@ -335,6 +335,7 @@ must point to files present on production while the redesign menu points at thei
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
+					<ul class="nav-menu">
 					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
