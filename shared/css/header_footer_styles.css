@@ -258,6 +258,8 @@ nav ul {
 	z-index: 1;
 	background-color:white;
 	left: -99999em;
+	border-right: 3px solid white;
+    border-left: 3px solid white;
 }
 .nav-menu > li:hover > ul {
 	left: auto;
