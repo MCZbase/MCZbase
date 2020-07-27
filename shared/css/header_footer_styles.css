@@ -178,7 +178,7 @@ nav ul {
 .nav-menu a {
 	display: block;
 	background: #f8f9fa;
-	color: rgba(0,0,0,.7);
+	color: rgba(0,0,0,.9);
 	text-decoration: none;
 	padding: 0.5em 1.8em;
 	/*text-transform: uppercase;*/
