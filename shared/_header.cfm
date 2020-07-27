@@ -339,7 +339,7 @@ must point to files present on production while the redesign menu points at thei
 					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>_
+								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
