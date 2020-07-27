@@ -231,7 +231,7 @@ limitations under the License.
 								<i class="fas fa-user-check color-green"></i>_
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
+							</cfif>
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
@@ -331,7 +331,7 @@ limitations under the License.
 								<i class="fas fa-user-check color-green"></i> 
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
+							</cfif>
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 							<cfif session.roles contains "coldfusion_user">
