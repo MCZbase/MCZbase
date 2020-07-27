@@ -358,6 +358,11 @@ nav ul {
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
 }
+.login-form {
+	position: absolute;
+	top: 2px;
+	right: 8px;
+}
 }
 /*  end of moved styles  */
 .navbar-toggler-icon {
@@ -600,11 +605,7 @@ body > .container {
 	top:2px;
 	right: 8px;
 }*/
-.login-form {
-	position: absolute;
-	top: 2px;
-	right: 15px;
-}
+
 .nav-link {
     display: block;
     padding: .25rem 1rem;
