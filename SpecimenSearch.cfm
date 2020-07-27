@@ -1388,7 +1388,7 @@
       	   			<span id="named_group_label">Named Group:</span>
          			</td>
 						<td class="srch">
-      	   			<select name="underscore_collection_id" id="underscore_collection_id" size="1">
+      	   			<select name="underscore_coll_id" id="underscore_coll_id" size="1">
 	         				<option value=""></option>
    	      				<cfloop query="namedCollections">
       	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollections.collection_name#</option>
