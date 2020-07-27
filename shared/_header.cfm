@@ -346,8 +346,6 @@ must point to files present on production while the redesign menu points at thei
 						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
 					</div>
 				</li>
-			
-				
 				</ul>
 				<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
 					<li class="nav-item dropdown">
@@ -374,7 +372,6 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 				</ul>
 				
-				</cfif>	
 			</cfif> <!--- End of Menu for redesign --->
 		</ul><!--- end of menu ul --->
 	</div><!--- end navbarToggler1 --->
