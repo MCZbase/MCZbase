@@ -593,7 +593,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 		} else {
 			i='#collObjIdList#';
 		}
-		if (f = '/grouping/addToNamedCollection.cfm') {
+		if (f=='/grouping/addToNamedCollection.cfm') {
 			// leave off list of collection object ids.
 		} else { 
 			u += sep + 'collection_object_id=' + i;
