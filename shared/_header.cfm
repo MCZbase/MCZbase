@@ -156,7 +156,7 @@ limitations under the License.
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light"> 
+	<div class="container-fluid bg-light px-0 px-lg-4"> 
 <!---	
 Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
@@ -390,15 +390,15 @@ must point to files present on production while the redesign menu points at thei
 					<cfif gtp EQ '/errors/forbidden.cfm'>
 						<cfset gtp = "/UserProfile.cfm">
 					</cfif>
-					<form name="logIn" method="post" action="/login.cfm" class="m-0">
+					<form name="logIn" method="post" action="/login.cfm" class="m-0" style="width:80%;">
 						<input type="hidden" name="action" value="signIn">
 						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 						<input type="hidden" name="gotopage" value="#gtp#">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
-							<input type="text" name="username" id="username" placeholder="username" class="loginButtons">
+							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
 							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons">
+							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
 							<label for="login" class="mr-1 sr-only"> Password:</label>
 							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 							<label for="create_account" class="mr-1 sr-only"> Password:</label>
