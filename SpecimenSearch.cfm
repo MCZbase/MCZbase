@@ -1391,7 +1391,7 @@
       	   			<select name="underscore_collection_id" id="underscore_collection_id" size="1">
 	         				<option value=""></option>
    	      				<cfloop query="namedCollections">
-      	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollection.collection_name#</option>
+      	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollections.collection_name#</option>
          					 </cfloop>
            				</select>
          			</td>
