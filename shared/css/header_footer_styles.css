@@ -450,7 +450,7 @@ nav button {
 .headerCollectionTextSmall {
 	font-size: smaller;
 }
-input[type=text].loginButtons {
+.loginButtons {
 	padding: 5px 6px 4px 6px;
 	font-size: .78rem;
 	line-height: 1em;
@@ -458,14 +458,7 @@ input[type=text].loginButtons {
 	display:inline-block;
 	border: 1px solid #ddd;
 }
-input[type=button].loginButtons {
-	padding: 5px 6px 4px 6px;
-	font-size: .78rem;
-	line-height: 1em;
-	border-radius: .2rem;
-	display:inline-block;
-	border: 1px solid #ddd;
-}
+
 .logout {
 	padding: 0 .45em;
     font-size: .88em;
