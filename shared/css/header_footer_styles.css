@@ -463,7 +463,7 @@ nav button {
 	padding: 0 .45em;
     font-size: .88em;
 	font-weight: bold;
-	/*position: absolute;*/
+	position: absolute;
 	right: 10px;
 	top: 3px;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
