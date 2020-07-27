@@ -332,7 +332,32 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<li><a href="##">About</a></li>
-				</ul><!--- end of menu ul --->
+				
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						</ul><!--- end of menu ul --->
+					<li><a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i>_
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+								</a>
+						</li>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
+							<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+							</cfif>
+							<cfif session.roles contains "public">
+								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+							</cfif>
+						</div>
+					</li>
+				</cfif>
+				</ul>
 			</div><!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
@@ -379,8 +404,8 @@ must point to files present on production while the redesign menu points at thei
 				</cfif>
 			</div>
 		</nav>
-								</cfif>
-	</div>
+</cfif>
+</div>
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
