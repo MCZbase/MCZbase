@@ -23,23 +23,33 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-	<cfset pageTitle = "Search Named Collections">
+		<cfset pageTitle = "Search Named Collections">
 	</cfcase>
 	<cfcase value="new">
-	<cfset pageTitle = "Add New Named Collection">
-	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
-		<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
-	</cfif>
+		<cfset pageTitle = "Add New Named Collection">
 	</cfcase>
 	<cfcase value="edit">
-	<cfset pageTitle = "Edit a Named_ Collection">
+		<cfset pageTitle = "Edit a Named_ Collection">
 	</cfcase>
 	<cfdefaultcase>
-	<cfset pageTitle = "Named Collection">
+		<cfset pageTitle = "Named Collection">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<cfswitch expression="#action#">
+	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
+	<cfcase value="new">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to add a new named group of cataloged items.">
+		</cfif>
+	</cfcase>
+	<cfcase value="edit">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to edit a named group of cataloged items.">
+		</cfif>
+	</cfcase>
+</cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
@@ -69,6 +79,11 @@ limitations under the License.
 									<div class="col-md-6">
 										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
+										<script>
+											$(document).ready(function() {
+												makeNamedCollectionPicker('collection_name',null);
+											});
+										</script>
 									</div>
 									<div class="col-md-6">
 										<label for="description" id="description_label">Description</label>
@@ -207,7 +222,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: '__ Collection', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
+									{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
 									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
 									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
@@ -338,8 +353,8 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<div role="region" aria-labelledby="formheading">
-						<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+					<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+					<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
 						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
@@ -359,7 +374,7 @@ limitations under the License.
 							<script>
 									$('##description').keyup(autogrow);
 								</script>
-							<div class="form-row mb-5">
+							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
@@ -379,7 +394,7 @@ limitations under the License.
 										});
 									</script> 
 								</div>
-								<div class="col-12 col-md-6 px-2 my-3 px-sm-2 my-4">
+								<div class="col-12 row mx-0 px-1 my-3">
 									<input type="button" 
 												value="Create" title="Create" aria-label="Create"
 												class="btn btn-xs btn-primary"
@@ -429,7 +444,7 @@ limitations under the License.
 			</cfquery>
 		<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 		<cfcatch>
-			<cfthrow type="Application" message="Error Saving new _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
+			<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 	</cftry>
 	</cfcase>
@@ -457,7 +472,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit "____ Collection" (named groups of cataloged items)</h1>
+						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -501,6 +516,9 @@ limitations under the License.
 										<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
+													$('##saveResultDiv').addClass('text-danger');
+													$('##saveResultDiv').removeClass('text-success');
+													$('##saveResultDiv').removeClass('text-warning');
 												};
 												$(document).ready(function() {
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
@@ -512,6 +530,9 @@ limitations under the License.
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
+														$('##saveResultDiv').addClass('text-warning');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-danger');
 														jQuery.ajax({
 															url : "/grouping/component/functions.cfc",
 															type : "post",
@@ -519,21 +540,30 @@ limitations under the License.
 															data :  $('##editUndColl').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
+																$('##saveResultDiv').addClass('text-success');
+																$('##saveResultDiv').removeClass('text-danger');
+																$('##saveResultDiv').removeClass('text-warning');
 															},
 															error: function(jqXHR,textStatus,error){
 																$('##saveResultDiv').html('Error.');
+																$('##saveResultDiv').addClass('text-danger');
+																$('##saveResultDiv').removeClass('text-success');
+																$('##saveResultDiv').removeClass('text-warning');
 																var message = "";
 																if (error == 'timeout') {
 																	message = ' Server took too long to respond.';
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+																messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 
-														messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
+														$('##saveResultDiv').addClass('text-danger');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-warning');
 													}
 												};
 											</script> 
@@ -544,7 +574,7 @@ limitations under the License.
 												class="btn btn-xs btn-primary"
 												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " 
 												>
-										<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+										<div id="saveResultDiv" class="ml-2">&nbsp;</div>
 									</div>
 								</div>
 							</form>
@@ -586,7 +616,7 @@ limitations under the License.
 														} else {
 															message = jqXHR.responseText;
 														}
-														messageDialog('Error saving ____ collection: '+message, 'Error: ' + error.substring(0,50));
+														messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
 														$('##addResultDiv').html("Error.");
 													}
 												});
@@ -649,7 +679,7 @@ limitations under the License.
 									} else {
 										message = jqXHR.responseText;
 									}
-									messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+									messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
 								}
 							});
 						}
@@ -673,7 +703,7 @@ limitations under the License.
 										</script>
 									</form>
 									<cfelse>
-									<h2 class="h3" id="existingvalues">Collection objects in this named collection</h2>
+									<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
 									<ul>
 										<cfloop query="undCollUse">
 											<li>
