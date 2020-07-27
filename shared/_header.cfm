@@ -398,7 +398,7 @@ must point to files present on production while the redesign menu points at thei
 							<label for="username" class="sr-only"> Username:</label>
 							<input type="text" name="username" id="username" placeholder="username" class="loginButtons">
 							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
+							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons">
 							<label for="login" class="mr-1 sr-only"> Password:</label>
 							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 							<label for="create_account" class="mr-1 sr-only"> Password:</label>
