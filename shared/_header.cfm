@@ -423,7 +423,9 @@ must point to files present on production while the redesign menu points at thei
 
 --->
 		<nav class="navbar navbar-expand-lg navbar-light">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
+				<span class="navbar-toggler-icon"></span> 
+			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="nav-menu">
 					<li><a href="##">Search</a>
@@ -479,8 +481,10 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="##">Object Tracking </a></li>
 							<li><a href="##">Encumbrances </a></li>
 						</ul>
+					</li>
 					<li><a href="##">About</a></li>
-				</ul>
+				</ul><!--- end of menu ul --->
+			</div><!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
