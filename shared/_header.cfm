@@ -163,7 +163,7 @@ nav ul {
 	/*text-transform: uppercase;*/
 	font-size: 80%;
 	letter-spacing: 2px;
-	text-shadow: 0 -1px 0 ##658594;
+/*	text-shadow: 0 -1px 0 ##658594;*/
 	position: relative;
 	padding-bottom: .3em;
 	
