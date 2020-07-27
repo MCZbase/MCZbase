@@ -590,6 +590,14 @@ nav ul {
 							<li><a href="##">item</a></li>
 						</ul>
 					</li>
+					<li><a href="##">Tools</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="##">Projects </a></li>
+							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+							<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
+							<li><a href="##">Object Tracking </a></li>
+							<li><a href="##">Encumbrances </a></li>
+						</ul>
 					<li><a href="##">About</a></li>
 				</ul>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
