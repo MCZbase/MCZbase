@@ -163,7 +163,7 @@ nav ul {
 	text-transform: uppercase;
 	font-size: 80%;
 	letter-spacing: 2px;
-	text-shadow: 0 -1px 0 ##ccc;
+	text-shadow: 0 -1px 0 ##658594;
 	position: relative;
 	padding-bottom: .3em;
 }
@@ -171,7 +171,7 @@ nav ul {
 	vertical-align: top;
 	display: inline-block;
 	box-shadow: 1px -1px -1px 1px ##000, -1px 1px -1px 1px ##fff, 0 0 6px 3px ##fff;
-	border-radius: 6px;
+/*	border-radius: 6px;*/
 }
 .nav-menu li {
 	position: relative;
@@ -244,11 +244,11 @@ nav ul {
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-bottom-color: ##deebec;
-	margin-top: -3px
+	margin-top: -5px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##666;
-	margin-top: -3px
+	margin-top: -5px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
