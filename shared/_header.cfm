@@ -166,13 +166,14 @@ nav ul {
 	text-shadow: 0 -1px 0 ##658594;
 	position: relative;
 	padding-bottom: .3em;
-	margin-right: auto;
+	
 }
 .nav-menu {
 	vertical-align: top;
 	display: inline-block;
 	box-shadow: 1px -1px -1px 1px ##000, -1px 1px -1px 1px ##fff, 0 0 6px 3px ##fff;
 /*	border-radius: 6px;*/
+	margin-right: auto;
 }
 .nav-menu li {
 	position: relative;
