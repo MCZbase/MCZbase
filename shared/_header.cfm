@@ -193,6 +193,7 @@ nav ul {
 }
 .nav-menu > li:first-child {
 	border-radius: 4px 0 0 4px;
+	border-radius: 0 0 0 0;
 }
 .nav-menu > li:first-child > a {
 	border-radius: 4px 0 0 0;
