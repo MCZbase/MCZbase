@@ -202,6 +202,7 @@ nav ul {
 }
 .nav-menu > li:last-child {
 	border-radius: 0 0 4px 0;
+	border-radius: 0 0 0 0;
 	margin-right: 0;
 }
 .nav-menu > li:last-child > a {
