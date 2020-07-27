@@ -160,7 +160,7 @@ nav ul {
 	color: rgba(0,0,0,.7);
 	text-decoration: none;
 	padding: 0.5em 1.8em;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	font-size: 80%;
 	letter-spacing: 2px;
 	text-shadow: 0 -1px 0 ##658594;
