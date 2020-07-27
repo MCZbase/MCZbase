@@ -164,10 +164,10 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
-	<div id="search-form-div" class="search-form-div pb-3 px-3">
+	<div id="search-form-div" class="pb-3 px-3">
 		<div class="container-fluid">
-			<div class="row">
-				<div class="col-md-12 col-sm-12 col-lg-11">
+			<div class="row mb-3">
+				<div class="col-12">
 					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						
@@ -639,11 +639,11 @@ limitations under the License.
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
-		<div class="row">
-			<div class="text-left col-md-12">
+		<div class="row mx-0">
+			<div class="col-12">
 				<main role="main">
-					<div class="pl-2 mb-5"> 
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+					<div class="mb-5"> 
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
@@ -652,7 +652,7 @@ limitations under the License.
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
 						</div>
-						<div class="row mt-0">
+						<div class="row mt-0 mx-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
 							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
@@ -761,12 +761,12 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'singlerow',
+			selectionmode: 'none',
 			altrows: true,
 			showtoolbar: false,
-			ready: function () {
-				$("##searchResultsGrid").jqxGrid('selectrow', 0);
-			},
+//			ready: function () {
+//				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+//			},
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},

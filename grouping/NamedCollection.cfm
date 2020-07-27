@@ -1,5 +1,5 @@
 <!---
-grouping/UnderscoreCollection.cfm
+grouping/NamedCollection.cfm
 
 For managing arbitrary groupings of collection objects.
 
@@ -23,19 +23,19 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-	<cfset pageTitle = "Search ____ Collections">
+	<cfset pageTitle = "Search Named Collections">
 	</cfcase>
 	<cfcase value="new">
-	<cfset pageTitle = "Add New ____ Collection">
+	<cfset pageTitle = "Add New Named Collection">
 	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
 		<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
 	</cfif>
 	</cfcase>
 	<cfcase value="edit">
-	<cfset pageTitle = "Edit an ______ Collection">
+	<cfset pageTitle = "Edit a Named_ Collection">
 	</cfcase>
 	<cfdefaultcase>
-	<cfset pageTitle = "_______ Collection">
+	<cfset pageTitle = "Named Collection">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
@@ -60,13 +60,14 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
-							<h2 id="formheading">Find "______ Collections" (arbitrary groups of collection objects)</h2>
-							<p>Can represent collections by workers in natural history, as in <a href="http://id.lib.harvard.edu/alma/990011227530203941/catalog">Sherborn, 1940.</a> "Where is the _______ collection? An account of the various natural history collections which have come under the notice of the compiler", or any arbitrary grouping of cataloged items in MCZbase.</p>
+							<h2 id="formheading">Find named groups of cataloged items</h2>
+							<p>These records can represent collections by workers in natural history or any named group of cataloged items in MCZbase for which we wish to have a persistent record.
+ See, for cases of collections by workers in natural history: <a href="http://id.lib.harvard.edu/alma/990011227530203941/catalog">Sherborn, 1940.</a> <i>Where is the _______ collection? An account of the various natural history collections which have come under the notice of the compiler Charles Davies Sherborn D.Sc. Oxon. Between 1880 and 1939.</i> Cambridge University Press, Cambridge, 149 pp.</p>
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
 								<div class="form-row mb-2">
 									<div class="col-md-6">
-										<label for="collection_name" id="collection_name_label">Name for the Collection</label>
+										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
 									</div>
 									<div class="col-md-6">
@@ -76,17 +77,17 @@ limitations under the License.
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="guid" id="guid_label">A cataloged item which is a member of the collection</label>
-										<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" >
+										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
+										<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
 									<div class="col-12 px-0 pt-2">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for arbitrary collections">Search<span class="fa fa-search pl-1"></span></button>
+										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
 										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=search';" >New Search</button>
+										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
 										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-											<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new arbitrary collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/UnderscoreCollection.cfm?action=new';" >Create new "Collection"</button>
+											<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
 										</cfif>
 									</div>
 								</div>
@@ -126,7 +127,7 @@ limitations under the License.
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/UnderscoreCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
+						return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
 					};
 
 
@@ -222,7 +223,7 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/grouping/UnderscoreCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+								$('##resultLink').html('<a href="/grouping/NamedCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
 								gridLoaded('searchResultsGrid','collection');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -338,8 +339,8 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12">
 					<div role="region" aria-labelledby="formheading">
-						<h2 id="formheading">New "Collection" (arbitrary grouping of specimens)</h2>
-						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/UnderscoreCollection.cfm" method="post">
+						<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
 								<div class="col-md-12">
@@ -369,7 +370,7 @@ limitations under the License.
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
-										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" value="" aria-label="Agent associated with this arbitrary collection:" aria-describedby="underscore_agent_name_label">
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
 										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 									</div>
 									<script>
@@ -426,7 +427,7 @@ limitations under the License.
 				select underscore_collection_id from underscore_collection 
 				where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
 			</cfquery>
-		<cflocation url="/grouping/UnderscoreCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
+		<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
 		<cfcatch>
 			<cfthrow type="Application" message="Error Saving new _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
@@ -456,7 +457,7 @@ limitations under the License.
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit "Collection" (arbitrary grouping of collection objects) </h1>
+						<h1 class="h2" id="formheading"> Edit "____ Collection" (named groups of cataloged items)</h1>
 						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -555,7 +556,7 @@ limitations under the License.
 								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-10">
-										<label for="guid_list" id="guid_list_label" class="data-entry-label">Collection objects to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+										<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 										<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
 												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 									</div>
@@ -657,8 +658,8 @@ limitations under the License.
 						<div class="col-12 mb-5">
 							<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 								<cfif undCollUse_result.recordcount EQ 0>
-									<h2 class="h3" id="existingvalues">There are no collection objects in this (arbitrary) collection</h2>
-									<form action="/grouping/UnderscoreCollection.cfm" method="post" id="deleteForm">
+									<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
+									<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 										<input type="hidden" name="action" value="delete">
 										<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
 										<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
@@ -672,7 +673,7 @@ limitations under the License.
 										</script>
 									</form>
 									<cfelse>
-									<h2 class="h3" id="existingvalues">Collection objects in this (arbitrary) collection</h2>
+									<h2 class="h3" id="existingvalues">Collection objects in this named collection</h2>
 									<ul>
 										<cfloop query="undCollUse">
 											<li>
@@ -703,11 +704,11 @@ limitations under the License.
 			</cfquery>
 		<h2>"Collection" successfully deleted.</h2>
 		<ul>
-			<li><a href="/grouping/UnderscoreCollection.cfm">Search for "Collections"</a> (arbitrary groupings of collection objects).</li>
-			<li><a href="/grouping/UnderscoreCollection.cfm?action=new">Create a new "Collection"</a> (arbitrary grouping of collection objects).</li>
+			<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
+			<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
 		</ul>
 		<cfcatch>
-			<cfthrow type="Application" message="Error deleting _____ Collection: #cfcatch.Message# #cfcatch.Detail#">
+			<cfthrow type="Application" message="Error deleting Named Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
 	</cftry>
 	</cfcase>

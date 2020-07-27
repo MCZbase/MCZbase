@@ -232,7 +232,7 @@ limitations under the License.
 			<div class="col-12 col-xl-7 offset-xl-1 float-left px-0 mt-3 mb-5">
 				<div class="col-12">
 					<div class="row mx-0">
-						<h2>Edit Taxon:
+						<h2 class="##content">Edit Taxon:
 							<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> 	
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -716,7 +716,11 @@ limitations under the License.
 												};
 											</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
-						<input type="button" value="Save" title="Save" aria-label="Save" class="btn btn-xs btn-primary" onClick="taxon_form.saveEdits();">
+						<input type="button" 
+												value="Save" title="Save" aria-label="Save"
+												class="btn btn-xs btn-primary"
+												onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } " 
+												>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					

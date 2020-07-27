@@ -66,13 +66,13 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 	});
 };
 
-
 function confirmDelete(formName,msg){
 	console.log('TODO: use confirmDialog instead of confirmDelete.');
 	// TODO: Old code, don't use, rewrite invocations to use confirmDialog instead. 
 	// var formName;var msg=msg||"this record";
 	// confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
 }
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.
@@ -200,15 +200,17 @@ function makeAgentPicker(nameControl, idControl) {
 function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, agentId) { 
 	// initialize the controls for appropriate state given an agentId or not.
 	if (agentId) { 
+		$('#'+idControl).val(agentId);
 		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
 		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
-		$('#'+idControl).val(agentId);
+		$('#'+linkControl).attr('aria-label', 'View details for this agent');
 	} else {
+		$('#'+idControl).val("");
 		$('#'+iconControl).removeClass('bg-lightgreen');
 		$('#'+iconControl).addClass('bg-light');
 		$('#'+linkControl).html("");
-		$('#'+idControl).val("");
+		$('#'+linkControl).removeAttr('aria-label');
 	}
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
@@ -228,10 +230,11 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 						message = jqXHR.responseText;
 					}
 					messageDialog('Error:' + message ,'Error: ' + error);
+					$('#'+idControl).val("");
 					$('#'+iconControl).removeClass('bg-lightgreen');
 					$('#'+iconControl).addClass('bg-light');
 					$('#'+linkControl).html("");
-					$('#'+idControl).val("");
+					$('#'+linkControl).removeAttr('aria-label');
 				}
 			})
 		},
@@ -239,6 +242,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			$('#'+idControl).val(result.item.id);
 			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+linkControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
 		},
@@ -250,6 +254,7 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 				$('#'+iconControl).removeClass('bg-lightgreen');
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+linkControl).html("");
+				$('#'+linkControl).removeAttr('aria-label');
 			}
 		},
 		minLength: 3
