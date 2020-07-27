@@ -308,8 +308,8 @@ nav ul {
     font-size: .88em;
 	font-weight: bold;
 	position: relative;
-	right: 10px;
-	top: 3px;
+/*	right: 10px;
+	top: 3px;*/
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
 }
@@ -348,7 +348,7 @@ nav ul {
 	top: 0px;
 	display:block;
 }
-	.logout {
+.logout {
 	padding: 0 .45em;
     font-size: .88em;
 	font-weight: bold;
