@@ -27,15 +27,9 @@ limitations under the License.
 	</cfcase>
 	<cfcase value="new">
 		<cfset pageTitle = "Add New Named Collection">
-		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
-			<cfthrow message="Insufficient permissions to add a new named group of cataloged items.">
-		</cfif>
 	</cfcase>
 	<cfcase value="edit">
 		<cfset pageTitle = "Edit a Named_ Collection">
-		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
-			<cfthrow message="Insufficient permissions to edit a named group of cataloged items.">
-		</cfif>
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Named Collection">
@@ -43,6 +37,19 @@ limitations under the License.
 </cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
+<cfswitch expression="#action#">
+	<!--- Check for finer granularity permissions than rolecheck called in _header.cfm provides --->
+	<cfcase value="new">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to add a new named group of cataloged items.">
+		</cfif>
+	</cfcase>
+	<cfcase value="edit">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to edit a named group of cataloged items.">
+		</cfif>
+	</cfcase>
+</cfswitch>
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
