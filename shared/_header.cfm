@@ -32,18 +32,12 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm">
-<!--- Easy to overlook this shared function file ---> 
+<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file ---> 
 <!--- include stylesheets and javascript library files --->
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
-<!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css">
-<!--- needed for jqxwidgets to work ---> 
-<!--- link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.light.css"---><!--- TODO: Remove, makes jqxgrid header hard to understand--->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css">
-<!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css">
-<!-- Provides account, magnifier, and cog icons--> 
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work ---> 
+<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons--> 
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <!--- Library supporting a multiselect widget based on jquery-ui.  --->
@@ -117,33 +111,6 @@ limitations under the License.
 	</cfif>
 	<cfset setDbUser()>
 </cfif>
-<script type="text/javascript">
-///// some script
-//
-//// jquery ready start
-//$(document).ready(function() {
-//	// jQuery code
-//
-//	//////////////////////// Prevent closing from click inside dropdown
-//    $(document).on('click', '.dropdown-menu', function (e) {
-//      e.stopPropagation();
-//    });
-//
-//    // make it as accordion for smaller screens
-//    if ($(window).width() < 992) {
-//	  	$('.dropdown-menu li a').click(function(e){
-//	  		e.preventDefault();
-//	        if($(this).next('.submenu').length){
-//	        	$(this).next('.submenu').toggle();
-//	        }
-//	        $('.dropdown').on('hide.bs.dropdown', function () {
-//			   $(this).find('.submenu').hide();
-//			})
-//	  	});
-//	}
-//	
-//}); // jquery end
-</script>
 <style type="text/css">
 
 </style>
@@ -168,10 +135,16 @@ limitations under the License.
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom"> 
-	<!--- TODO: [Michelle] Move (this fixed) background-color for this top black bar to a stylesheet. --->
 	<div class="branding clearfix bg-black">
-		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
-		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
+		<div class="branding-left justify-content-start">
+			<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
+				<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
+				<span class="d-inline-block parent">Harvard University</span>
+			</a> 
+		</div>
+		<div class="branding-right justify-content-end">
+			<a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a>
+		</div>
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
