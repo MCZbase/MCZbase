@@ -157,14 +157,15 @@ nav ul {
 .nav-menu a {
 	display: block;
 	background: ##f8f9fa;
-	color: rgba(0,0,0,.5);
+	color: rgba(0,0,0,.7);
 	text-decoration: none;
 	padding: 0.5em 1.8em;
 	text-transform: uppercase;
 	font-size: 80%;
 	letter-spacing: 2px;
-	text-shadow: 0 -1px 0 ##000;
+	text-shadow: 0 -1px 0 ##ccc;
 	position: relative;
+	padding-bottom: .3em;
 }
 .nav-menu {
 	vertical-align: top;
@@ -216,11 +217,7 @@ nav ul {
 	top: 50%;
 	right: 5px;
 }
-	.nav-menu li:first-child:nth-last-child(2):active {
 
-	background-color: 5px solid green;
-
-}
 /* submenu positioning*/
 .nav-menu ul {
 	position: absolute;
