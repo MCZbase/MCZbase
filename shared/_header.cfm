@@ -240,7 +240,7 @@ nav ul {
 }
 /* arrow hover styling */
 .nav-menu > li > a:first-child:nth-last-child(2):before {
-	border-top-color: ##deebec;
+	border-top-color: ##666;
 }
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
