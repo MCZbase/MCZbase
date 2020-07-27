@@ -162,7 +162,7 @@ Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
 must point to files present on production while the redesign menu points at their replacements in redesign
 --->
-
+<cfif isdefined("Application.header_image")>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<button class="navbar-toggler" type="button" data-toggle="collapse" 
 			data-target="##navbarToggler1" aria-controls="navbarToggler1" 
@@ -173,7 +173,7 @@ must point to files present on production while the redesign menu points at thei
 	<div class="collapse navbar-collapse" id="navbarToggler1">
 		
 		<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-<cfif isdefined("Application.header_image")>
+
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -266,164 +266,12 @@ must point to files present on production while the redesign menu points at thei
 						</div>
 					</li>
 				</cfif>	
-				<!---  End Redesign menu for integration on production --->
-<cfelse>
-				<!---  Redesign menu for the redesign --->
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Data Searches
-					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink1">
-						<a class="dropdown-item <cfif pageTitle EQ 'Search Specimens'>active </cfif>" aria-label="specimen search" name="specimens" href="/Specimens.cfm">Specimens</a>
-						<a class="dropdown-item" aria-label="media search" name="media" href="##">Media</a>
-						<a class="dropdown-item" aria-label="places search" name="locations" href="##">Locations</a>
-						<a class="dropdown-item" aria-label="publication search" name="publications" href="##">Publications</a>
-						<a class="dropdown-item" aria-label="agent search" name="agents" href="##">Agents</a>
-						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
-					</div>
-				</li>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Data Entry
-						</a>
-						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
-							<a class="dropdown-item" name="bulkload records" href="##">Bulkload Records</a>
-							<a class="dropdown-item" name="bulkload builder" href="##">Bulkload Builder</a>
-							<a class="dropdown-item" name="browse and edit" href="##">Browse and Edit</a>
-							<a class="dropdown-item" name="bulkloader status" href="##">Bulkloader Status</a>
-							<a class="dropdown-item" name="batch tools" href="##">Batch Tools</a>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Manage Data
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-							<a class="dropdown-item" name="projects" href="##">Projects</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
-								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
-							</cfif>
-							<a class="dropdown-item" name="statistics" href="##">Statistics</a>
-							<a class="dropdown-item" name="annual reports" href="##">Annual Reports</a>
-							<a class="dropdown-item" name="recently georeferenced localities" href="##">Recently Georefereced Localities</a>
-							<a class="dropdown-item" name="taxonomy review" href="##">Taxonomy Review</a>
-							<a class="dropdown-item" name="object tracking" href="##">Object Tracking</a>
-							<a class="dropdown-item" name="encumbrances" href="##">Encumbrances</a>
-							<a class="dropdown-item" name="record review" href="##">Record Review</a>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Transactions
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink4">
-							<a class="dropdown-item <cfif pageTitle EQ 'Search Transactions'>active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-							<a class="dropdown-item" name="accessions" href="##">Accessions</a>
-							<a class="dropdown-item" name="deaccessions" href="##">Deaccessions</a>
-							<a class="dropdown-item" name="borrows" href="##">Borrows</a>
-							<a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/transactions/Loan.cfm?action=newLoan">New Loan</a>
-							<a class="dropdown-item <cfif pageTitle EQ 'Search Loans'>active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-							<a class="dropdown-item" name="permits" href="##">Permits</a>
-						</div>
-					</li>
-				</cfif>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Help
-					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
-							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-						</cfif>
-						<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a>
-						<a class="dropdown-item" name="Site Map" href="/SiteMap.cfm">Site Map</a>
-					</div>
-				</li>
-				</ul>
-				<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Account
-							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i> 
-							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-							<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-							</cfif>
-							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-5 pl-lg-2" href="/customSettings.cfm">Custom Settings</a> 
-								<a class="dropdown-item pl-5 pl-lg-2" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-							</cfif>
-						</div>
-					</li>
-				</ul>
-				
-			</cfif> <!--- End of Menu for redesign --->
-		</ul><!--- end of menu ul --->
-	</div><!--- end navbarToggler1 --->
-	<cfif isdefined("session.username") and len(#session.username#) gt 0>
-			<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-				<input type="hidden" name="action" value="signOut">	
-				<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username# 
-				<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-				</cfif>
-				</button>
-			</form>
-	<cfelse>
-			<cfif isdefined("gotopage") and len(gotopage) GT 0>
-				<cfset gtp = gotopage>
-			<cfelse>
-				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-				<cfelse>
-					<cfset requestData = #GetHttpRequestData()#>
-					<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-						<cfset gtp=requestData.headers.referer>
-					<cfelse>
-						<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-					</cfif>
-				</cfif>
-			</cfif>
-			<cfif gtp EQ '/errors/forbidden.cfm'>
-				<cfset gtp = "/UserProfile.cfm">
-			</cfif>
-			<form name="logIn" method="post" action="/login.cfm" class="m-0">
-				<input type="hidden" name="action" value="signIn">
-				<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-				<input type="hidden" name="gotopage" value="#gtp#">
-				<div class="login-form" id="header_login_form_div">
-					<label for="Username" class="sr-only"> Username:</label>
-					<input type="text" name="username" id="Username" placeholder="username" class="loginButtons">
-					<label for="Password" class="mr-1 sr-only"> Password:</label>
-					<input type="password" id="Password" name="password" autocomplete="current password" placeholder="password" title="Password" size="14" class="loginButtons">
-					<label for="Login" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-					<label for="CreateAccount" class="mr-1 sr-only"> Password:</label>
-					<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-				</div>
-			</form>
-		</cfif>
-</nav>
-
+		</ul>
+	</div>
+	</nav>
 <cfelse>
 
-		<nav class="navbar navbar-expand-lg navbar-light">
+	<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
@@ -531,6 +379,7 @@ must point to files present on production while the redesign menu points at thei
 				</cfif>
 			</div>
 		</nav>
+								</cfif>
 	</div>
 	<!-- container //  --> 
 </header>
