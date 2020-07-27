@@ -1612,6 +1612,15 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 	<cfset basQual = " #basQual# AND permit_num='#permit_num#'">
 </cfif>
 
+<cfif isdefined("underscore_collection_id") AND len(underscore_collection_id) gt 0>
+	<cfset mapurl = "#mapurl#&undrscore_collection_id=#underscore_collection_id#">
+	<cfif basJoin does not contain " underscore_relation ">
+		<cfset basJoin = " #basJoin# INNER JOIN underscore_relation ON
+		(cataloged_item.collection_object_id = underscore_relation.collection_object_id)">
+	</cfif>
+	<cfset basQual = " #basQual# AND underscore_collection.underscore_collection_id='#underscore_collection_id#'">
+</cfif>
+
 <cfif isdefined("collecting_source") AND len(collecting_source) gt 0>
 	<cfset mapurl = "#mapurl#&collecting_source=#collecting_source#">
 	<cfset basQual = " #basQual# AND #session.flatTableName#.collecting_source='#collecting_source#'">

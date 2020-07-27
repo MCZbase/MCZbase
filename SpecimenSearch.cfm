@@ -1328,6 +1328,12 @@
          <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	select flags from ctflags
          </cfquery>
+         <cfif listcontainsnocase(session.roles,"manage_specimens")>
+	         <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   	      	select underscore_collection_id, collection_name from underscore_collection 
+					order by collection_name
+         	</cfquery>
+			</cfif>
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
@@ -1376,7 +1382,21 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-
+         	<cfif listcontainsnocase(session.roles,"manage_specimens")>
+	         	<tr>
+   	      		<td class="lbl">
+      	   			<span id="named_group_label">Named Group:</span>
+         			</td>
+						<td class="srch">
+      	   			<select name="underscore_collection_id" id="underscore_collection_id" size="1">
+	         				<option value=""></option>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollection.collection_name#</option>
+         					 </cfloop>
+           				</select>
+         			</td>
+         		</tr>
+				</cfif>
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
