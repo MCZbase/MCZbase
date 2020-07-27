@@ -693,7 +693,7 @@ limitations under the License.
 										</script>
 									</form>
 									<cfelse>
-									<h2 class="h3" id="existingvalues">Collection objects in this named collection</h2>
+									<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
 									<ul>
 										<cfloop query="undCollUse">
 											<li>
