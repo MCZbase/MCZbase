@@ -342,9 +342,8 @@ must point to files present on production while the redesign menu points at thei
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
-								</a>
-						</li>
-					
+						</a>
+						<ul class="dropdown" aria-label="submenu">
 							<cfif session.roles contains "coldfusion_user">
 								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
@@ -356,6 +355,9 @@ must point to files present on production while the redesign menu points at thei
 							<cfif session.roles contains "public">
 								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 							</cfif>
+					</li>
+					
+							
 				
 				</cfif>
 				</ul>
