@@ -302,7 +302,7 @@ nav ul {
 	clear: both;
   width: 100%;
 }
-@media (max-width: 44em) {
+@media (max-width:991px) {
 .nav-menu {
 	display:block;
 }
