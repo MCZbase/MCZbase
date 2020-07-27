@@ -166,6 +166,9 @@ nav .navbar-nav li a.nav-link {
 	}
 }*/
 /*  moved styles  */
+#main_nav {
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif"
+}
 nav {
 	display: block;
 	text-align: left;
