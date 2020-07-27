@@ -343,8 +343,8 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<div role="region" aria-labelledby="formheading">
-						<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+					<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+					<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
 						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
@@ -364,7 +364,7 @@ limitations under the License.
 							<script>
 									$('##description').keyup(autogrow);
 								</script>
-							<div class="form-row mb-5">
+							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
@@ -384,7 +384,7 @@ limitations under the License.
 										});
 									</script> 
 								</div>
-								<div class="col-12 col-md-6 px-2 my-3 px-sm-2 my-4">
+								<div class="col-12 row mx-0 px-1 my-3">
 									<input type="button" 
 												value="Create" title="Create" aria-label="Create"
 												class="btn btn-xs btn-primary"
@@ -506,6 +506,9 @@ limitations under the License.
 										<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
+													$('##saveResultDiv').addClass('text-danger');
+													$('##saveResultDiv').removeClass('text-success');
+													$('##saveResultDiv').removeClass('text-warning');
 												};
 												$(document).ready(function() {
 													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
@@ -517,6 +520,9 @@ limitations under the License.
 													var agentid = $('##underscore_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
+														$('##saveResultDiv').addClass('text-warning');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-danger');
 														jQuery.ajax({
 															url : "/grouping/component/functions.cfc",
 															type : "post",
@@ -524,9 +530,15 @@ limitations under the License.
 															data :  $('##editUndColl').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
+																$('##saveResultDiv').addClass('text-success');
+																$('##saveResultDiv').removeClass('text-danger');
+																$('##saveResultDiv').removeClass('text-warning');
 															},
 															error: function(jqXHR,textStatus,error){
 																$('##saveResultDiv').html('Error.');
+																$('##saveResultDiv').addClass('text-danger');
+																$('##saveResultDiv').removeClass('text-success');
+																$('##saveResultDiv').removeClass('text-warning');
 																var message = "";
 																if (error == 'timeout') {
 																	message = ' Server took too long to respond.';
@@ -539,6 +551,9 @@ limitations under the License.
 													} else { 
 														messageDialog('Error saving named collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
+														$('##saveResultDiv').addClass('text-danger');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-warning');
 													}
 												};
 											</script> 
@@ -549,7 +564,7 @@ limitations under the License.
 												class="btn btn-xs btn-primary"
 												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " 
 												>
-										<div id="saveResultDiv" class="text-danger ml-2">&nbsp;</div>
+										<div id="saveResultDiv" class="ml-2">&nbsp;</div>
 									</div>
 								</div>
 							</form>
