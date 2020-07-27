@@ -544,7 +544,6 @@ nav ul {
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="nav-menu">
-					<li><a href="##">home</a></li>
 					<li><a href="##">Search</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
