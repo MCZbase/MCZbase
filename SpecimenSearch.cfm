@@ -1393,6 +1393,9 @@
    	      				<cfloop query="namedCollections">
       	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollections.collection_name#</option>
          					 </cfloop>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "!#namedCollections.underscore_collection_id#">!#namedCollections.collection_name#</option>
+         					 </cfloop>
            				</select>
          			</td>
          		</tr>
