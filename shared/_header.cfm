@@ -171,8 +171,9 @@ must point to files present on production while the redesign menu points at thei
 	</button>
 
 	<div class="collapse navbar-collapse" id="navbarToggler1">
+		
 		<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-			<cfif isdefined("Application.header_image")>
+<cfif isdefined("Application.header_image")>
 				<!---  Redesign menu for integration on production --->
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -266,7 +267,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 				</cfif>	
 				<!---  End Redesign menu for integration on production --->
-			<cfelse>
+<cfelse>
 				<!---  Redesign menu for the redesign --->
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -420,7 +421,7 @@ must point to files present on production while the redesign menu points at thei
 		</cfif>
 </nav>
 
-
+<cfelse>
 
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
