@@ -240,11 +240,11 @@ nav ul {
 }
 /* arrow hover styling */
 .nav-menu > li > a:first-child:nth-last-child(2):before {
-	border-top-color: ##666;
+	border-top-color: rgba(0,0,0,.7);;
 }
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
-	border-bottom-color: ##deebec;
+	border-bottom-color: rgba(0,0,0,.7);;
 	margin-top: -5px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
