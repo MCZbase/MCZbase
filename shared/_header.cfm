@@ -183,7 +183,7 @@ nav ul {
 }
 .nav-menu > li > a {
 	margin-bottom: 1px;
-	box-shadow: inset 0 2em .33em -0.5em ##deebec;
+	box-shadow: inset 0 2em .33em -0.5em ##f8f9fa;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
 	border-bottom-color: rgba(0,0,0,.5);
