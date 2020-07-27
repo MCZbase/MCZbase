@@ -242,7 +242,7 @@ nav ul {
 	position: absolute;
 	height: 0;
 	width: 0;
-	border: 3px solid transparent;
+	border: 5px solid transparent;
 	top: 50%;
 	right: 5px;
 }
