@@ -303,6 +303,16 @@ nav ul {
 	clear: both;
   width: 100%;
 }
+.logout {
+	padding: 0 .45em;
+    font-size: .88em;
+	font-weight: bold;
+	position: relative;
+	right: 10px;
+	top: 3px;
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
+}
 @media (max-width:991px) {
 .nav-menu {
 	display:block;
@@ -320,6 +330,10 @@ nav ul {
 	z-index: 1;
 	left: -99999em;
 }
+	.nav-menu a {
+
+	padding-top: 1.1em;
+}
 .nav-menu li {
 	height: 40px;
 }
@@ -333,6 +347,16 @@ nav ul {
 	margin-left: 1px;
 	top: 0px;
 	display:block;
+}
+	.logout {
+	padding: 0 .45em;
+    font-size: .88em;
+	font-weight: bold;
+	position: absolute;
+	right: 10px;
+	top: 3px;
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
 }
 }
 /*  end of moved styles  */
@@ -460,16 +484,7 @@ nav button {
 	border: 1px solid #ddd;
 }
 
-.logout {
-	padding: 0 .45em;
-    font-size: .88em;
-	font-weight: bold;
-	position: absolute;
-	right: 10px;
-	top: 3px;
-	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	letter-spacing: .02em;
-}
+
 .footer {
 	line-height: 1em;
 }
