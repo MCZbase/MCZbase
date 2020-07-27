@@ -23,19 +23,22 @@ limitations under the License.
 </cfif>
 <cfswitch expression="#action#">
 	<cfcase value="search">
-	<cfset pageTitle = "Search Named Collections">
+		<cfset pageTitle = "Search Named Collections">
 	</cfcase>
 	<cfcase value="new">
-	<cfset pageTitle = "Add New Named Collection">
-	<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
-		<cflocation url="/errors/forbidden.cfm?ref=#r#" addtoken="false">
-	</cfif>
+		<cfset pageTitle = "Add New Named Collection">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to add a new named group of cataloged items.">
+		</cfif>
 	</cfcase>
 	<cfcase value="edit">
-	<cfset pageTitle = "Edit a Named_ Collection">
+		<cfset pageTitle = "Edit a Named_ Collection">
+		<cfif NOT isdefined("session.roles") OR NOT listfindnocase(session.roles,"manage_specimens")>
+			<cfthrow message="Insufficient permissions to edit a named group of cataloged items.">
+		</cfif>
 	</cfcase>
 	<cfdefaultcase>
-	<cfset pageTitle = "Named Collection">
+		<cfset pageTitle = "Named Collection">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------------------->
