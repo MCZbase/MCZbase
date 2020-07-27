@@ -190,12 +190,13 @@ nav ul {
 }
 .nav-menu a:hover {
 	color: black;
-	background-color: #ddd;
+	background-color: #ebebeb;
 }
 .nav-menu {
 	vertical-align: top;
 	display: inline-block;
-	box-shadow: 1px -1px -1px 1px #000, -1px 1px -1px 1px #fff, 0 0 6px 3px #fff;
+/*	box-shadow: 1px -1px -1px 1px #000, -1px 1px -1px 1px #fff, 0 0 6px 3px #fff;*/
+	background-color: #f8f9fa;
 /*	border-radius: 6px;*/
 	margin-right: auto;
 }
