@@ -166,6 +166,7 @@ nav ul {
 	text-shadow: 0 -1px 0 ##658594;
 	position: relative;
 	padding-bottom: .3em;
+	margin-right: auto;
 }
 .nav-menu {
 	vertical-align: top;
