@@ -187,7 +187,10 @@ nav ul {
 /*	text-shadow: 0 -1px 0 #658594;*/
 	position: relative;
 	padding-bottom: .3em;
-	
+}
+.nav-menu a:hover {
+	color: black;
+	background-color: #ddd;
 }
 .nav-menu {
 	vertical-align: top;
@@ -238,7 +241,7 @@ nav ul {
 	position: absolute;
 	height: 0;
 	width: 0;
-	border: 5px solid transparent;
+	border: 3px solid transparent;
 	top: 50%;
 	right: 5px;
 }
@@ -280,13 +283,13 @@ nav ul {
 	border-right-color: #666;
 	right: 5px;
 }
-##main_nav ul li:hover > ul,
-##main_nav ul li:focus-within > ul,
-##main_nav ul li ul:hover,
-##main_nav ul li ul:focus {
+.nav-menu ul li:hover > ul,
+#main_nav ul li:focus-within > ul,
+#main_nav ul li ul:hover,
+#main_nav ul li ul:focus {
   visibility: visible;
   opacity: 1;
-  display: block
+  display: block;
 }
 
 .nav-menu ul li ul li {
