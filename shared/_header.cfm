@@ -244,11 +244,11 @@ nav ul {
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-bottom-color: ##deebec;
-	margin-top: -5px
+	margin-top: -3px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: ##666;
-	margin-top: -5px
+	margin-top: -3px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
