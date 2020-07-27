@@ -161,7 +161,7 @@ limitations under the License.
 Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
 must point to files present on production while the redesign menu points at their replacements in redesign
-
+--->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<button class="navbar-toggler" type="button" data-toggle="collapse" 
@@ -347,7 +347,7 @@ must point to files present on production while the redesign menu points at thei
 					</div>
 				</li>
 			
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				
 				</ul>
 				<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
 					<li class="nav-item dropdown">
