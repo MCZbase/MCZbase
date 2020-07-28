@@ -287,15 +287,16 @@ must point to files present on production while the redesign menu points at thei
 							<li class="nav-item"><a class="nav-link" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##">Enter Data</a>
-						   <ul class="dropdown" aria-label="submenu">
-							<li class="dropdown-menu"><a href="##">New Record</a>
-							   <ul class="dropdown" aria-label="submenu">
-									<li><a href="/DataEntry.cfm">Specimen</a></li>
-									<li><a href="##">Media</a></li>
-									<li><a href="##">Publication</a></li>
-									<li><a href="##">Agent</a></li>
+						   <ul class="dropdown-menu" aria-label="submenu">
+							<li class="nav-item dropdown">
+								<a class="nav-link" href="##">New Record</a>
+							   <ul class="dropdown-menu" aria-label="submenu">
+									<li><a class="nav-item" href="/DataEntry.cfm">Specimen</a></li>
+									<li><a class="nav-item" href="##">Media</a></li>
+									<li><a class="nav-item" href="##">Publication</a></li>
+									<li><a class="nav-item" href="##">Agent</a></li>
 								</ul>
 							</li>
 							<li>
