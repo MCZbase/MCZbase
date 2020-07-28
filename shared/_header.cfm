@@ -299,8 +299,8 @@ must point to files present on production while the redesign menu points at thei
 									<li><a class="dropdown-item" href="##">Agent</a></li>
 								</ul>
 							</li>
-							<li>
-							<a class="nav-link" href="##">Bulkloader</a>
+						<li class="nav-item dropdown">
+							<a class="dropdown-item dropdown-toggle" href="##">Bulkloader</a>
 								<ul class="dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
 									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
@@ -308,13 +308,13 @@ must point to files present on production while the redesign menu points at thei
 									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li>
-								<a class="nav-link" href="##">Batch Tools</a>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Batch Tools</a>
 								<ul class="dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Agents</a></li>
-									<li><a class="dropdown-item"href="##">Attributes</a></li>
-									<li><a class="dropdown-item"href="##">Containers</a></li>
-									<li><a class="dropdown-item"href="##">Media</a></li>
+									<li><a class="dropdown-item" href="##">Attributes</a></li>
+									<li><a class="dropdown-item" href="##">Containers</a></li>
+									<li><a class="dropdown-item" href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
