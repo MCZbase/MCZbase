@@ -280,11 +280,11 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown active">
 						<a class="nav-link dropdown-toggle" href="##">Search <span class="sr-only">(current)</span></a>
 						<ul class="dropdown-menu" aria-label="submenu">
-							<li class="nav-item"><a class="nav-link" href="/Specimens.cfm">Specimens</a></li>
-							<li class="nav-item"><a class="nav-link" href="##">Taxonomy</a></li>
-							<li class="nav-item"><a class="nav-link" href="##">Media</a></li>
-							<li class="nav-item"><a class="nav-link" href="##">Publications</a></li>
-							<li class="nav-item"><a class="nav-link" href="/Taxa.cfm">Taxonomy</a></li>
+							<li class="nav-item"><a class="dropdown-link" href="/Specimens.cfm">Specimens</a></li>
+							<li class="nav-item"><a class="dropdown-link" href="##">Taxonomy</a></li>
+							<li class="nav-item"><a class="dropdown-link" href="##">Media</a></li>
+							<li class="nav-item"><a class="dropdown-link" href="##">Publications</a></li>
+							<li class="nav-item"><a class="dropdown-link" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown">
