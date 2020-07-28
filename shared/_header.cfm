@@ -352,8 +352,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Permits</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Search & Edit </a></li>
-									<li><a class="nav-item" href="##">New Permit </a></li>
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Permit </a></li>
 								</ul>
 							</li>
 						</ul>
