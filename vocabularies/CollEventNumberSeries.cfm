@@ -48,11 +48,11 @@ limitations under the License.
 			<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<div class="container">
+				<div class="container pt-0 mt-2 mb-3">
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Find Collecting Event Number Series</h2>
+								<h1 class="h2" id="formheading">Find Collecting Event Number Series</h1>
 								<form name="searchForm" id="searchForm"> 
 									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 									<div class="form-row mb-2">
