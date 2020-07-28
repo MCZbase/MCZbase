@@ -323,12 +323,14 @@ must point to files present on production while the redesign menu points at thei
 						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a class="dropdown-item" href="##">All Transactions</a></li>
-							<li><a class="dropdown-item" href="##">Accessions</a>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Accessions</a>
 								<ul class="dropdown-menu" aria-label="submenu">
 									<li><a class="nav-item" href="##">Search & Edit </a></li>
 									<li><a class="nav-item" href="##">New Accession </a></li>
 								</ul></li>
-							<li><a class="dropdown-item" href="##">Borrows</a>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Borrows</a>
 								<ul class="dropdown-menu" aria-label="submenu">
 									<li><a class="nav-item" href="##">Search & Edit </a></li>
 									<li><a class="nav-item" href="##">New Borrow </a></li>
