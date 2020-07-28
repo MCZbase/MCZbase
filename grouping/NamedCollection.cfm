@@ -350,10 +350,10 @@ limitations under the License.
 	<cfcase value="new">
 	<!---  Add a new ____ collection, link to agent ---> 
 	<cfoutput>
-		<div class="container">
+		<div class="container mt-2 my-3">
 			<div class="row">
 				<div class="col-12">
-					<h2 id="formheading">New "Collection" (named group of cataloged items)</h2>
+					<h1 class="h2" id="formheading">New "Collection" (named group of cataloged items)</h1>
 					<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
 						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
 							<input type="hidden" id="action" name="action" value="saveNew" >
