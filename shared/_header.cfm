@@ -271,109 +271,97 @@ must point to files present on production while the redesign menu points at thei
 	</nav>
 <cfelse>
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_navbar">
+	<nav class="navbar navbar-expand-lg navbar-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown active">
-						<a class="nav-link dropdown-toggle" href="##">Search <span class="sr-only">(current)</span></a>
-						<ul class="dropdown-menu" aria-label="submenu">
-							<li class="nav-item"><a class="dropdown-link" href="/Specimens.cfm">Specimens</a></li>
-							<li class="nav-item"><a class="dropdown-link" href="##">Taxonomy</a></li>
-							<li class="nav-item"><a class="dropdown-link" href="##">Media</a></li>
-							<li class="nav-item"><a class="dropdown-link" href="##">Publications</a></li>
-							<li class="nav-item"><a class="dropdown-link" href="/Taxa.cfm">Taxonomy</a></li>
+				<ul class="nav-menu mr-auto">
+					<li><a href="##">Search</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="/Specimens.cfm">Specimens</a></li>
+							<li><a href="##">Taxonomy</a></li>
+							<li><a href="##">Media</a></li>
+							<li><a href="##">Publications</a></li>
+							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##">Enter Data</a>
-						   <ul class="dropdown-menu" aria-label="submenu">
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">New Record</a>
-							   <ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
-									<li><a class="dropdown-item" href="##">Media</a></li>
-									<li><a class="dropdown-item" href="##">Publication</a></li>
-									<li><a class="dropdown-item" href="##">Agent</a></li>
+					<li><a href="##">Enter Data</a>
+						   <ul class="dropdown" aria-label="submenu">
+							<li><a href="##">New Record</a>
+							   <ul class="dropdown" aria-label="submenu">
+									<li><a href="/DataEntry.cfm">Specimen</a></li>
+									<li><a href="##">Media</a></li>
+									<li><a href="##">Publication</a></li>
+									<li><a href="##">Agent</a></li>
 								</ul>
 							</li>
-						<li class="nav-item dropdown">
-							<a class="dropdown-item dropdown-toggle" href="##">Bulkloader</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
-									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
-									<li><a class="dropdown-item" href="##">Bulkload .CSV Builder</a></li>
-									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
+							<li><a href="##">Bulkloader</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Bulkload Specimens</a></li>
+									<li><a href="##">Bulkloader Status</a></li>
+									<li><a href="##">Bulkload .CSV Builder</a></li>
+									<li><a href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Batch Tools</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Agents</a></li>
-									<li><a class="dropdown-item" href="##">Attributes</a></li>
-									<li><a class="dropdown-item" href="##">Containers</a></li>
-									<li><a class="dropdown-item" href="##">Media</a></li>
+							<li><a href="##">Batch Tools</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Agents</a></li>
+									<li><a href="##">Attributes</a></li>
+									<li><a href="##">Containers</a></li>
+									<li><a href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
-						<ul class="dropdown-menu" aria-label="submenu">
-							<li><a class="dropdown-item" href="##">All Transactions</a></li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Accessions</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Accession </a></li>
+					<li><a href="##">Transactions</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="##">All Transactions</a></li>
+							<li><a href="##">Accessions</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Accession </a></li>
 								</ul></li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Borrows</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Borrow </a></li>
+							<li><a href="##">Borrows</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Borrow </a></li>
 								</ul></li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Deaccessions</a>	
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
+							<li><a href="##">Deaccessions</a>	
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Deaccession </a></li>
 								</ul>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Loans</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Loan </a></li>
+							<li><a href="##">Loans</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Loan </a></li>
 								</ul>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="dropdown-item dropdown-toggle" href="##">Permits</a>
-								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Permit </a></li>
+							<li><a href="##">Permits</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Permit </a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##">Tools</a>
-						<ul class="dropdown-menu" aria-label="submenu">
-							<li><a class="dropdown-item" href="##">Projects </a></li>
-							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
-							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
-							<li><a class="dropdown-item" href="##">Object Tracking </a></li>
-							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
+					<li><a href="##">Tools</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="##">Projects </a></li>
+							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+							<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
+							<li><a href="##">Object Tracking </a></li>
+							<li><a href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-link"><a href="##">About</a></li>
+					<li><a href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				</ul><!--- end of menu ul --->
+						</ul><!--- end of menu ul --->
 					<ul class="nav-menu ml-auto">
-					<li class="nav-item"><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
