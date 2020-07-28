@@ -287,7 +287,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="nav-item"><a class="nav-link" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">Enter Data</a>
+					<li class="nav-item">
+						<a class="nav-link dropdown-toggle" href="##">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li class="dropdown-menu"><a href="##">New Record</a>
 							   <ul class="dropdown" aria-label="submenu">
@@ -297,7 +298,8 @@ must point to files present on production while the redesign menu points at thei
 									<li><a href="##">Agent</a></li>
 								</ul>
 							</li>
-							<li><a href="##">Bulkloader</a>
+							<li>
+							<a href="##">Bulkloader</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Bulkload Specimens</a></li>
 									<li><a href="##">Bulkloader Status</a></li>
@@ -305,7 +307,8 @@ must point to files present on production while the redesign menu points at thei
 									<li><a href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li><a href="##">Batch Tools</a>
+							<li>
+								<a href="##">Batch Tools</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Agents</a></li>
 									<li><a href="##">Attributes</a></li>
@@ -315,32 +318,33 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">Transactions</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
-							<li><a href="##">All Transactions</a></li>
-							<li><a href="##">Accessions</a>
+							<li><a class="dropdown-item" href="##">All Transactions</a></li>
+							<li><a class="dropdown-item" href="##">Accessions</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Accession </a></li>
 								</ul></li>
-							<li><a href="##">Borrows</a>
+							<li><a class="dropdown-item" href="##">Borrows</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Borrow </a></li>
 								</ul></li>
-							<li><a href="##">Deaccessions</a>	
+							<li><a class="dropdown-item" href="##">Deaccessions</a>	
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Deaccession </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Loans</a>
+							<li><a class="dropdown-item" href="##">Loans</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Loan </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Permits</a>
+							<li><a class=""dropdown-item href="##">Permits</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Permit </a></li>
