@@ -334,12 +334,11 @@ ul.nav-menu > li li li a {
 .nav-menu ul {
 	position: relative;
 	white-space: nowrap;
-	border-bottom: 5px solid #deebec;
+	border: 3px solid #deebec;
 	z-index: 1;
 	left: -99999em;
 }
 .nav-menu a {
-
 	padding-top: 1.1em;
 }
 .nav-menu li {
@@ -356,6 +355,7 @@ ul.nav-menu > li li li a {
 .nav-menu > li li:hover > ul {
 	left: 0;
 	margin-left: 1px;
+	margin-right: 1px;
 	top: 0px;
 	display:block;
 }
