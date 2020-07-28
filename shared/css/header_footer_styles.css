@@ -372,7 +372,7 @@ ul.nav-menu > li li li a {
 .login-form {
 	position: absolute;
 	top: 2px;
-	right: 1.5em;
+	right: 1em;
 }
 /*.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	right: 25px;
