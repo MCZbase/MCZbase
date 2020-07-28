@@ -362,32 +362,6 @@ ul.nav-menu > li li li a {
 	position: absolute;
 	top: 2px;
 	right: 1em;
-}.nav-menu > li > a:first-child:nth-last-child(2):before {
-	border-top-color: rgba(0,0,0,.7);;
-}
-.nav-menu > li:hover > a:first-child:nth-last-child(2):before {
-	border: 5px solid transparent;
-	border-bottom-color: rgba(0,0,0,.7);;
-	margin-top: -1px
-}
-.nav-menu li li > a:first-child:nth-last-child(2):before {
-	border-left-color: #666;
-	margin-top: -1px
-}
-.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-	border: 5px solid transparent;
-	border-right-color: #666;
-	right: 5px;
-}
-.nav-menu li a:first-child:nth-last-child(2):before {
-	content: "";
-	position: relative;
-	height: 0;
-	width: 0;
-	border: 5px solid transparent;
-	top: 52%;
-	float:right;
-	right: 1.5em;
 }
 }
 /*  end of moved styles  */
