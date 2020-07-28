@@ -374,9 +374,16 @@ ul.nav-menu > li li li a {
 	top: 2px;
 	right: 1em;
 }
-/*.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-	right: 25px;
-}*/
+.nav-menu li a:first-child:nth-last-child(2):before {
+	content: "";
+	position: relative;
+	height: 0;
+	width: 0;
+	border: 5px solid transparent;
+	top: 52%;
+	float:right;
+	margin-right: 1.5em;
+}
 }
 /*  end of moved styles  */
 .navbar-toggler-icon {
