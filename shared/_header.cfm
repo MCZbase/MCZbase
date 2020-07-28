@@ -291,12 +291,12 @@ must point to files present on production while the redesign menu points at thei
 						<a class="nav-link dropdown-toggle" href="##">Enter Data</a>
 						   <ul class="dropdown-menu" aria-label="submenu">
 							<li class="nav-item dropdown">
-								<a class="nav-link" href="##">New Record</a>
+								<a class="dropdown-item dropdown-toggle" href="##">New Record</a>
 							   <ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="/DataEntry.cfm">Specimen</a></li>
-									<li><a class="nav-item" href="##">Media</a></li>
-									<li><a class="nav-item" href="##">Publication</a></li>
-									<li><a class="nav-item" href="##">Agent</a></li>
+									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
+									<li><a class="dropdown-item" href="##">Media</a></li>
+									<li><a class="dropdown-item" href="##">Publication</a></li>
+									<li><a class="dropdown-item" href="##">Agent</a></li>
 								</ul>
 							</li>
 							<li>
