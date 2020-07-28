@@ -280,7 +280,6 @@ must point to files present on production while the redesign menu points at thei
 					<li><a href="##">Search</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
-							<li><a href="##">Taxonomy</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
@@ -316,7 +315,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 					<li><a href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
-							<li><a href="##">All Transactions</a></li>
+							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							<li><a href="##">Accessions</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
@@ -335,7 +334,7 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 							<li><a href="##">Loans</a>
 								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
+									<li><a href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
 									<li><a href="##">New Loan </a></li>
 								</ul>
 							</li>
