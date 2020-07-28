@@ -337,12 +337,13 @@ nav ul {
 .nav-menu li {
 	height: 40px;
 }
+.nav-menu li:hover {
+	height: auto;
+}
 .nav-menu > li:hover > ul {
 	left: 0;
 	margin-top: 5px;
 	min-width: 100%;
-	
-	height: auto;
 }
 .nav-menu > li li:hover > ul {
 	left: 0;
