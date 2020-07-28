@@ -277,8 +277,8 @@ must point to files present on production while the redesign menu points at thei
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="##">Search <span class="sr-only">(current)</span></a>
+					<li class="nav-item dropdown active">
+						<a class="nav-link dropdown-toggle" href="##">Search <span class="sr-only">(current)</span></a>
 						<ul class="dropdown" aria-label="submenu">
 							<li class="nav-item"><a class="nav-link" href="/Specimens.cfm">Specimens</a></li>
 							<li class="nav-item"><a class="nav-link" href="##">Taxonomy</a></li>
