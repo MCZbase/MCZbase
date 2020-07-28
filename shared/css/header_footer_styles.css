@@ -272,7 +272,7 @@ nav ul {
 	border-right-color: #666;
 	right: 5px;
 }
-.nav-menu ul li:hover > ul,
+#main_nav ul li:hover > ul,
 #main_nav ul li:focus-within > ul,
 #main_nav ul li ul:hover,
 #main_nav ul li ul:focus {
@@ -317,6 +317,15 @@ ul {
 	padding-left: 4em;
 	padding-right: 4em;
 }
+.nav-menu li a:first-child:nth-last-child(2):before {
+	content: "";
+	position: absolute;
+	height: 0;
+	width: 0;
+	border: 5px solid transparent;
+	top: 50%;
+	right: 50px;
+}
 ul.nav-menu > li li li a {
 	padding-left: 6em;
 	padding-right: 6em;
@@ -349,6 +358,23 @@ ul.nav-menu > li li li a {
 	margin-right: 1px;
 	top: 0px;
 	display:block;
+}
+	.nav-menu > li > a:first-child:nth-last-child(2):before {
+	border-top-color: rgba(0,0,0,.7);;
+}
+.nav-menu > li:hover > a:first-child:nth-last-child(2):before {
+	border: 5px solid transparent;
+	border-bottom-color: rgba(0,0,0,.7);;
+	margin-top: -5px
+}
+.nav-menu li li > a:first-child:nth-last-child(2):before {
+	border-left-color: #666;
+	margin-top: -5px
+}
+.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
+	border: 5px solid transparent;
+	border-right-color: #666;
+	right: 50px;
 }
 .logout {
 	padding: 0 .45em;
