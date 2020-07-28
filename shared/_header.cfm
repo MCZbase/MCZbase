@@ -321,7 +321,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
-						<ul class="dropdown" aria-label="submenu">
+						<ul class="dropdown-menu" aria-label="submenu">
 							<li><a class="dropdown-item" href="##">All Transactions</a></li>
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Accessions</a>
