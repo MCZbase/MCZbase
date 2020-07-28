@@ -8,7 +8,7 @@
 
 
 <cfif not isdefined("title")>
-	<cfset title = "Arctos Database Access">
+	<cfset title = "MCZbase Data Pick">
 </cfif>
 <cftry>
 <cfhtmlhead text="<title>#variables.title#</title>">

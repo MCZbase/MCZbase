@@ -49,7 +49,7 @@
 			<tr>
 				<td>
 					<a href="##" onClick="javascript: opener.document.#formName#.#pubIdFld#.value='#publication_id#';
-						opener.document.#formName#.#pubStringFld#.value='#stripQuotes(formatted_publication)#';self.close();">#stripQuotes(formatted_publication)#</a>
+						opener.document.#formName#.#pubStringFld#.value='#JSStringFormat(formatted_publication)#';self.close();">#stripQuotes(formatted_publication)#</a>
 				</td>
 			</tr>
 		</cfif>
