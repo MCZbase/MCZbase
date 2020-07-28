@@ -377,7 +377,7 @@ ul.nav-menu > li li li a {
 	right: 50px;
 }
 .logout {
-	padding: 0 .45em;
+	padding: .14em .45em;
     font-size: .88em;
 	font-weight: bold;
 	position: absolute;
