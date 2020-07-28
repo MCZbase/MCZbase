@@ -646,9 +646,9 @@ input#Password {
 }
 
 @media only screen and (max-width: 990px) {
-	.logout {
+/*	.logout {
 	padding: 0.3em .45em;
-}
+}*/
 }
 @media(min-width:991px) {
 	.mcz-center {
