@@ -327,6 +327,10 @@ nav ul {
 	padding-left: 3em;
 	padding-right: 3em;
 }
+ul.nav-menu > li li li a {
+	padding-left: 6em;
+	padding-right: 6em;
+}
 .nav-menu ul {
 	position: relative;
 	white-space: nowrap;
