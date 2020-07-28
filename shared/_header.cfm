@@ -279,7 +279,7 @@ must point to files present on production while the redesign menu points at thei
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item dropdown active">
 						<a class="nav-link dropdown-toggle" href="##">Search <span class="sr-only">(current)</span></a>
-						<ul class="dropdown" aria-label="submenu">
+						<ul class="dropdown-menu" aria-label="submenu">
 							<li class="nav-item"><a class="nav-link" href="/Specimens.cfm">Specimens</a></li>
 							<li class="nav-item"><a class="nav-link" href="##">Taxonomy</a></li>
 							<li class="nav-item"><a class="nav-link" href="##">Media</a></li>
@@ -300,21 +300,21 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<li>
-							<a href="##">Bulkloader</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Bulkload Specimens</a></li>
-									<li><a href="##">Bulkloader Status</a></li>
-									<li><a href="##">Bulkload .CSV Builder</a></li>
-									<li><a href="##">Browse and Edit Staged Records</a></li>
+							<a class="nav-link" href="##">Bulkloader</a>
+								<ul class="dropdown-menu" aria-label="submenu">
+									<li><a class="nav-item" href="##">Bulkload Specimens</a></li>
+									<li><a class="nav-item" href="##">Bulkloader Status</a></li>
+									<li><a class="nav-item" href="##">Bulkload .CSV Builder</a></li>
+									<li><a class="nav-item" href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
 							<li>
-								<a href="##">Batch Tools</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Agents</a></li>
-									<li><a href="##">Attributes</a></li>
-									<li><a href="##">Containers</a></li>
-									<li><a href="##">Media</a></li>
+								<a class="nav-link" href="##">Batch Tools</a>
+								<ul class="dropdown-menu" aria-label="submenu">
+									<li><a class="nav-item" href="##">Agents</a></li>
+									<li><a class="nav-item"href="##">Attributes</a></li>
+									<li><a class="nav-item"href="##">Containers</a></li>
+									<li><a class="nav-item"href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
