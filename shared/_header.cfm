@@ -314,35 +314,41 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li><a href="##">Transactions</a>
-						<ul class="dropdown" aria-label="submenu">
-							<li><a href="##">All Transactions</a></li>
-							<li><a href="##">Accessions</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Accession </a></li>
+					<li class="nav-item dropdown">
+						<a class="dropdown-item dropdown-toggle" href="##">Transactions</a>
+						<ul class="dropdown dropdown-menu" aria-label="submenu">
+							<li><a class="dropdown-item" href="##">All Transactions</a></li>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Accessions</a>
+								<ul class="dropdown dropdown-menu" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Accession </a></li>
 								</ul></li>
-							<li><a href="##">Borrows</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Borrow </a></li>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Borrows</a>
+								<ul class="dropdown dropdown-menu" aria-label="submenu">
+									<li><a class="dropdown-item"  href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item"  href="##">New Borrow </a></li>
 								</ul></li>
-							<li><a href="##">Deaccessions</a>	
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Deaccession </a></li>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Deaccessions</a>	
+								<ul class="dropdown dropdown-menu" aria-label="submenu">
+									<li><a class="dropdown-item"  href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item"  href="##">New Deaccession </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Loans</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Loan </a></li>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Loans</a>
+								<ul class="dropdown dropdown-menu" aria-label="submenu">
+									<li><a class="dropdown-item"  href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item"  href="##">New Loan </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Permits</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Permit </a></li>
+							<li class="nav-item dropdown">
+								<a class="dropdown-item dropdown-toggle" href="##">Permits</a>
+								<ul class="dropdown dropdown-menu" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Permit </a></li>
 								</ul>
 							</li>
 						</ul>
