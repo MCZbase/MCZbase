@@ -370,9 +370,8 @@ nav ul {
 	top: 2px;
 	right: 8px;
 }
-	.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-
-	right: 15px;
+.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
+	right: 25px;
 }
 }
 /*  end of moved styles  */
