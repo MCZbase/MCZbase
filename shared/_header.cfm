@@ -289,7 +289,7 @@ must point to files present on production while the redesign menu points at thei
 					<li><a href="##">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li><a href="##">New Record</a>
-							   <ul class="dropdown dropdown-submenu" aria-label="submenu">
+							   <ul class="dropdown" aria-label="submenu">
 									<li><a href="/DataEntry.cfm">Specimen</a></li>
 									<li><a href="##">Media</a></li>
 									<li><a href="##">Publication</a></li>
