@@ -336,7 +336,7 @@ ul.nav-menu > li li li a {
 	border: 3px solid #deebec;
 	z-index: 1;
 	left: -99999em;
-	margin-bottom:.5em;
+	margin-bottom:.25em;
 }
 .nav-menu a {
 	padding-top: 1.1em;
