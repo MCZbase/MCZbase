@@ -302,19 +302,19 @@ must point to files present on production while the redesign menu points at thei
 							<li>
 							<a class="nav-link" href="##">Bulkloader</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Bulkload Specimens</a></li>
-									<li><a class="nav-item" href="##">Bulkloader Status</a></li>
-									<li><a class="nav-item" href="##">Bulkload .CSV Builder</a></li>
-									<li><a class="nav-item" href="##">Browse and Edit Staged Records</a></li>
+									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
+									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
+									<li><a class="dropdown-item" href="##">Bulkload .CSV Builder</a></li>
+									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
 							<li>
 								<a class="nav-link" href="##">Batch Tools</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Agents</a></li>
-									<li><a class="nav-item"href="##">Attributes</a></li>
-									<li><a class="nav-item"href="##">Containers</a></li>
-									<li><a class="nav-item"href="##">Media</a></li>
+									<li><a class="dropdown-item" href="##">Agents</a></li>
+									<li><a class="dropdown-item"href="##">Attributes</a></li>
+									<li><a class="dropdown-item"href="##">Containers</a></li>
+									<li><a class="dropdown-item"href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -326,27 +326,27 @@ must point to files present on production while the redesign menu points at thei
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Accessions</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Search & Edit </a></li>
-									<li><a class="nav-item" href="##">New Accession </a></li>
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Accession </a></li>
 								</ul></li>
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Borrows</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Search & Edit </a></li>
-									<li><a class="nav-item" href="##">New Borrow </a></li>
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Borrow </a></li>
 								</ul></li>
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Deaccessions</a>	
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Search & Edit </a></li>
-									<li><a class="nav-item" href="##">New Deaccession </a></li>
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
 								</ul>
 							</li>
 							<li class="nav-item dropdown">
 								<a class="dropdown-item dropdown-toggle" href="##">Loans</a>
 								<ul class="dropdown-menu" aria-label="submenu">
-									<li><a class="nav-item" href="##">Search & Edit </a></li>
-									<li><a class="nav-item" href="##">New Loan </a></li>
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Loan </a></li>
 								</ul>
 							</li>
 							<li class="nav-item dropdown">
