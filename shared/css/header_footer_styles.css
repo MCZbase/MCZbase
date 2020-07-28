@@ -359,11 +359,11 @@ ul.nav-menu > li li li a {
 .nav-menu > li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
 	border-bottom-color: rgba(0,0,0,.7);;
-	margin-top: -5px
+	margin-top: -1px
 }
 .nav-menu li li > a:first-child:nth-last-child(2):before {
 	border-left-color: #666;
-	margin-top: -5px
+	margin-top: -1px
 }
 .nav-menu li li:hover > a:first-child:nth-last-child(2):before {
 	border: 5px solid transparent;
