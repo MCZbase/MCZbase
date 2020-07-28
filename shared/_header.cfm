@@ -271,24 +271,25 @@ must point to files present on production while the redesign menu points at thei
 	</nav>
 <cfelse>
 
-	<nav class="navbar navbar-expand-lg navbar-light">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_navbar">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
-				<ul class="nav-menu mr-auto">
-					<li><a href="##">Search</a>
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="##">Search <span class="sr-only">(current)</span></a>
 						<ul class="dropdown" aria-label="submenu">
-							<li><a href="/Specimens.cfm">Specimens</a></li>
-							<li><a href="##">Taxonomy</a></li>
-							<li><a href="##">Media</a></li>
-							<li><a href="##">Publications</a></li>
-							<li><a href="/Taxa.cfm">Taxonomy</a></li>
+							<li class="nav-item"><a class="nav-link" href="/Specimens.cfm">Specimens</a></li>
+							<li class="nav-item"><a class="nav-link" href="##">Taxonomy</a></li>
+							<li class="nav-item"><a class="nav-link" href="##">Media</a></li>
+							<li class="nav-item"><a class="nav-link" href="##">Publications</a></li>
+							<li class="nav-item"><a class="nav-link" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li><a href="##">Enter Data</a>
+					<li class="nav-item"><a href="##">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
-							<li><a href="##">New Record</a>
+							<li class="dropdown-menu"><a href="##">New Record</a>
 							   <ul class="dropdown" aria-label="submenu">
 									<li><a href="/DataEntry.cfm">Specimen</a></li>
 									<li><a href="##">Media</a></li>
@@ -314,7 +315,7 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li><a href="##">Transactions</a>
+					<li class="nav-item"><a href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">All Transactions</a></li>
 							<li><a href="##">Accessions</a>
@@ -347,21 +348,22 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li><a href="##">Tools</a>
-						<ul class="dropdown" aria-label="submenu">
-							<li><a href="##">Projects </a></li>
-							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
-							<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
-							<li><a href="##">Object Tracking </a></li>
-							<li><a href="##">Encumbrances </a></li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##">Tools</a>
+						<ul class="dropdown-menu" aria-label="submenu">
+							<li><a class="dropdown-item" href="##">Projects </a></li>
+							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
+							<li><a class="dropdown-item" href="##">Object Tracking </a></li>
+							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li><a href="##">About</a></li>
+					<li class="nav-item"><a href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						</ul><!--- end of menu ul --->
+				</ul><!--- end of menu ul --->
 					<ul class="nav-menu ml-auto">
-					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<li class="nav-item"><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
