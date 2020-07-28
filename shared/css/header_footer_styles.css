@@ -324,8 +324,8 @@ nav ul {
 	width: 100%;
 }
  ul.nav-menu > li li a {
-	padding-left: 1em;
-	padding-right: 1em;
+	padding-left: 3em;
+	padding-right: 3em;
 }
 .nav-menu ul {
 	position: relative;
