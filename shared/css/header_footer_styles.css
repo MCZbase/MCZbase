@@ -323,6 +323,10 @@ nav ul {
  ul.nav-menu > li li {
 	width: 100%;
 }
+ ul.nav-menu > li li a {
+	padding-left: 1em;
+	padding-right: 1em;
+}
 .nav-menu ul {
 	position: relative;
 	white-space: nowrap;
@@ -330,7 +334,7 @@ nav ul {
 	z-index: 1;
 	left: -99999em;
 }
-	.nav-menu a {
+.nav-menu a {
 
 	padding-top: 1.1em;
 }
