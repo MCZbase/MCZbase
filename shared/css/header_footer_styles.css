@@ -324,8 +324,8 @@ nav ul {
 	width: 100%;
 }
  ul.nav-menu > li li a {
-	padding-left: 3em;
-	padding-right: 3em;
+	padding-left: 4em;
+	padding-right: 4em;
 }
 ul.nav-menu > li li li a {
 	padding-left: 6em;
@@ -339,7 +339,7 @@ ul.nav-menu > li li li a {
 	left: -99999em;
 }
 .nav-menu a {
-	padding-top: 1.1em;
+	padding-top: .8em;
 }
 .nav-menu li {
 	height: 40px;
@@ -349,7 +349,7 @@ ul.nav-menu > li li li a {
 }
 .nav-menu > li:hover > ul {
 	left: 0;
-	margin-top: 5px;
+	margin-top: 3px;
 	min-width: 100%;
 }
 .nav-menu > li li:hover > ul {
