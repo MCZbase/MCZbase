@@ -381,10 +381,7 @@ must point to files present on production while the redesign menu points at thei
 							<cfif session.roles contains "public">
 								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 							</cfif>
-					</li>
-					
-							
-				
+					</li>		
 				</cfif>
 				</ul>
 			</div><!--- end navbarToggler1 --->
@@ -415,7 +412,7 @@ must point to files present on production while the redesign menu points at thei
 					<cfif gtp EQ '/errors/forbidden.cfm'>
 						<cfset gtp = "/UserProfile.cfm">
 					</cfif>
-					<form name="logIn" method="post" action="/login.cfm" class="m-0" style="width:80%;">
+					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
 						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
 						<input type="hidden" name="gotopage" value="#gtp#">
