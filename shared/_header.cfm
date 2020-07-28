@@ -368,7 +368,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">About</a></li>
+					<li class="nav-link"><a href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				</ul><!--- end of menu ul --->
