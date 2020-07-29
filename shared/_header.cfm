@@ -271,7 +271,7 @@ must point to files present on production while the redesign menu points at thei
 	</nav>
 <cfelse>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_navbar">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="##">Navbar</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -279,38 +279,38 @@ must point to files present on production while the redesign menu points at thei
         <div class="navbar-collapse collapse show" id="navbarSupportedContent" style="">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="##">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
+                    <a class="nav-link" href="##">Link</a>
                 </li>
                 <li class="nav-item dropdown show">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <a class="nav-link dropdown-toggle" href="##" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         Dropdown
                     </a>
                     <ul class="dropdown-menu show" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="##">Action</a></li>
+                        <li><a class="dropdown-item" href="##">Another action</a></li>
                         <div class="dropdown-divider"></div>
-                        <li></li><a class="dropdown-item" href="#">Something else here</a>
+                        <li></li><a class="dropdown-item" href="##">Something else here</a>
                         <li class="nav-item dropdown">
-                                <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="dropdown-item dropdown-toggle" href="##" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Dropdown
                                 </a>
                                 <ul class="dropdown-menu show" aria-labelledby="navbarDropdown1">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="##">Action</a></li>
+                                    <li><a class="dropdown-item" href="##">Another action</a></li>
                                     <div class="dropdown-divider"></div>
-                                    <li></li><a class="dropdown-item" href="#">Something else here</a>
+                                    <li></li><a class="dropdown-item" href="##">Something else here</a>
                                     <li class="nav-item dropdown">
-                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a class="dropdown-item dropdown-toggle" href="##" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Left Dropdown
                                         </a>
                                         <ul class="dropdown-menu left" aria-labelledby="navbarDropdown2">
-                                            <li><a class="dropdown-item" href="#">Action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                                            <li><a class="dropdown-item" href="##">Action</a></li>
+                                            <li><a class="dropdown-item" href="##">Another action</a></li>
                                             <div class="dropdown-divider"></div>
-                                            <li></li><a class="dropdown-item" href="#">Something else here</a>
+                                            <li></li><a class="dropdown-item" href="##">Something else here</a>
                                         </ul>
                                     </li>
                                 </ul>
