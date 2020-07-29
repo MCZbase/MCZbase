@@ -380,30 +380,36 @@ must point to files present on production while the redesign menu points at thei
 							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="nav-link" href="##">About</a></li>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
-					<ul class="nav-menu ml-auto">
-					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Account
+					<ul class="dropdown-menu ml-auto" aria-label="submenu">
+					<li class="nav-item dropdown"><a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Account</a>
+		
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<ul class="dropdown-menu" aria-label="submenu">
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" aria-label="submenu">
+							<li>	
+							<a class="dropdown-item" href="">	
+								
 							<cfif session.roles contains "coldfusion_user">
-								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
 									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
-								</li>
-							</cfif>
+								
+								</cfif></a></li>
+					
+						</ul>
+					</li>
+						
 							<cfif session.roles contains "public">
-								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+								<li><a class="dropdown-item" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 							</cfif>
 					</li>		
 				</cfif>
