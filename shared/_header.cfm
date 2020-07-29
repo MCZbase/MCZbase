@@ -286,7 +286,8 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+					<li class="nav-item">
+						<a class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li>
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
@@ -316,7 +317,8 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">Transactions</a>
+					<li class="nav-item">
+						<a class="nav-link" href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							<li><a href="##">Accessions</a>
@@ -349,7 +351,8 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">Tools</a>
+					<li class="nav-item">
+						<a class="nav-link" href="##">Tools</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">Projects </a></li>
 							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
@@ -358,7 +361,8 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##">About</a></li>
+					<li class="nav-item">
+						<a class="nav-link" href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
