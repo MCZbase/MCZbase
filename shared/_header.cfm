@@ -124,9 +124,7 @@ if ($(window).width() < 992) {
       if($(this).next('.submenu').length){
         $(this).next('.submenu').toggle();
       }
-      $('.dropdown').on('hide.bs.dropdown', function () {
-     $(this).find('.submenu').hide();
-  })
+    
   });
 }
 		</script>
