@@ -271,8 +271,8 @@ must point to files present on production while the redesign menu points at thei
 	</nav>
 <cfelse>
 
-	<nav class="navbar navbar-expand-lg navbar-light" role="navigation">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav"> 
+	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-haspopup="menu"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
