@@ -113,22 +113,22 @@ limitations under the License.
 </cfif>
 <script>
 	// Prevent closing from click inside dropdown
-$(document).on('click', '.dropdown-item', function (e) {
-  e.stopPropagation();
-});
-
-// make it as accordion for smaller screens
-if ($(window).width() < 992) {
-  $('.dropdown-item a').click(function(e){
-    e.preventDefault();
-      if($(this).next('.submenu').length){
-        $(this).next('.submenu').toggle();
-      }
-      $('.dropdown').on('hide.bs.dropdown', function () {
-     $(this).find('.submenu').hide();
-  })
-  });
-}
+//$(document).on('click', '.dropdown-item', function (e) {
+//  e.stopPropagation();
+//});
+//
+//// make it as accordion for smaller screens
+//if ($(window).width() < 991) {
+//  $('.dropdown-menu a').click(function(e){
+//    e.preventDefault();
+//      if($(this).next('.submenu').length){
+//        $(this).next('.submenu').toggle();
+//      }
+//      $('.dropdown').on('hide.bs.dropdown', function () {
+//     $(this).find('.submenu').hide();
+//  })
+//  });
+//}
 		</script>
 </head>
 <body class="default">
@@ -363,7 +363,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							
-							<li><a class="dropdown-item" href="##">Permits</a>
+							<li><a class="dropdown-item" href="##">Permits &raquo;</a>
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Permit </a></li>
@@ -459,18 +459,18 @@ must point to files present on production while the redesign menu points at thei
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
-	/** add active class and stay opened when selected */ 
-	var url = window.location; 
-	// for sidebar menu entirely but not cover treeview 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-	// for treeview 
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	
-	
-	$(".navbar-nav .nav-link a").on("click", function(){
-	 $(".nav-link").find(".show").removeClass("show");
-	 $(this).addClass("show");
-});
+//	/** add active class and stay opened when selected */ 
+//	var url = window.location; 
+//	// for sidebar menu entirely but not cover treeview 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+//	// for treeview 
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+//	
+//	
+//	$(".navbar-nav .nav-link a").on("click", function(){
+//	 $(".nav-link").find(".show").removeClass("show");
+//	 $(this).addClass("show");
+//});
 </script>
 <cf_rolecheck>
 </cfoutput>
