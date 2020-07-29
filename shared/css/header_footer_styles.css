@@ -330,6 +330,7 @@ ul {
 ul.nav-menu > li li li a {
 	padding-left: 6em;
 	padding-right: 6em;
+	background-color:white;
 }
 .nav-menu ul {
 	position: relative;
