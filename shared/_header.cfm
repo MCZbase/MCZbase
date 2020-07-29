@@ -334,7 +334,7 @@ must point to files present on production while the redesign menu points at thei
 									<li><a class="dropdown-item" href="##">New Borrow </a></li>
 								</ul></li>
 							
-							<li><a class="nav-link dropdown-toggle" href="##">Deaccessions</a>	
+							<li><a class="dropdown-item" href="##">Deaccessions</a>	
 								
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
@@ -342,7 +342,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							
-							<li><a class="nav-link dropdown-toggle" href="##">Loans</a>
+							<li><a class="dropdown-item" href="##">Loans</a>
 								
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
@@ -350,7 +350,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							
-							<li><a class="nav-link dropdown-toggle" href="##">Permits</a>
+							<li><a class="dropdown-item" href="##">Permits</a>
 								
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
@@ -359,9 +359,8 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link dropdown-toggle" href="##">Tools</a>
-				<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+					<li class="nav-item"><a class="dropdown-item" href="##">Tools</a>
+						<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 							<li><a class="dropdown-item" href="##">Projects </a></li>
 							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
 							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
@@ -369,9 +368,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="##">About</a>
-					</li>
+					<li class="nav-item"><a class="nav-link" href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
