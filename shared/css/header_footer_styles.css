@@ -166,7 +166,7 @@ nav .navbar-nav li a.nav-link {
 	}
 }*/
 /*  moved styles  */
-/*#main_nav {
+#main_nav {
  font-family:"Helvetica Neue",Arial,"Noto Sans",sans-serif;
 }
 nav {
@@ -289,7 +289,7 @@ ul li ul:focus {
 	position: relative;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
-}*/
+}
 @media (max-width:991px) {
 ul {
 	display: block;
