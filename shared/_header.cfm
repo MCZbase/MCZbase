@@ -353,6 +353,7 @@ must point to files present on production while the redesign menu points at thei
 							</ul>
 						</li>
 					</cfif>
+						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
 					<li><a href="##">Tools</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">Projects </a></li>
@@ -365,6 +366,7 @@ must point to files present on production while the redesign menu points at thei
 							</cfif>
 						</ul>
 					</li>
+					</cfif>
 					<li><a href="##">Help</a>
 						<ul class="dropdown" aria-label="submenu">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
