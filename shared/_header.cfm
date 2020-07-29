@@ -384,7 +384,7 @@ must point to files present on production while the redesign menu points at thei
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
-					<ul class="dropdown-menu ml-auto" aria-label="submenu">
+				
 					<li class="nav-item dropdown"><a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Account</a>
 		
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
