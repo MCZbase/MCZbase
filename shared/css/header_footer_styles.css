@@ -312,6 +312,7 @@ ul {
 }
  ul.nav-menu > li li {
 	width: 100%;
+	 transition: all .5s ease;
 }
  ul.nav-menu > li li a {
 	padding-left: 4em;
