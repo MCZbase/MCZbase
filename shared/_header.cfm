@@ -111,9 +111,7 @@ limitations under the License.
 	</cfif>
 	<cfset setDbUser()>
 </cfif>
-<style type="text/css">
 
-</style>
 </head>
 <body class="default">
 <cfset header_color = Application.header_color>
@@ -297,7 +295,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<li class="nav-item dropdown">
-							<a  class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulkloader &raquo;</a>
+							<li><a class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulkloader &raquo;</a>
 								<ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
 									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
@@ -305,8 +303,7 @@ must point to files present on production while the redesign menu points at thei
 									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch Tools &raquo;</a>
+								<li><a class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch Tools &raquo;</a>
 								<ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Agents</a></li>
 									<li><a class="dropdown-item" href="##">Attributes</a></li>
