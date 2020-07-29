@@ -272,10 +272,10 @@ nav ul {
 	border-right-color: #666;
 	right: 5px;
 }
-#main_nav ul li:hover > ul,
-#main_nav ul li:focus-within > ul,
-#main_nav ul li ul:hover,
-#main_nav ul li ul:focus {
+ul li:hover > ul,
+ul li:focus-within > ul,
+ul li ul:hover,
+ul li ul:focus {
   visibility: visible;
   opacity: 1;
   display: block;
@@ -347,7 +347,7 @@ padding: .75em 1.5em;
 }
 .nav-menu li:hover {
 	height: auto;
-			 transition: all .5s ease;
+	transition: all .5s ease;
 }
 .nav-menu > li:hover > ul {
 	left: 0;
