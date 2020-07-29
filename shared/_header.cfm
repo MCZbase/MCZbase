@@ -357,13 +357,13 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="##">Tools</a>
+						<a class="nav-link dropdown-toggle" href="##">Tools</a>
 						<ul class="dropdown" aria-label="submenu">
-							<li><a href="##">Projects </a></li>
-							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
-							<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
-							<li><a href="##">Object Tracking </a></li>
-							<li><a href="##">Encumbrances </a></li>
+							<li><a class="dropdown-item" href="##">Projects </a></li>
+							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
+							<li><a class="dropdown-item" href="##">Object Tracking </a></li>
+							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
@@ -380,7 +380,7 @@ must point to files present on production while the redesign menu points at thei
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<ul class="dropdown" aria-label="submenu">
+						<ul class="dropdown-menu" aria-label="submenu">
 							<cfif session.roles contains "coldfusion_user">
 								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
