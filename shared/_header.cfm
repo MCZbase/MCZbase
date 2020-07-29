@@ -277,9 +277,9 @@ must point to files present on production while the redesign menu points at thei
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav mr-lg-auto">
-					<li class="nav-item dropdown active">
+					<li class="nav-item active">
 						<a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown-menu dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
 							<li><a class="dropdown-item" href="##">Media</a></li>
 							<li><a class="dropdown-item" href="##">Publications</a></li>
@@ -288,7 +288,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
-						   <ul class="dropdown-menu dropdown" aria-label="submenu">
+						   <ul class="dropdown-menu" aria-label="submenu">
 							<li>
 							<a  class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 							   <ul class="submenu dropdown-menu dropdown" aria-label="submenu">
