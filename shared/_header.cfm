@@ -291,7 +291,7 @@ must point to files present on production while the redesign menu points at thei
 						   <ul class="dropdown-menu" aria-label="submenu">
 							<li>
 							<a  class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
-							   <ul class="submenu dropdown-menu dropdown" aria-label="submenu">
+							   <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
 									<li><a class="dropdown-item" href="##">Media</a></li>
 									<li><a class="dropdown-item" href="##">Publication</a></li>
@@ -320,36 +320,36 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 					<li class="nav-item">
 						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
-						<ul class="dropdown-menu dropdown" aria-label="submenu">
+						<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 							<li>
 								<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a>
 							</li>
 							<li>
 								<a class="nav-link dropdown-toggle" href="##">Accessions</a>
-								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Accession </a></li>
 								</ul></li>
 							<li>
 								<a class="nav-link dropdown-toggle" href="##">Borrows</a>
-								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Borrow </a></li>
 								</ul></li>
 							<li><a class="nav-link dropdown-toggle" href="##">Deaccessions</a>	
-								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
 								</ul>
 							</li>
 							<li><a class="nav-link dropdown-toggle" href="##">Loans</a>
-								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Loan </a></li>
 								</ul>
 							</li>
 							<li><a href="##">Permits</a>
-								<ul class="dropdown-menu dropdown" aria-label="submenu">
+								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Permit </a></li>
 								</ul>
