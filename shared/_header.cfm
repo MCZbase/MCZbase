@@ -303,7 +303,7 @@ topLevelLinks.forEach(link => {
 				<ul class="nav-menu mr-lg-auto">
 					<li class="menu-item">
 						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
+						<ul class="dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
