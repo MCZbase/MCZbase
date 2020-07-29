@@ -113,22 +113,22 @@ limitations under the License.
 </cfif>
 <script>
 	// Prevent closing from click inside dropdown
-//$(document).on('click', '.dropdown-item', function (e) {
-//  e.stopPropagation();
-//});
-//
-//// make it as accordion for smaller screens
-//if ($(window).width() < 991) {
-//  $('.dropdown-menu a').click(function(e){
-//    e.preventDefault();
-//      if($(this).next('.submenu').length){
-//        $(this).next('.submenu').toggle();
-//      }
-//      $('.dropdown').on('hide.bs.dropdown', function () {
-//     $(this).find('.submenu').hide();
-//  })
-//  });
-//}
+$(document).on('click', '.dropdown-item', function (e) {
+  e.stopPropagation();
+});
+
+// make it as accordion for smaller screens
+if ($(window).width() < 991) {
+  $('.dropdown-menu a').click(function(e){
+    e.preventDefault();
+      if($(this).next('.submenu').length){
+        $(this).next('.submenu').toggle();
+      }
+      $('.dropdown').on('hide.bs.dropdown', function () {
+     $(this).find('.submenu').hide();
+  })
+  });
+}
 		</script>
 </head>
 <body class="default">
