@@ -270,14 +270,38 @@ must point to files present on production while the redesign menu points at thei
 	</div>
 	</nav>
 <cfelse>
+<script>
+	NodeList(3) [a.menu-link, a.menu-link, a.menu-link]
+	0: a.menu-link
+	1: a.menu-link
+	2: a.menu-link
+	length: 3
+	_proto_:NodeList
 
+topLevelLinks.forEach(link => {
+  if (link.nextElementSibling) {
+    link.addEventListener('focus', function() {
+      this.parentElement.classList.add('focus')
+    })
+
+    const subMenu = link.nextElementSibling
+    const subMenuLinks = subMenu.querySelectorAll('a')
+    const lastLinkIndex = subMenuLinks.length - 1
+    const lastLink = subMenuLinks[lastLinkIndex]
+
+    lastLink.addEventListener('blur', function() {
+      link.parentElement.classList.remove('focus')
+    })
+  }
+})
+	</script>
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="collapse navbar-collapse show" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
-					<li>
+					<li class="menu-item">
 						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
 						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
@@ -286,7 +310,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+					<li class="menu-item"><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li>
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
@@ -297,7 +321,7 @@ must point to files present on production while the redesign menu points at thei
 									<li><a href="##">Agent</a></li>
 								</ul>
 							</li>
-							<li>
+							<li class="menu-item">
 								<a href="##">Bulkloader</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Bulkload Specimens</a></li>
@@ -306,7 +330,7 @@ must point to files present on production while the redesign menu points at thei
 									<li><a href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li><a href="##">Batch Tools</a>
+							<li class="menu-item"><a href="##">Batch Tools</a>
 								<ul class="dropdown" aria-label="submenu">
 									<li><a href="##">Agents</a></li>
 									<li><a href="##">Attributes</a></li>
@@ -316,7 +340,7 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li><a href="##">Transactions</a>
+					<li class="menu-item"><a href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							<li><a href="##">Accessions</a>
