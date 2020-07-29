@@ -285,7 +285,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li><a href="##">Enter Data</a>
+					<li><a href="##" role="button" name="Enter Data" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li><a href="##">New Record</a>
 							   <ul class="dropdown" aria-label="submenu">
