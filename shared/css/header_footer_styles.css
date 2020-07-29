@@ -347,12 +347,13 @@ padding: .75em 1.5em;
 }
 .nav-menu li:hover {
 	height: auto;
+			 transition: all .5s ease;
 }
 .nav-menu > li:hover > ul {
 	left: 0;
 	margin-top: 3px;
 	min-width: 100%;
-		 transition: all .5s ease;
+
 }
 .nav-menu > li li:hover > ul {
 	left: 0;
