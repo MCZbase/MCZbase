@@ -111,25 +111,9 @@ limitations under the License.
 	</cfif>
 	<cfset setDbUser()>
 </cfif>
-<script>
-// Prevent closing from click inside dropdown
-$(document).on('click', '.dropdown-menu', function (e) {
-  e.stopPropagation();
-});
+<style type="text/css">
 
-// make it as accordion for smaller screens
-if ($(window).width() < 992) {
-  $('.dropdown-menu a').click(function(e){
-    e.preventDefault();
-      if($(this).next('.submenu').length){
-        $(this).next('.submenu').toggle();
-      }
-      $('.dropdown').on('hide.bs.dropdown', function () {
-     $(this).find('.submenu').hide();
-  })
-  });
-}
-		</script>
+</style>
 </head>
 <body class="default">
 <cfset header_color = Application.header_color>
@@ -288,128 +272,116 @@ must point to files present on production while the redesign menu points at thei
 <cfelse>
 
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="false"> 
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
-			<div class="collapse navbar-collapse" id="main_nav">
-				<ul class="navbar-nav mr-lg-auto">
-					
-					<li class="nav-item dropdown"><a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" aria-label="submenu">
-							<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
-							<li><a class="dropdown-item" href="##">Media</a></li>
-							<li><a class="dropdown-item" href="##">Publications</a></li>
-							<li><a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a></li>
+			<div class="collapse navbar-collapse show" id="main_nav">
+				<ul class="nav-menu mr-lg-auto">
+					<li>
+						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
+						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
+							<li><a href="/Specimens.cfm">Specimens</a></li>
+							<li><a href="##">Media</a></li>
+							<li><a href="##">Publications</a></li>
+							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
-						   <ul class="dropdown-menu" aria-label="submenu">
-							<li><a class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record &raquo;</a>
-							   <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
-									<li><a class="dropdown-item" href="##">Media</a></li>
-									<li><a class="dropdown-item" href="##">Publication</a></li>
-									<li><a class="dropdown-item" href="##">Agent</a></li>
+					<li><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+						   <ul class="dropdown" aria-label="submenu">
+							<li>
+								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+							   <ul class="dropdown" aria-label="submenu">
+									<li><a href="/DataEntry.cfm">Specimen</a></li>
+									<li><a href="##">Media</a></li>
+									<li><a href="##">Publication</a></li>
+									<li><a href="##">Agent</a></li>
 								</ul>
 							</li>
-							<li class="nav-item dropdown">
-							<li><a class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulkloader &raquo;</a>
-								<ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
-									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
-									<li><a class="dropdown-item" href="##">Bulkload .CSV Builder</a></li>
-									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
+							<li>
+								<a href="##">Bulkloader</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Bulkload Specimens</a></li>
+									<li><a href="##">Bulkloader Status</a></li>
+									<li><a href="##">Bulkload .CSV Builder</a></li>
+									<li><a href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-								<li><a class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch Tools &raquo;</a>
-								<ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Agents</a></li>
-									<li><a class="dropdown-item" href="##">Attributes</a></li>
-									<li><a class="dropdown-item" href="##">Containers</a></li>
-									<li><a class="dropdown-item" href="##">Media</a></li>
+							<li><a href="##">Batch Tools</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Agents</a></li>
+									<li><a href="##">Attributes</a></li>
+									<li><a href="##">Containers</a></li>
+									<li><a href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">Transactions</a>
-						
-						<ul class="dropdown-menu" aria-label="submenu">
-							<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
-							
-							<li><a class="dropdown-item" href="##">Accessions &raquo;</a>
-								 <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Accession </a></li>
-								</ul>
-							</li>
-							
-							<li><a class="dropdown-item" href="##">Borrows &raquo;</a>
-								 <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Borrow </a></li>
+					<li><a href="##">Transactions</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
+							<li><a href="##">Accessions</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Accession </a></li>
 								</ul></li>
-							
-							<li><a class="dropdown-item" href="##">Deaccessions &raquo;</a>	
-								 <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
+							<li><a href="##">Borrows</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Borrow </a></li>
+								</ul></li>
+							<li><a href="##">Deaccessions</a>	
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Deaccession </a></li>
 								</ul>
 							</li>
-							
-							<li><a class="dropdown-item" href="##">Loans &raquo;</a>
-								 <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Loan </a></li>
+							<li><a href="##">Loans</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
+									<li><a href="##">New Loan </a></li>
 								</ul>
 							</li>
-							
-							<li><a class="dropdown-item" href="##">Permits &raquo;</a>
-								 <ul class="submenu dropdown-menu" aria-label="submenu">
-									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
-									<li><a class="dropdown-item" href="##">New Permit </a></li>
+							<li><a href="##">Permits</a>
+								<ul class="dropdown" aria-label="submenu">
+									<li><a href="##">Search & Edit </a></li>
+									<li><a href="##">New Permit </a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">Tools</a>
-						<ul class="dropdown-menu" aria-label="submenu">
-							<li><a class="dropdown-item" href="##">Projects </a></li>
-							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
-							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
-							<li><a class="dropdown-item" href="##">Object Tracking </a></li>
-							<li><a class="dropdown-item" href="##">Encumbrances </a></li>
+					<li><a href="##">Tools</a>
+						<ul class="dropdown" aria-label="submenu">
+							<li><a href="##">Projects </a></li>
+							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
+							<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
+							<li><a href="##">Object Tracking </a></li>
+							<li><a href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##">About</a></li>
+					<li><a href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
-				
-					<li class="nav-item dropdown"><a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Account</a>
-		
+					<ul class="nav-menu ml-auto">
+					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown" aria-label="submenu">
-							<li>	
-							<a class="dropdown-item" href="">	
-								
+						<ul class="dropdown" aria-label="submenu">
 							<cfif session.roles contains "coldfusion_user">
+								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
 									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
-								
-								</cfif></a></li>
-					
-						</ul>
-					</li>
-						
+								</li>
+							</cfif>
 							<cfif session.roles contains "public">
-								<li><a class="dropdown-item" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 							</cfif>
 					</li>		
 				</cfif>
@@ -465,18 +437,18 @@ must point to files present on production while the redesign menu points at thei
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
-//	/** add active class and stay opened when selected */ 
-//	var url = window.location; 
-//	// for sidebar menu entirely but not cover treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
-//	// for treeview 
-//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-//	
-//	
-//	$(".navbar-nav .nav-link a").on("click", function(){
-//	 $(".nav-link").find(".show").removeClass("show");
-//	 $(this).addClass("show");
-//});
+	/** add active class and stay opened when selected */ 
+	var url = window.location; 
+	// for sidebar menu entirely but not cover treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active'); 
+	// for treeview 
+	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+	
+	
+	$(".navbar-nav .nav-link a").on("click", function(){
+	 $(".nav-link").find(".show").removeClass("show");
+	 $(this).addClass("show");
+});
 </script>
 <cf_rolecheck>
 </cfoutput>
