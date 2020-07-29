@@ -315,7 +315,7 @@ topLevelLinks.forEach(link => {
 							<li>
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 							   <ul class="dropdown" aria-label="submenu">
-									<li><a href="/DataEntry.cfm">Specimen</a></li>
+									<li class="menu-item"><a href="/DataEntry.cfm">Specimen</a></li>
 									<li><a href="##">Media</a></li>
 									<li><a href="##">Publication</a></li>
 									<li><a href="##">Agent</a></li>
