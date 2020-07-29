@@ -316,17 +316,18 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="nav-link dropdown-toggle" href="##">Transactions</a>
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##">Transactions</a>
 						<ul class="dropdown-menu" aria-label="submenu">
 							<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
-							<li><a class="nav-link dropdown-toggle" href="##">Accessions</a>
+							<li><a class="dropdown-item" href="##">Accessions</a>
 								
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Accession </a></li>
-								</ul></li>
+								</ul>
+							</li>
 							
-							<li><a class="nav-link dropdown-toggle" href="##">Borrows</a>
+							<li><a class="dropdown-item" href="##">Borrows</a>
 								
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
