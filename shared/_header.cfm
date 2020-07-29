@@ -272,14 +272,14 @@ must point to files present on production while the redesign menu points at thei
 <cfelse>
 
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="false"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
-			<div class="collapse navbar-collapse show" id="main_nav">
+			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
 					<li class="menu-item">
 						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
+						<ul class="dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
