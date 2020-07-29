@@ -276,7 +276,7 @@ must point to files present on production while the redesign menu points at thei
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
-				<ul class="nav-menu mr-lg-auto">
+				<ul class="navbar-nav mr-lg-auto">
 					<li class="nav-item dropdown active">
 						<a href="##" class="nav-link" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
 						<ul class="dropdown-menu dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
