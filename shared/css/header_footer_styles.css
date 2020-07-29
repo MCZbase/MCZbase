@@ -376,6 +376,8 @@ padding: .75em 1.5em;
 	border: 5px solid transparent;
 	border-right-color: #666;
 	right: 50px;
+	width:25px;
+	background-color:aliceblue;
 }
 .logout {
 	padding: .14em .45em;
