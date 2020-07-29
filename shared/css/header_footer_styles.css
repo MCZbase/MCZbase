@@ -428,6 +428,17 @@ padding: .75em 1.5em;
 	border-right-color: #666;
 	right: 50px;
 }
+.dropdown-menu .sub-menu {
+    left: 100%;
+    position: absolute;
+    top: 0;
+    display:none;
+    margin-top: -1px;
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+	border-left-color:#fff;
+	box-shadow:none;
+}
 .logout {
 	padding: .14em .45em;
     font-size: .88em;
