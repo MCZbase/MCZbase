@@ -389,7 +389,7 @@ must point to files present on production while the redesign menu points at thei
 								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-2 px-5 pt-1 bg-light" style="height: 34px;font-size: .92em; margin-top:2px;" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
 								</li>
 							</cfif>
