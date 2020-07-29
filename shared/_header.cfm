@@ -359,8 +359,8 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="nav-item"><a class="dropdown-item" href="##">Tools</a>
-						<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
+					<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="##" data-toggle="dropdown">Tools</a>
+						<ul class="dropdown-menu" aria-label="submenu">
 							<li><a class="dropdown-item" href="##">Projects </a></li>
 							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
 							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
