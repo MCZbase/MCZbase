@@ -270,31 +270,7 @@ must point to files present on production while the redesign menu points at thei
 	</div>
 	</nav>
 <cfelse>
-<script>
-	NodeList(3) [a.menu-link, a.menu-link, a.menu-link]
-	0: a.menu-link
-	1: a.menu-link
-	2: a.menu-link
-	length: 3
-	_proto_:NodeList
 
-topLevelLinks.forEach(link => {
-  if (link.nextElementSibling) {
-    link.addEventListener('focus', function() {
-      this.parentElement.classList.add('focus')
-    })
-
-    const subMenu = link.nextElementSibling
-    const subMenuLinks = subMenu.querySelectorAll('a')
-    const lastLinkIndex = subMenuLinks.length - 1
-    const lastLink = subMenuLinks[lastLinkIndex]
-
-    lastLink.addEventListener('blur', function() {
-      link.parentElement.classList.remove('focus')
-    })
-  }
-})
-	</script>
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
@@ -303,7 +279,7 @@ topLevelLinks.forEach(link => {
 				<ul class="nav-menu mr-lg-auto">
 					<li class="menu-item">
 						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
+						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
@@ -315,7 +291,7 @@ topLevelLinks.forEach(link => {
 							<li>
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 							   <ul class="dropdown" aria-label="submenu">
-									<li class="menu-item"><a href="/DataEntry.cfm">Specimen</a></li>
+									<li><a href="/DataEntry.cfm">Specimen</a></li>
 									<li><a href="##">Media</a></li>
 									<li><a href="##">Publication</a></li>
 									<li><a href="##">Agent</a></li>
