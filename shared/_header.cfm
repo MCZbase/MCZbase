@@ -366,11 +366,12 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<li><a href="##">Help</a>
+						<ul class="dropdown" aria-label="submenu">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<li><a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
-							<li><a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
+							<li><a name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
+							<li><a name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
 						</cfif>
-						<li><a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+						<li><a  name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
 					</li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
