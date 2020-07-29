@@ -348,7 +348,7 @@ must point to files present on production while the redesign menu points at thei
 									<li><a class="dropdown-item" href="##">New Loan </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Permits</a>
+							<li><a class="nav-link dropdown-toggle" href="##">Permits</a>
 								 <ul class="submenu dropdown-menu" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Permit </a></li>
@@ -358,7 +358,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 					<li class="nav-item">
 						<a class="nav-link dropdown-toggle" href="##">Tools</a>
-						<ul class="dropdown" aria-label="submenu">
+				<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 							<li><a class="dropdown-item" href="##">Projects </a></li>
 							<li><a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Collections </a></li>
 							<li><a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series </a></li>
@@ -367,7 +367,8 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="##">About</a></li>
+						<a class="nav-link" href="##">About</a>
+					</li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
