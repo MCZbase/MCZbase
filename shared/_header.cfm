@@ -277,8 +277,8 @@ must point to files present on production while the redesign menu points at thei
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
-					<li class="menu-item">
-						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
+					<li class="nav-item active">
+						<a href="##" class="nav-link" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
 						<ul class="dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
@@ -286,7 +286,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="menu-item"><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+					<li class="nav-item"><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 						   <ul class="dropdown" aria-label="submenu">
 							<li>
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
@@ -316,7 +316,7 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li class="menu-item"><a href="##">Transactions</a>
+					<li class="nav-item"><a href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							<li><a href="##">Accessions</a>
@@ -349,7 +349,7 @@ must point to files present on production while the redesign menu points at thei
 							</li>
 						</ul>
 					</li>
-					<li><a href="##">Tools</a>
+					<li class="nav-item"><a href="##">Tools</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">Projects </a></li>
 							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
@@ -358,7 +358,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="##">Encumbrances </a></li>
 						</ul>
 					</li>
-					<li><a href="##">About</a></li>
+					<li class="nav-item"><a href="##">About</a></li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
