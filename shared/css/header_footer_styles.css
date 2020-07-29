@@ -428,7 +428,7 @@ padding: .75em 1.5em;
 	border-right-color: #666;
 	right: 50px;
 }
-.dropdown-menu .sub-menu {
+.dropdown-menu .submenu {
     left: 100%;
     position: absolute;
     top: 0;
