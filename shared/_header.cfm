@@ -319,31 +319,31 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="##">Transactions</a>
-						<ul class="dropdown" aria-label="submenu">
+						<a class="nav-link dropdown-toggle" href="##">Transactions</a>
+						<ul class="dropdown-menu dropdown" aria-label="submenu">
 							<li>
 								<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="##">Accessions</a>
-								<ul class="dropdown-menu dropdown" aria-label="submenu">
+								<a class="nav-link dropdown-toggle" href="##">Accessions</a>
+								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Accession </a></li>
 								</ul></li>
 							<li>
-								<a href="##">Borrows</a>
-								<ul class="dropdown-menu dropdown" aria-label="submenu">
+								<a class="nav-link dropdown-toggle" href="##">Borrows</a>
+								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Borrow </a></li>
 								</ul></li>
-							<li><a href="##">Deaccessions</a>	
-								<ul class="dropdown-menu dropdown" aria-label="submenu">
+							<li><a class="nav-link dropdown-toggle" href="##">Deaccessions</a>	
+								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
 								</ul>
 							</li>
-							<li><a href="##">Loans</a>
-								<ul class="dropdown-menu dropdown" aria-label="submenu">
+							<li><a class="nav-link dropdown-toggle" href="##">Loans</a>
+								<ul class="dropdown-menu dropdown-toggle" aria-label="submenu">
 									<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
 									<li><a class="dropdown-item" href="##">New Loan </a></li>
 								</ul>
