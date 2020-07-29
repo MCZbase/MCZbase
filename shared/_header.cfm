@@ -277,13 +277,13 @@ must point to files present on production while the redesign menu points at thei
 			</button>
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
-					<li class="nav-item active">
+					<li class="nav-item dropdown active">
 						<a href="##" class="nav-link" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
-							<li><a href="/Specimens.cfm">Specimens</a></li>
-							<li><a href="##">Media</a></li>
-							<li><a href="##">Publications</a></li>
-							<li><a href="/Taxa.cfm">Taxonomy</a></li>
+						<ul class="dropdown-menu dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
+							<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
+							<li><a class="dropdown-item" href="##">Media</a></li>
+							<li><a class="dropdown-item" href="##">Publications</a></li>
+							<li><a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
 					<li class="nav-item">
