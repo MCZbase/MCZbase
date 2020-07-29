@@ -335,15 +335,7 @@ ul.nav-menu > li li li a {
 	z-index: 1;
 	left: -99999em;
 	margin-bottom:.25em;
-	  position: absolute;
-  left: 0;
-  padding: 0;
-  list-style: none;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-  clip: rect(1px, 1px, 1px, 1px);
+	
 }
 .nav-menu a {
 padding: .75em 1.5em;
