@@ -285,7 +285,7 @@ must point to files present on production while the redesign menu points at thei
                     <a class="nav-link" href="##">Link</a>
                 </li>
                 <li class="nav-item dropdown show">
-                    <a class="nav-link dropdown-toggle" href="##" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <a class="nav-link dropdown-toggle" href="##" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Dropdown
                     </a>
                     <ul class="dropdown-menu show" aria-labelledby="navbarDropdown">
