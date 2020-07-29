@@ -372,6 +372,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
 						</cfif>
 						<li><a  name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+						</ul>
 					</li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
