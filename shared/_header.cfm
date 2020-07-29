@@ -278,7 +278,7 @@ must point to files present on production while the redesign menu points at thei
 			<div class="collapse navbar-collapse" id="main_nav">
 				<ul class="navbar-nav mr-lg-auto">
 					<li class="nav-item dropdown active">
-						<a href="##" class="nav-link" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
+						<a href="##" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
 						<ul class="dropdown-menu dropdown" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
 							<li><a class="dropdown-item" href="##">Media</a></li>
@@ -286,33 +286,34 @@ must point to files present on production while the redesign menu points at thei
 							<li><a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
-						   <ul class="dropdown" aria-label="submenu">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+						   <ul class="dropdown-menu dropdown" aria-label="submenu">
 							<li>
-								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
-							   <ul class="dropdown" aria-label="submenu">
-									<li><a href="/DataEntry.cfm">Specimen</a></li>
-									<li><a href="##">Media</a></li>
-									<li><a href="##">Publication</a></li>
-									<li><a href="##">Agent</a></li>
+							<a  class="dropdown-item" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+							   <ul class="submenu dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="/DataEntry.cfm">Specimen</a></li>
+									<li><a class="dropdown-item" href="##">Media</a></li>
+									<li><a class="dropdown-item" href="##">Publication</a></li>
+									<li><a class="dropdown-item" href="##">Agent</a></li>
 								</ul>
 							</li>
-							<li class="menu-item">
-								<a href="##">Bulkloader</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Bulkload Specimens</a></li>
-									<li><a href="##">Bulkloader Status</a></li>
-									<li><a href="##">Bulkload .CSV Builder</a></li>
-									<li><a href="##">Browse and Edit Staged Records</a></li>
+							<li class="nav-item dropdown">
+							<a  class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bulkloader</a>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Bulkload Specimens</a></li>
+									<li><a class="dropdown-item" href="##">Bulkloader Status</a></li>
+									<li><a class="dropdown-item" href="##">Bulkload .CSV Builder</a></li>
+									<li><a class="dropdown-item" href="##">Browse and Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<li class="menu-item"><a href="##">Batch Tools</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Agents</a></li>
-									<li><a href="##">Attributes</a></li>
-									<li><a href="##">Containers</a></li>
-									<li><a href="##">Media</a></li>
+							<li class="nav-item dropdown">
+								<a class="nav-link" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Batch Tools</a>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Agents</a></li>
+									<li><a class="dropdown-item" href="##">Attributes</a></li>
+									<li><a class="dropdown-item" href="##">Containers</a></li>
+									<li><a class="dropdown-item" href="##">Media</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -320,31 +321,35 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item">
 						<a class="nav-link" href="##">Transactions</a>
 						<ul class="dropdown" aria-label="submenu">
-							<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
-							<li><a href="##">Accessions</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Accession </a></li>
+							<li>
+								<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="##">Accessions</a>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Accession </a></li>
 								</ul></li>
-							<li><a href="##">Borrows</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Borrow </a></li>
+							<li>
+								<a href="##">Borrows</a>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Borrow </a></li>
 								</ul></li>
 							<li><a href="##">Deaccessions</a>	
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="##">Search & Edit </a></li>
-									<li><a href="##">New Deaccession </a></li>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="##">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Deaccession </a></li>
 								</ul>
 							</li>
 							<li><a href="##">Loans</a>
-								<ul class="dropdown" aria-label="submenu">
-									<li><a href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
-									<li><a href="##">New Loan </a></li>
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
+									<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Search & Edit </a></li>
+									<li><a class="dropdown-item" href="##">New Loan </a></li>
 								</ul>
 							</li>
 							<li><a href="##">Permits</a>
-								<ul class="dropdown" aria-label="submenu">
+								<ul class="dropdown-menu dropdown" aria-label="submenu">
 									<li><a href="##">Search & Edit </a></li>
 									<li><a href="##">New Permit </a></li>
 								</ul>
