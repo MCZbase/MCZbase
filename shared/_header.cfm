@@ -356,10 +356,16 @@ this.button.addEventListener('keydown', function (e) {
         this.open();
     }
 }.bind(this));
-</script>
 	
+exampleMenuButton = new MenuButton(document.querySelector('\[aria-haspopup]'));
+exampleMenuButton.open();	
+	
+</script>
+	<style>
+
+	</style>
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="false"> 
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
