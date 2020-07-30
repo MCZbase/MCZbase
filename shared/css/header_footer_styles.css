@@ -397,7 +397,6 @@ padding: .75em 1.5em;
 
 /* Style the accordion panel. Note: hidden by default */
 .panel {
-  padding: 0 18px;
   background-color: white;
   display: none;
   overflow: hidden;
