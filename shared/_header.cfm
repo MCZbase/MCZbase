@@ -290,80 +290,17 @@ must point to files present on production while the redesign menu points at thei
 	</div>
 	</nav>
 <cfelse>
-	<style>
-ul[role="menubar"] {
+<div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown button
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    <a class="dropdown-item" href="#">Action</a>
+    <a class="dropdown-item" href="#">Another action</a>
+    <a class="dropdown-item" href="#">Something else here</a>
+  </div>
+</div>
 
-}
-
-ul[role="menubar"] [role="menuitem"],
-ul[role="menubar"] [role="separator"] {
-
-}
-
-ul[role="menubar"] [role="separator"] {
-
-}
-
-ul[role="menubar"] [role="menuitem"]:focus,
-ul[role="menubar"] [role="menuitem"]:hover,
-ul[role="menubar"] [role="separator"]:focus,
-ul[role="menubar"] [role="separator"]:hover {
-  background-color: white;
-  color: black;
-}
-
-ul[role="menubar"] a[role="menuitem"] {
-  text-decoration: none;
-  color: black;
-}
-
-ul[role="menubar"] li {
-
-}
-
-ul[role="menubar"] > li {
-  display: inline;
-  position: relative;
-}
-
-ul[role="menubar"] > li > a::after {
-
-}
-
-ul[role="menubar"] ul[role="menu"] {
-  display: none;
-  position: absolute;
-
-}
-
-ul[role="menubar"] ul[role="menu"] li a {
-  display: block;
-
-}
-
-ul[role="menubar"] ul[role="menu"] a[aria-haspopup="true"]::after {
-}
-	</style>
-<script>
-	MenuButton.prototype.open = function () {
-    this.button.setAttribute('aria-expanded', true);
-    this.menu.hidden = false;
-    this.menu.querySelector(':not(\[disabled])').focus();
-    return this;
-}
-this.button.addEventListener('keydown', function (e) {
-    if (e.keyCode === 40) {
-        this.open();
-    }
-}.bind(this));
-	
-.nav-menu li a = new MenuButton(document.querySelector('\[aria-haspopup]'));
-.nav-menu li a.open();	
-	
-</script>
-	<style>
-
-	</style>
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
