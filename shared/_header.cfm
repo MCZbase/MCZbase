@@ -412,14 +412,15 @@ code {
    					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
 					<ul class="nav-menu ml-auto">
-					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Account" aria-expanded="false">Account</a>
+					<li class="nav-item dropdown">
+						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account</a>
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 								<i class="fas fa-user-cog text-body"></i> 
 							</cfif>	
 						</a>
-						<ul class="dropdown" aria-label="submenu">
+						<ul aria-labelledby="dropdownMenus" class="dropdown-menu border-0 shadow">
 							<cfif session.roles contains "coldfusion_user">
 								<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
