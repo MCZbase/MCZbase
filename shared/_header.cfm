@@ -296,7 +296,7 @@ must point to files present on production while the redesign menu points at thei
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
-				<ul class="nav-menu mr-lg-auto">
+				<ul class="nav-menu mr-lg-auto" role="menu" aria-haspopup='true'>
 					<li><a class="nav-link dropdown-toggle" href="##" role="button" data-toggle="dropdown" aria-haspopup="menu" aria-expanded="false">Search</a>
 						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
