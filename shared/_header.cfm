@@ -292,25 +292,16 @@ must point to files present on production while the redesign menu points at thei
 <cfelse>
 	<style>
 ul[role="menubar"] {
-  margin: 10px;
-  padding: 10px;
-  font-size: 110%;
-  list-style: none;
-  background-color: ##eee;
+
 }
 
 ul[role="menubar"] [role="menuitem"],
 ul[role="menubar"] [role="separator"] {
-  padding: 0.25em;
-  background-color: ##eee;
-  border: 2px solid ##eee;
+
 }
 
 ul[role="menubar"] [role="separator"] {
-  padding-top: 0.15em;
-  background-image: url('../images/separator.png');
-  background-position: center;
-  background-repeat: repeat-x;
+
 }
 
 ul[role="menubar"] [role="menuitem"]:focus,
@@ -327,9 +318,7 @@ ul[role="menubar"] a[role="menuitem"] {
 }
 
 ul[role="menubar"] li {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+
 }
 
 ul[role="menubar"] > li {
@@ -338,28 +327,23 @@ ul[role="menubar"] > li {
 }
 
 ul[role="menubar"] > li > a::after {
-  content: url('../images/down-arrow-brown.png');
-  padding-left: 0.25em;
+
 }
 
 ul[role="menubar"] ul[role="menu"] {
   display: none;
   position: absolute;
-  top: -2px;
-  left: 0;
-  margin: 0;
-  padding: 0;
+
 }
 
 ul[role="menubar"] ul[role="menu"] li a {
   display: block;
-  width: 10em;
+
 }
 
 ul[role="menubar"] ul[role="menu"] a[aria-haspopup="true"]::after {
-  content: url('../images/right-arrow-brown.png');
-  padding-right: 2em;
-		}</style>
+}
+	</style>
 
 
 	
