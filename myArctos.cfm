@@ -131,7 +131,7 @@
     <div style="width:70em; margin:0 auto;padding-bottom: 3em;overflow: hidden;">
         <div style="width: 33em; float: left; margin-right: 2.2em;padding-top: 2em;">
 	<h2>Welcome back, <b>#getPrefs.username#</b>!</h2>
-	
+
 	<ul class="geol_hier" style="padding:0;width:430px;margin: 0;">
 		<li>
 			<a href="ChangePassword.cfm">Change your password</a>
@@ -199,14 +199,13 @@
 			username = '#session.username#'
 	</cfquery>
 	<form class="userdataForm" method="post" action="myArctos.cfm" name="dlForm">
-		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
 		<h3 style="margin-bottom: .5em;margin-top:1.5em; margin-bottom: 0;padding-bottom: 0;">Personal Profile</h3>
 		<p style="margin-bottom: 1em;margin-top:.35em;">
 			A profile is required to download data.<br>
 			You cannot recover a lost password unless you enter an email address.<br>
 			Personal information will never be shared with anyone, and we'll never send you spam.</p>
-	
+
 		<ul class="nobull">
             <li><label for="first_name">First Name</label>
                 <input type="text" name="first_name" value="#getUserData.first_name#" class="reqdClr" size="50"></li>
@@ -219,7 +218,7 @@
 		<li><label for="email">Email</label>
             <input type="text" name="email" value="#getUserData.email#" size="30"></li>
             <li>
-            
+
             <input type="submit" value="Save Profile" class="savBtn" style="margin-top: .5em"></li></ul>
 	</form>
 	<!---
@@ -297,37 +296,37 @@
 
     </div>
 	<div id="divRss"></div>
-    
+
     </div>
 	<script>
 		$( document ).ready(function(){
 
             jQuery.getFeed({
-				
+
                url: 'https://code.mcz.harvard.edu/feed/',
                success: function(feed) {
 				var header = feed.title;
 				header = header.replace("[en]", "");
-				
+
                  jQuery('##divRss').empty();
                  var html ='<div class="shell"><h2><a href="https://code.mcz.harvard.edu/wiki/index.php?title=Special:RecentChanges&hideminor=1&days=30">' + header + '</a></h2>';
-			
+
                   for(var i = 0; i < feed.items.length && i < 5; i++) {
-					  
+
                       var item = feed.items[i];
 					  item.updated = new Date(item.updated);
-					  
+
                       html += '<div class="feedAtom">';
 					  html += '<div class="updatedAtom" style="position: absolute; z-index: 10;"><p>' + item.updated.toDateString() + '</p></div>';
 					  html += '<div class="authorAtom" style="z-index:11;">by ' + item.author + '</div>';
 					  html += '<h3><a href="' + item.link + '">' + item.title + '</a></h3>';
                       html += '<div class="descriptionAtom">' + item.description +'</div>';
 					  html += '</div>';
-                  } 
+                  }
 				  html += '</div>';
                   jQuery('##divRss').append(html);
                }
-			   
+
             });
 
 	    });
@@ -356,8 +355,11 @@
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
+	<cfquery name="getUID" datasource="cf_dbuser">
+		select user_id from cf_users where username='#session.username#'
+	</cfquery>
 	<cfquery name="isUser" datasource="cf_dbuser">
-		select * from cf_user_data where user_id=#user_id#
+		select * from cf_user_data where user_id=#getUID.user_id#
 	</cfquery>
 		<!---- already have a user_data entry --->
 	<cfif isUser.recordcount is 1>
@@ -377,7 +379,7 @@
 					,email = NULL
 				</cfif>
 			WHERE
-				user_id = #user_id#
+				user_id = #getUID.user_id#
 		</cfquery>
 	</cfif>
 	<cfif #isUser.recordcount# is not 1>
@@ -395,7 +397,7 @@
 				</cfif>
 				)
 			VALUES (
-				#user_id#,
+				#getUID.user_id#,
 				'#first_name#',
 				'#last_name#',
 				'#affiliation#'
