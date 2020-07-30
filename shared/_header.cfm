@@ -413,6 +413,22 @@ code {
         <li class="nav-item"><a href="##" class="nav-link">Services</a></li>
         <li class="nav-item"><a href="##" class="nav-link">Contact</a></li>
       </ul>
+	     <ul class="navbar-nav ml-auto">
+        <!-- Level one dropdown -->
+        <li class="nav-item dropdown">
+          <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
+          <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+            <li><a href="##" class="dropdown-item">Specimens </a></li>
+            <li><a href="##" class="dropdown-item">Taxonomy</a></li>
+			  <li><a href="##" class="dropdown-item">Publications</a></li>
+			  <li><a href="##" class="dropdown-item">Media</a></li>
+
+          </ul>
+        </li>
+        <!-- End Level one -->
+
+
+      </ul>
     </div>
   </div>
 </nav>
