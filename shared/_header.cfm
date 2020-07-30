@@ -384,11 +384,7 @@ code {
             <li class="dropdown-submenu">
               <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
               <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
-                <li>
-                  <a tabindex="-1" href="##" class="dropdown-item">level 2</a>
-                </li>
-
-
+                <li><a href="##" class="dropdown-item">level 2</a></li>
                 <li><a href="##" class="dropdown-item">level 2</a></li>
                 <li><a href="##" class="dropdown-item">level 2</a></li>
               </ul>
