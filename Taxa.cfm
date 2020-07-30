@@ -574,17 +574,36 @@ limitations under the License.
 			</div>
 		</div>
 
-		<script>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-				var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				return '<span style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+		<cfif isdefined("Application.header_image")>
+			<!--- Production links --->
+			<script>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					return '<span style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					};
+				</cfif>
+				
+				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
-			</cfif>
-			
-			var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
-			};
+			</script>
+		<cfelse>
+			<!--- Redesign links --->
+			<script>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					return '<span style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					};
+				</cfif>
+				
+				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+				};
+			</script>
+		</cfif>
+		<script>
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
