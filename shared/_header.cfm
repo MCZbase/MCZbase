@@ -296,14 +296,14 @@ ul[role="menubar"] {
   padding: 10px;
   font-size: 110%;
   list-style: none;
-  background-color: #eee;
+  background-color: ##eee;
 }
 
 ul[role="menubar"] [role="menuitem"],
 ul[role="menubar"] [role="separator"] {
   padding: 0.25em;
-  background-color: #eee;
-  border: 2px solid #eee;
+  background-color: ##eee;
+  border: 2px solid ##eee;
 }
 
 ul[role="menubar"] [role="separator"] {
