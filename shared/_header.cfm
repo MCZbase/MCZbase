@@ -369,7 +369,7 @@ exampleMenuButton.open();
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
-				<ul class="nav-menu mr-lg-auto" id="menu-list" role="menu" hidden>
+				<ul class="nav-menu mr-lg-auto" id="menu-list" role="menu">
 					<li>
 						<a href="##" role="button" name="Search" aria-haspopup="true" tabindex="0" aria-expanded="true" aria-control="oneSubMenu">Search</a>
 						<ul class="dropdown show" aria-label="submenu" role="menu" id="oneSubMenu">
