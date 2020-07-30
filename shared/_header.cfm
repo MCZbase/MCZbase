@@ -498,7 +498,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						</ul><!--- end of menu ul --->
+						</ul>
 					<ul class="nav-menu ml-auto">
 					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Account" aria-expanded="false">Account</a>
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
@@ -522,7 +522,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>		
 				</cfif>
 				</ul>
-			</div><!--- end navbarToggler1 --->
+			</div>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -568,8 +568,8 @@ must point to files present on production while the redesign menu points at thei
 				</cfif>
 			</div>
 		</nav>--->
-	</cfif>
-	</div>
+<!---	</cfif>
+	</div>--->
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
