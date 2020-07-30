@@ -370,52 +370,7 @@ must point to files present on production while the redesign menu points at thei
 						
 						</ul>
 					</li>
-						<li class="nav-item">
-
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-						<input type="hidden" name="action" value="signOut">
-						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
-						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-						</cfif>
-						</button>
-					</form>
-					<cfelse>
-					<cfif isdefined("gotopage") and len(gotopage) GT 0>
-						<cfset gtp = gotopage>
-						<cfelse>
-						<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-							<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-							<cfelse>
-							<cfset requestData = #GetHttpRequestData()#>
-							<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-								<cfset gtp=requestData.headers.referer>
-								<cfelse>
-								<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-							</cfif>
-						</cfif>
-					</cfif>
-					<cfif gtp EQ '/errors/forbidden.cfm'>
-						<cfset gtp = "/UserProfile.cfm">
-					</cfif>
-					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-						<input type="hidden" name="action" value="signIn">
-						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-						<input type="hidden" name="gotopage" value="#gtp#">
-						<div class="login-form" id="header_login_form_div">
-							<label for="username" class="sr-only"> Username:</label>
-							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
-							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-							<label for="login" class="mr-1 sr-only"> Password:</label>
-							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-							<label for="create_account" class="mr-1 sr-only"> Password:</label>
-							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-						</div>
-					</form>
-					</cfif>
-								</li>
+			
 					</ul>
 				</div>
 				<!--- end navbarToggler1 --->
