@@ -317,7 +317,7 @@ must point to files present on production while the redesign menu points at thei
                 </ul>
               </li>
               <li role="none">
-                <a role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Campus
+                <a role="menuitem" href="##" aria-haspopup="true" aria-expanded="false" tabindex="-1">Campus
                   Tours</a>
                 <ul role="menu" aria-label="Campus Tours">
                   <li role="none">
