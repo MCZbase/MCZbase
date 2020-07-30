@@ -343,7 +343,7 @@ must point to files present on production while the redesign menu points at thei
                 <a role="menuitem" href="##" aria-haspopup="true" aria-expanded="false" tabindex="-1">Tuition</a>
                 <ul role="menu" aria-label="Tuition Information" style="display: none; position: absolute; left: 188.781px; z-index: 0;">
                   <li role="none">
-                    <a role="menuitem" href="mb-admissions.html#tuition" tabindex="-1">Undergraduate</a>
+                    <a role="menuitem" href="mb-admissions.html##tuition" tabindex="-1">Undergraduate</a>
                   </li>
                   <li role="none">
                     <a role="menuitem" href="mb-admissions.html##tuition" tabindex="-1">Graduate</a>
