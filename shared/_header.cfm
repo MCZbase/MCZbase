@@ -372,6 +372,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 			
 					</ul>
+						</cfif>
 				</div>
 				<!--- end navbarToggler1 --->
 		
