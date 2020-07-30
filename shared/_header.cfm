@@ -373,7 +373,7 @@ code {
      <ul class="navbar-nav mr-auto">
         <!-- Level one dropdown -->
         <li class="nav-item dropdown">
-          <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+          <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
           <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="##" class="dropdown-item">Some action </a></li>
             <li><a href="##" class="dropdown-item">Some other action</a></li>
@@ -382,7 +382,7 @@ code {
 
             <!-- Level two dropdown-->
             <li class="dropdown-submenu">
-              <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
+              <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action</a>
               <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
                 <li><a href="##" class="dropdown-item">level 2</a></li>
                 <li><a href="##" class="dropdown-item">level 2</a></li>
@@ -393,7 +393,7 @@ code {
           </ul>
         </li>
      <li class="nav-item dropdown">
-          <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+          <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Data Entry</a>
           <ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
             <li><a href="##" class="dropdown-item">Some action </a></li>
             <li><a href="##" class="dropdown-item">Some other action</a></li>
