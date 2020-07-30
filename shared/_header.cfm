@@ -423,7 +423,7 @@ must point to files present on production while the redesign menu points at thei
 			</div>
 		
 		</nav>
-		
+							</cfif>	
 		<!---<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
