@@ -357,8 +357,8 @@ this.button.addEventListener('keydown', function (e) {
     }
 }.bind(this));
 	
-exampleMenuButton = new MenuButton(document.querySelector('\[aria-haspopup]'));
-exampleMenuButton.open();	
+.nav-menu li a = new MenuButton(document.querySelector('\[aria-haspopup]'));
+.nav-menu li a.open();	
 	
 </script>
 	<style>
