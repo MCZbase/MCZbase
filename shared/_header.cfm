@@ -293,7 +293,7 @@ must point to files present on production while the redesign menu points at thei
 <nav aria-label="Mythical University">
         <ul id="menubar1" role="menubar" aria-label="Mythical University">
           <li role="none">
-            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#" tabindex="0">About</a>
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="##" tabindex="0">About</a>
             <ul role="menu" aria-label="About" style="display: none; position: absolute; top: 31.7813px; z-index: 0;">
               <li role="none">
                 <a role="menuitem" href="mb-about.html#overview" tabindex="-1">Overview</a>
@@ -302,7 +302,7 @@ must point to files present on production while the redesign menu points at thei
                 <a role="menuitem" href="mb-about.html#admin" tabindex="-1">Administration</a>
               </li>
               <li role="none">
-                <a id="menubar113" role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Facts</a>
+                <a id="menubar113" role="menuitem" href="##" aria-haspopup="true" aria-expanded="false" tabindex="-1">Facts</a>
                 <ul role="menu" aria-label="Facts">
                   <li role="none">
                     <a role="menuitem" href="mb-about.html#facts" tabindex="-1">History</a>
@@ -339,7 +339,7 @@ must point to files present on production while the redesign menu points at thei
                 <a role="menuitem" href="mb-admissions.html#apply" tabindex="-1">Apply</a>
               </li>
               <li role="none" style="position: relative;">
-                <a role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Tuition</a>
+                <a role="menuitem" href="##" aria-haspopup="true" aria-expanded="false" tabindex="-1">Tuition</a>
                 <ul role="menu" aria-label="Tuition Information" style="display: none; position: absolute; left: 188.781px; z-index: 0;">
                   <li role="none">
                     <a role="menuitem" href="mb-admissions.html#tuition" tabindex="-1">Undergraduate</a>
@@ -407,30 +407,30 @@ must point to files present on production while the redesign menu points at thei
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
-				<ul class="nav-menu mr-lg-auto">
+				<ul class="nav-menu mr-lg-auto" role="menubar">
 					<li>
-						<a class="" href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
-						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
-							<li><a href="/Specimens.cfm">Specimens</a></li>
+						<a href="##" role="button" name="Search" aria-haspopup="true" tabindex="0" aria-expanded="true">Search</a>
+						<ul class="dropdown show" aria-label="submenu" role="menu">
+							<li><a tabindex="-1" href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
 							<li><a href="##">Publications</a></li>
 							<li><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
-						<li><a class="dropdown-item" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+						<li><a href="##" tabindex="0" role="menuitem" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 							   <ul class="dropdown" aria-label="submenu">
 								<li>
-									<a href="##" class="accordion dropdown-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+									<a href="##" tabindex="-1" class="accordion dropdown-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 								   <ul class="dropdown panel" aria-label="submenu">
-										<li><a href="/DataEntry.cfm" class="dropdown-item">Specimen</a></li>
-										<li><a href="##" class="dropdown-item">Media</a></li>
-										<li><a href="##" class="dropdowon-item">Publication</a></li>
-										<li><a href="##" class="dropdown-item">Agent</a></li>
+										<li><a tabindex="-1" href="/DataEntry.cfm" class="dropdown-item">Specimen</a></li>
+										<li><a tabindex="-1" href="##" class="dropdown-item">Media</a></li>
+										<li><a tabindex="-1" href="##" class="dropdowon-item">Publication</a></li>
+										<li><a tabindex="-1" href="##" class="dropdown-item">Agent</a></li>
 									</ul>
 								</li>
 								<li>
-									<a href="##" class="accordion">Bulkloader</a>
+									<a href="##" tabindex="-1" class="accordion">Bulkloader</a>
 									<ul class="dropdown panel" aria-label="submenu">
 										<li><a href="##" class="dropdown-item">Bulkload Specimens</a></li>
 										<li><a href="##" class="dropdown-item">Bulkloader Status</a></li>
@@ -438,7 +438,7 @@ must point to files present on production while the redesign menu points at thei
 										<li><a href="##">Browse and Edit Staged Records</a></li>
 									</ul>
 								</li>
-								<li><a href="##" class="accordion">Batch Tools</a>
+								<li><a href="##" tabindex="-1" class="accordion">Batch Tools</a>
 									<ul class="dropdown panel" aria-label="submenu">
 										<li><a href="##">Agents</a></li>
 										<li><a href="##">Attributes</a></li>
@@ -450,7 +450,7 @@ must point to files present on production while the redesign menu points at thei
 						</li>
 					</cfif>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-						<li><a href="##">Transactions</a>
+						<li><a tabindex="0" role="menuitem" name="Transactions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="##">Transactions</a>
 							<ul class="dropdown" class="accordion" aria-label="submenu">
 								<li><a href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 								<li><a href="##" class="accordion">Accessions</a>
@@ -485,7 +485,7 @@ must point to files present on production while the redesign menu points at thei
 						</li>
 					</cfif>
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_transactions")>
-					<li><a href="##">Tools</a>
+					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Tools" aria-expanded="false" >Tools</a>
 						<ul class="dropdown" aria-label="submenu">
 							<li><a href="##">Projects </a></li>
 							<li><a href="/grouping/NamedCollection.cfm">Named Collections </a></li>
@@ -498,7 +498,7 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					</cfif>
-					<li><a href="##" class="ui-accordion">Help</a>
+					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Help" aria-expanded="false">Help</a>
 						<ul class="dropdown" aria-label="submenu">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<li><a name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
@@ -511,8 +511,7 @@ must point to files present on production while the redesign menu points at thei
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul><!--- end of menu ul --->
 					<ul class="nav-menu ml-auto">
-					<li><a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Account
+					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Account" aria-expanded="false">Account</a>
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
