@@ -290,7 +290,118 @@ must point to files present on production while the redesign menu points at thei
 	</div>
 	</nav>
 <cfelse>
+<nav aria-label="Mythical University">
+        <ul id="menubar1" role="menubar" aria-label="Mythical University">
+          <li role="none">
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#" tabindex="0">About</a>
+            <ul role="menu" aria-label="About" style="display: none; position: absolute; top: 31.7813px; z-index: 0;">
+              <li role="none">
+                <a role="menuitem" href="mb-about.html#overview" tabindex="-1">Overview</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-about.html#admin" tabindex="-1">Administration</a>
+              </li>
+              <li role="none">
+                <a id="menubar113" role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Facts</a>
+                <ul role="menu" aria-label="Facts">
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#facts" tabindex="-1">History</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#facts" tabindex="-1">Current Statistics</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#facts" tabindex="-1">Awards</a>
+                  </li>
+                </ul>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Campus
+                  Tours</a>
+                <ul role="menu" aria-label="Campus Tours">
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#tours" tabindex="-1">For prospective students</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#tours" tabindex="-1">For alumni</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-about.html#tours" tabindex="-1">For visitors</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li role="none">
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#" tabindex="-1">Admissions</a>
+            <ul role="menu" aria-label="Admissions" style="display: none; position: absolute; top: 31.7813px; z-index: 0;">
+              <li role="none">
+                <a role="menuitem" href="mb-admissions.html#apply" tabindex="-1">Apply</a>
+              </li>
+              <li role="none" style="position: relative;">
+                <a role="menuitem" href="#" aria-haspopup="true" aria-expanded="false" tabindex="-1">Tuition</a>
+                <ul role="menu" aria-label="Tuition Information" style="display: none; position: absolute; left: 188.781px; z-index: 0;">
+                  <li role="none">
+                    <a role="menuitem" href="mb-admissions.html#tuition" tabindex="-1">Undergraduate</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-admissions.html#tuition" tabindex="-1">Graduate</a>
+                  </li>
+                  <li role="none">
+                    <a role="menuitem" href="mb-admissions.html#tuition" tabindex="-1">Professional Schools</a>
+                  </li>
+                </ul>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-admissions.html#signup" tabindex="-1">Sign Up</a>
+              </li>
+              <li role="separator"></li>
+              <li role="none">
+                <a role="menuitem" href="mb-admissions.html#visit" tabindex="-1">Visit</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-admissions.html#photo" tabindex="-1">Photo Tour</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-admissions.html#connect" tabindex="-1">Connect</a>
+              </li>
 
+            </ul>
+          </li>
+          <li role="none">
+            <a role="menuitem" aria-haspopup="true" aria-expanded="false" href="#" tabindex="-1">Academics</a>
+            <ul role="menu" aria-label="Academics" style="display: none; position: absolute; top: 31.7813px; z-index: 0;">
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#colleges" tabindex="-1">Colleges &amp; Schools</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#programs" tabindex="-1">Programs of Study</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#honors" tabindex="-1">Honors Programs</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#online" tabindex="-1">Online Courses</a>
+              </li>
+              <li role="separator"></li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#explorer" tabindex="-1">Course Explorer</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#register" tabindex="-1">Register for Class</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#academic" tabindex="-1">Academic Calendar</a>
+              </li>
+              <li role="none">
+                <a role="menuitem" href="mb-academics.html#tanscripts" tabindex="-1">Transcripts</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+	
+	
 	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
