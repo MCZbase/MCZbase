@@ -366,13 +366,11 @@ must point to files present on production while the redesign menu points at thei
 								<cfif session.roles contains "public">
 							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 						</cfif>
-							</cfif>
-						
-						</ul>
-					</li>
-						<li class="nav-item">
-
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					</li>		
+				</cfif>
+				</ul>
+			</div>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
 						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -414,16 +412,11 @@ must point to files present on production while the redesign menu points at thei
 							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 						</div>
 					</form>
-					</cfif>
-								</li>
-					</ul>
-				</div>
-				<!--- end navbarToggler1 --->
-		
+				</cfif>
 			</div>
-		
 		</nav>
-							</cfif>	
+	</cfif>
+	</div>
 		<!---<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
@@ -566,7 +559,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>		
 				</cfif>
 				</ul>
-			</div><!--- end navbarToggler1 --->
+			</div>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
