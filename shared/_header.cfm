@@ -343,53 +343,35 @@ must point to files present on production while the redesign menu points at thei
 						
 					<ul class="navbar-nav ml-auto">
 					<!-- Level one dropdown -->
-					<li class="nav-item dropdown"> 
+						<li class="nav-item dropdown"> 
 						
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i>
-							<cfelse>
-							<i class="fas fa-user-cog text-body"></i>
-						</cfif>
-						</a>
-						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-							<li>
-								<a href="##" class="dropdown-item">
-								<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-								</cfif> 
-								</a>
-							</li>
-							<cfif session.roles contains "public">
-							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
-							</cfif>
-						
-						</ul>
-					</li>
-						<li class="nav-item dropdown">
-						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account 
 						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenus" class="dropdown-menu border-0 shadow">
-						<cfif session.roles contains "coldfusion_user">
-							<li>
+						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+							<li><a href="##" class="dropdown-item">
+								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
+								</cfif> 
+								</a>
 							</li>
-						</cfif>
-						<cfif session.roles contains "public">
+							<cfif session.roles contains "public">
+								<cfif session.roles contains "public">
 							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 						</cfif>
-						</li>
-					</cfif>
+							</cfif>
+						
+						</ul>
+					</li>
+						<li class="nav-item">
+
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -433,6 +415,7 @@ must point to files present on production while the redesign menu points at thei
 						</div>
 					</form>
 					</cfif>
+								</li>
 					</ul>
 				</div>
 				<!--- end navbarToggler1 --->
