@@ -366,7 +366,7 @@ code {
 	
 	<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
   <div class="container">
-    <a href="##" class="navbar-brand font-weight-bold">Multilevel Dropdown</a>
+
     <button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
               <span class="navbar-toggler-icon"></span>
           </button>
