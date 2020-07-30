@@ -300,22 +300,6 @@ must point to files present on production while the redesign menu points at thei
   margin-left: 0px;
 }
 
-/*
-*
-* ==========================================
-* FOR DEMO PURPOSES
-* ==========================================
-*
-*/
-
-
-code {
-
-
-  padding: 0.1rem 0.2rem;
-  border-radius: 0.2rem;
-}
-
 @media (min-width: 991px) {
   .dropdown-menu {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
