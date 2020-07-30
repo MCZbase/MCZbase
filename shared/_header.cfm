@@ -310,19 +310,19 @@ must point to files present on production while the redesign menu points at thei
 						<li><a class="" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 							   <ul class="dropdown" aria-label="submenu">
 								<li>
-									<a href="##" class="accordion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+									<a href="##" class="accordion dropdown-item" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 								   <ul class="dropdown panel" aria-label="submenu">
-										<li><a href="/DataEntry.cfm">Specimen</a></li>
-										<li><a href="##">Media</a></li>
-										<li><a href="##">Publication</a></li>
-										<li><a href="##">Agent</a></li>
+										<li><a href="/DataEntry.cfm" class="dropdown-item">Specimen</a></li>
+										<li><a href="##" class="dropdown-item">Media</a></li>
+										<li><a href="##" class="dropdowon-item">Publication</a></li>
+										<li><a href="##" class="dropdown-item">Agent</a></li>
 									</ul>
 								</li>
 								<li>
 									<a href="##" class="accordion">Bulkloader</a>
 									<ul class="dropdown panel" aria-label="submenu">
-										<li><a href="##">Bulkload Specimens</a></li>
-										<li><a href="##">Bulkloader Status</a></li>
+										<li><a href="##" class="dropdown-item">Bulkload Specimens</a></li>
+										<li><a href="##" class="dropdown-item">Bulkloader Status</a></li>
 										<li><a href="##">Bulkload .CSV Builder</a></li>
 										<li><a href="##">Browse and Edit Staged Records</a></li>
 									</ul>
