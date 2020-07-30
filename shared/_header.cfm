@@ -412,8 +412,12 @@ code {
         <li class="nav-item"><a href="##" class="nav-link">About</a></li>
         <li class="nav-item"><a href="##" class="nav-link">Services</a></li>
         <li class="nav-item"><a href="##" class="nav-link">Contact</a></li>
-      </ul>
-	     <ul class="navbar-nav ml-auto">
+
+		
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						</ul><!--- end of menu ul --->
+			
+							     <ul class="navbar-nav ml-auto">
         <!-- Level one dropdown -->
         <li class="nav-item dropdown">
           <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
@@ -423,7 +427,30 @@ code {
 			  <li><a href="##" class="dropdown-item">Publications</a></li>
 			  <li><a href="##" class="dropdown-item">Media</a></li>
 
-          </ul>
+			</ul></li>
+					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Account" aria-expanded="false">Account</a>
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i>
+							<cfelse>
+								<i class="fas fa-user-cog text-body"></i> 
+							</cfif>	
+						</a>
+						<ul class="dropdown" aria-label="submenu">
+							<cfif session.roles contains "coldfusion_user">
+								<li>
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+								</li>
+							</cfif>
+							<cfif session.roles contains "public">
+								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+							</cfif>
+					</li>		
+				</cfif>
+				</ul>
+
         </li>
         <!-- End Level one -->
 
