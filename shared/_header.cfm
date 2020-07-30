@@ -308,8 +308,8 @@ ul[role="menubar"] [role="menuitem"]:focus,
 ul[role="menubar"] [role="menuitem"]:hover,
 ul[role="menubar"] [role="separator"]:focus,
 ul[role="menubar"] [role="separator"]:hover {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 ul[role="menubar"] a[role="menuitem"] {
