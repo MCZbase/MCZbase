@@ -278,7 +278,7 @@ must point to files present on production while the redesign menu points at thei
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
 					<li>
-						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
+						<a class="" href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
 						<ul class="dropdown show" aria-labelledby="navbarDropdown" aria-label="submenu">
 							<li><a href="/Specimens.cfm">Specimens</a></li>
 							<li><a href="##">Media</a></li>
@@ -287,10 +287,10 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
-						<li><a href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
+						<li><a class="" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 							   <ul class="dropdown" aria-label="submenu">
 								<li>
-									<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+									<a href="##" class="accordion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 								   <ul class="dropdown" aria-label="submenu">
 										<li><a href="/DataEntry.cfm">Specimen</a></li>
 										<li><a href="##">Media</a></li>
@@ -299,7 +299,7 @@ must point to files present on production while the redesign menu points at thei
 									</ul>
 								</li>
 								<li>
-									<a href="##">Bulkloader</a>
+									<a href="##" class="accordion">Bulkloader</a>
 									<ul class="dropdown" aria-label="submenu">
 										<li><a href="##">Bulkload Specimens</a></li>
 										<li><a href="##">Bulkloader Status</a></li>
@@ -307,7 +307,7 @@ must point to files present on production while the redesign menu points at thei
 										<li><a href="##">Browse and Edit Staged Records</a></li>
 									</ul>
 								</li>
-								<li><a href="##">Batch Tools</a>
+								<li><a href="##" class="accordion">Batch Tools</a>
 									<ul class="dropdown" aria-label="submenu">
 										<li><a href="##">Agents</a></li>
 										<li><a href="##">Attributes</a></li>
