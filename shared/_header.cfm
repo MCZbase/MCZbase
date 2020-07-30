@@ -275,7 +275,7 @@ must point to files present on production while the redesign menu points at thei
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
-			<div class="collapse navbar-collapse show" id="main_nav">
+			<div class="row mt-1 collapse navbar-collapse show" id="main_nav">
 				<ul class="nav-menu mr-lg-auto">
 					<li>
 						<a href="##" role="button" id="navbarDropdown" name="Search" aria-haspopup="true" aria-expanded="true">Search</a>
@@ -367,7 +367,7 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 					</cfif>
-					<li><a href="##">Help</a>
+					<li><a href="##" class="ui-accordion">Help</a>
 						<ul class="dropdown" aria-label="submenu">
 						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 							<li><a name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
