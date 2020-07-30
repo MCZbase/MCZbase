@@ -32,12 +32,17 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file ---> 
+<cfinclude template="/shared/functionLib.cfm">
+<!--- Easy to overlook this shared function file ---> 
 <!--- include stylesheets and javascript library files --->
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work ---> 
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons--> 
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+<!---needed for overall look--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css">
+<!--- needed for jqxwidgets to work --->
+<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css">
+<!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css">
+<!-- Provides account, magnifier, and cog icons--> 
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <!--- Library supporting a multiselect widget based on jquery-ui.  --->
@@ -111,9 +116,7 @@ limitations under the License.
 	</cfif>
 	<cfset setDbUser()>
 </cfif>
-<style type="text/css">
-
-</style>
+<style type="text/css"></style>
 <script>
 var acc = document.getElementsByClassName("accordion");
 var i;
@@ -154,17 +157,10 @@ for (i = 0; i < acc.length; i++) {
 <!--- End workaround ---> 
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-<header id="header" role="heading" class="border-bottom"> 
+<header id="header" role="heading" class="border-bottom">
 	<div class="branding clearfix bg-black">
-		<div class="branding-left justify-content-start">
-			<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
-				<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
-				<span class="d-inline-block parent">Harvard University</span>
-			</a> 
-		</div>
-		<div class="branding-right justify-content-end">
-			<a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a>
-		</div>
+		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
+		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
@@ -176,121 +172,91 @@ for (i = 0; i < acc.length; i++) {
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light px-0 px-lg-4"> 
-<!---	
+	<div class="container-fluid bg-light px-0 px-lg-4">
+	<!---	
 Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
 must point to files present on production while the redesign menu points at their replacements in redesign
 --->
-<cfif isdefined("Application.header_image")>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<button class="navbar-toggler" type="button" data-toggle="collapse" 
+	<cfif isdefined("Application.header_image")>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" 
 			data-target="##navbarToggler1" aria-controls="navbarToggler1" 
-			aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="navbarToggler1">
-		
-		<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-
-				<!---  Redesign menu for integration on production --->
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Search
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-						<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
-						<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-						<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a>
-						<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
-						</cfif>
-						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
-					</div>
-				</li>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Data Entry
-						</a>
-						<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-							<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a>
-						</div>
-					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Manage Data
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
-								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+			aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+			<div class="collapse navbar-collapse" id="navbarToggler1">
+				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
+					
+					<!---  Redesign menu for integration on production --->
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
+							<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
+							<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
+							<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 							</cfif>
-						</div>
+							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
 					</li>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Transactions
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-							<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-							<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
-							<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
-							<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-							<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
-							<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
-							<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
-							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
-							<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
-						</div>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
+							<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2"> 
+								<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
+						</li>
+					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
+							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+								</cfif>
+							</div>
+						</li>
+					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
+								<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
+								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
+								<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
+								<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
+								<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
+								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
+								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
+						</li>
+					</cfif>
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+							</cfif>
+							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
 					</li>
-				</cfif>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Help
-					</a>
-					<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-						<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-							<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a>
-							<a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-						</cfif>
-						<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a>
-					</div>
-				</li>
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Account
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>_
-							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
-						</a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-							<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
+								<cfelse>
+								<i class="fas fa-user-cog text-body"></i>
 							</cfif>
-							<cfif session.roles contains "public">
-								<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-							</cfif>
-						</div>
-					</li>
-				</cfif>	
-		</ul>
-	</div>
-	</nav>
-<cfelse>
-	<script>
+							</a>
+							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
+								<cfif session.roles contains "coldfusion_user">
+									<form name="profile" method="post" action="/UserProfile.cfm">
+										<input type="hidden" name="action" value="nothing">
+										<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									</form>
+								</cfif>
+								<cfif session.roles contains "public">
+									<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+								</cfif>
+							</div>
+						</li>
+					</cfif>
+				</ul>
+			</div>
+		</nav>
+		<cfelse>
+		<script>
 		$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
@@ -312,8 +278,7 @@ must point to files present on production while the redesign menu points at thei
   });
 });
 	</script>
-	
-	<style>
+		<style>
 		
 		/*
 *
@@ -356,86 +321,79 @@ code {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
-	</style>	
-	
-	<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
-  <div class="container-fluid">
-    <button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-    <div id="navbarContent" class="collapse navbar-collapse">
-     <ul class="navbar-nav mr-auto">
-        <!-- Level one dropdown -->
-        <li class="nav-item dropdown">
-          <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
-          <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-            <li><a href="##" class="dropdown-item">Some action </a></li>
-            <li><a href="##" class="dropdown-item">Some other action</a></li>
-
-            <li class="dropdown-divider"></li>
-
-            <!-- Level two dropdown-->
-            <li class="dropdown-submenu">
-              <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
-              <ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-              </ul>
-            </li>
-            <!-- End Level two -->
-          </ul>
-        </li>
-     <li class="nav-item dropdown">
-          <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Data Entry</a>
-          <ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
-            <li><a href="##" class="dropdown-item">Some action </a></li>
-            <li><a href="##" class="dropdown-item">Some other action</a></li>
-
-            <li class="dropdown-divider"></li>
-
-            <!-- Level two dropdown-->
-            <li class="dropdown-submenu">
-              <a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
-              <ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-                <li><a href="##" class="dropdown-item">level 2</a></li>
-              </ul>
-            </li>
-            <!-- End Level two -->
-          </ul>
-        </li>
-        <li class="nav-item"><a href="##" class="nav-link">About</a></li>
-        <li class="nav-item"><a href="##" class="nav-link">Services</a></li>
-        <li class="nav-item"><a href="##" class="nav-link">Contact</a></li>
-   					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						</ul><!--- end of menu ul --->
-					<ul class="nav-menu ml-auto">
-					<li class="nav-item dropdown">
+	</style>
+		<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+			<div class="container-fluid">
+				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
+				<div id="navbarContent" class="collapse navbar-collapse">
+					<ul class="navbar-nav mr-auto">
+					<!-- Level one dropdown -->
+					<li class="nav-item dropdown"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
+						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+							<li><a href="##" class="dropdown-item">Some action </a></li>
+							<li><a href="##" class="dropdown-item">Some other action</a></li>
+							<li class="dropdown-divider"></li>
+							
+							<!-- Level two dropdown-->
+							<li class="dropdown-submenu"> <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
+								<ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+								</ul>
+							</li>
+							<!-- End Level two -->
+						</ul>
+					</li>
+					<li class="nav-item dropdown"> <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Data Entry</a>
+						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
+							<li><a href="##" class="dropdown-item">Some action </a></li>
+							<li><a href="##" class="dropdown-item">Some other action</a></li>
+							<li class="dropdown-divider"></li>
+							
+							<!-- Level two dropdown-->
+							<li class="dropdown-submenu"> <a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+									<li><a href="##" class="dropdown-item">level 2</a></li>
+								</ul>
+							</li>
+							<!-- End Level two -->
+						</ul>
+					</li>
+					<li class="nav-item"><a href="##" class="nav-link">About</a></li>
+					<li class="nav-item"><a href="##" class="nav-link">Services</a></li>
+					<li class="nav-item"><a href="##" class="nav-link">Contact</a></li>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						</ul>
+						<!--- end of menu ul --->
+						<ul class="nav-menu ml-auto">
+						<li class="nav-item dropdown">
 						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
-							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>
+						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
-							</cfif>	
+							<i class="fas fa-user-cog text-body"></i>
+						</cfif>
 						</a>
 						<ul aria-labelledby="dropdownMenus" class="dropdown-menu border-0 shadow">
-							<cfif session.roles contains "coldfusion_user">
-								<li>
+						<cfif session.roles contains "coldfusion_user">
+							<li>
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
 									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
-								</li>
-							</cfif>
-							<cfif session.roles contains "public">
-								<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
-							</cfif>
-					</li>		
-				</cfif>
-				</ul>
-			</div><!--- end navbarToggler1 --->
+							</li>
+						</cfif>
+						<cfif session.roles contains "public">
+							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+						</cfif>
+						</li>
+					</cfif>
+					</ul>
+				</div>
+				<!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -479,16 +437,11 @@ code {
 						</div>
 					</form>
 				</cfif>
-    </div>
-  </div>
-</nav>
-
-	
-	
-	
-	
-	
-<!---<div class="dropdown">
+			</div>
+			</div>
+		</nav>
+		
+		<!---<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
   </button>
@@ -497,9 +450,9 @@ code {
     <a class="dropdown-item" href="##">Another action</a>
     <a class="dropdown-item" href="##">Something else here</a>
   </div>
-</div>--->
-
-	<!---<nav class="navbar dropdown navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
+</div>---> 
+		
+		<!---<nav class="navbar dropdown navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="true"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
@@ -676,8 +629,8 @@ code {
 				</cfif>
 			</div>
 		</nav>--->
-</cfif>
-</div>
+	</cfif>
+	</div>
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
