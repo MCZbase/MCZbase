@@ -553,7 +553,7 @@ must point to files present on production while the redesign menu points at thei
 					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
 						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-						<input type="hidden" name="gotopage" value="#gtp#">
+	<!---					<input type="hidden" name="gotopage" value="#gtp#">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
 							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
