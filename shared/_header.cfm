@@ -256,7 +256,7 @@ must point to files present on production while the redesign menu points at thei
 			</div>
 		</nav>
 		<cfelse>
-		<script>
+<script>
 		$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
@@ -277,35 +277,23 @@ must point to files present on production while the redesign menu points at thei
 
   });
 });
-	</script>
-		<style>
-		
-		/*
-*
-* ==========================================
-* CUSTOM UTIL CLASSES
-* ==========================================
-*
-*/
-
+</script>
+<style>
 .dropdown-submenu {
   position: relative;
 }
-
-
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: 0px;
   margin-left: 0px;
 }
-
 @media (min-width: 991px) {
   .dropdown-menu {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 }
-	</style>
+</style>
 		<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
@@ -314,19 +302,19 @@ must point to files present on production while the redesign menu points at thei
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-							<li><a href="##" class="dropdown-item">Some action </a></li>
-							<li><a href="##" class="dropdown-item">Some other action</a></li>
+							<li><a href="##" class="dropdown-item">Specimens.cfm </a></li>
+							<li><a href="##" class="dropdown-item">Taxonomy.cfm</a></li>
 							<li class="dropdown-divider"></li>
-							
 							<!-- Level two dropdown-->
-							<li class="dropdown-submenu"> <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
-								<ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
-									<li><a href="##" class="dropdown-item">level 2</a></li>
-									<li><a href="##" class="dropdown-item">level 2</a></li>
-									<li><a href="##" class="dropdown-item">level 2</a></li>
-								</ul>
-							</li>
+								<li class="dropdown-submenu"> <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
+									<ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
+										<li><a href="##" class="dropdown-item">level 2</a></li>
+										<li><a href="##" class="dropdown-item">level 2</a></li>
+										<li><a href="##" class="dropdown-item">level 2</a></li>
+									</ul>
+								</li>
 							<!-- End Level two -->
+							<li><a href="##" class="dropdown-item">Media.cfm</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown"> <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Data Entry</a>
