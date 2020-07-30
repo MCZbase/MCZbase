@@ -341,44 +341,7 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 						<!--- end of menu ul --->
 						
-					<ul class="navbar-nav ml-auto">
-					<!-- Level one dropdown -->
-					<li class="nav-item dropdown"> 
-						
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account 
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i>
-							<cfelse>
-							<i class="fas fa-user-cog text-body"></i>
-						</cfif>
-						</a>
-						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-							<li><a href="##" class="dropdown-item">
-								<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-								</cfif> 
-								</a>
-							</li>
-							<cfif session.roles contains "public">
-								<cfif session.roles contains "public">
-							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
-						</cfif>
-							</cfif>
-						
-						</ul>
-					</li>
-			
-					</ul>
-						</cfif>
-				</div>
-				<!--- end navbarToggler1 --->
-		
-			</div>
-		
-		</nav>
+
 		
 		<!---<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -495,7 +458,7 @@ must point to files present on production while the redesign menu points at thei
 						</cfif>
 						<li><a  name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
 						</ul>
-					</li>
+					</li> --->
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
@@ -522,7 +485,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>		
 				</cfif>
 				</ul>
-			</div>
+			</div><!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -553,7 +516,7 @@ must point to files present on production while the redesign menu points at thei
 					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
 						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
-	<!---					<input type="hidden" name="gotopage" value="#gtp#">
+						<input type="hidden" name="gotopage" value="#gtp#">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
 							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
@@ -567,9 +530,9 @@ must point to files present on production while the redesign menu points at thei
 					</form>
 				</cfif>
 			</div>
-		</nav>--->
-<!---	</cfif>
-	</div>--->
+		</nav>
+	</cfif>
+	</div>
 	<!-- container //  --> 
 </header>
 <script type="text/javascript"> 
