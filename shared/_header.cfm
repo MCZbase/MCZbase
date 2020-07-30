@@ -344,22 +344,33 @@ ul[role="menubar"] ul[role="menu"] li a {
 ul[role="menubar"] ul[role="menu"] a[aria-haspopup="true"]::after {
 }
 	</style>
-
-
+<script>
+	MenuButton.prototype.open = function () {
+    this.button.setAttribute('aria-expanded', true);
+    this.menu.hidden = false;
+    this.menu.querySelector(':not(\[disabled])').focus();
+    return this;
+}
+this.button.addEventListener('keydown', function (e) {
+    if (e.keyCode === 40) {
+        this.open();
+    }
+}.bind(this));
+</script>
 	
-	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" aria-label="main menu" >
-			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-label="Toggle navigation" data-target="##main_nav" aria-expanded="true"> 
+	<nav class="navbar navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
+			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="false"> 
 				<span class="navbar-toggler-icon"></span> 
 			</button>
 			<div class="mt-1 mt-lg-0 collapse navbar-collapse show" id="main_nav">
-				<ul class="nav-menu mr-lg-auto" role="menubar">
+				<ul class="nav-menu mr-lg-auto" id="menu-list" role="menu" hidden>
 					<li>
 						<a href="##" role="button" name="Search" aria-haspopup="true" tabindex="0" aria-expanded="true" aria-control="oneSubMenu">Search</a>
 						<ul class="dropdown show" aria-label="submenu" role="menu" id="oneSubMenu">
-							<li><a tabindex="-1" href="/Specimens.cfm">Specimens</a></li>
-							<li><a href="##">Media</a></li>
-							<li><a href="##">Publications</a></li>
-							<li><a href="/Taxa.cfm">Taxonomy</a></li>
+							<li role="menuitem"><a tabindex="-1" href="/Specimens.cfm">Specimens</a></li>
+							<li role="menuitem"><a href="##">Media</a></li>
+							<li role="menuitem"><a href="##">Publications</a></li>
+							<li role="menuitem"><a href="/Taxa.cfm">Taxonomy</a></li>
 						</ul>
 					</li>
 					<cfif isdefined("session.roles") and listfindnocase(session.roles,"data_entry")>
