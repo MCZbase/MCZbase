@@ -343,7 +343,7 @@ must point to files present on production while the redesign menu points at thei
 						
 					<ul class="navbar-nav ml-auto">
 					<!-- Level one dropdown -->
-						<li class="nav-item dropdown"> 
+					<li class="nav-item dropdown"> 
 						
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account 
 						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
@@ -366,11 +366,13 @@ must point to files present on production while the redesign menu points at thei
 								<cfif session.roles contains "public">
 							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 						</cfif>
-					</li>		
-				</cfif>
-				</ul>
-			</div>
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+							</cfif>
+						
+						</ul>
+					</li>
+						<li class="nav-item">
+
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
 						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -412,11 +414,16 @@ must point to files present on production while the redesign menu points at thei
 							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 						</div>
 					</form>
-				</cfif>
+					</cfif>
+								</li>
+					</ul>
+				</div>
+				<!--- end navbarToggler1 --->
+		
 			</div>
+		
 		</nav>
-	</cfif>
-	</div>
+		
 		<!---<div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
@@ -559,7 +566,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>		
 				</cfif>
 				</ul>
-			</div>
+			</div><!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
