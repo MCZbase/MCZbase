@@ -166,7 +166,6 @@ nav .navbar-nav li a.nav-link {
 	}
 }*/
 /*  moved styles  */
-/*
 #main_nav {
  font-family:"Helvetica Neue",Arial,"Noto Sans",sans-serif;
 }
@@ -185,13 +184,13 @@ nav ul {
 	color: rgba(0,0,0,.9);
 	text-decoration: none;
 	padding: 0.5em 1.8em;
-
+	/*text-transform: uppercase;*/
 	font-size: 82%;
 	letter-spacing: 2px;
-
+/*	text-shadow: 0 -1px 0 #658594;*/
 	position: relative;
 	padding-bottom: .3em;
-
+/*	padding-top: 1.1em;*/
 }
 .nav-menu a:hover {
 	color: black;
@@ -233,9 +232,9 @@ nav ul {
 	border: 5px solid transparent;
 	top: 50%;
 	right: 5px;
-}*/
+}
 /* submenu positioning*/
-/*.nav-menu ul {
+.nav-menu ul {
 	position: absolute;
 	white-space: nowrap;
 	border-bottom: 3px solid rgba(0,0,0,.5);
@@ -285,7 +284,7 @@ ul li ul:focus {
 .nav-menu ul li ul li {
 	clear: both;
   width: 100%;
-}*/
+}
 .logout {
 	padding: 0 .45em;
     font-size: 83%;
@@ -294,7 +293,7 @@ ul li ul:focus {
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
 }
-/*@media (max-width:991px) {
+@media (max-width:991px) {
 ul {
 	display: block;
     list-style-type: none;
@@ -381,11 +380,17 @@ padding: .75em 1.5em;
 	border-right-color: #666;
 	right: 50px;
 }
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
 
-	
-	
-	
-	
+
 .logout {
 	padding: .14em .45em;
     font-size: .88em;
@@ -401,7 +406,7 @@ padding: .75em 1.5em;
 	top: 2px;
 	right: 1em;
 }
-}*/
+}
 /*  end of moved styles  */
 .navbar-toggler-icon {
     display: inline-block;
