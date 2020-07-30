@@ -340,7 +340,34 @@ must point to files present on production while the redesign menu points at thei
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
 						<!--- end of menu ul --->
-						<ul class="nav-menu ml-auto">
+						
+					<ul class="navbar-nav ml-auto">
+					<!-- Level one dropdown -->
+					<li class="nav-item dropdown"> 
+						
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+							<i class="fas fa-user-check color-green"></i>
+							<cfelse>
+							<i class="fas fa-user-cog text-body"></i>
+						</cfif>
+						</a>
+						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+							<li>
+								<a href="##" class="dropdown-item">
+								<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+								</cfif> 
+								</a>
+							</li>
+							<cfif session.roles contains "public">
+							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
+							</cfif>
+						
+						</ul>
+					</li>
 						<li class="nav-item dropdown">
 						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
 						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
@@ -363,10 +390,7 @@ must point to files present on production while the redesign menu points at thei
 						</cfif>
 						</li>
 					</cfif>
-					</ul>
-				</div>
-				<!--- end navbarToggler1 --->
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
 						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -408,9 +432,13 @@ must point to files present on production while the redesign menu points at thei
 							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 						</div>
 					</form>
-				</cfif>
+					</cfif>
+					</ul>
+				</div>
+				<!--- end navbarToggler1 --->
+		
 			</div>
-			</div>
+		
 		</nav>
 		
 		<!---<div class="dropdown">
