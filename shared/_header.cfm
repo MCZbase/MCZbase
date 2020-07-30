@@ -327,12 +327,6 @@ must point to files present on production while the redesign menu points at thei
   position: relative;
 }
 
-.dropdown-submenu>a:after {
-  content: "\f0da";
-  float: right;
-  border: none;
-  font-family: 'FontAwesome';
-}
 
 .dropdown-submenu>.dropdown-menu {
   top: 0;
