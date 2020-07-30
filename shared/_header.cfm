@@ -367,7 +367,7 @@ code {
 	<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
   <div class="container">
     <a href="##" class="navbar-brand font-weight-bold">Multilevel Dropdown</a>
-    <button type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
+    <button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
               <span class="navbar-toggler-icon"></span>
           </button>
 
@@ -376,7 +376,7 @@ code {
       <ul class="navbar-nav mr-auto">
         <!-- Level one dropdown -->
         <li class="nav-item dropdown">
-          <a id="dropdownMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
+          <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Dropdown</a>
           <ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
             <li><a href="##" class="dropdown-item">Some action </a></li>
             <li><a href="##" class="dropdown-item">Some other action</a></li>
