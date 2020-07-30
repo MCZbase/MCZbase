@@ -310,7 +310,7 @@ must point to files present on production while the redesign menu points at thei
 						<li><a class="" href="##" role="button" name="Enter Data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Enter Data</a>
 							   <ul class="dropdown" aria-label="submenu">
 								<li>
-									<a href="##" class="accordion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
+									<a href="##" class="panel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">New Record</a>
 								   <ul class="dropdown" aria-label="submenu">
 										<li><a href="/DataEntry.cfm">Specimen</a></li>
 										<li><a href="##">Media</a></li>
@@ -319,7 +319,7 @@ must point to files present on production while the redesign menu points at thei
 									</ul>
 								</li>
 								<li>
-									<a href="##" class="accordion">Bulkloader</a>
+									<a href="##" class="panel">Bulkloader</a>
 									<ul class="dropdown" aria-label="submenu">
 										<li><a href="##">Bulkload Specimens</a></li>
 										<li><a href="##">Bulkloader Status</a></li>
@@ -327,7 +327,7 @@ must point to files present on production while the redesign menu points at thei
 										<li><a href="##">Browse and Edit Staged Records</a></li>
 									</ul>
 								</li>
-								<li><a href="##" class="accordion">Batch Tools</a>
+								<li><a href="##" class="panel">Batch Tools</a>
 									<ul class="dropdown" aria-label="submenu">
 										<li><a href="##">Agents</a></li>
 										<li><a href="##">Attributes</a></li>
