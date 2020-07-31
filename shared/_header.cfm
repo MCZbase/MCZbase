@@ -355,7 +355,7 @@ must point to files present on production while the redesign menu points at thei
 							<!-- End Level two 3 -->
 						</ul>
 					</li>
-				<li class="dropdown-divider"></li>
+		
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
