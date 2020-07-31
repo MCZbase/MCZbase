@@ -132,13 +132,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 
 	.logout {
-		padding: .14em .45em;
-		font-size: .88em;
+		padding: .1em .45em;
+		font-size: .83em;
 		font-weight: bold;
 		position: absolute;
 		right: 1em;
-		top: 3px;
-
+		top: 5px;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
 	}
