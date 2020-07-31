@@ -68,26 +68,6 @@ function checkFormValidity(form) {
      return result;
 };
 
-// Simple message dialog with an OK button.
-function messageDialog(dialogText, dialogTitle) {
-  $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
-    modal: true,
-    resizable: false,
-    draggable: true,
-    width: 'auto',
-    minHeight: 80,
-    title: dialogTitle,
-    buttons: {
-      OK: function () {
-         $(this).dialog('destroy');
-      }
-    },
-    close: function() {
-       $(this).dialog( "destroy" );
-    }
-  });
-};
-
 /** openlinkmediadialog, create and open a dialog to find and link existing media records with a provided relationship
  * @param dialogid id to give to the dialog
  * @param related_value human readable name of the object to link the media to

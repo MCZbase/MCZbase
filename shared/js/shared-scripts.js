@@ -9,6 +9,8 @@
  * @prarm dialogTitle
  */
 function messageDialog(dialogText, dialogTitle) {
+	if (!dialogTitle) { dialogTitle = "Error"; } 
+	console.log(dialogTitle);
 	var titleTrimmed = dialogTitle.substring(0,50);
 	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
 		modal: true,
