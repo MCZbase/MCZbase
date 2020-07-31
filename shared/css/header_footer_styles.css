@@ -207,6 +207,7 @@ nav ul {
 .nav-menu li {
 	position: relative;
 }
+.navbar-nav li:active {border-bottom: 2px solid #deebec;}
 .nav-menu > li {
 	float: left;
 	border-bottom: 2px #deebec solid;
