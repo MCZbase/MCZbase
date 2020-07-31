@@ -91,7 +91,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	position: relative;
 }
 .navbar-light .navbar-nav li li a, .dropdown-item {
-	padding: .25em 0;
+	padding: .25em .5em;
 }
 .dropdown-submenu > .dropdown-menu {
 	top: 0px;
