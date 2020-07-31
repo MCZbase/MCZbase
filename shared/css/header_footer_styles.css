@@ -298,7 +298,14 @@ ul li ul:focus {
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {background-color:green; color: white;}
 .nav-menu > li:hover, .nav-menu > li:hover > a {background-color: beige;color:red;
 }
-
+.navbar-nav li:active a {
+    background-color: #bac5c6;
+    color: white;
+}
+.navbar-nav li:active a.dropdown-submenu {
+    background-color: orange;
+    color: white;
+}
 .navbar-nav > li:hover > ul{
 	background-color: white;
 }/* hover dropdown background*/
