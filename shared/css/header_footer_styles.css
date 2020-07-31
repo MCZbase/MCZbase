@@ -340,6 +340,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .dropdown-divider {
     height: 0;
     overflow: hidden;
+	margin: 0;
     border-top: 1px solid #e9ecef;
 }
 @media (min-width: 991px) {
