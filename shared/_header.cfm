@@ -357,8 +357,8 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 				<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
-						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
+						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
+						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown-->
 							<li> 
@@ -369,8 +369,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 2-->
 							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Accessions</a>
-								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+								<a id="dropdownMenur" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Accessions</a>
+								<ul aria-labelledby="dropdownMenur" class="dropdown-menu border-0 shadow">
 									<li class="mx-3"><a href="##" class="dropdown-item">Find &amp; Edit</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Create New Accession</a></li>
 								</ul>
@@ -379,8 +379,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Borrows</a>
-								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+								<a id="dropdownMenut" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Borrows</a>
+								<ul aria-labelledby="dropdownMenut" class="dropdown-menu border-0 shadow">
 									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Create New Borrow</a></li>
 								</ul>
@@ -390,8 +390,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Deaccessions</a>
-								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+								<a id="dropdownMenud" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Deaccessions</a>
+								<ul aria-labelledby="dropdownMenud" class="dropdown-menu border-0 shadow">
 									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Create New Deaccession</a></li>
 								</ul>
@@ -400,8 +400,8 @@ must point to files present on production while the redesign menu points at thei
 						<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
-								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+								<a id="dropdownMenup" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
+								<ul aria-labelledby="dropdownMenup" class="dropdown-menu border-0 shadow">
 									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Create New Loan</a></li>
 								</ul>
@@ -410,8 +410,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Permits</a>
-								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+								<a id="dropdownMenuw" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Permits</a>
+								<ul aria-labelledby="dropdownMenuw" class="dropdown-menu border-0 shadow">
 									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Create New Permit</a></li>
 								</ul>
@@ -423,8 +423,8 @@ must point to files present on production while the redesign menu points at thei
 					<li class="dropdown-divider"></li>
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Tools</a>
-						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+						<a id="dropdownMenux" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Tools</a>
+						<ul aria-labelledby="dropdownMenux" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Projects </a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">Named Collections</a></li>
 							<li><a href="/Media.cfm" class="dropdown-item">Collecting Event Number Series</a></li>
@@ -435,8 +435,8 @@ must point to files present on production while the redesign menu points at thei
 					<li class="dropdown-divider"></li>
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">About</a>
-						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+						<a id="dropdownMenuc" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">About</a>
+						<ul aria-labelledby="dropdownMenuc" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Using MCZbase (Wiki)</a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">About MCZbase</a></li>
 							<li><a href="/Media.cfm" class="dropdown-item">Self-Service Reports</a></li>
@@ -454,13 +454,13 @@ must point to files present on production while the redesign menu points at thei
 										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+						<ul aria-labelledby="dropdownMenug" class="dropdown-menu border-0 shadow">
 							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
