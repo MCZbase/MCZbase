@@ -159,6 +159,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		background-color: #deebec;
 	}
+	.navbar-light .navbar-nav li a {
+		padding: .25em 1em;
+	}
 	.navbar-light .navbar-nav li li a, .dropdown-item {
 	padding: .5em 1em;
 }
