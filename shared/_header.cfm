@@ -312,7 +312,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 						</ul>
 					</li>
-						<li class="dropdown-divider"></li>
+				<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
@@ -329,7 +329,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two -->
-									<li class="dropdown-divider"></li>
+							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 2-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
@@ -350,6 +350,70 @@ must point to files present on production while the redesign menu points at thei
 									<li class="mx-3"><a href="##" class="dropdown-item">Attributes</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Containers</a></li>
 									<li class="mx-3"><a href="##" class="dropdown-item">Media</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 3 -->
+						</ul>
+					</li>
+				<li class="dropdown-divider"></li>
+					<li class="nav-item dropdown"> 
+						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
+						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Search All Transactions</a>
+			
+							</li>
+							<!-- End Level two -->
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 2-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Accessions</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Find &amp; Edit</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Create New Accession</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 2 -->
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 3-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Borrows</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Create New Borrow</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 3 -->
+							
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 3-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Deaccessions</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Create New Deaccession</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 3 -->
+						<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 3-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Create New Loan</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 3 -->
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 3-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Permits</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Create New Permit</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
