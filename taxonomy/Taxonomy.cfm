@@ -661,7 +661,7 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-12 px-0">
-							<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks"></span>)</label>
+							<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<div class="col-sm-10 float-left">
 								<textarea name="taxon_remarks" id="taxon_remarks" 
 									onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
@@ -681,6 +681,7 @@ limitations under the License.
 							$('##taxon_form input[type=text]').on("change",changed);
 							$('##taxon_form select').on("change",changed);
 							$('##taxon_remarks').on("change",changed);
+							countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');
 						});
 						function saveEdits(){ 
 							var sourcetext = $('##source_authority').val();
