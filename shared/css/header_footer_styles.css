@@ -39,8 +39,8 @@ nav.navbar {
 @media (max-width: 992px){
 	
 li.nav-item {padding:.4em 1em;}
-a.nav-link {padding:.5em 2em;}
-		.submenu {position:relative;width:100%;}
+nav a.nav-link {padding:.5em 2em;}
+
 }
 /*nav.navbar-nav .nav-item a {
 	font-weight: 600;
