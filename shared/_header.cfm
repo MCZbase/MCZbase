@@ -369,7 +369,7 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 						
-						
+		<!---				
 						<ul class="nav-menu ml-auto">
 						<li class="nav-item dropdown">
 						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
@@ -393,7 +393,7 @@ must point to files present on production while the redesign menu points at thei
 						</cfif>
 						</li>
 					</cfif>
-					</ul>
+					</ul>--->
 				</div>
 				<!--- end navbarToggler1 --->
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
