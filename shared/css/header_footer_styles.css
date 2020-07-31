@@ -426,6 +426,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		border-right-color: #666;
 		right: 50px;
 	}
+	}*/
 	.logout {
 		padding: .14em .45em;
 		font-size: .88em;
@@ -442,7 +443,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
-}*/
+
 /*  end of moved styles  */
 .navbar-toggler-icon {
 	display: inline-block;
