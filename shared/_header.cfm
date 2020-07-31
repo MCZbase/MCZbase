@@ -330,6 +330,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two -->
+									<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 2-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
@@ -341,6 +342,18 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two 2 -->
+							<li class="dropdown-divider"></li>
+							<!-- Level two dropdown 3-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Batch Tools</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Agent</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Attributes</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Containers</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Media</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 3 -->
 						</ul>
 					</li>
 					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">About</a></li>
