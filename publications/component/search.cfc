@@ -37,7 +37,8 @@ Function getPublicationList.  Search for publications by name with a substring m
 				publication_type, published_year, publication_title,
 				publication_remarks,
 				publication.publication_id, formatted_publication,
-				MCZbase.get_publication_authors(publication.publication_id) as authors
+				MCZbase.get_publication_authors(publication.publication_id) as authors,
+				MCZbase.get_publication_editors(publication.publication_id) as editors
 			FROM 
 				publication
 				left join formatted_publication on publication.publication_id = formatted_publication.publication_id
@@ -55,6 +56,7 @@ Function getPublicationList.  Search for publications by name with a substring m
 			<cfset row["authors"] = "#search.authors#">
 			<cfset row["published_year"] = "#search.published_year#">
 			<cfset row["publication_title"] = "#search.publication_title#">
+			<cfset row["editors"] = "#search.editors#">
 			<cfset row["publication_type"] = "#search.publication_type#">
 			<cfset row["publication_remarks"] = "#search.publication_remarks#">
 			<cfset data[i]  = row>
