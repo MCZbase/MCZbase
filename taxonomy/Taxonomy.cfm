@@ -673,47 +673,47 @@ limitations under the License.
 						// Make all textareas currently defined autogrow as text is entered.
 						$("textarea").keyup(autogrow);  
 					</script>
-				
-									
-				<script>
-												function changed(){
-													$('##saveResultDiv').html('Unsaved changes.');
-												};
-												$(document).ready(function() {
-													$('##taxon_form input[type=text]').on("change",changed);
-													$('##taxon_form select').on("change",changed);
-													$('##taxon_remarks').on("change",changed);
-												});
-												function saveEdits(){ 
-													var sourcetext = $('##source_authority').val();
-													var taxonid = $('##taxon_name_id').val();
-													if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
-														$('##saveResultDiv').html('Saving....');
-														jQuery.ajax({
-															url : "/taxonomy/component/functions.cfc",
-															type : "post",
-															dataType : "json",
-															data :  $('##taxon_form').serialize(),
-															success : function (data) {
-																$('##saveResultDiv').html('Saved.');
-															},
-															error: function(jqXHR,textStatus,error){
-																$('##saveResultDiv').html('Error.');
-																var message = "";
-																if (error == 'timeout') {
-																	message = ' Server took too long to respond.';
-																} else {
-																	message = jqXHR.responseText;
-																}
-																messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
-															}
-														});
-													} else { 
-														messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
-														$('##saveResultDiv').html('Fix error in Agent field.');
-													}
-												};
-											</script>
+					<script>
+						function changed(){
+							$('##saveResultDiv').html('Unsaved changes.');
+						};
+						$(document).ready(function() {
+							$('##taxon_form input[type=text]').on("change",changed);
+							$('##taxon_form select').on("change",changed);
+							$('##taxon_remarks').on("change",changed);
+						});
+						function saveEdits(){ 
+							var sourcetext = $('##source_authority').val();
+							var taxonid = $('##taxon_name_id').val();
+							if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
+								$('##saveResultDiv').html('Saving....');
+								jQuery.ajax({
+									url : "/taxonomy/component/functions.cfc",
+									type : "post",
+									dataType : "json",
+									data :  $('##taxon_form').serialize(),
+									success : function (data) {
+										$('##saveResultDiv').html('Saved.');
+									},
+									error: function(jqXHR,textStatus,error){
+										$('##saveResultDiv').html('Error.');
+										var message = "";
+										if (error == 'timeout') {
+											message = ' Server took too long to respond.';
+               											} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+					                  message = ' Backing method did not return JSON.';
+										} else {
+											message = jqXHR.responseText;
+										}
+										messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+									}
+								});
+							} else { 
+								messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+								$('##saveResultDiv').html('Fix error in Agent field.');
+							}
+						};
+					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" 
 												value="Save" title="Save" aria-label="Save"
