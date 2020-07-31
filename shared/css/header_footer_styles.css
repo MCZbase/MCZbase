@@ -288,12 +288,13 @@ ul li ul:focus {
 	border-bottom: 2px #deebec solid;
 }
 .dropdown-item.active, .dropdown-item:active {
-	border-bottom: 1px solid red;
+/*	border-bottom: 1px solid red;*/
 	background-color: #deebec;
+	color:black;
 }
 .navbar-nav li:active a {
-	background-color: black;
-	color: white;
+/*	background-color: black;
+	color: white;*/
 }
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, 
 .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
