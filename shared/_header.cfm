@@ -407,11 +407,11 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenux" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Tools</a>
 						<ul aria-labelledby="dropdownMenux" class="dropdown-menu border-0 shadow">
-							<li><a href="/Specimens.cfm" class="dropdown-item">Projects </a></li>
-							<li><a href="/Taxonomy.cfm" class="dropdown-item">Named Collections</a></li>
-							<li><a href="/Media.cfm" class="dropdown-item">Collecting Event Number Series</a></li>
-							<li><a href="/Publications.cfm" class="dropdown-item">Object Tracking</a></li>
-							<li><a href="/Agents.cfm" class="dropdown-item">Encumbrances</a></li>
+							<li><a href="##" class="dropdown-item">Projects </a></li>
+							<li><a href="/grouping/NamedCollection.cfm" class="dropdown-item">Named Collections</a></li>
+							<li><a href="/vocabularies/CollEventNumberSeries.cfm" class="dropdown-item">Collecting Event Number Series</a></li>
+							<li><a href="##" class="dropdown-item">Object Tracking</a></li>
+							<li><a href="##" class="dropdown-item">Encumbrances</a></li>
 						</ul>
 					</li>
 					<li class="dropdown-divider"></li>
