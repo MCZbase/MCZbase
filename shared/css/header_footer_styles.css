@@ -295,7 +295,7 @@ ul li ul:focus {
 	background-color: black;
 	color: white;
 }
-.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {background-color:green; color: white;}
+.navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {border-bottom:3px solid #deebec;}
 .nav-menu > li:hover, .nav-menu > li:hover > a {background-color: beige;color:red;
 }
 .navbar-nav li:active a {
