@@ -349,6 +349,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
+	.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+    background-color: transparent;
+}
 /*	.nav-menu {
 		display: block;
 	}
