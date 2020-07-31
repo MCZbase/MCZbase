@@ -102,11 +102,7 @@ Function getPublicationAutocomplete.  Search for publications by name with a sub
 			<cfset row = StructNew()>
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.publication_id#">
-			<cfif search.preferred_publication_name EQ search.publication_name >
-				<cfset row["value"] = "#search.publication_name# #edited_marker#" >
-			<cfelse>
-				<cfset row["value"] = "#search.publication_name# (#search.preferred_publication_name#)#edited_marker#" >
-			</cfif>
+			<cfset row["value"] = "#search.formatted_publication#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
