@@ -300,6 +300,7 @@ must point to files present on production while the redesign menu points at thei
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
 					<ul class="navbar-nav mr-auto">
+						<li class="dropdown-divider"></li>
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown active"> 
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Search</a>
@@ -311,6 +312,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 						</ul>
 					</li>
+						<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
