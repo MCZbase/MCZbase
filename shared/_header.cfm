@@ -279,29 +279,7 @@ must point to files present on production while the redesign menu points at thei
 });
 </script>
 <style>
-.dropdown-menu {
-	margin: -.02em 0 0 0;
-}
-.dropdown-submenu {
-  position: relative;
-}
-.dropdown-item {padding:.25em 1em;}
-.dropdown-submenu>.dropdown-menu {
-  top: -5px;
-  left: 100%;
-  margin-top: 0px;
-  margin-left: 0px;
-}
-.dropdown-divider {
-    height: 0;
-    overflow: hidden;
-    border-top: 1px solid ##e9ecef;
-}
-@media (min-width: 991px) {
-  .dropdown-menu {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-}
+
 </style>
 		<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 			<div class="container-fluid">
