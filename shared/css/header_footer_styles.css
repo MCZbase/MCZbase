@@ -330,17 +330,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 
 }
-@media (max-width:991px){	
-.navbar-nav .nav-link {
-		padding-left:1em;
-	}
-.navbar-nav .nav-link li{
-		padding-left:1em;
-	}
-.navbar-nav .nav-link li.nav-link{
-		padding-left:1em;
-	}
-}
+
 .logout {
 	padding: 0 .45em;
 	font-size: 83%;
@@ -359,7 +349,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
-	.nav-menu {
+/*	.nav-menu {
 		display: block;
 	}
 	ul.nav-menu > li {
@@ -452,7 +442,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
-}
+}*/
 /*  end of moved styles  */
 .navbar-toggler-icon {
 	display: inline-block;
