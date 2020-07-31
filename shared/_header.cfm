@@ -282,7 +282,7 @@ must point to files present on production while the redesign menu points at thei
 .dropdown-submenu {
   position: relative;
 }
-li.dropdown.active {background-color: ##ebebeb;}
+
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
@@ -303,8 +303,11 @@ li.dropdown.active {background-color: ##ebebeb;}
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown active"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
-							<li><a href="##" class="dropdown-item">Specimens.cfm </a></li>
-							<li><a href="##" class="dropdown-item">Taxonomy.cfm</a></li>
+							<li><a href="/Specimens.cfm" class="dropdown-item">Specimens </a></li>
+							<li><a href="/Taxonomy.cfm" class="dropdown-item">Taxonomy</a></li>
+							<li><a href="/Media.cfm" class="dropdown-item">Media</a></li>
+							<li><a href="/Publications.cfm" class="dropdown-item">Publications</a></li>
+							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown-->
 								<li class="dropdown-submenu"> <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
