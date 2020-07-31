@@ -224,7 +224,7 @@ limitations under the License.
 	<cfset result = "">  
 
 		<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTaxon_result">
-			select  scientific_name, author_string 
+			select  scientific_name, author_text
 			from taxonomy 
 			where 
 				taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
