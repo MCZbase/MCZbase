@@ -289,6 +289,7 @@ ul li ul:focus {
 }
 .navbar-nav li:active a {
 	background-color: black;
+	color: white;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
 	border-bottom-color: rgba(0,0,0,.5);
@@ -306,7 +307,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: white;
 }/* second-level dropdown background*/
 .nav-menu li li > a:first-child:nth-last-child(2):before {
-	border-left: 2px solid #666;
+	background-color:bisque;
 }
 /*.nav-menu ul li ul li {
 	clear: both;
