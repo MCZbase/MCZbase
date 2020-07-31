@@ -705,7 +705,7 @@ limitations under the License.
 																} else {
 																	message = jqXHR.responseText;
 																}
-																messageDialog('Error saving ____ collection: '+message, 'Error: '+error.substring(0,50));
+																messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
 															}
 														});
 													} else { 

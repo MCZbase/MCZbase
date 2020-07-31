@@ -78,7 +78,7 @@ limitations under the License.
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing saveChanges: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing saveTaxonomy: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">
