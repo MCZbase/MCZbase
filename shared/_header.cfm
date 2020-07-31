@@ -433,8 +433,7 @@ must point to files present on production while the redesign menu points at thei
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
 						<!--- end of menu ul --->
-						
-									<ul class="navbar-nav ml-auto">
+					<ul class="navbar-nav ml-auto">
 					<!-- Level one dropdown -->
 										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
