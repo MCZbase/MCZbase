@@ -710,7 +710,7 @@ limitations under the License.
 												$('##saveResultDiv').addClass('text-success');
 												$('##saveResultDiv').removeClass('text-danger');
 												$('##saveResultDiv').removeClass('text-warning');
-												loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor');
+												loadTaxonName(#getTaxa.taxon_name_id#,'scientificNameAndAuthor');
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##saveResultDiv').html('Error.');
