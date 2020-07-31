@@ -302,10 +302,7 @@ ul li ul:focus {
     background-color: #bac5c6;
     color: white;
 }
-.navbar-nav li:active a.dropdown-submenu {
-    background-color: orange;
-    color: white;
-}
+
 .navbar-nav > li:hover > ul{
 	background-color: white;
 }/* hover dropdown background*/
