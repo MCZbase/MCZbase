@@ -288,18 +288,16 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	color: red;
 }
 .navbar-nav > li:hover > ul {
-	background-color: white;
+	background-color: red;
 } /* hover dropdown background*/
 .nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
 	;
 }
 
+
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-	background-color: white;
-}
-ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-	background-color: white;
+	background-color: blue;
 } /* second-level dropdown background*/
 
 .dropdown-menu {
