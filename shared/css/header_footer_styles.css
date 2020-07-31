@@ -272,6 +272,9 @@ nav ul {
 	border-right-color: #666;
 	right: 5px;
 }*/
+.dropdown-menu {
+	padding:0 0 .25em 0;
+}
 ul li:hover > ul,
 ul li:focus-within > ul,
 ul li ul:hover,
@@ -280,6 +283,7 @@ ul li ul:focus {
   opacity: 1;
   display: block;
 }
+.navbar-nav 
 .navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
@@ -304,6 +308,7 @@ ul li ul:focus {
 .navbar-nav  > li:hover > a:first-child:nth-last-child(2):before {
 	background-color: yellow
 }
+ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {background-color: white;}
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: white;
 }/* second-level dropdown background*/
