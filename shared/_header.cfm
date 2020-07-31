@@ -313,7 +313,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 			
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
+						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown-->
@@ -356,7 +356,7 @@ must point to files present on production while the redesign menu points at thei
 					</li>
 		
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
+						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Transactions</a>
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
 													<!-- Level two dropdown-->
 							<li> 
@@ -420,7 +420,7 @@ must point to files present on production while the redesign menu points at thei
 					<li class="dropdown-divider"></li>
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenux" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Tools</a>
+						<a id="dropdownMenux" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Tools</a>
 						<ul aria-labelledby="dropdownMenux" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Projects </a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">Named Collections</a></li>
@@ -432,7 +432,7 @@ must point to files present on production while the redesign menu points at thei
 					<li class="dropdown-divider"></li>
 					<!-- Level one dropdown -->
 					<li class="nav-item dropdown"> 
-						<a id="dropdownMenuc" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">About</a>
+						<a id="dropdownMenuc" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">About</a>
 						<ul aria-labelledby="dropdownMenuc" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Using MCZbase (Wiki)</a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">About MCZbase</a></li>
@@ -451,7 +451,7 @@ must point to files present on production while the redesign menu points at thei
 										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						
-						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
