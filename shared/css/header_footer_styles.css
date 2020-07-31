@@ -114,7 +114,8 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	letter-spacing: .02em;
 }
 .navbar-light .navbar-nav {margin-top: 3px;top:3px;}
-#dropdownMenug {font-size: .9em;}
+.user {font-size:.9em;    height: calc(1em + .5rem + 2px);}
+
 @media (min-width: 992px) {
 	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
