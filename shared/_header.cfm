@@ -282,7 +282,7 @@ must point to files present on production while the redesign menu points at thei
 .dropdown-submenu {
   position: relative;
 }
-	.active {background-color: ##ebebeb;}
+	.navbar-nav.active {background-color: ##ebebeb;}
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
@@ -301,7 +301,7 @@ must point to files present on production while the redesign menu points at thei
 				<div id="navbarContent" class="collapse navbar-collapse">
 					<ul class="navbar-nav mr-auto">
 					<!-- Level one dropdown -->
-					<li class="nav-item dropdown"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
+					<li class="nav-item dropdown active"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
 							<li><a href="##" class="dropdown-item">Specimens.cfm </a></li>
 							<li><a href="##" class="dropdown-item">Taxonomy.cfm</a></li>
