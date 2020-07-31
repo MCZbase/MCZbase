@@ -282,6 +282,7 @@ must point to files present on production while the redesign menu points at thei
 .dropdown-submenu {
   position: relative;
 }
+	.active {background-color: ##ebebeb;}
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
