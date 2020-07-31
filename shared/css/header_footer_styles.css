@@ -57,6 +57,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	opacity: 1;
 	display: block;
 }
+
 .navbar-nav .navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
@@ -89,7 +90,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .dropdown-submenu {
 	position: relative;
 }
-.dropdown-item {
+.navbar-light .navbar-nav li li a, .dropdown-item {
 	padding: .25em 1em;
 }
 .dropdown-submenu > .dropdown-menu {
@@ -102,7 +103,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	height: 0;
 	overflow: hidden;
 	margin: 0;
-	border-top: 1px solid #e9ecef;
+	border-top: 1px solid #f8f9fa;
 }
 .logout {
 	padding: 0 .45em;
@@ -129,6 +130,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
+
 	.logout {
 		padding: .14em .45em;
 		font-size: .88em;
@@ -136,7 +138,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		position: absolute;
 		right: 1em;
 		top: 3px;
-		top: 7px;
+
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
 	}
@@ -145,6 +147,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
+	.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
 	.navbar-light .navbar-nav li > .nav-link{
 		background-color:#F8F9Fa;
 	}
@@ -157,6 +160,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		background-color: #deebec;
 	}
+	.navbar-light .navbar-nav li a {
+		padding: .25em 1em;
+	}
+	.navbar-light .navbar-nav li li a, .dropdown-item {
+	padding: .5em 1em;
+}
 }
 
 .navbar-toggler-icon {
