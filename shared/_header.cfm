@@ -285,14 +285,14 @@ must point to files present on production while the redesign menu points at thei
 .dropdown-submenu {
   position: relative;
 }
-
+	.dropdown-item {padding:.25em 1em;}
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: 0px;
   margin-left: 0px;
 }
-	.dropdown-divider {
+.dropdown-divider {
     height: 0;
     margin: .25rem 0;
     overflow: hidden;
