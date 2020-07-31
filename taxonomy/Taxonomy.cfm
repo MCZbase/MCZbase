@@ -233,7 +233,7 @@ limitations under the License.
 				<div class="col-12">
 					<div class="row mx-0">
 						<h2 class="##content">Edit Taxon:
-							<em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span> 	
+							<span id="scientificNameAndAuthor"><em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 							</cfif>
@@ -710,6 +710,7 @@ limitations under the License.
 												$('##saveResultDiv').addClass('text-success');
 												$('##saveResultDiv').removeClass('text-danger');
 												$('##saveResultDiv').removeClass('text-warning');
+												loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor');
 											},
 											error: function(jqXHR,textStatus,error){
 												$('##saveResultDiv').html('Error.');
@@ -735,6 +736,7 @@ limitations under the License.
 								}
 							</cfif>
 						};
+						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
 					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" 
