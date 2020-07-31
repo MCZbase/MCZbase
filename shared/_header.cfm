@@ -292,6 +292,12 @@ must point to files present on production while the redesign menu points at thei
   margin-top: 0px;
   margin-left: 0px;
 }
+	.dropdown-divider {
+    height: 0;
+    margin: .25rem 0;
+    overflow: hidden;
+    border-top: 1px solid #e9ecef;
+}
 @media (min-width: 991px) {
   .dropdown-menu {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
