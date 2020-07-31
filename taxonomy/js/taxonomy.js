@@ -23,3 +23,20 @@ function loadTaxonName(taxon_name_id,target) {
    });
 };
 
+function loadTaxonPublications(taxon_name_id,target) {
+   jQuery.ajax({
+      url: "/taxonomy/component/functions.cfc",
+      data : {
+         method : "getTaxonPublicationsHtml",
+         taxon_name_id: taxon_name_id,
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, status, message) {
+         if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+         messageDialog("Error loading taxon publications: " + message + " " + msg ,'Error: '+ message);
+      },
+      dataType: "html"
+   });
+};
