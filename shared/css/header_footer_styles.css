@@ -301,10 +301,10 @@ border-bottom:3px solid #deebec;}
 
 .nav-menu > li:hover, .nav-menu > li:hover > a {background-color: beige;color:red;
 }
-.navbar-nav li:active a {
+/*.navbar-nav li:active a {
     background-color: #bac5c6;
     color: white;
-}
+}*/
 .navbar-nav > li:hover > ul{
 	background-color: white;
 }/* hover dropdown background*/
