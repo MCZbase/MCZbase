@@ -297,7 +297,7 @@ ul li ul:focus {
 }
 .navbar-light .navbar-nav .active>.nav-link, .navbar-light .navbar-nav .nav-link.active, 
 .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show>.nav-link {
-border-bottom:3px solid #deebec;}
+border-bottom:3px solid #deebec;background-color: white;}
 
 .nav-menu > li:hover, .nav-menu > li:hover > a {background-color: beige;color:red;
 }
