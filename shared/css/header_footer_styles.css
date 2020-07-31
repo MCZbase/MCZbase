@@ -281,6 +281,7 @@ ul li ul:focus {
   display: block;
 }
 .navbar-nav li:active {border-bottom: 2px solid #deebec;}
+.navbar-nav li:active a{background-color: white;}
 /*.nav-menu ul li ul li {
 	clear: both;
   width: 100%;
