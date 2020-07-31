@@ -291,7 +291,7 @@ must point to files present on production while the redesign menu points at thei
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Specimens </a></li>
-							<li><a href="/Taxonomy.cfm" class="dropdown-item">Taxonomy</a></li>
+							<li><a href="/Taxa.cfm" class="dropdown-item">Taxonomy</a></li>
 							<li><a href="/Media.cfm" class="dropdown-item">Media</a></li>
 							<li><a href="/Publications.cfm" class="dropdown-item">Publications</a></li>
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
