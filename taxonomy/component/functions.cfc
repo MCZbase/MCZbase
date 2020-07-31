@@ -184,14 +184,14 @@ limitations under the License.
 <cffunction name="newTaxonPub" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxonomy_publication_id" type="numeric" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
-	<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
-		INSERT INTO taxonomy_publication 
-			(taxon_name_id,publication_id)
-		VALUES 
-			(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
-	</cfquery>
-	<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	<cftry>
+		<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
+			INSERT INTO taxonomy_publication 
+				(taxon_name_id,publication_id)
+			VALUES 
+				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
+		</cfquery>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "deleted">
 		<cfset row["id"] = "#taxonomy_publication_id#">
