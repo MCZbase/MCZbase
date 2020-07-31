@@ -283,8 +283,9 @@ ul li ul:focus {
 .navbar-nav > li {
 	border-bottom: 2px #deebec solid;
 }
-.navbar-nav li:active {
-	border-bottom: 2px solid red;
+.dropdown-item.active, .dropdown-item:active {
+	border-bottom: 1px solid red;
+	background-color: #deebec;
 }
 .navbar-nav li:active a {
 	background-color: black;
