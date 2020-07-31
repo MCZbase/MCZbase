@@ -290,7 +290,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: #fff;
 }
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-	background-color: #deebec;
+	background-color: #fff;
 }
 .nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
@@ -437,6 +437,19 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
+	
+.navbar-light .navbar-nav li > .nav-link{
+	background-color:#F8F9Fa;
+}
+.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+	background-color: white;
+}
+.navbar-nav > li:hover > ul {
+	background-color: #fff;
+}
+ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
+	background-color: #deebec;
+}
 }
 /*  end of moved styles  */
 .navbar-toggler-icon {
