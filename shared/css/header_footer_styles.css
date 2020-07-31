@@ -37,6 +37,8 @@ nav.navbar {
 	font-size: .9em;
 }
 @media (max-width: 992px){
+	
+li.nav-item {padding:.4em 1em;}
 a.nav-link {padding:.5em 2em;}
 }
 /*nav.navbar-nav .nav-item a {
