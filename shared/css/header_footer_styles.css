@@ -334,6 +334,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	.navbar-nav .nav-link{
 		padding-left:1em;
 	}
+		.navbar-nav .nav-link ul{
+		padding-left:1em;
+	}
 }
 .logout {
 	padding: 0 .45em;
