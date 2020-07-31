@@ -264,7 +264,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select col-12 col-md-8">
+							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -276,14 +276,14 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select col-12 col-md-8">
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select col-12 col-md-8">
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
 								<cfloop query="ctnomenclatural_code">
 									<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 							value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
@@ -676,6 +676,9 @@ limitations under the License.
 					<script>
 						function changed(){
 							$('##saveResultDiv').html('Unsaved changes.');
+							$('##saveResultDiv').addClass('text-danger');
+							$('##saveResultDiv').removeClass('text-success');
+							$('##saveResultDiv').removeClass('text-warning');
 						};
 						$(document).ready(function() {
 							$('##taxon_form input[type=text]').on("change",changed);
@@ -684,64 +687,66 @@ limitations under the License.
 							countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');
 						});
 						function saveEdits(){ 
-							var sourcetext = $('##source_authority').val();
-							var taxonid = $('##taxon_name_id').val();
-							if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
-								$('##saveResultDiv').html('Saving....');
-								jQuery.ajax({
-									url : "/taxonomy/component/functions.cfc",
-									type : "post",
-									dataType : "json",
-									data :  $('##taxon_form').serialize(),
-									success : function (data) {
-										$('##saveResultDiv').html('Saved.');
-									},
-									error: function(jqXHR,textStatus,error){
-										$('##saveResultDiv').html('Error.');
-										var message = "";
-										if (error == 'timeout') {
-											message = ' Server took too long to respond.';
-               											} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-					                  message = ' Backing method did not return JSON.';
-										} else {
-											message = jqXHR.responseText;
-										}
-										messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+							<cfif hasTaxonId>
+								if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+								 	// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+									confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+								} else { 
+							</cfif>
+									var sourcetext = $('##source_authority').val();
+									var taxonid = $('##taxon_name_id').val();
+									if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
+										$('##saveResultDiv').html('Saving....');
+										$('##saveResultDiv').addClass('text-warning');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-danger');
+										jQuery.ajax({
+											url : "/taxonomy/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data :  $('##taxon_form').serialize(),
+											success : function (data) {
+												$('##saveResultDiv').html('Saved.');
+												$('##saveResultDiv').addClass('text-success');
+												$('##saveResultDiv').removeClass('text-danger');
+												$('##saveResultDiv').removeClass('text-warning');
+											},
+											error: function(jqXHR,textStatus,error){
+												$('##saveResultDiv').html('Error.');
+												$('##saveResultDiv').addClass('text-danger');
+												$('##saveResultDiv').removeClass('text-success');
+												$('##saveResultDiv').removeClass('text-warning');
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+		               											} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+							                  message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+											}
+										});
+									} else { 
+										messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
+										$('##saveResultDiv').html('Fix error in Agent field.');
 									}
-								});
-							} else { 
-								messageDialog('Error saving ___ collection: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
-								$('##saveResultDiv').html('Fix error in Agent field.');
-							}
+							<cfif hasTaxonId>
+								}
+							</cfif>
 						};
 					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1">
 						<input type="button" 
-												value="Save" title="Save" aria-label="Save"
-												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } " 
-												>
+							value="Save" title="Save" aria-label="Save"
+							class="btn btn-xs btn-primary"
+							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } " 
+							>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
-									<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
-<!---			<script>
-				function qcTaxonEdits() { 
-					$("##taxon_form_action_input").val('saveTaxonEdits');
-					<cfif hasTaxonId>
-						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
-							 GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
-						} else { 
-							$('##taxon_form').submit();
-						}
-					<cfelse>
-						$('##taxon_form').submit();
-					</cfif>
-				}
-			</script>--->
-			
+					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 								
 			</div>
