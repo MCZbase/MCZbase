@@ -455,7 +455,7 @@ must point to files present on production while the redesign menu points at thei
 										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						
-						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
