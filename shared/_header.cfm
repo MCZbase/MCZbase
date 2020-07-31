@@ -172,7 +172,7 @@ for (i = 0; i < acc.length; i++) {
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light px-0 px-lg-4">
+	<div class="container-fluid bg-light px-0">
 	<!---	
 Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
