@@ -90,7 +90,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .dropdown-submenu {
 	position: relative;
 }
-.dropdown-item {
+.navbar-light .navbar-nav li, .dropdown-item {
 	padding: .25em 1em;
 }
 .dropdown-submenu > .dropdown-menu {
@@ -103,7 +103,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	height: 0;
 	overflow: hidden;
 	margin: 0;
-	border-top: 1px solid #e9ecef;
+	border-top: 1px solid #f8f9fa;
 }
 .logout {
 	padding: 0 .45em;
