@@ -236,4 +236,53 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<cffunction name="getTaxonPublicationsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+
+	<cfset result ="">
+	<cftry>
+		<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="tax_pub_result">
+			select
+				taxonomy_publication_id,
+				formatted_publication,
+				taxonomy_publication.publication_id
+			from
+				taxonomy_publication,
+				formatted_publication
+			where
+				format_style='long' and
+				taxonomy_publication.publication_id=formatted_publication.publication_id and
+				taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		</cfquery>
+		<cfif tax_pub.recordcount gt 0>
+			<cfloop query="tax_pub">
+				<cfset result=result & "<div class='col-12 my-2 px-1'>">
+				<cfset result=result & "#formatted_publication#">
+				<!--- TODO: Change to button with ajax handler --->
+				<cfset result=result & "<a class='btn-xs btn-secondary mx-1' href='/taxonomy/Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#'>Remove</a>">
+				<cfset result=result & "<a class='btn-xs btn-secondary mx-1' href='SpecimenUsage.cfm?publication_id=#publication_id#'>Details</a> </div>">
+				<cfset result=result & "</div>">
+				</cfloop>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
 </cfcomponent>

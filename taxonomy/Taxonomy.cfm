@@ -460,8 +460,8 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 pl-1 pr-3 mt-3 mb-2 mr-3 ml-0">
 						<div class="col-6 col-md px-1 bg-light border ml-md-1">
-							<label for="genus" class="ml-1"> Genus 
-								<span class="likeLink botanical" onClick="taxa.genus.value='&##215;' + taxa.genus.value;">
+							<label for="genus" class="ml-1">Genus 
+								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
 								</span>
 							</label>
@@ -470,8 +470,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-6 col-md px-1 bg-light border ml-md-1">
-							<label for="species" class="ml-1"> Species<!--- <span class="likeLink"
-					onClick="taxa.species.value='&##215;' + taxa.species.value;">Add &##215;</span>---></label>
+							<label for="species" class="ml-1">Species</label>
 							<div class="">
 								<input name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
@@ -754,21 +753,6 @@ limitations under the License.
 			</div>
 			<div class="col-12 col-xl-3 float-left px-0 my-5">
 				<div class="border rounded p-2 bg-grayish float-left w-100">
-					<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select
-							taxonomy_publication_id,
-							formatted_publication,
-							taxonomy_publication.publication_id
-						from
-							taxonomy_publication,
-							formatted_publication
-						where
-							format_style='long' and
-							taxonomy_publication.publication_id=formatted_publication.publication_id and
-							taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					</cfquery>
-					<cfset i = 1>
-				
 					<div class="col-12 px-0">
 					<div class="form-row mx-0">	
 						<div class="p-2 border bg-light rounded mt-1 w-100 float-left">
@@ -784,15 +768,14 @@ limitations under the License.
 									<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 								</div>
 							</form>
-
-							<cfif tax_pub.recordcount gt 0>
-								<cfloop query="tax_pub">
-									<div class="col-12 my-2 px-1"> #formatted_publication# <a class="btn-xs btn-secondary mx-1" href="/taxonomy/Taxonomy.cfm?action=removePub&taxonomy_publication_id=#taxonomy_publication_id#&taxon_name_id=#taxon_name_id#">Remove</a> <a class="btn-xs btn-secondary mx-1" href="SpecimenUsage.cfm?publication_id=#publication_id#">Details</a> </div>
-								</cfloop>
-							</cfif>
+							<div id="taxonPublicationsDiv">
+							</div>
 						</div>
 					</div>
 					</div>
+					<script>
+						$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
+					</script>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
 							scientific_name,
