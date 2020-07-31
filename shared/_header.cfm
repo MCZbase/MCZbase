@@ -446,14 +446,14 @@ must point to files present on production while the redesign menu points at thei
 						</a>
 						<ul aria-labelledby="dropdownMenug" class="dropdown-menu border-0 shadow">
 							<li>
-								<a href="##" class="dropdown-item">
+								
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" class="dropdown-item user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
 								</cfif> 
-								</a>
+							
 							</li>
 							<cfif session.roles contains "public">
 							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
