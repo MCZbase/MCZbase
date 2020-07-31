@@ -280,7 +280,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: #deebec;
 	color: black;
 }
-.navbar-light .navbar-nav li.active > .nav-link{
+.navbar-light .navbar-nav li > .nav-link{
 	background-color:#F8F9Fa;
 }
 
