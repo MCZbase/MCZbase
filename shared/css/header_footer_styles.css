@@ -35,6 +35,9 @@ nav.navbar {
 	padding: 0 1em;
 	font-size: .9em;
 }
+.dropdown-item {
+	font-size: .9em;
+}
 
 /*nav.navbar-nav .nav-item a {
 	font-weight: 600;
