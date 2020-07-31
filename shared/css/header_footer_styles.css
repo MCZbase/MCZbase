@@ -57,6 +57,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	opacity: 1;
 	display: block;
 }
+
 .navbar-nav .navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
@@ -73,7 +74,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 }
 .navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 	background-color: white;
-	color: black;
 }
 .navbar-nav > li:hover > ul {
 	background-color: #fff;
@@ -130,6 +130,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
+	.navbar-light  .navbar-nav li {padding: 10px;}
 	.logout {
 		padding: .14em .45em;
 		font-size: .88em;
