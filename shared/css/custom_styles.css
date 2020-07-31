@@ -2,13 +2,13 @@
 /************************/
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
-	background-color: #E4E476;
+	background-color: #E4E476!important;
 }
 input.badPick, select.badPick, textarea.badPick {
-	background-color: #FF3366;
+	background-color: #FF3366!important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
-	background-color: #8BFEB9;
+	background-color: #8BFEB9!important;
 }
 #taxon_form label {font-size: .8em;}
 /* BELOW: Are these used?  */
