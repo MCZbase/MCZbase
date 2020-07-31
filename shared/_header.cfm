@@ -308,17 +308,6 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Media.cfm" class="dropdown-item">Media</a></li>
 							<li><a href="/Publications.cfm" class="dropdown-item">Publications</a></li>
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
-							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown-->
-								<li class="dropdown-submenu"> <a id="dropdownMenu2" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Hover for action &raquo;</a>
-									<ul aria-labelledby="dropdownMenu2" class="dropdown-menu border-0 shadow">
-										<li><a href="##" class="dropdown-item">level 2</a></li>
-										<li><a href="##" class="dropdown-item">level 2</a></li>
-										<li><a href="##" class="dropdown-item">level 2</a></li>
-									</ul>
-								</li>
-							<!-- End Level two -->
-							<li><a href="##" class="dropdown-item">Media.cfm</a></li>
 						</ul>
 					</li>
 					<li class="nav-item dropdown"> <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Data Entry</a>
