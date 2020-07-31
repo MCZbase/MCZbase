@@ -37,7 +37,7 @@ nav.navbar {
 }
 
 /*  moved styles  */
-#main_nav {
+#main_nav, .user {
 	font-family: "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 nav {

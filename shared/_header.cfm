@@ -451,7 +451,7 @@ must point to files present on production while the redesign menu points at thei
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="form-control-sm form-control-plaintext p-0 text-left border-0" style="font-size:.92em;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left border-0" style="font-size:.92em;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
 								</cfif> 
 								</a>
