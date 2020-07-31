@@ -280,7 +280,7 @@ must point to files present on production while the redesign menu points at thei
 </script>
 <style>
 	.dropdown-menu {
-		margin: .04em 0 0 0;
+		margin: -.02em 0 0 0;
 	}
 .dropdown-submenu {
   position: relative;
