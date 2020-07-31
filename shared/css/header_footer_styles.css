@@ -280,7 +280,7 @@ ul li ul:focus {
   opacity: 1;
   display: block;
 }
-.navbar-nav > li > a:active {border-bottom: 2px solid #deebec;}
+.navbar-nav li:active {border-bottom: 2px solid #deebec;}
 /*.nav-menu ul li ul li {
 	clear: both;
   width: 100%;
