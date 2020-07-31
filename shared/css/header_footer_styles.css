@@ -330,8 +330,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 
 }
-@media (max-width:991px){	
-	li.dropdown a {padding-left:1em;}}
+
 .logout {
 	padding: 0 .45em;
 	font-size: 83%;
