@@ -1064,15 +1064,15 @@ limitations under the License.
 							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
 							<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 							<script>
-						// callback for ajax methods to reload from dialog
-						function reloadTransMedia() { 
-							loadTransactionFormMedia(#transaction_id#,"loan");
-							if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
-								$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
-							}
-						};
-						$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
-					</script> 
+								// callback for ajax methods to reload from dialog
+								function reloadTransMedia() { 
+									loadTransactionFormMedia(#transaction_id#,"loan");
+									if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+										$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+									}
+								};
+								$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+							</script> 
 						</div>
 					</div>
 					<div class="form-row mb-2">
