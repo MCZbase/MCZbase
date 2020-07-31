@@ -322,11 +322,11 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">New Record</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
-									<li class="mx-2"><a href="##" class="dropdown-item">Specimen</a></li>
-									<li class="mx-2"><a href="##" class="dropdown-item">Taxon</a></li>
-									<li class="mx-2"><a href="##" class="dropdown-item">Media</a></li>
-									<li class="mx-2"><a href="##" class="dropdown-item">Publication</a></li>
-									<li class="mx-2"><a href="##" class="dropdown-item">Agent</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Specimen</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Taxon</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Media</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Publication</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Agent</a></li>
 								</ul>
 							</li>
 							<!-- End Level two -->
