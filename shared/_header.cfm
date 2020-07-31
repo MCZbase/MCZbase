@@ -296,7 +296,7 @@ must point to files present on production while the redesign menu points at thei
     height: 0;
     margin: .25rem 0;
     overflow: hidden;
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid ##e9ecef;
 }
 @media (min-width: 991px) {
   .dropdown-menu {
