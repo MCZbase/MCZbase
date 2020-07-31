@@ -472,9 +472,9 @@ must point to files present on production while the redesign menu points at thei
 								</a>
 							</li>
 							<cfif session.roles contains "public">
-							<li><a href="##" class="dropdown-item">Saved Searches.cfm</a></li>
+							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
 							</cfif>
-							<li><a href="##" class="dropdown-item">Media.cfm</a></li>
+							<!---<li><a href="##" class="dropdown-item">M</a></li>--->
 						</ul>
 					</li>
 						
