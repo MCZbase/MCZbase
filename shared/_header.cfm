@@ -318,7 +318,6 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
-							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">New Record</a>
