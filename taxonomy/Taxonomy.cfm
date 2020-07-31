@@ -255,7 +255,7 @@ limitations under the License.
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-right">
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-6">
-							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 						<!---	<input type="hidden" name="Action" id="taxon_form_action_input">--->
 							
@@ -680,7 +680,6 @@ limitations under the License.
 													$('##saveResultDiv').html('Unsaved changes.');
 												};
 												$(document).ready(function() {
-													
 													$('##taxon_form input[type=text]').on("change",changed);
 													$('##taxon_form select').on("change",changed);
 													$('##taxon_remarks').on("change",changed);
