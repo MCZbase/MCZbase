@@ -288,10 +288,10 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: white;
 }
 .navbar-nav > li:hover > ul {
-	background-color: red;
+	background-color: #ddd;
 }
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-	background-color: blue;
+	background-color: #deebec;
 }
 .nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
