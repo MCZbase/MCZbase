@@ -379,17 +379,6 @@ padding: .75em 1.5em;
 	border-right-color: #666;
 	right: 50px;
 }
-/* Style the buttons that are used to open and close the accordion panel */
-.accordion {
-  cursor: pointer;
-  width: 100%;
-  text-align: left;
-  border: none;
-  outline: none;
-  transition: 0.4s;
-}
-
-
 .logout {
 	padding: .14em .45em;
     font-size: .88em;
@@ -531,8 +520,6 @@ nav button {
 	display:inline-block;
 	border: 1px solid #ddd;
 }
-
-
 .footer {
 	line-height: 1em;
 }
