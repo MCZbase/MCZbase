@@ -452,6 +452,7 @@ must point to files present on production while the redesign menu points at thei
 						
 									<ul class="navbar-nav ml-auto">
 					<!-- Level one dropdown -->
+										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
