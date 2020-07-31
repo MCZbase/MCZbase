@@ -331,10 +331,13 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 
 }
 @media (max-width:991px){	
-	.navbar-nav .nav-link{
+.navbar-nav .nav-link {
 		padding-left:1em;
 	}
-		.navbar-nav .nav-link ul{
+.navbar-nav .nav-link li{
+		padding-left:1em;
+	}
+.navbar-nav .nav-link li.nav-link{
 		padding-left:1em;
 	}
 }
