@@ -301,7 +301,8 @@ must point to files present on production while the redesign menu points at thei
 				<div id="navbarContent" class="collapse navbar-collapse">
 					<ul class="navbar-nav mr-auto">
 					<!-- Level one dropdown -->
-					<li class="nav-item dropdown active"> <a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Search</a>
+					<li class="nav-item dropdown active"> 
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
 							<li><a href="/Specimens.cfm" class="dropdown-item">Specimens </a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">Taxonomy</a></li>
@@ -310,18 +311,22 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 						</ul>
 					</li>
-					<li class="nav-item dropdown"> <a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
+					<li class="nav-item dropdown"> 
+						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
 							<li><a href="##" class="dropdown-item">Some action </a></li>
 							<li><a href="##" class="dropdown-item">Some other action</a></li>
 							<li class="dropdown-divider"></li>
 							
 							<!-- Level two dropdown-->
-							<li class="dropdown-submenu"> <a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Hover for action</a>
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">New Record</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
-									<li><a href="##" class="dropdown-item">level 2</a></li>
-									<li><a href="##" class="dropdown-item">level 2</a></li>
-									<li><a href="##" class="dropdown-item">level 2</a></li>
+									<li><a href="##" class="dropdown-item">Specimen</a></li>
+									<li><a href="##" class="dropdown-item">Taxon</a></li>
+									<li><a href="##" class="dropdown-item">Media</a></li>
+									<li><a href="##" class="dropdown-item">Publication</a></li>
+									<li><a href="##" class="dropdown-item">Agent</a></li>
 								</ul>
 							</li>
 							<!-- End Level two -->
