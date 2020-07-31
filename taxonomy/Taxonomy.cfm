@@ -759,11 +759,11 @@ limitations under the License.
 								<form name="newPubForm">
 									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 									<input type="hidden" name="Action" value="newTaxonPub">
-									<input type="hidden" name="new_publication_id" id="new_publication_id">
+									<input type="hidden" name="publication_id" id="publication_id">
 	
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub" class="data-entry-label">Pick Publication</label>
-									<input type="text" id="newPub" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
+									<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
 									<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 										<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 									</div>
@@ -779,7 +779,7 @@ limitations under the License.
 						});
 					</script>
 					<script>
-						$( document ).ready(makePublicationPicker('new_pub','new_publication_id'));
+						$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
 						$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
 					</script>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

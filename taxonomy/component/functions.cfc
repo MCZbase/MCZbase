@@ -182,7 +182,7 @@ limitations under the License.
 
 <!---------------------------------------------------------------------------------------------------->
 <cffunction name="newTaxonPub" access="remote" returntype="any" returnformat="json">
-	<cfargument name="taxonomy_publication_id" type="numeric" required="yes">
+	<cfargument name="publication_id" type="numeric" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
@@ -190,7 +190,7 @@ limitations under the License.
 				(taxon_name_id,publication_id)
 			VALUES 
 				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> )
 		</cfquery>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "deleted">
