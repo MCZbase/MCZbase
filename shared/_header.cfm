@@ -300,8 +300,7 @@ must point to files present on production while the redesign menu points at thei
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
 					<ul class="navbar-nav mr-auto">
-						<li class="dropdown-divider"></li>
-					<!-- Level one dropdown -->
+						<!-- Level one dropdown -->
 					<li class="nav-item dropdown active"> 
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
@@ -312,7 +311,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 						</ul>
 					</li>
-				<li class="dropdown-divider"></li>
+			
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
@@ -359,8 +358,7 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
-							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown-->
+													<!-- Level two dropdown-->
 							<li> 
 								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
 			
@@ -386,7 +384,6 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
-							
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
@@ -397,7 +394,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
-						<li class="dropdown-divider"></li>
+							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenup" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
