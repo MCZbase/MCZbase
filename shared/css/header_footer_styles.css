@@ -324,13 +324,14 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border-top: 1px solid #e9ecef;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 991px) {
 	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	}
 
 }
-
+@media (max-width:991px){	
+	li.dropdown a {padding-left:1em;}}
 .logout {
 	padding: 0 .45em;
 	font-size: 83%;
@@ -349,10 +350,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
-	.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
-    background-color: transparent;
-}
-/*	.nav-menu {
+	.nav-menu {
 		display: block;
 	}
 	ul.nav-menu > li {
@@ -429,7 +427,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		border-right-color: #666;
 		right: 50px;
 	}
-	}*/
 	.logout {
 		padding: .14em .45em;
 		font-size: .88em;
@@ -446,7 +443,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
-
+}
 /*  end of moved styles  */
 .navbar-toggler-icon {
 	display: inline-block;
