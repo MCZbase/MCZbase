@@ -40,6 +40,7 @@ nav.navbar {
 	
 li.nav-item {padding:.4em 1em;}
 a.nav-link {padding:.5em 2em;}
+		.submenu {position:relative;width:100%;}
 }
 /*nav.navbar-nav .nav-item a {
 	font-weight: 600;
@@ -132,9 +133,7 @@ nav .navbar-nav li a.nav-link {
 .dropdown-submenu:hover>.dropdown-menu{display:block;}
 .dropdown-submenu>a:after{
 	display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}*/
-@media (max-width: 992px){
-	.submenu {position:relative;width:100%;}
-}
+
 /*
 @media (min-width: 992px){
 	.dropdown-menu {
