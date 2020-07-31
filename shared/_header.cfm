@@ -172,7 +172,7 @@ for (i = 0; i < acc.length; i++) {
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light px-0 px-lg-4">
+	<div class="container-fluid bg-light px-0">
 	<!---	
 Temporaraly disabling redesign/production menus while work is done on sub menus.
 Test for Application.header_image is required for continued integration, as the production menu 
@@ -294,7 +294,7 @@ must point to files present on production while the redesign menu points at thei
   }
 }
 </style>
-		<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+		<nav class="navbar navbar-expand-lg navbar-light bg-white py-1 shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
@@ -369,7 +369,7 @@ must point to files present on production while the redesign menu points at thei
 						</ul>
 					</li>
 						
-						
+	<!---					
 						<ul class="nav-menu ml-auto">
 						<li class="nav-item dropdown">
 						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
@@ -391,7 +391,7 @@ must point to files present on production while the redesign menu points at thei
 						<cfif session.roles contains "public">
 							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
 						</cfif>
-						</li>
+						</li>--->
 					</cfif>
 					</ul>
 				</div>
