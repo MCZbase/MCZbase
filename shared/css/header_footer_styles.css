@@ -107,14 +107,14 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 }
 .logout {
 	padding: 0 .45em;
-	font-size: 85%;
+	font-size: 90%;
 	font-weight: bold;
 	position: relative;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
 }
-	.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
-
+.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
+#dropdownMenug {font-size: .9em;}
 @media (min-width: 992px) {
 	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
