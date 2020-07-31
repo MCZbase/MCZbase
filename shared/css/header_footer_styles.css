@@ -36,7 +36,9 @@ nav.navbar {
 .dropdown-item {
 	font-size: .9em;
 }
-
+@media (max-width: 992px){
+li.nav-item {.25em 2em;}
+}
 /*nav.navbar-nav .nav-item a {
 	font-weight: 600;
 	margin: 0;
