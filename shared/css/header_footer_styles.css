@@ -280,7 +280,7 @@ ul li ul:focus {
   opacity: 1;
   display: block;
 }
-.navbar-nav > li {
+.navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
 .dropdown-item.active, .dropdown-item:active {
