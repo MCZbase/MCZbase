@@ -276,7 +276,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border-bottom: 2px #deebec solid;
 }
 .dropdown-item.active, .dropdown-item:active {
-	/*	border-bottom: 1px solid red;*/
 	background-color: #deebec;
 	color: rgba(0, 0, 0, .7);
 }
@@ -299,8 +298,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
 }
-
-
 .dropdown-menu {
 	margin: -.02em 0 0 0;
 }
