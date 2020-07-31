@@ -278,17 +278,16 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .dropdown-item.active, .dropdown-item:active {
 	/*	border-bottom: 1px solid red;*/
 	background-color: #deebec;
-	color: black;
+	color: rgba(0, 0, 0, .7);
 }
 .navbar-light .navbar-nav li > .nav-link{
 	background-color:#F8F9Fa;
 }
-
 .navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 	background-color: white;
 }
 .navbar-nav > li:hover > ul {
-	background-color: #ddd;
+	background-color: #fff;
 }
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: #deebec;
