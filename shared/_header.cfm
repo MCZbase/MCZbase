@@ -345,7 +345,7 @@ must point to files present on production while the redesign menu points at thei
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
 													<!-- Level two dropdown-->
 							<li> 
-								<a href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
+								<a href="/Transactions.cfm?action=all" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
 			
 							</li>
 							<!-- End Level two -->
@@ -384,7 +384,7 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenup" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
 								<ul aria-labelledby="dropdownMenup" class="dropdown-menu border-0 shadow">
-									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="/Transactions.cfm?action=findLoans" class="dropdown-item">Find & Edit</a></li>
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Loan</a></li>
 								</ul>
 							</li>
@@ -419,7 +419,7 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuc" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">About</a>
 						<ul aria-labelledby="dropdownMenuc" class="dropdown-menu border-0 shadow">
-							<li><a href="/Specimens.cfm" class="dropdown-item">Using MCZbase (Wiki)</a></li>
+							<li><a href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase" class="dropdown-item">Using MCZbase (Wiki)</a></li>
 							<li><a href="/Taxonomy.cfm" class="dropdown-item">About MCZbase</a></li>
 							<li><a href="/Media.cfm" class="dropdown-item">Self-Service Reports</a></li>
 							<li><a href="/Publications.cfm" class="dropdown-item">MCZbase Statistics</a></li>
