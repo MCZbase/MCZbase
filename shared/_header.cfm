@@ -417,11 +417,35 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
+							
 						</ul>
 					</li>
-					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">About</a></li>
-					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Services</a></li>
-					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Contact</a></li>
+					<li class="dropdown-divider"></li>
+					<!-- Level one dropdown -->
+					<li class="nav-item dropdown"> 
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Tools</a>
+						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+							<li><a href="/Specimens.cfm" class="dropdown-item">Projects </a></li>
+							<li><a href="/Taxonomy.cfm" class="dropdown-item">Named Collections</a></li>
+							<li><a href="/Media.cfm" class="dropdown-item">Collecting Event Number Series</a></li>
+							<li><a href="/Publications.cfm" class="dropdown-item">Object Tracking</a></li>
+							<li><a href="/Agents.cfm" class="dropdown-item">Encumbrances</a></li>
+						</ul>
+					</li>
+					<li class="dropdown-divider"></li>
+					<!-- Level one dropdown -->
+					<li class="nav-item dropdown"> 
+						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Tools</a>
+						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
+							<li><a href="/Specimens.cfm" class="dropdown-item">Projects </a></li>
+							<li><a href="/Taxonomy.cfm" class="dropdown-item">Named Collections</a></li>
+							<li><a href="/Media.cfm" class="dropdown-item">Collecting Event Number Series</a></li>
+							<li><a href="/Publications.cfm" class="dropdown-item">Object Tracking</a></li>
+							<li><a href="/Agents.cfm" class="dropdown-item">Encumbrances</a></li>
+						</ul>
+					</li>
+		<!---			<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Services</a></li>
+					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Contact</a></li>--->
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
 						<!--- end of menu ul --->
