@@ -287,7 +287,7 @@ must point to files present on production while the redesign menu points at thei
 }
 .dropdown-item {padding:.25em 1em;}
 .dropdown-submenu>.dropdown-menu {
-  top: 0;
+  top: -5px;
   left: 100%;
   margin-top: 0px;
   margin-left: 0px;
@@ -335,7 +335,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two -->
-						
+							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 2-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
@@ -347,7 +347,7 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two 2 -->
-						
+							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 3-->
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Batch Tools</a>
