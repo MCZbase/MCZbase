@@ -280,7 +280,11 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: #deebec;
 	color: black;
 }
-.navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
+.navbar-light .navbar-nav li.active > .nav-link{
+	background-color:green;
+}
+
+.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 	background-color: white;
 }
 .nav-menu > li:hover, .nav-menu > li:hover > a {
@@ -292,10 +296,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 } /* hover dropdown background*/
 .nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
-	;
 }
-
-
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color: blue;
 } /* second-level dropdown background*/
