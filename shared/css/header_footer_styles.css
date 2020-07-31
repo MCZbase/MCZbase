@@ -178,7 +178,7 @@ nav ul {
 	padding: 0;
 	list-style: none;
 }
-.nav-menu a {
+.nav-menu a, .navbar-nav a {
 	display: block;
 	background: #f8f9fa;
 	color: rgba(0,0,0,.9);
