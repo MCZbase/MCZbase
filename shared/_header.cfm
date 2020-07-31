@@ -110,6 +110,9 @@ limitations under the License.
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
 </cfif>
+<cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm">
+	<script type="text/javascript" src="/transactions/js/taxonomy.js"></script>
+</cfif>
 <cfif not isdefined("session.header_color")>
 	<cfif NOT isDefined('setDbUser')>
 		<cfinclude template="/shared/loginFunctions.cfm">
