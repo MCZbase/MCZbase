@@ -917,25 +917,6 @@ limitations under the License.
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "removePub">
-	<cfquery name="removePub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from taxonomy_publication 
-		where taxonomy_publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxonomy_publication_id#">
-	</cfquery>
-	<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxonPub">
-	<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxonomy_publication 
-			(taxon_name_id,publication_id)
-		VALUES 
-			(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_publication_id#"> )
-	</cfquery>
-	<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
 <cfif action is "newCommon">
 	<cfoutput>
 		<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
