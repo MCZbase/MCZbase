@@ -359,12 +359,11 @@ must point to files present on production while the redesign menu points at thei
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-2 py-lg-0">Transactions</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
-							<li class="dropdown-divider"></li>
+						
 							<!-- Level two dropdown-->
-							<li class="dropdown-submenu"> 
-								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Search All Transactions</a>
+					
+							<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Search All Transactions</a></li>
 			
-							</li>
 							<!-- End Level two -->
 							<li class="dropdown-divider"></li>
 							<!-- Level two dropdown 2-->
