@@ -287,10 +287,10 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 	background-color: white;
 }
-.nav-menu > li:hover, .nav-menu > li:hover > a {
-	background-color: beige;
-	color: red;
+.navbar-light .navbar-nav li.active .nav-link.active .nav-link.active {
+	background-color: yellow;
 }
+
 .navbar-nav > li:hover > ul {
 	background-color: red;
 } /* hover dropdown background*/
