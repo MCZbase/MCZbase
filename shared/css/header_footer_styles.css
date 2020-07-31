@@ -323,7 +323,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin: 0;
 	border-top: 1px solid #e9ecef;
 }
-@media (max-width:991px;){	li.dropdown a {padding-left:1em;}}
+@media (max-width:991px){	li.dropdown a {padding-left:1em;}}
 @media (min-width: 991px) {
 	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
