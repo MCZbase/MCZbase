@@ -104,14 +104,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin: 0;
 	border-top: 1px solid #e9ecef;
 }
-
-@media (min-width: 991px) {
-	.dropdown-menu {
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
-
-}
-
 .logout {
 	padding: 0 .45em;
 	font-size: 83%;
@@ -119,6 +111,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	position: relative;
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
+}
+@media (min-width: 991px) {
+	.dropdown-menu {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}
+
 }
 @media (max-width:991px) {
 	ul {
@@ -129,83 +127,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		margin-inline-start: 0px;
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
-	}
-	.nav-menu {
-		display: block;
-	}
-	ul.nav-menu > li {
-		width: 100%;
-		margin-top: 3px;
-	}
-	ul.nav-menu > li li {
-		width: 100%;
-	}
-	ul.nav-menu > li li a {
-		padding-left: 4em;
-		padding-right: 4em;
-	}
-	.nav-menu li a:first-child:nth-last-child(2):before {
-		content: "";
-		position: absolute;
-		height: 0;
-		width: 0;
-		border: 5px solid transparent;
-		top: 50%;
-		right: 50px;
-	}
-	ul.nav-menu > li li li a {
-		padding-left: 6em;
-		padding-right: 6em;
-		background-color: white;
-	}
-	.nav-menu ul {
-		position: relative;
-		white-space: nowrap;
-		border: 3px solid #deebec;
-		z-index: 1;
-		left: -99999em;
-		margin-bottom: .25em;
-	}
-	.nav-menu a {
-		padding: .75em 1.5em;
-	}
-	.nav-menu li {
-		height: 40px;
-	}
-	.nav-menu li:hover {
-		height: auto;
-		transition: none;
-	}
-	.nav-menu > li:hover > ul {
-		left: 0;
-		margin-top: 3px;
-		min-width: 100%;
-	}
-	.nav-menu > li li:hover > ul {
-		left: 0;
-		margin-left: 1px;
-		margin-right: 1px;
-		top: 0px;
-		display: block;
-	}
-	.nav-menu > li > a:first-child:nth-last-child(2):before {
-		border-top-color: rgba(0, 0, 0, .7);
-		;
-	}
-	.nav-menu > li:hover > a:first-child:nth-last-child(2):before {
-		border: 5px solid transparent;
-		border-bottom-color: rgba(0, 0, 0, .7);
-		;
-		margin-top: -5px
-	}
-	.nav-menu li li > a:first-child:nth-last-child(2):before {
-		border-left-color: #666;
-		margin-top: -5px
-	}
-	.nav-menu li li:hover > a:first-child:nth-last-child(2):before {
-		border: 5px solid transparent;
-		border-right-color: #666;
-		right: 50px;
 	}
 	.logout {
 		padding: .14em .45em;
