@@ -22,7 +22,7 @@ limitations under the License.
 Function getPublicationList.  Search for publications by name with a substring match on any name, returning json suitable for a dataadaptor.
 
 @param name publication name to search for.
-@return a json structure containing matching publications with matched names, preferred names, types, edited states, and links.
+@return a json structure containing matching publications with ids, years, long format of publication, etc.
 --->
 <cffunction name="getPublicationList" access="remote" returntype="any" returnformat="json">
 	<cfargument name="text" type="string" required="yes">
@@ -34,12 +34,16 @@ Function getPublicationList.  Search for publications by name with a substring m
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				publication_id, formatted_publication
+				publication_type, published_year, publication_title,
+				publication_remarks,
+				publication.publication_id, formatted_publication,
+				MCZbase.get_publication_authors(publication.publication_id) as authors
 			FROM 
 				publication
 				left join formatted_publication on publication.publication_id = formatted_publication.publication_id
 			WHERE
 				formatted_publication like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#text#">
+				and format_style = 'long'
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
@@ -48,6 +52,11 @@ Function getPublicationList.  Search for publications by name with a substring m
 			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["publication_id"] = "#search.publication_id#">
 			<cfset row["formatted_publication"] = "#search.formatted_publication#">
+			<cfset row["authors"] = "#search.authors#">
+			<cfset row["published_year"] = "#search.published_year#">
+			<cfset row["publication_title"] = "#search.publication_title#">
+			<cfset row["publication_type"] = "#search.publication_type#">
+			<cfset row["publication_remarks"] = "#search.publication_remarks#">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -100,7 +109,6 @@ Function getPublicationAutocomplete.  Search for publications by name with a sub
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.publication_id#">
 			<cfset row["value"] = "#search.formatted_publication#" >
 			<cfset data[i]  = row>
@@ -157,7 +165,6 @@ Function getPublicationAutocompleteMeta.  Search for publications by name with a
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfif search.edited EQ 1 ><cfset edited_marker="*"><cfelse><cfset edited_marker=""></cfif> 
 			<cfset row["id"] = "#search.publication_id#">
 			<cfset row["value"] = "#search.formatted_publication#" >
 			<cfset row["meta"] = "#search.formatted_publication#" >
