@@ -330,6 +330,17 @@ must point to files present on production while the redesign menu points at thei
 								</ul>
 							</li>
 							<!-- End Level two -->
+							<!-- Level two dropdown 2-->
+							<li class="dropdown-submenu"> 
+								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
+								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
+									<li class="mx-3"><a href="##" class="dropdown-item">Bulkload Specimens</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Bulkloader Status</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Bulkload .CSV Builder</a></li>
+									<li class="mx-3"><a href="##" class="dropdown-item">Browse &amp; Edit Staged Records</a></li>
+								</ul>
+							</li>
+							<!-- End Level two 2 -->
 						</ul>
 					</li>
 					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">About</a></li>
