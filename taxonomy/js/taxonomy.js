@@ -10,7 +10,7 @@ function loadTaxonName(taxon_name_id,target) {
       url: "/taxonomy/component/functions.cfc",
       data : {
          method : "getTaxonNameHtml",
-         transaction_id: taxon_name_id,
+         taxon_name_id: taxon_name_id,
       },
       success: function (result) {
          $("#" + target).html(result);
@@ -22,5 +22,4 @@ function loadTaxonName(taxon_name_id,target) {
       dataType: "html"
    });
 };
-
 
