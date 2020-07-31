@@ -244,7 +244,7 @@ limitations under the License.
 		<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="tax_pub_result">
 			select
 				taxonomy_publication_id,
-				formatted_publication,
+				ormatted_publication,
 				taxonomy_publication.publication_id
 			from
 				taxonomy_publication,
