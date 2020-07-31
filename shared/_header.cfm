@@ -297,7 +297,7 @@ must point to files present on production while the redesign menu points at thei
 							<li><a href="/Agents.cfm" class="dropdown-item">Agents</a></li>
 						</ul>
 					</li>
-			
+			<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
@@ -339,7 +339,7 @@ must point to files present on production while the redesign menu points at thei
 							<!-- End Level two 3 -->
 						</ul>
 					</li>
-		
+		<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown"> 
 						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Transactions</a>
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
