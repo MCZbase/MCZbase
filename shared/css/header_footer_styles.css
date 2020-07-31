@@ -147,6 +147,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
+	.navbar-light .navbar-nav {margin-top: 3px;}
 	.navbar-light .navbar-nav li > .nav-link{
 		background-color:#F8F9Fa;
 	}
