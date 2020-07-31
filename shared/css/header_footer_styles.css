@@ -74,6 +74,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 }
 .navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 	background-color: white;
+
 }
 .navbar-nav > li:hover > ul {
 	background-color: #fff;
@@ -153,6 +154,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 	.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 		background-color: white;
+			border: 3px solid #ccc;
 	}
 	.navbar-nav > li:hover > ul {
 		background-color: #fff;
