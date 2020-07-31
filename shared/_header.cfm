@@ -341,10 +341,10 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Bulkload Specimens</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Bulkloader Status</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Bulkload .CSV Builder</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Browse &amp; Edit Staged Records</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Bulkload Specimens</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Bulkloader Status</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Bulkload .CSV Builder</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Browse &amp; Edit Staged Records</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 2 -->
@@ -353,10 +353,10 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Batch Tools</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Agent</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Attributes</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Containers</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Media</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Agent</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Attributes</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Containers</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Media</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
@@ -377,8 +377,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenur" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Accessions</a>
 								<ul aria-labelledby="dropdownMenur" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Find &amp; Edit</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Create New Accession</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find &amp; Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Accession</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 2 -->
@@ -387,8 +387,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenut" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Borrows</a>
 								<ul aria-labelledby="dropdownMenut" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Create New Borrow</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Borrow</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
@@ -397,8 +397,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenud" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Deaccessions</a>
 								<ul aria-labelledby="dropdownMenud" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Create New Deaccession</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Deaccession</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
@@ -407,8 +407,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenup" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
 								<ul aria-labelledby="dropdownMenup" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Create New Loan</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Loan</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
@@ -417,8 +417,8 @@ must point to files present on production while the redesign menu points at thei
 							<li class="dropdown-submenu"> 
 								<a id="dropdownMenuw" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Permits</a>
 								<ul aria-labelledby="dropdownMenuw" class="dropdown-menu border-0 shadow">
-									<li class="mx-3"><a href="##" class="dropdown-item">Find & Edit</a></li>
-									<li class="mx-3"><a href="##" class="dropdown-item">Create New Permit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Find & Edit</a></li>
+									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Permit</a></li>
 								</ul>
 							</li>
 							<!-- End Level two 3 -->
