@@ -281,7 +281,7 @@ must point to files present on production while the redesign menu points at thei
 <style>
 
 </style>
-		<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
