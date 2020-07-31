@@ -279,13 +279,13 @@ must point to files present on production while the redesign menu points at thei
 });
 </script>
 <style>
-	.dropdown-menu {
-		margin: -.02em 0 0 0;
-	}
+.dropdown-menu {
+	margin: -.02em 0 0 0;
+}
 .dropdown-submenu {
   position: relative;
 }
-	.dropdown-item {padding:.25em 1em;}
+.dropdown-item {padding:.25em 1em;}
 .dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
@@ -294,7 +294,6 @@ must point to files present on production while the redesign menu points at thei
 }
 .dropdown-divider {
     height: 0;
- 
     overflow: hidden;
     border-top: 1px solid ##e9ecef;
 }
