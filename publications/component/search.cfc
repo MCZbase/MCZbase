@@ -112,7 +112,7 @@ Function getPublicationAutocomplete.  Search for publications by name with a sub
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.publication_id#">
-			<cfset row["value"] = "#JSStringFormat(search.formatted_publication)#" >
+			<cfset row["value"] = "#toString(xmlParse(search.formatted_publication))#" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
