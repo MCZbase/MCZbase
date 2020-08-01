@@ -764,7 +764,7 @@ limitations under the License.
 										<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 									<div>
 									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-									<input type="hidden" name="Action" value="newTaxonPub">
+									<input type="hidden" name="method" value="newTaxonPub">
 									<input type="hidden" name="publication_id" id="publication_id">
 								</form></span>
 								<div id="taxonPublicationsDiv">
