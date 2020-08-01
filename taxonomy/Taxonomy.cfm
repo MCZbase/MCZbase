@@ -759,7 +759,7 @@ limitations under the License.
 								<h4 class="mt-0 mb-1">Related Publications</h4>
 								<label for="new_pub" class="data-entry-label">Pick Publication</label>
 								<span><input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
-								<form name="newPubForm">
+								<form name="newPubForm" id="newPubForm">
 									<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 										<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 									<div>
@@ -794,8 +794,8 @@ limitations under the License.
 											message = jqXHR.responseText;
 										}
 										messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
-									}
-								});
+									};
+								})
 							} else { 
 								messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
 							}
