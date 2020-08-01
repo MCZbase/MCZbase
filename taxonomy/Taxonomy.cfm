@@ -777,7 +777,7 @@ limitations under the License.
 						$('##newPubForm').bind('submit', function(evt){
 							evt.preventDefault();
 							var pubId = $('##publication_id').val();
-							if (pubId.length == 0) { 
+							if (pubId.length > 0) { 
 								jQuery.ajax({
 									url : "/taxonomy/component/functions.cfc",
 									type : "post",
