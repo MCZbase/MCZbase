@@ -811,7 +811,7 @@ limitations under the License.
 					<script>
 						$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
 						$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
-						function removePublication(taxonomy_publication_id) { 
+						function removeTaxonPub(taxonomy_publication_id) { 
 							jQuery.ajax({
 								url : "/taxonomy/component/functions.cfc",
 								type : "post",
