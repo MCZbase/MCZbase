@@ -264,7 +264,7 @@ limitations under the License.
 			<cfloop query="tax_pub">
 				<cfset result=result & "<div class='col-12 my-2 px-1'>">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
-				<cfset publication = "<a href='SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>' >
+				<cfset publication = "<a href='SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 				<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a"></cfif>
 				<cfset result=result & "#publication#">
 				<cfset result=result & "<button class='btn-xs btn-secondary mx-1' onclick='removeTaxonPub(#taxonomy_publication_id#);' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>">
