@@ -267,7 +267,7 @@ limitations under the License.
 				<cfset publication = "<a href='SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 				<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a"></cfif>
 				<cfset result=result & "#publication#">
-				<cfset result=result & "<button class='btn-xs btn-secondary mx-1' onclick='removeTaxonPub(#taxonomy_publication_id#);' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>">
+				<cfset result=result & "<button class='btn-xs btn-secondary mx-1' onclick='removeTaxonPub(#taxonomy_publication_id#);' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
 				<cfset result=result & "</div>">
 				<cfset result=result & "</div>">
 				</cfloop>
