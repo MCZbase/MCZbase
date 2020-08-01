@@ -794,12 +794,12 @@ limitations under the License.
 											message = jqXHR.responseText;
 										}
 										messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
-									};
-								})
+									}
+								});
 							} else { 
 								messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
-							}
-						});
+							};
+						})
 						);
 					</script>
 					<script>
