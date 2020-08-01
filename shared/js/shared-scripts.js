@@ -450,5 +450,9 @@ function makePublicationPicker(nameControl, idControl) {
 			$('#'+idControl).val(result.item.id);
 		},
 		minLength: 3
-	});
+
+	})._renderItem = function(ul, item) {
+		// lets lines wrap so that each full citation is visible in dropdown
+		return $("<li>").append("<span>" + item.value + "</span>").appendTo(ul);
+	};
 };
