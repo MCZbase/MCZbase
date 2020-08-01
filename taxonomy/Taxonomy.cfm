@@ -799,7 +799,7 @@ limitations under the License.
 										} else {
 											message = jqXHR.responseText;
 										}
-										messageDialog('Error saving named collection: '+message, 'Error: '+error.substring(0,50));
+										messageDialog('Error adding publication: '+message, 'Error: '+error.substring(0,50));
 									}
 								});
 							} else { 
@@ -811,6 +811,29 @@ limitations under the License.
 					<script>
 						$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
 						$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
+						function removePublication(taxonomy_publication_id) { 
+							jQuery.ajax({
+								url : "/taxonomy/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data :  { 
+									method: 'removeTaxonPub',
+									taxonomy_publication_id: taxonomy_publication_id
+								},
+								success : function (data) {
+									loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv');
+								},
+								error: function(jqXHR,textStatus,error){
+									var message = "";
+									if (error == 'timeout') {
+										message = ' Server took too long to respond.';
+									} else {
+										message = jqXHR.responseText;
+									}
+									messageDialog('Error removing publication: '+message, 'Error: '+error.substring(0,50));
+								}
+							});
+						}
 					</script>
 					<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT
