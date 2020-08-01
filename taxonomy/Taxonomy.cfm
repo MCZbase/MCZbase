@@ -764,7 +764,7 @@ limitations under the License.
 										<form name="newPubForm" id="newPubForm">
 											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 												<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
-											<div>
+											</div>
 											<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 											<input type="hidden" name="method" value="newTaxonPub">
 											<input type="hidden" name="publication_id" id="publication_id">
