@@ -756,18 +756,22 @@ limitations under the License.
 					<div class="col-12 px-0">
 						<div class="form-row mx-0">	
 							<div class="p-2 border bg-light rounded mt-1 w-100 float-left">
-								<h4 class="mt-0 mb-1">Related Publications</h4>
-								<label for="new_pub" class="data-entry-label">Pick Publication</label>
-								<span><input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
-								<form name="newPubForm" id="newPubForm">
-									<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
-										<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
-									<div>
-									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-									<input type="hidden" name="method" value="newTaxonPub">
-									<input type="hidden" name="publication_id" id="publication_id">
-								</form></span>
-								<div id="taxonPublicationsDiv">
+								<div class="col-12">
+									<h4 class="mt-0 mb-1">Related Publications</h4>
+									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
+									<span>
+										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
+										<form name="newPubForm" id="newPubForm">
+											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
+												<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
+											<div>
+											<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+											<input type="hidden" name="method" value="newTaxonPub">
+											<input type="hidden" name="publication_id" id="publication_id">
+										</form>
+									</span>
+								</div>
+								<div id="taxonPublicationsDiv" class="col-12 mt-5">
 								</div>
 							</div>
 						</div>
@@ -785,6 +789,8 @@ limitations under the License.
 									data :  $('##newPubForm').serialize(),
 									success : function (data) {
 										loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv');
+										$('##publication_id').val("");
+										$('##new_pub_formatted').val("");
 									},
 									error: function(jqXHR,textStatus,error){
 										var message = "";
