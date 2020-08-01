@@ -185,16 +185,22 @@ limitations under the License.
 	<cfargument name="publication_id" type="numeric" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
-		<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
-			INSERT INTO taxonomy_publication 
-				(taxon_name_id,publication_id)
-			VALUES 
-				(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> )
-		</cfquery>
+		<cftransaction>
+			<cfquery name="newTaxonPub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newTaxonPub_result">
+				INSERT INTO taxonomy_publication 
+					(taxon_name_id,publication_id)
+				VALUES 
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> ,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> )
+			</cfquery>
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+					select taxonomy_publication_id from taxonomy_publication
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newTaxonPub_result.GENERATEDKEY#">
+			</cfquery>
+		</cftransaction>
 		<cfset row = StructNew()>
-		<cfset row["status"] = "deleted">
-		<cfset row["id"] = "#taxonomy_publication_id#">
+		<cfset row["status"] = "added">
+		<cfset row["id"] = "#savePK.taxonomy_publication_id#">
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
