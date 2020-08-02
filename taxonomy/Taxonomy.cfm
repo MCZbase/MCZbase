@@ -687,7 +687,7 @@ limitations under the License.
 						});
 						function saveEdits(confirmClicked=false){ 
 							<cfif hasTaxonId>
-								if (!confirmeClicked && $("##taxonid").val()=="#gettaxa.taxonid#") { 
+								if (!confirmClicked && $("##taxonid").val()=="#gettaxa.taxonid#") { 
 								 	// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
 									confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ saveEdits(true); } )
 								} else { 
