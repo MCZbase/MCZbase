@@ -685,13 +685,14 @@ limitations under the License.
 							$('##taxon_remarks').on("change",changed);
 							countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');
 						});
-						function saveEdits(){ 
+						function saveEdits(confirmClicked=false){ 
 							<cfif hasTaxonId>
-								if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+								if (!confirmeClicked && $("##taxonid").val()=="#gettaxa.taxonid#") { 
 								 	// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
-									confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+									confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ saveEdits(true); } )
 								} else { 
 							</cfif>
+									// no taxonid on page load, or confirm edit clicked.
 									var sourcetext = $('##source_authority').val();
 									var taxonid = $('##taxon_name_id').val();
 									if (sourcetext.length == 0 || (taxonid.length>0 && sourcetext.length>0)) { 
