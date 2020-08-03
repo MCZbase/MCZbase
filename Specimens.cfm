@@ -446,7 +446,7 @@ $("select.multiselect").multiselect({
 			<main role="main">
 			<div id="jqxWidget">
 				<div class="mb-5">
-					<div class="row mt-4">
+					<div class="row mx-0">
 						<div id="jqxgrid" class="jqxGrid"></div>
 						<div class="mt-005" id="enableselection"></div>
 						<div style="margin-top: 30px;">
