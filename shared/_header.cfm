@@ -264,7 +264,7 @@ must point to files present on production while the redesign menu points at thei
   // ------------------------------------------------------- //
   // Multi Level dropdowns
   // ------------------------------------------------------ //
-  $("ul.dropdown-menu [data-toggle='dropdown']").on("click", function(event) {
+  $("ul.dropdown-menu [data-toggle='dropdown']").on("hover", function(event) {
     event.preventDefault();
     event.stopPropagation();
 
