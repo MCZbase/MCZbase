@@ -340,7 +340,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-2 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# ><small>#searchtext# </small></a> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
@@ -422,7 +422,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#><small>#searchtext#</small></a> </div>
+							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
@@ -1122,7 +1122,7 @@ limitations under the License.
 										<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-											<cfset searchclass = 'class="btn-xs btn-secondary small"'>
+											<cfset searchclass = 'class="btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
@@ -1144,7 +1144,7 @@ limitations under the License.
 									</select>
 								</div>
 									<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# style="font-size: .9em;margin-top: .2em;border-radius: .12em;"><small>#searchtext#</small></a> 
+									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									<div class="col-12 col-md-7 px-0 float-left">
@@ -1224,7 +1224,7 @@ limitations under the License.
 									</select>
 									</div>
 								<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass# style="font-size: .9em;margin-top: .2em;border-radius: .12em;"><small>#searchtext#</small></a> 
+									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass# style="font-size: .9em;margin-top: .2em;border-radius: .12em;">#searchtext#</a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 								</div>	
 								<div class="col-12 col-md-auto w-50 px-0 float-left">
