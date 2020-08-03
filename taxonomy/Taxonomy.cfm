@@ -473,7 +473,7 @@ limitations under the License.
 								</span>
 							</label>
 							<div class="">
-								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus2').val($('##genus').val());">
+								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus_readonly').val($('##genus').val());">
 							</div>
 						</div>
 						<div class="col-3 col-md px-1 bg-light border ml-md-1">
@@ -488,9 +488,9 @@ limitations under the License.
 								<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-3 col-md px-1 bg-light border ml-md-1">
 							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
-							<div class="col-sm-7 float-left">
+							<div class="">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-2" data-style="btn-primary" show-tick>
 									<option value=""></option>
 									<cfloop query="ctInfRank">
@@ -613,21 +613,27 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
-						</div>
-						<div class="col-3 px-0">
-							<!--- Section would go here --->
-						</div>
-						<div class="col-3 px-0">
-							<label for="subsection" class="col-sm-3 col-form-label float-left">Subsection (zoological)</label>
-							<div class="col-sm-9 float-left">
-								<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-1">
+					<cfif len(gettaxa.subsection) GT 0.>
+						<div class="form-row col-12 px-0">
+							<div class="col-3 px-0">
+							</div>
+							<div class="col-3 px-0">
+								<label for="subsection" class="col-sm-3 col-form-label float-left">Section (zoological)</label>
+								<!--- Section would go here --->
+								<div class="col-sm-9 float-left">
+									--
+								</div>
+							</div>
+							<div class="col-3 px-0">
+								<label for="subsection" class="col-sm-3 col-form-label float-left">Subsection (zoological)</label>
+								<div class="col-sm-9 float-left">
+									<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-1">
+								</div>
+							</div>
+							<div class="col-3 px-0">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-						</div>
-					</div>
+					</cfif>
 					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
 							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
@@ -656,12 +662,12 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
-							<label for="genus2" class="col-sm-3 col-form-label float-left">Genus</label>
-							<div class="col-sm-9 float-left">
-								<input id="genus2" readonly type="text" name="genus" id="tribe" value="#gettaxa.genus#" class="data-entry-input my-1">
-							</div>
 						</div>
 						<div class="col-3 px-0">
+							<label for="genus_readonly" class="col-sm-3 col-form-label float-left">Genus</label>
+							<div class="col-sm-9 float-left">
+								<input id="genus_readonly" readonly type="text" id="tribe" value="#gettaxa.genus#" class="data-entry-input bg-light my-1">
+							</div>
 						</div>
 						<div class="col-3 px-0">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
@@ -671,6 +677,8 @@ limitations under the License.
 							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
+						</div>
+						<div class="col-3 px-0">
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
