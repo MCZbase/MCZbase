@@ -82,7 +82,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 	<div id="search-form-div" class="search-form-div pb-3 px-3">
 		<div class="container-fluid" id="content">
 			<div class="row">
-				<div class="col-12 col-lg-11">
+				<div class="col-12 col-lg-11 mb-3">
 					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
 					<div class="tab-card-main mt-1 tab-card">
 						<div class="card-header tab-card-header pb-0 w-100">
