@@ -525,169 +525,169 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
-							<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
-							<div  class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="kingdom" class="col-12 col-md-3 col-form-label float-left">Kingdom</label>
+							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div id="phylum_row" class="col-3 px-0">
-							<label for="phylum" id="phylum_label" class="col-sm-3 col-form-label float-left">Phylum</label>
-							<div class="col-sm-9 float-left">
+						<div id="phylum_row" class="col-12 col-md-3 px-0">
+							<label for="phylum" id="phylum_label" class="col-12 col-md-3 col-form-label float-left">Phylum</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="subphylum" id="subphylum_label" class="col-sm-3 col-form-label float-left">Subphylum</label>
-							<div  class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 col-form-label float-left">Subphylum</label>
+							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
 					<div id="division_row" class="form-row col-12 px-0 botanical">
 						<div class="col-3 px-0">
 						</div>
-						<div class="col-3 px-0 botanical">
-							<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0 botanical">
+							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label float-left">Division</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0 botanical">
+						<div class="col-12 col-md-3 px-0 botanical">
 							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
-							<div class="col-sm-9 float-left">
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
-							<label for="superclass" class="col-sm-3 col-form-label float-left">Superclass</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="superclass" class="col-12 col-md-3 col-form-label float-left">Superclass</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="phylclass" class="col-sm-3 col-form-label float-left">Class</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="phylclass" class="col-12 col-md-3 col-form-label float-left">Class</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="subclass" class="col-sm-3 col-form-label float-left">SubClass</label>
-							<div class="col-12 col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="subclass" class="col-12 col-md-3 col-form-label float-left">SubClass</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="infraclass" class="col-sm-3 col-form-label float-left">InfraClass</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="infraclass" class="col-12 col-md-3 col-form-label float-left">InfraClass</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
-							<label for="superorder" class="col-sm-3 col-form-label float-left">Superorder</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="superorder" class="col-12 col-md-3 col-form-label float-left">Superorder</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="phylorder" class="col-sm-3 col-form-label float-left">Order</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="phylorder" class="col-12 col-md-3 col-form-label float-left">Order</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="suborder" class="col-sm-3 col-form-label float-left">Suborder</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="suborder" class="col-12 col-md-3 col-form-label float-left">Suborder</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="infraorder" class="col-sm-3 col-form-label float-left">Infraorder</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="infraorder" class="col-12 col-md-3 col-form-label float-left">Infraorder</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
 					<cfif len(gettaxa.subsection) GT 0.>
 						<div class="form-row col-12 px-0">
-							<div class="col-3 px-0">
+							<div class="col-12 col-md-3 px-0">
 							</div>
-							<div class="col-3 px-0">
+							<div class="col-12 col-md-3 px-0">
 								<label for="subsection" class="col-sm-3 col-form-label float-left">Section (zoological)</label>
 								<!--- Section would go here --->
-								<div class="col-sm-9 float-left">
+								<div class="col-12 col-md-9 float-left">
 									--
 								</div>
 							</div>
-							<div class="col-3 px-0">
-								<label for="subsection" class="col-sm-3 col-form-label float-left">Subsection (zoological)</label>
-								<div class="col-sm-9 float-left">
+							<div class="col-12 col-md-3 px-0">
+								<label for="subsection" class="col-12 col-md-3 col-form-label float-left">Subsection (zoological)</label>
+								<div class="col-12 col-md-9 float-left">
 									<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-1">
 								</div>
 							</div>
-							<div class="col-3 px-0">
+							<div class="col-12 col-md-3 px-0">
 							</div>
 						</div>
 					</cfif>
 					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
-							<div class="col-sm-9 float-left">
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="family" class="col-sm-3 col-form-label float-left">Family</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="family" class="col-12 col-md-3 col-form-label float-left">Family</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 							<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
-							<div class="col-sm-9 float-left">
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
-							<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="tribe" class="col-12 col-md-3 col-form-label float-left">Tribe</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 						</div>
-						<div class="col-3 px-0">
-							<label for="genus_readonly" class="col-sm-3 col-form-label float-left">Genus</label>
-							<div class="col-sm-9 float-left">
+						<div class="col-12 col-md-3 px-0">
+							<label for="genus_readonly" class="col-12 col-md-3 col-form-label float-left">Genus</label>
+							<div class="col-12 col-md-9 float-left">
 								<input id="genus_readonly" readonly type="text" id="tribe" value="#gettaxa.genus#" class="data-entry-input bg-light my-1">
 							</div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
-							<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
-							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
+							<label for="subgenus" class="col-12 col-md-3 col-form-label float-left">Subgenus</label>
+							<div class="col-12 col-md-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
 						</div>
-						<div class="col-3 px-0">
+						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-12 px-0">
-							<label for="taxon_remarks" class="col-sm-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
-							<div class="col-sm-10 float-left">
+							<label for="taxon_remarks" class="col-12 col-md-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
+							<div class="col-12 col-md-10 float-left">
 								<textarea name="taxon_remarks" id="taxon_remarks" 
 									onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
 									rows="3" class="data-entry-textarea mt-1">#gettaxa.taxon_remarks#</textarea>
