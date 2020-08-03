@@ -465,7 +465,7 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 mt-2 mb-2 mx-0 px-0">
+					<div class="form-row col-12 px-0 my-2 mx-0">
 						<div class="col-3 col-md px-1 bg-light border ml-md-1">
 							<label for="genus" class="ml-1">Genus 
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
@@ -502,6 +502,27 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-3 col-md px-1 bg-light border ml-md-1 mr-md-1">
+							<label for="author_text" class="ml-1">Author</label>
+							<div class="">
+								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
+								<span class="infoLink botanical"
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
+									 <small class="link-color">Find Kew Abbr</small>
+								</span>
+							 </div>
+						</div>
+					</div>
+					<div class="form-row col-12 px-0 botanical">
+						<div class="col-6 px-0 botanical">
+							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
+							<div class="col-sm-7 float-left">
+								<input type="text" name="infraspecific_author" id="infraspecific_author" class="custom-select data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
+								<span class="infoLink botanical" 
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
+									<small class="link-color">Find Kew Abbr</small>
+								</span>
+							</div>
+						</div>
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
