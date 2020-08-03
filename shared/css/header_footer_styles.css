@@ -151,7 +151,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		background-color: #f8f9fa;
 	}
 	ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-		background-color: #deebec;
+		background-color: #fff;
 	}
 	.navbar-light .navbar-nav li a {
 		padding: .25em 1em;
