@@ -771,7 +771,7 @@ limitations under the License.
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
 							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
