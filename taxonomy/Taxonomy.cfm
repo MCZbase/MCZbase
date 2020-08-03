@@ -288,18 +288,16 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 cal-sm-3">
-							<label for="taxon_status" class="col-sm-4 col-form-label float-left">Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
-							<div class="col-sm-8 float-left">
-								<select name="taxon_status" id="taxon_status" class="data-entry-input my-1">
-									<option value=""></option>
-									<cfloop query="cttaxon_status">
-										<option 
-											<cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
-											value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
-									</cfloop>
-								</select>
-							</div>
+						<div class="col-12 col-sm-3">
+							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
+							<select name="taxon_status" id="taxon_status" class="data-entry-input my-1">
+								<option value=""></option>
+								<cfloop query="cttaxon_status">
+									<option 
+										<cfif gettaxa.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+										value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
+								</cfloop>
+							</select>
 						</div>
 					</div>
 					<div class="form-row col-12">
@@ -352,38 +350,38 @@ limitations under the License.
 									<cfset link = gettaxa.taxonid>
 								</cfif>
 								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
-				<script>
-					$(document).ready(function () { 
-						$(document).ready(function () { 
-						if ($('##taxonid').val().length > 0) {
-							$('##taxonid').hide();
-						}
-						$('##taxonid_search').click(function () { 
-							$('##taxonid').show();
-							$('##taxonid_link').hide();
-						});
-						$('##taxonid_guid_type').change(function () { 
-							// On selecting a guid_type, remove an existing guid value.
-							$('##taxonid').val("");
-							$('##taxonid').show();
-							// On selecting a guid_type, change the pattern.
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-						});
-						$('##taxonid').blur( function () { 
-							// On loss of focus for input, validate against the regex, update link
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-						});
-						$('##species').change(function () { 
-							// On changing species name, update search.
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-						});
-						$('##genus').change(function () { 
-							// On changing species name, update search.
-							getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
-						});
-					});
-					});
-				</script> 
+								<script>
+									$(document).ready(function () { 
+										$(document).ready(function () { 
+										if ($('##taxonid').val().length > 0) {
+											$('##taxonid').hide();
+										}
+										$('##taxonid_search').click(function () { 
+											$('##taxonid').show();
+											$('##taxonid_link').hide();
+										});
+										$('##taxonid_guid_type').change(function () { 
+											// On selecting a guid_type, remove an existing guid value.
+											$('##taxonid').val("");
+											$('##taxonid').show();
+											// On selecting a guid_type, change the pattern.
+											getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+										});
+										$('##taxonid').blur( function () { 
+											// On loss of focus for input, validate against the regex, update link
+											getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+										});
+										$('##species').change(function () { 
+											// On changing species name, update search.
+											getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+										});
+										$('##genus').change(function () { 
+											// On changing species name, update search.
+											getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
+										});
+									});
+									});
+								</script> 
 							</div>
 						</div>
 						<div class="col-12 col-sm-6 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
@@ -516,8 +514,11 @@ limitations under the License.
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 							<div class="col-sm-7 float-left">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="custom-select data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
-								<span class="infoLink botanical"
-					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </div>
+								<span class="infoLink botanical" 
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
+									<small class="link-color">Find Kew Abbr</small>
+								</span>
+							</div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
@@ -687,7 +688,7 @@ limitations under the License.
 									var sourcetext = $('##source_authority').val();
 									var taxonid = $('##taxon_name_id').val();
 									var subgenus = $('##subgenus').val();
-									if (subgenus.length > 0 && subgenus.match(/^\(.*\)$/)
+									if ( subgenus.length > 0 && subgenus.match(/^\(.*\)$/) ) {
 										<cfset subgenus_message = "Do not include parethesies">
 										messageDialog('Error saving taxon record: Do not include the parethesies in the subgenus field.', 'Error: parenthesies in subgenus.');
 										$('##saveResultDiv').html('Remove parenthesies from Subgenus.');
