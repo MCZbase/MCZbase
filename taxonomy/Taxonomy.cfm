@@ -301,7 +301,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 col-sm-6 border rounded mt-2 mb-0 pt-0 pb-2 pl-2">
+						<div class="col-12 col-sm-6 border rounded mt-1 mb-0 pt-0 pb-0 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -465,7 +465,7 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 pl-1 pr-3 mt-3 mb-2 mr-3 ml-0">
+					<div class="form-row col-12 pl-1 pr-3 mt-2 mb-1 mr-3 ml-0">
 						<div class="col-3 col-md px-1 bg-light border ml-md-1">
 							<label for="genus" class="ml-1">Genus 
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
@@ -489,7 +489,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-3 col-md px-1 bg-light border ml-md-1">
-							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific Rank</span></label>
+							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-2" data-style="btn-primary" show-tick>
 									<option value=""></option>
@@ -506,7 +506,10 @@ limitations under the License.
 							<div class="">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
-					onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')"> <small class="link-color">Find Kew Abbr</small></span> </span> </div>
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
+									 <small class="link-color">Find Kew Abbr</small>
+								</span>
+							 </div>
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 botanical">
