@@ -601,6 +601,15 @@ limitations under the License.
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					}  else { 
+						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpoecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					return result;
+				};
 			</script>
 		</cfif>
 		<script>
@@ -751,7 +760,7 @@ limitations under the License.
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
 							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT',  hideable: true, hidden: false },
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT',  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
