@@ -231,9 +231,9 @@ limitations under the License.
 <cfoutput>
 
 <div class="container-fluid">
-	<div class="row mb-4 mx-0">
-		<div class="col-12 px-0">
-			<div class="col-12 float-left px-0 mt-3 mb-1 border rounded">
+	<div class="row mb-4">
+		<div class="col-12">
+			<div class="col-12 float-left px-0 mt-3 mb-3 border rounded">
 				<div class="col-12">
 					<div class="row mx-0">
 						<h2 class="##content">Edit Taxon:
@@ -316,7 +316,7 @@ limitations under the License.
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i><small>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -399,7 +399,7 @@ limitations under the License.
 									<cfif len(gettaxa.scientificnameid) GT 0>
 										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i>/<small>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
