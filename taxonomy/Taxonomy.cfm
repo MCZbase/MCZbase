@@ -314,9 +314,9 @@ limitations under the License.
 								<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "<small>Replace <i class='fas fa-external-link-alt'></i></small>" >
 										<cfelse>
-										<cfset searchtext = "Find GUID- <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "<small>Find GUID- <i class='fas fa-external-link-alt'></i></small>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -397,9 +397,9 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "<small>Replace <i class='fas fa-external-link-alt'></i></small>" >
 										<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+											<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i></small>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -1201,7 +1201,7 @@ limitations under the License.
 									<cfloop query="ctguid_type_scientificname">
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-											<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+												<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i></small>" >
 											<cfset searchclass = 'class="btn-xs btn-secondary"' >
 										</cfif>
 									</cfloop>
