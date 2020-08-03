@@ -71,7 +71,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .navbar-light .navbar-nav .active >.nav-link {
     color: rgba(0,0,0,.9);
 	background-color: white;
-	box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+	box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
 }
 
 /*.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
