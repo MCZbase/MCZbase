@@ -587,6 +587,16 @@ limitations under the License.
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					} else { 
+						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpoecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
+					return result;
+				};
 			</script>
 		<cfelse>
 			<!--- Redesign links --->
