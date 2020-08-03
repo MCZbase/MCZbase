@@ -351,7 +351,8 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
-<cffunction name="getTaxonRelationsHtml" returntype="string" access="remote" returnformat="plain">
+<!--- TODO:
+<cffunction name="getTaxonRelationEditor" returntype="string" access="remote" returnformat="plain">
 							<form name="relation#i#" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action">
@@ -370,4 +371,7 @@ limitations under the License.
 								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
 								<input type="button" value="Delete" class="btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 							</form>
+</cffunction>
+--->
+
 </cfcomponent>
