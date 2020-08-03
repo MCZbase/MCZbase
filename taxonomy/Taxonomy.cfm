@@ -51,8 +51,7 @@ limitations under the License.
 <cfif !isdefined("subgenus_message")>
 	<cfset subgenus_message ="">
 </cfif>
-<cfset subgenus_message = "">
-<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
+<cfif isdefined("subgenus") and len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
 	<cfset subgenus_message = "Do Not include parethesies">
 	<cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
 </cfif>
