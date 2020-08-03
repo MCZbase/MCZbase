@@ -314,9 +314,9 @@ limitations under the License.
 								<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
-										<cfset searchtext = "<small>Replace <i class='fas fa-external-link-alt'></i></small>" >
+										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "<small>Find GUID- <i class='fas fa-external-link-alt'></i></small>" >
+										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -340,7 +340,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-2 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# ><small>#searchtext#</small> </a> 
+								<a href="#searchlink#" id="taxonid_search" style="font-size: 80%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
@@ -349,7 +349,7 @@ limitations under the License.
 									<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0"><small>#gettaxa.taxonid#</small></a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										$(document).ready(function () { 
@@ -397,9 +397,9 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "<small>Replace <i class='fas fa-external-link-alt'></i></small>" >
+										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-											<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i></small>" >
+										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -422,7 +422,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#><small>#searchtext# </small></a> </div>
+							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" style="font-size: 80%;" target="_blank" #searchclass#>#searchtext# </a> </div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
@@ -1144,7 +1144,7 @@ limitations under the License.
 									</select>
 								</div>
 									<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#><small>#searchtext#</small></a> 
+									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									<div class="col-12 col-md-7 px-0 float-left">
@@ -1201,7 +1201,7 @@ limitations under the License.
 									<cfloop query="ctguid_type_scientificname">
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-												<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i></small>" >
+											<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 											<cfset searchclass = 'class="btn-xs btn-secondary"' >
 										</cfif>
 									</cfloop>
