@@ -301,7 +301,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 col-sm-6 border rounded mt-1 mb-0 pt-0 pb-0 pl-2">
+						<div class="col-12 col-sm-6">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -316,7 +316,7 @@ limitations under the License.
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "Find GUID- <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -422,7 +422,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
+							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#><small>#searchtext# </small></a> </div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
