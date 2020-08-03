@@ -734,10 +734,11 @@ limitations under the License.
 						columns: [
 							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							<cfelse>
-								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: true }, 
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
 							</cfif>
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
@@ -760,7 +761,7 @@ limitations under the License.
 							{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: false },
 							{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: false },
 							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
-							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:150, hideable: true, hidden: false },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: false },
 							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
@@ -771,7 +772,6 @@ limitations under the License.
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
 							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
