@@ -348,7 +348,7 @@ must point to files present on production while the redesign menu points at thei
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
 													<!-- Level two dropdown-->
 							<li> 
-								<a href="/Transactions.cfm?action=all" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
+								<a href="/Transactions.cfm?action=findAll" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
 			
 							</li>
 							<!-- End Level two -->
