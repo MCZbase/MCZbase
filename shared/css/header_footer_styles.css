@@ -144,14 +144,14 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 	.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 		background-color: white;
-		background-color: #e9ecef;
+		background-color: #e9ecef80;
 	}
 
 	.navbar-nav > li:hover > ul {
 		background-color: #f8f9fa;
 	}
 	ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-		background-color: #deebec;
+		background-color: #f8f9fa;
 	}
 	.navbar-light .navbar-nav li a {
 		padding: .25em 1em;
