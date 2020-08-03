@@ -62,7 +62,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border-bottom: 2px #deebec solid;
 }
 .dropdown-item.active, .dropdown-item:active {
-	background-color: #deebec;
+	background-color: #fff;
 	color: rgba(0, 0, 0, .7);
 }
 .navbar-nav li > .nav-link{
