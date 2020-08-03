@@ -640,6 +640,9 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-3 px-0">
+							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
+								<cfset subgenus_message = "Do Not include parethesies">
+							</cfif>
 							<label for="subgenus" class="col-sm-3 col-form-label float-left">Subgenus</label>
 							<div class="col-sm-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
@@ -685,7 +688,7 @@ limitations under the License.
 									var taxonid = $('##taxon_name_id').val();
 									var subgenus = $('##subgenus').val();
 									if (subgenus.length > 0 && subgenus.match(/^\(.*\)$/)
-										<cfset subgenus_message = "Do Not include parethesies">
+										<cfset subgenus_message = "Do not include parethesies">
 										messageDialog('Error saving taxon record: Do not include the parethesies in the subgenus field.', 'Error: parenthesies in subgenus.');
 										$('##saveResultDiv').html('Remove parenthesies from Subgenus.');
 										$('##saveResultDiv').addClass('text-danger');
