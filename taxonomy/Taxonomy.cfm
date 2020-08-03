@@ -1122,7 +1122,7 @@ limitations under the License.
 										<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-											<cfset searchclass = 'class="btn-xs btn-secondary"'>
+											<cfset searchclass = 'class="btn-xs btn-secondary small"'>
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
@@ -1144,7 +1144,7 @@ limitations under the License.
 									</select>
 								</div>
 									<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#><small>#searchtext#</small></a> 
+									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									<div class="col-12 col-md-7 px-0 float-left">
