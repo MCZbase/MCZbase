@@ -231,9 +231,9 @@ limitations under the License.
 <cfoutput>
 
 <div class="container-fluid">
-	<div class="row mb-4">
-		<div class="col-12">
-			<div class="col-12 float-left px-0 mt-3 mb-3 border rounded">
+	<div class="row mx-0">
+		<div class="col-12 mb-5">
+			<div class="col-12 float-left px-0 mt-3 pb-5 border rounded">
 				<div class="col-12">
 					<div class="row mx-0">
 						<h2 class="##content">Edit Taxon:
