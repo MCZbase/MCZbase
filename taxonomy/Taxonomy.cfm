@@ -316,7 +316,7 @@ limitations under the License.
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i><small>" >
+										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -340,7 +340,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-2 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# ><small>#searchtext# </small></a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
@@ -399,7 +399,7 @@ limitations under the License.
 									<cfif len(gettaxa.scientificnameid) GT 0>
 										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
 										<cfelse>
-										<cfset searchtext = "<small>Find GUID <i class='fas fa-external-link-alt'></i>/<small>" >
+										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
@@ -422,7 +422,7 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a> </div>
+							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#><small>#searchtext#</small></a> </div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
