@@ -161,12 +161,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 	.navbar-light .navbar-nav .active >.nav-link {
     color: rgba(0,0,0,.9);
-	background-color: aliceblue;
+	background-color: white;
     box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
 	}
 	#navbarContent ul.navbar-nav.active li.nav-item.dropdown.show {
-		border-top: 2px solid red; 
-		border-bottom: 2px solid red;
+		border-top: 2px solid #a51c30; 
+		border-bottom: 2px solid #a51c30;
 	}
 	.dropdown-menu {
 	background-color: #f8f9fa;
