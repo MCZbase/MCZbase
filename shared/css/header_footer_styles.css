@@ -69,6 +69,8 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
     color: rgba(0,0,0,.9);
 /*	background-color: white;*/
 }
+
+.navbar-nav ul li.active.nav-link {background-color: white;}
 .navbar-light .navbar-nav li > .nav-link{
 	background-color:#F8F9Fa;
 }
