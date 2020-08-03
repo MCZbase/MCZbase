@@ -233,7 +233,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mb-4 mx-0">
 		<div class="col-12 px-0">
-			<div class="col-12 float-left px-0 mt-3 mb-5">
+			<div class="col-12 float-left px-0 mt-3 mb-1 border rounded">
 				<div class="col-12">
 					<div class="row mx-0">
 						<h2 class="##content">Edit Taxon:
@@ -384,7 +384,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-sm-6 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
+						<div class="col-12 col-sm-6 border rounded mt-2 mb-0 pt-0 pb-2 pl-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -473,7 +473,7 @@ limitations under the License.
 								</span>
 							</label>
 							<div class="">
-								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
+								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus2').val($('##genus').val());">
 							</div>
 						</div>
 						<div class="col-3 col-md px-1 bg-light border ml-md-1">
@@ -522,37 +522,43 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
-						<div class="col-4 px-0">
+						<div class="col-3 px-0">
 							<label for="kingdom" class="col-sm-3 col-form-label float-left">Kingdom</label>
 							<div  class="col-sm-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div id="phylum_row" class="col-4 px-0">
+						<div id="phylum_row" class="col-3 px-0">
 							<label for="phylum" id="phylum_label" class="col-sm-3 col-form-label float-left">Phylum</label>
 							<div class="col-sm-9 float-left">
 								<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-4 px-0">
+						<div class="col-3 px-0">
 							<label for="subphylum" id="subphylum_label" class="col-sm-3 col-form-label float-left">Subphylum</label>
 							<div  class="col-sm-9 float-left">
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
+						<div class="col-3 px-0">
+						</div>
 					</div>
 					<div id="division_row" class="form-row col-12 px-0 botanical">
-						<div class="col-6 px-0 botanical">
+						<div class="col-3 px-0">
+						</div>
+						<div class="col-3 px-0 botanical">
 							<label for="division" id="division_label" class="col-sm-3 col-form-label float-left">Division</label>
 							<div class="col-sm-9 float-left">
 								<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-6 px-0 botanical">
+						<div class="col-3 px-0 botanical">
 							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label float-left">SubDivision</label>
 							<div class="col-sm-9 float-left">
 								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
+						</div>
+						<div class="col-3 px-0">
 						</div>
 					</div>
 					<div class="form-row col-12 px-0">
@@ -609,11 +615,20 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
+						</div>
+						<div class="col-3 px-0">
+							<!--- Section would go here --->
+						</div>
+						<div class="col-3 px-0">
 							<label for="subsection" class="col-sm-3 col-form-label float-left">Subsection (zoological)</label>
 							<div class="col-sm-9 float-left">
 								<input type="text" name="subsection" id="subsection" value="#gettaxa.subsection#" class="data-entry-input my-1">
 							</div>
 						</div>
+						<div class="col-3 px-0">
+						</div>
+					</div>
+					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
 							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
 							<div class="col-sm-9 float-left">
@@ -632,13 +647,21 @@ limitations under the License.
 								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
-					</div>
-					<div class="form-row col-12 px-0">
 						<div class="col-3 px-0">
 							<label for="tribe" class="col-sm-3 col-form-label float-left">Tribe</label>
 							<div class="col-sm-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
+						</div>
+					</div>
+					<div class="form-row col-12 px-0">
+						<div class="col-3 px-0">
+							<label for="genus2" class="col-sm-3 col-form-label float-left">Genus</label>
+							<div class="col-sm-9 float-left">
+								<input id="genus2" readonly type="text" name="genus" id="tribe" value="#gettaxa.genus#" class="data-entry-input my-1">
+							</div>
+						</div>
+						<div class="col-3 px-0">
 						</div>
 						<div class="col-3 px-0">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
