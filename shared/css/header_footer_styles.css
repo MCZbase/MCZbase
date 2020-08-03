@@ -155,9 +155,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 	.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
 		background-color: white;
-			border: 3px solid #ccc;
+		    background-color: #e9ecef;
 	}
-	.navbar-nav li .dropdown {border: 3px solid green;}
+
 	.navbar-nav > li:hover > ul {
 		background-color: #fff;
 	}
@@ -170,9 +170,15 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	.navbar-light .navbar-nav li li a, .dropdown-item {
 	padding: .5em 1em;
 }
-	.dropdown-menu {
-background-color: beige;
+.navbar-light .navbar-nav .active >.nav-link {
+    color: rgba(0,0,0,.9);
+	background-color: aliceblue;
+    box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
 }
+	#navbarContent ul.navbar-nav.active li.nav-item.dropdown.show {
+		border-top: 2px solid red; 
+		border-bottom: 2px solid red;
+	}
 }
 
 .navbar-toggler-icon {
