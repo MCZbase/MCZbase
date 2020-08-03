@@ -606,8 +606,9 @@ limitations under the License.
 					var result = "";
 					if (value==0) {
 						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-					}  else { 
+					} else { 
 						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpoecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
 					return result;
 				};
 			</script>
