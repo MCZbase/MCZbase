@@ -340,7 +340,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-2 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# ><small>#searchtext#</small> </a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
 								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
@@ -349,7 +349,7 @@ limitations under the License.
 									<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0"><small>#gettaxa.taxonid#</small></a> 
 								<script>
 									$(document).ready(function () { 
 										$(document).ready(function () { 
@@ -1144,7 +1144,7 @@ limitations under the License.
 									</select>
 								</div>
 									<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
+									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#><small>#searchtext#</small></a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 									<div class="col-12 col-md-7 px-0 float-left">
