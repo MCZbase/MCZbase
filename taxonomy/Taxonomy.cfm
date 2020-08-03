@@ -1224,7 +1224,7 @@ limitations under the License.
 									</select>
 									</div>
 								<div class="col-12 col-md-2 px-0 float-left"> 
-									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass# style="font-size: .9em;margin-top: .2em;border-radius: .12em;">#searchtext#</a> 
+									<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass# style="font-size: .9em;margin-top: .2em;border-radius: .12em;"><small>#searchtext#</small></a> 
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
 								</div>	
 								<div class="col-12 col-md-auto w-50 px-0 float-left">
