@@ -79,10 +79,10 @@ select media_type from ctmedia_type order by media_type
 	<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
-	<div id="search-form-div" class="search-form-div px-3">
-		<div class="container-fluid" id="content" tabindex="-1">
+	<div id="search-form-div" class="search-form-div pb-3 px-3">
+		<div class="container-fluid" id="content">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 col-lg-11 mb-3">
+				<div class="col-12 col-lg-11">
 					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
 					<div class="tab-card-main mt-1 tab-card">
 						<div class="card-header tab-card-header pb-0 w-100">
@@ -441,11 +441,11 @@ $("select.multiselect").multiselect({
 		</script>
 	<!--Grid Related code below along with search handler for keyword search-->
 	<div class="container-fluid">
-	<div class="row">
-		<div class="text-left col-md-12">
+	<div class="row mx-0">
+		<div class="col-12">
 			<main role="main">
 			<div id="jqxWidget">
-				<div class="pl-2 mb-5" style="padding-right: 1px;">
+				<div class="mb-5">
 					<div class="row mt-4">
 						<div id="jqxgrid" class="jqxGrid"></div>
 						<div class="mt-005" id="enableselection"></div>
