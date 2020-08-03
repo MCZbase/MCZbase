@@ -170,6 +170,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	.navbar-light .navbar-nav li li a, .dropdown-item {
 	padding: .5em 1em;
 }
+	.dropdown-menu {
+background-color: beige;
+}
 }
 
 .navbar-toggler-icon {
