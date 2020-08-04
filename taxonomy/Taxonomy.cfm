@@ -301,7 +301,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 col-sm-6 border row ml-0 pb-2 rounded mt-2">
+						<div class="col-12 col-sm-6 border bg-light row ml-0 pb-2 rounded mt-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -384,7 +384,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-sm-6 border row ml-4 ml-4 rounded mt-2 mb-0 pt-0 pb-2 pl-2">
+						<div class="col-12 col-sm-6 border bg-light row ml-4 ml-4 rounded mt-2 mb-0 pt-0 pb-2 pl-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -465,7 +465,7 @@ limitations under the License.
 					</script> 
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 my-3 mx-0 justify-content-center py-2 bg-white border-top border-bottom">
+					<div class="form-row col-12 px-0 my-3 mx-0 justify-content-center py-2 bg-grayish border-top border-bottom">
 						<div class="col-12 col-xl-2 bg-light border ml-md-2 ">
 							<label for="genus" class="ml-1">Genus 
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
