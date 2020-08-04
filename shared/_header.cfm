@@ -191,7 +191,8 @@ limitations under the License.
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 						</cfif>
-						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
+						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy (old)</a>
+						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
 					</div>
 				</li>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
