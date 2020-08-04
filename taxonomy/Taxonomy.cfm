@@ -247,7 +247,7 @@ limitations under the License.
 							<cfset hasTaxonID = false>
 						</cfif>
 					</div>
-					<div class="col-12 col-sm-6 px-0 mt-0 float-left">
+					<div class="col-12 px-0 mt-0 float-left">
 						<span>
 						<a class="btn btn-info" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						#getTaxa.full_taxon_name#
@@ -265,7 +265,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
+							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -275,16 +275,16 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-1">
+						<div class="col-12 col-sm-2">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-sm-2">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select" required>
 								<cfloop query="ctnomenclatural_code">
 									<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 										value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
