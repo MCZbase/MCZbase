@@ -825,10 +825,10 @@ limitations under the License.
 				// set maximum page size
 				if (rowcount > 100) { 
 				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
-				   $('##' + gridId).jqxGrid({ pagesize: '50'});
+				   $('##' + gridId).jqxGrid({ pagesize: 50});
 				} else if (rowcount > 50) { 
 				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
-				   $('##' + gridId).jqxGrid({ pagesize: '50'});
+				   $('##' + gridId).jqxGrid({ pagesize: 50});
 				} else { 
 				   $('##' + gridId).jqxGrid({ pageable: false });
 				}
