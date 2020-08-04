@@ -67,6 +67,9 @@
                  <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
                  <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
                  <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
+                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                    <li><a target="_top" href="/Taxa.cfm">Taxonomy (new)</a></li>
+                 </cfif>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
              </ul>

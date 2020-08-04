@@ -191,7 +191,8 @@ limitations under the License.
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 							<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 						</cfif>
-						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
+						<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy (old)</a>
+						<a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/Taxa.cfm">Taxonomy</a>
 					</div>
 				</li>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -252,9 +253,9 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>_
+								<i class="fas fa-user-check color-green"></i>
 							<cfelse>
-								<i class="fas fa-user-cog text-body"></i> 
+								<i class="fas fa-user-cog text-body"></i>
 							</cfif>
 						</a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
