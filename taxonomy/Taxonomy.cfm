@@ -466,7 +466,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 my-3 mx-0">
-						<div class="col-12 col-xl-2 bg-light border ml-md-3">
+						<div class="col-12 col-xl-2 bg-light border ml-md-2">
 							<label for="genus" class="ml-1">Genus 
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
