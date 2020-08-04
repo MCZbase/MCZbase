@@ -664,8 +664,8 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-3 px-0">
-							<label for="infraspecific_rank" class="col-12 col-md-3 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
-							<div class="col-12 col-md-9 float-left">
+							<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
+							<div class="col-12 col-md-6 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-2" data-style="btn-primary" show-tick>
 									<option value=""></option>
 									<cfloop query="ctInfRank">
