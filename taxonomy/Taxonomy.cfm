@@ -251,7 +251,7 @@ limitations under the License.
 					</div>
 					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 				</div>
-				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 float-left border rounded">
+				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-4 float-left border rounded">
 					<div class="tInput form-row mx-2 mb-2">
 						<div class="col-12 col-sm-4">
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
