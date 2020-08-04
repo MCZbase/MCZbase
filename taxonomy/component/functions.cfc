@@ -230,13 +230,13 @@ limitations under the License.
 	<cfset result = "">  
 
 		<cfquery name="getTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="getTaxon_result">
-			select  display_name, scientific_name, author_text
+			select  scientific_name, author_text
 			from taxonomy 
 			where 
 				taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfloop query="getTaxon">
-			<cfset result="#getTaxon.display_name# <span class='sm-caps'>#getTaxon.author_text#</span>">
+			<cfset result="<em>#getTaxon.scientific_name#</em> <span class='sm-caps'>#getTaxon.author_text#</span>">
 		</cfloop>
 
 	<cfreturn result>
