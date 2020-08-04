@@ -246,10 +246,10 @@ limitations under the License.
 							<cfelse>
 							<cfset hasTaxonID = false>
 						</cfif>
-						</div>
+					</div>
 					<div class="col-12 px-0 mt-0 float-left">
 						<span>
-						<a class="btn btn-info" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+						<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						#getTaxa.full_taxon_name#
 						</span>
 					</div>
@@ -1320,7 +1320,8 @@ limitations under the License.
 												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
-								<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
+														<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
+														value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -1334,7 +1335,7 @@ limitations under the License.
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
 													<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
-				            	value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
+				            						value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
 												</cfloop>
 											</select>
 										</div>
