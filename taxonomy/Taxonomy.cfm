@@ -446,6 +446,10 @@ limitations under the License.
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
 											$('##scientificnameid').hide();
+											$('##scientificnameid_link').show();
+										} else { 
+											$('##scientificnameid').show();
+											$('##scientificnameid_link').hide();
 										}
 										$('##scientificnameid_search').click(function () { 
 											$('##scientificnameid').show();
