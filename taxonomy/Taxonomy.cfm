@@ -357,9 +357,12 @@ limitations under the License.
 								<a id="taxonid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
-										$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
 											$('##taxonid').hide();
+											$('##taxonid_link').show();
+										} else { 
+											$('##taxonid').show();
+											$('##taxonid_link').hide();
 										}
 										$('##taxonid_search').click(function () { 
 											$('##taxonid').show();
@@ -384,7 +387,6 @@ limitations under the License.
 											// On changing species name, update search.
 											getGuidTypeInfo($('##taxonid_guid_type').val(), 'taxonid', 'taxonid_link','taxonid_search',getLowestTaxon());
 										});
-									});
 									});
 								</script> 
 							</div>
