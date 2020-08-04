@@ -825,8 +825,10 @@ limitations under the License.
 				// set maximum page size
 				if (rowcount > 100) { 
 				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesize: '50'});
 				} else if (rowcount > 50) { 
 				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesize: '50'});
 				} else { 
 				   $('##' + gridId).jqxGrid({ pageable: false });
 				}
@@ -876,6 +878,7 @@ limitations under the License.
 					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Common Names</button>
 					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Super/Sub/Infra</button>
 					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Scientific Name</button>
+					 	<button id='pinTaxonToggle' onclick=" togglePinTaxonColumn(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Pin Taxon Column</button>
 					</span>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -889,6 +892,16 @@ limitations under the License.
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
+			function togglePinTaxonColumn() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+				} else {
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
 			function toggleCommon() { 
 				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
 				$("##searchResultsGrid").jqxGrid('beginupdate');
