@@ -237,7 +237,6 @@ limitations under the License.
 				<div class="col-12">
 					<div class="row mx-0">
 						<h1 class="h3" id="content">Edit Taxon:
-							<span id="scientificNameAndAuthor"><em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</h1>
@@ -248,7 +247,12 @@ limitations under the License.
 							<cfset hasTaxonID = false>
 						</cfif>
 					</div>
-					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a> #getTaxa.full_taxon_name#</h3>
+					<div class="col-12 col-sm-6 px-0 mt-0 float-left">
+						<span>
+						<a class="btn btn-info" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+						#getTaxa.full_taxon_name#
+						</span>
+					</div>
 				</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 mb-2">
@@ -342,7 +346,7 @@ limitations under the License.
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 80%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
-								<input name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
+								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 									<cfelse>
@@ -423,7 +427,7 @@ limitations under the License.
 							</div>
 							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" style="font-size: 80%;" target="_blank" #searchclass#>#searchtext# </a> </div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
-								<input name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 							placeholder="#placeholder#" 
 							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
@@ -472,19 +476,19 @@ limitations under the License.
 								</span>
 							</label>
 							<div class="">
-								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus_readonly').val($('##genus').val());">
+								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus_readonly').val($('##genus').val());">
 							</div>
 						</div>
 						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
 							<label for="species" class="ml-1">Species</label>
 							<div class="">
-								<input name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
+								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
 						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
 							<label for="subspecies" class="ml-1">Subspecies</label>
 							<div class="">
-								<input name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
+								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
@@ -705,6 +709,7 @@ limitations under the License.
 							$('##saveResultDiv').removeClass('text-warning');
 						};
 						$(document).ready(function() {
+							// caution, text inputs must have type=text to be bound to change function.
 							$('##taxon_form input[type=text]').on("change",changed);
 							$('##taxon_form select').on("change",changed);
 							$('##taxon_remarks').on("change",changed);
