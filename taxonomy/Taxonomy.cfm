@@ -248,8 +248,13 @@ limitations under the License.
 							<cfelse>
 							<cfset hasTaxonID = false>
 						</cfif>
+						</div>
+					<div class="col-12 px-0 mt-0 float-left">
+						<span>
+						<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+						#getTaxa.full_taxon_name#
+						</span>
 					</div>
-					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
 				</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-4 float-left border rounded">
 					<div class="form-row col-12">
