@@ -686,8 +686,8 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-12 px-0">
-							<label for="taxon_remarks" class="col-12 col-md-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
-							<div class="col-12 col-md-10 float-left">
+							<label for="taxon_remarks" class="col-12 col-md-3 text-right col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
+							<div class="col-12 col-md-9 float-right">
 								<textarea name="taxon_remarks" id="taxon_remarks" 
 									onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
 									rows="3" class="data-entry-textarea mt-1">#gettaxa.taxon_remarks#</textarea>
