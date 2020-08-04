@@ -235,12 +235,14 @@ must point to files present on production while the redesign menu points at thei
 							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
 					</li>
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
-							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>_
+						<li class="nav-item dropdown"> 
+							<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Account
+								<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+									<i class="fas fa-user-check color-green"></i>
 								<cfelse>
-								<i class="fas fa-user-cog text-body"></i>
-							</cfif>
+									<i class="fas fa-user-cog text-body"></i>
+								</cfif>
 							</a>
 							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
 								<cfif session.roles contains "coldfusion_user">
