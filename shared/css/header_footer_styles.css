@@ -166,7 +166,8 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	}
 	#navbarContent ul.navbar-nav.active li.nav-item.dropdown.show, #navbarContent ul.navbar-nav.active li.nav-item.dropdown {
 	/*	border-top: 2px solid #a51c30; */
-		border-bottom: 2px solid #a51c30;
+	/*	border-bottom: 2px solid #a51c30;*/
+		border-bottom: 2px solid hsl(0, 2%, 47%);
 	}
 	.dropdown-menu {
 	background-color: #f8f9fa;
