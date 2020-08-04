@@ -247,10 +247,10 @@ limitations under the License.
 							<cfset hasTaxonID = false>
 						</cfif>
 					</div>
-					<div class="col-12 px-0 mt-0 float-left">
+					<div class="col-12 px-0 mt-0 mb-1 float-left">
 						<span>
 						<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
-						#getTaxa.full_taxon_name#
+						Placed in: #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 						</span>
 					</div>
 				</div>
