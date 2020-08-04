@@ -346,7 +346,9 @@ limitations under the License.
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 80%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-md-7 pl-0 float-left">
-								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" class="px-2 border w-100 rounded py-0">
+								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
+									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
+									class="px-2 border w-100 rounded py-0">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 									<cfelse>
@@ -425,47 +427,49 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-2 px-0 float-left"> <a href="#searchlink#" id="scientificnameid_search" style="font-size: 80%;" target="_blank" #searchclass#>#searchtext# </a> </div>
+							<div class="col-5 col-md-2 px-0 float-left">
+								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 80%;" target="_blank" #searchclass#>#searchtext# </a>
+							</div>
 							<div class="col-12 col-sm-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
-							placeholder="#placeholder#" 
-							pattern="#pattern#" title="Enter a guid in the form #placeholder#">
+									placeholder="#placeholder#" 
+									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.scientificnameid,regex,replacement)>
-									<cfelse>
+								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0" style="font-size: 80%;">#gettaxa.scientificnameid#</a> 
+								<script>
+									$(document).ready(function () { 
+										if ($('##scientificnameid').val().length > 0) {
+											$('##scientificnameid').hide();
+										}
+										$('##scientificnameid_search').click(function () { 
+											$('##scientificnameid').show();
+											$('##scientificnameid_link').hide();
+										});
+										$('##scientificnameid_guid_type').change( function () { 
+											// On selecting a guid_type, remove an existing guid value.
+											$('##scientificnameid').val("");
+											// On selecting a guid_type, change the pattern.
+											getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+										});
+										$('##scientificnameid').blur( function () { 
+											// On loss of focus for input, validate against the regex, update link
+											getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+										});
+										$('##species').change( function () { 
+											// On changing species name, update the search link.
+											getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+										});
+										$('##genus').change( function () { 
+											// On changing species name, update the search link.
+											getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
+										});
+									});
+								</script> 
 							</div>
-							<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0">#gettaxa.scientificnameid#</a> 
-					<script>
-						$(document).ready(function () { 
-							if ($('##scientificnameid').val().length > 0) {
-								$('##scientificnameid').hide();
-							}
-							$('##scientificnameid_search').click(function () { 
-								$('##scientificnameid').show();
-								$('##scientificnameid_link').hide();
-							});
-							$('##scientificnameid_guid_type').change( function () { 
-								// On selecting a guid_type, remove an existing guid value.
-								$('##scientificnameid').val("");
-								// On selecting a guid_type, change the pattern.
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-							});
-							$('##scientificnameid').blur( function () { 
-								// On loss of focus for input, validate against the regex, update link
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-							});
-							$('##species').change( function () { 
-								// On changing species name, update the search link.
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-							});
-							$('##genus').change( function () { 
-								// On changing species name, update the search link.
-								getGuidTypeInfo($('##scientificnameid_guid_type').val(), 'scientificnameid', 'scientificnameid_link','scientificnameid_search',getLowestTaxon());
-							});
-						});
-					</script> 
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 my-3 mx-0 justify-content-center py-2 bg-grayish border-top border-bottom">
