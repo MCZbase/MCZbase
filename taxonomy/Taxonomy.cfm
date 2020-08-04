@@ -233,14 +233,13 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12 mb-5">
-			<div class="col-12 float-left mt-3 mb-5">
+			<div class="col-12 float-left mt-1 mb-2">
 				<div class="col-12">
 					<div class="row mx-0">
 						<h1 class="h3" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor"><em>#getTaxa.scientific_name#</em> <span class="sm-caps">#getTaxa.author_text#</span></span>
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
-							</cfif>
+							<span id="scientificNameAndAuthor"><em>#getTaxa.display_name#</em> <span class="sm-caps">#getTaxa.author_text#</span></span>
+							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</h1>
 						<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 						<cfif len(getTaxa.taxonid) GT 0>
@@ -249,11 +248,11 @@ limitations under the License.
 							<cfset hasTaxonID = false>
 						</cfif>
 					</div>
-					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#">Detail Page</a></h3>
+					<h3 class="col-12 col-sm-6 px-0 mt-0 float-left"><a href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a> #getTaxa.full_taxon_name#</h3>
 				</div>
-				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-4 float-left border rounded">
+				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 mb-2">
-						<div class="col-12 col-sm-4">
+						<div class="col-12 col-sm-5">
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 							
@@ -272,7 +271,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-2">
+						<div class="col-12 col-sm-1">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select col-12 col-md-8" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
