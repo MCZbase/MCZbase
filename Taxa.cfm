@@ -574,6 +574,7 @@ limitations under the License.
 			</div>
 		</div>
 
+		<cfset cellRenderClasses = "ml-1">
 		<cfif isdefined("Application.header_image")>
 			<!--- Production links --->
 			<script>
@@ -585,15 +586,15 @@ limitations under the License.
 				
 				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var result = "";
 					if (value==0) {
-						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 					} else { 
-						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
 					}
 					return result;
 				};
@@ -603,21 +604,21 @@ limitations under the License.
 			<script>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					return '<span style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
 					};
 				</cfif>
 				
 				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					var result = "";
 					if (value==0) {
-						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 					} else { 
-						result = '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpoecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpoecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
 					}
 					return result;
 				};
@@ -719,9 +720,8 @@ limitations under the License.
 						sortable: true,
 						pageable: true,
 						editable: false,
-						adaptive: true,
 						pagesize: '50',
-						pagesizeoptions: ['20','50','100'],
+						pagesizeoptions: ['20','50','100'], // reset in gridLoaded
 						showaggregates: true,
 						columnsresize: true,
 						autoshowfiltericon: true,
@@ -824,9 +824,9 @@ limitations under the License.
 				}
 				// set maximum page size
 				if (rowcount > 100) { 
-				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
 				} else if (rowcount > 50) { 
-				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
 				} else { 
 				   $('##' + gridId).jqxGrid({ pageable: false });
 				}
@@ -882,7 +882,9 @@ limitations under the License.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				var maxZIndex = getMaxZIndex();
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
