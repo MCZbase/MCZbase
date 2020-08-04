@@ -249,7 +249,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 px-0 mt-0 float-left">
 						<span>
-						<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+						<a class="btn btn-info" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						#getTaxa.full_taxon_name#
 						</span>
 					</div>
