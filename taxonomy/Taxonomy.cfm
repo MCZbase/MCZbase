@@ -472,53 +472,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 my-3 mx-0 justify-content-center py-2 bg-grayish border-top border-bottom">
-						<div class="col-12 col-xl-2 bg-light border ml-md-2 ">
-							<label for="genus" class="ml-1">Genus 
-								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
-									<small class="link-color">Add &##215;</small>
-								</span>
-							</label>
-							<div class="">
-								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus_readonly').val($('##genus').val());">
-							</div>
-						</div>
-						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
-							<label for="species" class="ml-1">Species</label>
-							<div class="">
-								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
-							</div>
-						</div>		
-						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
-							<label for="subspecies" class="ml-1">Subspecies</label>
-							<div class="">
-								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
-							</div>
-						</div>
-						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-2">
-							<label for="infraspecific_rank" class="col-sm-5 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
-							<div class="">
-								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-2" data-style="btn-primary" show-tick>
-									<option value=""></option>
-									<cfloop query="ctInfRank">
-										<option
-											<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
-											value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
-									</cfloop>
-								</select>
-							</div>
-						</div>
-						<div class="col-12 col-xl-2 bg-light border mx-0 ml-md-2 mr-md-3">
-							<label for="author_text" class="ml-1">Author</label>
-							<div class="">
-								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
-								<span class="infoLink botanical"
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-									 <small class="link-color">Find Kew Abbr</small>
-								</span>
-							 </div>
-						</div>
-					</div>
 					<div class="form-row col-12 px-0 botanical">
 						<div class="col-6 px-0 botanical">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
@@ -674,9 +627,13 @@ limitations under the License.
 						<div class="col-12 col-md-3 px-0">
 						</div>
 						<div class="col-12 col-md-3 px-0">
-							<label for="genus_readonly" class="col-12 col-md-3 col-form-label float-left">Genus</label>
+							<label for="genus" class="col-12 col-md-3 col-form-label float-left">Genus</label>
+								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
+									<small class="link-color">Add &##215;</small>
+								</span>
+							</label>
 							<div class="col-12 col-md-9 float-left">
-								<input id="genus_readonly" readonly type="text" id="tribe" value="#gettaxa.genus#" class="data-entry-input bg-light my-1">
+								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
 						<div class="col-12 col-md-3 px-0">
@@ -687,6 +644,51 @@ limitations under the License.
 							<div class="col-12 col-md-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
+						</div>
+						<div class="col-12 col-md-3 px-0">
+						</div>
+					</div>
+					<div class="form-row col-12 px-0">
+						<div class="col-12 col-md-3 px-0">
+						</div>
+						<div class="col-12 col-md-3 px-0">
+							<label for="species" class="col-12 col-md-3 col-form-label float-left">Species</label>
+							<div class="col-12 col-md-9 float-left">
+								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
+							</div>
+						</div>		
+						<div class="col-12 col-md-3 px-0">
+							<label for="subspecies" class="col-12 col-md-3 col-form-label float-left">Subspecies</label>
+							<div class="col-12 col-md-9 float-left">
+								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
+							</div>
+						</div>
+						<div class="col-12 col-md-3 px-0">
+							<label for="infraspecific_rank" class="col-12 col-md-3 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
+							<div class="col-12 col-md-9 float-left">
+								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-2" data-style="btn-primary" show-tick>
+									<option value=""></option>
+									<cfloop query="ctInfRank">
+										<option
+											<cfif gettaxa.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
+											value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
+									</cfloop>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="form-row col-12 px-0">
+						<div class="col-12 col-md-3 px-0">
+						</div>
+						<div class="col-12 col-md-6 px-0">
+							<label for="author_text" class="col-12 col-md-2 col-form-label float-left">Author</label>
+							<div class="col-12 col-md-10 float-left">
+								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
+								<span class="infoLink botanical"
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
+									 <small class="link-color">Find Kew Abbr</small>
+								</span>
+							 </div>
 						</div>
 						<div class="col-12 col-md-3 px-0">
 						</div>
