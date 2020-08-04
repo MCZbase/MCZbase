@@ -233,7 +233,7 @@ limitations under the License.
 <div class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12 mb-5">
-			<div class="col-12 float-left px-0 mt-3 mb-5">
+			<div class="col-12 float-left mt-3 mb-5">
 				<div class="col-12">
 					<div class="row mx-0">
 						<h1 class="h3" id="content">Edit Taxon:
