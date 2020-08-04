@@ -466,7 +466,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 my-2 mx-0">
-						<div class="col-12 col-xl-2 bg-light border ml-md-1">
+						<div class="col-12 col-xl-3 bg-light border ml-md-1">
 							<label for="genus" class="ml-1">Genus 
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
@@ -476,7 +476,7 @@ limitations under the License.
 								<input name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#" onchange="$('##genus_readonly').val($('##genus').val());">
 							</div>
 						</div>
-						<div class="col-12 col-xl-2 bg-light border ml-0 ml-md-1">
+						<div class="col-12 col-xl-3 bg-light border ml-0 ml-md-1">
 							<label for="species" class="ml-1">Species</label>
 							<div class="">
 								<input name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
