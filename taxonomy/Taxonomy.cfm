@@ -246,7 +246,7 @@ limitations under the License.
 							<cfelse>
 							<cfset hasTaxonID = false>
 						</cfif>
-					</div>
+						</div>
 					<div class="col-12 px-0 mt-0 float-left">
 						<span>
 						<a class="btn btn-info" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
@@ -1328,7 +1328,7 @@ limitations under the License.
 								</div>
 								<div class="form-row col-12 px-0">
 									<div class="col-6 px-0">
-										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
+										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info mt-1 fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 										<div class="col-sm-8 float-left">
 											<select name="taxon_status" id="taxon_status" class="custom-select data-entry-select my-1">
 												<option value=""></option>
