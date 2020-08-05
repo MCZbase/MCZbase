@@ -161,6 +161,9 @@ limitations under the License.
 	<cfif not isdefined("coll_obj_disposition")>
 		<cfset coll_obj_disposition="">
 	</cfif>
+	<cfif not isdefined("collection_object_id")>
+		<cfset collection_object_id="">
+	</cfif>
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
@@ -531,69 +534,78 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
-											<div class="form-row mx-0 mb-1 px-3">
-												<div class="col-3 px-0">
-													<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
-													<cfif part_name_oper IS "is">
-														<cfset isselect = "selected">
-														<cfset containsselect = "">
-														<cfelse>
-														<cfset isselect = "">
-														<cfset containsselect = "selected">
-													</cfif>
-													<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
-														<option value="is" #isselect#>is</option>
-														<option value="contains" #containsselect#>contains</option>
-													</select>
-												</div>
-												<div class="col-9 px-0">
-													<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
-												</div>
-											</div>
-											<div class="form-row mx-0 px-3">
-												<div class="col-3 px-0">
-													<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
-													<cfif part_disp_oper IS "is">
-														<cfset isselect = "selected">
-														<cfset notselect = "">
-														<cfelse>
-														<cfset isselect = "">
-														<cfset notselect = "selected">
-													</cfif>
-													<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
-														<option value="is" #isselect#>is</option>
-														<option value="isnot" #notselect#>is not</option>
-													</select>
-												</div>
-												<div class="col-9 px-0">
-													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-													<script>
-												function setDispositionValues() {
-													$('##coll_obj_disposition').jqxComboBox('clearSelection');
-													<cfloop query="ctCollObjDisp">
-														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-1">
+												<div class="form-row mx-0 mb-1 px-3">
+													<div class="col-3 px-0">
+														<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
+														<cfif part_name_oper IS "is">
+															<cfset isselect = "selected">
+															<cfset containsselect = "">
+															<cfelse>
+															<cfset isselect = "">
+															<cfset containsselect = "selected">
 														</cfif>
-													</cfloop>
-												};
-												$(document).ready(function () {
-													var dispositionsource = [
-														""
-														<cfloop query="ctCollObjDisp">
-															,"#ctCollObjDisp.coll_obj_disposition#"
-														</cfloop>
-													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-													setDispositionValues();
-												});
-											</script> 
+														<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+															<option value="is" #isselect#>is</option>
+															<option value="contains" #containsselect#>contains</option>
+														</select>
+													</div>
+													<div class="col-9 px-0">
+														<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+														<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
+													</div>
+												</div>
+												<div class="form-row mx-0 px-3">
+													<div class="col-3 px-0">
+														<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
+														<cfif part_disp_oper IS "is">
+															<cfset isselect = "selected">
+															<cfset notselect = "">
+															<cfelse>
+															<cfset isselect = "">
+															<cfset notselect = "selected">
+														</cfif>
+														<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+															<option value="is" #isselect#>is</option>
+															<option value="isnot" #notselect#>is not</option>
+														</select>
+													</div>
+													<div class="col-9 px-0">
+														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+														<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+														<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+														<script>
+															function setDispositionValues() {
+																$('##coll_obj_disposition').jqxComboBox('clearSelection');
+																<cfloop query="ctCollObjDisp">
+																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+																		$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var dispositionsource = [
+																	""
+																	<cfloop query="ctCollObjDisp">
+																		,"#ctCollObjDisp.coll_obj_disposition#"
+																	</cfloop>
+																];
+																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+																setDispositionValues();
+															});
+														</script> 
+													</div>
+												</div>
+												<div class="form-row mx-0 mb-1 px-3">
+													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+													<div class="col-md-12">
+														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
+														<input type="text" name="specimen_guid" class="data-entry-input" value="#trans_remarks#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn">
+													</div>
+													<script>
+													</script>
 												</div>
 											</div>
-										</div>
 										</div>
 
 										<div class="col-md-6">

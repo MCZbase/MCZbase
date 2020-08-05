@@ -205,6 +205,7 @@ limitations under the License.
     <cfargument name="trans_agent_role_3" type="string" required="no">
     <cfargument name="agent_3" type="string" required="no">
     <cfargument name="agent_3_id" type="string" required="no">
+    <cfargument name="collection_object_id" type="string" required="no">
 
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
@@ -284,8 +285,10 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
+				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id = loan_item.transaction_id
+				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-					left join loan_item on loan.transaction_id=loan_item.transaction_id 
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
@@ -386,6 +389,9 @@ limitations under the License.
 							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
+				</cfif>
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
