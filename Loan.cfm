@@ -108,7 +108,7 @@
 </cfoutput>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "nothing">
-	<cflocation url="Loan.cfm?action=search" addtoken="false">
+	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
@@ -310,7 +310,7 @@
 						<input type="button" value="Create #scope#" class="insBtn"
 						       onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 						&nbsp;
-						<input type="button" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm'">
+						<input type="button" value="Quit" class="qutBtn" onClick="document.location = '/Transactions.cfm?action=findLoans'">
 			   		</td>
 				</tr>
 			</table>
@@ -907,7 +907,7 @@
 		<input type="button" value="Save Edits" class="savBtn"
                         onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
 
-   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = 'Loan.cfm?Action=search'">
+   		<input type="button" style="margin-left: 30px;" value="Quit" class="qutBtn" onClick="document.location = '/Transactions.cfm?action=findLoans'">
                             <input type="button" value="Delete #scope#" class="delBtn"
 			onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
    		<br />
@@ -1696,6 +1696,8 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfoutput>
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
+
+<!--- Begin: DEPRICATED to be removed --->
 <cfif action is "search">
   <cfset title="Search for Loans">
   <script src="/includes/jquery/jquery-autocomplete/jquery.autocomplete.pack.js" language="javascript" type="text/javascript"></script>
@@ -1879,7 +1881,15 @@ $( document ).ready(loadShipments(#transaction_id#));
     </div>
   </cfoutput>
 </cfif>
+<!--- End: DEPRICATED to be removed --->
 <!-------------------------------------------------------------------------------------------------->
+<!--- Begin: DEPRICATED to be removed --->
+
+<!--- Warning: This action can't be removed until API call from specimen search is replicated in transactions/Loan.cfm 
+		and link is changed in SpecimenDetail_body.cfm.
+   See: <a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#" 
+--->
+
 <cfif action is "listLoans">
 <cfoutput>
 	<cfset title="Loan Item List">
@@ -2333,4 +2343,5 @@ $( document ).ready(loadShipments(#transaction_id#));
 	</cfif>
 </table>
 </cfif>
+<!--- End: DEPRICATED to be removed --->
 <cfinclude template="includes/_footer.cfm">
