@@ -32,13 +32,10 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm">
-<!--- Easy to overlook this shared function file ---> 
+<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file ---> 
 <!--- include stylesheets and javascript library files --->
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
-<!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css">
-<!--- needed for jqxwidgets to work --->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css">
 <!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
 <link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css">
@@ -162,43 +159,61 @@ for (i = 0; i < acc.length; i++) {
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom">
 	<div class="branding clearfix bg-black">
-		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
-		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
+		<div class="branding-left justify-content-start">
+			<a href="http://www.harvard.edu/" aria-label="link to Harvard website"> 
+				<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> 
+				<span class="d-inline-block parent">Harvard University</span> 
+			</a> 
+		</div>
+		<div class="branding-right justify-content-end">
+			 <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> 
+		</div>
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
 		<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
-			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
-			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> </li>
+			<li class="nav-item mcz2">
+				 <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> 
+			</li>
+			<li class="nav-item mczbase my-1 py-0"> 
+				<a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> 
+			</li>
 		</ul>
 		<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
-			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"><img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
+			<li class="nav-item d-flex align-content-end"> 
+				<a href="https://mcz.harvard.edu" aria-label="link to MCZ website">
+				<img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> 
+			</li>
 		</ul>
 	</div>
 	<div class="container-fluid bg-light px-0">
 	<!---	
-Temporaraly disabling redesign/production menus while work is done on sub menus.
-Test for Application.header_image is required for continued integration, as the production menu 
-must point to files present on production while the redesign menu points at their replacements in redesign
---->
+		Test for Application.header_image is required for continued integration, as the production menu 
+		must point to files present on production while the redesign menu points at their replacements in redesign
+	--->
 	<cfif isdefined("Application.header_image")>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" 
-			data-target="##navbarToggler1" aria-controls="navbarToggler1" 
-			aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+					data-target="##navbarToggler1" aria-controls="navbarToggler1" 
+					aria-expanded="false" aria-label="Toggle navigation"> 
+				<span class="navbar-toggler-icon"></span> 
+			</button>
 			<div class="collapse navbar-collapse" id="navbarToggler1">
 				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
 					
 					<!---  Redesign menu for integration on production --->
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> 
+							<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
 							<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
 							<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
 							<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 							</cfif>
-							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
+							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> 
+						</div>
 					</li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
@@ -210,29 +225,35 @@ must point to files present on production while the redesign menu points at thei
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
 							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
+									<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 								</cfif>
 							</div>
 						</li>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> 
+								<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
 								<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
-								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
+								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
+								<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
 								<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
 								<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
 								<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
 								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
-								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
+								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
+							</div>
 						</li>
 					</cfif>
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
+					<li class="nav-item dropdown"> 
+						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
 						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							</cfif>
-							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
+							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> 
+						</div>
 					</li>
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						<li class="nav-item dropdown"> 
