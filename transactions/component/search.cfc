@@ -209,7 +209,7 @@ limitations under the License.
     <cfargument name="specimen_guid" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
-	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""><cfif>
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
 	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
 		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
 			select specimen_part.collection_object_id as part_coll_obj_id 
