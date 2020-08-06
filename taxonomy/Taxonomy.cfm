@@ -916,7 +916,7 @@ limitations under the License.
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-						<div class="border bg-light p-3 rounded mt-3 float-left">
+						<div class="border bg-light p-3 rounded mt-3 float-left col-12 col-md-6">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -940,7 +940,7 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
-						<div class="border bg-light p-3 rounded mt-3 float-left w-100">
+						<div class="border bg-light p-3 rounded mt-3 float-left col-12 col-md-6">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
 							from taxon_habitat 
