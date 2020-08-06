@@ -879,6 +879,7 @@ $(document).ready(function() {
 	};
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var loanstatus = rowData['loan_status'];
 		if (daysoverdue > 0 && loanstatus != 'closed') {
 			var overdue = "";
