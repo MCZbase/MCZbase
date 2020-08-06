@@ -301,7 +301,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12">
-						<div class="col-12 col-md-6 border bg-light row ml-0 pb-2 rounded mt-2">
+						<div class="col-12 col-md-6 border bg-light row ml-4 pb-2 rounded mt-2 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -340,7 +340,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-3 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 80%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-md-12 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
@@ -427,7 +427,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 col-md-3 px-0 float-left">
-								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 80%;" target="_blank" #searchclass#>#searchtext# </a>
+								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 88%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-md-12 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
