@@ -257,3 +257,63 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	});
 }
 
+/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
+	a row of loan data from the loan reults grid.
+
+	@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+ */
+function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+   var columns = $('#' + gridId).jqxGrid('columns').records;
+   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+   if (columns.length < 21) {
+      // don't split into columns for shorter sets of columns.
+      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+   }
+	var daysdue = datarecord['dueindays'];
+   var gridWidth = $('#' + gridId).width();
+   var dialogWidth = Math.round(gridWidth/2);
+   if (dialogWidth < 150) { dialogWidth = 150; }
+   for (i = 1; i < columns.length; i++) {
+      var text = columns[i].text;
+      var datafield = columns[i].datafield;
+		if (datafield = 'dueindays') { 
+			var daysoverdue = -(datarecord[datafield]);
+			if (daysoverdue > 0) {
+				var overdue = "";
+				if (daysoverdue > 731) { 
+					overdue = round(daysoverdue/365.25) + " years";
+				} else if (daysoverdue > 365) { 
+					overdue = round(daysoverdue/30.44) + " months";
+ 				} else {
+					overdue = daysoverdue + " days";
+				} 
+      		content = content + "<li class='text-danger'><strong>Overdue:</strong> <strong>by " + overdue +  "</strong></li>";
+			} else { 
+      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+			}
+		} else if (datafield = 'duedate') { 
+			if (daysdue < 0) {
+      		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+			} else { 
+      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+			}
+		} else {
+      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+		}
+   }
+   content = content + "</ul></div>";
+	// TODO: Buttons here.
+   $("#" + rowDetailsTargetId + rowIndex).html(content);
+   $("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+      {
+         autoOpen: true,
+         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("#" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+         width: dialogWidth,
+         title: 'Loan Details'
+      }
+   );
+   // Workaround, expansion sits below row in zindex.
+   var maxZIndex = getMaxZIndex();
+   $("#"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+};
+

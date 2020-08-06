@@ -323,8 +323,12 @@ function getMaxZIndex() {
  *@param rowIndex the row index for the selected grid row, available as index in initRowDetails() or event.args.rowIndex in rowexpand event handler.
  */
 function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex) {
-	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
 	var columns = $('#' + gridId).jqxGrid('columns').records;
+	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+	if (columns.length < 21) { 
+		// don't split into columns for shorter sets of columns.
+		content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	}
 	var gridWidth = $('#' + gridId).width();
 	var dialogWidth = Math.round(gridWidth/2);
 	if (dialogWidth < 150) { dialogWidth = 150; }

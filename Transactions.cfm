@@ -879,7 +879,15 @@ $(document).ready(function() {
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
 		if (daysoverdue > 0) {
-			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>Overdue '+daysoverdue+' days</strong></span>';
+			var overdue = "";
+			if (daysoverdue > 731) { 
+				overdue = round(daysoverdue/365.25) + " years";
+			} else if (daysoverdue > 365) { 
+				overdue = round(daysoverdue/30.44) + " months";
+ 			} else {
+				overdue = daysoverdue + " days";
+			} 
+			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>Overdue '+overdue+'</strong></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}
@@ -954,7 +962,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -991,7 +999,7 @@ $(document).ready(function() {
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
 				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer},
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
@@ -1026,7 +1034,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
