@@ -925,7 +925,7 @@ limitations under the License.
 								<input type="hidden" name="origCommonName" value="#common_name#">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<div class="form-row mx-0 my-1">
-								<input type="text" name="common_name" value="#common_name#" class="data-entry-input float-left">
+								<input type="text" name="common_name" value="#common_name#" class="data-entry-input w-50 float-left">
 								<input type="button" value="Save" class="btn-xs btn-primary float-left" onClick="common#i#.Action.value='saveCommon';submit();">
 								<input type="button" value="Delete" class="btn-xs btn-warning ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
 								</div>
@@ -936,7 +936,7 @@ limitations under the License.
 								<input type="hidden" name="Action" value="newCommon">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-1">Add New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-1 float-left">
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
