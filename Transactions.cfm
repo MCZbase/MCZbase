@@ -618,6 +618,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
 																</cfif>
+															</cfif>
 														</cfloop>
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
