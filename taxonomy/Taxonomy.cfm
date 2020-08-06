@@ -804,8 +804,8 @@ limitations under the License.
 				<div class="col-12 mt-3 mb-5 px-0">
 					<div class="border rounded p-2 bg-grayish float-left w-100">
 						<div class="col-12">
-						<div class="form-row mx-0 mt-1">	
-							<div class="p-3 border bg-light rounded mt-1 float-left">
+						<div class="form-row mx-0 mt-2 p-3 border bg-light rounded">	
+						
 								<div class="col-12">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
@@ -821,9 +821,7 @@ limitations under the License.
 										</form>
 									</span>
 								</div>
-								<div id="taxonPublicationsDiv" class="col-12 mt-4">
-								</div>
-							</div>
+								<div id="taxonPublicationsDiv" class="col-10 mt-3 float-left"></div>
 						</div>
 					</div>
 						<script>
