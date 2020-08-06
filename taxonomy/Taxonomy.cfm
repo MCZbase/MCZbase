@@ -229,14 +229,11 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-
-<div class="container-fluid">
-	<div class="row mx-0">
-		<div class="col-12 mb-5">
-			<div class="col-12 float-left mt-1 mb-2">
-				<div class="col-12">
-					<div class="row mx-0">
-						<h1 class="h3" id="content">Edit Taxon:
+		<div class="container">
+			<div class="row">
+				<div class="col-12 mb-3">
+					<div class="row">
+						<h1 class="h2" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</h1>
@@ -247,10 +244,10 @@ limitations under the License.
 							<cfset hasTaxonID = false>
 						</cfif>
 					</div>
-					<div class="col-12 px-0 mt-0 mb-1 float-left">
+					<div class="row">
 						<span>
-						<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
-						Placed in: #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
+						<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+							<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 						</span>
 					</div>
 				</div>
@@ -804,12 +801,12 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 								
-			</div>
+	
 
-			<div class="col-12 px-0 my-5">
-				<div class="border rounded p-2 bg-grayish float-left w-100">
-					<div class="col-12 px-0">
-						<div class="form-row mx-0">	
+				<div class="col-10 offset-lg-1 mt-3 mb-5">
+					<div class="border rounded p-2 bg-grayish float-left w-100">
+						<div class="col-12">
+						<div class="form-row mx-0 mt-1">	
 							<div class="p-2 border bg-light rounded mt-1 w-100 float-left">
 								<div class="col-12">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
@@ -831,7 +828,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<script>
+						<script>
 						$( document ).ready(
 						$('##newPubForm').bind('submit', function(evt){
 							evt.preventDefault();
@@ -863,7 +860,7 @@ limitations under the License.
 						})
 						);
 					</script>
-					<script>
+						<script>
 						$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
 						$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
 						function removeTaxonPub(taxonomy_publication_id) { 
@@ -891,7 +888,7 @@ limitations under the License.
 						}
 					</script>
 
-					<div class="col-12 px-0">
+						<div class="col-12 px-3">
 						<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
@@ -913,16 +910,15 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary mt-1 ml-1">
 							</div>
 						</form>
-						<div id="taxonrelations">
-						</div>
+						<div id="taxonrelations"></div>
 					</div>
 
-					<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select common_name 
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-					<div class="border bg-light p-2 rounded mt-3 float-left w-100">
+						<div class="border bg-light p-2 rounded mt-3 float-left w-100">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -946,17 +942,17 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
-					<div class="border bg-light p-2 rounded mt-3 float-left w-100">
+						<div class="border bg-light p-2 rounded mt-3 float-left w-100">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
 							from taxon_habitat 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 						</cfquery>
 						
-				<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-					<h4 class="mt-0">Habitat</h4>
-					<cfset i=1>
-					<cfloop query="habitat">
+						<cfset usedHabitats = valueList(habitat.taxon_habitat)>
+						<h4 class="mt-0">Habitat</h4>
+						<cfset i=1>
+						<cfloop query="habitat">
 						<form name="habitat#i#" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="Action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
@@ -968,7 +964,7 @@ limitations under the License.
 						</form>
 						<cfset i=i+1>
 					</cfloop>
-				<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
+						<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
@@ -986,7 +982,6 @@ limitations under the License.
 				</div>
 			</div>
 		</div>
-	</div>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
