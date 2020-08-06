@@ -205,7 +205,30 @@ limitations under the License.
     <cfargument name="trans_agent_role_3" type="string" required="no">
     <cfargument name="agent_3" type="string" required="no">
     <cfargument name="agent_3_id" type="string" required="no">
+    <cfargument name="collection_object_id" type="string" required="no">
+    <cfargument name="specimen_guid" type="string" required="no">
 
+	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
+	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
@@ -221,6 +244,7 @@ limitations under the License.
 			<cfset to_trans_date=trans_date>
 		</cfif>
 	</cfif>
+	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -284,8 +308,10 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
+				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id = loan_item.transaction_id
+				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-					left join loan_item on loan.transaction_id=loan_item.transaction_id 
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
@@ -387,6 +413,9 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
 
@@ -400,10 +429,6 @@ limitations under the License.
 	</cfif>
 	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
-	</cfif>
-	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
-		<cfset frm="#frm#, loan_item">
-		<cfset sql = "#sql# AND loan.transaction_id=loan_item.transaction_id AND loan_item.collection_object_id IN (#collection_object_id#)">
 	</cfif>
 	<cfif isdefined("notClosed") AND len(#notClosed#) gt 0>
 		<cfset sql = "#sql# AND loan_status <> 'closed'">
