@@ -869,7 +869,8 @@ $(document).ready(function() {
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var result = "";
 		var daysdue = rowData['dueindays'];
-		if (daysdue < 0) {
+		var loanstatus = rowData['loan_status'];
+		if (daysdue < 0 && loanstatus != 'closed') {
 			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>'+value+'</strong></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
@@ -878,7 +879,8 @@ $(document).ready(function() {
 	};
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
-		if (daysoverdue > 0) {
+		var loanstatus = rowData['loan_status'];
+		if (daysoverdue > 0 && loanstatus != 'closed') {
 			var overdue = "";
 			if (daysoverdue > 731) { 
 				overdue = Math.round(daysoverdue/365.25) + " years";

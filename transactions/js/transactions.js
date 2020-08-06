@@ -270,6 +270,7 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
       content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
    }
 	var daysdue = datarecord['dueindays'];
+	var loanstatus = datarecord['loan_status'];
    var gridWidth = $('#' + gridId).width();
    var dialogWidth = Math.round(gridWidth/2);
    if (dialogWidth < 150) { dialogWidth = 150; }
@@ -278,7 +279,7 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
       var datafield = columns[i].datafield;
 		if (datafield == 'dueindays') { 
 			var daysoverdue = -(datarecord[datafield]);
-			if (daysoverdue > 0) {
+			if (daysoverdue > 0 && loanstatus != 'closed') {
 				var overdue = "";
 				if (daysoverdue > 731) { 
 					overdue = Math.round(daysoverdue/365.25) + " years";
@@ -292,7 +293,7 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
       		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			}
 		} else if (datafield == 'duedate') { 
-			if (daysdue < 0) {
+			if (daysdue < 0 && loanstatus != 'closed') {
       		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			} else { 
       		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
