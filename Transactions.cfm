@@ -2,6 +2,12 @@
 	<cfset action="findAll">
 </cfif>
 <cfswitch expression="#action#">
+	<!--- API note: action/method e.g. action=findLoans and method=getLoans seems duplicative, but
+			action is used to determine which tab to show in Transactions.cfm, and method is passed 
+			to /transactions/component/search.cfm.  When invoking with execute=true method does not
+			need to be included in the call, but it will be included in the URI parameter list when
+			clicking on the "Link to this search" link.
+	  --->
 	<cfcase value="findLoans">
 	<cfset pageTitle = "Search Loans">
 	<cfif isdefined("execute")>

@@ -1570,7 +1570,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel">Loan History:</span>
-									<a href="/Transactions.cfm?action=findLoans&method=getLoans&execute=true&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+									<a href="/Transactions.cfm?action=findLoans&execute=true&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 										target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="loanList">
