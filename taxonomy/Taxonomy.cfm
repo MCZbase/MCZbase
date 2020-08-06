@@ -805,7 +805,7 @@ limitations under the License.
 					<div class="border rounded p-2 bg-grayish float-left w-100">
 						<div class="col-12">
 						<div class="form-row mx-0 mt-1">	
-							<div class="p-2 border bg-light rounded mt-1 w-100 float-left">
+							<div class="p-3 border bg-light rounded mt-1 float-left">
 								<div class="col-12">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
@@ -821,7 +821,7 @@ limitations under the License.
 										</form>
 									</span>
 								</div>
-								<div id="taxonPublicationsDiv" class="col-12 mt-5">
+								<div id="taxonPublicationsDiv" class="col-12 mt-4">
 								</div>
 							</div>
 						</div>
@@ -890,7 +890,7 @@ limitations under the License.
 						<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
-							<div class="p-2 border bg-light rounded mt-3">
+							<div class="p-3 border bg-light rounded mt-3">
 								<h4 class="mt-0 mb-1">Related Taxa:</h4>
 								<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
 								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
@@ -916,7 +916,7 @@ limitations under the License.
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-						<div class="border bg-light p-2 rounded mt-3 float-left w-100">
+						<div class="border bg-light p-3 rounded mt-3 float-left">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -940,7 +940,7 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
-						<div class="border bg-light p-2 rounded mt-3 float-left w-100">
+						<div class="border bg-light p-3 rounded mt-3 float-left w-100">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
 							from taxon_habitat 
