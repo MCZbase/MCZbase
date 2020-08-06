@@ -216,7 +216,7 @@ limitations under the License.
 			from 
 				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
 			where
-				flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes">
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
 		</cfquery>
 		<cfloop query="guidSearch">
 			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
