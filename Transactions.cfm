@@ -751,6 +751,12 @@ limitations under the License.
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
+			} else if (datafield == 'id_link') {
+				// don't show to user (duplicates loan number)
+				console.log(datarecord[datafield]);  
+			} else if (datafield == 'transaction_id') {
+				// don't show to user
+				console.log(datarecord[datafield]);  
 			} else {
 	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			}
@@ -1061,7 +1067,7 @@ $(document).ready(function() {
 			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
-				{text: 'Loan', datafield: 'id_link', width: 100},
+				{text: 'Loan', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Type', datafield: 'loan_type', width: 100},
