@@ -290,7 +290,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
-							<select name="taxon_status" id="taxon_status" class="data-entry-input my-1">
+							<select name="taxon_status" id="taxon_status" class="data-entry-input">
 								<option value=""></option>
 								<cfloop query="cttaxon_status">
 									<option 
