@@ -955,9 +955,9 @@ limitations under the License.
 							<input type="hidden" name="Action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<div class="form-row mx-0 my-1">
-							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input mb-1 w-50 float-left">
-							<input type="button" value="Delete" class="btn-xs btn-warning mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
+							<div class="form-row mx-0">
+							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input w-50 float-left">
+							<input type="button" value="Delete" class="btn-xs btn-warning ml-1 mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
 							</div>
 						</form>
 						<cfset i=i+1>
@@ -965,7 +965,7 @@ limitations under the License.
 						<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
 					<input type="hidden" name="Action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+					<label for="taxon_habitat" class="data-entry-label float-left mt-1">Add New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
 					<cfloop query="cttaxon_habitat">
 						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
