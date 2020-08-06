@@ -302,8 +302,13 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
       	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 		}
    }
-   content = content + "</ul></div>";
-	// TODO: Buttons here.
+   content = content + "</ul>";
+	var transaction_id = datarecord['transaction_id'];
+	content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary' target='_blank'>Review Items</a>";
+	content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary' target='_blank'>Add Items</a>";
+	content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary' target='_blank'>Add Items by Barcode</a>";
+	content = content + "<a href='/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary' target='_blank'>Edit Loan</a>";
+   content = content + "</div>";
    $("#" + rowDetailsTargetId + rowIndex).html(content);
    $("#"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
       {
