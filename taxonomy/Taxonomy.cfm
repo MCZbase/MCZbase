@@ -252,7 +252,7 @@ limitations under the License.
 					</div>
 				</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
-					<div class="tInput form-row mx-2 mb-1">
+					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-5">
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
@@ -791,11 +791,11 @@ limitations under the License.
 					<div class="form-row col-12 px-0 justify-content-center mt-2">
 						<input type="button" 
 							value="Save" title="Save" aria-label="Save"
-							class="btn btn-xs btn-primary"
+							class="btn btn-xs btn-primary mx-1"
 							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } " 
 							>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="btn-xs btn-warning mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
+						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
