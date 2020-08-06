@@ -801,7 +801,7 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 
-				<div class="col-12 mt-3 mb-5">
+				<div class="col-12 mt-3 mb-5 px-0">
 					<div class="border rounded p-2 bg-grayish float-left w-100">
 						<div class="col-12">
 						<div class="form-row mx-0 mt-1">	
@@ -810,7 +810,7 @@ limitations under the License.
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
 									<span>
-										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-sm-9 col-xl-9 float-left">
+										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
 										<form name="newPubForm" id="newPubForm">
 											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 												<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
