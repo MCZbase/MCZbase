@@ -164,6 +164,9 @@ limitations under the License.
 	<cfif not isdefined("collection_object_id")>
 		<cfset collection_object_id="">
 	</cfif>
+	<cfif not isdefined("specimen_guid")>
+		<cfset specimen_guid="">
+	</cfif>
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
@@ -598,9 +601,32 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0 mb-1 px-3">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
+													<!--- used in call from specimen details to find loans from parts. --->
+													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+															select distinct guid 
+															from #session.flatTableName# flat 
+																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_coll_obj_id
+															where 
+																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">
+														</cfquery>
+														<cfloop query="guidLookup">
+															<cfif not listContains(specimen_guid,guidLookup.guid)>
+																<cfif len(specimen_guid) EQ 0>
+																	<cfset specimen_guid = guidLookup.guid>
+																<cfelse>
+																	<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
+																</cfif>
+														</cfloop>
+													</cfif>
+													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
+													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
 													<div class="col-md-12">
 														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
-														<input type="text" name="specimen_guid" class="data-entry-input" value="#trans_remarks#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn">
+														<input type="text" name="specimen_guid" 
+															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
+															onchange="$('##collection_object_id').val('');">
 													</div>
 													<script>
 													</script>

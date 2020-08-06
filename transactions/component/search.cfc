@@ -206,7 +206,29 @@ limitations under the License.
     <cfargument name="agent_3" type="string" required="no">
     <cfargument name="agent_3_id" type="string" required="no">
     <cfargument name="collection_object_id" type="string" required="no">
+    <cfargument name="specimen_guid" type="string" required="no">
 
+	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""><cfif>
+	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes">
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
@@ -222,6 +244,7 @@ limitations under the License.
 			<cfset to_trans_date=trans_date>
 		</cfif>
 	</cfif>
+	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
