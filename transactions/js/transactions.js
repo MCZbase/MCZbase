@@ -281,9 +281,9 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
 			if (daysoverdue > 0) {
 				var overdue = "";
 				if (daysoverdue > 731) { 
-					overdue = round(daysoverdue/365.25) + " years";
+					overdue = Math.round(daysoverdue/365.25) + " years";
 				} else if (daysoverdue > 365) { 
-					overdue = round(daysoverdue/30.44) + " months";
+					overdue = Math.round(daysoverdue/30.44) + " months";
  				} else {
 					overdue = daysoverdue + " days";
 				} 
