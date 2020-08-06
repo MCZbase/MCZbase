@@ -347,6 +347,7 @@ span.data-entry-addon {
 .jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;}
 .text-success {color:#1e5d16 !important;}
+.btn-danger {background-color: #dc3545;color: white;}
 /*.btn-link,.helpText {color:#2f6eb1 !important;}
 .btn-link,.helpText {color:#046aa2 !important;}*/
 
