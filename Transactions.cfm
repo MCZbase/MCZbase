@@ -998,8 +998,8 @@ $(document).ready(function() {
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
-				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer},
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details
+				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer}, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details dialog
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
