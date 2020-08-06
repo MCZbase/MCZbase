@@ -291,7 +291,7 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
 			} else { 
       		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			}
-		} else if (datafield = 'duedate') { 
+		} else if (datafield == 'duedate') { 
 			if (daysdue < 0) {
       		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			} else { 
