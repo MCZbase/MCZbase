@@ -708,6 +708,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
+	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
 
 $(document).ready(function() {
