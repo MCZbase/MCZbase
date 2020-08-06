@@ -276,7 +276,7 @@ function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowI
    for (i = 1; i < columns.length; i++) {
       var text = columns[i].text;
       var datafield = columns[i].datafield;
-		if (datafield = 'dueindays') { 
+		if (datafield == 'dueindays') { 
 			var daysoverdue = -(datarecord[datafield]);
 			if (daysoverdue > 0) {
 				var overdue = "";
