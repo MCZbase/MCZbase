@@ -609,7 +609,7 @@ limitations under the License.
 															from #session.flatTableName# flat 
 																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_coll_obj_id
 															where 
-																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">
+																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
 														</cfquery>
 														<cfloop query="guidLookup">
 															<cfif not listContains(specimen_guid,guidLookup.guid)>
