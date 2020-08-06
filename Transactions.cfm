@@ -857,6 +857,29 @@ $(document).ready(function() {
 	/* End Setup jqxgrid for Transactions Search ******************************/
 
 
+	/* Supporting cell renderers for Loan Search *****************************/
+	var dueDateCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var daysdue = rowData['dueindays'];
+		if (daysdue < 0) {
+			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>'+value+'</strong></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
+	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var daysoverdue = -value;
+		if (daysoverdue > 0) {
+			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>Overdue '+daysoverdue+' days</strong></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
+
+
 	/* Setup jqxgrid for Loan Search ******************************************/
 	$('##loanSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
@@ -960,8 +983,8 @@ $(document).ready(function() {
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
-				{text: 'Due Date', datafield: 'return_due_date', width: 100},
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true },
+				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer},
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
