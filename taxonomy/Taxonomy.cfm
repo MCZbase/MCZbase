@@ -800,10 +800,8 @@ limitations under the License.
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
-								
-	
 
-				<div class="col-10 offset-lg-1 mt-3 mb-5">
+				<div class="col-12 mt-3 mb-5">
 					<div class="border rounded p-2 bg-grayish float-left w-100">
 						<div class="col-12">
 						<div class="form-row mx-0 mt-1">	
