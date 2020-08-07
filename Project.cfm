@@ -1,15 +1,17 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfoutput>
 <script language="javascript" type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery("#start_date").datepicker();
-		jQuery("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+	$(document).ready(function() {
+		$("##start_date").datepicker();
+		$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
-		jQuery("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
-          jQuery(".ui-datepicker-trigger").css("margin-bottom","-7px");	
+      $(".ui-datepicker-trigger").css("margin-bottom","-7px");	
 	});
 	function addProjTaxon() {
 		if (document.getElementById('newTaxId').value.length == 0){
@@ -20,7 +22,9 @@
 		}
 	}
 </script>
-           <div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+</cfoutput>
+<div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/SpecimenUsage.cfm">
@@ -489,7 +493,61 @@
 			</p>
 			<p>
 				<strong>Project Loans</strong>
+				<!--- TODO: This was never implemented --->
 				<a href="/Loan.cfm?project_id=#getDetails.project_id#&Action=addItems">[ Add Loan ] </a>
+
+				<div>
+					<form name="addLoan" method="post" action="Project.cfm">
+						<input type="hidden" name="transaction_id" id="transaction_id" value="">
+						<input type="text" name="loan_number" id="loan_number" value="">
+						<input type="submit" value="Add Loan" class="savBtn" disabled>
+						<script>
+							function makeLoanPicker(nameControl,idControl,submitControl) {
+								$('##'+nameControl).autocomplete({
+									source: function (request, response) {
+										$.ajax({
+											url: "/transactions/component/functions.cfc",
+											data: { term: request.term, method: 'getLoanAutocomplete' },
+											dataType: 'json',
+											success : function (data) { response(data); },
+											error : function (jqXHR, textStatus, error) {
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												console.log(error);
+												messageDialog('Error:' + message ,'Error: ' + error);
+											}
+										})
+									},
+									select: function (event, result) {
+										if (idControl) {
+											// if idControl is non null, non-empty, non-false
+											$('##'+idControl).val(result.item.id);
+										}
+										if (submitControl) {
+											// if submitControl is non null, non-empty, non-false
+											$('##'+submitControl).prop('disabled',false);
+										}
+									},
+									minLength: 3
+								}).autocomplete("instance")._renderItem = function(ul,item) {
+									// override to display meta "collection name * (description)" instead of value in picklist.
+									return $("<li>").append("<span>" + item.value + " (" + item.meta + ")</span>").appendTo(ul);
+								};
+							};
+
+							$(document).ready(function () {
+								makeLoanPicker("loan_number","transaction_id");
+							});
+						</script>
+					</form>
+				</div>				
+
 				<cfset i=1>
 				<cfloop query="getLoans">
 		 			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -565,6 +623,21 @@
 </cfif>				
 <!------------------------------------------------------------------------------------------->
 <cfif action is "addtaxon">
+	<cfoutput>
+		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into project_taxonomy (
+			    project_id,
+			    taxon_name_id
+			) values (
+				#project_id#,
+				#newTaxId#
+			)
+		</cfquery>
+	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###taxonomy" addtoken="false">
+	</cfoutput>
+</cfif>				
+<!------------------------------------------------------------------------------------------->
+<cfif action is "addLoan">
 	<cfoutput>
 		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into project_taxonomy (
