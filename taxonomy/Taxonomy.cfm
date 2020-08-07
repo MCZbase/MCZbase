@@ -249,7 +249,7 @@ limitations under the License.
 							<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 						</span>
 					</div>
-				</div>
+			
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-5">
@@ -387,7 +387,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 border bg-light row ml-4 ml-4 rounded mt-2 mb-0 pt-1 pb-2 pl-2">
+						<div class="col-12 col-md-6 border bg-light row ml-lg-4 ml-0 rounded mt-2 mb-0 pt-1 pb-2 pl-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
