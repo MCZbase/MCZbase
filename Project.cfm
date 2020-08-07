@@ -613,7 +613,7 @@
 				</cfloop>
 			</p>	
 		</cfoutput>
-                
+
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif action is "removeTaxonomy">
@@ -659,7 +659,7 @@
 				</cfif>
 			)
 		</cfquery>
-	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id#" addtoken="false">
+	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
 	</cfoutput>
 </cfif>				
 <!------------------------------------------------------------------------------------------->
@@ -667,7 +667,7 @@
 	<cfoutput>
 		<cfquery name="deleteSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from project_sponsor
-			where PROJECT_SPONSOR_ID=#PROJECT_SPONSOR_ID#
+			where PROJECT_SPONSOR_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PROJECT_SPONSOR_ID#">
 		</cfquery>
 	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###sponsor" addtoken="false">
 	</cfoutput>
@@ -678,9 +678,9 @@
 		<cfquery name="updateSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update project_sponsor
 			set 
-			agent_name_id=#agent_name_id#,
-			ACKNOWLEDGEMENT='#ACKNOWLEDGEMENT#'
-			where PROJECT_SPONSOR_ID=#PROJECT_SPONSOR_ID#
+			agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">,
+			ACKNOWLEDGEMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACKNOWLEDGEMENT#">
+			where PROJECT_SPONSOR_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PROJECT_SPONSOR_ID#">
 		</cfquery>
 	<cflocation url="Project.cfm?action=editProject&project_id=#project_id###sponsor" addtoken="no">
 	</cfoutput>
@@ -818,11 +818,14 @@ VALUES (
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "addTrans">
  <cfoutput>
- 
-<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
- 	INSERT INTO project_trans (project_id, transaction_id) values (#project_id#, #transaction_id#)
-
-  </cfquery>
+	<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ 		INSERT INTO project_trans 
+			(project_id, transaction_id) 
+		values (
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">, 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		)
+  	</cfquery>
    <cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
  </cfoutput>
 </cfif>
