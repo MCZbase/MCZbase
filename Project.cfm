@@ -543,7 +543,7 @@
 									appendTo: '##' + appendTo
 								}).autocomplete("instance")._renderItem = function(ul,item) {
 									// override to display meta "collection name * (description)" instead of value in picklist.
-									return $("<li>").append("<div>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
+									return $("<li>").append("<div style='width: 30em;'>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
 								};
 							};
 
