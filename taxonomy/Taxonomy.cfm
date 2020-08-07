@@ -300,7 +300,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 mb-2">
-						<div class="col-12 col-md-6 border bg-light row pb-2 ml-0 pr-0 rounded mt-2 pl-2">
+						<div class="col-12 col-md-6 border bg-light row pb-2 ml-0 pr-0 pt-1 rounded mt-2 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -320,7 +320,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-7 col-md-4 px-0 float-left">
+							<div class="col-7 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -338,10 +338,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-3 w-100 px-0 float-left"> 
+							<div class="col-5 w-100 px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-md-12 pl-0 float-left">
+							<div class="col-12 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
@@ -387,7 +387,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 border bg-light row ml-4 ml-4 rounded mt-2 mb-0 pt-0 pb-2 pl-2">
+						<div class="col-12 col-md-6 border bg-light row ml-4 ml-4 rounded mt-2 mb-0 pt-1 pb-2 pl-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -407,7 +407,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-7 col-md-3 px-0 float-left">
+							<div class="col-7 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -425,10 +425,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-5 col-md-3 px-0 float-left">
+							<div class="col-5 px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 88%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-md-12 pl-0 float-left">
+							<div class="col-12 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
