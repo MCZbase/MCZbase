@@ -570,9 +570,9 @@
 						<a href="Project.cfm?Action=delTrans&transaction_id=#transaction_id#&project_id=#getDetails.project_id#">
 							[ Remove ]
 						</a>
-						<cfif len(project_trans_remarks) GT 0><cfset project_trans_remarks = "[#project_trans_remarks#]"></cfif>
+						<cfif len(project_trans_remarks) GT 0><cfset pr_t_remarks = "[#project_trans_remarks#]"><cfelse><cfset pr_t_remarks = ""></cfif>
 						<div>
-							#nature_of_material# - #LOAN_DESCRIPTION# #project_trans_remarks#
+							#nature_of_material# - #LOAN_DESCRIPTION# #pr_t_remarks#
 						</div>
 					</div>
 					<cfset i=i+1>
