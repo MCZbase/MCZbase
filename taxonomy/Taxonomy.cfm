@@ -509,7 +509,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div id="division_row" class="form-row col-12 px-0 botanical mx-0">
-						<div class="col-3 px-0">
+						<div class="col-12 col-xl-2 col-md-4 px-0">
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 botanical">
 							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label float-left">Division</label>
@@ -523,7 +523,7 @@ limitations under the License.
 								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0">
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 mx-0">
