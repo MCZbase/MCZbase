@@ -232,7 +232,7 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12 mb-3">
-					<div class="row">
+			
 						<h1 class="h2" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -243,8 +243,7 @@ limitations under the License.
 							<cfelse>
 							<cfset hasTaxonID = false>
 						</cfif>
-					</div>
-					<div class="row">
+				
 						<span>
 						<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 							<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
@@ -1119,7 +1118,7 @@ limitations under the License.
 										</select>
 									</div>
 								</div>
-								<div class="form-row col-12">
+								<div class="form-row col-12 mb-2">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
@@ -1136,7 +1135,7 @@ limitations under the License.
 											<cfset searchclass = 'class="btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
-									<div class="col-12 col-md-2 px-0 float-left">
+									<div class="col-12 col-md-6 px-0 float-left">
 									<select name="taxonid_guid_type" id="taxonid_guid_type" class="custom-select data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
@@ -1154,7 +1153,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-									<div class="col-12 col-md-2 px-0 float-left"> 
+									<div class="col-12 col-md-5 px-0 float-left"> 
 									<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass#>#searchtext#</a> 
 													</div>
 									<!---  Note: value of guid is blank, user must look up a value for the cloned taxon --->
