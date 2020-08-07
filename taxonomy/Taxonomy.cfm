@@ -475,9 +475,9 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 botanical mx-0">
-						<div class="col-6 px-0 botanical">
-							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
-							<div class="col-sm-7 float-left">
+						<div class="col-12 col-md-8 px-0 botanical">
+							<label for="infraspecific_author" id="infraspecific_author_label" class="col-md-3 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
+							<div class="col-12 col-md-7 float-left">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
 									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
@@ -1278,7 +1278,7 @@ limitations under the License.
 							</div>
 								<div class="form-row col-12 px-0 mt-3">
 									<div class="col-6 px-0">
-										<label for="genus" class="col-sm-3 col-form-label float-left">Genus <small class="likeLink botanical"
+										<label for="genus" class="col-md-3 col-form-label float-left">Genus <small class="likeLink botanical"
 						onClick="taxa.genus.value='&##215;' + taxa.genus.value;">Add &##215;</small></label>
 										<div class="col-sm-9 float-left">
 											<input name="genus" id="genus" value="#genus#" class="data-entry-input my-1">
