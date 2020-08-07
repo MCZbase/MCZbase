@@ -336,6 +336,58 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- backing for a loan autocomplete control --->
+<cffunction name="getLoanAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct
+				trans.transaction_id,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				loan_number,
+				loan_status,
+				concattransagent(trans.transaction_id,'received by') rec_agent
+			from 
+				loan left join trans on loan.transaction_id = trans.transaction_id
+			where upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			order by loan_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.transaction_id#">
+			<cfset row["value"] = "#search.loan_number#" >
+			<cfset row["meta"] = "#search.loan_number# (#search.loan_status# #loan.trans_date# #loan.rec_agent#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!--- obtain an html block for picking permits for a permit text control and permit_id control  --->
 <cffunction name="queryPermitPickerHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="valuecontrol" type="string" required="yes">
