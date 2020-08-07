@@ -361,7 +361,7 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.transaction_id#">
 			<cfset row["value"] = "#search.loan_number#" >
-			<cfset row["meta"] = "#search.loan_number# (#search.loan_status# #loan.trans_date# #loan.rec_agent#)" >
+			<cfset row["meta"] = "#search.loan_number# (#search.loan_status# #search.trans_date# #search.rec_agent#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

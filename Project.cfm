@@ -184,7 +184,8 @@
 				loan.transaction_id,
 				nature_of_material,
 				trans.trans_remarks,
-				loan_description
+				loan_description,
+				project_trans.project_trans_remarks
 			from 
 				project_trans, 
 				loan, 
@@ -493,13 +494,13 @@
 			</p>
 			<p>
 				<strong>Project Loans</strong>
-				<!--- TODO: This was never implemented --->
-				<a href="/Loan.cfm?project_id=#getDetails.project_id#&Action=addItems">[ Add Loan ] </a>
 
 				<div>
 					<form name="addLoan" method="post" action="Project.cfm">
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
-						<input type="text" name="loan_number" id="loan_number" value="">
+						<label for="loan_number">Pick loan by loan number</label>
+						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll">
+						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="">
 						<input type="submit" value="Add Loan" class="savBtn" disabled>
 						<script>
 							function makeLoanPicker(nameControl,idControl,submitControl) {
@@ -557,8 +558,9 @@
 						<a href="Project.cfm?Action=delTrans&transaction_id=#transaction_id#&project_id=#getDetails.project_id#">
 							[ Remove ]
 						</a>
+						<cfif len(project_trans_remarks) GT 0><cfset project_trans_remarks = "[#project_trans_remarks#]"></cfif>
 						<div>
-							#nature_of_material# - #LOAN_DESCRIPTION#
+							#nature_of_material# - #LOAN_DESCRIPTION# #project_trans_remarks#
 						</div>
 					</div>
 					<cfset i=i+1>
@@ -626,11 +628,11 @@
 	<cfoutput>
 		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into project_taxonomy (
-			    project_id,
-			    taxon_name_id
+				 project_id,
+				 taxon_name_id
 			) values (
-				#project_id#,
-				#newTaxId#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newTaxId#">
 			)
 		</cfquery>
 	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###taxonomy" addtoken="false">
@@ -639,16 +641,22 @@
 <!------------------------------------------------------------------------------------------->
 <cfif action is "addLoan">
 	<cfoutput>
-		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into project_taxonomy (
-			    project_id,
-			    taxon_name_id
+		<cfquery name="addloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into project_trans (
+				 project_id,
+				 transaction_id
+				 <cfif isDefined("project_loan_remarks") AND len(project_loan_remarks) GT 0>
+					, project_trans_remarks
+				</cfif>
 			) values (
-				#project_id#,
-				#newTaxId#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				<cfif isDefined("project_loan_remarks") AND len(project_loan_remarks) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_loan_remarks#">
+				</cfif>
 			)
 		</cfquery>
-	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###taxonomy" addtoken="false">
+	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id#" addtoken="false">
 	</cfoutput>
 </cfif>				
 <!------------------------------------------------------------------------------------------->
