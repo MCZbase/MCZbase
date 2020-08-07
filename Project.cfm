@@ -501,9 +501,9 @@
 						<input type="hidden" name="project_id" value="#getDetails.project_id#">
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
-						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll" size="40">
+						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll" size="40" style="width: 90%">
 						<label for="project_loan_remarks">Remarks</label>
-						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="">
+						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="" size="30">
 						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
 						<script>
 							function makeLoanPicker(nameControl,idControl,submitControl) {
@@ -541,7 +541,7 @@
 									minLength: 3
 								}).autocomplete("instance")._renderItem = function(ul,item) {
 									// override to display meta "collection name * (description)" instead of value in picklist.
-									return $("<li>").append("<span>" + item.value + " (" + item.meta + ")</span>").appendTo(ul);
+									return $("<li>").append("<div>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
 								};
 							};
 
