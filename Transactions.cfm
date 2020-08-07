@@ -543,7 +543,7 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-4">
+											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-1">
 											<div class="form-row mx-0 mb-1 px-3">
 												<div class="col-3 px-0">
 													<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
@@ -605,6 +605,39 @@ limitations under the License.
 											</script> 
 												</div>
 											</div>
+												<div class="form-row mx-0 mb-1 px-3">
+													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
+													<!--- used in call from specimen details to find loans from parts. --->
+													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+															select distinct guid 
+															from #session.flatTableName# flat 
+																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+															where 
+																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+														</cfquery>
+														<cfloop query="guidLookup">
+															<cfif not listContains(specimen_guid,guidLookup.guid)>
+																<cfif len(specimen_guid) EQ 0>
+																	<cfset specimen_guid = guidLookup.guid>
+																<cfelse>
+																	<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
+																</cfif>
+															</cfif>
+														</cfloop>
+													</cfif>
+													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
+													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
+													<div class="col-md-12">
+														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
+														<input type="text" name="specimen_guid" 
+															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
+															onchange="$('##collection_object_id').val('');">
+													</div>
+													<script>
+													</script>
+												</div>
 										</div>
 										</div>
 
@@ -675,7 +708,80 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
+	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
+	/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
+		a row of loan data from the loan reults grid.
+	
+		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+	 */
+	function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+	   var columns = $('##' + gridId).jqxGrid('columns').records;
+	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+	   if (columns.length < 21) {
+	      // don't split into columns for shorter sets of columns.
+	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	   }
+		var daysdue = datarecord['dueindays'];
+		var loanstatus = datarecord['loan_status'];
+	   var gridWidth = $('##' + gridId).width();
+	   var dialogWidth = Math.round(gridWidth/2);
+	   if (dialogWidth < 150) { dialogWidth = 150; }
+	   for (i = 1; i < columns.length; i++) {
+	      var text = columns[i].text;
+	      var datafield = columns[i].datafield;
+			if (datafield == 'dueindays') { 
+				var daysoverdue = -(datarecord[datafield]);
+				if (daysoverdue > 0 && loanstatus != 'closed') {
+					var overdue = "";
+					if (daysoverdue > 731) { 
+						overdue = Math.round(daysoverdue/365.25) + " years";
+					} else if (daysoverdue > 365) { 
+						overdue = Math.round(daysoverdue/30.44) + " months";
+	 				} else {
+						overdue = daysoverdue + " days";
+					} 
+	      		content = content + "<li class='text-danger'><strong>Overdue:</strong> <strong>by " + overdue +  "</strong></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'return_due_date') { 
+				if (daysdue < 0 && loanstatus != 'closed') {
+	      		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'id_link') {
+				// don't show to user (duplicates loan number)
+				console.log(datarecord[datafield]);  
+			} else if (datafield == 'transaction_id') {
+				// don't show to user
+				console.log(datarecord[datafield]);  
+			} else {
+	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+			}
+	   }
+	   content = content + "</ul>";
+		var transaction_id = datarecord['transaction_id'];
+		content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
+		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
+		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
+		content = content + "<a href='/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
+	   content = content + "</div>";
+	   $("##" + rowDetailsTargetId + rowIndex).html(content);
+	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+	      {
+	         autoOpen: true,
+	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+	         width: dialogWidth,
+	         title: 'Loan Details'
+	      }
+	   );
+	   // Workaround, expansion sits below row in zindex.
+	   var maxZIndex = getMaxZIndex();
+	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	};
+
 
 $(document).ready(function() {
 	/* Setup date time input controls */
@@ -773,12 +879,12 @@ $(document).ready(function() {
 			autoshowloadelement: false, // overlay acts as load element for form+results
 			columnsreorder: true,
 			groupable: true,
-			selectionmode: 'none',
+			selectionmode: 'singlerow',
 			altrows: true,
 			showtoolbar: false,
-//			ready: function () {
-//				$("##searchResultsGrid").jqxGrid('selectrow', 0);
-//			},
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
 			columns: [
 				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
 				{text: 'Transaction', datafield: 'id_link', width: 110},
@@ -809,7 +915,7 @@ $(document).ready(function() {
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
-			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findAll&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','transaction');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -828,6 +934,40 @@ $(document).ready(function() {
 
 	});
 	/* End Setup jqxgrid for Transactions Search ******************************/
+
+
+	/* Supporting cell renderers for Loan Search *****************************/
+	var dueDateCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var daysdue = rowData['dueindays'];
+		var loanstatus = rowData['loan_status'];
+		if (daysdue < 0 && loanstatus != 'closed') {
+			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>'+value+'</strong></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
+	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var daysoverdue = -value;
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var loanstatus = rowData['loan_status'];
+		if (daysoverdue > 0 && loanstatus != 'closed') {
+			var overdue = "";
+			if (daysoverdue > 731) { 
+				overdue = Math.round(daysoverdue/365.25) + " years";
+			} else if (daysoverdue > 365) { 
+				overdue = Math.round(daysoverdue/30.44) + " months";
+ 			} else {
+				overdue = daysoverdue + " days";
+			} 
+			result = '<span class="text-danger #cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><strong>Overdue '+overdue+'</strong></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 
 
 	/* Setup jqxgrid for Loan Search ******************************************/
@@ -897,7 +1037,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -927,14 +1067,14 @@ $(document).ready(function() {
 			},
 			columns: [
 				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
-				{text: 'Loan', datafield: 'id_link', width: 100},
+				{text: 'Loan', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Type', datafield: 'loan_type', width: 100},
 				{text: 'Status', datafield: 'loan_status', width: 100},
 				{text: 'Date', datafield: 'trans_date', width: 100},
-				{text: 'Due Date', datafield: 'return_due_date', width: 100},
-				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true },
+				{text: 'Due Date', datafield: 'return_due_date', width: 100, cellsrenderer: dueDateCellRenderer}, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Due in (days)', datafield: 'dueindays', hideable: true, hidden: true, cellsrenderer: overdueCellRenderer },  // datafield name referenced in row details dialog
 				{text: 'Closed', datafield: 'closed_date', width: 100},
 				{text: 'To', datafield: 'rec_agent', width: 100},
 				{text: 'Recipient', datafield: 'recip_inst', width: 100},
@@ -949,7 +1089,7 @@ $(document).ready(function() {
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
-				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true },
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
 			rowdetails: true,
@@ -961,7 +1101,7 @@ $(document).ready(function() {
 		});
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
-			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm').serialize() + '">Link to this search</a>');
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findLoans&execute=true&' + $('##loanSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','loan');
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
@@ -969,7 +1109,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
