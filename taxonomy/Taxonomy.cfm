@@ -426,7 +426,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-5 px-0 float-left">
-								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 88%;" target="_blank" #searchclass#>#searchtext# </a>
+								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
@@ -437,7 +437,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0" style="font-size: 88%;">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0" style="font-size: 86%;">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
