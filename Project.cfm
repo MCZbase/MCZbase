@@ -495,8 +495,9 @@
 			<p>
 				<strong>Project Loans</strong>
 
-				<div>
-					<form name="addLoan" method="post" action="Project.cfm">
+				<form name="addLoan" method="post" action="Project.cfm">
+					<div style="width: 100%">
+						<input type="hidden" name="action" id="addLoanAction" value="addLoan">
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
 						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll">
@@ -547,8 +548,8 @@
 								makeLoanPicker("loan_number","transaction_id","addLoanButton");
 							});
 						</script>
-					</form>
-				</div>				
+					</div>				
+				</form>
 
 				<cfset i=1>
 				<cfloop query="getLoans">
