@@ -474,7 +474,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 botanical">
+					<div class="form-row col-12 px-0 botanical mx-0">
 						<div class="col-6 px-0 botanical">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 							<div class="col-sm-7 float-left">
