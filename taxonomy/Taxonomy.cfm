@@ -552,7 +552,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 							<label for="superorder" class="col-12 col-md-3 col-form-label float-left">Superorder</label>
 							<div class="col-12 col-md-9 float-left">
