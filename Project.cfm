@@ -530,6 +530,7 @@
 										})
 									},
 									select: function (event, result) {
+										$('##'+nameControl).val(result.item.meta);
 										if (idControl) {
 											// if idControl is non null, non-empty, non-false
 											$('##'+idControl).val(result.item.id);
@@ -541,10 +542,11 @@
 									},
 									minLength: 3,
 									appendTo: '##' + appendTo
-								}).autocomplete("instance")._renderItem = function(ul,item) {
-									// override to display meta "collection name * (description)" instead of value in picklist.
-									return $("<li>").append("<div style='width: 30em;'>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
-								};
+								});
+								//.autocomplete("instance")._renderItem = function(ul,item) {
+								//	// override to display meta "collection name * (description)" instead of value in picklist.
+								//	return $("<li>").append("<div style='width: 30em;'>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
+								//};
 							};
 
 							$(document).ready(function () {
