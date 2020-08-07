@@ -496,12 +496,12 @@
 				<strong>Project Loans</strong>
 
 				<form name="addLoan" method="post" action="Project.cfm">
-					<div style="width: 100%">
+					<div style="width: 100%; border: 1px black; border-style: solid; padding: 3px;">
 						<input type="hidden" name="action" id="addLoanAction" value="addLoan">
 						<input type="hidden" name="project_id" value="#getDetails.project_id#">
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
-						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll">
+						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll" size="40">
 						<label for="project_loan_remarks">Remarks</label>
 						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="">
 						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
