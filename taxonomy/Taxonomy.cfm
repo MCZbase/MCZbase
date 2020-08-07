@@ -1318,7 +1318,7 @@ limitations under the License.
 									<div class="col-6 px-0">
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
 										<div class="col-sm-8 float-left">
-											<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select custom-select-sm my-1">
+											<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-select my-1">
 												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
