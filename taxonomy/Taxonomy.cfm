@@ -804,7 +804,7 @@ limitations under the License.
 				<div class="col-12 mt-3 mb-5 px-0">
 					<div class="border rounded px-2 bg-grayish float-left w-100">
 						<div class="col-12 px-0">
-						<div class="form-row mx-0 mt-2 px-3 pb-1 border bg-light rounded">	
+						<div class="form-row mx-0 mt-2 px-3 border bg-light rounded">	
 						
 								<div class="col-12">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
@@ -914,7 +914,7 @@ limitations under the License.
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-						<div class="border bg-light p-3 rounded mt-3 float-left col-12 col-md-6">
+						<div class="border bg-light p-3 rounded mt-2 float-left col-12 col-md-6">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -938,7 +938,7 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
-						<div class="border bg-light p-3 rounded mt-3 float-left col-12 col-md-6">
+						<div class="border bg-light p-3 rounded mt-2 float-left col-12 col-md-6">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
 							from taxon_habitat 
