@@ -902,7 +902,7 @@ limitations under the License.
 								<input type="hidden" name="newRelatedId">
 								<label for="relation_authority" class="data-entry-label">Authority</label>
 								<input type="text" name="relation_authority" class="data-entry-input">
-								<input type="submit" value="Create" class="btn-xs btn-secondary mt-3 ml-1">
+								<input type="submit" value="Create" class="btn-xs btn-secondary mt-2 ml-1">
 							</div>
 						</form>
 						<div id="taxonrelations"></div>
