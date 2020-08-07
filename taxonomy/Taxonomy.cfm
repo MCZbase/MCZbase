@@ -806,7 +806,7 @@ limitations under the License.
 						<div class="col-12">
 						<div class="form-row mx-0 mt-2 p-3 border bg-light rounded">	
 						
-								<div class="col-12">
+								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
 									<span>
