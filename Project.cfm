@@ -500,8 +500,9 @@
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
 						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll">
+						<label for="project_loan_remarks">Remarks</label>
 						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="">
-						<input type="submit" value="Add Loan" class="savBtn" disabled>
+						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
 						<script>
 							function makeLoanPicker(nameControl,idControl,submitControl) {
 								$('##'+nameControl).autocomplete({
@@ -543,7 +544,7 @@
 							};
 
 							$(document).ready(function () {
-								makeLoanPicker("loan_number","transaction_id");
+								makeLoanPicker("loan_number","transaction_id","addLoanButton");
 							});
 						</script>
 					</form>
