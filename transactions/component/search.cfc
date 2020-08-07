@@ -169,7 +169,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getTransactions: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfset message = trim("Error processing #GetFunctionCalledName()#:: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
@@ -458,7 +458,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing getLoans: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfset message = trim("Error processing #GetFunctionCalledName()#:: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
