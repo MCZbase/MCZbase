@@ -36,10 +36,8 @@ limitations under the License.
 <!--- include stylesheets and javascript library files --->
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
 <link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css">
-<!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css">
-<!-- Provides account, magnifier, and cog icons-->
+<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <!--- Library supporting a multiselect widget based on jquery-ui.  --->
