@@ -821,7 +821,7 @@ limitations under the License.
 										</form>
 									</span>
 								</div>
-								<div id="taxonPublicationsDiv" class="col-12 row mt-3 float-left"></div>
+								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 						</div>
 					</div>
 						<script>
