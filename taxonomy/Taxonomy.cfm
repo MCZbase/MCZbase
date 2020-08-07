@@ -437,7 +437,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0" style="font-size: 80%;">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-2 py-0" style="font-size: 88%;">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
