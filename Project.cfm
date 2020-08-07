@@ -4,13 +4,14 @@
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	$(document).ready(function() {
-		$("##start_date").datepicker();
-		$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
-			buttonImageOnly: true });
-		$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
-			buttonImageOnly: true });
+		$("##start_date").datepicker({ dateFormat: "yyyy-mm-dd"});
+		$("##end_date").datepicker({ dateFormat: "yyyy-mm-dd"});
+		//$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		//	buttonImage: "images/cal_icon.png",
+		//	buttonImageOnly: true });
+		//$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		//	buttonImage: "images/cal_icon.png",
+		//	buttonImageOnly: true });
       $(".ui-datepicker-trigger").css("margin-bottom","-7px");	
 	});
 	function addProjTaxon() {
@@ -55,9 +56,9 @@
 			</tr>
 		</table>
 			<label for="start_date">Start&nbsp;Date</label>
-				<input type="text" name="start_date" id="start_date">
+				<input type="text" name="start_date" id="start_date" placeholder="yyyy-mm-dd">
 				<label for="end_date">End&nbsp;Date</label>
-				<input type="text" name="end_date" id="end_date">
+				<input type="text" name="end_date" id="end_date" placeholder="yyyy-mm-dd">
 				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
 				<label for="project_remarks">Remarks</label>
@@ -287,9 +288,9 @@
 				</tr>
 			</table>
 				<label for="start_date">Start&nbsp;Date</label>
-				<input type="text" name="start_date" id="start_date" value="#dateformat(proj.start_date,"yyyy-mm-dd")#">
+				<input type="text" name="start_date" id="start_date" value="#dateformat(proj.start_date,"yyyy-mm-dd")#" placeholder="yyyy-mm-dd">
 				<label for="end_date">End&nbsp;Date</label>
-				<input type="text" name="end_date" id="end_date" value="#dateformat(proj.end_date,"yyyy-mm-dd")#">
+				<input type="text" name="end_date" id="end_date" value="#dateformat(proj.end_date,"yyyy-mm-dd")#" placeholder="yyyy-mm-dd">
 				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="80" rows="6">#proj.project_description#</textarea>
 				<label for="project_remarks">Remarks</label>
