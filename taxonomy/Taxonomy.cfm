@@ -696,7 +696,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row col-12 px-0 mx-0">
-						<div class="col-12 px-0">
+						<div class="col-12 px-0 mt-1">
 							<label for="taxon_remarks" class="col-12 col-md-3 text-right col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<div class="col-12 col-md-9 float-right">
 								<textarea name="taxon_remarks" id="taxon_remarks" 
