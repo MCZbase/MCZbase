@@ -498,6 +498,7 @@
 				<form name="addLoan" method="post" action="Project.cfm">
 					<div style="width: 100%">
 						<input type="hidden" name="action" id="addLoanAction" value="addLoan">
+						<input type="hidden" name="project_id" value="#getDetails.project_id#">
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
 						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll">
