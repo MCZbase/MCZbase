@@ -884,7 +884,7 @@ limitations under the License.
 						}
 					</script>
 
-						<div class="col-12 px-3">
+						<div class="col-12 px-0">
 						<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
