@@ -2,6 +2,12 @@
 	<cfset action="findAll">
 </cfif>
 <cfswitch expression="#action#">
+	<!--- API note: action/method e.g. action=findLoans and method=getLoans seems duplicative, but
+			action is used to determine which tab to show in Transactions.cfm, and method is passed 
+			to /transactions/component/search.cfm.  When invoking with execute=true method does not
+			need to be included in the call, but it will be included in the URI parameter list when
+			clicking on the "Link to this search" link.
+	  --->
 	<cfcase value="findLoans">
 	<cfset pageTitle = "Search Loans">
 	<cfif isdefined("execute")>
@@ -160,6 +166,12 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("coll_obj_disposition")>
 		<cfset coll_obj_disposition="">
+	</cfif>
+	<cfif not isdefined("collection_object_id")>
+		<cfset collection_object_id="">
+	</cfif>
+	<cfif not isdefined("specimen_guid")>
+		<cfset specimen_guid="">
 	</cfif>
 	
 	<div id="overlaycontainer" style="position: relative;">
@@ -325,7 +337,7 @@ limitations under the License.
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct(trans_agent_role) 
 									from cttrans_agent_role
-									where trans_agent_role != 'associated with agency' 
+									where trans_agent_role != 'stewardship from agency' 
 										and trans_agent_role != 'received from' 
 										and trans_agent_role != 'borrow overseen by' 
 									order by trans_agent_role
