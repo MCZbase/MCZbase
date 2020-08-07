@@ -10,7 +10,7 @@ input.badPick, select.badPick, textarea.badPick {
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: #8BFEB9!important;
 }
-#taxon_form label {font-size: .8em;}
+#taxon_form label {font-size: .8em;line-height: 1.02em;}
 /* BELOW: Are these used?  */
 /*form input.anchor-button {  
 	background-color: white;
