@@ -815,13 +815,13 @@ limitations under the License.
 											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
 												<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
 											</div>
-											<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-											<input type="hidden" name="method" value="newTaxonPub">
-											<input type="hidden" name="publication_id" id="publication_id">
+									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+									<input type="hidden" name="method" value="newTaxonPub">
+									<input type="hidden" name="publication_id" id="publication_id">
 										</form>
 									</span>
 								</div>
-								<div id="taxonPublicationsDiv" class="col-10 mt-3 float-left"></div>
+								<div id="taxonPublicationsDiv" class="col-12 row mt-3 float-left"></div>
 						</div>
 					</div>
 						<script>
