@@ -507,7 +507,7 @@
 						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="" size="30">
 						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
 						<script>
-							function makeLoanPicker(nameControl,idControl,submitControl,appendTo) {
+							function makeLoanPicker(nameControl,idControl,submitControl) {
 								$('##'+nameControl).autocomplete({
 									source: function (request, response) {
 										$.ajax({
@@ -529,6 +529,10 @@
 											}
 										})
 									},
+									focus: function (event, ui) {
+										$('##'+nameControl).val(result.item.meta);
+										return false;
+									},
 									select: function (event, result) {
 										$('##'+nameControl).val(result.item.meta);
 										if (idControl) {
@@ -539,9 +543,9 @@
 											// if submitControl is non null, non-empty, non-false
 											$('##'+submitControl).prop('disabled',false);
 										}
+										return false;
 									},
-									minLength: 3,
-									appendTo: '##' + appendTo
+									minLength: 3
 								});
 								//.autocomplete("instance")._renderItem = function(ul,item) {
 								//	// override to display meta "collection name * (description)" instead of value in picklist.
