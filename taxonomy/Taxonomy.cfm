@@ -903,7 +903,7 @@ limitations under the License.
 								<input type="hidden" name="newRelatedId">
 								<label for="relation_authority" class="data-entry-label">Authority</label>
 								<input type="text" name="relation_authority" class="data-entry-input">
-								<input type="submit" value="Create" class="btn-xs btn-secondary mt-1 ml-1">
+								<input type="submit" value="Create" class="btn-xs btn-secondary mt-3 ml-1">
 							</div>
 						</form>
 						<div id="taxonrelations"></div>
@@ -935,7 +935,7 @@ limitations under the License.
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-1">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
-								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-3 float-left">
+								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
 						<div class="border bg-light p-3 rounded mt-3 float-left col-12 col-md-6">
