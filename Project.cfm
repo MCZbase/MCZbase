@@ -4,8 +4,8 @@
 <cfoutput>
 <script language="javascript" type="text/javascript">
 	$(document).ready(function() {
-		$("##start_date").datepicker({ dateFormat: "yyyy-mm-dd"});
-		$("##end_date").datepicker({ dateFormat: "yyyy-mm-dd"});
+		$("##start_date").datepicker({ dateFormat: "yy-mm-dd"});  
+		$("##end_date").datepicker({ dateFormat: "yy-mm-dd"});
 		//$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
 		//	buttonImage: "images/cal_icon.png",
 		//	buttonImageOnly: true });
