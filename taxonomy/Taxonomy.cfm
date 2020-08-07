@@ -231,7 +231,7 @@ limitations under the License.
 <cfoutput>
 		<div class="container">
 			<div class="row">
-				<div class="col-12 mb-3">
+				<div class="col-12 mb-3 px-1">
 			
 						<h1 class="h2" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
