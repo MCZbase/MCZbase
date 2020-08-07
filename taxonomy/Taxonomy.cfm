@@ -478,7 +478,7 @@ limitations under the License.
 						<div class="col-6 px-0 botanical">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-sm-5 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
 							<div class="col-sm-7 float-left">
-								<input type="text" name="infraspecific_author" id="infraspecific_author" class="custom-select data-entry-select mt-2" value="#gettaxa.infraspecific_author#">
+								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
 									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
 									<small class="link-color">Find Kew Abbr</small>
