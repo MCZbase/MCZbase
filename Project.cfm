@@ -502,11 +502,12 @@
 						<input type="hidden" name="transaction_id" id="transaction_id" value="">
 						<label for="loan_number">Pick loan by loan number</label>
 						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll" size="40" style="width: 90%">
+						<div style="width: 50em; positiuon: absolute;"></div>
 						<label for="project_loan_remarks">Remarks</label>
 						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="" size="30">
 						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
 						<script>
-							function makeLoanPicker(nameControl,idControl,submitControl) {
+							function makeLoanPicker(nameControl,idControl,submitControl,appendTo) {
 								$('##'+nameControl).autocomplete({
 									source: function (request, response) {
 										$.ajax({
@@ -538,7 +539,8 @@
 											$('##'+submitControl).prop('disabled',false);
 										}
 									},
-									minLength: 3
+									minLength: 3,
+									appendTo: '##' + appendTo
 								}).autocomplete("instance")._renderItem = function(ul,item) {
 									// override to display meta "collection name * (description)" instead of value in picklist.
 									return $("<li>").append("<div>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
