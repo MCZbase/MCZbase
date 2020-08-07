@@ -488,7 +488,7 @@ limitations under the License.
 					</div>
 					<div class="form-row col-12 px-0">
 						<div class="col-12 col-md-3 px-0">
-							<label for="kingdom" class="col-12 col-md-3 col-form-label float-left">Kingdom</label>
+							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left-center float-left">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-1">
 							</div>
@@ -805,7 +805,7 @@ limitations under the License.
 						<div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 						
-								<div class="col-12">
+								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
 									<span>
