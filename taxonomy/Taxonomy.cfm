@@ -486,7 +486,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left-center float-left">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
@@ -508,7 +508,7 @@ limitations under the License.
 						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
-					<div id="division_row" class="form-row col-12 px-0 botanical">
+					<div id="division_row" class="form-row col-12 px-0 botanical mx-0">
 						<div class="col-3 px-0">
 						</div>
 						<div class="col-12 col-md-3 px-0 botanical">
@@ -526,7 +526,7 @@ limitations under the License.
 						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 							<label for="superclass" class="col-12 col-md-3 col-form-label float-left">Superclass</label>
 							<div class="col-12 col-md-9 float-left">
@@ -552,7 +552,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 px-0">
 						<div class="col-12 col-md-3 px-0">
 							<label for="superorder" class="col-12 col-md-3 col-form-label float-left">Superorder</label>
 							<div class="col-12 col-md-9 float-left">
@@ -579,7 +579,7 @@ limitations under the License.
 						</div>
 					</div>
 					<cfif len(gettaxa.subsection) GT 0.>
-						<div class="form-row col-12 px-0">
+						<div class="form-row col-12 px-0 mx-0">
 							<div class="col-12 col-md-3 px-0">
 							</div>
 							<div class="col-12 col-md-3 px-0">
@@ -599,7 +599,7 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
 							<div class="col-12 col-md-9 float-left">
@@ -625,7 +625,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 						</div>
 						<div class="col-12 col-md-3 px-0">
@@ -650,7 +650,7 @@ limitations under the License.
 						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 						</div>
 						<div class="col-12 col-md-3 px-0">
@@ -679,7 +679,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 col-md-3 px-0">
 						</div>
 						<div class="col-12 col-md-6 px-0">
@@ -695,7 +695,7 @@ limitations under the License.
 						<div class="col-12 col-md-3 px-0">
 						</div>
 					</div>
-					<div class="form-row col-12 px-0">
+					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 px-0">
 							<label for="taxon_remarks" class="col-12 col-md-3 text-right col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<div class="col-12 col-md-9 float-right">
