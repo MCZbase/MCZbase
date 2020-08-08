@@ -752,8 +752,7 @@ limitations under the License.
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
-			} else if (datafield == 'project') { 
-console.log(pid);
+			} else if (datafield == 'project_name') { 
 				if (pid) {
 	      		content = content + "<li class=''><strong>" + text + ":</strong> <a href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</li>";
 				} else { 
@@ -1107,7 +1106,7 @@ $(document).ready(function() {
 				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: true },
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
