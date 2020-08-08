@@ -753,8 +753,9 @@ limitations under the License.
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
 			} else if (datafield == 'project') { 
+console.log(pid);
 				if (pid) {
-	      		content = content + "<li class=''><strong>" + text + ":</strong> <a href='/ProjectDetails.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class=''><strong>" + text + ":</strong> <a href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -961,7 +962,7 @@ $(document).ready(function() {
 		var result = "";
 		var pid = rowData['pid'];
 		if (pid) {
-			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/ProjectDetails.cfm?project_id='+pid+'" target="_blank">'+value+'</a></span>';
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/ProjectDetail.cfm?project_id='+pid+'" target="_blank">'+value+'</a></span>';
 		} else { 
 			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 		}
