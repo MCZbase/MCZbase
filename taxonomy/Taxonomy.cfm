@@ -561,7 +561,7 @@ limitations under the License.
 								<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="infraorder" class="col-12 col-md-3 col-form-label align-left-center float-left">Infraorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-1">
@@ -589,37 +589,34 @@ limitations under the License.
 							</div>
 						</div>
 					</cfif>
-					<div class="form-row col-12 px-0 mx-0">
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-							<label for="superfamily" class="col-sm-3 col-form-label float-left">Superfamily</label>
+					
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
+							<label for="superfamily" class="col-sm-3 col-form-label align-left-center float-left">Superfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-							<label for="family" class="col-12 col-md-3 col-form-label float-left">Family</label>
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
+							<label for="family" class="col-12 col-md-3 col-form-label align-left-center float-left">Family</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-							<label for="subfamily" class="col-sm-3 col-form-label float-left">Subfamily</label>
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
+							<label for="subfamily" class="col-sm-3 col-form-label align-left-center float-left">Subfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-							<label for="tribe" class="col-12 col-md-3 col-form-label float-left">Tribe</label>
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
+							<label for="tribe" class="col-12 col-md-3 col-form-label align-left-center float-left">Tribe</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
-					</div>
-					<div class="form-row col-12 px-0 mx-0">
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-							<label for="genus" class="col-12 col-md-3 col-form-label float-left">Genus</label>
+
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
+							<label for="genus" class="col-12 col-md-3 col-form-label align-left-center float-left">Genus</label>
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
 								</span>
@@ -628,7 +625,7 @@ limitations under the License.
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
@@ -637,25 +634,22 @@ limitations under the License.
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-						</div>
-					</div>
-					<div class="form-row col-12 px-0 mx-0">
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+					
+				
+		
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="species" class="col-12 col-md-3 col-form-label float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="subspecies" class="col-12 col-md-3 col-form-label float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="col-12 col-md-6 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-1" data-style="btn-primary" show-tick>
@@ -668,11 +662,9 @@ limitations under the License.
 								</select>
 							</div>
 						</div>
-					</div>
-					<div class="form-row col-12 px-0 mx-0">
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-						</div>
-						<div class="col-12 col-md-6 px-0">
+				
+			
+						<div class="col-12 col-md-6 px-0 float-left">
 							<label for="author_text" class="col-12 col-md-2 col-form-label float-left">Author</label>
 							<div class="col-12 col-md-10 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
@@ -682,9 +674,8 @@ limitations under the License.
 								</span>
 							 </div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
-						</div>
-					</div>
+					
+					
 					<div class="form-row col-12 px-0 mx-0">
 						<div class="col-12 px-0 mt-1">
 							<label for="taxon_remarks" class="col-12 col-md-3 text-right col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
