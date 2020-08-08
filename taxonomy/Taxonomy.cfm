@@ -505,12 +505,7 @@ limitations under the License.
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-xl-3 col-md-4 px-0 float-left">
-						</div>
-				
 					<div id="division_row" class="botanical">
-						<div class="col-12 col-xl-2 col-md-4 px-0 float-left">
-						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 botanical float-left">
 							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
@@ -522,8 +517,6 @@ limitations under the License.
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
-						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 						</div>
 					</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
