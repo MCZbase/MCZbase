@@ -1106,7 +1106,7 @@ $(document).ready(function() {
 				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: true },
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellsRenderer },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer },
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
