@@ -726,6 +726,7 @@ limitations under the License.
 		var loanstatus = datarecord['loan_status'];
 	   var gridWidth = $('##' + gridId).width();
 	   var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
 	   if (dialogWidth < 150) { dialogWidth = 150; }
 	   for (i = 1; i < columns.length; i++) {
 	      var text = columns[i].text;
@@ -748,6 +749,12 @@ limitations under the License.
 			} else if (datafield == 'return_due_date') { 
 				if (daysdue < 0 && loanstatus != 'closed') {
 	      		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'project') { 
+				if (pid) {
+	      		content = content + "<li class=''><strong>" + text + ":</strong> <a href='/ProjectDetails.cfm?project_id="+pid+"'> + datarecord[datafield] +  "</li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -949,6 +956,17 @@ $(document).ready(function() {
 		}
 		return result;
 	};
+	var projectCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var pid = rowData['pid'];
+		if (pid) {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/ProjectDetails.cfm?project_id='+pid+'">'+value+'</strong></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -1088,7 +1106,7 @@ $(document).ready(function() {
 				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: true },
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellsRenderer },
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
