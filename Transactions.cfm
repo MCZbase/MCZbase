@@ -727,11 +727,18 @@ limitations under the License.
 	   var gridWidth = $('##' + gridId).width();
 	   var dialogWidth = Math.round(gridWidth/2);
 		var pid = datarecord['pid'];
+		var transaction_id = datarecord['transaction_id'];
 	   if (dialogWidth < 150) { dialogWidth = 150; }
 	   for (i = 1; i < columns.length; i++) {
 	      var text = columns[i].text;
 	      var datafield = columns[i].datafield;
-			if (datafield == 'dueindays') { 
+			if (datafield == 'loan_number') { 
+				if (transaction_id) {
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'dueindays') { 
 				var daysoverdue = -(datarecord[datafield]);
 				if (daysoverdue > 0 && loanstatus != 'closed') {
 					var overdue = "";
