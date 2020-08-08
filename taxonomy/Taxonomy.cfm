@@ -235,7 +235,7 @@ limitations under the License.
 			
 						<h1 class="h2" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
-							<i class="fas fas-info fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+							<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</h1>
 						<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 						<cfif len(getTaxa.taxonid) GT 0>
