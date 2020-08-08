@@ -531,13 +531,13 @@ limitations under the License.
 								<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="subclass" class="col-12 col-md-3 col-form-label align-left-center float-left">SubClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="col-12 col-md-4 col-xl-3 px-0">
+						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="infraclass" class="col-12 col-md-3 col-form-label align-left-center float-left">InfraClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-1">
