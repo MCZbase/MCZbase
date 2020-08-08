@@ -614,7 +614,7 @@ limitations under the License.
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
-
+						<div class="form-row">
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="genus" class="col-12 col-md-3 col-form-label align-left-center float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
@@ -649,6 +649,7 @@ limitations under the License.
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
+							</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
 							<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="col-12 col-md-6 float-left">
