@@ -754,7 +754,7 @@ limitations under the License.
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-	      		content = content + "<li class=''><strong>" + text + ":</strong> <a href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
