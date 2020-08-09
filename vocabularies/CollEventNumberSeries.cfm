@@ -304,7 +304,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script>
 			</cfoutput>
