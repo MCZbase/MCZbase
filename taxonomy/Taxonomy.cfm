@@ -232,7 +232,7 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12 mb-3 px-3 px-lg-1">
-			
+			<main>
 						<h1 class="h2" id="content">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -781,7 +781,7 @@ limitations under the License.
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
-
+			</main>
 				<div class="col-12 mt-3 mb-5 px-0">
 					<div class="border rounded px-2 pb-2 bg-grayish float-left w-100">
 						<div class="col-12 px-0">
