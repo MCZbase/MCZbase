@@ -73,9 +73,9 @@ limitations under the License.
 									</div>
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 px-0">
-											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1 mt-2"></span></button>
-											<button type="reset" class="btn-xs btn-warning mt-2" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-2" aria-label="Start a new collection number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+											<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collection number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
 										</div>
 									</div>
 								</form>
