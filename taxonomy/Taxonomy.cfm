@@ -232,8 +232,8 @@ limitations under the License.
 		<div class="container">
 			<div class="row">
 				<div class="col-12 mb-3 px-3 px-lg-1">
-			<main>
-						<h1 class="h2" id="content">Edit Taxon:
+			<main id="content">
+						<h1 class="h2">Edit Taxon:
 							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 							<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 						</h1>
