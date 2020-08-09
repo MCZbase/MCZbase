@@ -51,7 +51,7 @@ limitations under the License.
 				<div class="container pt-0 mt-2 mb-3">
 					<div class="row">
 						<div class="col-12">
-							<div role="region" aria-labelledby="formheading">
+							<section role="search" aria-labelledby="formheading">
 								<h1 class="h3" id="formheading">Find Collecting Event Number Series</h1>
 								<form name="searchForm" id="searchForm"> 
 									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
@@ -79,7 +79,7 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							</div>
+							</section>
 						</div>
 					</div>
 				</div>
@@ -89,7 +89,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="text-left col-md-12">
-						<main role="main">
+						<section role="main">
 							<div class="pl-2 mb-5"> 
 								
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
@@ -107,7 +107,7 @@ limitations under the License.
 									<div id="enableselection"></div>
 								</div>
 							</div>
-						</main>
+						</section>
 					</div>
 				</div>
 			</div>
