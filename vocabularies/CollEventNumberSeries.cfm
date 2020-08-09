@@ -52,7 +52,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
-								<h1 class="h2" id="formheading">Find Collecting Event Number Series</h1>
+								<h1 class="h3" id="formheading">Find Collecting Event Number Series</h1>
 								<form name="searchForm" id="searchForm"> 
 									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 									<div class="form-row mb-2">
