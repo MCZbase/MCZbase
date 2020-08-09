@@ -87,10 +87,10 @@ limitations under the License.
 	
 			<!--- Results table as a jqxGrid. --->
 			<div class="container-fluid">
-				<div class="row">
-					<div class="text-left col-md-12">
+				<div class="row mx-0">
+					<div class="col-12 mb-5">
 						<section role="main">
-							<div class="pl-2 mb-5"> 
+			
 								
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 									<h4>Results: </h4>
@@ -106,7 +106,7 @@ limitations under the License.
 									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 									<div id="enableselection"></div>
 								</div>
-							</div>
+						
 						</section>
 					</div>
 				</div>
