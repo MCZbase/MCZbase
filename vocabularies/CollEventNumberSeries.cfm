@@ -269,7 +269,7 @@ limitations under the License.
 								columnListSource.push(listRow);
 							}
 						} 
-						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").jqxListBox({ source: columnListSource, height: '700px', width: '260px', checkboxes: true });
 						$("##columnPick").on('checkChange', function (event) {
 							$("##" + gridId).jqxGrid('beginupdate');
 							if (event.args.checked) {
