@@ -312,11 +312,12 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row mb-3">
 					<div class="col-12">
+						<section id="content">
 						<div class="tab-card-main mt-4 pb-2 tab-card"> 
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100">
-								<h1 id="content" class="h3 smallcaps text-white mt-1 mb-2 pl-1" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 class="h3 smallcaps text-white mt-1 mb-2 pl-1" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
@@ -543,6 +544,7 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
+						</section>
 					</div>
 				</div>
 			</div>
@@ -552,7 +554,7 @@ limitations under the License.
 		<div class="container-fluid">
 			<div class="row mx-0">
 				<div class="col-12">
-					<main role="main">
+					<section role="main">
 						<div class="mb-5"> 						
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 								<h2 class="h4">Results: </h2>
@@ -569,7 +571,7 @@ limitations under the License.
 								<div id="enableselection"></div>
 							</div>
 						</div>
-					</main>
+					</section>
 				</div>
 			</div>
 		</div>
