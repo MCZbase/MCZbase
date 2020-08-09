@@ -90,8 +90,6 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 mb-5">
 						<section role="main">
-			
-								
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 									<h4>Results: </h4>
 									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
@@ -106,7 +104,6 @@ limitations under the License.
 									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 									<div id="enableselection"></div>
 								</div>
-						
 						</section>
 					</div>
 				</div>
