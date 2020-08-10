@@ -519,7 +519,7 @@ for (i = 0; i < acc.length; i++) {
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
 							
-									<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> <a class="dropdown-item" href="/">Event</a> </div>
+									<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> </div>
 						
 							</div>
 						</li>
