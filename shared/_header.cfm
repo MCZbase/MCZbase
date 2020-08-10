@@ -552,9 +552,9 @@ for (i = 0; i < acc.length; i++) {
 								</div>--->
 							</div>
 						</li>
-		<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+		<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 							<div class="dropdown-menu" aria-labelledby="servicesDropdown">
-								<a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/how">About MCZbase</a> <a class="dropdown-item" href="/"></a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a>
+								<a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/how">About MCZbase</a> <a class="dropdown-item" href="/"></a> 
 								<div class="dropdown-divider"></div>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
@@ -567,7 +567,7 @@ for (i = 0; i < acc.length; i++) {
 							</div>
 						</li>
 		           <li class="nav-item px-4 ">
-                <a href="/contact" class="nav-link">Account</a>
+                <a href="/" class="nav-link">Account</a>
               </li>
 
 					</ul>
