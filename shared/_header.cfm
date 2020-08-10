@@ -244,7 +244,7 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
 							<div class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" >
-								<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> </div>
+								<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></div>
 							</div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
