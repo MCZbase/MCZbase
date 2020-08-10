@@ -113,9 +113,9 @@ ul li.nav-item.dropdown:hover {background-color:antiquewhite;}
 	box-shadow:none;
 }
 @media (min-width: 992px) {
-	.dropdown-menu {
+/*	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	}
+	}*/
 }
 @media (max-width:991px) {
 	ul {
@@ -316,16 +316,14 @@ html {
 	min-height: 100%;
 }
 body {
-	/* Margin bottom by footer height */
 	margin-bottom: 60px;
 }
 .footer {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	/* Set the fixed height of the footer here */
 	height: 60px;
-	line-height: 48px; /* Vertically center the text there */
+	line-height: 48px;
 	background-color: #f5f5f5;
 }
 body > .container {
@@ -386,11 +384,6 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-/*.logout-style {
-	position:absolute;
-	top:2px;
-	right: 8px;
-}*/
 .nav-link {
 	display: block;
 	padding: .25rem 1rem;
@@ -400,11 +393,6 @@ input#Username {
 }
 input#Password {
 	width: 75px;
-}
-@media only screen and (max-width: 990px) {
-	/*	.logout {
-	padding: 0.3em .45em;
-}*/
 }
 @media(min-width:991px) {
 	.mcz-center {
@@ -493,12 +481,6 @@ input#Password {
 	}
 }
 @media(max-width:575px) {
-	/*	.loginButtons {
-	padding: 3px 5px 3px 5px;
-	font-size: .78rem;
-	line-height: 1.15em;
-	border-radius: .2rem;
-}*/
 	.file-os-file-medium {
 		max-width: 350px;
 	}
