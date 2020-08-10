@@ -106,7 +106,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 }
 /*.navbar-light .navbar-nav {margin-top: 3px;top:3px;}*/
 .user {font-size:.9em;    height: calc(1em + .5rem + 2px);}
-
+#main_nav:focus {
+	outline: #ccc auto 1px;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	border: none;
+	box-shadow:none;
+}
 @media (min-width: 992px) {
 	.dropdown-menu {
 		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
