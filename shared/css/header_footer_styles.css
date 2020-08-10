@@ -55,7 +55,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	opacity: 1;
 	display: block;
 }
-.navbar-nav .navbar-nav > li:active {
+/*.navbar-nav .navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
 .dropdown-item.active, .dropdown-item:active {
@@ -69,19 +69,19 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
     color: rgba(0,0,0,.9);
 	background-color: white;
 	box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
-}
-.nav-menu > li > a:first-child:nth-last-child(2):before {
+}*/
+/*.nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
-}
+}*/
 .dropdown-menu {
 	padding: 0 0 .25em 0;
 	background-color: #f8f9fa;
-	left: 2em;
+	left: 1.5em;
 }
-.dropdown-submenu {
+/*.dropdown-submenu {
 	position: relative;
-}
-.navbar-light .navbar-nav li li a, .dropdown-item {
+}*/
+/*.navbar-light .navbar-nav li li a, .dropdown-item {
 	padding: .25em 1em;
 }
 .dropdown-submenu > .dropdown-menu {
@@ -89,7 +89,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	left: 100%;
 	margin-top: 0px;
 	margin-left: 0px;
-}
+}*/
 .dropdown-divider {
 	height: 0;
 	overflow: hidden;
@@ -104,7 +104,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02em;
 }
-.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
+/*.navbar-light .navbar-nav {margin-top: 3px;top:3px;}*/
 .user {font-size:.9em;    height: calc(1em + .5rem + 2px);}
 
 @media (min-width: 992px) {
@@ -137,7 +137,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 		top: 2px;
 		right: 1em;
 	}
-	.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
+/*	.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
 	.navbar-light .navbar-nav li > .nav-link{
 		background-color:#F8F9Fa;
 	}
@@ -164,13 +164,12 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
     box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
 	}
 	#navbarContent ul.navbar-nav.active li.nav-item.dropdown.show, #navbarContent ul.navbar-nav.active li.nav-item.dropdown {
-	/*	border-top: 2px solid #a51c30; */
-	/*	border-bottom: 2px solid #a51c30;*/
+
 		border-bottom: 2px solid hsl(0, 2%, 47%);
 	}
 	.dropdown-menu {
 	background-color: #f8f9fa;
-}
+}*/
 }
 
 
