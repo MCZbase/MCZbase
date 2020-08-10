@@ -49,10 +49,7 @@ nav ul {
 	padding: 0;
 	list-style: none;
 }
-.dropdown-menu {
-	padding: 0 0 .25em 0;
-	background-color: #f8f9fa;
-}
+
 ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	visibility: visible;
 	opacity: 1;
@@ -77,7 +74,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border-top-color: rgba(0, 0, 0, .7);
 }
 .dropdown-menu {
-	margin: -.02em 0 0 0;
+	padding: 0 0 .25em 0;
+	background-color: #f8f9fa;
+	left: 2em;
 }
 .dropdown-submenu {
 	position: relative;
@@ -255,9 +254,6 @@ nav.navbar-harvard {
 }
 nav.navbar-harvard li {
 	color: white;
-}
-.dropdown-menu {
-	top: 104%;
 }
 nav button {
 	border: none;
