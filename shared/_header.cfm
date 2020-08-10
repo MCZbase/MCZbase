@@ -244,14 +244,16 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
-								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a></li>
-								<li><a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a></li>
-								<li><a class="dropdown-item" href="/">Media</a> </li>
-								<li><a class="dropdown-item" href="/">Publications</a></li>
-								<li><a class="dropdown-item" href="/">Locality</a> </li>
-								<li><a class="dropdown-item" href="/">Event</a></li>
-								<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> </li>
-								<li><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
+								<li> 
+									<a class="dropdown-item" href="/Specimens.cfm">Specimens</a> 
+									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
+									<a class="dropdown-item" href="/">Media</a> 
+									<a class="dropdown-item" href="/">Publications</a> 
+									<a class="dropdown-item" href="/">Locality</a> 
+									<a class="dropdown-item" href="/">Event</a>
+									<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
+									<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a>
+								</li>
 							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
