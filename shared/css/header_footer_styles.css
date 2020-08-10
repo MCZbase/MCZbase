@@ -1,7 +1,5 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
-/*.menu-div, .bg-light {
-	background-color: #f8f9fa;
 }*/ :focus:not(:focus-visible) {
 	outline: 0;
 }
@@ -35,6 +33,33 @@ nav.navbar {
 .dropdown-item {
 	font-size: .9em;
 }
+.dropdown-item.active, .dropdown-item:active {
+	background-color:#deebec ;
+	color: black;
+}
+ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
+	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+#main_nav:focus {
+	outline: #ccc auto 1px;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+}
+.navbar-toggler-icon {
+	display: inline-block;
+	width: 1em;
+	height: .87em;
+	vertical-align: middle;
+	content: "";
+	background: no-repeat center center;
+	background-size: 100% 100%;
+}
+.nav-link {
+	display: block;
+	padding: .2em 1em;
+}
 /*  moved styles  */
 /*#main_nav, .user {
 	font-family: "Helvetica Neue", Arial, "Noto Sans", sans-serif;
@@ -48,11 +73,7 @@ nav ul {
 	padding: 0;
 	list-style: none;
 }*/
-ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-	visibility: visible;
-	opacity: 1;
-	display: block;
-}
+
 /*.navbar-nav .navbar-nav > li:active {
 	border-bottom: 2px #deebec solid;
 }
@@ -71,8 +92,8 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 /*.nav-menu > li > a:first-child:nth-last-child(2):before {
 	border-top-color: rgba(0, 0, 0, .7);
 }*/
-.dropdown-menu {
-	/*padding: 0 0 .25em 0;*/
+/*.dropdown-menu {
+	padding: 0 0 .25em 0;*/
 /*	background-color: #f8f9fa;*/
 }
 /*.dropdown-submenu {
@@ -87,10 +108,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin-top: 0px;
 	margin-left: 0px;
 }*/
-.dropdown-item.active, .dropdown-item:active {
-	background-color:#deebec ;
-	color: black;
-}
+
 
 .logout {
 	padding: 0 .45em;
@@ -105,20 +123,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	font-size: .9em;
 	height: calc(1em + .5rem + 2px);
 }
-#main_nav:focus {
-	outline: #ccc auto 1px;
-	border: 1px solid rgba(0, 34, 51, 0.1);
-	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
-}
-.navbar-toggler-icon {
-	display: inline-block;
-	width: 1em;
-	height: .87em;
-	vertical-align: middle;
-	content: "";
-	background: no-repeat center center;
-	background-size: 100% 100%;
-}
+
 .mczbase a span {
 	font-size: smaller;
 }
@@ -195,9 +200,6 @@ nav button {
 	border: none;
 	background-color: #f8f9fa;
 }
-/*.nav-fill .nav-item {
-	text-align: left;
-}*/
 .headerCollectionTextSmall {
 	font-size: smaller;
 }
@@ -316,10 +318,7 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-.nav-link {
-	display: block;
-	padding: .2em 1em;
-}
+
 input#Username {
 	width: 100px;
 }
