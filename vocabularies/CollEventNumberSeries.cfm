@@ -494,6 +494,9 @@ limitations under the License.
 											<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
+													$('##saveResultDiv').addClass('text-danger');
+													$('##saveResultDiv').removeClass('text-success');
+													$('##saveResultDiv').removeClass('text-warning');
 												};
 												$(document).ready(function() {
 													$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', '#collector_agent_id#'));
@@ -505,6 +508,9 @@ limitations under the License.
 													var agentid = $('##collector_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
+														$('##saveResultDiv').addClass('text-warning');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-danger');
 														jQuery.ajax({
 															url : "/vocabularies/component/functions.cfc",
 															type : "post",
@@ -512,9 +518,15 @@ limitations under the License.
 															data :  $('##editNumSeries').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
+																$('##saveResultDiv').removeClass('text-warning');
+																$('##saveResultDiv').addClass('text-success');
+																$('##saveResultDiv').removeClass('text-danger');
 															},
 															error: function(jqXHR,textStatus,error){
 																$('##saveResultDiv').html('Error.');
+																$('##saveResultDiv').addClass('text-danger');
+																$('##saveResultDiv').removeClass('text-success');
+																$('##saveResultDiv').removeClass('text-warning');
 																var message = "";
 																if (error == 'timeout') {
 																	message = ' Server took too long to respond.';
@@ -527,6 +539,9 @@ limitations under the License.
 													} else { 
 														messageDialog('Error saving collecting event number series: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
+														$('##saveResultDiv').addClass('text-danger');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-warning');
 													}
 												};
 											</script>
