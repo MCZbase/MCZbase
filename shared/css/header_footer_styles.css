@@ -9,6 +9,7 @@
 	border: none;
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
+.navbar-nav input:focus {box-shadow:none;}
 .anchor-button {
 	font-size: .9em;
 	border: none;
