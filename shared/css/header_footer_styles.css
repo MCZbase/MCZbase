@@ -47,7 +47,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
-.navbar-toggler-icon {
+/*.navbar-toggler-icon {
 	display: inline-block;
 	width: 1em;
 	height: .87em;
@@ -55,11 +55,14 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	content: "";
 	background: no-repeat center center;
 	background-size: 100% 100%;
+}*/
+.navbar-toggler {
+	padding: .18em .5em;
 }
-/*.nav-link {
+.nav-link {
 	display: block;
 	padding: .2em 1em;
-}*/
+}
 
 .logout {
 	padding: 0 .45em;
