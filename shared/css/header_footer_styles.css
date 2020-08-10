@@ -52,7 +52,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	height: .87em;
 }
 
-.nav-tabs .nav-link {
+.nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
 	padding: .25em 1em;
 }
@@ -301,11 +301,11 @@ input#Password {
 		top: 2px;
 		right: 1em;
 	}
-	
-/*.navbar-nav .nav-link {
-    padding-right: 0;
-    padding-left: 20px;
-}*/
+.nav-tabs .nav-link, .navbar-nav .nav-link {
+	display: block;
+	padding: .25em 1em;
+}	
+
 	
 }
 @media(min-width:991px) {
