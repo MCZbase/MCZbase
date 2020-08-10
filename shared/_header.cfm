@@ -293,7 +293,7 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow" style="margin-top:-2px;">
 							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
