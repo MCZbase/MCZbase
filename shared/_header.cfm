@@ -243,9 +243,9 @@ limitations under the License.
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
-							<div class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" >
-								<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></div>
-							</div>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" >
+								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
+							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
@@ -266,17 +266,17 @@ limitations under the License.
 							<div class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							<div class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
-								<div class="d-md-flex align-items-start justify-content-start">
+								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header text-danger">About Your Data</div>
 										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a></div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data</div>
 										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> </div>
-								</div>
-							</div>
+								</li>
+							</ul>
 						</li>
 						<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
@@ -293,8 +293,8 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<div aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
-							<div>
+						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
@@ -303,12 +303,12 @@ limitations under the License.
 								</form>
 								</cfif>
 								</a>
-							</div>
+							</li>
 							<cfif session.roles contains "public">
 							<div><a href="##" class="dropdown-item">Settings</a></div>
 							</cfif>
 			
-						</div>
+						</ul>
 					</li>
 						
 
