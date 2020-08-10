@@ -323,7 +323,7 @@ limitations under the License.
 								</a>
 							</li>
 							<cfif session.roles contains "public">
-							<div><a href="##" class="dropdown-item">Settings</a></div>
+							<li><a href="##" class="dropdown-item">Settings</a></li>
 							</cfif>
 			
 						</ul>
