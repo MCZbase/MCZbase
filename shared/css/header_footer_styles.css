@@ -89,6 +89,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 }*/
 .dropdown-item.active, .dropdown-item:active {
 	background-color:#deebec ;
+	color: black;
 }
 .dropdown-divider {
 	height: 0;
