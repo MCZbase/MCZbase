@@ -72,8 +72,9 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	border-top-color: rgba(0, 0, 0, .7);
 }*/
 .dropdown-menu {
-	padding: 0 0 .25em 0;
+	/*padding: 0 0 .25em 0;*/
 	background-color: #f8f9fa;
+	
 }
 /*.dropdown-submenu {
 	position: relative;
@@ -112,8 +113,7 @@ ul li.nav-item.dropdown:hover {
 #main_nav:focus {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
-	border: none;
-	box-shadow: none;
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
 
 .navbar-toggler-icon {
