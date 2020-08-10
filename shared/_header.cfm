@@ -546,11 +546,14 @@ for (i = 0; i < acc.length; i++) {
                 <div class="dropdown-menu" aria-labelledby="aboutDropdown">
                   <div class="d-md-flex align-items-start justify-content-start">
                     <div>
-                      <div class="dropdown-header">Results > Edit</div>
-						<a class="dropdown-item" href="/Specimens.cfm">Specimens</a>
+                   
+					<a class="dropdown-item" href="/Specimens.cfm">Specimens</a>
                       <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
                       <a class="dropdown-item" href="/">Media</a>
                       <a class="dropdown-item" href="/">Publications</a>
+						     <a class="dropdown-item" href="/">Locality</a>
+											     <a class="dropdown-item" href="/">Event</a>
+							     <a class="dropdown-item" href="/">Event</a>
                     </div>
 
                   </div>
@@ -561,20 +564,25 @@ for (i = 0; i < acc.length; i++) {
                 <div class="dropdown-menu" aria-labelledby="aboutDropdown">
                   <div class="d-md-flex align-items-start justify-content-start">
                     <div>
-                      <div class="dropdown-header">New Records</div>
-                      <a class="dropdown-item" href="/">Overview</a>
-                      <a class="dropdown-item" href="/">Technology stack</a>
-                      <a class="dropdown-item" href="/">Green</a>
+                      <div class="dropdown-header px-3 text-danger">New Records</div>
+                      <a class="dropdown-item" href="/">Specimen Form</a>
+                      <a class="dropdown-item" href="/">Media Form</a>
+                      <a class="dropdown-item" href="/">Publication Form</a>
+					  <a class="dropdown-item" href="/">Taxonomy Form</a>
+                      <a class="dropdown-item" href="/">Higher Geography Form</a>
+						<a class="dropdown-item" href="/">Locality Form</a>
+                      <a class="dropdown-item" href="/">Publication Form</a>
+						     <a class="dropdown-item" href="/">Agent Form</a>
                     </div>
                     <div>
-                      <div class="dropdown-header">Bulkloader</div>
+                      <div class="dropdown-header px-3 text-info">Bulkloader</div>
                       <a class="dropdown-item" href="/">Bulkload Specimens</a>
                       <a class="dropdown-item" href="/">Bulkloader Status</a>
 						   <a class="dropdown-item" href="/">Bulkload Builder</a>
                       <a class="dropdown-item" href="/">Browse and Edit</a>
                     </div>
 					<div>
-                      <div class="dropdown-header">Batch Tools</div>
+                      <div class="dropdown-header px-3 text-primary">Batch Tools</div>
                       <a class="dropdown-item" href="/">Edit Parts</a>
                       <a class="dropdown-item" href="/">New Parts</a>
 						     <a class="dropdown-item" href="/">Citations</a>
