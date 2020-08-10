@@ -238,11 +238,19 @@ limitations under the License.
 			</nav>
 			<cfelse>
 
+			<script>
+				document.addEventListener ("keydown", function (evt) {
+					if (evt.altKey && evt.key === "s") {  
+						$('##searchDropdown').click();	
+						$('##searchDropdown a:first').focus();	
+					}
+				});
+			</script>
 			<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search" ><u>S</u>earch</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
 								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
