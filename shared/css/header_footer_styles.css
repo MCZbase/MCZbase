@@ -87,8 +87,8 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin-top: 0px;
 	margin-left: 0px;
 }*/
-ul li.nav-item.dropdown:hover {
-	background-color: antiquewhite;
+ul li.nav-item.dropdown:active {
+	background-color:#deebec ;
 }
 .dropdown-divider {
 	height: 0;
