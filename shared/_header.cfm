@@ -265,9 +265,9 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
-						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
-								<li><a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> 
+								<li><a class="dropdown-item" href="/">Projects</a> <a class="dropdown-item" href="/">Named Groups</a> <a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> <a class="dropdown-item" href="/">Object Tracking</a> <a class="dropdown-item" href="/">Encumbrances</a> 
 								</li>
 							</ul>
 						</li>
