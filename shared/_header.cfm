@@ -305,12 +305,12 @@ for (i = 0; i < acc.length; i++) {
 <style>
 
 </style>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<!---	Old dropdown	<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
 					<ul class="navbar-nav mr-auto">
-						<!-- Level one dropdown -->
+					
 					<li class="nav-item dropdown">
 						<a id="dropdownMenu1" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Search</a>
 						<ul aria-labelledby="dropdownMenu1" class="dropdown-menu border-0 shadow">
@@ -325,7 +325,7 @@ for (i = 0; i < acc.length; i++) {
 					<li class="nav-item dropdown">
 						<a id="dropdownMenuk" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Entry</a>
 						<ul aria-labelledby="dropdownMenuk" class="dropdown-menu border-0 shadow">
-							<!-- Level two dropdown-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">New Record</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
@@ -336,9 +336,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Agent</a></li>
 								</ul>
 							</li>
-							<!-- End Level two -->
+						
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 2-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Bulkloader</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
@@ -348,9 +348,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Browse &amp; Edit Staged Records</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 2 -->
+							
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 3-->
+					
 							<li class="dropdown-submenu">
 								<a id="dropdownMenul" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Batch Tools</a>
 								<ul aria-labelledby="dropdownMenul" class="dropdown-menu border-0 shadow">
@@ -360,21 +360,21 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Media</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 3 -->
+						
 						</ul>
 					</li>
 		<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown">
 						<a id="dropdownMenuy" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Transactions</a>
 						<ul aria-labelledby="dropdownMenuy" class="dropdown-menu border-0 shadow">
-													<!-- Level two dropdown-->
+												
 							<li>
 								<a href="/Transactions.cfm?action=findAll" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item">Search All Transactions</a>
 			
 							</li>
-							<!-- End Level two -->
+						
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 2-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenur" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Accessions</a>
 								<ul aria-labelledby="dropdownMenur" class="dropdown-menu border-0 shadow">
@@ -382,9 +382,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Accession</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 2 -->
+						
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 3-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenut" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Borrows</a>
 								<ul aria-labelledby="dropdownMenut" class="dropdown-menu border-0 shadow">
@@ -392,9 +392,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Borrow</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 3 -->
+						
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 3-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenud" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Deaccessions</a>
 								<ul aria-labelledby="dropdownMenud" class="dropdown-menu border-0 shadow">
@@ -402,9 +402,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Deaccession</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 3 -->
+					
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 3-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenup" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Loans</a>
 								<ul aria-labelledby="dropdownMenup" class="dropdown-menu border-0 shadow">
@@ -412,9 +412,9 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Loan</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 3 -->
+							
 							<li class="dropdown-divider"></li>
-							<!-- Level two dropdown 3-->
+						
 							<li class="dropdown-submenu">
 								<a id="dropdownMenuw" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">Permits</a>
 								<ul aria-labelledby="dropdownMenuw" class="dropdown-menu border-0 shadow">
@@ -422,12 +422,12 @@ for (i = 0; i < acc.length; i++) {
 									<li class="mx-3 mx-lg-0"><a href="##" class="dropdown-item">Create New Permit</a></li>
 								</ul>
 							</li>
-							<!-- End Level two 3 -->
+						
 							
 						</ul>
 					</li>
 					<li class="dropdown-divider"></li>
-					<!-- Level one dropdown -->
+		
 					<li class="nav-item dropdown">
 						<a id="dropdownMenux" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Data Tools</a>
 						<ul aria-labelledby="dropdownMenux" class="dropdown-menu border-0 shadow">
@@ -439,7 +439,7 @@ for (i = 0; i < acc.length; i++) {
 						</ul>
 					</li>
 					<li class="dropdown-divider"></li>
-					<!-- Level one dropdown -->
+					
 					<li class="nav-item dropdown">
 						<a id="dropdownMenuc" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">About</a>
 						<ul aria-labelledby="dropdownMenuc" class="dropdown-menu border-0 shadow">
@@ -449,14 +449,13 @@ for (i = 0; i < acc.length; i++) {
 							<li><a href="/Publications.cfm" class="dropdown-item">MCZbase Statistics</a></li>
 						</ul>
 					</li>
-		<!---			<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Services</a></li>
-					<li class="nav-item"><a href="##" class="nav-link py-2 py-lg-0">Contact</a></li>--->
+
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						</ul>
-						<!--- end of menu ul --->
+					
 						
 					<ul class="navbar-nav ml-auto">
-					<!-- Level one dropdown -->
+			
 										<li class="dropdown-divider"></li>
 					<li class="nav-item dropdown">
 						
@@ -480,37 +479,15 @@ for (i = 0; i < acc.length; i++) {
 							<cfif session.roles contains "public">
 							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
 							</cfif>
-							<!---<li><a href="##" class="dropdown-item">M</a></li>--->
+			
 						</ul>
 					</li>
 						
-	<!---					
-						<ul class="nav-menu ml-auto">
-						<li class="nav-item dropdown">
-						<a id="dropdownMenus" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Account
-						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-							<i class="fas fa-user-check color-green"></i>
-							<cfelse>
-							<i class="fas fa-user-cog text-body"></i>
-						</cfif>
-						</a>
-						<ul aria-labelledby="dropdownMenus" class="dropdown-menu border-0 shadow">
-						<cfif session.roles contains "coldfusion_user">
-							<li>
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 mt-2 mb-1 my-lg-0 px-5 px-lg-4 pt-1 bg-light text-left" style="height: 34px;font-size: .92em; margin-top:2px;"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-							</li>
-						</cfif>
-						<cfif session.roles contains "public">
-							<li><a href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
-						</cfif>
-						</li>--->
+
 					</cfif>
 					</ul>
 				</div>
-				<!--- end navbarToggler1 --->
+		
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -540,7 +517,7 @@ for (i = 0; i < acc.length; i++) {
 					</cfif>
 					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
-						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+				
 						<input type="hidden" name="gotopage" value="#gtp#">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
@@ -556,16 +533,16 @@ for (i = 0; i < acc.length; i++) {
 				</cfif>
 			</div>
 			</div>
-		</nav>
+		</nav>--->
 <nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#welcmNav" aria-controls="welcmNav" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
          <div class="collapse navbar-collapse" id="menuTest1">
             <ul class="navbar-nav ml-auto nav-fill">
              <li class="nav-item px-4 dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
+                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
                 <div class="dropdown-menu" aria-labelledby="aboutDropdown">
                   <div class="d-md-flex align-items-start justify-content-start">
                     <div>
@@ -575,47 +552,43 @@ for (i = 0; i < acc.length; i++) {
                       <a class="dropdown-item" href="/">Media</a>
                       <a class="dropdown-item" href="/">Publications</a>
                     </div>
-   <!---                 <div>
-                      <div class="dropdown-header">Technology</div>
-                      <a class="dropdown-item" href="/#laravel_info">Laravel</a>
-                      <a class="dropdown-item" href="/websites#statamic">Statamic</a>
-                    </div>--->
+
                   </div>
                 </div>
               </li>
 			<li class="nav-item px-4 dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
+                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
                 <div class="dropdown-menu" aria-labelledby="aboutDropdown">
                   <div class="d-md-flex align-items-start justify-content-start">
                     <div>
                       <div class="dropdown-header">New Records</div>
-                      <a class="dropdown-item" href="/about#overview">Overview</a>
-                      <a class="dropdown-item" href="/about#technology">Technology stack</a>
-                      <a class="dropdown-item" href="/about#green">Green</a>
+                      <a class="dropdown-item" href="/">Overview</a>
+                      <a class="dropdown-item" href="/">Technology stack</a>
+                      <a class="dropdown-item" href="/">Green</a>
                     </div>
                     <div>
                       <div class="dropdown-header">Bulkloader</div>
-                      <a class="dropdown-item" href="/#laravel_info">Bulkload Specimens</a>
-                      <a class="dropdown-item" href="/websites#statamic">Bulkloader Status</a>
-						   <a class="dropdown-item" href="/#laravel_info">Bulkload Builder</a>
-                      <a class="dropdown-item" href="/websites#statamic">Browse and Edit</a>
+                      <a class="dropdown-item" href="/">Bulkload Specimens</a>
+                      <a class="dropdown-item" href="/">Bulkloader Status</a>
+						   <a class="dropdown-item" href="/">Bulkload Builder</a>
+                      <a class="dropdown-item" href="/">Browse and Edit</a>
                     </div>
 					<div>
                       <div class="dropdown-header">Batch Tools</div>
-                      <a class="dropdown-item" href="/#laravel_info">Edit Parts</a>
-                      <a class="dropdown-item" href="/websites#statamic">New Parts</a>
-						     <a class="dropdown-item" href="/#laravel_info">Citations</a>
-                      <a class="dropdown-item" href="/websites#statamic">Attributes</a>
-						     <a class="dropdown-item" href="/#laravel_info">Identifiers</a>
-                      <a class="dropdown-item" href="/websites#statamic">Agents</a>
-						     <a class="dropdown-item" href="/#laravel_info">Laravel</a>
-                      <a class="dropdown-item" href="/websites#statamic">Statamic</a>
+                      <a class="dropdown-item" href="/">Edit Parts</a>
+                      <a class="dropdown-item" href="/">New Parts</a>
+						     <a class="dropdown-item" href="/">Citations</a>
+                      <a class="dropdown-item" href="/">Attributes</a>
+						     <a class="dropdown-item" href="/">Identifiers</a>
+                      <a class="dropdown-item" href="/">Agents</a>
+						     <a class="dropdown-item" href="/">Laravel</a>
+                      <a class="dropdown-item" href="/">Statamic</a>
                     </div>
                   </div>
                 </div>
               </li>
               <li class="nav-item px-4 dropdown  ">
-                <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+                <a class="nav-link dropdown-toggle" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
                 <div class="dropdown-menu" aria-labelledby="servicesDropdown">
                   <a class="dropdown-item" href="/services">What we do</a>
                   <a class="dropdown-item" href="/how">How we fit your needs</a>
@@ -624,8 +597,8 @@ for (i = 0; i < acc.length; i++) {
                     <div>
                       <div class="dropdown-header">Development</div>
                       <a class="dropdown-item" href="/bespoke-software">Bespoke software</a>
-                      <a class="dropdown-item" href="/bespoke-software#bespoke_mobile_apps">Mobile apps</a>
-                      <a class="dropdown-item" href="/websites">Websites</a>
+                      <a class="dropdown-item" href="/">Mobile apps</a>
+                      <a class="dropdown-item" href="/">Websites</a>
                     </div>
                     <div>
                       <div class="dropdown-header">Professional Services</div>
@@ -636,20 +609,21 @@ for (i = 0; i < acc.length; i++) {
                   </div>
                 </div>
               </li>
-              <li class="nav-item px-4 ">
+<!---              <li class="nav-item px-4 ">
                 <a href="/contact" class="nav-link">Contact</a>
               </li>
               <li class="nav-item px-4 ">
                 <a href="/blog" class="nav-link">Blog</a>
-              </li>
+              </li>--->
             </ul>
-            <div class="d-flex flex-column navbar-text">
-              <a class="text-green" href="tel:+441252950650">01252 950 650</a>
-              <a href="mailto:enquiries@welcm.uk" class="text-green">enquiries@welcm.uk</a>
-            </div>
+   
           </div>
         </nav>		
-		<!---<div class="dropdown">
+								
+								
+								
+								
+		<!---Oldest Dropdown <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
   </button>
