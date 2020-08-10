@@ -244,7 +244,7 @@ limitations under the License.
 						evt.preventDefault();
 						evt.stopPropagation();
 						$('##searchDropdown').click();	
-						$('##searchDropdown a:first').focus();	
+						$('##specimenMenuItem').focus();	
 						return false;
 					}
 				});
@@ -255,7 +255,7 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search" ><u>S</u>earch</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
-								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> 
+									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
 									<a class="dropdown-item" href="/">Media</a> 
 									<a class="dropdown-item" href="/">Publications</a> 
