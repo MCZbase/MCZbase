@@ -38,7 +38,7 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-/*ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
+ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	visibility: visible;
 	opacity: 1;
 	display: block;
@@ -47,7 +47,7 @@ nav.navbar {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
-}*/
+}
 .navbar-toggler-icon {
 	width: 1em;
 	height: .87em;
