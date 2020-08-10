@@ -517,19 +517,19 @@ limitations under the License.
 							
 					<li class="nav-item dropdown">
 						
-						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<a id="dropdownMenu5" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenug" class="dropdown-menu border-0 shadow">
+						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" style="font-family:" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
 								</cfif>
 								</a>
@@ -785,7 +785,7 @@ limitations under the License.
 	<!-- container //  --> 
 </header>
 <script type="text/javascript">
-	/** add active class and stay opened when selected */
+	/** add active class and stay opened when selected--makes the link of the menu bar item different color when active */
 	var url = window.location;
 	// for sidebar menu entirely but not cover treeview
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');

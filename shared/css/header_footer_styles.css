@@ -1,6 +1,6 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
-}*/ :focus:not(:focus-visible) {
+:focus:not(:focus-visible) {
 	outline: 0;
 }
 :focus {
@@ -306,10 +306,10 @@ input#Password {
 		right: 1em;
 	}
 	
-.navbar-nav .nav-link {
+/*.navbar-nav .nav-link {
     padding-right: 0;
     padding-left: 20px;
-}
+}*/
 	
 }
 @media(min-width:991px) {
