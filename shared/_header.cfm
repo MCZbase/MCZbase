@@ -562,7 +562,7 @@ for (i = 0; i < acc.length; i++) {
 										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">MCZbase Statistics</a>  </div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data</div>
-										<a class="dropdown-item" href="/project-rescue">Shared Data</a> <a class="dropdown-item" href="/">Recently Georeferenced Georeferences</a> <</div>
+										<a class="dropdown-item" href="/project-rescue">Shared Data</a> <a class="dropdown-item" href="/">Recently Georeferenced Georeferences</a> </div>
 								</div>
 							</div>
 						</li>
