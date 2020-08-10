@@ -48,11 +48,11 @@ ul li:hover > ul{
 	opacity: 1;
 	display: block;
 }
-ul li ul:focus {
+/*ul li ul:focus {
 		visibility: visible;
 	opacity: 1;
 	display: block;
-}
+}*/
 ul li:focus-within > ul{
 			visibility: visible;
 	opacity: 1;
