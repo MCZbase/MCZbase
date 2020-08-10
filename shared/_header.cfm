@@ -387,7 +387,9 @@ limitations under the License.
 //	$(".navbar-nav .nav-link a").on("click", function(){
 //	 $(".nav-link").find(".show").removeClass("show");
 //	 $(this).addClass("show");
-});
+//});
+	
+	$('.dropdown-toggle').on('click',function(e){ e.preventDefault()});
 </script>
 <cf_rolecheck>
 </cfoutput>
