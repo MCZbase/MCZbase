@@ -178,13 +178,13 @@ limitations under the License.
 								timeout: 30000,  // units not specified, miliseconds? 
 								loadError: function(jqXHR, status, error) { 
 									$("##overlay").hide();
-					            var message = "";      
+									var message = "";
 									if (error == 'timeout') { 
-					               message = ' Server took too long to respond.';
-					            } else { 
-					               message = jqXHR.responseText;
-					            }
-					            messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
+										message = ' Server took too long to respond.';
+									} else { 
+										message = jqXHR.responseText;
+									}
+									messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
 								},
 								async: true
 							};
@@ -232,7 +232,7 @@ limitations under the License.
 								rowdetails: true,
 								rowdetailstemplate: {
 									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-									rowdetailsheight:  1 // row details will be placed in popup dialog
+									rowdetailsheight: 1 // row details will be placed in popup dialog
 								},
 								initrowdetails: initRowDetails
 							});
@@ -278,11 +278,11 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
 						} else if (rowcount > 50) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+							$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
 						} else { 
-						   $('##' + gridId).jqxGrid({ pageable: false });
+							$('##' + gridId).jqxGrid({ pageable: false });
 						}
 						// add a control to show/hide columns
 						var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -311,7 +311,7 @@ limitations under the License.
 						$("##columnPickDialog").dialog({ 
 							height: 'auto', 
 							title: 'Show/Hide Columns',
-							autoOpen: false,  
+							autoOpen: false,
 							modal: true, 
 							reszable: true, 
 							buttons: { 
@@ -320,7 +320,7 @@ limitations under the License.
 							open: function (event, ui) { 
 								var maxZIndex = getMaxZIndex();
 								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-								$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
 								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 							} 
 						});
@@ -348,18 +348,18 @@ limitations under the License.
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="new">
-	<!---  Add a new ____ collection, link to agent ---> 
+	<!--- Add a new ____ collection, link to agent ---> 
 	<cfoutput>
 		<div class="container mt-2 my-3">
 			<div class="row">
 				<div class="col-12">
-					<h1 class="h2" id="formheading">New "Collection" (named group of cataloged items)</h1>
+					<h1 class="h2" id="formheading">New named group of cataloged items</h1>
 					<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
 						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
 								<div class="col-md-12">
-									<label for="collection_name" id="collection_name_label">Name for the Collection</label>
+									<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
 									<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" required aria-labelledby="collection_name_label" >
 								</div>
 							</div>
@@ -398,7 +398,7 @@ limitations under the License.
 									<input type="button" 
 												value="Create" title="Create" aria-label="Create"
 												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newUnderscoreCollection')[0])) { submit();  } " 
+												onClick="if (checkFormValidity($('##newUnderscoreCollection')[0])) { submit(); } " 
 												>
 								</div>
 							</div>
@@ -420,23 +420,23 @@ limitations under the License.
 			<cfthrow type="Application" message="Error: No value provided for required value collection_name">
 		</cfif>
 		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
-				insert into underscore_collection (
-					collection_name
-					<cfif isdefined("description")>
-						,description
-					</cfif>
-					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
-						,underscore_agent_id
-					</cfif>
-				) values (
-					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
-					<cfif isdefined("description")>
-						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-					</cfif>
-					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
-						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-					</cfif>
-				)
+			insert into underscore_collection (
+				collection_name
+				<cfif isdefined("description")>
+					,description
+				</cfif>
+				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
+					,underscore_agent_id
+				</cfif>
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
+				<cfif isdefined("description")>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+				</cfif>
+				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+				</cfif>
+			)
 		</cfquery>
 		<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
 				select underscore_collection_id from underscore_collection 
@@ -479,7 +479,7 @@ limitations under the License.
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Collection</label>
+										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >
 									</div>
@@ -537,7 +537,7 @@ limitations under the License.
 															url : "/grouping/component/functions.cfc",
 															type : "post",
 															dataType : "json",
-															data :  $('##editUndColl').serialize(),
+															data : $('##editUndColl').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
 																$('##saveResultDiv').addClass('text-success');
@@ -572,7 +572,7 @@ limitations under the License.
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
 												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges();  } " 
+												onClick="if (checkFormValidity($('##editUndColl')[0])) { saveChanges(); } " 
 												>
 										<div id="saveResultDiv" class="ml-2">&nbsp;</div>
 									</div>
@@ -597,7 +597,7 @@ limitations under the License.
 													url : "/grouping/component/functions.cfc",
 													type : "post",
 													dataType : "json",
-													data :  $('##addCollObjectsUndColl').serialize(),
+													data : $('##addCollObjectsUndColl').serialize(),
 													success : function (data) {
 														$.ajax({
 															url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
