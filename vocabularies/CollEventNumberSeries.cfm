@@ -48,11 +48,11 @@ limitations under the License.
 			<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<div class="container">
+				<div class="container pt-0 mt-2 mb-3">
 					<div class="row">
 						<div class="col-12">
-							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Find Collecting Event Number Series</h2>
+							<section role="search" aria-labelledby="formheading">
+								<h1 class="h3" id="formheading">Find Collecting Event Number Series</h1>
 								<form name="searchForm" id="searchForm"> 
 									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 									<div class="form-row mb-2">
@@ -72,14 +72,14 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row my-2 mx-0">
-										<div class="col-12 text-left">
-											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning" aria-label="Start a new collection number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+										<div class="col-12 px-0">
+											<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collection number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
 										</div>
 									</div>
 								</form>
-							</div>
+							</section>
 						</div>
 					</div>
 				</div>
@@ -87,27 +87,24 @@ limitations under the License.
 	
 			<!--- Results table as a jqxGrid. --->
 			<div class="container-fluid">
-				<div class="row">
-					<div class="text-left col-md-12">
-						<main role="main">
-							<div class="pl-2 mb-5"> 
-								
-								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h4>Results: </h4>
-									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-									<div id="columnPickDialog">
-										<div id="columnPick" class="px-1"></div>
-									</div>
-									<div id="columnPickDialogButton"></div>
-									<div id="resultDownloadButtonContainer"></div>
+				<div class="row mx-0">
+					<div class="col-12 mb-5">
+						<section role="main">
+							<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+								<h4>Results: </h4>
+								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+								<div id="columnPickDialog">
+									<div id="columnPick" class="px-1"></div>
 								</div>
-								<div class="row mt-0">
-									<!--- Grid Related code is below along with search handlers --->
-									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-									<div id="enableselection"></div>
-								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
 							</div>
-						</main>
+							<div class="row mt-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
+						</section>
 					</div>
 				</div>
 			</div>
@@ -296,7 +293,7 @@ limitations under the License.
 							} 
 						});
 						$("##columnPickDialogButton").html(
-							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn btn-secondary px-3 py-1 my-1 mx-3' >Show/Hide Columns</button>"
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
 						);
 						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
@@ -304,7 +301,7 @@ limitations under the License.
 						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn btn-secondary px-3 py-1 my-1 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 					}
 				</script>
 			</cfoutput>
