@@ -378,8 +378,8 @@ limitations under the License.
 <script type="text/javascript">
 	/** add active class and stay opened when selected--makes the link of the menu bar item different color when active */
 	var url = window.location;
-	// for sidebar menu entirely but not cover treeview
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');
+	// for menu
+	//$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');
 	// for treeview
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
