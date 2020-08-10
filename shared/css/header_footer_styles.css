@@ -54,7 +54,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 
 .nav-link {
 	display: block;
-	padding: .2em 1em;
+/*	padding: .2em 1em;*/
 }
 
 .logout {
