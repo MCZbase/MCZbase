@@ -528,7 +528,7 @@ for (i = 0; i < acc.length; i++) {
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">New Records</div>
-										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a> </div>
+										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a>  <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
 										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
@@ -544,10 +544,10 @@ for (i = 0; i < acc.length; i++) {
 								<div class="dropdown-divider"></div>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header">Development</div>
+										<div class="dropdown-header text-danger">Development</div>
 										<a class="dropdown-item" href="/bespoke-software">Bespoke software</a> <a class="dropdown-item" href="/">Mobile apps</a> <a class="dropdown-item" href="/">Websites</a> </div>
 									<div>
-										<div class="dropdown-header">Professional Services</div>
+										<div class="dropdown-header">text-danger</div>
 										<a class="dropdown-item" href="/project-rescue">Project rescue</a> <a class="dropdown-item" href="/source-code">Source code recovery</a> <a class="dropdown-item" href="/support-maintenance">Application support &amp; maintenance</a> </div>
 								</div>
 							</div>
