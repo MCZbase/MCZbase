@@ -293,8 +293,8 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
-							<li>
+						<div aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
+							<div>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
@@ -303,12 +303,12 @@ limitations under the License.
 								</form>
 								</cfif>
 								</a>
-							</li>
+							</div>
 							<cfif session.roles contains "public">
-							<li><a href="##" class="dropdown-item">Settings</a></li>
+							<div><a href="##" class="dropdown-item">Settings</a></div>
 							</cfif>
 			
-						</ul>
+						</div>
 					</li>
 						
 
