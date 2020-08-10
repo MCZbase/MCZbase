@@ -493,12 +493,12 @@ for (i = 0; i < acc.length; i++) {
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
-							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
+							<div class="dropdown-menu" aria-labelledby="aboutDropdown" border-0 shadow>
 								<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> </div>
 							</div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
+							<div class="dropdown-menu" aria-labelledby="aboutDropdown" border-0 shadow>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">New Records</div>
@@ -513,7 +513,7 @@ for (i = 0; i < acc.length; i++) {
 							</div>
 						</li>
 						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
-							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
+							<div class="dropdown-menu" aria-labelledby="servicesDropdown" border-0 shadow> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
@@ -535,7 +535,7 @@ for (i = 0; i < acc.length; i++) {
 						
 					<ul class="navbar-nav ml-auto">
 			
-										<li class="dropdown-divider"></li>
+							
 					<li class="nav-item dropdown">
 						
 						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
