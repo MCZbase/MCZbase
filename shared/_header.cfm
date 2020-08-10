@@ -32,12 +32,17 @@ limitations under the License.
 	<cfthrow message="Error: shared/_header.cfm was included from a page that does not set the required pageTitle.">
 </cfif>
 <title>#pageTitle# | MCZbase</title>
-<cfinclude template="/shared/functionLib.cfm"><!--- Easy to overlook this shared function file --->
+<cfinclude template="/shared/functionLib.cfm">
+<!--- Easy to overlook this shared function file ---> 
 <!--- include stylesheets and javascript library files --->
-<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css"><!---needed for overall look--->
-<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css"><!--- needed for jqxwidgets to work --->
-<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css"><!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
-<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css"><!-- Provides account, magnifier, and cog icons-->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+<!---needed for overall look--->
+<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/jqx.base.css">
+<!--- needed for jqxwidgets to work --->
+<link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.css">
+<!--- Use JQuery-UI widgets when available, only use jqwidgets for extended functionality --->
+<link rel="stylesheet" href="/lib/fontawesome/fontawesome-free-5.5.0-web/css/all.css">
+<!-- Provides account, magnifier, and cog icons--> 
 <!---<link rel="stylesheet" href="/lib/JQWidgets/jqwidgets/styles/jqx.bootstrap.css" >--->
 <link rel="stylesheet" href="/lib/jquery-ui-1.12.1/jquery-ui.min.css" />
 <!--- Library supporting a multiselect widget based on jquery-ui.  --->
@@ -45,60 +50,60 @@ limitations under the License.
 <link rel="stylesheet" href="/lib/misc/jquery-ui-multiselect-widget-3.0.0/css/jquery.multiselect.filter.css" />
 <link rel="stylesheet" href="/shared/css/header_footer_styles.css">
 <link rel="stylesheet" href="/shared/css/custom_styles.css">
-<script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons--->
-<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script>
-<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. --->
-<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>--->
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle--->
-<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>--->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcore.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.js"></script> <!--- jqxgrid is the primary reason we are including jqwidgets --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.filter.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.edit.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.sort.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.selection.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.export.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.storage.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcombobox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.pager.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxscrollbar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/globalization/globalize.js"></script>
-<!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  --->
-<!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui --->
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxbuttons.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxlistbox.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdropdownlist.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxmenu.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxwindow.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdate.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxslider.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxpanel.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdragdrop.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcalendar.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxtree.js"></script>
-<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script>
-<!--- End supspect block --->
+<script type="text/javascript" src="/lib/fontawesome/fontawesome-free-5.5.0-web/js/all.js"></script><!---search, account and cog icons---> 
+<script type="text/javascript" src="/lib/jquery/jquery-3.5.1.min.js"></script> 
+<script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-multiselect.js"></script>---> 
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script><!--- popper is in the bundle---> 
+<!---<script type="text/javascript" src="/lib/bootstrap/js/bootstrap-select.min.js"></script>---> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcore.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdata.export.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.js"></script> <!--- jqxgrid is the primary reason we are including jqwidgets ---> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.filter.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.edit.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.sort.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.selection.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.export.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.storage.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcombobox.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.pager.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.grouping.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.aggregates.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxscrollbar.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/globalization/globalize.js"></script> 
+<!--- All jqwidgets below are suspect, include only if they provide functionality not available in jquery-ui.  ---> 
+<!--- TODO: Remove all jqwidgets where functionality can be provided by jquery-ui ---> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxbuttons.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxlistbox.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdropdownlist.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxmenu.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxwindow.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdatetimeinput.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdate.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxslider.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxpanel.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxdragdrop.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsresize.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxgrid.columnsreorder.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxcalendar.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxtree.js"></script> 
+<script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/jqxinput.js"></script> 
+<!--- End supspect block ---> 
 
 <script type="text/javascript" src="/shared/js/shared-scripts.js"></script>
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script>
+	<script type="text/javascript" src="/shared/js/internal-scripts.js"></script> 
 	<script type="text/javascript" src="/shared/js/vocabulary_scripts.js"></script>
 </cfif>
 
-<!--- Multiselect widget used on specimen search, probably not needed everywhere --->
-<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script>
+<!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
+<script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
-		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script>
+		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
 		<script type="text/javascript" src="/lib/misc/jquery.jfeed.js"></script>
 	</cfif>
 </cfif>
@@ -152,135 +157,108 @@ for (i = 0; i < acc.length; i++) {
 		<cfset collection_link_color = "##94131C" />
 	</cfif>
 </cfif>
-<!--- End workaround --->
+<!--- End workaround ---> 
 
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom">
 	<div class="branding clearfix bg-black">
-		<div class="branding-left justify-content-start">
-			<a href="http://www.harvard.edu/" aria-label="link to Harvard website">
-				<img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield">
-				<span class="d-inline-block parent">Harvard University</span>
-			</a>
-		</div>
-		<div class="branding-right justify-content-end">
-			 <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a>
-		</div>
+		<div class="branding-left justify-content-start"> <a href="http://www.harvard.edu/" aria-label="link to Harvard website"> <img class="shield" src="/shared/images/Harvard_shield-University.png" alt="Harvard University Shield"> <span class="d-inline-block parent">Harvard University</span> </a> </div>
+		<div class="branding-right justify-content-end"> <a href="https://www.harvard.edu/about-harvard" class="font-weight-bold" aria-label="link to Harvard website">HARVARD.EDU</a> </div>
 	</div>
-	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark">
+	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
 		<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
-			<li class="nav-item mcz2">
-				 <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a>
-			</li>
-			<li class="nav-item mczbase my-1 py-0">
-				<a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a>
-			</li>
+			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
+			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> </li>
 		</ul>
 		<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
-			<li class="nav-item d-flex align-content-end">
-				<a href="https://mcz.harvard.edu" aria-label="link to MCZ website">
-				<img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a>
-			</li>
+			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light px-0">
-	<!---	
+	<div class="container-fluid bg-light px-0"> 
+		<!---	
 		Test for Application.header_image is required for continued integration, as the production menu
 		must point to files present on production while the redesign menu points at their replacements in redesign
 	--->
-	<cfif isdefined("Application.header_image")>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
+		<cfif isdefined("Application.header_image")>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="##navbarToggler1" aria-controls="navbarToggler1"
-					aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarToggler1">
-				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-					
-					<!---  Redesign menu for integration on production --->
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-							<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a>
-							<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a>
-							<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a>
-							<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
-							</cfif>
-							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a>
-						</div>
-					</li>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
-							<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2">
-								<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
-						</li>
-					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
-							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
-									<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+					aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+				<div class="collapse navbar-collapse" id="navbarToggler1">
+					<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
+						
+						<!---  Redesign menu for integration on production --->
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
+								<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
+								<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
+								<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
 								</cfif>
-							</div>
+								<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
 						</li>
-					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
-								<a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a>
-								<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a>
-								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a>
-								<a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a>
-								<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a>
-								<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a>
-								<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a>
-								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a>
-								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a>
-							</div>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
+								<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2"> 
+									<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
+							</li>
+						</cfif>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
+								<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+										<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+									</cfif>
+								</div>
+							</li>
+						</cfif>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
+								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
+									<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
+									<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
+									<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
+									<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
+									<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
+									<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
+									<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
+							</li>
+						</cfif>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
+							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+									<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+								</cfif>
+								<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
 						</li>
-					</cfif>
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-							</cfif>
-							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a>
-						</div>
-					</li>
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								Account
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
 								<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 									<i class="fas fa-user-check color-green"></i>
-								<cfelse>
+									<cfelse>
 									<i class="fas fa-user-cog text-body"></i>
 								</cfif>
-							</a>
-							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-								<cfif session.roles contains "coldfusion_user">
-									<form name="profile" method="post" action="/UserProfile.cfm">
-										<input type="hidden" name="action" value="nothing">
-										<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-									</form>
-								</cfif>
-								<cfif session.roles contains "public">
-									<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-								</cfif>
-							</div>
-						</li>
-					</cfif>
-				</ul>
-			</div>
-		</nav>
-		<cfelse>
-<script>
+								</a>
+								<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
+									<cfif session.roles contains "coldfusion_user">
+										<form name="profile" method="post" action="/UserProfile.cfm">
+											<input type="hidden" name="action" value="nothing">
+											<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+										</form>
+									</cfif>
+									<cfif session.roles contains "public">
+										<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+									</cfif>
+								</div>
+							</li>
+						</cfif>
+					</ul>
+				</div>
+			</nav>
+			<cfelse>
+			<script>
 		$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
@@ -302,10 +280,10 @@ for (i = 0; i < acc.length; i++) {
   });
 });
 </script>
-<style>
+			<style>
 
 </style>
-<!---	Old dropdown	<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+			<!---	Old dropdown	<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
 				<div id="navbarContent" class="collapse navbar-collapse">
@@ -534,104 +512,56 @@ for (i = 0; i < acc.length; i++) {
 			</div>
 			</div>
 		</nav>--->
-<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-         <div class="collapse navbar-collapse" id="menuTest1">
-            <ul class="navbar-nav nav-fill mr-auto">
-             <li class="nav-item px-4 dropdown">
-                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
-                <div class="dropdown-menu" aria-labelledby="aboutDropdown">
-                  <div class="d-md-flex align-items-start justify-content-start">
-                    <div>
-                   
-					<a class="dropdown-item" href="/Specimens.cfm">Specimens</a>
-                      <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
-                      <a class="dropdown-item" href="/">Media</a>
-                      <a class="dropdown-item" href="/">Publications</a>
-						     <a class="dropdown-item" href="/">Locality</a>
-											     <a class="dropdown-item" href="/">Event</a>
-							     <a class="dropdown-item" href="/">Event</a>
-                    </div>
-
-                  </div>
-                </div>
-              </li>
-			<li class="nav-item px-4 dropdown">
-                <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-                <div class="dropdown-menu" aria-labelledby="aboutDropdown">
-                  <div class="d-md-flex align-items-start justify-content-start">
-                    <div>
-                      <div class="dropdown-header px-3 text-danger">New Records</div>
-                      <a class="dropdown-item" href="/">Specimen Form</a>
-                      <a class="dropdown-item" href="/">Media Form</a>
-                      <a class="dropdown-item" href="/">Publication Form</a>
-					  <a class="dropdown-item" href="/">Taxonomy Form</a>
-                      <a class="dropdown-item" href="/">Higher Geography Form</a>
-						<a class="dropdown-item" href="/">Locality Form</a>
-                      <a class="dropdown-item" href="/">Publication Form</a>
-						     <a class="dropdown-item" href="/">Agent Form</a>
-                    </div>
-                    <div>
-                      <div class="dropdown-header px-3 text-info">Bulkloader</div>
-                      <a class="dropdown-item" href="/">Bulkload Specimens</a>
-                      <a class="dropdown-item" href="/">Bulkloader Status</a>
-						   <a class="dropdown-item" href="/">Bulkload Builder</a>
-                      <a class="dropdown-item" href="/">Browse and Edit</a>
-                    </div>
-					<div>
-                      <div class="dropdown-header px-3 text-primary">Batch Tools</div>
-                      <a class="dropdown-item" href="/">Edit Parts</a>
-                      <a class="dropdown-item" href="/">New Parts</a>
-						     <a class="dropdown-item" href="/">Citations</a>
-                      <a class="dropdown-item" href="/">Attributes</a>
-						     <a class="dropdown-item" href="/">Identifiers</a>
-                      <a class="dropdown-item" href="/">Agents</a>
-						     <a class="dropdown-item" href="/">Laravel</a>
-                      <a class="dropdown-item" href="/">Statamic</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item px-4 dropdown  ">
-                <a class="nav-link dropdown-toggle" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
-                <div class="dropdown-menu" aria-labelledby="servicesDropdown">
-                  <a class="dropdown-item" href="/services">What we do</a>
-                  <a class="dropdown-item" href="/how">How we fit your needs</a>
-                  <div class="dropdown-divider"></div>
-                  <div class="d-md-flex align-items-start justify-content-start">
-                    <div>
-                      <div class="dropdown-header">Development</div>
-                      <a class="dropdown-item" href="/bespoke-software">Bespoke software</a>
-                      <a class="dropdown-item" href="/">Mobile apps</a>
-                      <a class="dropdown-item" href="/">Websites</a>
-                    </div>
-                    <div>
-                      <div class="dropdown-header">Professional Services</div>
-                      <a class="dropdown-item" href="/project-rescue">Project rescue</a>
-                      <a class="dropdown-item" href="/source-code">Source code recovery</a>
-                      <a class="dropdown-item" href="/support-maintenance">Application support &amp; maintenance</a>
-                    </div>
-                  </div>
-                </div>
-              </li>
-<!---              <li class="nav-item px-4 ">
+			<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+				<div class="collapse navbar-collapse" id="menuTest1">
+					<ul class="navbar-nav nav-fill mr-auto">
+						<li class="nav-item px-4 dropdown"> <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
+							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
+								<div class="d-md-flex align-items-start justify-content-start">
+									<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> <a class="dropdown-item" href="/">Event</a> </div>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item px-4 dropdown"> <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
+							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
+								<div class="d-md-flex align-items-start justify-content-start">
+									<div>
+										<div class="dropdown-header px-3 text-danger">New Records</div>
+										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a> </div>
+									<div>
+										<div class="dropdown-header px-3 text-danger">Bulkloader</div>
+										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
+									<div>
+										<div class="dropdown-header px-3 text-danger">Batch Tools</div>
+										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item px-4 dropdown  "> <a class="nav-link dropdown-toggle" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
+							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">What we do</a> <a class="dropdown-item" href="/how">How we fit your needs</a>
+								<div class="dropdown-divider"></div>
+								<div class="d-md-flex align-items-start justify-content-start">
+									<div>
+										<div class="dropdown-header">Development</div>
+										<a class="dropdown-item" href="/bespoke-software">Bespoke software</a> <a class="dropdown-item" href="/">Mobile apps</a> <a class="dropdown-item" href="/">Websites</a> </div>
+									<div>
+										<div class="dropdown-header">Professional Services</div>
+										<a class="dropdown-item" href="/project-rescue">Project rescue</a> <a class="dropdown-item" href="/source-code">Source code recovery</a> <a class="dropdown-item" href="/support-maintenance">Application support &amp; maintenance</a> </div>
+								</div>
+							</div>
+						</li>
+						<!---              <li class="nav-item px-4 ">
                 <a href="/contact" class="nav-link">Contact</a>
               </li>
               <li class="nav-item px-4 ">
                 <a href="/blog" class="nav-link">Blog</a>
               </li>--->
-            </ul>
-   
-          </div>
-        </nav>		
-								
-								
-								
-								
-		<!---Oldest Dropdown <div class="dropdown">
+					</ul>
+				</div>
+			</nav>
+			
+			<!---Oldest Dropdown <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Dropdown button
   </button>
@@ -640,9 +570,9 @@ for (i = 0; i < acc.length; i++) {
     <a class="dropdown-item" href="##">Another action</a>
     <a class="dropdown-item" href="##">Something else here</a>
   </div>
-</div>--->
-		
-		<!---<nav class="navbar dropdown navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
+</div>---> 
+			
+			<!---<nav class="navbar dropdown navbar-expand-lg navbar-light" role="navigation" id="navigation" aria-label="main menu" >
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="menu-list" aria-label="Toggle navigation" aria-expanded="true">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -819,9 +749,9 @@ for (i = 0; i < acc.length; i++) {
 				</cfif>
 			</div>
 		</nav>--->
-	</cfif>
+		</cfif>
 	</div>
-	<!-- container //  -->
+	<!-- container //  --> 
 </header>
 <script type="text/javascript">
 	/** add active class and stay opened when selected */
