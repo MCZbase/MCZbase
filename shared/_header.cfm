@@ -540,7 +540,7 @@ for (i = 0; i < acc.length; i++) {
           </button>
 
          <div class="collapse navbar-collapse" id="menuTest1">
-            <ul class="navbar-nav ml-auto nav-fill">
+            <ul class="navbar-nav nav-fill mr-auto">
              <li class="nav-item px-4 dropdown">
                 <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
                 <div class="dropdown-menu" aria-labelledby="aboutDropdown">
