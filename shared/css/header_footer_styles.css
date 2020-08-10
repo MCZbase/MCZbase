@@ -38,8 +38,18 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
+ul li ul:hover {
 	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+ul li:hover > ul, ul li:focus-within > ul{	
+	visibility: visible;
+	opacity: 1;
+	display: block;
+}
+ul li ul:focus {
+		visibility: visible;
 	opacity: 1;
 	display: block;
 }
