@@ -91,12 +91,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	background-color:#deebec ;
 	color: black;
 }
-.dropdown-divider {
-	height: 0;
-	overflow: hidden;
-	margin: 0;
-	border-top: 1px solid #f8f9fa;
-}
+
 .logout {
 	padding: 0 .45em;
 	font-size: 90%;
