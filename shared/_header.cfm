@@ -287,7 +287,7 @@ limitations under the License.
 							
 					<li class="nav-item dropdown">
 						
-						<a id="dropdownMenu5" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1 px-3 text-left">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+						<a id="dropdownMenu5" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle px-3 text-left">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
