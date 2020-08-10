@@ -89,7 +89,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin-top: 0px;
 	margin-left: 0px;
 }*/
-ul li.nav-item.dropdown {background-color:antiquewhite;}
+ul li.nav-item.dropdown:hover {background-color:antiquewhite;}
 .dropdown-divider {
 	height: 0;
 	overflow: hidden;
