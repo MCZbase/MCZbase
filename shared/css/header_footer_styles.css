@@ -53,11 +53,11 @@ ul li:hover > ul{
 	opacity: 1;
 	display: block;
 }*/
-ul li:focus-within > ul{
+/*ul li:focus-within > ul{
 			visibility: visible;
 	opacity: 1;
 	display: block;
-}
+}*/
 #main_nav:focus {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
