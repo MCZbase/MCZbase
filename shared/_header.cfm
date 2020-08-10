@@ -516,14 +516,14 @@ for (i = 0; i < acc.length; i++) {
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
-						<li class="nav-item px-4 dropdown"> <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> <a class="dropdown-item" href="/">Event</a> </div>
 								</div>
 							</div>
 						</li>
-						<li class="nav-item px-4 dropdown"> <a class="nav-link dropdown-toggle" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
