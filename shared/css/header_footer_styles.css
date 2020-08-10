@@ -323,10 +323,10 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-/*.nav-link {
+.nav-link {
 	display: block;
-	padding: .25rem 1rem;
-}*/
+	padding: .2em 1em;
+}
 input#Username {
 	width: 100px;
 }
