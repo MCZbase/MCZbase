@@ -305,40 +305,12 @@ input#Password {
 		top: 2px;
 		right: 1em;
 	}
-	.nav-fill .nav-item { text-align: left;align
-	/*	.navbar-light .navbar-nav {margin-top: 3px;top:3px;}
-	.navbar-light .navbar-nav li > .nav-link{
-		background-color:#F8F9Fa;
-	}
-	.navbar-light .navbar-nav li.active .nav-link.active, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .show > .nav-link {
-		background-color: white;
-		background-color: #e9ecef;
-	}
-
-	.navbar-nav > li:hover > ul {
-		background-color: #f8f9fa;
-	}
-	ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
-		background-color: #fff;
-	}
-	.navbar-light .navbar-nav li a {
-		padding: .25em 1em;
-	}
-	.navbar-light .navbar-nav li li a, .dropdown-item {
-	padding: .5em 2em;
-	}
-	.navbar-light .navbar-nav .active >.nav-link {
-    color: rgba(0,0,0,.9);
-	background-color: white;
-    box-shadow: 0 .25rem .5rem rgba(0,0,0,.15)!important;
-	}
-	#navbarContent ul.navbar-nav.active li.nav-item.dropdown.show, #navbarContent ul.navbar-nav.active li.nav-item.dropdown {
-
-		border-bottom: 2px solid hsl(0, 2%, 47%);
-	}
-	.dropdown-menu {
-	background-color: #f8f9fa;
-}*/
+	
+.navbar-nav .nav-link {
+    padding-right: 0;
+    padding-left: 20px;
+}
+	
 }
 @media(min-width:991px) {
 	.mcz-center {
