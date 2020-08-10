@@ -51,9 +51,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	width: 1em;
 	height: .87em;
 }
-.navbar-toggler {
-	padding: .18em .5em;
-}
+
 .nav-link {
 	display: block;
 	padding: .2em 1em;
