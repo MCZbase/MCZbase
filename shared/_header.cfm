@@ -243,12 +243,12 @@ limitations under the License.
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:-1px;">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
 								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:-1px;">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Create New Records</div>
@@ -266,10 +266,13 @@ limitations under the License.
 							</ul>
 						</li>
 						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
-							<div class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
+								<li><a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> 
+								</li>
+							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown" style="margin-top:-1px;"> 
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown" style="margin-top:0px;"> 
 								<a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start">
