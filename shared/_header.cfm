@@ -240,13 +240,13 @@ limitations under the License.
 
 			<script>
 				document.addEventListener ("keydown", function (evt) {
-					evt.preventDefault();
-					evt.stopPropagation()
 					if (evt.altKey && evt.key === "s") {  
+						evt.preventDefault();
+						evt.stopPropagation();
 						$('##searchDropdown').click();	
 						$('##searchDropdown a:first').focus();	
+						return false;
 					}
-					return false;
 				});
 			</script>
 			<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
