@@ -538,8 +538,8 @@ for (i = 0; i < acc.length; i++) {
 								</div>
 							</div>
 						</li>
-						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services</a>
-							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">What we do</a> <a class="dropdown-item" href="/how">How we fit your needs</a>
+						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
+							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a>
 								<div class="dropdown-divider"></div>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
@@ -679,7 +679,7 @@ for (i = 0; i < acc.length; i++) {
 					</li>
 				
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						</ul><!--- end of menu ul --->
+						</ul>
 					<ul class="nav-menu ml-auto">
 					<li><a tabindex="0" href="##" role="menuitem" data-toggle="dropdown" aria-haspopup="true" name="Account" aria-expanded="false">Account</a>
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
@@ -703,7 +703,7 @@ for (i = 0; i < acc.length; i++) {
 					</li>		
 				</cfif>
 				</ul>
-			</div><!--- end navbarToggler1 --->
+			</div>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 						<input type="hidden" name="action" value="signOut">
@@ -733,7 +733,7 @@ for (i = 0; i < acc.length; i++) {
 					</cfif>
 					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
-						<!---This is needed for the first login from the header. I have a default #gtp# on login.cfm.--->
+					
 						<input type="hidden" name="gotopage" value="#gtp#">
 						<div class="login-form" id="header_login_form_div">
 							<label for="username" class="sr-only"> Username:</label>
