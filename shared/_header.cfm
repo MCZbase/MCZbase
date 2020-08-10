@@ -258,31 +258,7 @@ for (i = 0; i < acc.length; i++) {
 				</div>
 			</nav>
 			<cfelse>
-			<script>
-		$(function() {
-  // ------------------------------------------------------- //
-  // Multi Level dropdowns
-  // ------------------------------------------------------ //
-  $("ul.dropdown-menu [data-toggle='dropdown']").on("hover", function(event) {
-    event.preventDefault();
-    event.stopPropagation();
 
-    $(this).siblings().toggleClass("show");
-
-
-    if (!$(this).next().hasClass('show')) {
-      $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-    }
-    $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
-      $('.dropdown-submenu .show').removeClass("show");
-    });
-
-  });
-});
-</script>
-			<style>
-
-</style>
 			<!---	Old dropdown	<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
 			<div class="container-fluid">
 				<button type="button" data-toggle="collapse" data-target="##navbarContent" aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"> <span class="navbar-toggler-icon"></span> </button>
@@ -518,9 +494,7 @@ for (i = 0; i < acc.length; i++) {
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
-							
-									<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> </div>
-						
+								<div> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a> </div>
 							</div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
@@ -528,7 +502,7 @@ for (i = 0; i < acc.length; i++) {
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">New Records</div>
-										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a>  <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
+										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
 										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
@@ -539,29 +513,103 @@ for (i = 0; i < acc.length; i++) {
 							</div>
 						</li>
 						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
-							<div class="dropdown-menu" aria-labelledby="servicesDropdown">
-								<a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a>
-							</div>
+							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
 						</li>
-		<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							<div class="dropdown-menu" aria-labelledby="servicesDropdown">
-								<a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a> 
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 pt-1" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+							<div class="dropdown-menu" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header text-danger">About Your Data</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">MCZbase Statistics</a>  </div>
+										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">MCZbase Statistics</a> </div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data</div>
 										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Georeferences</a><a class="dropdown-item" href="/">Agents</a> </div>
 								</div>
 							</div>
 						</li>
-		           <li class="nav-item px-4 ">
-                <a href="/" class="nav-link">Account</a>
-              </li>
+					<!---	<li class="nav-item px-4 "> <a href="/" class="nav-link">Account</a> </li>--->
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						</ul>
+					
+						
+					<ul class="navbar-nav ml-auto">
+			
+										<li class="dropdown-divider"></li>
+					<li class="nav-item dropdown">
+						
+						<a id="dropdownMenug" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle py-1">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+							<i class="fas fa-user-check color-green"></i>
+							<cfelse>
+							<i class="fas fa-user-cog text-body"></i>
+						</cfif>
+						</a>
+						<ul aria-labelledby="dropdownMenug" class="dropdown-menu border-0 shadow">
+							<li>
+								<a href="##" class="dropdown-item">
+								<cfif session.roles contains "coldfusion_user">
+								<form name="profile" method="post" action="/UserProfile.cfm">
+									<input type="hidden" name="action" value="nothing">
+									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+								</form>
+								</cfif>
+								</a>
+							</li>
+							<cfif session.roles contains "public">
+							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
+							</cfif>
+			
+						</ul>
+					</li>
+						
 
+					</cfif>
 					</ul>
+				</div>
+		
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+						<input type="hidden" name="action" value="signOut">
+						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+						</cfif>
+						</button>
+					</form>
+					<cfelse>
+					<cfif isdefined("gotopage") and len(gotopage) GT 0>
+						<cfset gtp = gotopage>
+						<cfelse>
+						<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+							<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+							<cfelse>
+							<cfset requestData = #GetHttpRequestData()#>
+							<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+								<cfset gtp=requestData.headers.referer>
+								<cfelse>
+								<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+							</cfif>
+						</cfif>
+					</cfif>
+					<cfif gtp EQ '/errors/forbidden.cfm'>
+						<cfset gtp = "/UserProfile.cfm">
+					</cfif>
+					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+						<input type="hidden" name="action" value="signIn">
+				
+						<input type="hidden" name="gotopage" value="#gtp#">
+						<div class="login-form" id="header_login_form_div">
+							<label for="username" class="sr-only"> Username:</label>
+							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+							<label for="password" class="mr-1 sr-only"> Password:</label>
+							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+							<label for="login" class="mr-1 sr-only"> Password:</label>
+							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+							<label for="create_account" class="mr-1 sr-only"> Password:</label>
+							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+						</div>
+					</form>
+				</cfif>
 				</div>
 			</nav>
 			
