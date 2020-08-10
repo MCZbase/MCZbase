@@ -37,7 +37,7 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
+/*ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	visibility: visible;
 	opacity: 1;
 	display: block;
@@ -46,17 +46,15 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
-}
+}*/
 .navbar-toggler-icon {
 	width: 1em;
 	height: .87em;
 }
-
 .nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
 	padding: .25em 1em;
 }
-
 .logout {
 	padding: 0 .45em;
 	font-size: 90%;
@@ -203,7 +201,7 @@ body {
 	bottom: 0;
 	width: 100%;
 	height: 60px;
-	line-height: 48px;
+	line-height: 40px;
 	background-color: #f5f5f5;
 }
 body > .container {
