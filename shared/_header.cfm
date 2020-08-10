@@ -248,8 +248,8 @@ limitations under the License.
 							</div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-							<div class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<div class="d-md-flex align-items-start justify-content-start">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Create New Records</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
@@ -259,8 +259,8 @@ limitations under the License.
 									<div>
 										<div class="dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
 										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
-								</div>
-							</div>
+								</li>
+							</ul>
 						</li>
 						<li class="nav-item dropdown  "> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
 							<div class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
