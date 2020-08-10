@@ -501,13 +501,13 @@ for (i = 0; i < acc.length; i++) {
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown" border-0 shadow>
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header px-4 text-danger">New Records</div>
+										<div class="dropdown-header px-4 text-danger">Create New Records</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
 										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Batch Tools</div>
+										<div class="dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
 										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
 								</div>
 							</div>
@@ -521,10 +521,10 @@ for (i = 0; i < acc.length; i++) {
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header text-danger">About Your Data</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">MCZbase Statistics</a> </div>
+										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a></div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Georeferences</a><a class="dropdown-item" href="/">Agents</a> </div>
+										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Georeferences</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> </div>
 								</div>
 							</div>
 						</li>
@@ -550,13 +550,13 @@ for (i = 0; i < acc.length; i++) {
 								<cfif session.roles contains "coldfusion_user">
 								<form name="profile" method="post" action="/UserProfile.cfm">
 									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									<input type="submit" aria-label="Search" value="User Profile" style="font-family:" class="user form-control-sm form-control-plaintext p-0 text-left border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 								</form>
 								</cfif>
 								</a>
 							</li>
 							<cfif session.roles contains "public">
-							<li><a href="##" class="dropdown-item">Saved Searches</a></li>
+							<li><a href="##" class="dropdown-item">Settings</a></li>
 							</cfif>
 			
 						</ul>

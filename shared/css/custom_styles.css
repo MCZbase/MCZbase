@@ -226,9 +226,9 @@ BELOW: Small Form button (bootstrap override)
 *************************
 BELOW: Main button (bootstrap override)
 ************************/
-button, input, select {
+/*button, input, select {
 	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-}
+}*/
 button:focus, input:focus, select:focus, button.focus, input.focus, select.focus {
 	box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
 	outline: 0;
