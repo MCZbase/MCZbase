@@ -243,22 +243,25 @@ limitations under the License.
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" >
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:-1px;">
 								<li> <a class="dropdown-item" href="/Specimens.cfm">Specimens</a> <a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="/">Media</a> <a class="dropdown-item" href="/">Publications</a> <a class="dropdown-item" href="/">Locality</a> <a class="dropdown-item" href="/">Event</a><a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a></li>
 							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:-1px;">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Create New Records</div>
-										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> </div>
+										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> 
+									</div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
-										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
+										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> 
+									</div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
+										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> 
+									</div>
 								</li>
 							</ul>
 						</li>
@@ -266,15 +269,18 @@ limitations under the License.
 							<div class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/services">Projects</a> <a class="dropdown-item" href="/how">Named Groups</a> <a class="dropdown-item" href="/how">Collecting Event Number Series</a> <a class="dropdown-item" href="/how">Object Tracking</a> <a class="dropdown-item" href="/how">Encumbrances</a> </div>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> <a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown" style="margin-top:-1px;"> 
+								<a class="dropdown-item" href="/">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header text-danger">About Your Data</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a></div>
+										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a>
+									</div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> </div>
+										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> 
+									</div>
 								</li>
 							</ul>
 						</li>
@@ -293,7 +299,7 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow" style="margin-top:-2px;">
+						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow" style="margin-top:-1px;">
 							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
