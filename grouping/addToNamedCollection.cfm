@@ -70,7 +70,7 @@ limitations under the License.
 					</cfif>
 				ORDER BY cataloged_item.collection_object_id
 			</cfquery>
-		    <div class="container">
+		    <div class="container mt-2 mb-3">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
