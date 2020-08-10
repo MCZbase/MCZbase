@@ -527,13 +527,13 @@ for (i = 0; i < acc.length; i++) {
 							<div class="dropdown-menu" aria-labelledby="aboutDropdown">
 								<div class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header px-3 text-danger">New Records</div>
+										<div class="dropdown-header px-4 text-danger">New Records</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a> </div>
 									<div>
-										<div class="dropdown-header px-3 text-danger">Bulkloader</div>
+										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
 										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> </div>
 									<div>
-										<div class="dropdown-header px-3 text-danger">Batch Tools</div>
+										<div class="dropdown-header px-4 text-danger">Batch Tools</div>
 										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
 								</div>
 							</div>

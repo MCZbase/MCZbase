@@ -76,7 +76,6 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 .dropdown-menu {
 	padding: 0 0 .25em 0;
 	background-color: #f8f9fa;
-	left: 1.5em;
 }
 /*.dropdown-submenu {
 	position: relative;
@@ -90,6 +89,7 @@ ul li:hover > ul, ul li:focus-within > ul, ul li ul:hover, ul li ul:focus {
 	margin-top: 0px;
 	margin-left: 0px;
 }*/
+.nav-fill.nav-item.dropdown {background-color:antiquewhite;}
 .dropdown-divider {
 	height: 0;
 	overflow: hidden;
