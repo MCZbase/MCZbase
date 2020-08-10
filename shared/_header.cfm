@@ -119,27 +119,6 @@ limitations under the License.
 	</cfif>
 	<cfset setDbUser()>
 </cfif>
-<style type="text/css"></style>
-<script>
-var acc = document.getElementsByClassName("accordion");
-var i;
-
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    /* Toggle between adding and removing the "active" class,
-    to highlight the button that controls the panel */
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
-}
-</script>
 </head>
 <body class="default">
 <cfset header_color = Application.header_color>
@@ -806,18 +785,18 @@ for (i = 0; i < acc.length; i++) {
 	<!-- container //  --> 
 </header>
 <script type="text/javascript">
-	/** add active class and stay opened when selected */
-	var url = window.location;
-	// for sidebar menu entirely but not cover treeview
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');
-	// for treeview
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	
-	
-	$(".navbar-nav .nav-link a").on("click", function(){
-	 $(".nav-link").find(".show").removeClass("show");
-	 $(this).addClass("show");
-});
+//	/** add active class and stay opened when selected */
+//	var url = window.location;
+//	// for sidebar menu entirely but not cover treeview
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');
+//	// for treeview
+//	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+//	
+//	
+//	$(".navbar-nav .nav-link a").on("click", function(){
+//	 $(".nav-link").find(".show").removeClass("show");
+//	 $(this).addClass("show");
+//});
 </script>
 <cf_rolecheck>
 </cfoutput>
