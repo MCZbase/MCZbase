@@ -90,20 +90,20 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 mb-5">
 						<section role="main">
-								<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h4>Results: </h4>
-									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-									<div id="columnPickDialog">
-										<div id="columnPick" class="px-1"></div>
-									</div>
-									<div id="columnPickDialogButton"></div>
-									<div id="resultDownloadButtonContainer"></div>
+							<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+								<h4>Results: </h4>
+								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+								<div id="columnPickDialog">
+									<div id="columnPick" class="px-1"></div>
 								</div>
-								<div class="row mt-0">
-									<!--- Grid Related code is below along with search handlers --->
-									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-									<div id="enableselection"></div>
-								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
 						</section>
 					</div>
 				</div>
@@ -266,7 +266,7 @@ limitations under the License.
 								columnListSource.push(listRow);
 							}
 						} 
-						$("##columnPick").jqxListBox({ source: columnListSource, height: '300px', width: '260px', checkboxes: true });
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
 						$("##columnPick").on('checkChange', function (event) {
 							$("##" + gridId).jqxGrid('beginupdate');
 							if (event.args.checked) {
@@ -494,6 +494,9 @@ limitations under the License.
 											<script>
 												function changed(){
 													$('##saveResultDiv').html('Unsaved changes.');
+													$('##saveResultDiv').addClass('text-danger');
+													$('##saveResultDiv').removeClass('text-success');
+													$('##saveResultDiv').removeClass('text-warning');
 												};
 												$(document).ready(function() {
 													$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', '#collector_agent_id#'));
@@ -505,6 +508,9 @@ limitations under the License.
 													var agentid = $('##collector_agent_id').val();
 													if (agenttext.length == 0 || (agentid.length>0 && agenttext.length>0)) { 
 														$('##saveResultDiv').html('Saving....');
+														$('##saveResultDiv').addClass('text-warning');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-danger');
 														jQuery.ajax({
 															url : "/vocabularies/component/functions.cfc",
 															type : "post",
@@ -512,9 +518,15 @@ limitations under the License.
 															data :  $('##editNumSeries').serialize(),
 															success : function (data) {
 																$('##saveResultDiv').html('Saved.');
+																$('##saveResultDiv').removeClass('text-warning');
+																$('##saveResultDiv').addClass('text-success');
+																$('##saveResultDiv').removeClass('text-danger');
 															},
 															error: function(jqXHR,textStatus,error){
 																$('##saveResultDiv').html('Error.');
+																$('##saveResultDiv').addClass('text-danger');
+																$('##saveResultDiv').removeClass('text-success');
+																$('##saveResultDiv').removeClass('text-warning');
 																var message = "";
 																if (error == 'timeout') {
 																	message = ' Server took too long to respond.';
@@ -527,6 +539,9 @@ limitations under the License.
 													} else { 
 														messageDialog('Error saving collecting event number series: If an entry is made in the agent field an agent must be selected from the picklist.', 'Error: Agent not selected');
 														$('##saveResultDiv').html('Fix error in Agent field.');
+														$('##saveResultDiv').addClass('text-danger');
+														$('##saveResultDiv').removeClass('text-success');
+														$('##saveResultDiv').removeClass('text-warning');
 													}
 												};
 											</script>
