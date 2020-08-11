@@ -64,7 +64,7 @@ ul li:hover > ul{
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
 .dropdown-menu.show {
-	left: -9999;
+	left: -9999px;
 }
 .navbar-toggler-icon {
 	width: 1em;
