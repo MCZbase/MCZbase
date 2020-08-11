@@ -58,19 +58,19 @@ ul li:hover > ul{
 	opacity: 1;
 	display: block;
 }*/
-#main_nav:focus {
+/*#main_nav:focus {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
-}
-.dropdown-menu.show {
+}*/
+.navbar-light .navbar-nav .nav-item.show li.dropdown-menu.show a{
 	left: -9999px;
 }
 .navbar-light .navbar-nav .show > .nav-link,
 .navbar-light .navbar-nav .nav-link.show {
   color: rgba(0, 0, 0, 0.5);
 }
-.navbar-light .navbar-nav .nav-link.show:focus {
+.navbar-light .navbar-nav .nav-item.show:focus {
 	border: none;
 	box-shadow:none;
 	outline: none;
