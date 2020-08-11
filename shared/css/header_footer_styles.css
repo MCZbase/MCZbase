@@ -53,12 +53,8 @@ ul li:hover > ul{
   display: block;
 }*/
 .navbar-light .navbar-nav .show > .nav-link,
-.navbar-light .navbar-nav .nav-link.show  {
+.navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.show:focus {
   color: rgba(0, 0, 0, 0.5);
-
-}
-.navbar-light .navbar-nav .show > .nav-link:focus,
-.navbar-light .navbar-nav .nav-link.show:focus {
 	border: none;
 	box-shadow:0 0 0 0 rgba(255, 255, 255, 0.05), 0 0 0 0 rgba(255, 255,255, 0.05);
 	outline: #fff auto 0;
