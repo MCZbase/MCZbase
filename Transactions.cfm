@@ -176,11 +176,11 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
-	<div id="search-form-div" class="search-form-div pb-3 px-3">
+	<div id="search-form-div" class="pb-3 px-3">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-md-12 col-sm-12 col-lg-11">
-					<h1 class="h3 smallcaps my-1 pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+				<div class="col-12">
+					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						
 						<!--- Set Active Tab --->
@@ -202,11 +202,11 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0 w-100" id="content">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
-								<li class="nav-item col-sm-12 col-md-2 px-1"> 
+								<li class="nav-item col-5 col-lg-3 px-1"> 
 									<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i>
 								</li>
-								<li class="nav-item col-sm-12 col-md-2 px-1"> 
+								<li class="nav-item col-5 col-lg-3 px-1"> 
 									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
 								</li>
@@ -690,11 +690,11 @@ limitations under the License.
 	
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
-		<div class="row">
-			<div class="text-left col-md-12">
+		<div class="row mx-0">
+			<div class="col-12">
 				<main role="main">
-					<div class="pl-2 mb-5"> 
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+					<div class="mb-5"> 
+						<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
@@ -703,7 +703,7 @@ limitations under the License.
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
 						</div>
-						<div class="row mt-0">
+						<div class="row mt-0 mx-0">
 							<!--- div id="searchText"></div  not needed?  --->
 							<!--Grid Related code is below along with search handlers-->
 							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
