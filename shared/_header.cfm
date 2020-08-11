@@ -248,6 +248,22 @@ limitations under the License.
 						return false;
 					}
 				});
+				
+				
+				function toggleDropdown (e) {
+  const _d = $(e.target).closest('.dropdown'),
+    _m = $('.dropdown-menu', _d);
+  setTimeout(function(){
+    const shouldOpen = e.type !== 'click' && _d.is(':hover');
+    _m.toggleClass('show', shouldOpen);
+    _d.toggleClass('show', shouldOpen);
+    $('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+  }, e.type === 'mouseleave' ? 300 : 0);
+}
+
+$('body')
+  .on('mouseenter mouseleave','.dropdown',toggleDropdown)
+  .on('click', '.dropdown-menu a', toggleDropdown);
 			</script>
 			<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
