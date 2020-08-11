@@ -48,9 +48,9 @@ ul li:hover > ul{
 	opacity: 1;
 	display: block;
 }
-.dropdown:hover>.dropdown-menu {
+/*.dropdown:hover>.dropdown-menu {
   display: block;
-}
+}*/
 .navbar-light .navbar-nav .show > .nav-link,
 .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.show:focus {
   color: rgba(0, 0, 0, 0.5);
