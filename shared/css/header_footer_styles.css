@@ -70,6 +70,10 @@ ul li:hover > ul{
 .navbar-light .navbar-nav .nav-link.show {
   color: rgba(0, 0, 0, 0.5);
 }
+.navbar-light .navbar-nav .nav-link.show:focus {
+	border: none;
+	box-shadow:none;
+}
 .navbar-toggler-icon {
 	width: 1em;
 	height: .87em;
