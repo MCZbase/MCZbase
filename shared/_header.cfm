@@ -258,7 +258,7 @@ limitations under the License.
     _m.toggleClass('show', shouldOpen);
     _d.toggleClass('show', shouldOpen);
     $('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
-  }, e.type === 'mouseleave' ? 300 : 0);
+  }, e.type === 'mouseleave' ? 100 : 0);
 }
 
 $('body')
