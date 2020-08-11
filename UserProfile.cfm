@@ -231,7 +231,6 @@ limitations under the License.
 			username = <cfqueryparam value='#session.username#' cfsqltype="CF_SQL_VARCHAR" >
 	</cfquery>
 	<form method="post" action="/UserProfile.cfm" name="dlForm">
-		<input type="hidden" name="user_id" value="#getUserData.user_id#">
 		<input type="hidden" name="action" value="saveProfile">
 		
 		<h3 class="mb-0">Personal Profile</h3>
@@ -343,10 +342,13 @@ limitations under the License.
 		You haven't filled in all required values! Please use your browser's back button to try again.
 		<cfabort>
 	</cfif>
+	<cfquery name="getUID" datasource="cf_dbuser">
+		select user_id from cf_users where username='#session.username#'
+	</cfquery>
 	<cfquery name="isUser" datasource="cf_dbuser">
 		select * from cf_user_data 
 		where 
-			user_id = <cfqueryparam value='#user_id#' cfsqltype="CF_SQL_DECIMAL">
+			user_id = <cfqueryparam value='#getUID.user_id#' cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 		<!---- already have a user_data entry --->
 	<cfif isUser.recordcount is 1>
