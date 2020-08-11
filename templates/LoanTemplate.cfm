@@ -290,4 +290,4 @@ Export Permission FAUNA 581/2009 <br>Issued: 2009-09-01, By: Department of Envir
 </cfoutput>
 
 <!---------------------------------------------------------------------->
-<cfinclude template = "shared/_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">
