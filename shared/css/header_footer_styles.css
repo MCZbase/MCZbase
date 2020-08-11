@@ -34,15 +34,16 @@ nav.navbar {
 .dropdown-item {
 	font-size: .9em;
 }
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: rgba(0,0,0,.7);
+	box-shadow:none;
+}
 .dropdown-item.active, .dropdown-item:active {
 	background-color:#deebec ;
 	color: black;
 }
-#main_nav:focus a {
-	outline: none;
-	border: none;
-	box-shadow: none;
-}
+
+
 /*
 ul li ul:hover {
 	visibility: visible;
