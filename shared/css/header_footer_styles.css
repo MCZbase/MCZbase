@@ -48,17 +48,10 @@ ul li:hover > ul{
 	opacity: 1;
 	display: block;
 }
-/*ul li ul:focus {
-		visibility: visible;
-	opacity: 1;
-	display: block;
-}*/
-/*ul li:focus-within > ul{
-			visibility: visible;
-	opacity: 1;
-	display: block;
-}*/
-#main_nav:focus {
+.dropdown:hover>.dropdown-menu {
+  display: block;
+}
+/*#main_nav:focus {
 	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
@@ -75,7 +68,7 @@ ul li:hover > ul{
 	border: none;
 	box-shadow:none;
 	outline: none;
-}
+}*/
 .navbar-toggler-icon {
 	width: 1em;
 	height: .87em;
