@@ -33,13 +33,14 @@
 <cfif #action# is "saveThis">
 <cfquery name="i" datasource="cf_dbuser">
 	insert into cf_canned_search (
-	user_id,
-	search_name,
-	url
+		user_id,
+		search_name,
+		url
 	) values (
-	 #user_id#,
-	 '#srchName#',
-	 '#returnURL#')
+		<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#srchName#">,
+		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#returnURL#">
+	)
 </cfquery>
 <script>self.close();</script>
 </cfif>
@@ -75,12 +76,12 @@
 	<div class="row my-3">
 		
 	<cfquery name="hasCanned" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select SEARCH_NAME,URL,canned_id
-	from cf_canned_search,cf_users
-	where cf_users.user_id=cf_canned_search.user_id
-	and username = '#session.username#'
-	order by search_name
-</cfquery>
+		select SEARCH_NAME,URL,canned_id
+		from cf_canned_search,cf_users
+		where cf_users.user_id=cf_canned_search.user_id
+			and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+		order by search_name
+	</cfquery>
    
 <cfif hasCanned.recordcount is 0>
 	<div class="col-lg-8 col-md-8 col-sm-12 my-3">
