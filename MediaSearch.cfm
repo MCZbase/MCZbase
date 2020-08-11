@@ -385,6 +385,7 @@ limitations under the License.
 			<cfabort>
 		</cfif>
 		<cfset ssql="select * from (#sel# #frm# #whr# #srch# order by media_id) where rownum <=500">
+		<!--- TODO: Replace string with assembly within cfquery --->
 		<cfquery name="findIDs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			#preservesinglequotes(ssql)#
 		</cfquery>
@@ -493,7 +494,7 @@ limitations under the License.
 			preferred_agent_name
 		where
 			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-			media_id= <cfqueryparam cfsqltype="cf_sql_number" value="#media_id#" />
+			media_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" />
                         and media_label <> 'credit'  -- obtained in the findIDs query.
 		    <cfif oneOfUs EQ 0>
 		    	and media_label <> 'internal remarks'
@@ -587,7 +588,8 @@ limitations under the License.
 				</tr>
 			</table>
 			<cfquery name="tag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) n from tag where media_id=#media_id#
+				select count(*) n from tag 
+				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<br>
 			<cfif media_type is "multi-page document">
@@ -622,8 +624,8 @@ limitations under the License.
 				where
 					media.media_id=media_relations.media_id and
 					media_relationship like '% media' and
-					media_relations.related_primary_key=#media_id#
-					 and media.media_id != #media_id#
+					media_relations.related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					and  media.media_id != <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 			</cfquery>
 			<cfif relM.recordcount gt 0>
 				<br>Related Media
@@ -638,7 +640,7 @@ limitations under the License.
 							from
 								media_labels
 							where
-								media_id=#media_id#
+								media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
