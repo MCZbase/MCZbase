@@ -66,6 +66,11 @@ ul li:hover > ul{
 .dropdown-menu.show {
 	left: -9999px;
 }
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .nav-link.show,
+. {
+  color: rgba(0, 0, 0, 0.5);
+}
 .navbar-toggler-icon {
 	width: 1em;
 	height: .87em;
