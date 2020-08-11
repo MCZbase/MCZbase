@@ -38,7 +38,7 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-#main_nav:focus {
+#main_nav:focus a {
 	outline: none;
 	border: none;
 	box-shadow: none;
