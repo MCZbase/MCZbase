@@ -206,7 +206,7 @@ limitations under the License.
 									<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i>
 								</li>
-								<li class="nav-item col-5 col-lg-3 px-1">
+								<li class="nav-item col-5 col-lg-3 px-1"> 
 									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
 								</li>
@@ -550,67 +550,67 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-1">
-											<div class="form-row mx-0 mb-1 px-3">
-												<div class="col-3 px-0">
-													<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
-													<cfif part_name_oper IS "is">
-														<cfset isselect = "selected">
-														<cfset containsselect = "">
-														<cfelse>
-														<cfset isselect = "">
-														<cfset containsselect = "selected">
-													</cfif>
-													<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
-														<option value="is" #isselect#>is</option>
-														<option value="contains" #containsselect#>contains</option>
-													</select>
-												</div>
-												<div class="col-9 px-0">
-													<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-													<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
-												</div>
-											</div>
-											<div class="form-row mx-0 px-3">
-												<div class="col-3 px-0">
-													<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
-													<cfif part_disp_oper IS "is">
-														<cfset isselect = "selected">
-														<cfset notselect = "">
-														<cfelse>
-														<cfset isselect = "">
-														<cfset notselect = "selected">
-													</cfif>
-													<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
-														<option value="is" #isselect#>is</option>
-														<option value="isnot" #notselect#>is not</option>
-													</select>
-												</div>
-												<div class="col-9 px-0">
-													<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-													<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-													<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-													<script>
-												function setDispositionValues() {
-													$('##coll_obj_disposition').jqxComboBox('clearSelection');
-													<cfloop query="ctCollObjDisp">
-														<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-															$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+												<div class="form-row mx-0 mb-1 px-3">
+													<div class="col-3 px-0">
+														<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
+														<cfif part_name_oper IS "is">
+															<cfset isselect = "selected">
+															<cfset containsselect = "">
+															<cfelse>
+															<cfset isselect = "">
+															<cfset containsselect = "selected">
 														</cfif>
-													</cfloop>
-												};
-												$(document).ready(function () {
-													var dispositionsource = [
-														""
-														<cfloop query="ctCollObjDisp">
-															,"#ctCollObjDisp.coll_obj_disposition#"
-														</cfloop>
-													];
-													$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-													setDispositionValues();
-												});
-											</script> 
+														<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+															<option value="is" #isselect#>is</option>
+															<option value="contains" #containsselect#>contains</option>
+														</select>
+													</div>
+													<div class="col-9 px-0">
+														<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+														<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
+													</div>
 												</div>
-											</div>
+												<div class="form-row mx-0 px-3">
+													<div class="col-3 px-0">
+														<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
+														<cfif part_disp_oper IS "is">
+															<cfset isselect = "selected">
+															<cfset notselect = "">
+															<cfelse>
+															<cfset isselect = "">
+															<cfset notselect = "selected">
+														</cfif>
+														<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+															<option value="is" #isselect#>is</option>
+															<option value="isnot" #notselect#>is not</option>
+														</select>
+													</div>
+													<div class="col-9 px-0">
+														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+														<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+														<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+														<script>
+															function setDispositionValues() {
+																$('##coll_obj_disposition').jqxComboBox('clearSelection');
+																<cfloop query="ctCollObjDisp">
+																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+																		$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																	</cfif>
+																</cfloop>
+															};
+															$(document).ready(function () {
+																var dispositionsource = [
+																	""
+																	<cfloop query="ctCollObjDisp">
+																		,"#ctCollObjDisp.coll_obj_disposition#"
+																	</cfloop>
+																];
+																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+																setDispositionValues();
+															});
+														</script> 
+													</div>
+												</div>
 												<div class="form-row mx-0 mb-1 px-3">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
@@ -644,7 +644,7 @@ limitations under the License.
 													<script>
 													</script>
 												</div>
-										</div>
+											</div>
 										</div>
 
 										<div class="col-md-6">
@@ -694,7 +694,7 @@ limitations under the License.
 			<div class="col-12">
 				<main role="main">
 					<div class="mb-5"> 
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+						<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
@@ -732,11 +732,19 @@ limitations under the License.
 		var loanstatus = datarecord['loan_status'];
 	   var gridWidth = $('##' + gridId).width();
 	   var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
+		var transaction_id = datarecord['transaction_id'];
 	   if (dialogWidth < 150) { dialogWidth = 150; }
 	   for (i = 1; i < columns.length; i++) {
 	      var text = columns[i].text;
 	      var datafield = columns[i].datafield;
-			if (datafield == 'dueindays') { 
+			if (datafield == 'loan_number') { 
+				if (transaction_id) {
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'dueindays') { 
 				var daysoverdue = -(datarecord[datafield]);
 				if (daysoverdue > 0 && loanstatus != 'closed') {
 					var overdue = "";
@@ -754,6 +762,12 @@ limitations under the License.
 			} else if (datafield == 'return_due_date') { 
 				if (daysdue < 0 && loanstatus != 'closed') {
 	      		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'project_name') { 
+				if (pid) {
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -955,6 +969,17 @@ $(document).ready(function() {
 		}
 		return result;
 	};
+	var projectCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var pid = rowData['pid'];
+		if (pid) {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/ProjectDetail.cfm?project_id='+pid+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 	var overdueCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var daysoverdue = -value;
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -1094,7 +1119,7 @@ $(document).ready(function() {
 				{text: 'Scope', datafield: 'loan_type_scope', hideable: true, hidden: true },
 				{text: 'Instructions', datafield: 'loan_instructions', hideable: true, hidden: true },
 				{text: 'Description', datafield: 'loan_description', hideable: true, hidden: true },
-				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
