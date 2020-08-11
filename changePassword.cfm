@@ -30,21 +30,31 @@
 			</div>
 		<div class="col-md-5 col-sm-12">
 	 	<cfquery name="pwExp" datasource="uam_god">
-			select pw_change_date from cf_users where username = '#session.username#'
+			select pw_change_date 
+			from cf_users 
+			where 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfset pwtime =  round(now() - pwExp.pw_change_date)>
 		<cfset pwage = Application.max_pw_age - pwtime>
 		<cfif session.username is "guest">
-			<h3>Guests are not allowed to change passwords.</h3><cfabort>
+			<h3>Guests are not allowed to change passwords.</h3>
+			<cfabort>
 		</cfif>
 			<p>Your password is <b>#pwtime# days old</b>.</p>
 	    <cfquery name="isDb" datasource="uam_god">
 			select
-			(select count(*) c from all_users where
-			username='#ucase(session.username)#')
+			(
+				select count(*) c from all_users where
+				username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+			)
 			+
-			(select count(*) C from temp_allow_cf_user,
-			cf_users where temp_allow_cf_user.user_id = cf_users.user_id and cf_users.username='#session.username#')
+			(
+				select count(*) C 
+				from temp_allow_cf_user, cf_users 
+				where temp_allow_cf_user.user_id = cf_users.user_id 
+					and cf_users.username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			)
 			cnt
 			from dual
 		</cfquery>
@@ -100,9 +110,11 @@
 	        <input type="submit" value="Save Password Change" class="btn btn-secondary">
 	    </form>
 	    <cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select email,username from cf_user_data,cf_users
-			 where cf_user_data.user_id = cf_users.user_id and
-			 username= '#session.username#'
+			select email,username 
+				from cf_user_data,cf_users
+			where 
+				cf_user_data.user_id = cf_users.user_id and
+				username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif len(isGoodEmail.email) gt 0>
 			<h4><a href="/changePassword.cfm?action=findPass&email=#isGoodEmail.email#&username=#isGoodEmail.username#" class="mt-1 pl-1 d-block" >Forgot your password? </a></h4>
@@ -148,7 +160,10 @@
     <div class="changePW">
 	<cfoutput>
 	<cfquery name="getPass" datasource="cf_dbuser">
-		select password from cf_users where username = '#session.username#'
+		select password 
+		from cf_users 
+		where 
+			username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif hash(oldpassword) is not getpass.password>
 		<span style="background-color:red;">
@@ -168,8 +183,9 @@
 	</cfif>
 	<!--- Passwords check out for public users, now see if they're a database user --->
 	<cfquery name="isDb" datasource="uam_god">
-		select * from all_users where
-		username='#ucase(session.username)#'
+		select * from all_users 
+		where
+			username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 	</cfquery>
 	<cfif isDb.recordcount is 0>
 		<cfquery name="setPass" datasource="cf_dbuser">
@@ -186,9 +202,10 @@
 				</cfquery>
 				<cfquery name="setPass" datasource="uam_god">
 					UPDATE cf_users
-					SET password = '#hash(newpassword)#',
-					PW_CHANGE_DATE=sysdate
-					WHERE username = '#session.username#'
+					SET password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+						PW_CHANGE_DATE=sysdate
+					WHERE 
+						username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cftransaction>
 			<cfcatch>
@@ -226,16 +243,16 @@
 			</cfcatch>
 		</cftry>
 	</cfif>
-<cfset session.force_password_change = "">
-<cfset initSession('#session.username#','#newpassword#')>
-Your password has successfully been changed.
-You will be redirected soon, or you may use the menu above now.
-<script>
-	setTimeout("go_now()",5000);
-	function go_now () {
-		document.location='#Application.ServerRootUrl#/UserProfile.cfm';
-	}
-</script>
+	<cfset session.force_password_change = "">
+	<cfset initSession('#session.username#','#newpassword#')>
+	Your password has successfully been changed.
+	You will be redirected soon, or you may use the menu above now.
+	<script>
+		setTimeout("go_now()",5000);
+		function go_now () {
+			document.location='#Application.ServerRootUrl#/UserProfile.cfm';
+		}
+	</script>
 </cfoutput>
     </div>
 </cfif>
@@ -244,14 +261,17 @@ You will be redirected soon, or you may use the menu above now.
     <div class="changePW">
 <cfoutput>
 	<cfquery name="isGoodEmail" datasource="cf_dbuser">
-		select cf_user_data.user_id, email,username from cf_user_data,cf_users
-		 where cf_user_data.user_id = cf_users.user_id and
-		 email = '#email#' and username= '#username#'
+		select cf_user_data.user_id, email,username 
+			from cf_user_data,cf_users
+		where 
+			cf_user_data.user_id = cf_users.user_id 
+			and email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+			and username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 	</cfquery>
 	<cfif isGoodEmail.recordcount neq 1>
 		Sorry, that email wasn't found with your username.
 		<cfabort>
-	  <cfelse>
+	<cfelse>
 			<cfset charList = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,z,y,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0">
 			<cfset numList="1,2,3,4,5,6,7,8,9,0">
 			<cfset specList="!,$,%,&,_,*,?,-,(,),<,>,=,/,:,;,.">
@@ -276,11 +296,14 @@ You will be redirected soon, or you may use the menu above now.
 				<cfquery name="setNewPass" datasource="uam_god">
 					UPDATE cf_users SET password = '#hash(newPass)#',
 					pw_change_date=sysdate-91
-					where user_id = #isGoodEmail.user_id#
+					where user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
 				</cfquery>
 				<cftry>
 				<cfquery name="db" datasource="uam_god">
-					alter user #isGoodEmail.username# identified by "#newPass#"
+					alter user 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#isGoodEmail.username#">
+					identified by 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
 				</cfquery>
 				<cfcatch><!--- not a DB user - whatever ---></cfcatch>
 				</cftry>
@@ -304,7 +327,7 @@ You will be redirected soon, or you may use the menu above now.
 		<cfset initSession()>
 	</cfif>
 </cfoutput>
-                </div>
+	</div>
 </cfif>
 <!---------------------------------------------------------------------->
 <cfinclude template = "shared/_footer.cfm">
