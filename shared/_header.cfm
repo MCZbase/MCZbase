@@ -254,7 +254,7 @@ limitations under the License.
 				<div class="collapse navbar-collapse" id="menuTest1">
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search" title="Search (Alt+m)" >Search</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
 									<a class="dropdown-item" href="/">Media</a> 
@@ -265,7 +265,7 @@ limitations under the License.
 							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown" style="margin-top:0px;">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Create New Records</div>
@@ -289,7 +289,7 @@ limitations under the License.
 							</ul>
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown" style="margin-top:0px;"> 
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start">
@@ -319,7 +319,7 @@ limitations under the License.
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
-						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow" style="margin-top:0px;">
+						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 							<li>
 								<a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
