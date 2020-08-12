@@ -155,6 +155,16 @@ limitations under the License.
 		</ul>
 	</div>
 	<div class="container-fluid bg-light px-0"> 
+		<noscript>
+			<h1 class="h3">MCZbase requires Javascript to function.</h1>
+			<nav class="nav-bar">
+				<ul class="navbar-nav">
+					<li class="nav-item"><a href="SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+					<li class="nav-item"><a href="BrowseHTML.cfm">Browse Data</a></li>
+					<li class="nav-item"><a href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+				</ul>
+			</nav>
+		</noscript>
 		<!---	
 		Test for Application.header_image is required for continued integration, as the production menu
 		must point to files present on production while the redesign menu points at their replacements in redesign
