@@ -446,9 +446,9 @@ limitations under the License.
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	// might add active highlight
-	$(".navbar-nav .nav-link a").on("hover", function(){
-	 $(".nav-link").find(".highlight").removeClass("highlight");
-	 $(this).addClass("highlight");	
+	$(".navbar-nav li").on("hover", function(){
+	 $(".nav-item").find(".show").removeClass("show");
+	 $(this).addClass("show");	
 	});
 	
 	//prevents double click behavior on menu
