@@ -445,7 +445,7 @@ limitations under the License.
 	
 	//makes selected menu header have darker text
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	//makes selected dropdown option have different background --#deebec
+	//makes selected dropdown option have different background --##deebec
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
 	
 	//prevents double click behavior on menu
