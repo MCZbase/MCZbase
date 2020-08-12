@@ -27,31 +27,32 @@
 	background-color: #ddd;
 	box-shadow: none;
 }
-nav.navbar {
+/* Navigation menu styles */
+nav.navbar {  /* makes the navbar text slightly smaller than default and give padding so the login and search aren't at the edge of page */
 	padding: 0 1em;
 	font-size: .9em;
 }
 .dropdown-item {
-	font-size: .9em;
+	font-size: .9em;   /* makes the navbar text slightly smaller than default */
 }
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
-    color: rgba(0,0,0,.7);
-	box-shadow:none;
-	border: none;
+    color: rgba(0,0,0,.8);  /* this makes the dropdown header darker then the rest of headers when a page within it is selected */
+	box-shadow:none;     /* this takes away the default focus & focus style from above */
+	border: none;      /* this takes away the default focus & focus style from above */
 }
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-item.active, .dropdown-item:active {  /* when the menu option is clicked this styling is activated */
 	background-color:#deebec ;
 	color: black;
 }
 .navbar-toggler-icon {
-	width: 1em;
+	width: 1em;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
 	height: .87em;
 }
-.nav-tabs .nav-link, .navbar-nav .nav-link {
+.nav-tabs .nav-link, .navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
 	display: block;
 	padding: .25em 1em;
 }
-
+/* End navigation menu styles */
 .logout {
 	padding: 0 .45em;
 	font-size: 90%;
