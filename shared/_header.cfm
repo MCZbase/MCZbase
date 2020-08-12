@@ -159,10 +159,10 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-				<li class="nav-item"><a class="nav-link" href="/BrowseHTML.cfm">Browse Data</a></li>
+				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 			</ul>
 			<ul class="navbar-nav ml-auto mt-0 mt-lg-0">
