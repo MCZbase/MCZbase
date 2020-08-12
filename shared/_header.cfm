@@ -215,6 +215,7 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 								<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a>
 								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
+								<a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Add Collecting Event Number Series</a>
 							</cfif>
 						</div>
 					</li>
