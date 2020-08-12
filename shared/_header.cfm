@@ -157,7 +157,7 @@ limitations under the License.
 	<noscript>
 		<div class="container-fluid bg-light">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 pb-2">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
 			<ul class="navbar-nav mx-auto">
