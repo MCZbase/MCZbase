@@ -21,7 +21,10 @@ limitations under the License.
  * Edit and Find GUID modes (Edit, show anchor, Find Guid, show text input), on a click of
  * the buttion switch the set of controls from the display the guid in a link with an Edit 
  * button state to the display the set of controls with the guid in a text input with a 
- * find guid button which opens a window to do a lookup for the guid. Example invocation: 
+ * find guid button which opens a window to do a lookup for the guid.
+ * Assumes the use of 'editGuidButton' and 'findGuidButton' classes to distinguish state 
+ * of the searchControl.
+ * Example invocation: 
  * <pre>
    $(document).ready(function () { 
      $('#taxonid_search').click(function (evt) { 
@@ -37,7 +40,7 @@ limitations under the License.
  * @see getGuidTypeInfo
  */
 function switchGuidEditToFind(inputControl,searchControl,linkControl,evt) {
-	if ($('#'+searchControl).hasClass('editGuidButon')) { 
+	if ($('#'+searchControl).hasClass('editGuidButton')) { 
 		evt.preventDefault();
 		$('#'+inputControl).show();
 		$('#'+linkControl).hide();
