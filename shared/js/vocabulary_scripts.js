@@ -63,11 +63,15 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
 			if (searchText && searchText.length > 0) { 
 				if (guid.length > 0) { 
-					$('#'+searchControl).html("Replace"); 
+					$('#'+searchControl).html("Edit"); 
+					$('#'+searchControl).addClass("editGuidButton"); 
+					$('#'+searchControl).removeClass("findGuidButton external"); 
 				} else { 
 					$('#'+searchControl).html("Find GUID"); 
+					$('#'+searchControl).removeClass("editGuidButton"); 
+					$('#'+searchControl).addClass("findGuidButton external"); 
 				}
-				$('#'+searchControl).addClass("smallBtn external");
+				$('#'+searchControl).addClass("smallBtn");
 			} else {
 				$('#'+searchControl).html(""); 
 				$('#'+searchControl).removeClass("smallBtn external");

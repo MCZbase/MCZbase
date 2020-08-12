@@ -261,11 +261,12 @@
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace" >		
+							<cfset searchtext = "Edit" >		
+							<cfset searchclass = 'class="smallBtn editGuidButton"' >
 						<cfelse>
 							<cfset searchtext = "Find GUID" >		
+							<cfset searchclass = 'class="smallBtn external findGuidButton"' >
 						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
@@ -297,9 +298,16 @@
 						if ($('##taxonid').val().length > 0) {
 							$('##taxonid').hide();
 						}
-						$('##taxonid_search').click(function () { 
-							$('##taxonid').show();
-							$('##taxonid_link').hide();
+						$('##taxonid_search').click(function (evt) { 
+							if ($('##taxonid_search').hasClass('editGuidButton')) { 
+								evt.preventDefault();
+								$('##taxonid').show();
+								$('##taxonid_link').hide();
+								$('##taxonid_search').html('Find GUID');
+								$('##taxonid_search').addClass('findGuidButton');
+								$('##taxonid_search').addClass('external');
+								$('##taxonid_search').removeClass('editGuidButton');
+							}
 						});
 						$('##taxonid_guid_type').change(function () { 
 							// On selecting a guid_type, remove an existing guid value.
