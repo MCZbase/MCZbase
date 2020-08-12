@@ -447,8 +447,8 @@ limitations under the License.
 	
 	// might add active highlight
 	$(".navbar-nav li").on("hover", function(){
-	 $(".nav-item").find(".show").removeClass("show");
-	 $(this).addClass("show");	
+	 $(".nav-item").find(".shows").removeClass("shows");
+	 $(this).addClass("shows");	
 	});
 	
 	//prevents double click behavior on menu
