@@ -43,7 +43,7 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-.nav-link.active a.dropdown-item:active {background-color: #dddddd}
+.nav-link.active a.dropdown-item:focus {background-color: #dddddd}
 
 
 /*
