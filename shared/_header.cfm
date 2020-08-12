@@ -156,9 +156,9 @@ limitations under the License.
 	</div>
 	<noscript>
 		<h1 class="h3">MCZbase requires Javascript to function.</h1>
-		<nav class="nav-bar">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
+				<li class="nav-item"> <a class="nav-link" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
 				<li class="nav-item"><a href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -276,7 +276,7 @@ limitations under the License.
 					}
 				});
 				
-				
+				// This toggleDropdown function removes the click to stick the menu dropdown behavior
 				function toggleDropdown (e) {
   					const _d = $(e.target).closest('.dropdown'),
     				_m = $('.dropdown-menu', _d);
