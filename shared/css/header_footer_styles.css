@@ -43,7 +43,7 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-.active a.dropdown-item:active {
+.nav-link.active a.dropdown-item:active {
 	background-color: #f8f9fa;
 }
 .navbar-toggler-icon {
@@ -53,6 +53,9 @@ nav.navbar {
 .nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
 	padding: .25em 1em;
+}
+.nav li.active:hover > a { 
+  color:orange; 
 }
 .logout {
 	padding: 0 .45em;
