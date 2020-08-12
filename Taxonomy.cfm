@@ -261,11 +261,12 @@
  					<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >		
 						<cfif len(gettaxa.taxonid) GT 0>
-							<cfset searchtext = "Replace" >		
+							<cfset searchtext = "Edit" >		
+							<cfset searchclass = 'class="smallBtn editGuidButton"' >
 						<cfelse>
 							<cfset searchtext = "Find GUID" >		
+							<cfset searchclass = 'class="smallBtn external findGuidButton"' >
 						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
 				<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
@@ -297,9 +298,8 @@
 						if ($('##taxonid').val().length > 0) {
 							$('##taxonid').hide();
 						}
-						$('##taxonid_search').click(function () { 
-							$('##taxonid').show();
-							$('##taxonid_link').hide();
+						$('##taxonid_search').click(function (evt) { 
+							switchGuidEditToFind('taxonid','taxonid_search','taxonid_link',evt);
 						});
 						$('##taxonid_guid_type').change(function () { 
 							// On selecting a guid_type, remove an existing guid value.
@@ -338,11 +338,12 @@
  					<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 						<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >		
 						<cfif len(gettaxa.scientificnameid) GT 0>
-							<cfset searchtext = "Replace" >		
+							<cfset searchtext = "Edit" >		
+							<cfset searchclass = 'class="smallBtn editGuidButton"' >
 						<cfelse>
 							<cfset searchtext = "Find GUID" >		
+							<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 						</cfif>
-						<cfset searchclass = 'class="smallBtn external"' >
 					</cfif>
 				</cfloop>
 				<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
@@ -376,9 +377,8 @@
 						if ($('##scientificnameid').val().length > 0) {
 							$('##scientificnameid').hide();
 						}
-						$('##scientificnameid_search').click(function () { 
-							$('##scientificnameid').show();
-							$('##scientificnameid_link').hide();
+						$('##scientificnameid_search').click(function (evt) { 
+							switchGuidEditToFind('scientificnameid','scientificnameid_search','scientificnameid_link',evt);
 						});
 						$('##scientificnameid_guid_type').change( function () { 
 							// On selecting a guid_type, remove an existing guid value.
@@ -947,7 +947,7 @@
 	 					<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Find GUID" >		
-							<cfset searchclass = 'class="smallBtn external"' >
+							<cfset searchclass = 'class="smallBtn external findGuidButton"' >
 						</cfif>
 					</cfloop>
 					<select name="taxonid_guid_type" id="taxonid_guid_type" size="1">
@@ -975,9 +975,8 @@
 							if ($('##taxonid').val().length > 0) {
 								$('##taxonid').hide();
 							}
-							$('##taxonid_search').click(function () { 
-								$('##taxonid').show();
-								$('##taxonid_link').hide();
+							$('##taxonid_search').click(function (evt) { 
+								switchGuidEditToFind('taxonid','taxonid_search','taxonid_link',evt);
 							});
 							$('##taxonid_guid_type').change(function () { 
 								// On selecting a guid_type, remove an existing guid value.
@@ -1019,7 +1018,7 @@
 	 					<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 							<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >		
 							<cfset searchtext = "Find GUID" >		
-							<cfset searchclass = 'class="smallBtn external"' >
+							<cfset searchclass = 'class="smallBtn external findGuidButton"' >
 						</cfif>
 					</cfloop>
 					<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" size="1" >
@@ -1049,9 +1048,8 @@
 							if ($('##scientificnameid').val().length > 0) {
 								$('##scientificnameid').hide();
 							}
-							$('##scientificnameid_search').click(function () { 
-								$('##scientificnameid').show();
-								$('##scientificnameid_link').hide();
+							$('##scientificnameid_search').click(function (evt) { 
+								switchGuidEditToFind('scientificnameid','scientificnameid_search','scientificnameid_link',evt);
 							});
 							$('##scientificnameid_guid_type').change( function () { 
 								// On selecting a guid_type, remove an existing guid value.
