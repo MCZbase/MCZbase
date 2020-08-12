@@ -154,17 +154,17 @@ limitations under the License.
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
-	<div class="container-fluid bg-light px-0"> 
-		<noscript>
-			<h1 class="h3">MCZbase requires Javascript to function.</h1>
-			<nav class="nav-bar">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a href="SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-					<li class="nav-item"><a href="BrowseHTML.cfm">Browse Data</a></li>
-					<li class="nav-item"><a href="https://mcz.harvard.edu/database">About MCZbase</a></li>
-				</ul>
-			</nav>
-		</noscript>
+	<noscript>
+		<h1 class="h3">MCZbase requires Javascript to function.</h1>
+		<nav class="nav-bar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a href="SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+				<li class="nav-item"><a href="BrowseHTML.cfm">Browse Data</a></li>
+				<li class="nav-item"><a href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+			</ul>
+		</nav>
+	</noscript>
+	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer"><!--- display turned on with javascript below ---> 
 		<!---	
 		Test for Application.header_image is required for continued integration, as the production menu
 		must point to files present on production while the redesign menu points at their replacements in redesign
@@ -418,6 +418,9 @@ limitations under the License.
 		</cfif>
 	</div>
 	<!-- container //  --> 
+	<script>
+		document.getElementById("mainMenuContainer").style.display = "block";	
+	</script>
 </header>
 <script type="text/javascript">
 	/** add active class and stay opened when selected--makes the link of the menu bar item different color when active */
