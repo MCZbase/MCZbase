@@ -160,6 +160,7 @@ limitations under the License.
 				<div class="col-12">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 float-left">
+			<div class="collapse navbar-collapse">
 			<ul class="navbar-nav mr-md-auto mr-2 col-12">
 				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
 				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
@@ -185,6 +186,7 @@ limitations under the License.
 					</form>
 				</cfif>
 			</ul>
+				</div>
 		</nav>
 			</div>
 			</div>
