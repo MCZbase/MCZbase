@@ -159,8 +159,8 @@ limitations under the License.
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
 				<li class="nav-item"> <a class="nav-link" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-				<li class="nav-item"><a href="/BrowseHTML.cfm">Browse Data</a></li>
-				<li class="nav-item"><a href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+				<li class="nav-item"><a class="nav-link" href="/BrowseHTML.cfm">Browse Data</a></li>
+				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<a href="/login.cfm?action=signOut" class="btn btn-outline-success logout" aria-label="logout">Log out #session.username#</a>
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
