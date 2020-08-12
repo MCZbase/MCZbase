@@ -442,8 +442,7 @@ limitations under the License.
 <script type="text/javascript">
 	/** add active class when selected--makes the link of the menu bar item different color when active */
 	var url = window.location;
-	
-	//$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
+		$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	//prevents double click behavior on menu
 	$('.dropdown-toggle').click(function(e) {
