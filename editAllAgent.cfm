@@ -214,8 +214,6 @@ function opendialogrank(page,id,title,agentId) {
 					<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
 				</cfloop>
 			</select>
-			<cfset searchtext = "Find GUID" >		
-			<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 			<a href="#searchlink#" id="agentguid_search" target="_blank" style="display: none;">#searchtext#</a>
 			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 			<a id="agentguid_link" href="" target="_blank" class="hints"></a>
@@ -230,7 +228,6 @@ function opendialogrank(page,id,title,agentId) {
 					$('##agentguid_guid_type').change(function () { 
 						// On selecting a guid_type, remove an existing guid value.
 						$('##agentguid').val("");
-						$('##agentguid_search').show();
 						// On selecting a guid_type, change the pattern.
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
