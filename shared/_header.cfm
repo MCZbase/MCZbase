@@ -165,7 +165,7 @@ limitations under the License.
 				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 			</ul>
-			<ul class="navbar-nav ml-0 mr-auto mr-md-0 ml-md-auto">
+			<ul class="navbar-nav ml-auto">
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<button href="/login.cfm?action=signOut" class="btn mb-1 btn-outline-success logout" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
