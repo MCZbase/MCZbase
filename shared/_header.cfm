@@ -440,20 +440,24 @@ limitations under the License.
 	</script>
 </header>
 <script type="text/javascript">
-	/** add active class and stay opened when selected--makes the link of the menu bar item different color when active */
+	/** add active class when selected--makes the link of the menu bar item different color when active */
 	var url = window.location;
-	// for menu
-	//$('ul.navbar-nav a').filter(function() { return this.href == url; }).parent().addClass('active');
-	// for treeview
+	
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
+	// might add active highlight
+	$(".navbar-nav .nav-link a").on("hover", function(){
+	 $(".nav-link").find(".highlight").removeClass("highlight");
+	 $(this).addClass("highlight");	
+	});
 	
-//	$(".navbar-nav .nav-link a").on("click", function(){
-//	 $(".nav-link").find(".show").removeClass("show");
-//	 $(this).addClass("show");
-//});
-	
-	$('.dropdown-toggle').on('click',function(e){ e.preventDefault()});
+	//prevents double click behavior on menu
+	$('.dropdown-toggle').click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    return false;
+	});
 </script>
 <cf_rolecheck>
 </cfoutput>
