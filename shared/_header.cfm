@@ -300,11 +300,14 @@ limitations under the License.
 								<li>
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
-									<a class="dropdown-item" href="/">Media</a> 
-									<a class="dropdown-item" href="/">Publications</a> 
-									<a class="dropdown-item" href="/">Locality</a> 
-									<a class="dropdown-item" href="/">Event</a>
-									<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">All Transactions</a>
+									<a class="dropdown-item" href="/Media.cfm">Media</a> 
+									<a class="dropdown-item" href="/Publications.cfm">Publications</a> 
+									<a class="dropdown-item" href="/Geography.cfm">Geography</a> 
+									<a class="dropdown-item" href="/Events.cfm">Event</a>
+									<a class="dropdown-item" href="/Agents.cfm">Agents</a>
+									<a class="dropdown-item" href="/Events.cfm">Projects</a>
+									<a class="dropdown-item" href="/Agents.cfm">Annotations</a>
+									<a class="dropdown-item" href="/Events.cfm">Browse Specimens</a>
 								</li>
 							</ul>
 						</li>
