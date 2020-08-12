@@ -162,10 +162,11 @@ limitations under the License.
 				<li class="nav-item"><a class="nav-link" href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<a href="/login.cfm?action=signOut" class="btn btn-outline-success logout" aria-label="logout">Log out #session.username#</a>
+					<button href="/login.cfm?action=signOut" class="btn btn-outline-success logout" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 					</cfif>
+					</button>
 				<cfelse>
 					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 						<input type="hidden" name="action" value="signIn">
