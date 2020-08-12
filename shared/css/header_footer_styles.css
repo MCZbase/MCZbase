@@ -54,7 +54,7 @@ nav.navbar {
 	display: block;
 	padding: .25em 1em;
 }
- li.active a:active { 
+ .navbar-light .navbar-nav .nav-link:hover li.active a:active { 
   color:orange; 
 }
 .logout {
