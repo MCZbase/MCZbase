@@ -39,11 +39,11 @@ limitations under the License.
 function switchGuidEditToFind(inputControl,searchControl,linkControl,evt) {
 	if ($('#'+searchControl).hasClass('editGuidButon')) { 
 		evt.preventDefault();
-		$('#'+inputControl').show();
-		$('#'+linkControl').hide();
-		$('#'+searchControl').html('Find GUID');
-		$('#'+searchControl').addClass('findGuidButton external');
-		$('#'+searchControl').removeClass('editGuidButton');
+		$('#'+inputControl).show();
+		$('#'+linkControl).hide();
+		$('#'+searchControl).html('Find GUID');
+		$('#'+searchControl).addClass('findGuidButton external');
+		$('#'+searchControl).removeClass('editGuidButton');
 	}
 };
 
