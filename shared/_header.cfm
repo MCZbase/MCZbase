@@ -443,13 +443,7 @@ limitations under the License.
 	/** add active class when selected--makes the link of the menu bar item different color when active */
 	var url = window.location;
 	
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	
-	// might add active highlight
-	$(".navbar-nav li").on("hover", function(){
-	 $(".nav-item").find(".shows").removeClass("shows");
-	 $(this).addClass("shows");	
-	});
+	//$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
 	
 	//prevents double click behavior on menu
 	$('.dropdown-toggle').click(function(e) {
