@@ -155,7 +155,7 @@ limitations under the License.
 		</ul>
 	</div>
 	<noscript>
-		<div class="container-fluid bg-light pb-5">
+		<div class="container-fluid bg-light">
 			<div class="row">
 				<div class="col-12">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
@@ -163,7 +163,7 @@ limitations under the License.
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
 				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
-				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+				<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 			
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<button href="/login.cfm?action=signOut" class="btn mb-1 btn-outline-success logout" aria-label="logout">Log out #session.username#
