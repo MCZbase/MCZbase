@@ -159,17 +159,12 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0 float-left">
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="##navbarTogglerNoScript" aria-controls="navbarTogglerNoScript"
-					aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-			<div class="collapse navbar-collapse">
-			<ul class="navbar-nav mr-md-auto mr-2 col-12" id="navbarTogglerNoScript">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+			<ul class="navbar-nav mr-auto">
 				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
 				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a class="nav-link" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
-			</ul>
-			<ul class="navbar-nav ml-md-auto ml-4 col-12">
+			
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<button href="/login.cfm?action=signOut" class="btn mb-1 btn-outline-success logout" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
@@ -189,7 +184,6 @@ limitations under the License.
 					</form>
 				</cfif>
 			</ul>
-				</div>
 		</nav>
 			</div>
 			</div>
