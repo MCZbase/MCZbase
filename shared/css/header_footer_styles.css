@@ -43,8 +43,13 @@ nav.navbar {
 	background-color:#deebec ;
 	color: black;
 }
-.nav-link.active a.dropdown-item:focus {background-color: #dddddd}
 
+.dropdown-item:focus, .dropdown-menu.active.dropdown-item:hover {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa;
+	background-color: #deebec;
+}
 
 /*
 ul li ul:hover {
