@@ -38,7 +38,6 @@ nav.navbar {
     color: rgba(0,0,0,.7);
 	box-shadow:none;
 	border: none;
-	cursor:none;
 }
 .dropdown-item.active, .dropdown-item:active {
 	background-color:#deebec ;
