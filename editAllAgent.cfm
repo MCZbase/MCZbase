@@ -214,7 +214,7 @@ function opendialogrank(page,id,title,agentId) {
 					<option #sel# value="#ctguid_type_agent.guid_type#">#ctguid_type_agent.guid_type#</option>
 				</cfloop>
 			</select>
-			<a href="#searchlink#" id="agentguid_search" target="_blank" style="display: none;">#searchtext#</a>
+			<a href="#searchlink#" id="agentguid_search" target="_blank">#searchtext#</a>
 			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 			<a id="agentguid_link" href="" target="_blank" class="hints"></a>
 			<script>
