@@ -380,7 +380,7 @@
 					<cfloop query="ctguid_type_highergeography">
 	 					<cfif ctguid_type_highergeography.recordcount EQ 1 >
 							<cfset searchtext = "Find GUID" >		
-							<cfset searchclass = 'class="smallBtn external"' >
+							<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 						</cfif>
 					</cfloop>
 					<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
@@ -408,9 +408,8 @@
 							if ($('##highergeographyid').val().length > 0) {
 								$('##highergeographyid').hide();
 							}
-							$('##highergeographyid_search').click(function () { 
-								$('##highergeographyid').show();
-								$('##highergeographyid_link').hide();
+							$('##highergeographyid_search').click(function (evt) { 
+								switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
 							});
 							$('##highergeographyid_guid_type').change(function () { 
 								// On selecting a guid_type, remove an existing guid value.
@@ -695,11 +694,12 @@ You do not have permission to create Higher Geographies
 		 					<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
 								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.higher_geog >		
 								<cfif len(geogDetails.highergeographyid) GT 0>
-									<cfset searchtext = "Replace" >		
+									<cfset searchtext = "Edit" >		
+									<cfset searchclass = 'class="smallBtn editGuidButton"' >
 								<cfelse>
 									<cfset searchtext = "Find GUID" >		
+									<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 								</cfif>
-								<cfset searchclass = 'class="smallBtn external"' >
 							</cfif>
 						</cfloop>
 						<select name="highergeographyid_guid_type" id="highergeographyid_guid_type" size="1">
@@ -731,9 +731,8 @@ You do not have permission to create Higher Geographies
 								if ($('##highergeographyid').val().length > 0) {
 									$('##highergeographyid').hide();
 								}
-								$('##highergeographyid_search').click(function () { 
-									$('##highergeographyid').show();
-									$('##highergeographyid_link').hide();
+								$('##highergeographyid_search').click(function (evt) { 
+									switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
 								});
 								$('##highergeographyid_guid_type').change(function () { 
 									// On selecting a guid_type, remove an existing guid value.

@@ -222,9 +222,8 @@ function opendialogrank(page,id,title,agentId) {
 					if ($('##agentguid').val().length > 0) {
 						$('##agentguid').hide();
 					}
-					$('##agentguid_search').click(function () { 
-						$('##agentguid').show();
-						$('##agentguid_link').hide();
+					$('##agentguid_search').click(function (evt) { 
+						switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
 					});
 					$('##agentguid_guid_type').change(function () { 
 						// On selecting a guid_type, remove an existing guid value.
@@ -487,11 +486,12 @@ function opendialogrank(page,id,title,agentId) {
 				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
 										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >		
 										<cfif len(person.agentguid) GT 0>
-											<cfset searchtext = "Replace" >		
+											<cfset searchtext = "Edit" >		
+											<cfset searchclass = 'class="smallBtn editGuidButton"' >
 										<cfelse>
 											<cfset searchtext = "Find GUID" >		
+											<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 										</cfif>
-										<cfset searchclass = 'class="smallBtn external"' >		
 									</cfif>
 								</cfloop>
 								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
@@ -525,9 +525,8 @@ function opendialogrank(page,id,title,agentId) {
 										if ($('##agentguid').val().length > 0) {
 											$('##agentguid').hide();
 										}
-										$('##agentguid_search').click(function () { 
-											$('##agentguid').show();
-											$('##agentguid_link').hide();
+										$('##agentguid_search').click(function (evt) { 
+											switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
 										});
 										$('##agentguid_guid_type').change(function () { 
 											// On selecting a guid_type, remove an existing guid value.
