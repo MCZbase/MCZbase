@@ -157,10 +157,27 @@ limitations under the License.
 	<noscript>
 		<h1 class="h3">MCZbase requires Javascript to function.</h1>
 		<nav class="nav-bar">
-			<ul class="navbar-nav">
-				<li class="nav-item"><a href="SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-				<li class="nav-item"><a href="BrowseHTML.cfm">Browse Data</a></li>
-				<li class="nav-item"><a href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+				<li class="nav-item"><a href="/BrowseHTML.cfm">Browse Data</a></li>
+				<li class="nav-item"><a href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<a href="/login.cfm?action=signOut" class="btn btn-outline-success logout" aria-label="logout">Log out #session.username#</a>
+					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+					</cfif>
+				<cfelse>
+					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+						<input type="hidden" name="action" value="signIn">
+						<div class="login-form" id="header_login_form_div">
+							<label for="username" class="sr-only"> Username:</label>
+							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+							<label for="password" class="mr-1 sr-only"> Password:</label>
+							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
+						</div>
+					</form>
+				</cfif>
 			</ul>
 		</nav>
 	</noscript>
@@ -378,7 +395,7 @@ limitations under the License.
 						</cfif>
 						</button>
 					</form>
-					<cfelse>
+				<cfelse>
 					<cfif isdefined("gotopage") and len(gotopage) GT 0>
 						<cfset gtp = gotopage>
 						<cfelse>
