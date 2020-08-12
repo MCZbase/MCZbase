@@ -54,7 +54,7 @@ nav.navbar {
 	display: block;
 	padding: .25em 1em;
 }
-.nav li.active ul.dropdown-menu li.activw:hover { 
+ li.active a:hover { 
   color:orange; 
 }
 .logout {
