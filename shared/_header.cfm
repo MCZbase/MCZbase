@@ -160,13 +160,13 @@ limitations under the License.
 				<div class="col-12">
 		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
-			<ul class="navbar-nav mr-auto">
+			<ul class="navbar-nav mx-auto">
 				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
 				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
 				<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
 			
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<button href="/login.cfm?action=signOut" class="btn mb-1 btn-outline-success logout" aria-label="logout">Log out #session.username#
+					<button href="/login.cfm?action=signOut" class="btn btn-outline-success logout" aria-label="logout">Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
 						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
 					</cfif>
