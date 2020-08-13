@@ -61,9 +61,9 @@ form.classList.add('was-validated');
 								<div class="col-md-6">
 									<label class="mr-sm-2" for="validatedAgent">Agent Name</label>
 									<div class="custom-file">
-										<input type="file" class="custom-file-input data-entry-input" id="validatedAgent" required>
+										<input type="file" class="custom-file-input form-control data-entry-input" id="validatedAgent" required>
 										<label class="custom-file-label data-entry-label" for="validatedAgent">Enter Agent...</label>
-										<div class="invalid-feedback pl-1">Example invalid custom file feedback</div>
+										<div class="invalid-feedback pl-1 small">Example invalid custom file feedback</div>
 									</div>
 								</div>
 								<div class="col-md-5">
