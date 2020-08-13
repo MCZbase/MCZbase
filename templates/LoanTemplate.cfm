@@ -31,7 +31,7 @@ form.classList.add('was-validated');
 				<div class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row">
-							<div class="form-group mb-0 col-md-5">
+							<div class="form-group mb-0 col-md-6">
 								<label class="mr-sm-2 data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -41,13 +41,13 @@ form.classList.add('was-validated');
 									<option value="3">Invertebrate Zoology</option>
 								</select>
 							</div>
-							<div class="form-group col-md-5">
+							<div class="form-group col-md-6">
 								<label class="data-entry-label" for="inputNum">Loan Number</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-5">
+							<div class="form-group col-md-6">
 								<label class="mr-sm-2 data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
