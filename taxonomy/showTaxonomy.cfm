@@ -8,11 +8,12 @@
 	<cfoutput>[#taxon_name_id#]</cfoutput>
 </cfif>
 
+<cftry>
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
 	<cfset scientific_name = URLDecode(scientific_name) >
 	<cfoutput>[#scientific_name#]</cfoutput>
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT taxon_name_id, scientific_name, author_string, full_taxon_name
+		SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
 		FROM taxonomy 
 		WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 	</cfquery>
@@ -37,7 +38,7 @@
 						</cfif>
 						<cfset placement = ListDeleteAt(getTID.full_taxon_name,ListLen(getTID.full_taxon_name," ")," ") >
 						<li>
-							<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getTID.taxon_name_id#'><em>#getTID.scientific_name#</em> <span class="sm-caps">#getTID.author_string#</span></a>
+							<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getTID.taxon_name_id#'><em>#getTID.scientific_name#</em> <span class="sm-caps">#getTID.author_text#</span></a>
 							placed in #placement# #below#
 						 </li>
 					</cfloop>
@@ -103,7 +104,7 @@
 	<cfquery name="checkForHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as nameCount
 		from taxonomy 
-		where scientific_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupNameFromID.scientificName#">
+		where scientific_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupNameFromID.scientific_name#">
 	</cfquery>
 	<cfif checkForHomonyms.nameCount EQ 1>
 		<cfif len(lookupNameFromID.scientific_name) gt 0>
@@ -119,6 +120,16 @@
 		<div class="error">Provided taxon_name_id Not Found</div>
 	</cfif>
 </cfif>
+<cfcatch>
+	<cfoutput>
+		<h1 class="h3 ">Error looking up taxonomy record.</h1>
+		<p>#cfcatch.Message#</p>
+		<p>#cfcatch.Detail#</p>
+	</cfoutput>
+	<cfinclude template = "/shared/_footer.cfm">
+	<cfabort>
+</cfcatch>
+</cftry>
 
 <cfoutput>Lookups Complete: [#tnid#]</cfoutput>
 
