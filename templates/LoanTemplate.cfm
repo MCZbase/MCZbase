@@ -56,8 +56,8 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="col-12 pt-1 pl-2 my-3 pb-2 border rounded">
-							<div class="form-row mb-0">
+						<div class="col-12 my-3 py-2 border rounded">
+							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
@@ -246,8 +246,8 @@ form.classList.add('was-validated');
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 mt-3 px-0">
-						<h3 class="pl-1"> Accessions of Materials in this Loan</h3>
-						<ul class="list-group" style="background-color: white;">
+						<h3 class="h4"> Accessions of Materials in this Loan</h4>
+						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
 						</ul>
