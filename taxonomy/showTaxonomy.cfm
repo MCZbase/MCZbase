@@ -4,22 +4,26 @@
 	<cfset scientific_name = replace(scientific_name,'%3F','?') >
 	<cfset checkSql(scientific_name)>
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT taxon_name_id FROM taxonomy WHERE upper(scientific_name)	= '#ucase(scientific_name)#'
+		SELECT taxon_name_id 
+		FROM taxonomy 
+		WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 	</cfquery>
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
-		<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
+	<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
 		<cfset s=listdeleteat(scientific_name,listlen(scientific_name," ")," ")>
 		<cfset checkSql(s)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT taxon_name_id FROM taxonomy WHERE upper(scientific_name)	= '#ucase(s)#'
+			SELECT taxon_name_id 
+			FROM taxonomy 
+			WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(s)#">
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
 			<cfheader name="Location" value="/name/#s#">
 			<cfabort>
 		</cfif>
-		<cfelseif listlen(scientific_name," ") is 3>
+	<cfelseif listlen(scientific_name," ") is 3>
 		<cfset checkSql(scientific_name)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -27,16 +31,16 @@
 			FROM
 				taxonomy
 			WHERE
-				upper(genus) = '#ucase(listgetat(scientific_name,1," "))#' and
-				upper(species) = '#ucase(listgetat(scientific_name,2," "))#' and
-				upper(subspecies) = '#ucase(listgetat(scientific_name,3," "))#'
+				upper(genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,1," "))#"> and
+				upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,2," "))#"> and
+				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#"
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
 			<cfheader name="Location" value="/name/#getTID.scientific_name#">
 			<cfabort>
 		</cfif>
-		<cfelseif listlen(scientific_name," ") is 4>
+	<cfelseif listlen(scientific_name," ") is 4>
 		<cfset checkSql(scientific_name)>
 		<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
@@ -44,9 +48,9 @@
 			FROM
 				taxonomy
 			WHERE
-				upper(genus) = '#ucase(listgetat(scientific_name,1," "))#' and
-				upper(species) = '#ucase(listgetat(scientific_name,2," "))#' and
-				upper(subspecies) = '#ucase(listgetat(scientific_name,4," "))#'
+				upper(genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,1," "))#"> and
+				upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,2," "))#"> and
+				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,4," "))#">
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
@@ -217,7 +221,7 @@
 	where
 		format_style='short' and
 		taxonomy_publication.publication_id=formatted_publication.publication_id and
-		taxonomy_publication.taxon_name_id=#tnid#
+		taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 </cfquery>
 <cfquery name="ctguid_type_taxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
@@ -295,7 +299,7 @@
 					</cfif>
 		
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-					<p> <a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
+					<p> <a class="btn btn-xs btn-primary" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">Edit Taxonomy</a></p>
 				</cfif>
 				<table class="table table-responsive">
 					<tr>
