@@ -167,10 +167,11 @@ form.classList.add('was-validated');
 					</form>
 				</main>
 				<aside class="col-md-5">
+				
 					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
-						<div class="form-group col-md-12">
+						<div class="form-group">
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 								<option selected>Choose Report...</option>
 								<option value="1">Invoice Header</option>
@@ -180,14 +181,14 @@ form.classList.add('was-validated');
 						</div>
 					</div>
 					<div class="form-row mt-2">
-						<div class="form-group col-md-12 mb-2">
+						<div class="form-group mb-2">
 							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
 							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
-					<div class="col-md-12">
+				
 						<h3 class="mt-4">Shipment Information</h3>
 						<div class="form-row mt-3 border px-2 pt-4 pb-1">
 							<div class="col-md-12">
