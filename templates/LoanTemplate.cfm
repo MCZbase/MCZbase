@@ -129,7 +129,7 @@ form.classList.add('was-validated');
 				<div class="form-row">
 					<div class="form-group col-12 mb-4">
 						<label class="data-entry-label" for="exampleFormControlTextarea1">Nature of Material</label>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+						<textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
 					</div>
 				</div>
 					<div class="col-12 mb-3 mt-3 py-2 border rounded">
@@ -149,19 +149,19 @@ form.classList.add('was-validated');
 				<div class="form-row">
 					<div class="form-group col-12 mt-3">
 						<label class="data-entry-label" for="exampleFormControlDescription">Description</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
+						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-12 mt-3">
 						<label class="data-entry-label" for="exampleFormControlDescription">Loan Instructions</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
+						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-12 mt-3">
 						<label class="data-entry-label" for="exampleFormControlDescription">Internal Remarks</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
+						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row mt-3">
