@@ -22,10 +22,10 @@ form.classList.add('was-validated');
 	</script>
 
 <cfoutput>
-<div class="container pb-5">
+<div class="container py-5">
 			<div class="row">
 				<div class="col-md-12">
-					<h1 class="h2 pt-3">Loan Example</h1>
+					<h1 class="h2">Loan Example</h1>
 				</div>
 				<main class="col-md-7">
 					<form class="was-validated">
