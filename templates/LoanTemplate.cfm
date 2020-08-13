@@ -30,7 +30,7 @@ form.classList.add('was-validated');
 				</div>
 				<div class="col-md-7">
 					<form class="was-validated">
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
@@ -46,7 +46,7 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
@@ -57,7 +57,7 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="col-12 my-3 py-2 border rounded">
-							<div class="form-row">
+							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
