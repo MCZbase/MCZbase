@@ -30,7 +30,7 @@ form.classList.add('was-validated');
 				</div>
 				<div class="col-md-7">
 					<form class="was-validated">
-						<div class="form-row mb-2">
+						<div class="form-row">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
@@ -46,7 +46,7 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
@@ -56,8 +56,8 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="col-12 my-3 py-2 border rounded">
-							<div class="form-row mb-2">
+						<div class="col-12 form-row border rounded">
+							<div class="form-row">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
@@ -187,7 +187,7 @@ form.classList.add('was-validated');
 							<button class="btn btn-sm btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
-					<div class="col-md-12 px-0">
+					<aside class="col-md-12 px-0">
 						<h3 class="mt-4">Shipment Information</h3>
 						<div class="form-row mt-3" style="border: 1px solid ##ccc;padding: .5em;padding-bottom: 1em;">
 							<div class="col-md-12">
@@ -242,11 +242,11 @@ form.classList.add('was-validated');
 						</div>
 					</div>
 				</div>
-			</div>
+			</aside>
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 mt-3 px-0">
-						<h3 class="h4"> Accessions of Materials in this Loan</h4>
+						<h2 class="h3"> Accessions of Materials in this Loan</h2>
 						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
