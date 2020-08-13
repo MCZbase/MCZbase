@@ -91,8 +91,9 @@ form.classList.add('was-validated');
 								<label class="form-check-label" for="gridCheck"> </label>
 							</div>
 						</div>
+						<div class="col-12 col-md-1"><a class="btn-link" href="##">Add</a></div>
 					</div>
-					<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>
+					<!---<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>--->
 				</div>
 				<div class="form-row mb-1">
 					<div class="form-group col-12 col-md-6">
