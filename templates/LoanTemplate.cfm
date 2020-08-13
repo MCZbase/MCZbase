@@ -96,7 +96,7 @@ form.classList.add('was-validated');
 							</div>
 							<div class="col-md-12 text-right"><a href="##">Add</a></div>
 						</div>
-						<div class="form-row mb-3">
+						<div class="form-row mb-2">
 							<div class="form-group col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
@@ -119,7 +119,7 @@ form.classList.add('was-validated');
 							</div>
 
 						</div>
-						<div class="form-row mb-3">
+						<div class="form-row mb-2">
 							<div class="form-group col-md-12">
 								<label class="data-entry-label" for="validatedSubloan">Add Subloan</label>
 								<div class="custom-file">
