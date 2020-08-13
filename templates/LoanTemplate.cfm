@@ -54,7 +54,7 @@ form.classList.add('was-validated');
 						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 				</div>
-				<div class="col-12 mb-3 mt-3 py-2 border rounded">
+				<div class="col-12 my-3 pb-3 pt-2 border rounded">
 					<div class="form-row mb-1">
 						<div class="col-12 col-md-6">
 							<span>
@@ -77,7 +77,7 @@ form.classList.add('was-validated');
 						</div>
 						<div class="col-12 col-md-4 mt-3 mt-md-0">
 							<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
-							<select class="custom-select data-entry-select" id="inlineFormCustomSelect">
+							<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 								<option selected>Choose...</option>
 								<option value="1">Received By</option>
 								<option value="2">Authorized By</option>
@@ -93,7 +93,6 @@ form.classList.add('was-validated');
 						</div>
 						<div class="col-6 col-md-1 mt-4"><a class="btn-link" href="##">Add</a></div>
 					</div>
-					<!---<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>--->
 				</div>
 				<div class="form-row mb-1">
 					<div class="form-group col-12 col-md-6">
