@@ -96,10 +96,10 @@ form.classList.add('was-validated');
 							</div>
 							<div class="col-md-12 text-right"><a href="##">Add</a></div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="form-group col-md-4">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Loan Type</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
+								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">Exhibition Master</option>
 									<option value="2">Exhibition Subloan</option>
@@ -108,8 +108,8 @@ form.classList.add('was-validated');
 								</select>
 							</div>
 							<div class="form-group col-md-4">
-								<label for="inputLoanStatus">Loan Status</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
+								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">In Process</option>
 									<option value="2">Open</option>
