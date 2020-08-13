@@ -104,7 +104,7 @@
 	<cfquery name="checkForHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) as nameCount
 		from taxonomy 
-		where scientific_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupNameFromID.scientificName#">
+		where scientific_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupNameFromID.scientific_name#">
 	</cfquery>
 	<cfif checkForHomonyms.nameCount EQ 1>
 		<cfif len(lookupNameFromID.scientific_name) gt 0>
