@@ -1222,7 +1222,7 @@ table#pairs th, table#pairs td {
 	width: 100%;
 }
 .custom-select-sm {
-	height: calc(1.5em + .5rem + 1px);
+	height: calc(1.5em + .5rem + 2px);
 	padding-top: .25rem;
 	padding-bottom: .25rem;
 	color: rgba(0, 0, 0, .67);
