@@ -41,17 +41,17 @@ form.classList.add('was-validated');
 					</div>
 					<div class="form-group col-md-6">
 						<label class="data-entry-label" for="inputNum">Loan Number</label>
-						<input type="text" class="form-control data-entry-input" id="inputNum">
+						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 				</div>
 				<div class="form-row mb-3">
 					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
-						<input type="text" class="form-control data-entry-input" id="inputNum">
+						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="inputNum">Due Date</label>
-						<input type="text" class="form-control data-entry-input" id="inputNum">
+						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 				</div>
 				<div class="col-12 mb-3 mt-3 py-2 border rounded">
