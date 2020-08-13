@@ -179,7 +179,7 @@ form.classList.add('was-validated');
 							</select>
 						</div>
 					</div>
-					<div class="form-row mt-3">
+					<div class="form-row mt-2">
 						<div class="form-group col-md-12 mb-2">
 							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
@@ -189,7 +189,7 @@ form.classList.add('was-validated');
 					</div>
 					<aside class="col-md-12 px-0">
 						<h3 class="mt-4">Shipment Information</h3>
-						<div class="form-row mt-3 border px-2 py-4">
+						<div class="form-row mt-3 border p-2">
 							<div class="col-md-12">
 								<h4 class="mt-0">Most Recent Shipment</h4>
 								<h5>Shipped To:</h5>
@@ -229,8 +229,8 @@ form.classList.add('was-validated');
 								</div>
 								<div class="form-row mt-3">
 									<div class="form-group col-md-12">
-										<button class="btn btn-sm btn-secondary mr-2" type="submit">Edit this Shipment</button>
-										<button class="btn btn-sm btn-secondary" type="submit">Add Permit to this Shipment</button>
+										<button class="btn-xs btn-secondary mr-2" type="submit">Edit this Shipment</button>
+										<button class="btn-xs btn-secondary" type="submit">Add Permit to this Shipment</button>
 									</div>
 								</div>
 							</div>
