@@ -1237,7 +1237,8 @@ table#pairs th, table#pairs td {
 	background-color: white
 }
 /* Style the arrow inside the select element: */
-.custom-select:after, data-entry-select:after {
+/*.custom-select:after, */
+data-entry-select:after {
 	position: absolute;
 	content: "";
 	top: 14px;
@@ -1351,7 +1352,8 @@ input::placeholder {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-select.data-entry-select, select.custom-select {
+select.custom-select,
+select.data-entry-select {
 	display: block;
 	width: 100%;
 	font-size: .875em;
