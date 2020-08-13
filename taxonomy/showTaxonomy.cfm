@@ -11,7 +11,7 @@
 <cfabort>
 
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
-	<cfset scientific_name = URLDecode(scientific_name,'%3F','?') >
+	<cfset scientific_name = URLDecode(scientific_name) >
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT taxon_name_id 
 		FROM taxonomy 
