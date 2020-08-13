@@ -19,8 +19,7 @@ form.classList.add('was-validated');
 });
 }, false);
 })();
-	</script>
-
+</script>
 <cfoutput>
 <div class="container py-5">
 			<div class="row">
@@ -116,7 +115,6 @@ form.classList.add('was-validated');
 									<option value="4">Open Historical</option>
 								</select>
 							</div>
-
 						</div>
 						<div class="form-row mb-0">
 							<div class="form-group col-12">
