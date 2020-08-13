@@ -139,6 +139,7 @@
 					</cfloop>
 				</ul>
 			</div>
+		</cfoutput>
 	<cfelse>
 		<!--- no such taxon_name_id --->
 		<div class="error">Provided taxon_name_id Not Found</div>
