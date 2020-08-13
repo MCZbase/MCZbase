@@ -57,7 +57,7 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="col-12 mb-3 mt-4 py-2 border rounded">
-							<div class="form-row mb-3">
+							<div class="form-row mb-1">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
@@ -77,7 +77,7 @@ form.classList.add('was-validated');
 										});
 									</script> 
 								</div>
-								<div class="col-12 col-md-5">
+								<div class="col-12 col-md-4">
 									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
 									<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
@@ -86,7 +86,7 @@ form.classList.add('was-validated');
 										<option value="3">In-house Contact</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1 mt-3 mt-xl-0">
+								<div class="col-12 col-md-1 mt-3 mt-md-0">
 									<label class="data-entry-label form-row text-danger" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check mt-xl-2">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
