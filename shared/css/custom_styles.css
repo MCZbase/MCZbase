@@ -127,7 +127,13 @@ p {
     padding: .25rem .5rem !important;
     line-height: 1 !important;
 	font-size: .87em !important;
-    content: "Find"!important;
+    content: "Find";
+}
+.custom-file-label {
+	  height: calc(1em + .75rem)!important;
+    padding: .25rem .5rem !important;
+    line-height: 1 !important;
+	font-size: .87em !important;
 }
 .line-height-sm {
 	line-height: 1.15em;
