@@ -119,7 +119,7 @@ form.classList.add('was-validated');
 
 						</div>
 						<div class="form-row mb-0">
-							<div class="form-group col-md-12">
+							<div class="form-group col-12">
 								<label class="data-entry-label" for="validatedSubloan">Add Subloan</label>
 								<div class="custom-file">
 									<input type="file" class="custom-file-input" id="validatedSubloan required">
