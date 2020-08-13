@@ -117,7 +117,7 @@ form.classList.add('was-validated');
 									<option value="4">Open Historical</option>
 								</select>
 							</div>
-						</div>
+					
 							<div class="form-group col-md-12">
 								<label class="data-entry-label" for="validatedSubloan">Add Subloan</label>
 								<div class="custom-file">
@@ -126,6 +126,7 @@ form.classList.add('was-validated');
 									<div class="invalid-feedback">Example invalid custom file feedback</div>
 								</div>
 							</div>
+						</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-12">
