@@ -247,7 +247,7 @@ form.classList.add('was-validated');
 					</aside>
 			</div>
 			<div class="row">
-				<aside class="col-md-12 mt-3 px-0">
+				<aside class="col-md-12 mt-3">
 					<h2 class="h3"> Accessions of Materials in this Loan</h2>
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
