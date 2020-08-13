@@ -170,7 +170,7 @@ form.classList.add('was-validated');
 					</form>
 				</main>
 				<aside class="col-md-5">
-					<h3>Invoices and Reports</h3>
+					<h2 class="h3">Invoices and Reports</h2>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
 						<div class="form-group col-md-12">
@@ -191,10 +191,10 @@ form.classList.add('was-validated');
 						</div>
 					</div>
 					<div class="col-md-12 px-0">
-						<h3 class="mt-4">Shipment Information</h3>
+						<h2 class="mt-4 h3">Shipment Information</h2>
 						<div class="form-row mt-3 border px-2 pt-4 pb-1">
 							<div class="col-md-12">
-								<h4 class="mt-0">Most Recent Shipment</h4>
+								<h3 class="h4 mt-0">Most Recent Shipment</h3>
 								<h5>Shipped To:</h5>
 								<p class="fs-14">(☑ Printed on invoice) Stephanie Carson, Senior Museum Registrar American Museum of Natural History Office of the Registrar Central Park West at 79th Street New York, New York 10024 United States</p>
 								<h5>Shipped From:</h5>
