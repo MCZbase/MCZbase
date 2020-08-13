@@ -28,7 +28,7 @@ form.classList.add('was-validated');
 				<div class="col-md-12">
 					<h1 class="h2">Loan Example</h1>
 				</div>
-				<div class="col-md-7">
+				<div class="col-md-6">
 					<form class="was-validated">
 						<div class="form-row">
 							<div class="form-group mb-0 col-md-6">
@@ -155,7 +155,7 @@ form.classList.add('was-validated');
 						</div>
 					</form>
 				</div>
-				<div class="col-md-5 offset-md-auto">
+				<div class="col-md-5">
 					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
