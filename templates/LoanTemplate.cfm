@@ -43,7 +43,7 @@ form.classList.add('was-validated');
 							</div>
 							<div class="form-group col-md-5">
 								<label for="inputNum">Loan Number</label>
-								<input type="text" class="form-control" id="inputNum">
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row">
