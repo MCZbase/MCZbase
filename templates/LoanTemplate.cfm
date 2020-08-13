@@ -127,38 +127,38 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11">
+							<div class="form-group col-md-12">
 								<label for="exampleFormControlTextarea1">Nature of Material</label>
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-11">
+							<div class="form-group col-md-12">
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items</button>
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items by Barcode</button>
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Review Items</button>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Description</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Loan Instructions</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Internal Remarks</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-12">
 								<button type="submit" class="btn btn-secondary mr-2">Save Edits</button>
 								<button type="submit" class="btn btn-secondary mr-2">Quit</button>
 								<button type="submit" class="btn btn-secondary mr-2">Delete Loan</button>
