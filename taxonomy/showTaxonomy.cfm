@@ -24,7 +24,7 @@
 	<cfelseif getTID.recordcount GT 1>
 		<!---  Handle Homonyms --->
 		<cfoutput>
-			<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
+			<h1 class="h3">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
 			<p>These may be homonyms or duplicate taxon records.</p>
 			<div>
 				<ul>
@@ -121,7 +121,7 @@
 			WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
 		</cfquery>
 		<cfoutput>
-			<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string of the requested taxon.</h1>
+			<h1 class="h3">More than one taxonomy record in MCZbase matches the name string of the requested taxon.</h1>
 			<p>These may be homonyms or duplicate taxon records.</p>
 			<div>
 				<ul>
