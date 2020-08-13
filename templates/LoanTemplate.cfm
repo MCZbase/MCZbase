@@ -29,7 +29,7 @@ form.classList.add('was-validated');
 				</div>
 				<main class="col-md-7">
 					<form class="was-validated">
-						<div class="form-row mb-1">
+						<div class="form-row mb-0">
 							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
@@ -134,7 +134,7 @@ form.classList.add('was-validated');
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
-							<div class="col-12 mb-3 mt-4 py-2 border rounded">
+							<div class="col-12 mb-3 mt-3 py-2 border rounded">
 							<div class="form-row mb-1">
 								<div class="form-group col-12">
 									<h3 class="h4 mt-0">Add collection objects to loan</h3>
