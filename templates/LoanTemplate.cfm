@@ -93,7 +93,7 @@ form.classList.add('was-validated');
 									</div>
 								</div>
 							</div>
-							<div class="col-md-12 text-right"><a href="##">Add</a></div>
+							<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>
 						</div>
 						<div class="form-row mb-1">
 							<div class="form-group col-md-6">
