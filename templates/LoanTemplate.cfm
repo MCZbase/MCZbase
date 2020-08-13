@@ -87,7 +87,7 @@ form.classList.add('was-validated');
 									</select>
 								</div>
 								<div class="col-12 col-md-1">
-									<label class="data-entry-label form-row" for="inlineFormCustomSelect">Delete</label>
+									<label class="data-entry-label form-row" for="inlineFormCustomSelect"><small>Delete</small></label>
 									<div class="form-check mt-2">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
 										<label class="form-check-label" for="gridCheck"> </label>
