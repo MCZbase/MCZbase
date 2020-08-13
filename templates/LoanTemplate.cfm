@@ -46,7 +46,7 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-3">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
