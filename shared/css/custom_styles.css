@@ -123,10 +123,10 @@ p {
 }
 .input-group-text-sm {padding: .25em .5em!important;}
 .custom-file-label::after {
-    height: calc(1em + .75rem)!important;
-    padding: .25rem .5rem !important;
-    line-height: 1 !important;
-	font-size: .87em !important;
+	height: calc(.9em + .75rem)!important;
+    padding: .32rem .5rem .25em .5em !important;
+    line-height: .9;
+    font-size: .87em !important;
     content: "Find";
 }
 .custom-file-label {
