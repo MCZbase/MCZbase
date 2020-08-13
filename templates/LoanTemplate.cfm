@@ -97,7 +97,7 @@ form.classList.add('was-validated');
 				<div class="form-row mb-1">
 					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
-						<select class="custom-select" id="inlineFormCustomSelect">
+						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option selected>Choose...</option>
 							<option value="1">Exhibition Master</option>
 							<option value="2">Exhibition Subloan</option>
@@ -107,7 +107,7 @@ form.classList.add('was-validated');
 					</div>
 					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
-						<select class="custom-select" id="inlineFormCustomSelect">
+						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option selected>Choose...</option>
 							<option value="1">In Process</option>
 							<option value="2">Open</option>
