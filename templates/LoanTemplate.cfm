@@ -166,7 +166,7 @@ form.classList.add('was-validated');
 						</div>
 					</form>
 				</div>
-				<div class="col-md-5 offset-md-1">
+				<div class="col-md-5">
 					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
