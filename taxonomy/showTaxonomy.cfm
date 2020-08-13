@@ -1,8 +1,7 @@
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
-	<cfset scientific_name = replace(scientific_name,'%3F','?') >
-	<cfset checkSql(scientific_name)>
+	<cfset scientific_name = URLDecode(scientific_name,'%3F','?') >
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT taxon_name_id 
 		FROM taxonomy 
