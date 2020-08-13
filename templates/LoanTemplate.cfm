@@ -212,11 +212,11 @@ form.classList.add('was-validated');
 								<div class="form-row mb-2">
 									<div class="col-md-3">
 										<label class="data-entry-label" for="inlinePackages">Packages</label>
-										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input" id="inputShipDate">
 									</div>
 									<div class="col-md-9">
 										<label class="data-entry-label" for="inlinePackages">Tracking Number</label>
-										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input" id="inputShipDate">
 									</div>
 								</div>
 								<div class="form-row">
