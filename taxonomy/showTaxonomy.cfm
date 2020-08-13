@@ -18,6 +18,7 @@
 	</cfquery>
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
+		<cfoutput>[#tnid#]</cfoutput>
 	<cfelseif getTID.recordcount GT 1>
 		<!---  Handle Homonyms --->
 		<cfoutput>
@@ -117,6 +118,8 @@
 		<div class="error">Provided taxon_name_id Not Found</div>
 	</cfif>
 </cfif>
+
+<cfoutput>Lookups Complete: [#tnid#]</cfoutput>
 
 <cfif not isdefined("tnid") or not tnid gt 0>
 	<cfheader statuscode="404" statustext="Not found">
