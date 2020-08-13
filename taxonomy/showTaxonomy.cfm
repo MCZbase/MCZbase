@@ -12,13 +12,36 @@
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
 	<cfset scientific_name = URLDecode(scientific_name) >
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT taxon_name_id 
+		SELECT taxon_name_id, scientific_name, author_string, full_taxon_name
 		FROM taxonomy 
 		WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 	</cfquery>
-	<!---  TODO: Handle Homonyms --->
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
+	<cfelseif getTID.recordcount GT 1>
+		<!---  Handle Homonyms --->
+		<cfoutput>
+			<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
+			<p>These may be homonyms or duplicate taxon records.</p>
+			<div>
+				<ul>
+					<cfset tnid = -1>
+					<cfloop query="getTID">
+						<cfif tnid EQ -1>
+							<cfset below = "(details shown below)">
+							<cfset tnid=getTID.taxon_name_id>
+						<cfelse>
+							<cfset below = "">
+						</cfif>
+						<cfset placement = ListDeleteAt(getTID.full_taxon_name,ListLen(getTID.full_taxon_name," ")," ") >
+						<li>
+							<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getTID.taxon_name_id#'><em>#getTID.scientific_name#</em> <span class="sm-caps">#getTID.author_string#</span></a>
+							placed in #placement# #below#
+						 </li>
+					</cfloop>
+				</ul>
+			</div>
+		</cfoutput>
 	<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
 		<cfset s=listdeleteat(scientific_name,listlen(scientific_name," ")," ")>
 		<cfset checkSql(s)>
@@ -70,14 +93,28 @@
 </cfif>
 <cfif isdefined("taxon_name_id")>
 	<cfset checkSql(taxon_name_id)>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select scientific_name from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+	<cfquery name="lookupNameFromID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select scientific_name 
+		from taxonomy 
+		where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cfif len(c.scientific_name) gt 0>
-		<cfheader statuscode="301" statustext="Moved permanently">
-		<cfset scientific_name = replace(c.scientific_name,'?','%3F') >
-		<cfheader name="Location" value="/name/#EncodeForURL(scientific_name)#">
-		<cfabort>
+	<cfquery name="checkForHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(*) as nameCount
+		from taxonomy 
+		where scientific_name = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lookupNameFromID.scientificName#">
+	</cfquery>
+	<cfif checkForHomonyms.nameCount EQ 1>
+		<cfif len(lookupNameFromID.scientific_name) gt 0>
+			<cfheader statuscode="301" statustext="Moved permanently">
+			<cfheader name="Location" value="/name/#EncodeForURL(lookupNameFromIDscientific_name)#">
+			<cfabort>
+		</cfif>
+	<cfelseif checkForHomonyms.nameCount GT 1>
+		<!--- don't redirect, as the redirect isn't to a unique entry --->
+		<cfset tnid = taxon_name_id>
+	<cfelse>
+		<!--- no such taxon_name_id --->
+		<div class="error">Provided taxon_name_id Not Found</div>
 	</cfif>
 </cfif>
 
@@ -86,7 +123,6 @@
 	<div class="error">Not Found</div>
 	<cfabort>
 </cfif>
-<cfset checkSql(tnid)>
 <cfhtmlhead text='<script src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;sensor=false&amp;key=#application.gmap_api_key#" type="text/javascript"></script>'>
 <cfset taxaRanksList="Kingdom,Phylum,PHYLClass,Subclass,PHYLOrder,Suborder,Superfamily,Family,Subfamily,Genus,Subgenus,Species,Subspecies,Nomenclatural_Code,Taxon_Status">
 <cfquery name="getDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
