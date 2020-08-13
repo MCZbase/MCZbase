@@ -189,7 +189,7 @@ form.classList.add('was-validated');
 					</div>
 					<div class="col-md-12 px-0">
 						<h3 class="mt-4">Shipment Information</h3>
-						<div class="form-row mt-3 border p-2">
+						<div class="form-row mt-3 border px-2 pt-4 pb-1">
 							<div class="col-md-12">
 								<h4 class="mt-0">Most Recent Shipment</h4>
 								<h5>Shipped To:</h5>
