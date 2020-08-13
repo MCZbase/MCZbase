@@ -26,11 +26,11 @@ form.classList.add('was-validated');
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<h1 class="h2">Loan Example</h1>
+					<h1 class="h2 pt-3">Loan Example</h1>
 				</div>
 				<div class="col-md-7">
 					<form class="was-validated">
-						<div class="form-row">
+						<div class="form-row mb-1">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
@@ -66,7 +66,7 @@ form.classList.add('was-validated');
 									</span>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											<span class="input-group-text input-group-text-sm" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
 										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input rounded-right" value="" aria-label="Agent" aria-describedby="underscore_agent_name_label">
 										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
