@@ -31,7 +31,7 @@ form.classList.add('was-validated');
 				<div class="form-row mb-0">
 					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
-						<select class="custom-select-sm" id="inlineFormCustomSelect">
+						<select class="custom-select" id="inlineFormCustomSelect">
 							<option selected>Choose...</option>
 							<option value="1">Cryogenics</option>
 							<option value="2">Entomology</option>
