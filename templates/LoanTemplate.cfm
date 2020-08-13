@@ -134,9 +134,9 @@ form.classList.add('was-validated');
 						</div>
 						<div class="form-row mt-3">
 							<div class="form-group col-md-12">
-								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items</button>
-								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items by Barcode</button>
-								<button type="submit" class="btn btn-sm btn-secondary mr-2">Review Items</button>
+								<button type="submit" class="btn-xs btn-secondary mr-2">Add Items</button>
+								<button type="submit" class="btn-xs btn-secondary mr-2">Add Items by Barcode</button>
+								<button type="submit" class="btn-xs btn-secondary mr-2">Review Items</button>
 							</div>
 						</div>
 						<div class="form-row">
@@ -159,9 +159,9 @@ form.classList.add('was-validated');
 						</div>
 						<div class="form-row mt-3">
 							<div class="form-group col-md-12">
-								<button type="submit" class="btn btn-secondary mr-2">Save Edits</button>
-								<button type="submit" class="btn btn-secondary mr-2">Quit</button>
-								<button type="submit" class="btn btn-secondary mr-2">Delete Loan</button>
+								<button type="submit" class="btn-xs btn-primary mr-2">Save Edits</button>
+								<button type="submit" class="btn-xs btn-warning mr-2">Quit</button>
+								<button type="submit" class="btn-xs btn-danger mr-2">Delete Loan</button>
 							</div>
 						</div>
 					</form>
