@@ -8,6 +8,7 @@
 		FROM taxonomy 
 		WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 	</cfquery>
+	<!---  TODO: Handle Homonyms --->
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
 	<cfelseif listlen(scientific_name," ") gt 1 and (listlast(scientific_name," ") is "sp." or listlast(scientific_name," ") is "ssp.")>
@@ -20,7 +21,7 @@
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfheader name="Location" value="/name/#s#">
+			<cfheader name="Location" value="/name/#EncodeForURL(s)#">
 			<cfabort>
 		</cfif>
 	<cfelseif listlen(scientific_name," ") is 3>
@@ -33,11 +34,11 @@
 			WHERE
 				upper(genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,1," "))#"> and
 				upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,2," "))#"> and
-				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#"
+				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#">
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfheader name="Location" value="/name/#getTID.scientific_name#">
+			<cfheader name="Location" value="/name/#EncodeForURL(getTID.scientific_name)#">
 			<cfabort>
 		</cfif>
 	<cfelseif listlen(scientific_name," ") is 4>
@@ -54,7 +55,7 @@
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
-			<cfheader name="Location" value="/name/#getTID.scientific_name#">
+			<cfheader name="Location" value="/name/#EncodeForURL(getTID.scientific_name)#">
 			<cfabort>
 		</cfif>
 	</cfif>
@@ -67,7 +68,7 @@
 	<cfif len(c.scientific_name) gt 0>
 		<cfheader statuscode="301" statustext="Moved permanently">
 		<cfset scientific_name = replace(c.scientific_name,'?','%3F') >
-		<cfheader name="Location" value="/name/#scientific_name#">
+		<cfheader name="Location" value="/name/#EncodeForURL(scientific_name)#">
 		<cfabort>
 	</cfif>
 </cfif>
