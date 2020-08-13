@@ -191,7 +191,7 @@ form.classList.add('was-validated');
 					<div class="form-row mt-2">
 						<div class="form-group col-12 mb-2">
 							<h2 class="h3">Media</h2>
-							<h3 class="h4 font-weight-light">Highlighted connections to other records such as projects can go here.</h3>
+							<h3 class="h4 font-weight-light">Connections to other records such as projects can go here.</h3>
 							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
