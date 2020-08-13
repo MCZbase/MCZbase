@@ -189,7 +189,7 @@ form.classList.add('was-validated');
 					</div>
 					<aside class="col-md-12 px-0">
 						<h3 class="mt-4">Shipment Information</h3>
-						<div class="form-row mt-3" style="border: 1px solid ##ccc;padding: .5em;padding-bottom: 1em;">
+						<div class="form-row mt-3 border px-2 py-4">
 							<div class="col-md-12">
 								<h4 class="mt-0">Most Recent Shipment</h4>
 								<h5>Shipped To:</h5>
@@ -199,21 +199,21 @@ form.classList.add('was-validated');
 								<div class="form-row mb-2">
 									<div class="col-md-5">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineShipDate">Ship Date</label>
-										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 									<div class="col-md-7">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineMethod">Method</label>
-										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-3">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlinePackages">Packages</label>
-										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 									<div class="col-md-9">
 										<label class="mr-sm-2 mb-0 fs-14" for="inlinePackages">Tracking Number</label>
-										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
+										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 								</div>
 								<div class="form-row">
