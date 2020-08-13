@@ -138,6 +138,9 @@ p {
 .custom-form-input {
 height: calc(1em + .375rem + .5em);
 }
+.custom-select-height-sm {
+height: calc(1.25em + .375rem + .5em);
+}
 .line-height-sm {
 	line-height: 1.15em;
 }
