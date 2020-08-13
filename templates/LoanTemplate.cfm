@@ -49,11 +49,11 @@ form.classList.add('was-validated');
 						<div class="form-row">
 							<div class="form-group col-md-5">
 								<label class="mr-sm-2" for="inlineFormCustomSelect">Transaction Date</label>
-								<input type="text" class="form-control" id="inputNum">
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 							<div class="form-group col-md-5">
 								<label for="inputNum">Due Date</label>
-								<input type="text" class="form-control" id="inputNum">
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="col-md-11 pt-1 pl-2 my-3 pb-2" style="border: 3px solid ##dee2e6;border-radius: .25em;">
@@ -61,7 +61,7 @@ form.classList.add('was-validated');
 								<div class="col-md-6">
 									<label class="mr-sm-2" for="validatedAgent">Agent Name</label>
 									<div class="custom-file">
-										<input type="file" class="custom-file-input fs-14" id="validatedAgent" required>
+										<input type="file" class="custom-file-input data-entry-input small" id="validatedAgent" required>
 										<label class="custom-file-label fs-14" for="validatedAgent">Enter Agent...</label>
 										<div class="invalid-feedback pl-1">Example invalid custom file feedback</div>
 									</div>
