@@ -86,7 +86,7 @@ form.classList.add('was-validated');
 										<option value="3">In-house Contact</option>
 									</select>
 								</div>
-								<div class="col-12 col-md-1">
+								<div class="col-12 col-md-1 mt-3 mt-xl-0">
 									<label class="data-entry-label form-row text-danger" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check mt-xl-2">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
