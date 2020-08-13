@@ -124,7 +124,7 @@ p {
 .input-group-text-sm {padding: .25em .5em!important;}
 .custom-file-label::after {
 	height: calc(.9em + .75rem)!important;
-    padding: .32rem .5rem .25em .5em !important;
+    padding: .4rem .5rem .25em .5em !important;
     line-height: .9;
     font-size: .87em !important;
     content: "Find";
