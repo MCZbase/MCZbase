@@ -134,14 +134,20 @@ form.classList.add('was-validated');
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
-						<div class="form-row mt-3">
-							<div class="form-group col-12 mt-4 py-2 border rounded">
-								<h3 class="h4">Add collection objects to loan</h3>
-								<button type="submit" class="btn-xs btn-secondary mr-2">Add</button>
-								<button type="submit" class="btn-xs btn-secondary mr-2">Add by Barcode</button>
-								<button type="submit" class="btn-xs btn-secondary mr-2">Review</button>
+							<div class="col-12 mb-3 mt-4 py-2 border rounded">
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-6">
+									<h3 class="h4">Add collection objects to loan</h3>
+								</div>
+								<div class="col-12">
+									<button type="submit" class="btn-xs btn-secondary mr-2">Add</button>
+									<button type="submit" class="btn-xs btn-secondary mr-2">Add by Barcode</button>
+									<button type="submit" class="btn-xs btn-secondary mr-2">Review</button>
+								</div>
+								
 							</div>
 						</div>
+		
 						<div class="form-row">
 							<div class="form-group col-md-12 mt-3">
 								<label class="data-entry-label" for="exampleFormControlDescription">Description</label>
