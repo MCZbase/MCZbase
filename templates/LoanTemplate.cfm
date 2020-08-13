@@ -196,7 +196,7 @@ form.classList.add('was-validated');
 								<p class="fs-14">(☑ Printed on invoice) Stephanie Carson, Senior Museum Registrar American Museum of Natural History Office of the Registrar Central Park West at 79th Street New York, New York 10024 United States</p>
 								<h5>Shipped From:</h5>
 								<p class="fs-14">Collections Operations Museum of Comparative Zoology Harvard University 26 Oxford St. Cambridge, MA 02138</p>
-								<div class="form-row">
+								<div class="form-row mb-2">
 									<div class="col-md-5">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineShipDate">Ship Date</label>
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
@@ -206,7 +206,7 @@ form.classList.add('was-validated');
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="form-row mb-2">
 									<div class="col-md-3">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlinePackages">Packages</label>
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
