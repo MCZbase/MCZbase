@@ -24,7 +24,7 @@
 	<cfelseif getTID.recordcount GT 1>
 		<!---  Handle Homonyms --->
 		<cfoutput>
-			<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
+			<h1 class="h3">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
 			<p>These may be homonyms or duplicate taxon records.</p>
 			<div>
 				<ul>
@@ -115,6 +115,31 @@
 	<cfelseif checkForHomonyms.nameCount GT 1>
 		<!--- don't redirect, as the redirect isn't to a unique entry --->
 		<cfset tnid = taxon_name_id>
+		<cfquery name="getHomonyms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT taxon_name_id, scientific_name, author_text, full_taxon_name
+			FROM taxonomy 
+			WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
+		</cfquery>
+		<cfoutput>
+			<h1 class="h3">More than one taxonomy record in MCZbase matches the name string of the requested taxon.</h1>
+			<p>These may be homonyms or duplicate taxon records.</p>
+			<div>
+				<ul>
+					<cfloop query="getHomonyms">
+						<cfif getHomonyms.taxon_name_id EQ tnid>
+							<cfset below = "(details shown below)">
+						<cfelse>
+							<cfset below = "">
+						</cfif>
+						<cfset placement = ListDeleteAt(getHomonyms.full_taxon_name,ListLen(getHomonyms.full_taxon_name," ")," ") >
+						<li>
+							<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getHomonyms.taxon_name_id#'><em>#getHomonyms.scientific_name#</em> <span class="sm-caps">#getHomonyms.author_text#</span></a>
+							placed in #placement# #below#
+						 </li>
+					</cfloop>
+				</ul>
+			</div>
+		</cfoutput>
 	<cfelse>
 		<!--- no such taxon_name_id --->
 		<div class="error">Provided taxon_name_id Not Found</div>
