@@ -121,6 +121,7 @@ p {
 .sm-caps {
 	font-variant: small-caps;
 }
+.input-group-text-sm {padding: .25em .5em!important;}
 .line-height-sm {
 	line-height: 1.15em;
 }
