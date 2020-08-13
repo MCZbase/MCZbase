@@ -58,13 +58,24 @@ form.classList.add('was-validated');
 						</div>
 						<div class="col-12 pt-1 pl-2 my-3 pb-2 border rounded">
 							<div class="form-row mb-0">
-								<div class="col-md-6">
-									<label class="data-entry-label" for="validatedAgent">Agent Name</label>
-									<div class="custom-file p-0 m-0">
-										<input type="file" class="custom-file-input data-entry-input" id="validatedAgent" required>
-										<label class="custom-file-label data-entry-label" for="validatedAgent">Enter Agent...</label>
-										<div class="invalid-feedback data-entry-label">Example invalid custom file feedback</div>
+								<div class="col-12 col-md-6">
+									<span>
+										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</label>
+									</span>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										</div>
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
+										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
+										});
+									</script> 
 								</div>
 								<div class="col-md-6">
 									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
