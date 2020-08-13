@@ -77,7 +77,7 @@ form.classList.add('was-validated');
 						</div>
 						<div class="col-12 col-md-4 mt-3 mt-md-0">
 							<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
-							<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
+							<select class="custom-select" id="inlineFormCustomSelect">
 								<option selected>Choose...</option>
 								<option value="1">Received By</option>
 								<option value="2">Authorized By</option>
