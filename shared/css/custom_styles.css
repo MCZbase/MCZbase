@@ -121,8 +121,10 @@ p {
 .sm-caps {
 	font-variant: small-caps;
 }
-.input-group-text-sm {padding: .25em .5em!important;}
-.custom-file-label::after {
+.input-group-text-sm {
+	padding: .25em .5em!important;
+}
+/*.custom-file-label::after {
 	height: calc(.9em + .75rem)!important;
     padding: .4rem .5rem .25em .5em !important;
     line-height: .9;
@@ -134,12 +136,9 @@ p {
     padding: .4rem .5rem !important;
     line-height: 1 !important;
 	font-size: .87em !important;
-}
+}*/
 .custom-form-input {
 height: calc(1em + .375rem + .5em);
-}
-.custom-select-height-sm {
-height: calc(1.25em + .375rem + .5em);
 }
 .line-height-sm {
 	line-height: 1.15em;
@@ -1525,12 +1524,6 @@ textarea {
 	display: inline;
 	list-style: none;
 }
-/*.w-350 {
-	width: 100%;
-}
-#col-multi-select, #collmultiselect2,.ui-multiselect-menu  {
-	width: 350px;
-}*/
 .fas-info {
 	position: absolute;
 	right: 9px;
