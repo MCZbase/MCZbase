@@ -28,7 +28,7 @@ form.classList.add('was-validated');
 				<div class="col-md-12">
 					<h1 class="h2 pt-3">Loan Example</h1>
 				</div>
-				<div class="col-md-7">
+				<main class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
@@ -165,8 +165,8 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 					</form>
-				</div>
-				<div class="col-md-5">
+				</main>
+				<aside class="col-md-5">
 					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
@@ -187,7 +187,7 @@ form.classList.add('was-validated');
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
-					<aside class="col-md-12 px-0">
+					<div class="col-md-12 px-0">
 						<h3 class="mt-4">Shipment Information</h3>
 						<div class="form-row mt-3 border p-2">
 							<div class="col-md-12">
@@ -242,21 +242,20 @@ form.classList.add('was-validated');
 								<div class="form-group col-md-12"> <a href="##" class="form-control form-control-sm">See other shipments</a> </div>
 							</div>
 						</div>
-				</div>
-			</aside>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 mt-3 px-0">
-						<h2 class="h3"> Accessions of Materials in this Loan</h2>
-						<ul class="list-group">
-							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
-							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
-						</ul>
-					</div>
-				</div>
+					</aside>
+			</div>
+			<div class="row">
+				<aside class="col-md-12 mt-3 px-0">
+					<h2 class="h3"> Accessions of Materials in this Loan</h2>
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
+						<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
+					</ul>
+				</aside>
 			</div>
 		</div>
 	</div>
+		
 </cfoutput> 
 
 <!---------------------------------------------------------------------->
