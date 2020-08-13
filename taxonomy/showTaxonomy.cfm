@@ -3,7 +3,6 @@
 
 <cfif isdefined("scientific_name")>
 	<cfoutput>[#scientific_name#]</cfoutput>
-	<cfoutput>[#URLDecode(scientific_name)#]</cfoutput>
 </cfif>
 <cfif isdefined("taxon_name_id")>
 	<cfoutput>[#taxon_name_id#]</cfoutput>
@@ -11,6 +10,7 @@
 
 <cfif isdefined("scientific_name") and len(scientific_name) gt 0>
 	<cfset scientific_name = URLDecode(scientific_name) >
+	<cfoutput>[#scientific_name#]</cfoutput>
 	<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT taxon_name_id, scientific_name, author_string, full_taxon_name
 		FROM taxonomy 
