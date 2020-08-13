@@ -129,8 +129,11 @@ p {
 	font-size: .87em !important;
     content: "Find";
 }
-.custom-file-input.is-valid~.custom-file-label, .was-validated .custom-file-input:valid~.custom-file-label {
-    border-color: #28a745;
+.custom-file-label {
+	  height: calc(1em + .75rem)!important;
+    padding: .25rem .5rem !important;
+    line-height: 1 !important;
+	font-size: .87em !important;
 }
 .line-height-sm {
 	line-height: 1.15em;
