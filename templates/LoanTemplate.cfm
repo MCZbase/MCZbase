@@ -179,7 +179,7 @@ form.classList.add('was-validated');
 							</select>
 						</div>
 					</div>
-					<div class="form-row mt-3">
+					<div class="form-row mt-2">
 						<div class="form-group col-md-12 mb-2">
 							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
