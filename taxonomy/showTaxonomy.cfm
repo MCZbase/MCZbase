@@ -16,6 +16,7 @@
 		FROM taxonomy 
 		WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(scientific_name)#">
 	</cfquery>
+	<cfoutput>Matches: [#getTID.recordcount#]</cfoutput>
 	<cfif getTID.recordcount is 1>
 		<cfset tnid=getTID.taxon_name_id>
 		<cfoutput>[#tnid#]</cfoutput>
