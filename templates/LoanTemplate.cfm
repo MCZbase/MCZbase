@@ -31,8 +31,8 @@ form.classList.add('was-validated');
 				<div class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row">
-							<div class="form-group col-md-5">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Collection</label>
+							<div class="form-group mb-0 col-md-5">
+								<label class="mr-sm-2 data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">Cryogenics</option>
@@ -42,13 +42,13 @@ form.classList.add('was-validated');
 								</select>
 							</div>
 							<div class="form-group col-md-5">
-								<label for="inputNum">Loan Number</label>
+								<label class="data-entry-label" for="inputNum">Loan Number</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row">
 							<div class="form-group col-md-5">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Transaction Date</label>
+								<label class="mr-sm-2 data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 							<div class="form-group col-md-5">
@@ -57,7 +57,7 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="col-md-11 pt-1 pl-2 my-3 pb-2" style="border: 3px solid ##dee2e6;border-radius: .25em;">
-							<div class="form-row">
+							<div class="form-row mb-0">
 								<div class="col-md-6">
 									<label class="mr-sm-2" for="validatedAgent">Agent Name</label>
 									<div class="custom-file">
@@ -66,7 +66,7 @@ form.classList.add('was-validated');
 										<div class="invalid-feedback pl-1">Example invalid custom file feedback</div>
 									</div>
 								</div>
-								<div class=" col-md-5">
+								<div class="col-md-5">
 									<label class="mr-sm-2" for="inlineFormCustomSelect">Agent Role</label>
 									<select class="custom-select custom-select-sm mr-sm-2 fs-14" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
