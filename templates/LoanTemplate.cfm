@@ -30,7 +30,7 @@ form.classList.add('was-validated');
 				<main class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row mb-3">
-							<div class="col-12 col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -40,17 +40,17 @@ form.classList.add('was-validated');
 									<option value="3">Invertebrate Zoology</option>
 								</select>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="form-group col-md-6">
 								<label class="data-entry-label" for="inputNum">Loan Number</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row mb-3">
-							<div class="col-12 col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inputNum">Due Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
@@ -96,7 +96,7 @@ form.classList.add('was-validated');
 							<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -106,7 +106,7 @@ form.classList.add('was-validated');
 									<option value="4">Returnable</option>
 								</select>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -129,14 +129,14 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-12">
+							<div class="form-group col-12">
 								<label class="data-entry-label" for="exampleFormControlTextarea1">Nature of Material</label>
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
 							<div class="col-12 mb-3 mt-4 py-2 border rounded">
 							<div class="form-row mb-1">
-								<div class="col-12">
+								<div class="form-group col-12">
 									<h3 class="h4 mt-0">Add collection objects to loan</h3>
 								</div>
 								<div class="col-12">
@@ -149,25 +149,25 @@ form.classList.add('was-validated');
 						</div>
 		
 						<div class="form-row">
-							<div class="form-group col-md-12 mt-3">
+							<div class="form-group col-12 mt-3">
 								<label class="data-entry-label" for="exampleFormControlDescription">Description</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-12 mt-3">
+							<div class="form-group col-12 mt-3">
 								<label class="data-entry-label" for="exampleFormControlDescription">Loan Instructions</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-12 mt-3">
+							<div class="form-group col-12 mt-3">
 								<label class="data-entry-label" for="exampleFormControlDescription">Internal Remarks</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-12">
+							<div class="form-group col-12">
 								<button type="submit" class="btn-xs btn-primary mr-2">Save Edits</button>
 								<button type="submit" class="btn-xs btn-warning mr-2">Quit</button>
 								<button type="submit" class="btn-xs btn-danger mr-2">Delete Loan</button>
@@ -179,7 +179,7 @@ form.classList.add('was-validated');
 					<h2 class="h3">Invoices and Reports</h2>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
-						<div class="form-group col-md-12">
+						<div class="form-group col-12">
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 								<option selected>Choose Report...</option>
 								<option value="1">Invoice Header</option>
@@ -189,7 +189,7 @@ form.classList.add('was-validated');
 						</div>
 					</div>
 					<div class="form-row mt-2">
-						<div class="form-group col-md-12 mb-2">
+						<div class="form-group col-12 mb-2">
 							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
 							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
