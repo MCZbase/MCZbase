@@ -54,7 +54,7 @@ form.classList.add('was-validated');
 						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 				</div>
-				<div class="col-12 my-3 pb-3 pt-2 border rounded">
+				<div class="col-12 my-3 pb-3 pt-2 border rounded bg-light">
 					<div class="form-row mb-1">
 						<div class="col-12 col-md-6">
 							<span>
@@ -132,7 +132,7 @@ form.classList.add('was-validated');
 						<textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
 					</div>
 				</div>
-					<div class="col-12 mb-3 mt-3 py-2 border rounded">
+					<div class="col-12 mb-3 mt-3 py-2 border rounded bg-light">
 					<div class="form-row mb-1">
 						<div class="form-group col-12">
 							<h3 class="h4 mt-0">Add collection objects to loan</h3>
