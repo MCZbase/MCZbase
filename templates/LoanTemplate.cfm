@@ -31,9 +31,9 @@ form.classList.add('was-validated');
 				<div class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row">
-							<div class="form-group col-md-5">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Collection</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+							<div class="form-group mb-0 col-md-6">
+								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
+								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">Cryogenics</option>
 									<option value="2">Entomology</option>
@@ -41,34 +41,45 @@ form.classList.add('was-validated');
 									<option value="3">Invertebrate Zoology</option>
 								</select>
 							</div>
-							<div class="form-group col-md-5">
-								<label for="inputNum">Loan Number</label>
-								<input type="text" class="form-control" id="inputNum">
+							<div class="form-group col-md-6">
+								<label class="data-entry-label" for="inputNum">Loan Number</label>
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-5">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Transaction Date</label>
-								<input type="text" class="form-control" id="inputNum">
+							<div class="form-group col-md-6">
+								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
-							<div class="form-group col-md-5">
-								<label for="inputNum">Due Date</label>
-								<input type="text" class="form-control" id="inputNum">
+							<div class="form-group col-md-6">
+								<label class="data-entry-label" for="inputNum">Due Date</label>
+								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="col-md-11 pt-1 pl-2 my-3 pb-2" style="border: 3px solid ##dee2e6;border-radius: .25em;">
-							<div class="form-row">
-								<div class="col-md-6">
-									<label class="mr-sm-2" for="validatedAgent">Agent Name</label>
-									<div class="custom-file">
-										<input type="file" class="custom-file-input fs-14" id="validatedAgent" required>
-										<label class="custom-file-label fs-14" for="validatedAgent">Enter Agent...</label>
-										<div class="invalid-feedback pl-1">Example invalid custom file feedback</div>
+						<div class="col-12 pt-1 pl-2 my-3 pb-2 border rounded">
+							<div class="form-row mb-0">
+								<div class="col-12 col-md-6">
+									<span>
+										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
+										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</label>
+									</span>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										</div>
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input rounded-right" value="" aria-label="Agent" aria-describedby="underscore_agent_name_label">
+										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 									</div>
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
+										});
+									</script> 
 								</div>
-								<div class=" col-md-5">
-									<label class="mr-sm-2" for="inlineFormCustomSelect">Agent Role</label>
-									<select class="custom-select custom-select-sm mr-sm-2 fs-14" id="inlineFormCustomSelect">
+								<div class="col-md-6">
+									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
+									<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
 										<option value="1">Received By</option>
 										<option value="2">Authorized By</option>
@@ -76,7 +87,7 @@ form.classList.add('was-validated');
 									</select>
 								</div>
 								<div class="form-group col-md-1 mt-1">
-									<label class="mr-sm-1" for="inlineFormCustomSelect">Delete</label>
+									<label class="data-entry-label" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
 										<label class="form-check-label" for="gridCheck"> </label>
@@ -155,7 +166,7 @@ form.classList.add('was-validated');
 						</div>
 					</form>
 				</div>
-				<div class="col-md-5 offset-md-auto">
+				<div class="col-md-5">
 					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
