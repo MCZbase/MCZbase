@@ -66,9 +66,9 @@ form.classList.add('was-validated');
 										<div class="invalid-feedback pl-1 small">Example invalid custom file feedback</div>
 									</div>
 								</div>
-								<div class="col-md-5">
-									<label class="mr-sm-2" for="inlineFormCustomSelect">Agent Role</label>
-									<select class="custom-select custom-select-sm mr-sm-2 fs-14" id="inlineFormCustomSelect">
+								<div class="col-md-6">
+									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
+									<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
 										<option value="1">Received By</option>
 										<option value="2">Authorized By</option>
@@ -76,7 +76,7 @@ form.classList.add('was-validated');
 									</select>
 								</div>
 								<div class="form-group col-md-1 mt-1">
-									<label class="mr-sm-1" for="inlineFormCustomSelect">Delete</label>
+									<label class="data-entry-label" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
 										<label class="form-check-label" for="gridCheck"> </label>
