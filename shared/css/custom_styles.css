@@ -131,7 +131,7 @@ p {
 }
 .custom-file-label {
 	  height: calc(1em + .75rem)!important;
-    padding: .25rem .5rem !important;
+    padding: .4rem .5rem !important;
     line-height: 1 !important;
 	font-size: .87em !important;
 }
