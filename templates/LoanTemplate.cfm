@@ -147,19 +147,19 @@ form.classList.add('was-validated');
 				</div>
 
 				<div class="form-row">
-					<div class="form-group col-12 mt-3">
+					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Description</label>
 						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="form-group col-12 mt-3">
+					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Loan Instructions</label>
 						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="form-group col-12 mt-3">
+					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Internal Remarks</label>
 						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
