@@ -97,7 +97,7 @@ form.classList.add('was-validated');
 							<div class="col-md-12 text-right"><a href="##">Add</a></div>
 						</div>
 						<div class="form-row mb-3">
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -107,7 +107,7 @@ form.classList.add('was-validated');
 									<option value="4">Returnable</option>
 								</select>
 							</div>
-							<div class="form-group col-md-4">
+							<div class="form-group col-md-6">
 								<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -117,11 +117,12 @@ form.classList.add('was-validated');
 									<option value="4">Open Historical</option>
 								</select>
 							</div>
-							<div class="col-md-4">
+						</div>
+							<div class="col-md-12">
 								<label class="data-entry-label" for="validatedSubloan">Add Subloan</label>
 								<div class="custom-file">
-									<input type="file" class="custom-file-input data-entry-input" id="validatedSubloan required">
-									<label class="custom-file-label data-entry-label" for="validatedSubloan">Add...</label>
+									<input type="file" class="custom-file-input" id="validatedSubloan required">
+									<label class="custom-file-label" for="validatedSubloan">Add...</label>
 									<div class="invalid-feedback">Example invalid custom file feedback</div>
 								</div>
 							</div>
