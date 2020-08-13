@@ -167,11 +167,10 @@ form.classList.add('was-validated');
 					</form>
 				</main>
 				<aside class="col-md-5">
-				<div class="col-12">
-					<h2 class="h3">Invoices and Reports</h2>
+					<h3>Invoices and Reports</h3>
 					<p>Print Invoices and Reports for shipments and files.</p>
 					<div class="form-row">
-						<div class="form-group">
+						<div class="form-group col-md-12">
 							<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 								<option selected>Choose Report...</option>
 								<option value="1">Invoice Header</option>
@@ -181,17 +180,18 @@ form.classList.add('was-validated');
 						</div>
 					</div>
 					<div class="form-row mt-2">
-						<div class="form-group mb-2">
-							<h2 class="h3">Media</h2>
+						<div class="form-group col-md-12 mb-2">
+							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
 							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
-					<div class="col-12">
-					<h3 class="mt-4">Shipment Information</h3>
-						<div class="form-row mt-3 border pt-4 pb-1">
-								<h3 class="h4 mt-0">Most Recent Shipment</h3>
+					<div class="col-md-12 px-0">
+						<h3 class="mt-4">Shipment Information</h3>
+						<div class="form-row mt-3 border px-2 pt-4 pb-1">
+							<div class="col-md-12">
+								<h4 class="mt-0">Most Recent Shipment</h4>
 								<h5>Shipped To:</h5>
 								<p class="fs-14">(☑ Printed on invoice) Stephanie Carson, Senior Museum Registrar American Museum of Natural History Office of the Registrar Central Park West at 79th Street New York, New York 10024 United States</p>
 								<h5>Shipped From:</h5>
@@ -237,7 +237,6 @@ form.classList.add('was-validated');
 						</div>
 					
 					</div>
-					</div>
 						<div class="col-md-12">
 							<div class="form-row mt-3">
 								<div class="form-group col-md-12"> <a href="##" class="btn-link">See other shipments</a> </div>
@@ -246,7 +245,7 @@ form.classList.add('was-validated');
 					</aside>
 			</div>
 			<div class="row">
-				<aside class="col-md-12 mt-3">
+				<aside class="col-md-12 mt-3 px-0">
 					<h2 class="h3"> Accessions of Materials in this Loan</h2>
 					<ul class="list-group">
 						<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
