@@ -77,7 +77,7 @@ form.classList.add('was-validated');
 										});
 									</script> 
 								</div>
-								<div class="col-md-6">
+								<div class="col-12 col-md-5">
 									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
 									<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
@@ -86,7 +86,7 @@ form.classList.add('was-validated');
 										<option value="3">In-house Contact</option>
 									</select>
 								</div>
-								<div class="form-group col-md-1 mt-1">
+								<div class="col-12 col-md-1">
 									<label class="data-entry-label row" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
