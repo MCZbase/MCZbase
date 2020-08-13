@@ -4,8 +4,6 @@
 <cfif isdefined("scientific_name")>
 	<cfoutput>[#scientific_name#]</cfoutput>
 	<cfoutput>[#URLDecode(scientific_name)#]</cfoutput>
-	<cfoutput>showTaxonomy.cfm</cfoutput>
-	<cfabort>
 </cfif>
 <cfif isdefined("taxon_name_id")>
 	<cfoutput>[#taxon_name_id#]</cfoutput>
