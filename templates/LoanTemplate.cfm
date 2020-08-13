@@ -186,7 +186,7 @@ form.classList.add('was-validated');
 					</select>
 				</div>
 			</div>
-			<div class="form-row mt-2">
+			<div class="form-row mt-1">
 				<div class="form-group col-12 mb-2">
 					<h2 class="h3 mb-0">Media</h2>
 					<h3 class="h4 font-weight-light">Connections to other records such as projects can go here.</h3>
