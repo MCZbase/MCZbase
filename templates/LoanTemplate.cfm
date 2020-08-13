@@ -204,21 +204,21 @@ form.classList.add('was-validated');
 						<h5>Shipped From:</h5>
 						<p class="fs-14">Collections Operations Museum of Comparative Zoology Harvard University 26 Oxford St. Cambridge, MA 02138</p>
 						<div class="form-row mb-2">
-							<div class="col-md-5">
+							<div class="col-md-5 form-group">
 								<label class="data-entry-label" for="inlineShipDate">Ship Date</label>
 								<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 							</div>
-							<div class="col-md-7">
+							<div class="col-md-7 form-group">
 								<label class="data-entry-label" for="inlineMethod">Method</label>
 								<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-md-3">
+							<div class="col-md-3 form-group">
 								<label class="data-entry-label" for="inlinePackages">Packages</label>
 								<input type="text" class="form-control data-entry-input" id="inputShipDate">
 							</div>
-							<div class="col-md-9">
+							<div class="col-md-9 form-group">
 								<label class="data-entry-label" for="inlinePackages">Tracking Number</label>
 								<input type="text" class="form-control data-entry-input" id="inputShipDate">
 							</div>
