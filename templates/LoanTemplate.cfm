@@ -134,7 +134,7 @@ form.classList.add('was-validated');
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
-							<div class="col-12 mb-3 mt-4 py-2 border rounded">
+							<div class="col-12 mb-3 mt-2 py-2 border rounded">
 							<div class="form-row mb-1">
 								<div class="col-12 col-md-6">
 									<h3 class="h4">Add collection objects to loan</h3>
