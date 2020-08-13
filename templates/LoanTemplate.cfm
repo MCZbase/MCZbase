@@ -188,6 +188,7 @@ form.classList.add('was-validated');
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
+					<div class="col-12">
 					<h3 class="mt-4">Shipment Information</h3>
 						<div class="form-row mt-3 border pt-4 pb-1">
 								<h3 class="h4 mt-0">Most Recent Shipment</h3>
@@ -235,6 +236,7 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 					
+					</div>
 					</div>
 						<div class="col-md-12">
 							<div class="form-row mt-3">
