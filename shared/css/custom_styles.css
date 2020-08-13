@@ -122,7 +122,7 @@ p {
 	font-variant: small-caps;
 }
 .input-group-text-sm {padding: .25em .5em!important;}
-.custom-file-label::after {
+/*.custom-file-label::after {
     height: calc(1em + .75rem)!important;
     padding: .25rem .5rem !important;
     line-height: 1 !important;
@@ -134,7 +134,7 @@ p {
     padding: .25rem .5rem !important;
     line-height: 1 !important;
 	font-size: .87em !important;
-}
+}*/
 .line-height-sm {
 	line-height: 1.15em;
 }
