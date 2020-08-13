@@ -229,8 +229,8 @@ form.classList.add('was-validated');
 								</div>
 								<div class="form-row mt-3">
 									<div class="form-group col-md-12">
-										<button class="btn btn-sm btn-secondary mr-2" type="submit">Edit this Shipment</button>
-										<button class="btn btn-sm btn-secondary" type="submit">Add Permit to this Shipment</button>
+										<button class="btn-xs btn-secondary mr-2" type="submit">Edit this Shipment</button>
+										<button class="btn-xs btn-secondary" type="submit">Add Permit to this Shipment</button>
 									</div>
 								</div>
 							</div>
