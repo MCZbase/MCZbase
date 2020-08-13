@@ -28,7 +28,7 @@ form.classList.add('was-validated');
 				<div class="col-md-12">
 					<h1 class="h2">Loan Example</h1>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row">
 							<div class="form-group mb-0 col-md-6">
@@ -60,7 +60,7 @@ form.classList.add('was-validated');
 							<div class="form-row mb-0">
 								<div class="col-12 col-md-6">
 									<span>
-										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
 										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 										</label>
 									</span>
