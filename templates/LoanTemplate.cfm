@@ -176,7 +176,7 @@ form.classList.add('was-validated');
 					</form>
 				</main>
 				<aside class="col-md-5">
-					<h2 class="h3">Invoices and Reports</h2>
+					<h2 class="h3 mb-0">Invoices and Reports</h2>
 					<h3 class="h4 font-weight-light">Print Invoices and Reports for shipments and files.</h3>
 					<div class="form-row">
 						<div class="form-group col-12">
@@ -190,7 +190,7 @@ form.classList.add('was-validated');
 					</div>
 					<div class="form-row mt-2">
 						<div class="form-group col-12 mb-2">
-							<h2 class="h3">Media</h2>
+							<h2 class="h3 mb-0">Media</h2>
 							<h3 class="h4 font-weight-light">Connections to other records such as projects can go here.</h3>
 							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
 							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
