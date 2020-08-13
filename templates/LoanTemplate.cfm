@@ -29,7 +29,7 @@ form.classList.add('was-validated');
 				</div>
 				<main class="col-md-7">
 					<form class="was-validated">
-						<div class="form-row mb-3">
+						<div class="form-row mb-1">
 							<div class="form-group col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
