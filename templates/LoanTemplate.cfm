@@ -56,7 +56,7 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="col-12 form-row border rounded">
+						<div class="col-12 my-3 py-2 border rounded">
 							<div class="form-row">
 								<div class="col-12 col-md-6">
 									<span>
