@@ -201,21 +201,21 @@ form.classList.add('was-validated');
 								<p class="fs-14">Collections Operations Museum of Comparative Zoology Harvard University 26 Oxford St. Cambridge, MA 02138</p>
 								<div class="form-row mb-2">
 									<div class="col-md-5">
-										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineShipDate">Ship Date</label>
+										<label class="data-entry-label" for="inlineShipDate">Ship Date</label>
 										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 									<div class="col-md-7">
-										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineMethod">Method</label>
+										<label class="data-entry-label" for="inlineMethod">Method</label>
 										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-3">
-										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlinePackages">Packages</label>
+										<label class="data-entry-label" for="inlinePackages">Packages</label>
 										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 									<div class="col-md-9">
-										<label class="mr-sm-2 mb-0 fs-14" for="inlinePackages">Tracking Number</label>
+										<label class="data-entry-label" for="inlinePackages">Tracking Number</label>
 										<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
 									</div>
 								</div>
