@@ -56,8 +56,8 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="col-12 pt-1 pl-2 my-3 pb-2 border rounded">
-							<div class="form-row mb-0">
+						<div class="col-12 my-3 py-2 border rounded">
+							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<span>
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
@@ -96,10 +96,10 @@ form.classList.add('was-validated');
 							</div>
 							<div class="col-md-12 text-right"><a href="##">Add</a></div>
 						</div>
-						<div class="form-row">
+						<div class="form-row mb-2">
 							<div class="form-group col-md-4">
-								<label class="mr-sm-2" for="inlineFormCustomSelect">Loan Type</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
+								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">Exhibition Master</option>
 									<option value="2">Exhibition Subloan</option>
@@ -108,8 +108,8 @@ form.classList.add('was-validated');
 								</select>
 							</div>
 							<div class="form-group col-md-4">
-								<label for="inputLoanStatus">Loan Status</label>
-								<select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+								<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
+								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
 									<option value="1">In Process</option>
 									<option value="2">Open</option>
@@ -127,38 +127,38 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11">
+							<div class="form-group col-md-12">
 								<label for="exampleFormControlTextarea1">Nature of Material</label>
 								<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-11">
+							<div class="form-group col-md-12">
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items</button>
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Add Items by Barcode</button>
 								<button type="submit" class="btn btn-sm btn-secondary mr-2">Review Items</button>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Description</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Loan Instructions</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-11 mt-3">
+							<div class="form-group col-md-12 mt-3">
 								<label for="exampleFormControlDescription">Internal Remarks</label>
 								<textarea class="form-control" id="exampleFormControlDescription" rows="3"></textarea>
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-6">
+							<div class="form-group col-md-12">
 								<button type="submit" class="btn btn-secondary mr-2">Save Edits</button>
 								<button type="submit" class="btn btn-secondary mr-2">Quit</button>
 								<button type="submit" class="btn btn-secondary mr-2">Delete Loan</button>
@@ -246,8 +246,8 @@ form.classList.add('was-validated');
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12 mt-3 px-0">
-						<h3 class="pl-1"> Accessions of Materials in this Loan</h3>
-						<ul class="list-group" style="background-color: white;">
+						<h3 class="h4"> Accessions of Materials in this Loan</h4>
+						<ul class="list-group">
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
 							<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
 						</ul>
