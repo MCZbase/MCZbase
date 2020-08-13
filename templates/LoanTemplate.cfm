@@ -136,7 +136,7 @@ form.classList.add('was-validated');
 						</div>
 							<div class="col-12 mb-3 mt-3 py-2 border rounded">
 							<div class="form-row mb-1">
-								<div class="col-12 col-md-6">
+								<div class="col-12">
 									<h3 class="h4 mt-0">Add collection objects to loan</h3>
 								</div>
 								<div class="col-12">
