@@ -46,7 +46,7 @@ form.classList.add('was-validated');
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
-						<div class="form-row mb-2">
+						<div class="form-row mb-3">
 							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
@@ -183,8 +183,8 @@ form.classList.add('was-validated');
 						<div class="form-group col-md-12 mb-2">
 							<h3>Media</h3>
 							<p>Highlighted connections to other records such as projects can go here.</p>
-							<button class="btn btn-sm btn-secondary mr-2" type="submit">Link Media</button>
-							<button class="btn btn-sm btn-secondary" type="submit">Create Media</button>
+							<button class="btn-xs btn-secondary mr-2" type="submit">Link Media</button>
+							<button class="btn-xs btn-secondary" type="submit">Create Media</button>
 						</div>
 					</div>
 					<aside class="col-md-12 px-0">
@@ -196,7 +196,7 @@ form.classList.add('was-validated');
 								<p class="fs-14">(☑ Printed on invoice) Stephanie Carson, Senior Museum Registrar American Museum of Natural History Office of the Registrar Central Park West at 79th Street New York, New York 10024 United States</p>
 								<h5>Shipped From:</h5>
 								<p class="fs-14">Collections Operations Museum of Comparative Zoology Harvard University 26 Oxford St. Cambridge, MA 02138</p>
-								<div class="form-row">
+								<div class="form-row mb-2">
 									<div class="col-md-5">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlineShipDate">Ship Date</label>
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
@@ -206,7 +206,7 @@ form.classList.add('was-validated');
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="form-row mb-2">
 									<div class="col-md-3">
 										<label class="mr-sm-2 mb-0 ml-1 fs-14" for="inlinePackages">Packages</label>
 										<input type="text" class="form-control form-control-sm ml-0" id="inputShipDate">
