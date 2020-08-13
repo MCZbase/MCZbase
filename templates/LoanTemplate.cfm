@@ -135,7 +135,8 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="form-row mt-3">
-							<div class="form-group col-md-12">
+							<div class="form-group col-12 mt-4 py-2 border rounded">
+								<h3 class="h4">Add collection objects to loan</h3>
 								<button type="submit" class="btn-xs btn-secondary mr-2">Add</button>
 								<button type="submit" class="btn-xs btn-secondary mr-2">Add by Barcode</button>
 								<button type="submit" class="btn-xs btn-secondary mr-2">Review</button>
