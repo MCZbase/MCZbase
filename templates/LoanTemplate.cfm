@@ -239,7 +239,7 @@ form.classList.add('was-validated');
 					</div>
 						<div class="col-md-12">
 							<div class="form-row mt-3">
-								<div class="form-group col-md-12"> <a href="##" class="form-control form-control-sm">See other shipments</a> </div>
+								<div class="form-group col-md-12"> <a href="##" class="btn-link">See other shipments</a> </div>
 							</div>
 						</div>
 					</aside>
