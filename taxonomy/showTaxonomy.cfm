@@ -33,7 +33,7 @@
 			WHERE
 				upper(genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,1," "))#"> and
 				upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,2," "))#"> and
-				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#"
+				upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#">
 		</cfquery>
 		<cfif getTID.recordcount is 1>
 			<cfheader statuscode="301" statustext="Moved permanently">
