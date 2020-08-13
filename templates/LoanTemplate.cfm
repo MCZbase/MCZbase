@@ -24,7 +24,7 @@ form.classList.add('was-validated');
 <cfoutput>
 <div class="container py-5">
 			<div class="row">
-				<div class="col-md-12">
+				<div class="col-12">
 					<h1 class="h2">Loan Example</h1>
 				</div>
 				<main class="col-md-7">
