@@ -84,14 +84,14 @@ form.classList.add('was-validated');
 								<option value="3">In-house Contact</option>
 							</select>
 						</div>
-						<div class="col-12 col-md-1 mt-3 mt-md-0">
+						<div class="col-6 col-md-1 mt-3 mt-md-0">
 							<label class="data-entry-label form-row text-danger" for="inlineFormCustomSelect">Delete</label>
 							<div class="form-check mt-xl-2">
 								<input class="form-check-input" type="checkbox" id="gridCheck">
 								<label class="form-check-label" for="gridCheck"> </label>
 							</div>
 						</div>
-						<div class="col-12 col-md-1"><a class="btn-link" href="##">Add</a></div>
+						<div class="col-6 col-md-1 mt-4"><a class="btn-link" href="##">Add</a></div>
 					</div>
 					<!---<div class="col-md-12 text-right"><a class="btn-link" href="##">Add</a></div>--->
 				</div>
