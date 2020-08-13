@@ -31,7 +31,7 @@ form.classList.add('was-validated');
 				<div class="col-md-7">
 					<form class="was-validated">
 						<div class="form-row">
-							<div class="form-group mb-0 col-md-6">
+							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 								<select class="custom-select" id="inlineFormCustomSelect">
 									<option selected>Choose...</option>
@@ -41,17 +41,17 @@ form.classList.add('was-validated');
 									<option value="3">Invertebrate Zoology</option>
 								</select>
 							</div>
-							<div class="form-group col-md-6">
+							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inputNum">Loan Number</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
+							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
-							<div class="form-group col-md-6">
+							<div class="col-12 col-md-6">
 								<label class="data-entry-label" for="inputNum">Due Date</label>
 								<input type="text" class="form-control data-entry-input" id="inputNum">
 							</div>
@@ -77,7 +77,7 @@ form.classList.add('was-validated');
 										});
 									</script> 
 								</div>
-								<div class="col-md-6">
+								<div class="col-12 col-md-5">
 									<label class="data-entry-label" for="inlineFormCustomSelect">Agent Role</label>
 									<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 										<option selected>Choose...</option>
@@ -86,8 +86,8 @@ form.classList.add('was-validated');
 										<option value="3">In-house Contact</option>
 									</select>
 								</div>
-								<div class="form-group col-md-1 mt-1">
-									<label class="data-entry-label" for="inlineFormCustomSelect">Delete</label>
+								<div class="col-12 col-md-1">
+									<label class="data-entry-label row" for="inlineFormCustomSelect">Delete</label>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="gridCheck">
 										<label class="form-check-label" for="gridCheck"> </label>
