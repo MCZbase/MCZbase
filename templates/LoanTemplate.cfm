@@ -1,62 +1,64 @@
 <cfset pageTitle="Form Template">
 <cfinclude template = "/shared/_header.cfm">
 <!---------------------------------------------------------------------------------->
+<!--- source of function?  Looks like copy/paste from somwehere, not formatted according to style guide, won't work as is with expected ajax submission handling --->
+<!--- use $(document).ready() rather than adding a load event listener --->
 <script>
-	(function() {
-'use strict';
-window.addEventListener('load', function() {
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-var forms = document.getElementsByClassName('needs-validation');
-// Loop over them and prevent submission
-var validation = Array.prototype.filter.call(forms, function(form) {
-form.addEventListener('submit', function(event) {
-if (form.checkValidity() === false) {
-event.preventDefault();
-event.stopPropagation();
-}
-form.classList.add('was-validated');
-}, false);
-});
-}, false);
-})();
+	$(eocument).ready( function() {   
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		var forms = document.getElementsByClassName('needs-validation');
+		// Loop over them and prevent submission on validation failure
+		// handled directly by browser with html 5 pattern and required elements
+		var validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener('submit', function(event) {
+			if (form.checkValidity() === false) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+			form.classList.add('was-validated');
+		}, false);
+	});
+</script>
+<script>
+	jQuery(document).ready(function() {
+  		$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+	});
 </script>
 <cfoutput>
-<div class="container py-5">
-	<div class="row">
+<main class="container py-1" style="max-width: 100%;"><!--- Limit vertical whitespace ---><!--  TODO: Something in bootstrap is artificially creating lots of left and right whitespace on container, use more of width --->
+	<section class="row"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
 		<div class="col-12">
 			<h1 class="h2">Loan Example</h1>
 		</div>
-		<main class="col-md-7">
-			<form class="was-validated">
+		<div class="col-12">
+			<form id="loanTemplateForm"  class="was-validated"><!--- with the ajax save/update form handling instead of form posts to reload page, we would need much more complex logic to handle adding/removing needs-validation and was-validated, probably best to not use these, but use the browser's html5 required and pattern support.  Form must have ID--->
 				<div class="form-row mb-0">
-					<div class="form-group col-12 col-md-6">
+					<div class="form-group col-12 col-md-3"><!--- typically use 4 columns for forms --->
 						<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
-							<option selected>Choose...</option>
-							<option value="1">Cryogenics</option>
+							<option value="" selected>Choose...</option>
+							<option value="1">Cryogenic</option>
 							<option value="2">Entomology</option>
 							<option value="3">Herpetology</option>
 							<option value="3">Invertebrate Zoology</option>
 						</select>
 					</div>
-					<div class="form-group col-md-6">
-						<label class="data-entry-label" for="inputNum">Loan Number</label>
-						<input type="text" class="form-control form-control-sm" id="inputNum">
+					<div class="form-group col-md-3">
+						<label class="data-entry-label" for="loan_number">Loan Number</label>
+						<input type="text" name="loan_number" class="form-control form-control-sm reqdClr" id="loan_number" required > <!--- Need to mark required elements, both with required and with a class, class must give them a yellow background --->
 					</div>
-				</div>
-				<div class="form-row mb-3">
-					<div class="form-group col-12 col-md-6">
-						<label class="data-entry-label" for="inlineFormCustomSelect">Transaction Date</label>
-						<input type="text" class="form-control form-control-sm" id="inputNum">
+					<div class="form-group col-12 col-md-3">
+						<label class="data-entry-label" for="trans_date">Transaction Date</label>
+						<input type="text" class="form-control form-control-sm" id="trans_date" name="trans_date"><!--- all form inputs must have a name, this should almost always match the database field name, also provide an id, almost always the same as the name ---><!--- bound to date picker on document ready in script above --->
 					</div>
-					<div class="form-group col-12 col-md-6">
+					<div class="form-group col-12 col-md-3">
 						<label class="data-entry-label" for="inputNum">Due Date</label>
 						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
 				</div>
 				<div class="col-12 my-3 pb-3 pt-2 border rounded bg-light">
 					<div class="form-row mb-1">
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6"><!--- Why no form-group?  Does form-group do anything desirable, or can we just omit it everywhere? --->
 							<span>
 								<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent
 								<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -95,7 +97,7 @@ form.classList.add('was-validated');
 					</div>
 				</div>
 				<div class="form-row mb-1">
-					<div class="form-group col-12 col-md-6">
+					<div class="form-group col-12 col-md-3">
 						<label class="data-entry-label" for="inlineFormCustomSelect">Loan Type</label>
 						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option selected>Choose...</option>
@@ -105,7 +107,7 @@ form.classList.add('was-validated');
 							<option value="4">Returnable</option>
 						</select>
 					</div>
-					<div class="form-group col-12 col-md-6">
+					<div class="form-group col-12 col-md-3">
 						<label class="data-entry-label" for="inputLoanStatus">Loan Status</label>
 						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option selected>Choose...</option>
@@ -115,9 +117,7 @@ form.classList.add('was-validated');
 							<option value="4">Open Historical</option>
 						</select>
 					</div>
-				</div>
-				<div class="form-row mb-0">
-					<div class="form-group col-12">
+					<div class="form-group col-12 col-md-6">
 						<label class="data-entry-label" for="validatedSubloan">Add Subloan</label>
 						<div class="custom-file">
 							<input type="file" class="custom-file-input" id="validatedSubloan required">
@@ -128,8 +128,12 @@ form.classList.add('was-validated');
 				</div>
 				<div class="form-row">
 					<div class="form-group col-12 mb-4">
-						<label class="data-entry-label" for="exampleFormControlTextarea1">Nature of Material</label>
-						<textarea class="form-control" id="exampleFormControlTextarea1" rows="2"></textarea>
+						<!--- on all text areas include a span to display characters used/remaining --->
+						<label class="data-entry-label" for="exampleFormControlTextarea1">Nature of Material (<span id="length_loan_nature"></span>)</label>
+						<textarea class="autogrow form-control" 
+								onkeyup="countCharsLeft('nature_of_material', 4000, 'length_loan_nature');"
+								id="nature_of_material" 
+								rows="2"></textarea><!--- see script below, makes text areas autogrow, add autogrow class, onkeyup handler and span to display chars used/remaining --->
 					</div>
 				</div>
 					<div class="col-12 mb-3 mt-3 py-2 border rounded bg-light">
@@ -149,31 +153,65 @@ form.classList.add('was-validated');
 				<div class="form-row">
 					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Description</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
+						<textarea class="form-control autogrow" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Loan Instructions</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
+						<textarea class="form-control autogrow" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-12 mt-2">
 						<label class="data-entry-label" for="exampleFormControlDescription">Internal Remarks</label>
-						<textarea class="form-control" id="exampleFormControlDescription" rows="2"></textarea>
+						<textarea class="form-control autogrow" id="exampleFormControlDescription" rows="2"></textarea>
 					</div>
 				</div>
 				<div class="form-row mt-3">
 					<div class="form-group col-12">
-						<button type="submit" class="btn-xs btn-primary mr-2">Save Edits</button>
+						<button type="submit" class="btn-xs btn-primary mr-2"
+							onClick="if (checkFormValidity($('##loanTemplateForm')[0])) { saveEdits();  } " 
+							id="submitButton" >Save Edits</button>
 						<button type="submit" class="btn-xs btn-warning mr-2">Quit</button>
 						<button type="submit" class="btn-xs btn-danger mr-2">Delete Loan</button>
 					</div>
 				</div>
+				<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
 			</form>
-		</main>
-		<aside class="col-md-5">
+			<script>
+				function changed(){
+					$('##saveResultDiv').html('Unsaved changes.');
+					$('##saveResultDiv').addClass('text-danger');
+					$('##saveResultDiv').removeClass('text-success');
+					$('##saveResultDiv').removeClass('text-warning');
+				};
+				// not all inputs on this form are bound by the selectors below, need additional lines for this to work with all form elements
+				$(document).ready(function() {
+					// caution, text inputs must have type=text to be bound to change function.
+					$('##taxon_form input[type=text]').on("change",changed);
+					$('##taxon_form select').on("change",changed);
+					$('##taxon_remarks').on("change",changed);
+					countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');
+				});
+				function saveEdits(confirmClicked=false){ 
+					// ajax handling of form submission and response 
+					// see a working example on /taxonomy/Taxonomy.cfm
+				});
+			</script>
+		</div>
+		<script>
+			// Make all textareas currently defined autogrow as text is entered, for all areas, place this inside the document ready function below, can be on selector textarea.autogrow
+			$("textarea").keyup(autogrow);  
+			// When editing existing data, on page load, trigger they keyup event on all autogrow classed text areas to set the used/remaining spans to initial values.
+			$(document).ready(function() {
+				// trigger keyup event to size textareas to existing text
+				$('textarea.autogrow').keyup();
+			});
+		</script>
+	</section>
+	<section class="row">
+		<div class="col-12"><!--- aside isn't correct semantics here, this should all be within main - the semantics are this is main page content, but handled as subforms, not as loosely related sidebar content.  Aside would be appropriate for lists of similar loans or other content related, but not part of the loan itself. --->
 			<h2 class="h3 mb-0">Invoices and Reports</h2>
 			<h3 class="h4 font-weight-light">Print Invoices and Reports for shipments and files.</h3>
 			<div class="form-row">
@@ -203,7 +241,7 @@ form.classList.add('was-validated');
 						<p class="fs-14">(☑ Printed on invoice) Stephanie Carson, Senior Museum Registrar American Museum of Natural History Office of the Registrar Central Park West at 79th Street New York, New York 10024 United States</p>
 						<h5>Shipped From:</h5>
 						<p class="fs-14">Collections Operations Museum of Comparative Zoology Harvard University 26 Oxford St. Cambridge, MA 02138</p>
-						<div class="form-row mb-2">
+						<div class="form-row mb-1">
 							<div class="col-md-5 form-group">
 								<label class="data-entry-label" for="inlineShipDate">Ship Date</label>
 								<input type="text" class="form-control data-entry-input ml-0" id="inputShipDate">
@@ -224,7 +262,7 @@ form.classList.add('was-validated');
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="col-md-12 mt-3">
+							<div class="col-md-12 mt-1">
 								<h5 class="ml-1">Permits: </h5>
 								<ul class="list-group" style="background-color: white;">
 									<li class="list-group-item d-flex justify-content-between align-items-center fs-14" style="border: 1px solid rgba(0,0,0,.125);"> Collecting/Take Permission OP 834 <br>
@@ -234,7 +272,7 @@ form.classList.add('was-validated');
 								</ul>
 							</div>
 						</div>
-						<div class="form-row mt-3">
+						<div class="form-row mt-1">
 							<div class="form-group col-md-12">
 								<button class="btn-xs btn-secondary mr-2" type="submit">Edit this Shipment</button>
 								<button class="btn-xs btn-secondary mt-3 mt-xl-0" type="submit">Add Permit to this Shipment</button>
@@ -244,23 +282,23 @@ form.classList.add('was-validated');
 				</div>
 
 			</div>
-				<div class="col-md-12">
-					<div class="form-row mt-3">
-						<div class="form-group col-md-12"> <a href="##" class="btn-link">See other shipments</a> </div>
-					</div>
+			<div class="col-md-12">
+				<div class="form-row mt-1">
+					<div class="form-group col-md-12"> <a href="##" class="btn-link">See other shipments</a> </div>
 				</div>
-			</aside>
-	</div>
-	<div class="row">
-		<aside class="col-md-12 mt-3">
+			</div>
+		</div>
+	</section>
+	<section class="row"><!--- see notes above about main, aside, and section --->
+		<div class="col-md-12 mt-1">
 			<h2 class="h3"> Accessions of Materials in this Loan</h2>
 			<ul class="list-group">
 				<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Accn ##: 2001189, Type: Gift, Status: Complete, Date Received: 2013-05-22 <span class="badge badge-primary badge-pill">14</span> </li>
 				<li class="list-group-item d-flex justify-content-between align-items-center" style="border: 1px solid rgba(0,0,0,.125);"> Dapibus ac facilisis in <span class="badge badge-primary badge-pill">2</span> </li>
 			</ul>
-		</aside>
-	</div>
-</div>
+		</div>
+	</section>
+</main>
 </cfoutput> 
 
 <!---------------------------------------------------------------------->
