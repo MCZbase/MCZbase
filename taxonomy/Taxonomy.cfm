@@ -689,7 +689,7 @@ limitations under the License.
 					</div>
 					<script>
 						// Make all textareas currently defined autogrow as text is entered.
-						$("textarea").keyup(autogrow);  
+						$("textarea").keyup(autogrow);
 					</script>
 					<script>
 						function changed(){
@@ -738,7 +738,7 @@ limitations under the License.
 											url : "/taxonomy/component/functions.cfc",
 											type : "post",
 											dataType : "json",
-											data :  $('##taxon_form').serialize(),
+											data : $('##taxon_form').serialize(),
 											success : function (data) {
 												$('##saveResultDiv').html('Saved.');
 												$('##saveResultDiv').addClass('text-success');
@@ -754,8 +754,8 @@ limitations under the License.
 												var message = "";
 												if (error == 'timeout') {
 													message = ' Server took too long to respond.';
-		               											} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-							                  message = ' Backing method did not return JSON.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
 												} else {
 													message = jqXHR.responseText;
 												}
@@ -773,7 +773,7 @@ limitations under the License.
 						<input type="button" 
 							value="Save" title="Save" aria-label="Save"
 							class="btn btn-xs btn-primary mx-1"
-							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits();  } " 
+							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 							>
 						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
