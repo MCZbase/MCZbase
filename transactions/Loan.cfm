@@ -575,10 +575,10 @@ limitations under the License.
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
 		<main class="container-fluid">
-			<div class="row">
+			<div class="row col-12">
 				<cftry>
-					<section title="Edit Loan" class="col-12 border rounded">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
+					<section title="Edit Loan" class="col-12">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded">
 							<div class="row mt-1">
 								<div class="col-12 col-md-9 col-xl-7 offset-xl-1">
 									<h2 class="wikilink mt-1 mb-0">
@@ -621,7 +621,7 @@ limitations under the License.
 									<!--- Begin loan agents table TODO: Rework --->
 									<div class="form-row my-1">
 										<div class="col-12 table-responsive mt-1">
-											<table id="loanAgents" class="table table-sm">
+											<table id="loanAgents" class="table table-sm mb-0">
 												<thead class="thead-light">
 													<tr>
 														<th colspan="2"> 
@@ -706,7 +706,7 @@ limitations under the License.
 											<!-- end agents table ---> 
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12 col-md-4">
 											<label for="loan_type" class="data-entry-label">Loan Type</label>
 											<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
@@ -741,7 +741,7 @@ limitations under the License.
 											</cfif>
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12 col-md-6">
 											<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 											<input type="text" name="initiating_date" id="initiating_date"
@@ -753,7 +753,7 @@ limitations under the License.
 												value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 										</div>
 									</div>
-									<div class="form-row mb-2" id="insurance_section">
+									<div class="form-row mb-1" id="insurance_section">
 										<div class="col-12 col-md-6">
 											<label for="insurance_value" class="data-entry-label">Insurance value</label>
 											<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
@@ -763,7 +763,7 @@ limitations under the License.
 											<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12 col-md-6">
 											<span id="parentloan_section">Exhibition-Master Loan:
 												<cfif parentLoan.RecordCount GT 0>
@@ -850,7 +850,7 @@ limitations under the License.
 											</span><!--- end subloan section ---> 
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 											<textarea name="nature_of_material" id="nature_of_material" rows="2" 
@@ -858,7 +858,7 @@ limitations under the License.
 												class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 											<textarea name="loan_description" id="loan_description" rows="2"
@@ -866,7 +866,7 @@ limitations under the License.
 												class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 											<textarea name="loan_instructions" id="loan_instructions" rows="2" 
@@ -874,7 +874,7 @@ limitations under the License.
 												class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
 										</div>
 									</div>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 											<textarea name="trans_remarks" id="trans_remarks" 
@@ -893,9 +893,9 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-1">
 										<div class="form-group col-12">
-											<input type="button" class="btn-xs btn-primary mr-2"
+											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##editLoan')[0])) { saveEdits();  } " 
-												id="submitButton" >Save</button>
+												id="submitButton" >
 											<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
 												onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 											<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
@@ -923,8 +923,8 @@ limitations under the License.
 										});
 										function updatePrintStatus() { 
 											// TODO: Implement
-										}
-										function saveEdits(confirmClicked=false){ 
+										};
+										function saveEdits(){ 
 											$('##saveResultDiv').html('Saving....');
 											$('##saveResultDiv').addClass('text-warning');
 											$('##saveResultDiv').removeClass('text-success');
@@ -957,58 +957,8 @@ limitations under the License.
 													messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
 												}
 											});
-										});
+										};
 									</script>
-									<div class="form-row my-4">
-										<div class="col-12">
-											<div id="loanItemCountDiv"></div>
-											<script>
-												$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
-											</script>
-											<cfif loanDetails.loan_type EQ 'consumable'>
-												<h3>Disposition of material in loan:</h3>
-												<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-													from loan 
-														left join loan_item on loan.transaction_id = loan_item.transaction_id
-														left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-														left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-														left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-													where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-														and coll_obj_disposition is not null
-													group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-												</cfquery>
-												<cfif getDispositions.RecordCount EQ 0 >
-													<h4>There are no attached collection objects.</h4>
-												<cfelse>
-													<table class="table table-sm">
-														<thead class="thead-light">
-															<tr>
-																<th>Parts</th>
-																<th>Disposition</th>
-																<th>Deaccession</th>
-															</tr>
-														</thead>
-														<tbody>
-															<cfloop query="getDispositions">
-																<tr>
-																	<cfif len(trim(getDispositions.deacc_number)) GT 0>
-																		<td>#pcount#</td>
-																		<td>#coll_obj_disposition#</td>
-																		<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-																	<cfelse>
-																		<td>#pcount#</td>
-																		<td>#coll_obj_disposition#</td>
-																		<td>Not in a Deaccession</td>
-																	</cfif>
-																</tr>
-															</cfloop>
-														</tbody>
-													</table>
-												</cfif>
-											</cfif>
-										</div>
-									</div>
 								</div>
 								<div class="col-12 col-md-3">
 									<div id="project" class="p-3 mb-2 bg-light mt-4 border text-dark">
@@ -1077,12 +1027,61 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
-<!--- excess /divs after section?  --->
-<!---
-						</div>
-					</div>
---->
 					<div class="container-fluid">
+						<section name="loanItemsSection" class="row">
+							<div class="col-12 col-xl-10 offset-xl-1">
+								<div class="form-row my-1">
+									<div class="col-12">
+										<div id="loanItemCountDiv"></div>
+										<script>
+											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+										</script>
+										<cfif loanDetails.loan_type EQ 'consumable'>
+											<h3>Disposition of material in loan:</h3>
+											<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+												from loan 
+													left join loan_item on loan.transaction_id = loan_item.transaction_id
+													left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+													left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+													left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+												where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+													and coll_obj_disposition is not null
+												group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+											</cfquery>
+											<cfif getDispositions.RecordCount EQ 0 >
+												<h4>There are no attached collection objects.</h4>
+											<cfelse>
+												<table class="table table-sm">
+													<thead class="thead-light">
+														<tr>
+															<th>Parts</th>
+															<th>Disposition</th>
+															<th>Deaccession</th>
+														</tr>
+													</thead>
+													<tbody>
+														<cfloop query="getDispositions">
+															<tr>
+																<cfif len(trim(getDispositions.deacc_number)) GT 0>
+																	<td>#pcount#</td>
+																	<td>#coll_obj_disposition#</td>
+																	<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+																<cfelse>
+																	<td>#pcount#</td>
+																	<td>#coll_obj_disposition#</td>
+																	<td>Not in a Deaccession</td>
+																</cfif>
+															</tr>
+														</cfloop>
+													</tbody>
+												</table>
+											</cfif>
+										</cfif>
+									</div>
+								</div>
+							</div>
+						</section>
 						<div class="row">
 							<div class="col-12 col-xl-10 offset-xl-1">
 								<div class="form-row mb-4">
