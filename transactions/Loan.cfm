@@ -640,7 +640,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<span class="data-entry-label">Date Closed:</span>
-											<div class="col-12 col-md-3 bg-light mt-4 border">
+											<div class="col-12 bg-light border">
 												<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
 													#loanDetails.closed_date#
 												<cfelse>
@@ -655,7 +655,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<label for="entered_by" class="data-entry-label">Entered By</label>
-											<div class="col-12 col-md-3 bg-light mt-4 border">
+											<div class="col-12 bg-light border">
 												<span id="entered_by">#loanDetails.enteredby#</span>
 											</div>
 										</div>
