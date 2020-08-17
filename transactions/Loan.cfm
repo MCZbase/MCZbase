@@ -396,7 +396,7 @@ limitations under the License.
 	
 	<cfif not isdefined("transaction_id") or len(transaction_id) EQ 0>
 		<cfthrow message="Edit Loan called without a transaction_id for the loan to edit">
-	<cfif>
+	</cfif>
 	<cfoutput>
 		<script>
 			function addMediaHere(targetid,title,relationLabel,transaction_id,relationship){
