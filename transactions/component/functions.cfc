@@ -725,10 +725,23 @@ limitations under the License.
 </cffunction>
 
 
-<cfif action is "saveEdits">
 <!------------------------------------------------------->
 <cffunction name="saveLoan" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="loan_number" type="string" required="yes">
+	<cfargument name="loan_type" type="string" required="yes">
+	<cfargument name="loan_status" type="string" required="yes">
+	<cfargument name="collection_id" type="string" required="yes">
+	<cfargument name="initiating_date" type="string" required="yes">
+	<cfargument name="nature_of_material" type="string" required="yes">
+	<cfargument name="return_due_date" type="string" required="yes">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="loan_description" type="string" required="no">
+	<cfargument name="loan_instructions" type="string" required="no">
+	<cfargument name="insurance_value" type="string" required="no">
+	<cfargument name="insurance_maintained_by" type="string" required="no">
+	<cfargument name="project_id" type="string" required="no">
+	<cfargument name="numagents" type="string" required="no">
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -793,6 +806,7 @@ limitations under the License.
 						lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
 				</cfquery>
 			</cfif>
+			<!--- TODO:  Move project creation off to a separate function --->
 			<cfif isdefined("saveNewProject") and saveNewProject is "yes">
 				<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO project (
