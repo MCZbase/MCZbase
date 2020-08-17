@@ -586,7 +586,7 @@ limitations under the License.
 									<h2 class="wikilink mt-1 mb-0">
 										Edit Loan 
 										<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
-										<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
+										<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 									</h2>
 									<div class="form-row mb-1">
 										<div class="col-12 col-md-3">
