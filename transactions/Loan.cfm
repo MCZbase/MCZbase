@@ -577,8 +577,8 @@ limitations under the License.
 		<main class="container-fluid">
 			<div class="row">
 				<cftry>
-					<section title="Edit Loan" class="col-12">
-						<form name="editloan" id="editLoan" action="/transactions/Loan.cfm" method="post">
+					<section title="Edit Loan" class="col-12 border rounded">
+						<form name="editLoanForm" id="editLoan" action="/transactions/Loan.cfm" method="post">
 							<div class="row mt-3">
 								<div class="col-12 col-md-9 col-xl-7 offset-xl-1">
 									<h2 class="wikilink mt-2 mb-0">
@@ -891,22 +891,71 @@ limitations under the License.
 											});
 										</script> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<input type="button" value="Save Edits" class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##editLoan')[0])) { editLoan.action.value='saveEdits'; submit();  } ">
-											<div class="w-100 mt-4 float-right">
-												<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
-													onClick="editloan.action.value='deleLoan';confirmDelete('editloan');">
-												<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
-													onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-												<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
-													onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-												<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
-													onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-											</div>
+									<div class="form-row mb-1">
+										<div class="form-group col-12">
+											<input type="button" class="btn-xs btn-primary mr-2"
+												onClick="if (checkFormValidity($('##editLoan')[0])) { saveEdits();  } " 
+												id="submitButton" >Save</button>
+											<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
+												onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+											<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
+												onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+											<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
+												onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+											<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
+												onClick="editLoanForm.action.value='deleLoan';confirmDelete('editLoanForm');">
 										</div>
+										<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
 									</div>
+									<script>
+										function changed(){
+											$('##saveResultDiv').html('Unsaved changes.');
+											$('##saveResultDiv').addClass('text-danger');
+											$('##saveResultDiv').removeClass('text-success');
+											$('##saveResultDiv').removeClass('text-warning');
+										};
+										$(document).ready(function() {
+											// caution, text inputs must have type=text to be bound to change function.
+											$('##editLoanForm input[type=text]').on("change",changed);
+											$('##editLoanForm input[type=checkbox]').on("change",changed);
+											$('##editLoanForm select').on("change",changed);
+											$('##editLoanForm textarea').on("change",changed);
+										});
+										function saveEdits(confirmClicked=false){ 
+											$('##saveResultDiv').html('Saving....');
+											$('##saveResultDiv').addClass('text-warning');
+											$('##saveResultDiv').removeClass('text-success');
+											$('##saveResultDiv').removeClass('text-danger');
+											jQuery.ajax({
+												url : "/transactions/component/functions.cfc",
+												type : "post",
+												dataType : "json",
+												data : $('##editLoanForm').serialize(),
+												success : function (data) {
+													$('##saveResultDiv').html('Saved.');
+													$('##saveResultDiv').addClass('text-success');
+													$('##saveResultDiv').removeClass('text-danger');
+													$('##saveResultDiv').removeClass('text-warning');
+													loadTaxonName(#getTaxa.taxon_name_id#,'scientificNameAndAuthor');
+												},
+												error: function(jqXHR,textStatus,error){
+													$('##saveResultDiv').html('Error.');
+													$('##saveResultDiv').addClass('text-danger');
+													$('##saveResultDiv').removeClass('text-success');
+													$('##saveResultDiv').removeClass('text-warning');
+													var message = "";
+													if (error == 'timeout') {
+														message = ' Server took too long to respond.';
+													} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+														message = ' Backing method did not return JSON.';
+													} else {
+														message = jqXHR.responseText;
+													}
+													messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+												}
+											});
+										});
+									</script>
 									<div class="form-row my-4">
 										<div class="col-12">
 											<div id="loanItemCountDiv"></div>
