@@ -1627,7 +1627,7 @@ limitations under the License.
 			len(auth_agent_id) is 0
 		>
 			<br>
-			Something bad happened. <br>
+			One or more required fields are missing.<br>
 			You must fill in loan_type, loannumber, authorizing_agent_name, initiating_date, loan_num_prefix, received_agent_name. <br>
 			Use your browser's back button to fix the problem and try again.
 			<cfabort>
@@ -1723,9 +1723,9 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="authBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
@@ -1733,9 +1733,9 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#in_house_contact_agent_id#">,
@@ -1743,9 +1743,9 @@ limitations under the License.
 			</cfquery>
 			<cfquery name="recipient_institution" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#recipient_institution_agent_id#">,
@@ -1754,9 +1754,9 @@ limitations under the License.
 			<cfif isdefined("additional_contact_agent_id") and len(additional_contact_agent_id) gt 0>
 				<cfquery name="additional_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_contact_agent_id#">,
@@ -1766,9 +1766,9 @@ limitations under the License.
 			<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
 				<cfquery name="foruseby_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foruseby_agent_id#">,
@@ -1777,9 +1777,9 @@ limitations under the License.
 			</cfif>
 			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
-				    transaction_id,
-				    agent_id,
-				    trans_agent_role
+					transaction_id,
+					agent_id,
+					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REC_AGENT_ID#">,

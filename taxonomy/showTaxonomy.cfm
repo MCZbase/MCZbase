@@ -109,7 +109,7 @@
 			<cfif checkForHomonyms.nameCount EQ 1>
 				<cfif len(lookupNameFromID.scientific_name) gt 0>
 					<cfheader statuscode="301" statustext="Moved permanently">
-					<cfheader name="Location" value="/name/#EncodeForURL(lookupNameFromIDscientific_name)#">
+					<cfheader name="Location" value="/name/#EncodeForURL(lookupNameFromID.scientific_name)#">
 					<cfabort>
 				</cfif>
 			<cfelseif checkForHomonyms.nameCount GT 1>
