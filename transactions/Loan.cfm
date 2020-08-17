@@ -577,10 +577,10 @@ limitations under the License.
 		<main class="container-fluid">
 			<div class="row col-12">
 				<cftry>
-					<section title="Edit Loan" class="col-12">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded">
+					<section title="Edit Loan" class="col-12 col-xl-11">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded mx-auto">
 							<div class="row mt-1">
-								<div class="col-12 col-md-9 col-xl-7 offset-xl-1">
+								<div class="col-12 col-md-9">
 									<h2 class="wikilink mt-1 mb-0">
 										Edit Loan 
 										<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
@@ -590,7 +590,7 @@ limitations under the License.
 									<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 									<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 									<div class="form-row mb-1">
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label class="data-entry-label">Department</label>
 											<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
 												<cfloop query="ctcollection">
@@ -599,10 +599,55 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-6">
+										<div class="col-12 col-md-3">
 											<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 											<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
 												required  pattern="#LOANNUMBERPATTERN#"  >
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="loan_type" class="data-entry-label">Loan Type</label>
+											<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
+												<cfloop query="ctLoanType">
+													<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+															value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+													<cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif> value="" ></option>
+													</cfif>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="initiating_date" class="data-entry-label">Transaction Date</label>
+											<input type="text" name="initiating_date" id="initiating_date"
+												value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<div class="col-12 col-md-4">
+											<label for="loan_status" class="data-entry-label">Loan Status</label>
+											<span>
+												<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
+													<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
+													<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
+													<cfloop query="ctLoanStatus">
+														<cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
+															<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
+																value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
+														</cfif>
+													</cfloop>
+												</select>
+											</span>
+										</div>
+										<div class="col-12 col-md-4 bg-light mt-4 border">
+											<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
+												Date Closed: #loanDetails.closed_date#
+											</cfif>
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="return_due_date" class="data-entry-label">Due Date</label>
+											<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
+												value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 										</div>
 									</div>
 									<!--- Obtain picklist values for loan agents controls.  --->
@@ -706,53 +751,6 @@ limitations under the License.
 											<!-- end agents table ---> 
 										</div>
 									</div>
-									<div class="form-row mb-1">
-										<div class="col-12 col-md-4">
-											<label for="loan_type" class="data-entry-label">Loan Type</label>
-											<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
-												<cfloop query="ctLoanType">
-													<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
-															value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-													<cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif> value="" ></option>
-													</cfif>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="loan_status" class="data-entry-label">Loan Status</label>
-											<span>
-												<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
-													<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
-													<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
-													<cfloop query="ctLoanStatus">
-														<cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
-															<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
-																value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
-														</cfif>
-													</cfloop>
-												</select>
-											</span>
-										</div>
-										<div class="col-12 col-md-4 bg-light mt-4 border">
-											<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
-												Date Closed: #loanDetails.closed_date#
-											</cfif>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12 col-md-6">
-											<label for="initiating_date" class="data-entry-label">Transaction Date</label>
-											<input type="text" name="initiating_date" id="initiating_date"
-												value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="return_due_date" class="data-entry-label">Due Date</label>
-											<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
-												value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
-										</div>
-									</div>
 									<div class="form-row mb-1" id="insurance_section">
 										<div class="col-12 col-md-6">
 											<label for="insurance_value" class="data-entry-label">Insurance value</label>
@@ -853,7 +851,7 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
-											<textarea name="nature_of_material" id="nature_of_material" rows="2" 
+											<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 												onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 												class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 										</div>
@@ -861,7 +859,7 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
-											<textarea name="loan_description" id="loan_description" rows="2"
+											<textarea name="loan_description" id="loan_description" rows="1"
 												onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
 												class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
 										</div>
@@ -869,7 +867,7 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
-											<textarea name="loan_instructions" id="loan_instructions" rows="2" 
+											<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 												onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 												class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
 										</div>
@@ -877,9 +875,9 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="col-12">
 											<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
-											<textarea name="trans_remarks" id="trans_remarks" 
+											<textarea name="trans_remarks" id="trans_remarks" rows="1"
 												onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-												rows="2" class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
+												class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
 										</div>
 										<script>
 											// make selected textareas autogrow as text is entered.
