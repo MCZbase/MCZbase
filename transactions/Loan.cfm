@@ -1036,7 +1036,7 @@ limitations under the License.
 						</form>
 					</section>
 					<div class="row col-12 col-xl-11 mx-auto">
-						<section name="loanItemsSection" class="row">
+						<section name="loanItemsSection" class="row col-12">
 							<div class="col-12">
 								<div class="form-row my-1">
 									<div class="col-12">
@@ -1090,7 +1090,7 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-						<section name="printSection" class="row">
+						<section name="printSection" class="row col-12">
 							<div class="col-12 col-md-7">
 								<label for="redir">Print...</label>
 								<select name="redir" class="form-control-sm" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
@@ -1129,7 +1129,7 @@ limitations under the License.
 							</div>
 						</section>
 
-						<section name="mediaSection" class="form-row mb-2 mt-5">
+						<section name="mediaSection" class="row col-12">
 							<div class="col-12 col-md-12 border bg-light px-3 mt-2 py-1">
 								<h3>
 									Media documenting this Loan: <br/>
@@ -1177,7 +1177,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</section>
-						<section name="countriesOfOriginSection" class="form-row mb-2">
+						<section name="countriesOfOriginSection" class="row col-12">
 							<div class="col-12 col-md-12">
 								<h3>Countries of Origin of items in this loan</h3>
 								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1270,9 +1270,9 @@ limitations under the License.
 									<input type="hidden" name="shipment_id" value="" id="shipment_id">
 									<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 									<!--- TODO: Restyle using divs and bootstrap classes --->
-									<table>
-										<tr>
-											<td>
+									<div class="container">
+										<div class="row">
+											<div class="col-12 col-md-6">
 												<label for="shipped_carrier_method">Shipping Method</label>
 												<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
 													<option value=""></option>
@@ -1280,69 +1280,88 @@ limitations under the License.
 														<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
 													</cfloop>
 												</select>
-											</td>
-											<td colspan="2">
+											</div>
+											<div class="col-12 col-md-6">
 												<label for="carriers_tracking_number">Tracking Number</label>
 												<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
-											</td>
-										</tr>
-										<tr>
-											<td>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12 col-md-4">
 												<label for="no_of_packages">Number of Packages</label>
 												<input type="text" value="1" name="no_of_packages" id="no_of_packages">
-											</td>
-											<td>
+											</div>
+											<div class="col-12 col-md-6">
 												<label for="shipped_date">Ship Date</label>
 												<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
-											</td>
-											<td>
+											</div>
+											<div class="col-12 col-md-6">
 												<label for="foreign_shipment_fg">Foreign shipment?</label>
 												<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
 												</select>
-											</td>
-										</tr>
-										<tr>
-											<td>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12 col-md-4">
 												<label for="package_weight">Package Weight (TEXT, include units)</label>
 												<input type="text" value="" name="package_weight" id="package_weight">
-											</td>
-											<td>
+											</div>
+											<div class="col-12 col-md-4">
 												<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
 												<input type="text" validate="float" label="Numeric value required."
 													value="" name="insured_for_insured_value" id="insured_for_insured_value">
-											</td>
-											<td>
+											</div>
+											<div class="col-12 col-md-4">
 												<label for="hazmat_fg">HAZMAT?</label>
 												<select name="hazmat_fg" id="hazmat_fg" size="1">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
 												</select>
-											</td>
-										</tr>
-									</table>
-									<label for="packed_by_agent">Packed By Agent</label>
-									<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
-										onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-										onKeyPress="return noenter(event);">
-									<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
-									<label for="shipped_to_addr">Shipped To Address</label>
-									<input type="button" value="Pick Address" class="picBtn"
-										onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-									<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-										readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-									<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
-									<label for="shipped_from_addr">Shipped From Address</label>
-									<input type="button" value="Pick Address" class="picBtn"
-										onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
-									<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-										readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-									<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
-									<label for="shipment_remarks">Remarks</label>
-									<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
-									<label for="contents">Contents</label>
-									<input type="text" value="" name="contents" id="contents" size="60">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<label for="packed_by_agent">Packed By Agent</label>
+												<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
+													onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
+													onKeyPress="return noenter(event);">
+												<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<label for="shipped_to_addr">Shipped To Address</label>
+												<input type="button" value="Pick Address" class="btn btn-primary"
+													onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+												<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+												<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<label for="shipped_from_addr">Shipped From Address</label>
+												<input type="button" value="Pick Address" class="btn btn-primary"
+													onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+												<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+												<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<label for="shipment_remarks">Remarks</label>
+												<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<label for="contents">Contents</label>
+												<input type="text" value="" name="contents" id="contents" size="60">
+											</div>
+										</div>
 								</fieldset>
 							</form>
 							<div id="shipmentFormPermits"></div>
@@ -1350,7 +1369,7 @@ limitations under the License.
 						</dialog>
 						<!----  End Shipment dialog --->
 					
-						<section title="accessions" class="form-row mb-2 mt-3">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6">
 							<div class="col-12 col-md-12 border bg-light px-3">
 								<h3>Accessions of material in this loan:</h3>
 								<!--- List Accessions for collection objects included in the Loan --->
@@ -1392,7 +1411,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions" class="form-row mb-5">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6">
 							<div class="col-12 col-md-12">
 								<h3>
 									Permissions and Rights Documents: 
