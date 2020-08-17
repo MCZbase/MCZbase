@@ -577,18 +577,17 @@ limitations under the License.
 		<main class="container-fluid">
 			<div class="row col-12">
 				<cftry>
-					<section title="Edit Loan" class="col-12 col-xl-11">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded mx-auto">
+					<section title="Edit Loan" class="col-12 col-xl-11 mx-auto">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded px-1">
+							<input type="hidden" name="action" value="saveEdits">
+							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 							<div class="row mt-1">
 								<div class="col-12 col-md-9">
 									<h2 class="wikilink mt-1 mb-0">
 										Edit Loan 
+										<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 										<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
-										<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> 
 									</h2>
-									<input type="hidden" name="action" value="saveEdits">
-									<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-									<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
 									<div class="form-row mb-1">
 										<div class="col-12 col-md-3">
 											<label class="data-entry-label">Department</label>
@@ -624,7 +623,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="form-row mb-1">
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="loan_status" class="data-entry-label">Loan Status</label>
 											<span>
 												<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
@@ -639,15 +638,26 @@ limitations under the License.
 												</select>
 											</span>
 										</div>
-										<div class="col-12 col-md-4 bg-light mt-4 border">
-											<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
-												Date Closed: #loanDetails.closed_date#
-											</cfif>
+										<div class="col-12 col-md-3">
+											<span class="data-entry-label">Date Closed:</span>
+											<div class="col-12 col-md-3 bg-light mt-4 border">
+												<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
+													#loanDetails.closed_date#
+												<cfelse>
+													--
+												</cfif>
+											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-3">
 											<label for="return_due_date" class="data-entry-label">Due Date</label>
 											<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
 												value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
+										</div>
+										<div class="col-12 col-md-3">
+											<label for="entered_by" class="data-entry-label">Entered By</label>
+											<div class="col-12 col-md-3 bg-light mt-4 border">
+												<span id="entered_by">#loanDetails.enteredby#</span>
+											</div>
 										</div>
 									</div>
 									<!--- Obtain picklist values for loan agents controls.  --->
