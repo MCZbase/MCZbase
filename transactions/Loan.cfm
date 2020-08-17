@@ -1276,8 +1276,8 @@ limitations under the License.
 									<!--- TODO: Restyle using divs and bootstrap classes --->
 									<div class="container">
 										<div class="row">
-											<div class="col-12 col-md-6">
-												<label for="shipped_carrier_method">Shipping Method</label>
+											<div class="col-12 col-md-4">
+												<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 												<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
 													<option value=""></option>
 													<cfloop query="ctShip">
@@ -1285,22 +1285,22 @@ limitations under the License.
 													</cfloop>
 												</select>
 											</div>
-											<div class="col-12 col-md-6">
-												<label for="carriers_tracking_number">Tracking Number</label>
+											<div class="col-12 col-md-8">
+												<label for="carriers_tracking_number" class="data-entry-label">Tracking Number</label>
 												<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="form-control-sm" >
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-12 col-md-4">
-												<label for="no_of_packages">Number of Packages</label>
+												<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
 												<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="form-control-sm">
 											</div>
-											<div class="col-12 col-md-6">
-												<label for="shipped_date">Ship Date</label>
+											<div class="col-12 col-md-4">
+												<label for="shipped_date" class="data-entry-label">Ship Date</label>
 												<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date" class="form-control-sm">
 											</div>
-											<div class="col-12 col-md-6">
-												<label for="foreign_shipment_fg">Foreign shipment?</label>
+											<div class="col-12 col-md-4">
+												<label for="foreign_shipment_fg" class="data-entry-label">Foreign shipment?</label>
 												<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1" class="form-control-sm">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
@@ -1308,17 +1308,17 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="row">
-											<div class="col-12 col-md-4">
-												<label for="package_weight">Package Weight (TEXT, include units)</label>
+											<div class="col-12 col-md-5">
+												<label for="package_weight" class="data-entry-label">Package Weight (TEXT, include units)</label>
 												<input type="text" value="" name="package_weight" id="package_weight" class="form-control-sm">
 											</div>
-											<div class="col-12 col-md-4">
-												<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
+											<div class="col-12 col-md-5">
+												<label for="insured_for_insured_value" class="data-entry-label">Insured Value (NUMBER, US$)</label>
 												<input type="text" validate="float" label="Numeric value required."
 													value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$">
 											</div>
-											<div class="col-12 col-md-4">
-												<label for="hazmat_fg">HAZMAT?</label>
+											<div class="col-12 col-md-2">
+												<label for="hazmat_fg" class="data-entry-label">HAZMAT?</label>
 												<select name="hazmat_fg" id="hazmat_fg" size="1" class="form-control-sm">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
@@ -1327,7 +1327,7 @@ limitations under the License.
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<label for="packed_by_agent">Packed By Agent</label>
+												<label for="packed_by_agent" class="data-entry-label">Packed By Agent</label>
 												<input type="text" name="packed_by_agent" class="reqdClr form-control-sm" size="50" value="" id="packed_by_agent"
 													onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
 													onKeyPress="return noenter(event);" required>
@@ -1336,9 +1336,11 @@ limitations under the License.
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<label for="shipped_to_addr">Shipped To Address</label>
-												<input type="button" value="Pick Address" class="btn btn-primary"
-													onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+												<span class="data-entry-label">
+													<label for="shipped_to_addr">Shipped To Address</label>
+													<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
+														onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+												</span>
 												<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
 												<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
@@ -1346,9 +1348,11 @@ limitations under the License.
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<label for="shipped_from_addr">Shipped From Address</label>
-												<input type="button" value="Pick Address" class="btn btn-primary"
-													onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+												<span class="data-entry-label">
+													<label for="shipped_from_addr">Shipped From Address</label>
+													<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
+														onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+												</span>
 												<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
 												<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
@@ -1356,13 +1360,13 @@ limitations under the License.
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<label for="shipment_remarks">Remarks</label>
+												<label for="shipment_remarks" class="data-entry-label">Remarks</label>
 												<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="form-control-sm">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-12">
-												<label for="contents">Contents</label>
+												<label for="contents" class="data-entry-label">Contents</label>
 												<input type="text" value="" name="contents" id="contents" size="60" class="form-control-sm">
 											</div>
 										</div>
