@@ -578,10 +578,10 @@ limitations under the License.
 			<div class="row">
 				<cftry>
 					<section title="Edit Loan" class="col-12 border rounded">
-						<form name="editLoanForm" id="editLoan" action="/transactions/Loan.cfm" method="post">
-							<div class="row mt-3">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
+							<div class="row mt-1">
 								<div class="col-12 col-md-9 col-xl-7 offset-xl-1">
-									<h2 class="wikilink mt-2 mb-0">
+									<h2 class="wikilink mt-1 mb-0">
 										Edit Loan 
 										<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 										<span class="loanNum">#loanDetails.collection# #loanDetails.loan_number# </span> 
@@ -589,7 +589,7 @@ limitations under the License.
 									<input type="hidden" name="action" value="saveEdits">
 									<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 									<span class="small d-block mb-2">Entered by #loanDetails.enteredby#</span>
-									<div class="form-row mb-2">
+									<div class="form-row mb-1">
 										<div class="col-12 col-md-6">
 											<label class="data-entry-label">Department</label>
 											<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
@@ -619,8 +619,8 @@ limitations under the License.
 										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 									</cfquery>
 									<!--- Begin loan agents table TODO: Rework --->
-									<div class="form-row my-2">
-										<div class="col-12 table-responsive mt-2">
+									<div class="form-row my-1">
+										<div class="col-12 table-responsive mt-1">
 											<table id="loanAgents" class="table table-sm">
 												<thead class="thead-light">
 													<tr>
@@ -639,7 +639,7 @@ limitations under the License.
 													<tr>
 														<td colspan="5">
 															<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-																<span class="text-success small px-1">OK to print</span>
+																<span id="printStatus" class="text-success small px-1">OK to print</span>
 															<cfelse>
 																<span class="text-danger small px-1">
 																	One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. 
@@ -921,6 +921,9 @@ limitations under the License.
 											$('##editLoanForm select').on("change",changed);
 											$('##editLoanForm textarea').on("change",changed);
 										});
+										function updatePrintStatus() { 
+											// TODO: Implement
+										}
 										function saveEdits(confirmClicked=false){ 
 											$('##saveResultDiv').html('Saving....');
 											$('##saveResultDiv').addClass('text-warning');
@@ -936,7 +939,7 @@ limitations under the License.
 													$('##saveResultDiv').addClass('text-success');
 													$('##saveResultDiv').removeClass('text-danger');
 													$('##saveResultDiv').removeClass('text-warning');
-													loadTaxonName(#getTaxa.taxon_name_id#,'scientificNameAndAuthor');
+													updatePrintStatus();
 												},
 												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');
