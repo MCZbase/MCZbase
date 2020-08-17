@@ -583,7 +583,7 @@ limitations under the License.
 				<cftry>
 					<section title="Edit Loan" class="col-12 col-xl-11 mx-auto">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded px-1">
-							<input type="hidden" name="action" value="saveEdits">
+							<input type="hidden" name="method" value="saveLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 							<div class="row mt-1">
 								<div class="col-12 col-md-9">
@@ -595,7 +595,7 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="col-12 col-md-3">
 											<label class="data-entry-label">Department</label>
-											<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" >
+											<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" required >
 												<cfloop query="ctcollection">
 													<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 														value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -998,7 +998,7 @@ limitations under the License.
 										<!--- TODO HRs and absence of row/col classes on divs suggest styling isn't done in this section --->
 										<label for="project_id">Pick a Project to associate with this Loan</label>
 										<input type="hidden" name="project_id" class="form-control-sm">
-										<input type="text" name="pick_project_name" class="reqdClr form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
+										<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
 										<hr>
 										<label for="create_project"> Create a project from this Loan </label>
 										<div id="create_project">
@@ -1278,7 +1278,7 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12 col-md-6">
 												<label for="shipped_carrier_method">Shipping Method</label>
-												<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr">
+												<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
 													<option value=""></option>
 													<cfloop query="ctShip">
 														<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
@@ -1287,21 +1287,21 @@ limitations under the License.
 											</div>
 											<div class="col-12 col-md-6">
 												<label for="carriers_tracking_number">Tracking Number</label>
-												<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" >
+												<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="form-control-sm" >
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-12 col-md-4">
 												<label for="no_of_packages">Number of Packages</label>
-												<input type="text" value="1" name="no_of_packages" id="no_of_packages">
+												<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="form-control-sm">
 											</div>
 											<div class="col-12 col-md-6">
 												<label for="shipped_date">Ship Date</label>
-												<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date">
+												<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date" class="form-control-sm">
 											</div>
 											<div class="col-12 col-md-6">
 												<label for="foreign_shipment_fg">Foreign shipment?</label>
-												<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1">
+												<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1" class="form-control-sm">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
 												</select>
@@ -1310,16 +1310,16 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12 col-md-4">
 												<label for="package_weight">Package Weight (TEXT, include units)</label>
-												<input type="text" value="" name="package_weight" id="package_weight">
+												<input type="text" value="" name="package_weight" id="package_weight" class="form-control-sm">
 											</div>
 											<div class="col-12 col-md-4">
 												<label for="insured_for_insured_value">Insured Value (NUMBER, US$)</label>
 												<input type="text" validate="float" label="Numeric value required."
-													value="" name="insured_for_insured_value" id="insured_for_insured_value">
+													value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$">
 											</div>
 											<div class="col-12 col-md-4">
 												<label for="hazmat_fg">HAZMAT?</label>
-												<select name="hazmat_fg" id="hazmat_fg" size="1">
+												<select name="hazmat_fg" id="hazmat_fg" size="1" class="form-control-sm">
 													<option selected value="0">no</option>
 													<option value="1">yes</option>
 												</select>
@@ -1328,9 +1328,9 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12">
 												<label for="packed_by_agent">Packed By Agent</label>
-												<input type="text" name="packed_by_agent" class="reqdClr" size="50" value="" id="packed_by_agent"
+												<input type="text" name="packed_by_agent" class="reqdClr form-control-sm" size="50" value="" id="packed_by_agent"
 													onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-													onKeyPress="return noenter(event);">
+													onKeyPress="return noenter(event);" required>
 												<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
 											</div>
 										</div>
@@ -1357,13 +1357,13 @@ limitations under the License.
 										<div class="row">
 											<div class="col-12">
 												<label for="shipment_remarks">Remarks</label>
-												<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60">
+												<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="form-control-sm">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-12">
 												<label for="contents">Contents</label>
-												<input type="text" value="" name="contents" id="contents" size="60">
+												<input type="text" value="" name="contents" id="contents" size="60" class="form-control-sm">
 											</div>
 										</div>
 								</fieldset>
