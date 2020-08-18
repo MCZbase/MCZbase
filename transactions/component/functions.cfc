@@ -968,28 +968,42 @@ limitations under the License.
 					trans_agent_role,
 					agent_name
 			</cfquery>
-			<cfif transaction EQ "loan">
-				<!--- Obtain picklist values for loan agents controls.  --->
-				<cfquery name="inhouse" dbtype="query">
-					select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
-				</cfquery>
-				<cfquery name="outside" dbtype="query">
-					select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
-				</cfquery>
-				<cfquery name="authorized" dbtype="query">
-					select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
-				</cfquery>
-				<cfquery name="recipientinstitution" dbtype="query">
-					select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
-				</cfquery>
-				<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-					<cfset okToPrint = true>
-					<cfset okToPrintMessage = "">
-				<cfelse>
+			<cfswitch expression="#transaction#">
+				<cfcase value="loan">
+					<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'stewarship from agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
+					</cfquery>
+					<!--- Obtain picklist values for loan agents controls.  --->
+					<cfquery name="inhouse" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+					</cfquery>
+					<cfquery name="outside" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+					</cfquery>
+					<cfquery name="authorized" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+					</cfquery>
+					<cfquery name="recipientinstitution" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+					</cfquery>
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+					</cfif>
+				</cfcase>
+				<cfdefaultcase>
+					<!--- Obtain list of transaction agent roles --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by'
+					</cfquery>
 					<cfset okToPrint = false>
-					<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
-				</cfif>
-			</cfif>
+					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
+				</cfdefaultcase>
+			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
 				<div class="form-row my-1">
