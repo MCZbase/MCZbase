@@ -516,7 +516,7 @@ function loadAgentTable(agentsDiv,transaction_id){
 			transaction_id: transaction_id
 		},
 		success : function (data) {
-			$('#' + agentsdiv).html(data);
+			$('#' + agentsDiv).html(data);
 		},
 		error: function(jqXHR,textStatus,error){
 			$('#' + agentsDiv).html('Error loading agents.');
