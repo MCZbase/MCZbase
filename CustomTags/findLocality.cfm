@@ -59,7 +59,7 @@
 	</cfif>
 	<!--- run the query --->
 	<cfquery name="caller.localityResults" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select 
+		select
 			<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
 				distinct
 			</cfif>
@@ -105,13 +105,13 @@
 				null as collcountlocality
 			</cfif>
 		from
-			geog_auth_rec 
+			geog_auth_rec
 				left join locality on geog_auth_rec.geog_auth_rec_id = locality.geog_auth_rec_id
-				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id 
+				left join accepted_lat_long on locality.locality_id = accepted_lat_long.locality_id
 				left join preferred_agent_name coordDet on accepted_lat_long.determined_by_agent_id = coordDet.agent_id
 				left join collecting_event on locality.locality_id=collecting_event.locality_id
 				<cfif (isdefined("geology_attribute") AND len(#geology_attribute#) gt 0) OR (isdefined("geo_att_value") AND len(#geo_att_value#) gt 0)>
-					left join geology_attributes on locality.locality_id = geology_attributes.locality_id 
+					left join geology_attributes on locality.locality_id = geology_attributes.locality_id
 				</cfif>
 		where
 			geog_auth_rec.geog_auth_rec_id > -1
@@ -126,12 +126,12 @@
 			</cfif>
 			<cfif isdefined("collection_id") and len(collection_id) gt 0>
 				<cfif collnOper is "usedOnlyBy">
-					AND locality.locality_id in 
-							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> ) 
-					AND locality.locality_id not in 
-							(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					AND locality.locality_id in
+							(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
+					AND locality.locality_id not in
+							(select locality_id from vpd_collection_locality where collection_id <>  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> and collection_id <> 0 )
 				<cfelseif collnOper is "usedBy">
-					AND locality.locality_id in 
+					AND locality.locality_id in
 						(select locality_id from vpd_collection_locality where collection_id =  <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#"> )
 				<cfelseif collnOper is "notUsedBy">
 					AND locality.locality_id  not in
@@ -143,7 +143,7 @@
 			</cfif>
 			<cfif isdefined("geo_att_value") and len(#geo_att_value#) gt 0>
 				<cfif isdefined("geology_attribute_hier") and #geology_attribute_hier# is 1>
-					AND geology_attributes.geo_att_value 
+					AND geology_attributes.geo_att_value
 						IN ( SELECT attribute_value
 	 						FROM geology_attribute_hierarchy
 							START WITH upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
@@ -356,7 +356,7 @@
 				<cfelseif left(#continent_ocean#,1) is "!">
 					AND upper(continent_ocean) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(continent_ocean,len(continent_ocean)-1))#">
 				<cfelseif #continent_ocean# eq 'NULL'>
-					AND continent_ocean is NULL 
+					AND continent_ocean is NULL
 				<cfelse>
 					AND upper(continent_ocean) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(continent_ocean)#%">
 				</cfif>
@@ -418,7 +418,7 @@
 				AND ( GPSACCURACY IS NULL OR EXTENT IS NULL OR MAX_ERROR_DISTANCE = 0 or MAX_ERROR_DISTANCE IS NULL
 			</cfif>
 			<cfif isdefined("findNoAccGeoRef") and len(#findNoAccGeoRef#) gt 0>
-				AND locality.locality_id IN (select locality_id from lat_long) 
+				AND locality.locality_id IN (select locality_id from lat_long)
 				AND locality.locality_id NOT IN (select locality_id from lat_long where accepted_lat_long_fg=1)
 			</cfif>
 			<cfif isdefined("findNoGeoRef") and len(#findNoGeoRef#) gt 0>
@@ -433,8 +433,8 @@
 			<cfif isdefined("geolocate_score") and len(#geolocate_score#) gt 0>
 				<cfswitch expression="#gs_comparator#">
 					<cfcase value = "between">
-						AND accepted_lat_long.geolocate_score 
-							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#"> 
+						AND accepted_lat_long.geolocate_score
+							BETWEEN <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score#">
 							AND <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geolocate_score2#">
 					</cfcase>
 					<cfcase value = ">">
