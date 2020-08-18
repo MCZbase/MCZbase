@@ -677,9 +677,12 @@ limitations under the License.
 									<cfquery name="recipientinstitution" dbtype="query">
 										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 									</cfquery>
-									<!--- Begin loan agents table TODO: Rework --->
+									<!--- Begin loan agents table TODO: Load via ajax. --->
 									<div class="form-row my-1">
-										<div class="col-12 table-responsive mt-1">
+										<script>
+											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#));
+										</script>
+										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
 											<table id="loanAgents" class="table table-sm mb-0">
 												<thead class="thead-light">
 													<tr>
@@ -927,9 +930,6 @@ limitations under the License.
 											$('##editLoanForm select').on("change",changed);
 											$('##editLoanForm textarea').on("change",changed);
 										});
-										function updatePrintStatus() { 
-											// TODO: Implement
-										};
 										function saveEdits(){ 
 											$('##saveResultDiv').html('Saving....');
 											$('##saveResultDiv').addClass('text-warning');
@@ -945,7 +945,7 @@ limitations under the License.
 													$('##saveResultDiv').addClass('text-success');
 													$('##saveResultDiv').removeClass('text-danger');
 													$('##saveResultDiv').removeClass('text-warning');
-													updatePrintStatus();
+													loadAgentTable("agentTableContainerDiv",#transaction_id#);
 												},
 												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');

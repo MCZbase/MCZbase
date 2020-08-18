@@ -501,3 +501,35 @@ function saveShipment(transactionId) {
 	return valid;
 };
 
+/* function loadAgentTable request the html to populate a div with an editable table of agents for a 
+ * transaction.
+ * @param agentsDiv the id for the div to load the agent table into, without a leading # id selector.
+ * @param tranasaction_id the transaction_id of the transaction for which to load agents.
+ */
+function loadAgentTable(agentsDiv,transaction_id){ 
+	$('#' + agentsDiv).html("Loading....");
+	jQuery.ajax({
+		url : "/transactions/component/functions.cfc",
+		type : "post",
+		dataType : "json",
+		data : {
+			method: 'agentTableHtml',
+			transaction_id: transaction_id
+		},
+		success : function (data) {
+			$('#' + agentsdiv).html(data);
+		},
+		error: function(jqXHR,textStatus,error){
+			$('#' + agentsDiv).html('Error loading agents.');
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+				message = ' Backing method did not return JSON.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
+		}
+	});
+}
