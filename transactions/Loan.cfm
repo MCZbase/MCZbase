@@ -686,7 +686,7 @@ limitations under the License.
 														<th colspan="2"> 
 															<span>
 																Agent&nbsp;Name&nbsp;
-																<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoan');"> Add Row </button>
+																<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm');"> Add Row </button>
 															</span>
 														</th>
 														<th>Role</th>
@@ -906,7 +906,7 @@ limitations under the License.
 									<div class="form-row mb-1">
 										<div class="form-group col-12">
 											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
-												onClick="if (checkFormValidity($('##editLoan')[0])) { saveEdits();  } " 
+												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
 											<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
 												onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
@@ -1097,7 +1097,7 @@ limitations under the License.
 						<section name="printSection" class="row col-12">
 							<div class="col-12 col-md-7">
 								<label for="redir">Print...</label>
-								<select name="redir" class="form-control-sm" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+								<select name="redir" class="form-control-sm" id="redir" size="1" onchange="if(this.value.length>0){document.open(this.value,'_blank')};">
 									<option value=""></option>
 										<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
 										sort={a field name that is in the select portion of the query specified in the custom tag}, or

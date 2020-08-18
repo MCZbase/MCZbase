@@ -116,13 +116,13 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, status, error) {
-            										var message = "";      
+					var message = "";
 					if (error == 'timeout') { 
-   	            message = ' Server took too long to respond.';
-	            } else { 
-	               message = jqXHR.responseText;
-	            }
-                									messageDialog('Error:' + message ,'Error: ' + error);
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
 					$('#'+nameControl).toggleClass('reqdClr',true);
 					$('#'+nameControl).toggleClass('badPick',true);
 				}
@@ -264,12 +264,12 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 				$("#"+dialogid).dialog('close');
 			}
 		},
-      open: function (event, ui) {
-         // force the dialog to lay above any other elements in the page.
-         var maxZindex = getMaxZIndex();
-         $('.ui-dialog').css({'z-index': maxZindex + 6 });
-         $('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-      },
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
 		close: function(event,ui) {
 			$("#"+dialogid+"_div").html("");
 			$("#"+dialogid).dialog('destroy');
@@ -422,4 +422,82 @@ function addTransAgentDeacc (id,name,role) {
 		}
 	);
 }
+
+/** function setupNewShipment set up a shipment dialog to enter a new shipment 
+ * for a transaction, emptying form values and setting defaults.
+ * @param transaction_id the transaction that this shipment is for 
+ */
+function setupNewShipment(transaction_id) { 
+	$("#dialog-shipment").dialog( "option", "title", "Create New Shipment" );
+	$("#shipment_id").val("");
+	$("#transaction_id").val(transaction_id);
+	var date = new Date();
+	var datestring = date.getFullYear() + "-" + ("0"+(date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+	$("#shipped_date").val(datestring);
+	$("#contents").val("");
+	$("#no_of_packages").val("1");
+	$("#carriers_tracking_number").val("");
+	$("#package_weight").val("");
+	$("#packed_by_agent").val("");
+	$("#packed_by_agent_id").val("");
+	$("#shipment_remarks").val("");
+	$("#shipped_to_addr_id").val("");
+	$("#shipped_from_addr_id").val("");
+	$("#shipped_to_addr").val("");
+	$("#shipped_from_addr").val("");
+	$("#shipped_carrier_method").val("");
+	$("#foreign_shipment_fg option[value='1']").prop('selected',false);
+	$("#foreign_shipment_fg option[value='0']").prop('selected',true); 
+	$("#hazmat_fg option[value='1']").prop('selected',false);
+	$("#hazmat_fg option[value='0']").prop('selected',true); 
+	$("#shipmentFormPermits").html(""); 
+	$("#shipmentFormStatus").html(""); 
+	$(".ui-dialog-buttonpane button").addClass("btn btn-primary btn-sm");
+}
+
+// Given a form with id saveShipment (with form fields matching shipment fields), invoke a backing
+// function to save that shipment.
+// Assumes an element with id shipmentFormStatus exists to present feedback.
+function saveShipment(transactionId) { 
+	var valid = false;
+	// Check required fields 
+	if ($("#shipped_carrier_method").val().length==0 ||
+		$("#packed_by_agent").val().length==0 ||
+		$("#shipped_to_addr").val().length==0 ||
+		$("#shipped_from_addr").val().length==0) 
+	{ 
+		$("#shipmentFormStatus").empty().append("Error: Required field is missing a value");
+	} else { 
+		// save result
+		$('#methodSaveShipmentQF').remove();
+		$('<input id="methodSaveShipmentQF" />').attr('type', 'hidden')
+			.attr('name', "queryformat")
+			.attr('value', "column")
+			.appendTo('#shipmentForm');
+		$('#methodSaveShipmentInput').remove();
+		$('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
+			.attr('name', "method")
+			.attr('value', "saveShipment")
+			.appendTo('#shipmentForm');
+		$.ajax({
+			url : "/component/functions.cfc",
+			type : "post",
+			dataType : "json",
+			data: $("#shipmentForm").serialize(),
+			success: function (result) {
+				if (result.DATA.STATUS[0]==0) { 
+					$("#shipmentFormStatus").empty().append(result.DATA.MESSAGE[0]);
+				} else { 
+					loadShipments(transactionId);
+					valid = true;
+					$("#dialog-shipment").dialog( "close" );
+				}
+			},
+			fail: function (jqXHR,textStatus) {
+				 $("#shipmentFormStatus").empty().append("Error Submitting Form: " + textStatus);
+			}
+		});
+	}
+	return valid;
+};
 

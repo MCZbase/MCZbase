@@ -48,24 +48,24 @@ function getMCZDocs(url,anc) {
 // @return true if the provided node has checkValidity() of true or if the node lacks the checkValidity method.\
 //         false otherwise.
 // Example usage in onClick event of a button in a form: if (checkFormValidity($('#formId')[0])) { submit();  }  
-function checkFormValidity(form) {
-     var result = false;
-     if (!form.checkValidity || form.checkValidity()) {
-         result = true;
-     } else {
-         var message = "Form Input validation problem.<br><dl>";
-         for(var i=0; i < form.elements.length; i++){
-             var element = form.elements[i];
-             if (element.checkValidity() == false) {
-                 var label = $( "label[for=" + element.id + "] ").text();
-                 if (label==null || label=='') { label = element.id; }
-                 message = message + "<dt>" + label + ":</dt> <dd>" + element.validationMessage + "</dd>";
-             }
-         }
-         mmessage = message + "</dl>"
-         messageDialog(message,'Unable to Save');
-     }
-     return result;
+function checkFormValidity(form) { 
+	var result = false;
+	if (!form.checkValidity || form.checkValidity()) { 
+		result = true;
+	} else { 
+		var message = "Form Input validation problem.<br><dl>";
+		for(var i=0; i < form.elements.length; i++){
+			var element = form.elements[i];
+			if (element.checkValidity() == false) { 
+				var label = $( "label[for=" + element.id + "] ").text();
+				if (label==null || label=='') { label = element.id; }
+					message = message + "<dt>" + label + ":</dt> <dd>" + element.validationMessage + "</dd>";
+				}
+			}
+			message = message + "</dl>"
+			messageDialog(message,'Unable to Save');
+		}
+	return result;
 };
 
 /** openlinkmediadialog, create and open a dialog to find and link existing media records with a provided relationship
