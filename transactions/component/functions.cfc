@@ -937,6 +937,159 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- obtain an html block for agents for a transaction  --->
+<cffunction name="agentTableHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAgentHtmlThread">
+		<cftry>
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type
+				from trans
+				where
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfset transaction = transType.transaction_type>
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					trans_agent_id,
+					trans_agent.agent_id,
+					agent_name,
+					trans_agent_role,
+					MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
+				from
+					trans_agent,
+					preferred_agent_name
+				where
+					trans_agent.agent_id = preferred_agent_name.agent_id and
+					trans_agent_role != 'entered by' and
+					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				order by
+					trans_agent_role,
+					agent_name
+			</cfquery>
+			<cfif transaction EQ "loan">
+				<!--- Obtain picklist values for loan agents controls.  --->
+				<cfquery name="inhouse" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
+				</cfquery>
+				<cfquery name="outside" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+				</cfquery>
+				<cfquery name="authorized" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
+				</cfquery>
+				<cfquery name="recipientinstitution" dbtype="query">
+					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
+				</cfquery>
+				<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+					<cfset okToPrint = true>
+					<cfset okToPrintMessage = "">
+				<cfelse>
+					<cfset okToPrint = false>
+					<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+				</cfif>
+			</cfif>
+			<!--- TODO: Implement ok to print checks for other transaction types --->
+			<cfoutput>
+				<!--- Begin loan agents table TODO: Rework --->
+				<div class="form-row my-1">
+					<div class="col-12 table-responsive mt-1">
+						<table id="loanAgents" class="table table-sm mb-0">
+							<thead class="thead-light">
+								<tr>
+									<th colspan="2"> 
+										<span>
+											Agent&nbsp;Name&nbsp;
+											<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm');"> Add Row </button>
+										</span>
+									</th>
+									<th>Role</th>
+									<th>Delete?</th>
+									<th>Clone As</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="5">
+										<cfif okToPrint >
+											<span id="printStatus" class="text-success small px-1">OK to print</span>
+										<cfelse>
+											<span class="text-danger small px-1">#okToPrintMessage#</span>
+										</cfif>
+									</td>
+								</tr>
+								<cfset i=1>
+								<cfloop query="loanAgents">
+									<tr>
+										<td>
+											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#"><!--- Identifies row in trans_agent table --->
+											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#"><!--- human readable --->
+											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
+											<script>
+												$(document).ready(function() {
+													$(makeTransAgentPicker('trans_agent_#i#','agent_id_#i#','agentViewLink_#i#'));  // human readable picks id for link to agent
+												});
+											</script>
+										</td>
+										<td style=" min-width: 3.5em; ">
+											<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+												<cfif loanAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif loanAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</td>
+										<td>
+											<select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
+												<cfloop query="cttrans_agent_role">
+													<cfif cttrans_agent_role.trans_agent_role is loanAgents.trans_agent_role>
+														<cfset sel = 'selected="selected"'>
+													<cfelse>
+														<cfset sel = ''>
+													</cfif>
+													<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td class="text-center">
+											<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline">
+											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
+										</td>
+										<td>
+											<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="cttrans_agent_role">
+													<option value="#trans_agent_role#">#trans_agent_role#</option>
+												</cfloop>
+											</select>
+										</td>
+									</tr>
+									<cfset i=i+1>
+								</cfloop>
+								<cfset na=i-1>
+								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+							</tbody>
+						</table>
+						<!-- end agents table ---> 
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getAgentHtmlThread.output>
+</cffunction>
 
 </cfcomponent>
 

@@ -743,8 +743,8 @@ limitations under the License.
 																	</cfloop>
 																</select>
 															</td>
-															<td>
-																<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="data-entry-input">
+															<td class="text-center">
+																<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline">
 																<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
 															</td>
 															<td>
@@ -908,12 +908,6 @@ limitations under the License.
 											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
-											<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
-												onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-											<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
-												onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-											<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
-												onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 											<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
 												onClick="editLoanForm.action.value='deleLoan';confirmDelete('editLoanForm');">
 										</div>
@@ -1040,58 +1034,62 @@ limitations under the License.
 						</form>
 					</section>
 					<div class="row col-12 col-xl-11 mx-auto">
-						<section name="loanItemsSection" class="row col-12">
+						<section name="loanItemsSection" class="row col-12" title="Collection Objects in this loan">
 							<div class="col-12">
-								<div class="form-row my-1">
-									<div class="col-12">
-										<div id="loanItemCountDiv"></div>
-										<script>
-											$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
-										</script>
-										<cfif loanDetails.loan_type EQ 'consumable'>
-											<h3>Disposition of material in loan:</h3>
-											<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-												from loan 
-													left join loan_item on loan.transaction_id = loan_item.transaction_id
-													left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-													left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-													left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-												where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-													and coll_obj_disposition is not null
-												group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-											</cfquery>
-											<cfif getDispositions.RecordCount EQ 0 >
-												<h4>There are no attached collection objects.</h4>
-											<cfelse>
-												<table class="table table-sm">
-													<thead class="thead-light">
-														<tr>
-															<th>Parts</th>
-															<th>Disposition</th>
-															<th>Deaccession</th>
-														</tr>
-													</thead>
-													<tbody>
-														<cfloop query="getDispositions">
-															<tr>
-																<cfif len(trim(getDispositions.deacc_number)) GT 0>
-																	<td>#pcount#</td>
-																	<td>#coll_obj_disposition#</td>
-																	<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-																<cfelse>
-																	<td>#pcount#</td>
-																	<td>#coll_obj_disposition#</td>
-																	<td>Not in a Deaccession</td>
-																</cfif>
-															</tr>
-														</cfloop>
-													</tbody>
-												</table>
-											</cfif>
-										</cfif>
-									</div>
-								</div>
+								<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
+									onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+								<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
+									onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+								<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
+									onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+							</div>
+							<div class="col-12">
+								<div id="loanItemCountDiv"></div>
+								<script>
+									$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+								</script>
+								<cfif loanDetails.loan_type EQ 'consumable'>
+									<h3>Disposition of material in loan:</h3>
+									<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+										from loan 
+											left join loan_item on loan.transaction_id = loan_item.transaction_id
+											left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+											left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+											left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+										where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+											and coll_obj_disposition is not null
+										group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+									</cfquery>
+									<cfif getDispositions.RecordCount EQ 0 >
+										<h4>There are no attached collection objects.</h4>
+									<cfelse>
+										<table class="table table-sm">
+											<thead class="thead-light">
+												<tr>
+													<th>Parts</th>
+													<th>Disposition</th>
+													<th>Deaccession</th>
+												</tr>
+											</thead>
+											<tbody>
+												<cfloop query="getDispositions">
+													<tr>
+														<cfif len(trim(getDispositions.deacc_number)) GT 0>
+															<td>#pcount#</td>
+															<td>#coll_obj_disposition#</td>
+															<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+														<cfelse>
+															<td>#pcount#</td>
+															<td>#coll_obj_disposition#</td>
+															<td>Not in a Deaccession</td>
+														</cfif>
+													</tr>
+												</cfloop>
+											</tbody>
+										</table>
+									</cfif>
+								</cfif>
 							</div>
 						</section>
 						<section name="printSection" class="row col-12">
