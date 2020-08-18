@@ -447,6 +447,9 @@
 					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef">
 				</td>
 				<td>
+					<label for="findHasGeoRef">Has Georeferences</label>
+					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef">
+				<td>
 					<label for="findNoAccGeoRef">No Accepted Georeferences</label>
 					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef">
 				</td>
@@ -460,15 +463,13 @@
 					<label for="isIncomplete">isIncomplete</label>
 					<input type="checkbox" name="isIncomplete" id="isIncomplete">
 				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
+				<td>
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause</label>
 					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause">
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="VerificationStatus">VerificationStatus</label>
 					<select name="VerificationStatus" id="VerificationStatus" size="1">
 						<option value=""></option>
@@ -485,7 +486,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="GeorefMethod">GeorefMethod</label>
 					<select name="GeorefMethod" id="GeorefMethod" size="1" style="width: 400px;">
 						<option value=""></option>
@@ -495,8 +496,6 @@
 					</select>
 				</td>
 				<td>
-
-
 						<div style="margin-left: 2em;" class="geolocateScoreDiv">
 							<label>Geolocate Precision</label>
 							<select name="geolocate_precision" id="geolocate_precision" size="1">
@@ -510,7 +509,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="coordinateDeterminer">Coordinate Determiner</label>
 					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
 				</td>

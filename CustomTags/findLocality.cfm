@@ -424,6 +424,9 @@
 			<cfif isdefined("findNoGeoRef") and len(#findNoGeoRef#) gt 0>
 				AND locality.locality_id NOT IN (select locality_id from lat_long)
 			</cfif>
+			<cfif isdefined("findHasGeoRef") and len(#findHasGeoRef#) gt 0>
+				AND locality.locality_id IN (select locality_id from lat_long)
+			</cfif>
 			<cfif isdefined("coordinateDeterminer") and len(#coordinateDeterminer#) gt 0>
 				AND upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(coordinateDeterminer)#%">
 			</cfif>
