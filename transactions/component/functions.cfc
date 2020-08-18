@@ -726,7 +726,7 @@ limitations under the License.
 
 
 <!------------------------------------------------------->
-<cffunction name="saveLoan" access="remote">
+<cffunction name="saveLoan" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="loan_number" type="string" required="yes">
 	<cfargument name="loan_type" type="string" required="yes">
@@ -742,8 +742,9 @@ limitations under the License.
 	<cfargument name="insurance_maintained_by" type="string" required="no">
 	<cfargument name="project_id" type="string" required="no">
 	<cfargument name="numagents" type="string" required="no">
-	<cfoutput>
-		<cftransaction>
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
@@ -907,8 +908,32 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</cfloop>
-		</cftransaction>
-	</cfoutput>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#transaction_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
 
