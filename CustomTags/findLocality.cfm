@@ -145,7 +145,7 @@
 				<cfif isdefined("geology_attribute_hier") and #geology_attribute_hier# is 1>
 					AND geology_attributes.geo_att_value
 						IN ( SELECT attribute_value
-	 						FROM geology_attribute_hierarchy
+							FROM geology_attribute_hierarchy
 							START WITH upper(attribute_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(geo_att_value)#%">
 							CONNECT BY PRIOR geology_attribute_hierarchy_id = parent_id )
 				<cfelse>
