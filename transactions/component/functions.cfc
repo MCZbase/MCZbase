@@ -971,16 +971,16 @@ limitations under the License.
 			<cfif transaction EQ "loan">
 				<!--- Obtain picklist values for loan agents controls.  --->
 				<cfquery name="inhouse" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
+					select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
 				</cfquery>
 				<cfquery name="outside" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
+					select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 				</cfquery>
 				<cfquery name="authorized" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
+					select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
 				</cfquery>
 				<cfquery name="recipientinstitution" dbtype="query">
-					select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
+					select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
 				</cfquery>
 				<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
 					<cfset okToPrint = true>
@@ -992,10 +992,9 @@ limitations under the License.
 			</cfif>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<!--- Begin loan agents table TODO: Rework --->
 				<div class="form-row my-1">
 					<div class="col-12 table-responsive mt-1">
-						<table id="loanAgents" class="table table-sm mb-0">
+						<table id="transactionAgentsTable" class="table table-sm mb-0">
 							<thead class="thead-light">
 								<tr>
 									<th colspan="2"> 
@@ -1020,7 +1019,7 @@ limitations under the License.
 									</td>
 								</tr>
 								<cfset i=1>
-								<cfloop query="loanAgents">
+								<cfloop query="transAgents">
 									<tr>
 										<td>
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#"><!--- Identifies row in trans_agent table --->
@@ -1035,9 +1034,9 @@ limitations under the License.
 										</td>
 										<td style=" min-width: 3.5em; ">
 											<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
-												<cfif loanAgents.worstagentrank EQ 'A'>
+												<cfif transAgents.worstagentrank EQ 'A'>
 													&nbsp;
-												<cfelseif loanAgents.worstagentrank EQ 'F'>
+												<cfelseif transAgents.worstagentrank EQ 'F'>
 													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
 												<cfelse>
 													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
@@ -1047,7 +1046,7 @@ limitations under the License.
 										<td>
 											<select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
-													<cfif cttrans_agent_role.trans_agent_role is loanAgents.trans_agent_role>
+													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
 														<cfset sel = 'selected="selected"'>
 													<cfelse>
 														<cfset sel = ''>
