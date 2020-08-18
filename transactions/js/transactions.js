@@ -511,7 +511,6 @@ function loadAgentTable(agentsDiv,transaction_id){
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
 		type : "post",
-		dataType : "json",
 		data : {
 			method: 'agentTableHtml',
 			transaction_id: transaction_id
@@ -529,6 +528,7 @@ function loadAgentTable(agentsDiv,transaction_id){
 			} else {
 				message = jqXHR.responseText;
 			}
+			if (!error) { error = ""; } 
 			messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
 		}
 	});
