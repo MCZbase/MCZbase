@@ -94,6 +94,10 @@ limitations under the License.
 			</cfif>
 			<cfreturn />
 		</cfif>
+		<cfif isdefined("exception.errorcode") and exception.errorcode eq "403">
+			<!--- no need for stack trace on an access deinied error --->
+			<cfset showErr=0 />
+		</cfif>
 
 		<cfif showErr is 1>
 			<cfsavecontent variable="errortext">
