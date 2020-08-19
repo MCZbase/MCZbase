@@ -1036,18 +1036,24 @@ limitations under the License.
 								<cfloop query="transAgents">
 									<tr>
 										<td>
-											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#"><!--- Identifies row in trans_agent table --->
+											<!--- trans_agent_id_{i} identifies the row in trans_agent table holding this agent for this transaction in this role --->
+											<!--- trans_agent_id_{i} is not touched by makeRichTransAgentPicker or selection of an agent. --->
+											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#"><!--- human readable --->
+												<!--- trans_agent_{i} is the human readable agent --->
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
 											</div>
+											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
+												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
 												$(document).ready(function() {
-													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#));  // human readable picks id for link to agent
+													console.log('Agent Picker for: agent_id_#i#');
+													console.log('Agent id: #agent_id#');
+													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 												});
 											</script>
 										</td>

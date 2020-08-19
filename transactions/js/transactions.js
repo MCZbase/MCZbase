@@ -34,6 +34,7 @@ function makePermitPicker(valueControl, idControl) {
   * @param agent_id the agent_id of the agent to check for rank flags.
   **/
 function checkAgent(agent_id) {
+   console.log("checkAgent("+agent_id+")");
 	jQuery.ajax(
 		{
 			dataType: "json",
@@ -70,6 +71,7 @@ function checkAgent(agent_id) {
   * @param targetLinkDiv the id (without a leading # for the div the contents of which to replace with the View link.
   */
 function updateAgentLink(agent_id,targetLinkDiv) {
+   console.log("updateAgentLink("+agent_id+","+targetLinkDiv+")");
 	jQuery.ajax({
 		dataType: "json",
 		url: "/transactions/component/functions.cfc",
@@ -165,7 +167,8 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
  */
 function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewControl, agentId) { 
 	// initialize the controls for appropriate state given an agentId or not.
-	if (agentId) { 
+   console.log("makeRichTransAgentPicker() agentID="+agentId);
+	if (agentId!=null) { 
 		$('#'+idControl).val(agentId);
 		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
