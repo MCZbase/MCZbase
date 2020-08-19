@@ -1079,7 +1079,7 @@ limitations under the License.
 											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
 										</td>
 										<td>
-											<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select">
+											<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="cttrans_agent_role">
 													<option value="#trans_agent_role#">#trans_agent_role#</option>
