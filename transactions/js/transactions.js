@@ -84,6 +84,7 @@ function updateAgentLink(agent_id,targetLinkDiv) {
 		},
 		success: function (result) {
 			var rank = result.DATA.AGENTRANK[0];
+			console.log(rank);
 			if (rank=='A') {
 				$('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
 			} else {
@@ -150,7 +151,7 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 }
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker.  Intended for use to pick agents for transaction roles where agent flags may apply.
- *  Triggers updateAgentLinks on select to update agent flag in view agent link.  If a required class, turns the 
+ *  Triggers updateAgentLink on select to update agent flag in view agent link.  If a required class, turns the 
  *  nameControl class from reqdClr to goodPick.
  *  
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
@@ -456,7 +457,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
-			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr data-entry-input" size="30" value="' + name + '" >';
+			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control form-control-sm data-entry-input" size="30" value="' + name + '" >';
 			d+='</div>';
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';

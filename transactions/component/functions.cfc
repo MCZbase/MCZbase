@@ -1041,7 +1041,7 @@ limitations under the License.
 												<div class="input-group-prepend">
 													<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr form-control form-control-sm data-entry-input" value="#agent_name#"><!--- human readable --->
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#"><!--- human readable --->
 											</div>
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
