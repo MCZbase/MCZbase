@@ -126,7 +126,7 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-6 ui-widget">
+									<div class="col-12 col-md-6">
 										<span>
 											<label for="auth_agent_id">Authorized By</label>
 											<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -135,7 +135,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
+											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control form-control-sm" required >
 										</div>
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>

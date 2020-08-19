@@ -158,7 +158,7 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
  *    (without an leading # selector)
  *  @param viewControl the id, without a leading # selector of a span that is to hold a view agent link and 
  *   flags for problematic agents.
- *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, viewControl, and
  *    iconControl are initialized in a picked agent state.
  *  @see makeRichAgentPicker 
  */
@@ -168,14 +168,14 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 		$('#'+idControl).val(agentId);
 		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
-		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
-		$('#'+linkControl).attr('aria-label', 'View details for this agent');
+		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+viewControl).attr('aria-label', 'View details for this agent');
 	} else {
 		$('#'+idControl).val("");
 		$('#'+iconControl).removeClass('bg-lightgreen');
 		$('#'+iconControl).addClass('bg-light');
-		$('#'+linkControl).html("");
-		$('#'+linkControl).removeAttr('aria-label');
+		$('#'+viewControl).html("");
+		$('#'+viewControl).removeAttr('aria-label');
 	}
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
@@ -200,8 +200,8 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 					$('#'+idControl).val("");
 					$('#'+iconControl).removeClass('bg-lightgreen');
 					$('#'+iconControl).addClass('bg-light');
-					$('#'+linkControl).html("");
-					$('#'+linkControl).removeAttr('aria-label');
+					$('#'+viewControl).html("");
+					$('#'+viewControl).removeAttr('aria-label');
 				}
 			})
 		},
@@ -209,8 +209,8 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 			updateAgentLink($('#'+idControl).val(),viewControl);
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			$('#'+idControl).val(result.item.id);
-			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
-			$('#'+linkControl).attr('aria-label', 'View details for this agent');
+			$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+viewControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
 		},
@@ -221,8 +221,8 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 				$('#'+nameControl).val("");
 				$('#'+iconControl).removeClass('bg-lightgreen');
 				$('#'+iconControl).addClass('bg-light');	
-				$('#'+linkControl).html("");
-				$('#'+linkControl).removeAttr('aria-label');
+				$('#'+viewControl).html("");
+				$('#'+viewControl).removeAttr('aria-label');
 			}
 		},
 		minLength: 3
