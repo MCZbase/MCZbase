@@ -141,7 +141,7 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 				// handle a change that isn't a selection from the pick list, clear the controls.
 				$('#'+idControl).val("");
 				$('#'+nameControl).val("");
-			   $('#'+nameControl).toggleClass('reqdClr',true);
+				$('#'+nameControl).toggleClass('reqdClr',true);
 				$('#'+nameControl).toggleClass('goodPick',false);
 			}
 		},
@@ -150,7 +150,8 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 }
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker.  Intended for use to pick agents for transaction roles where agent flags may apply.
- *  Triggers updateAgentLinks on select to update agent flag in 
+ *  Triggers updateAgentLinks on select to update agent flag in view agent link.  If a required class, turns the 
+ *  nameControl class from reqdClr to goodPick.
  *  
  *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
@@ -170,12 +171,20 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 		$('#'+iconControl).removeClass('bg-light');
 		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
 		$('#'+viewControl).attr('aria-label', 'View details for this agent');
+		if ($('#'+nameControl).prop('required')) { 
+			$('#'+nameControl).toggleClass('reqdClr',false);
+			$('#'+nameControl).toggleClass('goodPick',true);
+		}
 	} else {
 		$('#'+idControl).val("");
 		$('#'+iconControl).removeClass('bg-lightgreen');
 		$('#'+iconControl).addClass('bg-light');
 		$('#'+viewControl).html("");
 		$('#'+viewControl).removeAttr('aria-label');
+		if ($('#'+nameControl).prop('required')) { 
+			$('#'+nameControl).toggleClass('reqdClr',true);
+			$('#'+nameControl).toggleClass('goodPick',false);
+		}
 	}
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
@@ -191,8 +200,8 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -202,6 +211,10 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 					$('#'+iconControl).addClass('bg-light');
 					$('#'+viewControl).html("");
 					$('#'+viewControl).removeAttr('aria-label');
+					if ($('#'+nameControl).prop('required')) { 
+						$('#'+nameControl).toggleClass('reqdClr',true);
+						$('#'+nameControl).toggleClass('goodPick',false);
+					}
 				}
 			})
 		},
@@ -212,6 +225,11 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 			$('#'+viewControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
+			if ($('#'+nameControl).prop('required')) { 
+				$('#'+nameControl).toggleClass('reqdClr',false);
+				$('#'+nameControl).toggleClass('goodPick',true);
+			}
+			// Check for a flag on this agent and update the view control accordingly
 			updateAgentLink($('#'+idControl).val(),viewControl);
 		},
 		change: function(event,ui) { 
@@ -223,6 +241,10 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 				$('#'+iconControl).addClass('bg-light');	
 				$('#'+viewControl).html("");
 				$('#'+viewControl).removeAttr('aria-label');
+				if ($('#'+nameControl).prop('required')) { 
+					$('#'+nameControl).toggleClass('reqdClr',true);
+					$('#'+nameControl).toggleClass('goodPick',false);
+				}
 			}
 		},
 		minLength: 3
