@@ -125,18 +125,22 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-6 ui-widget"> <span>
-										<label for="auth_agent_id">Authorized By</label>
-										<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6 ui-widget">
+										<span>
+											<label for="auth_agent_id">Authorized By</label>
+											<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+										</span>
 										<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>
-											$(makeTransAgentPicker('auth_agent_name','auth_agent_id','auth_agent_view'));
+											$(makeTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_view') { 
 										</script> 
 									</div>
-									<div class="col-12 col-md-6"> <span>
-										<label for="rec_agent_name">Received By:</label>
-										<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6">
+										<span>
+											<label for="rec_agent_name">Received By:</label>
+											<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+										</span>
 										<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" required >
 										<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 										<script>
@@ -145,9 +149,11 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-6"> <span>
-										<label for="in_house_contact_agent_name">In-House Contact:</label>
-										<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6">
+										<span>
+											<label for="in_house_contact_agent_name">In-House Contact:</label>
+											<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</span>
 										<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
 											class="reqdClr form-control-sm" required >
 										<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
@@ -155,9 +161,11 @@ limitations under the License.
 											$(makeTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_view'));
 										</script> 
 									</div>
-									<div class="col-12 col-md-6"> <span>
-										<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-										<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6">
+										<span>
+											<label for="additional_contact_agent_name">Additional Outside Contact:</label>
+											<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</span>
 										<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control-sm" >
 										<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
 										<script>
@@ -166,9 +174,11 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-6"> <span>
-										<label for="recipient_institution_agent_name">Recipient Institution:</label>
-										<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6"> 
+										<span>
+											<label for="recipient_institution_agent_name">Recipient Institution:</label>
+											<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</span>
 										<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
 											class="reqdClr form-control-sm" required >
 										<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
@@ -176,9 +186,11 @@ limitations under the License.
 											$(makeTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_view'));
 										</script> 
 									</div>
-									<div class="col-12 col-md-6"> <span>
-										<label for="foruseby_agent_name">For Use By:</label>
-										<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> </span>
+									<div class="col-12 col-md-6"> 
+										<span>
+											<label for="foruseby_agent_name">For Use By:</label>
+											<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</span>
 										<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control-sm" >
 										<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
 										<script>
@@ -678,95 +690,13 @@ limitations under the License.
 									<cfquery name="recipientinstitution" dbtype="query">
 										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
 									</cfquery>
-									<!--- Begin loan agents table TODO: Load via ajax. --->
+									<!--- Begin loan agents table: Load via ajax. --->
 									<div class="form-row my-1">
 										<script>
 											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#));
 										</script>
 										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
-											<table id="loanAgents" class="table table-sm mb-0">
-												<thead class="thead-light">
-													<tr>
-														<th colspan="2"> 
-															<span>
-																Agent&nbsp;Name&nbsp;
-																<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm');"> Add Row </button>
-															</span>
-														</th>
-														<th>Role</th>
-														<th>Delete?</th>
-														<th>Clone As</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td colspan="5">
-															<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
-																<span id="printStatus" class="text-success small px-1">OK to print</span>
-															<cfelse>
-																<span class="text-danger small px-1">
-																	One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. 
-																</span>
-															</cfif>
-														</td>
-													</tr>
-													<cfset i=1>
-													<cfloop query="loanAgents">
-														<tr>
-															<td>
-																<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#"><!--- Identifies row in trans_agent table --->
-																<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#"><!--- human readable --->
-																<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-																	onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
-																<script>
-																	$(document).ready(function() {
-																		$(makeTransAgentPicker('trans_agent_#i#','agent_id_#i#','agentViewLink_#i#'));  // human readable picks id for link to agent
-																	});
-																</script>
-															</td>
-															<td style=" min-width: 3.5em; ">
-																<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
-																	<cfif loanAgents.worstagentrank EQ 'A'>
-																		&nbsp;
-																	<cfelseif loanAgents.worstagentrank EQ 'F'>
-																		<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-																	<cfelse>
-																		<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-																	</cfif>
-																</span>
-															</td>
-															<td>
-																<select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
-																	<cfloop query="cttrans_agent_role">
-																		<cfif cttrans_agent_role.trans_agent_role is loanAgents.trans_agent_role>
-																			<cfset sel = 'selected="selected"'>
-																		<cfelse>
-																			<cfset sel = ''>
-																		</cfif>
-																		<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
-																	</cfloop>
-																</select>
-															</td>
-															<td class="text-center">
-																<input type="checkbox" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline">
-																<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
-															</td>
-															<td>
-																<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(#i#)" class="data-entry-select">
-																	<option value=""></option>
-																	<cfloop query="cttrans_agent_role">
-																		<option value="#trans_agent_role#">#trans_agent_role#</option>
-																	</cfloop>
-																</select>
-															</td>
-														</tr>
-														<cfset i=i+1>
-													</cfloop>
-													<cfset na=i-1>
-													<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-												</tbody>
-											</table>
-											<!-- end agents table ---> 
+											<span>Awaiting load....</span>
 										</div>
 									</div>
 									<div class="form-row mb-1" id="insurance_section">
