@@ -848,12 +848,15 @@ limitations under the License.
 											$('##saveResultDiv').removeClass('text-success');
 											$('##saveResultDiv').removeClass('text-warning');
 										};
-										$(document).ready(function() {
+										function monitorForChanges() { 
 											// caution, text inputs must have type=text to be bound to change function.
 											$('##editLoanForm input[type=text]').on("change",changed);
 											$('##editLoanForm input[type=checkbox]').on("change",changed);
 											$('##editLoanForm select').on("change",changed);
 											$('##editLoanForm textarea').on("change",changed);
+										}
+										$(document).ready(function() {
+											monitorForChanges();
 										});
 										function saveEdits(){ 
 											$('##saveResultDiv').html('Saving....');

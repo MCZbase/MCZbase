@@ -627,8 +627,11 @@ function saveShipment(transactionId) {
 	return valid;
 };
 
-/* function loadAgentTable request the html to populate a div with an editable table of agents for a 
+/** function loadAgentTable request the html to populate a div with an editable table of agents for a 
  * transaction.
+ *
+ * Assumes the presence of a monitorForChanges() function defined on the page containg the agent table.
+ *
  * @param agentsDiv the id for the div to load the agent table into, without a leading # id selector.
  * @param tranasaction_id the transaction_id of the transaction for which to load agents.
  */
@@ -643,6 +646,7 @@ function loadAgentTable(agentsDiv,transaction_id){
 		},
 		success : function (data) {
 			$('#' + agentsDiv).html(data);
+			monitorForChanges();
 		},
 		error: function(jqXHR,textStatus,error){
 			$('#' + agentsDiv).html('Error loading agents.');
