@@ -734,6 +734,7 @@ limitations under the License.
 	<cfargument name="collection_id" type="string" required="yes">
 	<cfargument name="initiating_date" type="string" required="yes">
 	<cfargument name="nature_of_material" type="string" required="yes">
+	<!--- TODO: Handle return_due_date disabled on exhibition subloans --->
 	<cfargument name="return_due_date" type="string" required="yes">
 	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="loan_description" type="string" required="no">

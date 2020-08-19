@@ -836,10 +836,10 @@ limitations under the License.
 											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
+											<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 											<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
 												onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
 										</div>
-										<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
 									</div>
 									<script>
 										function changed(){
