@@ -316,6 +316,7 @@ limitations under the License.
 									// Make all textareas with autogrow class re bound to the autogrow function on key up
 									$(document).ready(function() { 
 										$("textarea.autogrow").keyup(autogrow);  
+										$('textarea.autogrow').keyup();
 									});
 								</script>
 								<div class="form-row my-2">
@@ -597,6 +598,7 @@ limitations under the License.
 					<section title="Edit Loan" class="col-12 col-xl-11 mx-auto">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded px-1">
 							<input type="hidden" name="method" value="saveLoan">
+							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
 							<div class="row mt-1">
 								<div class="col-12 col-md-9">
@@ -677,19 +679,6 @@ limitations under the License.
 											</div>
 										</div>
 									</div>
-									<!--- Obtain picklist values for loan agents controls.  --->
-									<cfquery name="inhouse" dbtype="query">
-										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='in-house contact'
-									</cfquery>
-									<cfquery name="outside" dbtype="query">
-										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='received by'
-									</cfquery>
-									<cfquery name="authorized" dbtype="query">
-										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='authorized by'
-									</cfquery>
-									<cfquery name="recipientinstitution" dbtype="query">
-										select count(distinct(agent_id)) c from loanAgents where trans_agent_role='recipient institution'
-									</cfquery>
 									<!--- Begin loan agents table: Load via ajax. --->
 									<div class="form-row my-1">
 										<script>
@@ -733,7 +722,7 @@ limitations under the License.
 																$(function() {
 																	$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
 																		event.preventDefault();
-																		$.get( "component/functions.cfc", {
+																		$.get( "/transactions/component/functions.cfc", {
 																			transaction_id : "#loanDetails.transaction_id#",
 																			subloan_transaction_id : "#childLoans.transaction_id#" ,
 																			method : "removeSubLoan",
@@ -765,7 +754,7 @@ limitations under the License.
 													$(function() {
 														$("##button_add_subloans").click( function(event) {
 															event.preventDefault();
-															$.get( "component/functions.cfc",
+															$.get( "/transactions/component/functions.cfc",
 																{ transaction_id : "#loanDetails.transaction_id#",
 																	subloan_transaction_id : $("##possible_subloans").val() ,
 																	method : "addSubLoanToLoan",
@@ -843,7 +832,7 @@ limitations under the License.
 												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
 											<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
-												onClick="editLoanForm.action.value='deleLoan';confirmDelete('editLoanForm');">
+												onClick=" $('##action').val('editLoan'); confirmDelete('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
 										</div>
 										<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
 									</div>
