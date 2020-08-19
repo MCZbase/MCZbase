@@ -338,6 +338,31 @@ limitations under the License.
 											errors = errors + " " + element.name;
 										}
 									});
+									if (!$('##auth_agent_id').val() && $('##auth_agent_name').val()){ 
+										validated = false;
+										errorCount++;
+										errors = errors + "You must pick an authorized by agent";
+									}
+									if (!$('##rec_agent_id').val()){
+										validated = false;
+										errorCount++;
+										errors = errors + "You must pick a recieved by agent";
+									}
+									if (!$('##in_house_contact_agent_id').val()){
+										validated = false;
+										errorCount++;
+										errors = errors + "You must pick an in-house contact";
+									}
+									if (!$('##additional_contact_agent_id').val()){
+										validated = false;
+										errorCount++;
+										errors = errors + "You must pick an outside contact";
+									}
+									if (!$('##recipient_institutuion_agent_id').val()){
+										validated = false;
+										errorCount++;
+										errors = errors + "You must pick a recipient institution";
+									}
 									if (!validated) {
 										if (errorCount==1) {
 											msg = 'A required value is missing:' + errors;
