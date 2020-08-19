@@ -1421,14 +1421,26 @@ limitations under the License.
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 		</cftransaction>
-		Loan deleted.....
+		<section class="container">
+			<h1 class="h2">Loan deleted.....</h1>
+			<ul>
+				<li><a href="/Transactions.cfm?action=findLoans">Search for Loans</a>.</li>
+				<li><a href="/transactions/Loan.cfm?action=newLoan">Create a New Loan</a>.</li>
+			</ul>
+		</section>
 	<cfcatch>
-		DELETE FAILED
-		<p>You cannot delete an active loan. This loan probably has specimens or
-			other transactions attached. Use your back button.</p>
-		<p>
-			<cfdump var=#cfcatch#>
-		</p>
+		<section class="container">
+			<div class="row">
+				<div class="alert alert-danger" role="alert">
+					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+					<h1 class="h2">DELETE FAILED</h1>
+					<p>You cannot delete an active loan. This loan probably has specimens or
+						other transactions attached. Use your back button.</p>
+					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				</div>
+			</div>
+			<p><cfdump var=#cfcatch#></p>
+		</section>
 	</cfcatch>
 	</cftry>
 </cfif>
