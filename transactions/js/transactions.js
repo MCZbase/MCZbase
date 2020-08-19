@@ -206,13 +206,13 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 			})
 		},
 		select: function (event, result) {
-			updateAgentLink($('#'+idControl).val(),viewControl);
 			// Handle case of a selection from the pick list.  Indicate successfull pick.
 			$('#'+idControl).val(result.item.id);
 			$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
 			$('#'+viewControl).attr('aria-label', 'View details for this agent');
 			$('#'+iconControl).addClass('bg-lightgreen');
 			$('#'+iconControl).removeClass('bg-light');
+			updateAgentLink($('#'+idControl).val(),viewControl);
 		},
 		change: function(event,ui) { 
 			if(!ui.item){
