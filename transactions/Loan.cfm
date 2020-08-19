@@ -24,6 +24,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfif not isdefined('action') OR  action is "nothing">
+	<!--- redirect to loan search page --->
+	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 
 <cfif not isdefined("project_id")>
@@ -94,10 +99,6 @@ limitations under the License.
 		}
 	</script>
 </cfoutput>
-<!-------------------------------------------------------------------------------------------------->
-<cfif action is "nothing">
-	<cflocation url="/Transactions.cfm?type=Loan" addtoken="false">
-</cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
