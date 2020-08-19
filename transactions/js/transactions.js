@@ -630,12 +630,13 @@ function saveShipment(transactionId) {
 /** function loadAgentTable request the html to populate a div with an editable table of agents for a 
  * transaction.
  *
- * Assumes the presence of a monitorForChanges() function defined on the page containg the agent table.
+ * Assumes the presence of a change() function defined within scole containg the agent table.
  *
  * @param agentsDiv the id for the div to load the agent table into, without a leading # id selector.
  * @param tranasaction_id the transaction_id of the transaction for which to load agents.
+ * @param containingFormId the id for the form containing the agent table, without a leading # id selector.
  */
-function loadAgentTable(agentsDiv,transaction_id){ 
+function loadAgentTable(agentsDiv,transaction_id,containgFormId){ 
 	$('#' + agentsDiv).html("Loading....");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
@@ -646,7 +647,7 @@ function loadAgentTable(agentsDiv,transaction_id){
 		},
 		success : function (data) {
 			$('#' + agentsDiv).html(data);
-			monitorForChanges();
+			monitorForChanges(containingFormId,change);
 		},
 		error: function(jqXHR,textStatus,error){
 			$('#' + agentsDiv).html('Error loading agents.');
@@ -662,4 +663,16 @@ function loadAgentTable(agentsDiv,transaction_id){
 			messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
 		}
 	});
+}
+
+/** function monitorForChanges bind a change monitoring function to inputs 
+ * on a given form.  Note: text inputs must have type=text to be bound to change function.
+ * @param formId the id of the form, not including the # id selector to monitor.
+ * @param changeFunction the function to fire on change events for inputs on the form.
+ */
+function monitorForChanges(formId,changeFunction) { 
+	$('#'+formId+' input[type=text]').on("change",changeFunction);
+	$('#'+formId+' input[type=checkbox]').on("change",changeFunction);
+	$('#'+formId+' select').on("change",changeFunction);
+	$('#'+formId+' textarea').on("change",changeFunction);
 }

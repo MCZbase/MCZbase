@@ -848,15 +848,8 @@ limitations under the License.
 											$('##saveResultDiv').removeClass('text-success');
 											$('##saveResultDiv').removeClass('text-warning');
 										};
-										function monitorForChanges() { 
-											// caution, text inputs must have type=text to be bound to change function.
-											$('##editLoanForm input[type=text]').on("change",changed);
-											$('##editLoanForm input[type=checkbox]').on("change",changed);
-											$('##editLoanForm select').on("change",changed);
-											$('##editLoanForm textarea').on("change",changed);
-										}
 										$(document).ready(function() {
-											monitorForChanges();
+											monitorForChanges('editLoanForm',changed);
 										});
 										function saveEdits(){ 
 											$('##saveResultDiv').html('Saving....');
@@ -873,7 +866,7 @@ limitations under the License.
 													$('##saveResultDiv').addClass('text-success');
 													$('##saveResultDiv').removeClass('text-danger');
 													$('##saveResultDiv').removeClass('text-warning');
-													loadAgentTable("agentTableContainerDiv",#transaction_id#);
+													loadAgentTable("agentTableContainerDiv",#transaction_id#,'editLoanForm');
 												},
 												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');
