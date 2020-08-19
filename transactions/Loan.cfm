@@ -832,7 +832,7 @@ limitations under the License.
 												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
 											<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
-												onClick=" $('##action').val('editLoan'); confirmDelete('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
+												onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
 										</div>
 										<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
 									</div>
