@@ -134,7 +134,7 @@ limitations under the License.
 										<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>
-											$(makeTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_view') { 
+											$(makeTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_view'));
 										</script> 
 									</div>
 									<div class="col-12 col-md-6">
@@ -277,7 +277,7 @@ limitations under the License.
 												$("##return_due_date").datepicker('option','disabled',false);
 											}
 										});
-							 		});
+									});
 								</script>
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-10">
