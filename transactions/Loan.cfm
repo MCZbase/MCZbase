@@ -131,10 +131,15 @@ limitations under the License.
 											<label for="auth_agent_id">Authorized By</label>
 											<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
-										<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control-sm" required >
+										</div>
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>
-											$(makeTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_view'));
+											$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 										</script> 
 									</div>
 									<div class="col-12 col-md-6">
@@ -326,56 +331,6 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-							<script>
-								$("##newLoan").submit( function(event) {
-									validated = true;
-									errors = "";
-									errorCount = 0;
-									$(".reqdClr").each(function(index, element) {
-										if ($(element).val().length===0) {
-											validated = false;
-											errorCount++;
-											errors = errors + " " + element.name;
-										}
-									});
-									if (!$('##auth_agent_id').val() && $('##auth_agent_name').val()){ 
-										validated = false;
-										errorCount++;
-										errors = errors + "You must pick an authorized by agent";
-									}
-									if (!$('##rec_agent_id').val()){
-										validated = false;
-										errorCount++;
-										errors = errors + "You must pick a recieved by agent";
-									}
-									if (!$('##in_house_contact_agent_id').val()){
-										validated = false;
-										errorCount++;
-										errors = errors + "You must pick an in-house contact";
-									}
-									if (!$('##additional_contact_agent_id').val()){
-										validated = false;
-										errorCount++;
-										errors = errors + "You must pick an outside contact";
-									}
-									if (!$('##recipient_institutuion_agent_id').val()){
-										validated = false;
-										errorCount++;
-										errors = errors + "You must pick a recipient institution";
-									}
-									if (!validated) {
-										if (errorCount==1) {
-											msg = 'A required value is missing:' + errors;
-										} else {
-											msg = errorCount + ' required values are missing:' + errors;
-										}
-										var errdiv = document.createElement('div');
-										errdiv.innerHTML = msg;
-										$(errdiv).dialog({ title:"Error Creating Loan" }).dialog("open"); 
-										event.preventDefault();
-									};
-								});
-							</script> 
 						</section>
 						<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
 						<aside class="coll-sm-4 ml-sm-4" aria-labeledby="nextNumberSectionLabel"> 

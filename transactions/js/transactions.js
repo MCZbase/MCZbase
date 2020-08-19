@@ -99,7 +99,8 @@ function updateAgentLink(agent_id,targetLinkDiv) {
 	});
 };
 
-/** Compose a text field for entering a name, an id to hold the agent id, 
+/** Deprecated 
+ *Compose a text field for entering a name, an id to hold the agent id, 
  * and a control for a view agent link into an agent autocomplete picker control.
  *
  * @param nameControl the id, without a leading # selector, of the text field to hold the agent name.
@@ -108,6 +109,7 @@ function updateAgentLink(agent_id,targetLinkDiv) {
  *   flags for problematic agents.
  */
 function makeTransAgentPicker(nameControl, idControl, viewControl) { 
+	console.log('makeTransAgentPicker is deprecated, replace with makeRichTransAgentPicker');
 	$('#'+nameControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
@@ -134,9 +136,101 @@ function makeTransAgentPicker(nameControl, idControl, viewControl) {
 			$('#'+nameControl).toggleClass('reqdClr',false);
 			$('#'+nameControl).toggleClass('goodPick',true);
 		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+			   $('#'+nameControl).toggleClass('reqdClr',true);
+				$('#'+nameControl).toggleClass('goodPick',false);
+			}
+		},
 		minLength: 3
 	});
 }
+/** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
+ *  autocomplete agent picker.  Intended for use to pick agents for transaction roles where agent flags may apply.
+ *  Triggers updateAgentLinks on select to update agent flag in 
+ *  
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param iconControl the id for an input that can take a background color to indicate a successfull pick of an agent
+ *    (without an leading # selector)
+ *  @param viewControl the id, without a leading # selector of a span that is to hold a view agent link and 
+ *   flags for problematic agents.
+ *  @param agentID null, or an id for an agent, if an agentid value is provided, then the idControl, linkControl, and
+ *    iconControl are initialized in a picked agent state.
+ *  @see makeRichAgentPicker 
+ */
+function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewControl, agentId) { 
+	// initialize the controls for appropriate state given an agentId or not.
+	if (agentId) { 
+		$('#'+idControl).val(agentId);
+		$('#'+iconControl).addClass('bg-lightgreen');
+		$('#'+iconControl).removeClass('bg-light');
+		$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+linkControl).attr('aria-label', 'View details for this agent');
+	} else {
+		$('#'+idControl).val("");
+		$('#'+iconControl).removeClass('bg-lightgreen');
+		$('#'+iconControl).addClass('bg-light');
+		$('#'+linkControl).html("");
+		$('#'+linkControl).removeAttr('aria-label');
+	}
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { 
+					// return the result to the autocomplete widget, select event will fire if item is selected.
+					response(data); 
+				},
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+					$('#'+idControl).val("");
+					$('#'+iconControl).removeClass('bg-lightgreen');
+					$('#'+iconControl).addClass('bg-light');
+					$('#'+linkControl).html("");
+					$('#'+linkControl).removeAttr('aria-label');
+				}
+			})
+		},
+		select: function (event, result) {
+			updateAgentLink($('#'+idControl).val(),viewControl);
+			// Handle case of a selection from the pick list.  Indicate successfull pick.
+			$('#'+idControl).val(result.item.id);
+			$('#'+linkControl).html(" <a href='/agents/Agent.cfm?agent_id=" + result.item.id + "' target='_blank'>View</a>");
+			$('#'+linkControl).attr('aria-label', 'View details for this agent');
+			$('#'+iconControl).addClass('bg-lightgreen');
+			$('#'+iconControl).removeClass('bg-light');
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the controls.
+				$('#'+idControl).val("");
+				$('#'+nameControl).val("");
+				$('#'+iconControl).removeClass('bg-lightgreen');
+				$('#'+iconControl).addClass('bg-light');	
+				$('#'+linkControl).html("");
+				$('#'+linkControl).removeAttr('aria-label');
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup
