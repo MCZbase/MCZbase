@@ -1037,12 +1037,17 @@ limitations under the License.
 									<tr>
 										<td>
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#"><!--- Identifies row in trans_agent table --->
-											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr data-entry-input" value="#agent_name#"><!--- human readable --->
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" class="reqdClr form-control form-control-sm data-entry-input" value="#agent_name#"><!--- human readable --->
+											</div>
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); "><!--- Link to the agent record --->
 											<script>
 												$(document).ready(function() {
-													$(makeTransAgentPicker('trans_agent_#i#','agent_id_#i#','agentViewLink_#i#'));  // human readable picks id for link to agent
+													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#));  // human readable picks id for link to agent
 												});
 											</script>
 										</td>

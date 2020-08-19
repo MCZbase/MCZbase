@@ -147,10 +147,15 @@ limitations under the License.
 											<label for="rec_agent_name">Received By:</label>
 											<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
-										<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control-sm" required >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control form-control-sm" required >
+										</div>
 										<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 										<script>
-											$(makeTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_view'));
+											$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
 										</script> 
 									</div>
 								</div>
@@ -160,11 +165,16 @@ limitations under the License.
 											<label for="in_house_contact_agent_name">In-House Contact:</label>
 											<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 										</span>
-										<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
-											class="reqdClr form-control-sm" required >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
+												class="reqdClr form-control form-control-sm" required >
+										</div>
 										<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
 										<script>
-											$(makeTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_view'));
+											$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
 										</script> 
 									</div>
 									<div class="col-12 col-md-6">
@@ -172,10 +182,15 @@ limitations under the License.
 											<label for="additional_contact_agent_name">Additional Outside Contact:</label>
 											<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 										</span>
-										<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control-sm" >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="additional_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control form-control-sm" >
+										</div>
 										<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
 										<script>
-											$(makeTransAgentPicker('additional_contact_agent_name','additional_contact_agent_id','additional_contact_agent_view'));
+											$(makeRichTransAgentPicker('additional_contact_agent_name','additional_contact_agent_id','additional_contact_agent_icon','additional_contact_agent_view',null));
 										</script> 
 									</div>
 								</div>
@@ -185,11 +200,16 @@ limitations under the License.
 											<label for="recipient_institution_agent_name">Recipient Institution:</label>
 											<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 										</span>
-										<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
-											class="reqdClr form-control-sm" required >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
+												class="reqdClr form-control form-control-sm" required >
+										</div>
 										<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
 										<script>
-											$(makeTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_view'));
+											$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
 										</script> 
 									</div>
 									<div class="col-12 col-md-6"> 
@@ -197,10 +217,15 @@ limitations under the License.
 											<label for="foruseby_agent_name">For Use By:</label>
 											<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 										</span>
-										<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control-sm" >
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control form-control-sm" >
+										</div>
 										<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
 										<script>
-											$(makeTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_view'));
+											$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
 										</script> 
 									</div>
 								</div>
