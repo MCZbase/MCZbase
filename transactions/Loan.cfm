@@ -254,18 +254,17 @@ limitations under the License.
 										// on page load, bind a function to collection_id to change the list of loan types
 										// based on the selected collection
 										$("##collection_id").change( function () {
-										if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-											// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
-											if ($("##loan_type option[value='exhibition-master']").length < 1) { 
-												$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+											if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+												// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
+												if ($("##loan_type option[value='exhibition-master']").length < 1) { 
+													$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+												}
+											} else {
+												$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+												$("##insurance_section").hide();
 											}
-										} else {
-											$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-											$("##insurance_section").hide();
-										}
-									});
-									// on page load, bind a function to loan_type to hide/show the insurance section.
-									$(document).ready(function() {
+										});
+										// on page load, bind a function to loan_type to hide/show the insurance section.
 										$("##loan_type").change( function () {
 											if ($("##loan_type").val() == "exhibition-master") {
 												$("##insurance_section").show();
