@@ -128,7 +128,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
 										<span>
-											<label for="auth_agent_id">Authorized By</label>
+											<label for="auth_agent_name">Authorized By</label>
 											<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<div class="input-group">

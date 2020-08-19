@@ -84,7 +84,6 @@ function updateAgentLink(agent_id,targetLinkDiv) {
 		},
 		success: function (result) {
 			var rank = result.DATA.AGENTRANK[0];
-			console.log(rank);
 			if (rank=='A') {
 				$('#'+targetLinkDiv).html("<a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
 			} else {
@@ -634,7 +633,7 @@ function loadAgentTable(agentsDiv,transaction_id){
 	$('#' + agentsDiv).html("Loading....");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
-		type : "post",
+		type : "get",
 		data : {
 			method: 'agentTableHtml',
 			transaction_id: transaction_id
