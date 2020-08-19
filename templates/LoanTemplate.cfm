@@ -173,7 +173,6 @@
 						<button type="submit" class="btn-xs btn-primary mr-2"
 							onClick="if (checkFormValidity($('##loanTemplateForm')[0])) { saveEdits();  } " 
 							id="submitButton" >Save Edits</button>
-						<button type="submit" class="btn-xs btn-warning mr-2">Quit</button>
 						<button type="submit" class="btn-xs btn-danger mr-2">Delete Loan</button>
 					</div>
 				</div>

@@ -320,8 +320,8 @@ limitations under the License.
 									});
 								</script>
 								<div class="form-row my-2">
-									<div class="ml-auto">
-										<input type="button" value="Create Loan" class="insBtn"
+									<div class="form-group col-12">
+										<input type="button" value="Create Loan" class="btn btn-sm btn-primary"
 											onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 									</div>
 								</div>
@@ -831,7 +831,7 @@ limitations under the License.
 											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
 												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 												id="submitButton" >
-											<input type="button" value="Delete Loan" class="btn btn-xs btn-warning float-right"
+											<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
 												onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
 										</div>
 										<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
