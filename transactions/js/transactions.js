@@ -490,7 +490,19 @@ function addTransAgentToForm (id,name,role,formid) {
 			$('#numAgents').val(i);
 			jQuery('#transactionAgentsTable tr:last').after(d);
 		}
-	);
+	).error(error: function(jqXHR,textStatus,error){
+		$('#' + agentsDiv).html('Error loading agents.');
+		var message = "";
+		if (error == 'timeout') {
+			message = ' Server took too long to respond.';
+		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+			message = ' Backing method did not return JSON.';
+		} else {
+			message = jqXHR.responseText;
+		}
+		if (!error) { error = ""; } 
+		messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
+	});
 }
 
 function cloneTransAgentDeacc(i){
