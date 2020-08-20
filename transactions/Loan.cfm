@@ -605,6 +605,15 @@ limitations under the License.
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
+							<!--- function change: action to take when an input has its value changed, binding to inputs below and on load of agent inputs in table --->
+							<script>
+								function changed(){
+									$('##saveResultDiv').html('Unsaved changes.');
+									$('##saveResultDiv').addClass('text-danger');
+									$('##saveResultDiv').removeClass('text-success');
+									$('##saveResultDiv').removeClass('text-warning');
+								};
+							</script>
 							<div class="row mt-1">
 								<div class="col-12 col-md-9">
 									<h2 class="wikilink mt-1 mb-0">
@@ -842,12 +851,6 @@ limitations under the License.
 										</div>
 									</div>
 									<script>
-										function changed(){
-											$('##saveResultDiv').html('Unsaved changes.');
-											$('##saveResultDiv').addClass('text-danger');
-											$('##saveResultDiv').removeClass('text-success');
-											$('##saveResultDiv').removeClass('text-warning');
-										};
 										$(document).ready(function() {
 											monitorForChanges('editLoanForm',changed);
 										});
