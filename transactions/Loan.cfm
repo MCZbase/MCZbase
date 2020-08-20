@@ -605,9 +605,9 @@ limitations under the License.
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
-							<!--- function change: action to take when an input has its value changed, binding to inputs below and on load of agent inputs in table --->
+							<!--- function handleChange: action to take when an input has its value changed, binding to inputs below and on load of agent inputs in table --->
 							<script>
-								function changed(){
+								function handleChange(){
 									$('##saveResultDiv').html('Unsaved changes.');
 									$('##saveResultDiv').addClass('text-danger');
 									$('##saveResultDiv').removeClass('text-success');
@@ -696,7 +696,7 @@ limitations under the License.
 									<!--- Begin loan agents table: Load via ajax. --->
 									<div class="form-row my-1">
 										<script>
-											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",change));
+											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 										</script>
 										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
 											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
@@ -852,7 +852,7 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											monitorForChanges('editLoanForm',changed);
+											monitorForChanges('editLoanForm',handleChange);
 										});
 										function saveEdits(){ 
 											$('##saveResultDiv').html('Saving....');
@@ -869,7 +869,7 @@ limitations under the License.
 													$('##saveResultDiv').addClass('text-success');
 													$('##saveResultDiv').removeClass('text-danger');
 													$('##saveResultDiv').removeClass('text-warning');
-													loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",change);
+													loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
 												},
 												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');
