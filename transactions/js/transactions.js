@@ -658,7 +658,7 @@ function saveShipment(transactionId) {
  * @param tranasaction_id the transaction_id of the transaction for which to load agents.
  * @param containingFormId the id for the form containing the agent table, without a leading # id selector.
  */
-function loadAgentTable(agentsDiv,transaction_id,containgFormId){ 
+function loadAgentTable(agentsDiv,transaction_id,containingFormId){ 
 	$('#' + agentsDiv).html("Loading....");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
