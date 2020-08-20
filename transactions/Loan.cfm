@@ -704,6 +704,7 @@ limitations under the License.
 										<script>
 											$(document).ready(function() { 
 												$('##agentTableContainerDiv').on('domChanged',function() {
+													console.log("dom Cchange within agentTableContainerDiv");
 													monitorForChanges('editLoanForm',handleChange);
 												});
 											});
