@@ -702,11 +702,11 @@ limitations under the License.
 											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
 										</div>
 										<script>
-											$(document).ready(
+											$(document).ready(function() { 
 												$('##agentTableContainerDiv').on('domChanged',function() {
 													monitorForChanges('editLoanForm',handleChange);
 												});
-											);
+											});
 										</script>
 									</div>
 									<div class="form-row mb-1" id="insurance_section">
