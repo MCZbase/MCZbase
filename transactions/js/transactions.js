@@ -490,7 +490,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			$('#numAgents').val(i);
 			jQuery('#transactionAgentsTable tr:last').after(d);
 		}
-	).error(error: function(jqXHR,textStatus,error){
+	).error(function(jqXHR,textStatus,error){
 		$('#' + agentsDiv).html('Error loading agents.');
 		var message = "";
 		if (error == 'timeout') {
