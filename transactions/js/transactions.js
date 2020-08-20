@@ -728,8 +728,8 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			stack: true,
 			height: h,
 			width: w,
-			minWidth: 400,
-			minHeight: 450,
+			minWidth: 200,
+			minHeight: 300,
 			draggable:true,
 			buttons: {
 				"Close Dialog": function() {
