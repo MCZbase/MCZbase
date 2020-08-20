@@ -490,8 +490,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			$('#numAgents').val(i);
 			jQuery('#transactionAgentsTable tr:last').after(d);
 		}
-	).error(function(jqXHR,textStatus,error){
-		$('#' + agentsDiv).html('Error loading agents.');
+	).fail(function(jqXHR,textStatus,error){
 		var message = "";
 		if (error == 'timeout') {
 			message = ' Server took too long to respond.';
@@ -501,7 +500,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			message = jqXHR.responseText;
 		}
 		if (!error) { error = ""; } 
-		messageDialog('Error retrieving agents for transaction record: '+message, 'Error: '+error.substring(0,50));
+		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
 }
 
@@ -558,7 +557,18 @@ function addTransAgentDeacc (id,name,role) {
   			document.getElementById('numAgents').value=i;
   			jQuery('#deaccAgents tr:last').after(d);
 		}
-	);
+	).fail(function(jqXHR,textStatus,error){
+		var message = "";
+		if (error == 'timeout') {
+			message = ' Server took too long to respond.';
+		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+			message = ' Backing method did not return JSON.';
+		} else {
+			message = jqXHR.responseText;
+		}
+		if (!error) { error = ""; } 
+		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
+	});
 }
 
 /** function setupNewShipment set up a shipment dialog to enter a new shipment 

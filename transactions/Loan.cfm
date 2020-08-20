@@ -690,7 +690,7 @@ limitations under the License.
 											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#));
 										</script>
 										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
-											<span>Awaiting load....</span>
+											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
 										</div>
 									</div>
 									<div class="form-row mb-1" id="insurance_section">
