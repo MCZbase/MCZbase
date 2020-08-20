@@ -687,7 +687,7 @@ limitations under the License.
 									<!--- Begin loan agents table: Load via ajax. --->
 									<div class="form-row my-1">
 										<script>
-											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#));
+											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",change));
 										</script>
 										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
 											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
@@ -866,7 +866,7 @@ limitations under the License.
 													$('##saveResultDiv').addClass('text-success');
 													$('##saveResultDiv').removeClass('text-danger');
 													$('##saveResultDiv').removeClass('text-warning');
-													loadAgentTable("agentTableContainerDiv",#transaction_id#,'editLoanForm');
+													loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",change);
 												},
 												error: function(jqXHR,textStatus,error){
 													$('##saveResultDiv').html('Error.');

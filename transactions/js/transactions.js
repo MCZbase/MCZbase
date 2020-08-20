@@ -657,8 +657,9 @@ function saveShipment(transactionId) {
  * @param agentsDiv the id for the div to load the agent table into, without a leading # id selector.
  * @param tranasaction_id the transaction_id of the transaction for which to load agents.
  * @param containingFormId the id for the form containing the agent table, without a leading # id selector.
+ * @param changeHandler callback function to pass to monitorForChanges to be called when input values change.
  */
-function loadAgentTable(agentsDiv,transaction_id,containingFormId){ 
+function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler){ 
 	$('#' + agentsDiv).html("Loading....");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
@@ -669,7 +670,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId){
 		},
 		success : function (data) {
 			$('#' + agentsDiv).html(data);
-			monitorForChanges(containingFormId,change);
+			monitorForChanges(containingFormId,changeHandler);
 		},
 		error: function(jqXHR,textStatus,error){
 			$('#' + agentsDiv).html('Error loading agents.');
