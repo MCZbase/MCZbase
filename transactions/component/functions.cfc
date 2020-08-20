@@ -1075,7 +1075,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfthread action="join" name="getLoanPrintHtmlThread">
 	<cfreturn getLoanPrintHtmlThread.output>
 </cffunction>
 
