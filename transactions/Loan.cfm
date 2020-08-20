@@ -698,9 +698,16 @@ limitations under the License.
 										<script>
 											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 										</script>
-										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
+										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv" >
 											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
 										</div>
+										<script>
+											$(document).ready(
+												$('##agentTableContainerDiv').on('domChanged',function() {
+													monitorForChanges('editLoanForm',handleChange);
+												});
+											);
+										</script>
 									</div>
 									<div class="form-row mb-1" id="insurance_section">
 										<div class="col-12 col-md-6">
