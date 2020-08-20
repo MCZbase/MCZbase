@@ -938,6 +938,147 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="okToPrintLoan" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_id, trans_agent_role
+			from trans_agent
+			where
+				trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfquery name="inhouse" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+		</cfquery>
+		<cfquery name="outside" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+		</cfquery>
+		<cfquery name="authorized" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+		</cfquery>
+		<cfquery name="recipientinstitution" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+		</cfquery>
+		<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+			<cfset okToPrint = true>
+			<cfset okToPrintMessage = "">
+		<cfelse>
+			<cfset okToPrint = false>
+			<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+		</cfif>
+		<cfset row = StructNew()>
+		<cfset row["okToPrint"] = "#okToPrint#">
+		<cfset row["message"] = "#okToPrintMessage#">
+		<cfset row["id"] = "#transaction_id#">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+		
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- obtain an html block to populate a print list dialog for a loan --->
+<cffunction name="getLoanPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getLoanPrintHtmlThread">
+		<cftry>
+			<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select loan_type 
+				from loan
+				where
+					loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select agent_id, trans_agent_role
+				from trans_agent
+				where
+					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="inhouse" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+			</cfquery>
+			<cfquery name="outside" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+			</cfquery>
+			<cfquery name="authorized" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+			</cfquery>
+			<cfquery name="recipientinstitution" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+			</cfquery>
+			<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+				<cfset okToprint = true>
+			<cfelse>
+				<cfset okToprint = false>
+			</cfif>
+	
+			<cfoutput>
+				<h2 class="h2">Print Loan Paperwork</h2> 
+				<ul>
+					<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+					sort={a field name that is in the select portion of the query specified in the custom tag}, or
+					sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+					--->
+					<cfif okToPrint  >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header" target="_blank">MCZ Invoice Header</a></li>
+					</cfif>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header" target="_blank">Header Copy for MCZ Files</a></li>
+					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header" target="_blank">MCZ Exhibition Loan Header</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus" target="_blank">MCZ Exhibition Loan Header Long</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy" target="_blank">MCZ Legacy Invoice Header</a></li>
+					</cfif>
+					<cfif okToPrint >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num" target="_blank">MCZ Item Invoice</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int" target="_blank">MCZ Item Invoice (cat num sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name" target="_blank">MCZ Item Invoice (taxon sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num" target="_blank">MCZ Item Parts Grouped Invoice</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int" target="_blank">MCZ Item Parts Grouped Invoice (cat num sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name" target="_blank">MCZ Item Parts Grouped Invoice (taxon sort)</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary" target="_blank">MCZ Loan Summary Report</a></li>
+					</cfif>
+					<li><a href="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
+					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getLoanPrintHtmlThread.output>
+</cffunction>
+
 <!--- obtain an html block for agents for a transaction  --->
 <cffunction name="agentTableHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">

@@ -699,3 +699,77 @@ function monitorForChanges(formId,changeFunction) {
 	$('#'+formId+' select').on("change",changeFunction);
 	$('#'+formId+' textarea').on("change",changeFunction);
 }
+
+/** Create a dialog for printing transaction paperwork. 
+  * 
+  * @param transaction_id the transaction for which to print the paperwork
+  * @param transaction_type the type of transaction (loan, accession, deaccession, borrow)
+  * @param dialogid the id of the div that is to contain the dialog, without a leading # selector.
+  */
+function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) { 
+	var title = "Print " + transaction_type + " paperwork.";
+	var method = "";
+	if (transaction_type == "Loan") { 
+		method = "getLoanPrintListDialogContent";
+	}
+	if (method=="") { 
+		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
+	} else { 
+		var content = '<div id="'+dialogid+'_div">Loading....</div>';
+		var h = $(window).height();
+		var w = $(window).width();
+		w = Math.floor(w *.9);
+		var thedialog = $("#"+dialogid).html(content)
+		.dialog({
+			title: title,
+			autoOpen: false,
+			dialogClass: 'dialog_fixed,ui-widget-header',
+			modal: true,
+			stack: true,
+			height: h,
+			width: w,
+			minWidth: 400,
+			minHeight: 450,
+			draggable:true,
+			buttons: {
+				"Close Dialog": function() {
+					$("#"+dialogid).dialog('close');
+				}
+			},
+			open: function (event, ui) {
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			},
+			close: function(event,ui) {
+				$("#"+dialogid+"_div").html("");
+				$("#"+dialogid).dialog('destroy');
+			}
+		});
+		thedialog.dialog('open');
+		jQuery.ajax({
+			url: "/transactions/component/functions.cfc",
+			type: "get",
+			data: {
+				method: method,
+				returnformat: "plain",
+				valuecontrol: valueControl,
+				idcontrol: idControl,
+				dialog: dialogid
+			},
+			success: function(data) {
+				$("#"+dialogid+"_div").html(data);
+			},
+			error: function (jqXHR, status, error) {
+				var message = "";
+				if (error == 'timeout') { 
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+			}
+		});
+	}
+}
