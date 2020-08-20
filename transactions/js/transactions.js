@@ -754,9 +754,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			data: {
 				method: method,
 				returnformat: "plain",
-				valuecontrol: valueControl,
-				idcontrol: idControl,
-				dialog: dialogid
+				transaction_id: transaction_id
 			},
 			success: function(data) {
 				$("#"+dialogid+"_div").html(data);
