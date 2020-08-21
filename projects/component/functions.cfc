@@ -33,7 +33,7 @@ limitations under the License.
 				to_char(end_date,'YYYY-MM-DD') as end_date
 			from project 
 			where 
-				upper(project_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+				upper(project_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			order by project_name
 		</cfquery>
 		<cfset rows = search_result.recordcount>
