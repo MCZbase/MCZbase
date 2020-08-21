@@ -818,9 +818,6 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) { 
 	var title = "Link existing Project.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
-	var h = $(window).height();
-	var w = $(window).width();
-	w = Math.floor(w *.9);
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -828,10 +825,8 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		height: "auto",
-		width: "auto",
-		minWidth: 200,
-		minHeight: 300,
+		minWidth: 500,
+		minHeight: 200,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
@@ -886,9 +881,6 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
 function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) { 
 	var title = "Create and Link New Project.";
 	var content = '<div id="'+dialogId+'_div">Loading....</div>';
-	var h = $(window).height();
-	var w = $(window).width();
-	w = Math.floor(w *.9);
 	var thedialog = $("#"+dialogId).html(content)
 	.dialog({
 		title: title,
@@ -896,10 +888,8 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		height: "auto",
-		width: "auto",
-		minWidth: 400,
-		minHeight: 300,
+		minWidth: 550,
+		minHeight: 450,
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
