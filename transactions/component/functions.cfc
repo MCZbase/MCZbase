@@ -1366,7 +1366,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<form id="project_picker_form">
-					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
 					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control-sm" >
 					<script>
