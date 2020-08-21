@@ -807,6 +807,40 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	}
 }
 
+/** Make a paired hidden project_id and text project_name control into an autocomplete project picker
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected project_id (without a leading # selector).
+ */
+function makeProjectPicker(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/projects/component/functions.cfc",
+				data: { term: request.term, method: 'getProjectAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched project_name * (date_range)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /* function openTransProjectLinkDialog create a dialog using an existing div to link projects to a transaction. 
  * 
  * @param transaction_id the id of the transaction to link selected projects to.

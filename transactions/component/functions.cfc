@@ -1,5 +1,5 @@
 <!---
-specimens/component/functions.cfc
+/transactions/component/functions.cfc
 
 Copyright 2020 President and Fellows of Harvard College
 
@@ -1365,11 +1365,21 @@ limitations under the License.
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<label for="project_id">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
-				<input type="hidden" name="project_id" class="form-control-sm">
-				<!--- TODO: Project autocomplete --->
-				<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
-
+				<form id="project_picker_form">
+					<label for="pick_project_id">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+					<input type="hidden" name="project_id" class="form-control-sm">
+					<input type="text" name="pick_project_name" class="form-control-sm" >
+					<script>
+						$(document).ready( makeProjectPicker('pick_project_name','project_id') );
+						function saveProjectLink() {
+							var id = $('##pick_project_id').val();
+							if (id) { 
+								$('##project_picker_form').html('Save not implemented yet.');
+							}
+						};
+					</script>
+					<button type="button" class="btn btn-primary" onClick="saveProjectLink();">Save</button>
+				</form>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
