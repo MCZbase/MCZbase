@@ -1305,7 +1305,7 @@ limitations under the License.
 						<div class="col-12">
 							<h3>
 								Projects associated with this loan: 
-								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
+								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
 							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_name, project.project_id from project,
@@ -1323,6 +1323,14 @@ limitations under the License.
 									<li class="list-group-item">None</li>
 								</cfif>
 							</ul>
+							<div class="col-12">
+								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
+										class="btn btn-sm btn-secondary" value="Link to Project"
+										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Link To Project</button>
+								<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
+										class="btn btn-sm btn-secondary" value="New Project"
+										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">New Project</button>
+							</div>
 						</div>
 					</section>
 				<cfcatch>
