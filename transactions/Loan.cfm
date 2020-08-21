@@ -601,7 +601,7 @@ limitations under the License.
 			<div class="col-12 col-xl-11 mx-auto">
 				<cftry>
 					<section title="Edit Loan" class="row col-12 border rounded">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
@@ -806,15 +806,13 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<div class="col-12">
+								<div class="col-12 col-lg-6">
 									<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 									<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 										onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 										class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 								</div>
-							</div>
-							<div class="form-row mb-1">
-								<div class="col-12">
+								<div class="col-12 col-lg-6">
 									<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 									<textarea name="loan_description" id="loan_description" rows="1"
 										onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
@@ -822,30 +820,28 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<div class="col-12">
+								<div class="col-12 col-lg-6">
 									<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 									<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 										onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 										class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
 								</div>
-							</div>
-							<div class="form-row mb-1">
-								<div class="col-12">
+								<div class="col-12 col-lg-6">
 									<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 									<textarea name="trans_remarks" id="trans_remarks" rows="1"
 										onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 										class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
 								</div>
-								<script>
-									// make selected textareas autogrow as text is entered.
-									$(document).ready(function() {
-										// bind the autogrow function to the keyup event
-										$('textarea.autogrow').keyup(autogrow);
-										// trigger keyup event to size textareas to existing text
-										$('textarea.autogrow').keyup();
-									});
-								</script> 
 							</div>
+							<script>
+								// make selected textareas autogrow as text is entered.
+								$(document).ready(function() {
+									// bind the autogrow function to the keyup event
+									$('textarea.autogrow').keyup(autogrow);
+									// trigger keyup event to size textareas to existing text
+									$('textarea.autogrow').keyup();
+								});
+							</script> 
 							<div class="form-row mb-1">
 								<div class="form-group col-12">
 									<input type="button" value="Save" class="btn-xs btn-primary mr-2"
@@ -1010,7 +1006,7 @@ limitations under the License.
 						</div> 
 					</section>
 					<section name="countriesOfOriginSection" class="row col-12 border rounded">
-						<div class="col-12 col-md-12">
+						<div class="col-12">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(*) as ct, sovereign_nation 
@@ -1034,6 +1030,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section name="shipmentSection" class="row col-12 border rounded">
+						<div class="col-12">
 							<h3>Shipment Information:</h3>
 							<script>
 								function opendialog(page,id,title) {
@@ -1090,6 +1087,7 @@ limitations under the License.
 								<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 								<div class="shipmentnote float-left mb-4">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 							</div>
+						</div>
 					</section>
 				
 					<!----  Shipment Popup Dialog autoOpen is false --->
@@ -1304,26 +1302,28 @@ limitations under the License.
 						</section>
 					</div>
 					<section title="Projects" class="row col-12 border rounded bg-light">
-						<h3>
-							Projects associated with this loan: 
-							<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
-						</h3>
-						<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select project_name, project.project_id from project,
-								project_trans 
-							where
-								project_trans.project_id =  project.project_id
-								and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-						</cfquery>
-						<ul class="list-group">
-							<cfif projs.recordcount gt 0>
-								<cfloop query="projs">
-									<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
-								</cfloop>
-							<cfelse>
-								<li class="list-group-item">None</li>
-							</cfif>
-						</ul>
+						<div class="col-12">
+							<h3>
+								Projects associated with this loan: 
+								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
+							</h3>
+							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select project_name, project.project_id from project,
+									project_trans 
+								where
+									project_trans.project_id =  project.project_id
+									and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+							</cfquery>
+							<ul class="list-group">
+								<cfif projs.recordcount gt 0>
+									<cfloop query="projs">
+										<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+									</cfloop>
+								<cfelse>
+									<li class="list-group-item">None</li>
+								</cfif>
+							</ul>
+						</div>
 					</section>
 				<cfcatch>
 					<h2>Error: #cfcatch.message#</h2>
