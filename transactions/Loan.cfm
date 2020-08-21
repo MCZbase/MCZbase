@@ -940,8 +940,10 @@ limitations under the License.
 									group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
 								</cfquery>
 								<cfif getDispositions.RecordCount EQ 0 >
+									<cfset hasCollectionObjects = false>
 									<h4>There are no attached collection objects.</h4>
 								<cfelse>
+									<cfset hasCollectionObjects = true>
 									<table class="table table-sm">
 										<thead class="thead-light">
 											<tr>
@@ -1019,7 +1021,7 @@ limitations under the License.
 							</script>
 						</div> 
 					</section>
-					<cfif getDispositions.RecordCount GT 0 >
+					<cfif hasCollectionObjects >
 						<!--- only display the countries of origin section if there is material in the loan --->
 						<section name="countriesOfOriginSection" class="row col-12 border rounded">
 							<div class="col-12">
