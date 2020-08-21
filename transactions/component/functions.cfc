@@ -1304,5 +1304,61 @@ limitations under the License.
         <cfreturn childLoans>
 </cffunction>
 
+<cffunction name="getAddPermitDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getPermitDialogThread">
+		<cfoutput>
+			<!--- TODO: Lookup the transaction, figure out type --->
+			<!--- TODO: Rework as two dialogs, one permit picking, one create permit --->
+										<label for="project_id">Pick a Project to associate with </label>
+										<input type="hidden" name="project_id" class="form-control-sm">
+										<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
+										<hr>
+										<label for="create_project"> Create a project from  </label>
+										<div id="create_project">
+											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
+											<input type="text" name="newAgent_name" id="newAgent_name"
+												class="reqdClr form-control-sm"
+												onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
+												onKeyPress="return noenter(event);"
+												value="">
+											<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
+											<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select project_agent_role from ctproject_agent_role order by project_agent_role
+											</cfquery>
+											<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
+											<select name="project_agent_role" size="1" class="reqdClr form-control-sm">
+												<cfloop query="ctProjAgRole">
+													<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
+												</cfloop>
+											</select>
+											<label for="project_name" class="data-entry-label">Project Title</label>
+											<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
+											<label for="start_date" class="data-entry-label">Project Start Date</label>
+											<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
+											<label for="end_date" class="data-entry-label">Project End Date</label>
+											<input type="text" name="end_date" class="form-control-sm">
+											<label for="project_description" class="data-entry-label">Project Description</label>
+											<textarea name="project_description" class="form-control autogrow"
+														id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
+											<label for="project_remarks" class="data-entry-label">Project Remark</label>
+											<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" name="saveNewProject"  value="yes" class="form-check-input" id="saveNewProject">
+											<label class="form-check-label" for="saveNewProject">Check to create project with save</label>
+										</div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitDialogThread" />
+	<cfreturn getPermitDialogThread.output>
 </cfcomponent>
 
