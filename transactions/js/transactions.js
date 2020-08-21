@@ -817,62 +817,61 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
  */
 function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) { 
 	var title = "Link existing Project.";
-		var content = '<div id="'+dialogId+'_div">Loading....</div>';
-		var h = $(window).height();
-		var w = $(window).width();
-		w = Math.floor(w *.9);
-		var thedialog = $("#"+dialogId).html(content)
-		.dialog({
-			title: title,
-			autoOpen: false,
-			dialogClass: 'dialog_fixed,ui-widget-header',
-			modal: true,
-			stack: true,
-			height: "auto",
-			width: "auto",
-			minWidth: 200,
-			minHeight: 300,
-			draggable:true,
-			buttons: {
-				"Close Dialog": function() {
-					$("#"+dialogId).dialog('close');
-					loadProjects(projectsDivId,transaction_id); 
-				}
-			},
-			open: function (event, ui) {
-				// force the dialog to lay above any other elements in the page.
-				var maxZindex = getMaxZIndex();
-				$('.ui-dialog').css({'z-index': maxZindex + 6 });
-				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			},
-			close: function(event,ui) {
-				$("#"+dialogId+"_div").html("");
-				$("#"+dialogId).dialog('destroy');
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: "auto",
+		width: "auto",
+		minWidth: 200,
+		minHeight: 300,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+				loadProjects(projectsDivId,transaction_id); 
 			}
-		});
-		thedialog.dialog('open');
-		jQuery.ajax({
-			url: "/transactions/component/functions.cfc",
-			type: "get",
-			data: {
-				method: 'getLinkProjectDialogHtml',
-				returnformat: "plain",
-				transaction_id: transaction_id
-			},
-			success: function(data) {
-				$("#"+dialogId+"_div").html(data);
-			},
-			error: function (jqXHR, status, error) {
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "get",
+		data: {
+			method: 'getLinkProjectDialogHtml',
+			returnformat: "plain",
+			transaction_id: transaction_id
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
 			}
-		});
-	}
+			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		}
+	});
 }
 
 /* function openTransProjectCreateDialog create a dialog using an existing div to create
@@ -886,62 +885,61 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
  */
 function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) { 
 	var title = "Create and Link New Project.";
-		var content = '<div id="'+dialogId+'_div">Loading....</div>';
-		var h = $(window).height();
-		var w = $(window).width();
-		w = Math.floor(w *.9);
-		var thedialog = $("#"+dialogId).html(content)
-		.dialog({
-			title: title,
-			autoOpen: false,
-			dialogClass: 'dialog_fixed,ui-widget-header',
-			modal: true,
-			stack: true,
-			height: "auto",
-			width: "auto",
-			minWidth: 200,
-			minHeight: 300,
-			draggable:true,
-			buttons: {
-				"Close Dialog": function() {
-					$("#"+dialogId).dialog('close');
-					loadProjects(projectsDivId,transaction_id);
-				}
-			},
-			open: function (event, ui) {
-				// force the dialog to lay above any other elements in the page.
-				var maxZindex = getMaxZIndex();
-				$('.ui-dialog').css({'z-index': maxZindex + 6 });
-				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-			},
-			close: function(event,ui) {
-				$("#"+dialogId+"_div").html("");
-				$("#"+dialogId).dialog('destroy');
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: "auto",
+		width: "auto",
+		minWidth: 200,
+		minHeight: 300,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+				loadProjects(projectsDivId,transaction_id);
 			}
-		});
-		thedialog.dialog('open');
-		jQuery.ajax({
-			url: "/transactions/component/functions.cfc",
-			type: "get",
-			data: {
-				method: 'getCreateProjectDialogHtml',
-				returnformat: "plain",
-				transaction_id: transaction_id
-			},
-			success: function(data) {
-				$("#"+dialogId+"_div").html(data);
-			},
-			error: function (jqXHR, status, error) {
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "get",
+		data: {
+			method: 'getCreateProjectDialogHtml',
+			returnformat: "plain",
+			transaction_id: transaction_id
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
 			}
-		});
-	}
+			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		}
+	});
 }
 
 /** function removeMediaFromTrans unlink a media record from a transaction 
