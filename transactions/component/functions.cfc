@@ -1585,17 +1585,18 @@ limitations under the License.
 	<cftry>
 		<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
 			insert into project_trans (
-				transaction_id,
-				project_id
+				transaction_id
+				,project_id
 				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
 					,project_trans_remarks
 				</cfif>
 			) values (
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
-			 	<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			 	,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_trans_remarks#">
 				</cfif>
+			)
 		</cfquery>
 		<cfif add.recordcount eq 0>
 			<cfset theResult=queryNew("status, message")>
