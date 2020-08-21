@@ -1368,13 +1368,45 @@ limitations under the License.
 				<form id="project_picker_form">
 					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
-					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control-sm" >
+					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control-sm reqdClr" >
+					<label for="project_trans_remarks">Project-Transaction Remarks</label>
+					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="form-control-sm" >
 					<script>
 						$(document).ready( makeProjectPicker('pick_project_name','pick_project_id') );
 						function saveProjectLink() {
 							var id = $('##pick_project_id').val();
+							var remarks = $('##project_trans_remarks').val();
 							if (id) { 
-								$('##project_picker_form').html('Save not implemented yet.');
+								jQuery.getJSON("/transactions/component/functions.cfc",
+									{
+										method : "linkProjectToTransaction",
+										project_id : id,
+										transaction_id : #transaction_ie#,
+										project_trans_remarks: remarks,
+										returnformat : "json",
+										queryformat : 'column'
+									},
+									function (result) {
+										if (result.data.status=='1') { 
+											$('##project_picker_form').html('Relationship to project saved.');
+										} else (
+											messageDialog('Error linking project to transaction record: '+result.data.message, 'Error saving project-transaction relation.');
+										}
+									}
+								).fail(function(jqXHR,textStatus,error){
+									var message = "";
+									if (error == 'timeout') {
+										message = ' Server took too long to respond.';
+									} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+										message = ' Backing method did not return JSON.';
+									} else {
+										message = jqXHR.responseText;
+									}
+									if (!error) { error = ""; } 
+									messageDialog('Error linking project to transaction record: '+message, 'Error: '+error.substring(0,50));
+								});
+							} else { 
+								messageDialog('You must pick a project from the picklist)','Error: No project picked to link');
 							}
 						};
 					</script>
@@ -1538,4 +1570,52 @@ limitations under the License.
 	</cfif>
 </cffunction>
 
+<!--- 
+ ** method linkProjectToTransaction unlink a media record from a transaction.
+ *
+ * @param transaction_id the transaction id that is the related_primary_key of the media_relations record to delate.
+ * @parem media_id the media id of the media_relations record to delete
+ * @param media_relationship the media relationship of the media_relations record to delete.
+--->
+<cffunction name="linkProjectToTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+			insert into project_trans (
+				transaction_id,
+				project_id
+				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks GT 0>
+					,project_trans_remarks
+				</cfif>
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+			 	<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_trans_remarks#">
+				</cfif>
+		</cfquery>
+		<cfif add.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No record added. #transaction_id# #project_id# #add.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record Added.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
 </cfcomponent>
