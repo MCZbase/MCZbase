@@ -1598,13 +1598,13 @@ limitations under the License.
 				</cfif>
 			)
 		</cfquery>
-		<cfif add.recordcount eq 0>
+		<cfif add_result.recordcount eq 0>
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "No record added. #transaction_id# #project_id# #add.sql#", 1)>
 		</cfif>
-		<cfif deleteResult.recordcount eq 1>
+		<cfif add_result.recordcount eq 1>
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
