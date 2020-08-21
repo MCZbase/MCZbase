@@ -1308,7 +1308,8 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 
 	<cfthread name="getPermitDialogThread">
-		<cfoutput>
+		<cftry>
+			<cfoutput>
 			<!--- TODO: Lookup the transaction, figure out type --->
 			<!--- TODO: Rework as two dialogs, one permit picking, one create permit --->
 										<label for="project_id">Pick a Project to associate with </label>
