@@ -772,7 +772,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	}
 }
 
-function deleteMediaFromTrans(mediaId,transactionId,relationType) {
+function removeMediaFromTrans(mediaId,transactionId,relationType) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "removeMediaFromTransaction",
