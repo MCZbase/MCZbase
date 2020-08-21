@@ -836,7 +836,7 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
 			buttons: {
 				"Close Dialog": function() {
 					$("#"+dialogId).dialog('close');
-					loadProjects(projectsDivId,transaction_id); );
+					loadProjects(projectsDivId,transaction_id); 
 				}
 			},
 			open: function (event, ui) {
@@ -905,7 +905,7 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 			buttons: {
 				"Close Dialog": function() {
 					$("#"+dialogId).dialog('close');
-					loadProjects(projectsDivId,transaction_id); );
+					loadProjects(projectsDivId,transaction_id);
 				}
 			},
 			open: function (event, ui) {
