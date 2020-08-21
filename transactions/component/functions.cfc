@@ -1358,11 +1358,14 @@ limitations under the License.
 
 	<cfthread name="linkProjectDialogThread">
 		<cftry>
-			<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type, specific_number
+				from transaction_view
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-			<!--- TODO: Lookup the transaction, figure out type --->
-				<label for="project_id">Pick a Project to associate with </label>
+				<label for="project_id">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
 				<input type="hidden" name="project_id" class="form-control-sm">
 				<!--- TODO: Project autocomplete --->
 				<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
@@ -1392,9 +1395,15 @@ limitations under the License.
 
 	<cfthread name="getProjectDialogThread">
 		<cftry>
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type, specific_number
+				from transaction_view
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
 			<cfoutput>
-			<!--- TODO: Lookup the transaction, figure out type --->
-										<label for="create_project"> Create a project from  </label>
+				<label for="create_project">Create aProject linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+				<!--- TODO: implement --->
 										<div id="create_project">
 											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
 											<!--- TODO: Replace with Agent picker --->
