@@ -1381,7 +1381,7 @@ limitations under the License.
 									{
 										method : "linkProjectToTransaction",
 										project_id : id,
-										transaction_id : #transaction_ie#,
+										transaction_id : #transaction_id#,
 										project_trans_remarks: remarks,
 										returnformat : "json",
 										queryformat : 'column'
