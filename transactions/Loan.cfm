@@ -901,11 +901,11 @@ limitations under the License.
 					<section name="loanItemsSection" class="row col-12 border rounded" title="Collection Objects in this loan">
 						<div class="col-12 mt-1">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
-								onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
-								onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+								onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 							<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
-								onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+								onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
 						</div>
 						<div class="col-12">
 							<div id="loanItemCountDiv"></div>
