@@ -704,7 +704,6 @@ function loadProjects(projectsDiv,transaction_id) {
 		},
 		success : function (data) {
 			$('#' + projectsDiv).html(data);
-			monitorForChanges(containingFormId,changeHandler);
 		},
 		error: function(jqXHR,textStatus,error){
 			$('#' + projectsDiv).html('Error loading projects.');
@@ -834,7 +833,7 @@ function makeProjectPicker(valueControl, idControl) {
 		select: function (event, result) {
 			$('#'+idControl).val(result.item.id);
 		},
-		minLength: 3
+		minLength: 2
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
 		// override to display meta "matched project_name * (date_range)" instead of value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
