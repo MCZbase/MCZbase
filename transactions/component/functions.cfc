@@ -1389,7 +1389,7 @@ limitations under the License.
 									function (result) {
 										if (result.data.status=='1') { 
 											$('##project_picker_form').html('Relationship to project saved.');
-										} else (
+										} else {
 											messageDialog('Error linking project to transaction record: '+result.data.message, 'Error saving project-transaction relation.');
 										}
 									}
