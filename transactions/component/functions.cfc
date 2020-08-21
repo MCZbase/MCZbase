@@ -1361,5 +1361,7 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getPermitDialogThread" />
 	<cfreturn getPermitDialogThread.output>
+</cffunction>
+
 </cfcomponent>
 

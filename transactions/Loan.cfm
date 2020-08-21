@@ -962,50 +962,52 @@ limitations under the License.
 					</section>
 
 					<section name="mediaSection" class="row col-12 border rounded bg-light">
-						<h3>
-							Media documenting this Loan: <br/>
-							<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
-						</h3>
-						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select
-								media.media_id,
-								preview_uri,
-								media_uri,
-								media_type,
-								label_value
-							from
-								media,
-								media_relations,
-								(select * from media_labels where media_label='description') media_labels
-							where
-								media.media_id=media_labels.media_id (+) and
-								media.media_id=media_relations.media_id and
-								media_relationship like '% loan' and
-								related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<br>			
-						<span>
-							<cfset relation="documents loan">
-							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
-							&nbsp; 
-							<span id='addMedia_#transaction_id#'>
-								<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
-							&nbsp; 
-							</span> 
-						</span>
-						<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
-						<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-						<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-						<script>
-							// callback for ajax methods to reload from dialog
-							function reloadTransMedia() { 
-								loadTransactionFormMedia(#transaction_id#,"loan");
-								if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
-									$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
-								}
-							};
-							$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
-						</script> 
+						<div class="col-12">
+							<h3>
+								Media documenting this Loan: <br/>
+								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
+							</h3>
+							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select
+									media.media_id,
+									preview_uri,
+									media_uri,
+									media_type,
+									label_value
+								from
+									media,
+									media_relations,
+									(select * from media_labels where media_label='description') media_labels
+								where
+									media.media_id=media_labels.media_id (+) and
+									media.media_id=media_relations.media_id and
+									media_relationship like '% loan' and
+									related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+							<br>			
+							<span>
+								<cfset relation="documents loan">
+								<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
+								&nbsp; 
+								<span id='addMedia_#transaction_id#'>
+									<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
+								&nbsp; 
+								</span> 
+							</span>
+							<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
+							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
+							<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+							<script>
+								// callback for ajax methods to reload from dialog
+								function reloadTransMedia() { 
+									loadTransactionFormMedia(#transaction_id#,"loan");
+									if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+										$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+									}
+								};
+								$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+							</script>
+						</div> 
 					</section>
 					<section name="countriesOfOriginSection" class="row col-12 border rounded">
 						<div class="col-12 col-md-12">
@@ -1201,8 +1203,8 @@ limitations under the License.
 					</dialog>
 					<!----  End Shipment dialog --->
 					
-					<div class="row col-12">
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded bg-light">
+					<div class="row col-12 px-0">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
 							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1248,7 +1250,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded bg-light">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
@@ -1301,7 +1303,7 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row col-12 border rounded">
+					<section title="Projects" class="row col-12 border rounded bg-light">
 						<h3>
 							Projects associated with this loan: 
 							<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
