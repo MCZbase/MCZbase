@@ -1282,43 +1282,122 @@ limitations under the License.
         <cfreturn childLoans>
 </cffunction>
 <!------------------------------------->
+
 <!--- 
   * method removeSubLoan given two transaction ids remove one as the child of the other
   * @param transaction_id the parent transaction
   * @param subloan_transaction_id the child transaction to unlink from the parent
 --->
 <cffunction name="removeSubLoan" access="remote">
-        <cfargument name="transaction_id" type="string" required="yes">
-        <cfargument name="subloan_transaction_id" type="string" required="yes">
-        <cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           delete from loan_relations
-               where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
-               related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
-               relation_type = 'Subloan'
-        </cfquery>
-        <cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
-               where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-               order by l.loan_number
-        </cfquery>
-        <cfreturn childLoans>
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		delete from loan_relations
+		where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+		related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+		relation_type = 'Subloan'
+	</cfquery>
+	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+		where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+		order by l.loan_number
+	</cfquery>
+	<cfreturn childLoans>
 </cffunction>
 
-<cffunction name="getAddPermitDialogHtml" returntype="string" access="remote" returnformat="plain">
+<!--- 
+ ** method getProjectListHtml obtains an html block listing the projects related to a transaction 
+ * 
+ * @param transaction_id the id of the transaction for which to look up projects.
+ * @return html to replace the html content of a div.
+--->
+<cffunction name="getProjectListHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 
-	<cfthread name="getPermitDialogThread">
+	<cfthread name="getProjectListThread">
+		<cftry>
+			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select project_name, project.project_id from project,
+					project_trans 
+				where
+					project_trans.project_id =  project.project_id
+					and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfoutput>
+				<ul class="list-group">
+					<cfif projs.recordcount gt 0>
+						<cfloop query="projs">
+							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+						</cfloop>
+					<cfelse>
+						<li class="list-group-item">None</li>
+					</cfif>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getProjectListThread" />
+	<cfreturn getProjectListThread.output>
+</cffunction>
+
+<!--- 
+ ** method getlinkProjectDialogHtml obtains the html content for a dialog to pick a project to add to a transaction.
+ * 
+ * @param transaction_id the id of the transaction to which to add selected projects
+ * @return html to populate a dialog
+--->
+<cffunction name="getLinkProjectDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="linkProjectDialogThread">
+		<cftry>
+			<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			</cfquery>
+			<cfoutput>
+			<!--- TODO: Lookup the transaction, figure out type --->
+				<label for="project_id">Pick a Project to associate with </label>
+				<input type="hidden" name="project_id" class="form-control-sm">
+				<!--- TODO: Project autocomplete --->
+				<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
+
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="linkProjectDialogThread" />
+	<cfreturn linkProjectDialogThread.output>
+</cffunction>
+
+
+<!--- 
+ ** method getlinkProjectDialogHtml obtains the html content for a dialog to create a project to add to a transaction.
+ * 
+ * @param transaction_id the id of the transaction to which to add the new project
+ * @return html to populate a dialog 
+--->
+<cffunction name="getAddProjectDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getProjectDialogThread">
 		<cftry>
 			<cfoutput>
 			<!--- TODO: Lookup the transaction, figure out type --->
-			<!--- TODO: Rework as two dialogs, one permit picking, one create permit --->
-										<label for="project_id">Pick a Project to associate with </label>
-										<input type="hidden" name="project_id" class="form-control-sm">
-										<input type="text" name="pick_project_name" class="form-control-sm" onchange="getProject('project_id','pick_project_name','editloan',this.value); return false;"onKeyPress="return noenter(event);">
-										<hr>
 										<label for="create_project"> Create a project from  </label>
 										<div id="create_project">
 											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
+											<!--- TODO: Replace with Agent picker --->
 											<input type="text" name="newAgent_name" id="newAgent_name"
 												class="reqdClr form-control-sm"
 												onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
@@ -1359,10 +1438,17 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getPermitDialogThread" />
-	<cfreturn getPermitDialogThread.output>
+	<cfthread action="join" name="getProjectDialogThread" />
+	<cfreturn getProjectDialogThread.output>
 </cffunction>
 
+<!--- 
+ ** method removeMediaFromTransaction unlink a media record from a transaction.
+ *
+ * @param transaction_id the transaction id that is the related_primary_key of the media_relations record to delate.
+ * @parem media_id the media id of the media_relations record to delete
+ * @param media_relationship the media relationship of the media_relations record to delete.
+--->
 <cffunction name="removeMediaFromTransaction" returntype="any" access="remote" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="media_id" type="string" required="yes">
@@ -1402,5 +1488,3 @@ limitations under the License.
 </cffunction>
 
 </cfcomponent>
-
-

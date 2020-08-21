@@ -1327,30 +1327,20 @@ limitations under the License.
 								Projects associated with this loan: 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
-							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select project_name, project.project_id from project,
-									project_trans 
-								where
-									project_trans.project_id =  project.project_id
-									and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-							</cfquery>
-							<ul class="list-group">
-								<cfif projs.recordcount gt 0>
-									<cfloop query="projs">
-										<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
-									</cfloop>
-								<cfelse>
-									<li class="list-group-item">None</li>
-								</cfif>
-							</ul>
+							<div id="projectsDiv"></div>
+							<script>
+								$(document).ready( loanProjects('projectsDiv',#loanDetails.transaction_id#); );
+							</script>
 							<div class="col-12">
 								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
 										class="btn btn-sm btn-secondary" value="Link to Project"
-										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Link To Project</button>
+										onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
 								<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
 										class="btn btn-sm btn-secondary" value="New Project"
-										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">New Project</button>
+										onClick=" openTransProjectCreateDialog(#transaction_id#, 'projectsAddDialog','projectsDiv');">New Project</button>
 							</div>
+							<div id="projectsLinkDialog"></div>
+							<div id="projectsAddDialog"></div>
 						</div>
 					</section>
 				<cfcatch>

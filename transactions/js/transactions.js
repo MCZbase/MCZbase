@@ -688,6 +688,41 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
 	});
 }
 
+/** function loadProjects load the projects related to a transaction into the provided projectsDiv.
+ * 
+ * @param projectsDiv the id of the div into which to load the projects list, without # id selector.
+ * @param transaction_id the id of the transaction for which to look up projects.
+ */
+function loadProjects(projectsDiv,transaction_id) { 
+	$('#' + projectsDiv).html("Loading....");
+	jQuery.ajax({
+		url : "/transactions/component/functions.cfc",
+		type : "get",
+		data : {
+			method: 'getProjectListHtml',
+			transaction_id: transaction_id
+		},
+		success : function (data) {
+			$('#' + projectsDiv).html(data);
+			monitorForChanges(containingFormId,changeHandler);
+		},
+		error: function(jqXHR,textStatus,error){
+			$('#' + projectsDiv).html('Error loading projects.');
+			var message = "";
+			if (error == 'timeout') {
+				message = ' Server took too long to respond.';
+			} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+				message = ' Backing method did not return JSON.';
+			} else {
+				message = jqXHR.responseText;
+			}
+			if (!error) { error = ""; } 
+			messageDialog('Error retrieving projects for transaction record: '+message, 'Error: '+error.substring(0,50));
+		}
+	});
+
+}
+
 /** function monitorForChanges bind a change monitoring function to inputs 
  * on a given form.  Note: text inputs must have type=text to be bound to change function.
  * @param formId the id of the form, not including the # id selector to monitor.
@@ -772,6 +807,149 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	}
 }
 
+/* function openTransProjectLinkDialog create a dialog using an existing div to link projects to a transaction. 
+ * 
+ * @param transaction_id the id of the transaction to link selected projects to.
+ * @param dialogId the id, without a leading # selector, of the div that is to contain the dialog.
+ * @param projectsDivId the id, without a leading # selector, of the div containing a list of projects
+ *   that is to be repopulated with loadProjects on close of the dialog.
+ * @see loadProjects
+ */
+function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) { 
+	var title = "Link existing Project.";
+		var content = '<div id="'+dialogId+'_div">Loading....</div>';
+		var h = $(window).height();
+		var w = $(window).width();
+		w = Math.floor(w *.9);
+		var thedialog = $("#"+dialogId).html(content)
+		.dialog({
+			title: title,
+			autoOpen: false,
+			dialogClass: 'dialog_fixed,ui-widget-header',
+			modal: true,
+			stack: true,
+			height: "auto",
+			width: "auto",
+			minWidth: 200,
+			minHeight: 300,
+			draggable:true,
+			buttons: {
+				"Close Dialog": function() {
+					$("#"+dialogId).dialog('close');
+					loadProjects(projectsDivId,transaction_id); );
+				}
+			},
+			open: function (event, ui) {
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			},
+			close: function(event,ui) {
+				$("#"+dialogId+"_div").html("");
+				$("#"+dialogId).dialog('destroy');
+			}
+		});
+		thedialog.dialog('open');
+		jQuery.ajax({
+			url: "/transactions/component/functions.cfc",
+			type: "get",
+			data: {
+				method: 'getLinkProjectDialogHtml',
+				returnformat: "plain",
+				transaction_id: transaction_id
+			},
+			success: function(data) {
+				$("#"+dialogId+"_div").html(data);
+			},
+			error: function (jqXHR, status, error) {
+				var message = "";
+				if (error == 'timeout') { 
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+			}
+		});
+	}
+}
+
+/* function openTransProjectCreateDialog create a dialog using an existing div to create
+ * a new project and link it to a transaction. 
+ * 
+ * @param transaction_id the id of the transaction to link the created project to.
+ * @param dialogId the id, without a leading # selector, of the div that is to contain the dialog.
+ * @param projectsDivId the id, without a leading # selector, of the div containing a list of projects
+ *   that is to be repopulated with loadProjects on close of the dialog.
+ * @see loadProjects
+ */
+function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) { 
+	var title = "Create and Link New Project.";
+		var content = '<div id="'+dialogId+'_div">Loading....</div>';
+		var h = $(window).height();
+		var w = $(window).width();
+		w = Math.floor(w *.9);
+		var thedialog = $("#"+dialogId).html(content)
+		.dialog({
+			title: title,
+			autoOpen: false,
+			dialogClass: 'dialog_fixed,ui-widget-header',
+			modal: true,
+			stack: true,
+			height: "auto",
+			width: "auto",
+			minWidth: 200,
+			minHeight: 300,
+			draggable:true,
+			buttons: {
+				"Close Dialog": function() {
+					$("#"+dialogId).dialog('close');
+					loadProjects(projectsDivId,transaction_id); );
+				}
+			},
+			open: function (event, ui) {
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			},
+			close: function(event,ui) {
+				$("#"+dialogId+"_div").html("");
+				$("#"+dialogId).dialog('destroy');
+			}
+		});
+		thedialog.dialog('open');
+		jQuery.ajax({
+			url: "/transactions/component/functions.cfc",
+			type: "get",
+			data: {
+				method: 'getCreateProjectDialogHtml',
+				returnformat: "plain",
+				transaction_id: transaction_id
+			},
+			success: function(data) {
+				$("#"+dialogId+"_div").html(data);
+			},
+			error: function (jqXHR, status, error) {
+				var message = "";
+				if (error == 'timeout') { 
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+			}
+		});
+	}
+}
+
+/** function removeMediaFromTrans unlink a media record from a transaction 
+ * 
+ * @param mediaId the media_id of media record to unlink from the transaction.
+ * @param transactionId the transaction_id of the transaction from which to unlink the media
+ * @param relationType the type of media_relations to be deleted.
+ */
 function removeMediaFromTrans(mediaId,transactionId,relationType) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
