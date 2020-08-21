@@ -1318,17 +1318,19 @@ limitations under the License.
 	<cfthread name="getProjectListThread">
 		<cftry>
 			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select project_name, project.project_id from project,
-					project_trans 
+				select project_name, project.project_id, 
+					project_trans_remarks,
+					to_char(start_date,'YYYY-MM-DD') as start_date,
+					to_char(end_date,'YYYY-MM-DD') as end_date
+				from project_trans left join project on project_trans.project_id =  project.project_id
 				where
-					project_trans.project_id =  project.project_id
-					and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
 				<ul class="list-group">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> (#start_date#-#end_date#) #project_trans_remarks#</li>
 						</cfloop>
 					<cfelse>
 						<li class="list-group-item">None</li>
