@@ -923,7 +923,7 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		url: "/transactions/component/functions.cfc",
 		type: "get",
 		data: {
-			method: 'getCreateProjectDialogHtml',
+			method: 'getAddProjectDialogHtml',
 			returnformat: "plain",
 			transaction_id: transaction_id
 		},
