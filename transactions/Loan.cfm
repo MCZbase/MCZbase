@@ -600,8 +600,8 @@ limitations under the License.
 		<main class="container-fluid">
 			<div class="col-12 col-xl-11 mx-auto">
 				<cftry>
-					<section title="Edit Loan" class="row col-12">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="border rounded px-1">
+					<section title="Edit Loan" class="row col-12 border rounded">
+						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
@@ -614,172 +614,138 @@ limitations under the License.
 									$('##saveResultDiv').removeClass('text-warning');
 								};
 							</script>
-					<!---		<div class="row mt-1">
-								<div class="col-12"> --->
-									<h2 class="wikilink mt-1 mb-0">
-										Edit Loan 
-										<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
-										<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
-									</h2>
-									<div class="form-row mb-1">
-										<div class="col-12 col-md-3">
-											<label class="data-entry-label">Department</label>
-											<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" required >
-												<cfloop query="ctcollection">
-													<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
-														value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-											<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
-												required  pattern="#LOANNUMBERPATTERN#"  >
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="loan_type" class="data-entry-label">Loan Type</label>
-											<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
-												<cfloop query="ctLoanType">
-													<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
-															value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-													<cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-														<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif> value="" ></option>
-													</cfif>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="initiating_date" class="data-entry-label">Transaction Date</label>
-											<input type="text" name="initiating_date" id="initiating_date"
-												value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12 col-md-3">
-											<label for="loan_status" class="data-entry-label">Loan Status</label>
-											<span>
-												<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
-													<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
-													<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
-													<cfloop query="ctLoanStatus">
-														<cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
-															<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
-																value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
-														</cfif>
-													</cfloop>
-												</select>
-											</span>
-										</div>
-										<div class="col-12 col-md-3">
-											<span class="data-entry-label">Date Closed:</span>
-											<div class="col-12 bg-light border">
-												<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
-													#loanDetails.closed_date#
-												<cfelse>
-													--
+							<h2 class="wikilink mt-1 mb-0">
+								Edit Loan 
+								<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
+								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
+							</h2>
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Department</label>
+									<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" required >
+										<cfloop query="ctcollection">
+											<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
+												value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
+									<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control-sm" 
+										required  pattern="#LOANNUMBERPATTERN#"  >
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="loan_type" class="data-entry-label">Loan Type</label>
+									<select name="loan_type" id="loan_type" class="reqdClr form-control-sm" required >
+										<cfloop query="ctLoanType">
+											<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+												<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
+													value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+											<cfelseif loanDetails.loan_type EQ "transfer" AND loanDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+												<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif> value="" ></option>
+											</cfif>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="initiating_date" class="data-entry-label">Transaction Date</label>
+									<input type="text" name="initiating_date" id="initiating_date"
+										value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-3">
+									<label for="loan_status" class="data-entry-label">Loan Status</label>
+									<span>
+										<select name="loan_status" id="loan_status" class="reqdClr form-control-sm" required >
+											<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
+											<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
+											<cfloop query="ctLoanStatus">
+												<cfif isAllowedLoanStateChange(loanDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
+													<option <cfif ctLoanStatus.loan_status is loanDetails.loan_status> selected="selected" </cfif>
+														value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
 												</cfif>
-											</div>
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="return_due_date" class="data-entry-label">Due Date</label>
-											<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
-												value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
-										</div>
-										<div class="col-12 col-md-3">
-											<label for="entered_by" class="data-entry-label">Entered By</label>
-											<div class="col-12 bg-light border">
-												<span id="entered_by">#loanDetails.enteredby#</span>
-											</div>
-										</div>
+											</cfloop>
+										</select>
+									</span>
+								</div>
+								<div class="col-12 col-md-3">
+									<span class="data-entry-label">Date Closed:</span>
+									<div class="col-12 bg-light border">
+										<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
+											#loanDetails.closed_date#
+										<cfelse>
+											--
+										</cfif>
 									</div>
-									<!--- Begin loan agents table: Load via ajax. --->
-									<div class="form-row my-1">
-										<script>
-											$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
-										</script>
-										<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv" >
-											<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
-										</div>
-										<script>
-											$(document).ready(function() { 
-												$('##agentTableContainerDiv').on('domChanged',function() {
-													console.log("dom Cchange within agentTableContainerDiv");
-													monitorForChanges('editLoanForm',handleChange);
-												});
-											});
-										</script>
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="return_due_date" class="data-entry-label">Due Date</label>
+									<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
+										value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
+								</div>
+								<div class="col-12 col-md-3">
+									<label for="entered_by" class="data-entry-label">Entered By</label>
+									<div class="col-12 bg-light border">
+										<span id="entered_by">#loanDetails.enteredby#</span>
 									</div>
-									<div class="form-row mb-1" id="insurance_section">
-										<div class="col-12 col-md-6">
-											<label for="insurance_value" class="data-entry-label">Insurance value</label>
-											<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-											<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12 col-md-6">
-											<span id="parentloan_section">Exhibition-Master Loan:
-												<cfif parentLoan.RecordCount GT 0>
-													<cfloop query="parentLoan">
-														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
-													</cfloop>
-												<cfelse>
-													This exhibition subloan has not been linked to a master loan.
-												</cfif>
-											</span>
-											<span id="subloan_section">
-												<span id="subloan_list"> Exhibition-Subloans (#childLoans.RecordCount#):
-													<cfif childLoans.RecordCount GT 0>
-														<cfset childLoanCounter = 0>
-														<cfset childseparator = "">
-														<cfloop query="childLoans">
-															#childseparator#
-		 													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-															<button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
-															<script>
-																$(function() {
-																	$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
-																		event.preventDefault();
-																		$.get( "/transactions/component/functions.cfc", {
-																			transaction_id : "#loanDetails.transaction_id#",
-																			subloan_transaction_id : "#childLoans.transaction_id#" ,
-																			method : "removeSubLoan",
-																			returnformat : "json",
-																			queryformat : 'column'
-																		},
-																		function(r) {
-																			var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
-																			var separator = "";
-																			for (var i=0; i<r.ROWCOUNT; i++) {
-																				retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
-																			separator = ";&nbsp";
-																			};
-																			retval = retval + "<BR>";
-																			$("##subloan_list").html(retval);
-																		},
-																		"json"
-																		);
-																	});
-																});
-															</script>
-															<cfset childLoanCounter = childLoanCounter + 1 >
-															<cfset childseparator = ";&nbsp;">
-														</cfloop>
-													</cfif>
-													<br>
-												</span><!--- end subloan_list ---> 
-												<script>
-													$(function() {
-														$("##button_add_subloans").click( function(event) {
-															event.preventDefault();
-															$.get( "/transactions/component/functions.cfc",
-																{ transaction_id : "#loanDetails.transaction_id#",
-																	subloan_transaction_id : $("##possible_subloans").val() ,
-																	method : "addSubLoanToLoan",
+								</div>
+							</div>
+							<!--- Begin loan agents table: Load via ajax. --->
+							<div class="form-row my-1">
+								<script>
+									$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
+								</script>
+								<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv" >
+									<span>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
+								</div>
+								<script>
+									$(document).ready(function() { 
+										$('##agentTableContainerDiv').on('domChanged',function() {
+											console.log("dom Cchange within agentTableContainerDiv");
+											monitorForChanges('editLoanForm',handleChange);
+										});
+									});
+								</script>
+							</div>
+							<div class="form-row mb-1" id="insurance_section">
+								<div class="col-12 col-md-6">
+									<label for="insurance_value" class="data-entry-label">Insurance value</label>
+									<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
+								</div>
+								<div class="col-12 col-md-6">
+									<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
+									<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12 col-md-6">
+									<span id="parentloan_section">Exhibition-Master Loan:
+										<cfif parentLoan.RecordCount GT 0>
+											<cfloop query="parentLoan">
+												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
+											</cfloop>
+										<cfelse>
+											This exhibition subloan has not been linked to a master loan.
+										</cfif>
+									</span>
+									<span id="subloan_section">
+										<span id="subloan_list"> Exhibition-Subloans (#childLoans.RecordCount#):
+											<cfif childLoans.RecordCount GT 0>
+												<cfset childLoanCounter = 0>
+												<cfset childseparator = "">
+												<cfloop query="childLoans">
+													#childseparator#
+ 													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+													<button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
+													<script>
+														$(function() {
+															$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
+																event.preventDefault();
+																$.get( "/transactions/component/functions.cfc", {
+																	transaction_id : "#loanDetails.transaction_id#",
+																	subloan_transaction_id : "#childLoans.transaction_id#" ,
+																	method : "removeSubLoan",
 																	returnformat : "json",
 																	queryformat : 'column'
 																},
@@ -788,431 +754,455 @@ limitations under the License.
 																	var separator = "";
 																	for (var i=0; i<r.ROWCOUNT; i++) {
 																		retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
-																		separator = ";&nbsp";
+																	separator = ";&nbsp";
 																	};
 																	retval = retval + "<BR>";
 																	$("##subloan_list").html(retval);
 																},
 																"json"
-															);
+																);
+															});
 														});
-													});
-												</script>
-												<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
-													<cfloop query="potentialChildLoans">
-														<option value="#transaction_id#">#loan_number#</option>
-													</cfloop>
-												</select>
-												<button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
-											</span><!--- end subloan section ---> 
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12">
-											<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
-											<textarea name="nature_of_material" id="nature_of_material" rows="1" 
-												onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-												class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12">
-											<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
-											<textarea name="loan_description" id="loan_description" rows="1"
-												onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-												class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12">
-											<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
-											<textarea name="loan_instructions" id="loan_instructions" rows="1" 
-												onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-												class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="col-12">
-											<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
-											<textarea name="trans_remarks" id="trans_remarks" rows="1"
-												onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-												class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
-										</div>
-										<script>
-											// make selected textareas autogrow as text is entered.
-											$(document).ready(function() {
-												// bind the autogrow function to the keyup event
-												$('textarea.autogrow').keyup(autogrow);
-												// trigger keyup event to size textareas to existing text
-												$('textarea.autogrow').keyup();
-											});
-										</script> 
-									</div>
-									<div class="form-row mb-1">
-										<div class="form-group col-12">
-											<input type="button" value="Save" class="btn-xs btn-primary mr-2"
-												onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
-												id="submitButton" >
-											<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
-											<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
-												onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											monitorForChanges('editLoanForm',handleChange);
-										});
-										function saveEdits(){ 
-											$('##saveResultDiv').html('Saving....');
-											$('##saveResultDiv').addClass('text-warning');
-											$('##saveResultDiv').removeClass('text-success');
-											$('##saveResultDiv').removeClass('text-danger');
-											jQuery.ajax({
-												url : "/transactions/component/functions.cfc",
-												type : "post",
-												dataType : "json",
-												data : $('##editLoanForm').serialize(),
-												success : function (data) {
-													$('##saveResultDiv').html('Saved.');
-													$('##saveResultDiv').addClass('text-success');
-													$('##saveResultDiv').removeClass('text-danger');
-													$('##saveResultDiv').removeClass('text-warning');
-													loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
-												},
-												error: function(jqXHR,textStatus,error){
-													$('##saveResultDiv').html('Error.');
-													$('##saveResultDiv').addClass('text-danger');
-													$('##saveResultDiv').removeClass('text-success');
-													$('##saveResultDiv').removeClass('text-warning');
-													var message = "";
-													if (error == 'timeout') {
-														message = ' Server took too long to respond.';
-													} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-														message = ' Backing method did not return JSON.';
-													} else {
-														message = jqXHR.responseText;
-													}
-													messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
-												}
-											});
-										};
-									</script>
-							<!---	</div>
-							</div> --->
-						</form>
-					</section>
-						<section name="loanItemsSection" class="row col-12 border" title="Collection Objects in this loan">
-							<div class="col-12 mt-1">
-								<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
-									onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-								<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
-									onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
-								<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
-									onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-							</div>
-							<div class="col-12">
-								<div id="loanItemCountDiv"></div>
-								<script>
-									$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
-								</script>
-								<cfif loanDetails.loan_type EQ 'consumable'>
-									<h3>Disposition of material in loan:</h3>
-									<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-										select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-										from loan 
-											left join loan_item on loan.transaction_id = loan_item.transaction_id
-											left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
-											left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-											left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-										where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-											and coll_obj_disposition is not null
-										group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
-									</cfquery>
-									<cfif getDispositions.RecordCount EQ 0 >
-										<h4>There are no attached collection objects.</h4>
-									<cfelse>
-										<table class="table table-sm">
-											<thead class="thead-light">
-												<tr>
-													<th>Parts</th>
-													<th>Disposition</th>
-													<th>Deaccession</th>
-												</tr>
-											</thead>
-											<tbody>
-												<cfloop query="getDispositions">
-													<tr>
-														<cfif len(trim(getDispositions.deacc_number)) GT 0>
-															<td>#pcount#</td>
-															<td>#coll_obj_disposition#</td>
-															<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-														<cfelse>
-															<td>#pcount#</td>
-															<td>#coll_obj_disposition#</td>
-															<td>Not in a Deaccession</td>
-														</cfif>
-													</tr>
+													</script>
+													<cfset childLoanCounter = childLoanCounter + 1 >
+													<cfset childseparator = ";&nbsp;">
 												</cfloop>
-											</tbody>
-										</table>
-									</cfif>
-								</cfif>
-							</div>
-						</section>
-						<section name="printSection" class="row col-12">
-							<div class="col-12 col-md-7">
-								<button aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
-									class="btn btn-sm btn-info" value="Print..."
-									onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
-								<div id="loanPrintDialog">
-							</div>
-						</section>
-
-						<section name="mediaSection" class="row col-12">
-							<div class="col-12 col-md-12 border bg-light px-3 mt-2 py-1">
-								<h3>
-									Media documenting this Loan: <br/>
-									<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
-								</h3>
-								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-										media.media_id,
-										preview_uri,
-										media_uri,
-										media_type,
-										label_value
-									from
-										media,
-										media_relations,
-										(select * from media_labels where media_label='description') media_labels
-									where
-										media.media_id=media_labels.media_id (+) and
-										media.media_id=media_relations.media_id and
-										media_relationship like '% loan' and
-										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-								<br>			
-								<span>
-									<cfset relation="documents loan">
-									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
-									&nbsp; 
-									<span id='addMedia_#transaction_id#'>
-										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
-									&nbsp; 
-									</span> 
-								</span>
-								<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
-								<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-								<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-								<script>
-									// callback for ajax methods to reload from dialog
-									function reloadTransMedia() { 
-										loadTransactionFormMedia(#transaction_id#,"loan");
-										if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
-											$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
-										}
-									};
-									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
-								</script> 
-							</div>
-						</section>
-						<section name="countriesOfOriginSection" class="row col-12">
-							<div class="col-12 col-md-12">
-								<h3>Countries of Origin of items in this loan</h3>
-								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(*) as ct, sovereign_nation 
-									from loan_item 
-										left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-										left join locality on collecting_event.locality_id = locality.locality_id
-									where
-										loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-									group by sovereign_nation
-								</cfquery>
-								<cfset sep="">
-								<cfloop query=ctSovereignNation>
-									<cfif len(sovereign_nation) eq 0>
-										<cfset sovereign_nation = '[no value set]'>
-									</cfif>
-									<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
-									<cfset sep="; ">
-								</cfloop>
-							</div>
-						</section>
-						<section name="shipmentSection" class="form-row mb-2">
-							<div class="col-12 col-md-12">
-								<h3>Shipment Information:</h3>
-								<script>
-									function opendialog(page,id,title) {
-									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-									var adialog = $(id)
-										.html(content)
-										.dialog({
-											title: title,
-											autoOpen: false,
-											dialogClass: 'dialog_fixed,ui-widget-header',
-											modal: true,
-											height: 900,
-											width: 1100,
-											minWidth: 400,
-											minHeight: 450,
-											draggable:true,
-											resizable:true,
-											buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-											close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
-										});
-										adialog.dialog('open');
-									};
-								</script>
-								<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
-								</cfquery>
-								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-									from shipment sh
-										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
-										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-								</cfquery>
-								<div id="shipmentTable">Loading shipments...</div>
-								<!--- shippmentTable for ajax replace ---> 
-								<script>
-									$( document ).ready(loadShipments(#transaction_id#));
-										$(function() {
-										$("##dialog-shipment").dialog({
-											autoOpen: false,
-											modal: true,
-											width: 650,
-											buttons: {
-												"Save": function() {  saveShipment(#transaction_id#); } ,
-												Cancel: function() { $(this).dialog( "close" ); }
-											},
-											close: function() {
-												$(this).dialog( "close" );
-											}
-										});
-									});
-								</script>
-								<div class="addstyle">
-									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
-									<div class="shipmentnote float-left mb-4">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+											</cfif>
+											<br>
+										</span><!--- end subloan_list ---> 
+										<script>
+											$(function() {
+												$("##button_add_subloans").click( function(event) {
+													event.preventDefault();
+													$.get( "/transactions/component/functions.cfc",
+														{ transaction_id : "#loanDetails.transaction_id#",
+															subloan_transaction_id : $("##possible_subloans").val() ,
+															method : "addSubLoanToLoan",
+															returnformat : "json",
+															queryformat : 'column'
+														},
+														function(r) {
+															var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
+															var separator = "";
+															for (var i=0; i<r.ROWCOUNT; i++) {
+																retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+																separator = ";&nbsp";
+															};
+															retval = retval + "<BR>";
+															$("##subloan_list").html(retval);
+														},
+														"json"
+													);
+												});
+											});
+										</script>
+										<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
+											<cfloop query="potentialChildLoans">
+												<option value="#transaction_id#">#loan_number#</option>
+											</cfloop>
+										</select>
+										<button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
+									</span><!--- end subloan section ---> 
 								</div>
 							</div>
-						</section>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+									<textarea name="nature_of_material" id="nature_of_material" rows="1" 
+										onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
+										class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
+									<textarea name="loan_description" id="loan_description" rows="1"
+										onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
+										class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+									<textarea name="loan_instructions" id="loan_instructions" rows="1" 
+										onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
+										class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
+								</div>
+							</div>
+							<div class="form-row mb-1">
+								<div class="col-12">
+									<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+									<textarea name="trans_remarks" id="trans_remarks" rows="1"
+										onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
+										class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
+								</div>
+								<script>
+									// make selected textareas autogrow as text is entered.
+									$(document).ready(function() {
+										// bind the autogrow function to the keyup event
+										$('textarea.autogrow').keyup(autogrow);
+										// trigger keyup event to size textareas to existing text
+										$('textarea.autogrow').keyup();
+									});
+								</script> 
+							</div>
+							<div class="form-row mb-1">
+								<div class="form-group col-12">
+									<input type="button" value="Save" class="btn-xs btn-primary mr-2"
+										onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
+										id="submitButton" >
+									<button aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
+										class="btn btn-sm btn-info" value="Print..."
+										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
+									<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
+									<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
+										onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
+								</div>
+							</div>
+							<div id="loanPrintDialog"></div>
+							<script>
+								$(document).ready(function() {
+									monitorForChanges('editLoanForm',handleChange);
+								});
+								function saveEdits(){ 
+									$('##saveResultDiv').html('Saving....');
+									$('##saveResultDiv').addClass('text-warning');
+									$('##saveResultDiv').removeClass('text-success');
+									$('##saveResultDiv').removeClass('text-danger');
+									jQuery.ajax({
+										url : "/transactions/component/functions.cfc",
+										type : "post",
+										dataType : "json",
+										data : $('##editLoanForm').serialize(),
+										success : function (data) {
+											$('##saveResultDiv').html('Saved.');
+											$('##saveResultDiv').addClass('text-success');
+											$('##saveResultDiv').removeClass('text-danger');
+											$('##saveResultDiv').removeClass('text-warning');
+											loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										},
+										error: function(jqXHR,textStatus,error){
+											$('##saveResultDiv').html('Error.');
+											$('##saveResultDiv').addClass('text-danger');
+											$('##saveResultDiv').removeClass('text-success');
+											$('##saveResultDiv').removeClass('text-warning');
+											var message = "";
+											if (error == 'timeout') {
+												message = ' Server took too long to respond.';
+											} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+												message = ' Backing method did not return JSON.';
+											} else {
+												message = jqXHR.responseText;
+											}
+											messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+										}
+									});
+								};
+							</script>
+						</form>
+					</section>
+
+					<section name="loanItemsSection" class="row col-12 border rounded" title="Collection Objects in this loan">
+						<div class="col-12 mt-1">
+							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
+								onClick="window.open('SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
+								onClick="window.open('loanByBarcode.cfm?transaction_id=#transaction_id#');">
+							<input type="button" value="Review Items" class="btn btn-xs btn-secondary"
+								onClick="window.open('a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+						</div>
+						<div class="col-12">
+							<div id="loanItemCountDiv"></div>
+							<script>
+								$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+							</script>
+							<cfif loanDetails.loan_type EQ 'consumable'>
+								<h3>Disposition of material in loan:</h3>
+								<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+									from loan 
+										left join loan_item on loan.transaction_id = loan_item.transaction_id
+										left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+										left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
+										left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+									where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+										and coll_obj_disposition is not null
+									group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+								</cfquery>
+								<cfif getDispositions.RecordCount EQ 0 >
+									<h4>There are no attached collection objects.</h4>
+								<cfelse>
+									<table class="table table-sm">
+										<thead class="thead-light">
+											<tr>
+												<th>Parts</th>
+												<th>Disposition</th>
+												<th>Deaccession</th>
+											</tr>
+										</thead>
+										<tbody>
+											<cfloop query="getDispositions">
+												<tr>
+													<cfif len(trim(getDispositions.deacc_number)) GT 0>
+														<td>#pcount#</td>
+														<td>#coll_obj_disposition#</td>
+														<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+													<cfelse>
+														<td>#pcount#</td>
+														<td>#coll_obj_disposition#</td>
+														<td>Not in a Deaccession</td>
+													</cfif>
+												</tr>
+											</cfloop>
+										</tbody>
+									</table>
+								</cfif>
+							</cfif>
+						</div>
+					</section>
+
+					<section name="mediaSection" class="row col-12 border rounded bg-light">
+						<h3>
+							Media documenting this Loan: <br/>
+							<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
+						</h3>
+						<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select
+								media.media_id,
+								preview_uri,
+								media_uri,
+								media_type,
+								label_value
+							from
+								media,
+								media_relations,
+								(select * from media_labels where media_label='description') media_labels
+							where
+								media.media_id=media_labels.media_id (+) and
+								media.media_id=media_relations.media_id and
+								media_relationship like '% loan' and
+								related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+						<br>			
+						<span>
+							<cfset relation="documents loan">
+							<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
+							&nbsp; 
+							<span id='addMedia_#transaction_id#'>
+								<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
+							&nbsp; 
+							</span> 
+						</span>
+						<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
+						<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
+						<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+						<script>
+							// callback for ajax methods to reload from dialog
+							function reloadTransMedia() { 
+								loadTransactionFormMedia(#transaction_id#,"loan");
+								if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+									$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+								}
+							};
+							$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+						</script> 
+					</section>
+					<section name="countriesOfOriginSection" class="row col-12 border rounded">
+						<div class="col-12 col-md-12">
+							<h3>Countries of Origin of items in this loan</h3>
+							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) as ct, sovereign_nation 
+								from loan_item 
+									left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+									left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+									left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+									left join locality on collecting_event.locality_id = locality.locality_id
+								where
+									loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+								group by sovereign_nation
+							</cfquery>
+							<cfset sep="">
+							<cfloop query=ctSovereignNation>
+								<cfif len(sovereign_nation) eq 0>
+									<cfset sovereign_nation = '[no value set]'>
+								</cfif>
+								<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+								<cfset sep="; ">
+							</cfloop>
+						</div>
+					</section>
+					<section name="shipmentSection" class="row col-12 border rounded">
+							<h3>Shipment Information:</h3>
+							<script>
+								function opendialog(page,id,title) {
+								var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+								var adialog = $(id)
+									.html(content)
+									.dialog({
+										title: title,
+										autoOpen: false,
+										dialogClass: 'dialog_fixed,ui-widget-header',
+										modal: true,
+										height: 900,
+										width: 1100,
+										minWidth: 400,
+										minHeight: 450,
+										draggable:true,
+										resizable:true,
+										buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+										close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+									});
+									adialog.dialog('open');
+								};
+							</script>
+							<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
+							</cfquery>
+							<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+								from shipment sh
+									left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+									left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+							</cfquery>
+							<div id="shipmentTable">Loading shipments...</div>
+							<!--- shippmentTable for ajax replace ---> 
+							<script>
+								$( document ).ready(loadShipments(#transaction_id#));
+									$(function() {
+									$("##dialog-shipment").dialog({
+										autoOpen: false,
+										modal: true,
+										width: 650,
+										buttons: {
+											"Save": function() {  saveShipment(#transaction_id#); } ,
+											Cancel: function() { $(this).dialog( "close" ); }
+										},
+										close: function() {
+											$(this).dialog( "close" );
+										}
+									});
+								});
+							</script>
+							<div class="addstyle">
+								<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+								<div class="shipmentnote float-left mb-4">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+							</div>
+					</section>
+				
+					<!----  Shipment Popup Dialog autoOpen is false --->
+					<dialog id="dialog-shipment" title="Create new Shipment">
+						<form name="shipmentForm" id="shipmentForm" >
+							<fieldset>
+								<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
+								<input type="hidden" name="shipment_id" value="" id="shipment_id">
+								<input type="hidden" name="returnFormat" value="json" id="returnFormat">
+								<!--- TODO: Restyle using divs and bootstrap classes --->
+								<div class="container">
+									<div class="row">
+										<div class="col-12 col-md-4">
+											<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
+											<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
+												<option value=""></option>
+												<cfloop query="ctShip">
+													<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-8">
+											<label for="carriers_tracking_number" class="data-entry-label">Tracking Number</label>
+											<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="form-control-sm" >
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12 col-md-4">
+											<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
+											<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="shipped_date" class="data-entry-label">Ship Date</label>
+											<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="foreign_shipment_fg" class="data-entry-label">Foreign shipment?</label>
+											<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1" class="form-control-sm">
+												<option selected value="0">no</option>
+												<option value="1">yes</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12 col-md-5">
+											<label for="package_weight" class="data-entry-label">Package Weight (TEXT, include units)</label>
+											<input type="text" value="" name="package_weight" id="package_weight" class="form-control-sm">
+										</div>
+										<div class="col-12 col-md-5">
+											<label for="insured_for_insured_value" class="data-entry-label">Insured Value (NUMBER, US$)</label>
+											<input type="text" validate="float" label="Numeric value required."
+												value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$">
+										</div>
+										<div class="col-12 col-md-2">
+											<label for="hazmat_fg" class="data-entry-label">HAZMAT?</label>
+											<select name="hazmat_fg" id="hazmat_fg" size="1" class="form-control-sm">
+												<option selected value="0">no</option>
+												<option value="1">yes</option>
+											</select>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<label for="packed_by_agent" class="data-entry-label">Packed By Agent</label>
+											<input type="text" name="packed_by_agent" class="reqdClr form-control-sm" size="50" value="" id="packed_by_agent"
+												onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
+												onKeyPress="return noenter(event);" required>
+											<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<span class="data-entry-label">
+												<label for="shipped_to_addr">Shipped To Address</label>
+												<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
+													onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+											</span>
+											<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
+												readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+											<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<span class="data-entry-label">
+												<label for="shipped_from_addr">Shipped From Address</label>
+												<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
+													onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+											</span>
+											<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
+												readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
+											<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<label for="shipment_remarks" class="data-entry-label">Remarks</label>
+											<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="form-control-sm">
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<label for="contents" class="data-entry-label">Contents</label>
+											<input type="text" value="" name="contents" id="contents" size="60" class="form-control-sm">
+										</div>
+									</div>
+							</fieldset>
+						</form>
+						<div id="shipmentFormPermits"></div>
+						<div id="shipmentFormStatus"></div>
+					</dialog>
+					<!----  End Shipment dialog --->
 					
-						<!----  Shipment Popup Dialog autoOpen is false --->
-						<dialog id="dialog-shipment" title="Create new Shipment">
-							<form name="shipmentForm" id="shipmentForm" >
-								<fieldset>
-									<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
-									<input type="hidden" name="shipment_id" value="" id="shipment_id">
-									<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-									<!--- TODO: Restyle using divs and bootstrap classes --->
-									<div class="container">
-										<div class="row">
-											<div class="col-12 col-md-4">
-												<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
-												<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
-													<option value=""></option>
-													<cfloop query="ctShip">
-														<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
-													</cfloop>
-												</select>
-											</div>
-											<div class="col-12 col-md-8">
-												<label for="carriers_tracking_number" class="data-entry-label">Tracking Number</label>
-												<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="form-control-sm" >
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12 col-md-4">
-												<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
-												<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="form-control-sm">
-											</div>
-											<div class="col-12 col-md-4">
-												<label for="shipped_date" class="data-entry-label">Ship Date</label>
-												<input type="text" value="#dateformat(Now(),'yyyy-mm-dd')#" name="shipped_date" id="shipped_date" class="form-control-sm">
-											</div>
-											<div class="col-12 col-md-4">
-												<label for="foreign_shipment_fg" class="data-entry-label">Foreign shipment?</label>
-												<select name="foreign_shipment_fg" id="foreign_shipment_fg" size="1" class="form-control-sm">
-													<option selected value="0">no</option>
-													<option value="1">yes</option>
-												</select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12 col-md-5">
-												<label for="package_weight" class="data-entry-label">Package Weight (TEXT, include units)</label>
-												<input type="text" value="" name="package_weight" id="package_weight" class="form-control-sm">
-											</div>
-											<div class="col-12 col-md-5">
-												<label for="insured_for_insured_value" class="data-entry-label">Insured Value (NUMBER, US$)</label>
-												<input type="text" validate="float" label="Numeric value required."
-													value="" name="insured_for_insured_value" id="insured_for_insured_value" pattern="^[0-9.]*$">
-											</div>
-											<div class="col-12 col-md-2">
-												<label for="hazmat_fg" class="data-entry-label">HAZMAT?</label>
-												<select name="hazmat_fg" id="hazmat_fg" size="1" class="form-control-sm">
-													<option selected value="0">no</option>
-													<option value="1">yes</option>
-												</select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<label for="packed_by_agent" class="data-entry-label">Packed By Agent</label>
-												<input type="text" name="packed_by_agent" class="reqdClr form-control-sm" size="50" value="" id="packed_by_agent"
-													onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-													onKeyPress="return noenter(event);" required>
-												<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<span class="data-entry-label">
-													<label for="shipped_to_addr">Shipped To Address</label>
-													<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
-														onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
-												</span>
-												<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
-													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-												<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<span class="data-entry-label">
-													<label for="shipped_from_addr">Shipped From Address</label>
-													<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
-														onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
-												</span>
-												<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
-													readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
-												<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<label for="shipment_remarks" class="data-entry-label">Remarks</label>
-												<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="form-control-sm">
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<label for="contents" class="data-entry-label">Contents</label>
-												<input type="text" value="" name="contents" id="contents" size="60" class="form-control-sm">
-											</div>
-										</div>
-								</fieldset>
-							</form>
-							<div id="shipmentFormPermits"></div>
-							<div id="shipmentFormStatus"></div>
-						</dialog>
-						<!----  End Shipment dialog --->
-					
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border bg-light">
+					<div class="row col-12">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded bg-light">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
 							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1227,7 +1217,8 @@ limitations under the License.
 							<ul class="accn">
 								<cfloop query="getAccessions">
 									<li class="accn2">
-										<a  style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
+										<a style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
+										, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 										<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
 												issuedBy.agent_name as IssuedByAgent
@@ -1242,7 +1233,12 @@ limitations under the License.
 										<cfif getAccnPermits.recordcount gt 0>
 											<ul class="accnpermit">
 												<cfloop query="getAccnPermits">
-													<li><span style="font-weight:bold;">#permit_type#:</span> #specific_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+													<li>
+														<span style="font-weight:bold;">#permit_type#:</span> 
+														#specific_type# #permit_num#, 
+														<span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# 
+														<a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a>
+													</li>
 												</cfloop>
 											</ul>
 										</cfif>
@@ -1252,7 +1248,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded bg-light">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
@@ -1304,28 +1300,29 @@ limitations under the License.
 								<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
 							</cfif>
 						</section>
-						<section title="Projects" class="col-12 bg-light border text-dark">
-							<h3>
-								Projects associated with this loan: 
-								<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
-							</h3>
-							<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select project_name, project.project_id from project,
-									project_trans 
-								where
-									project_trans.project_id =  project.project_id
-									and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-							</cfquery>
-							<ul class="list-group">
-								<cfif projs.recordcount gt 0>
-									<cfloop query="projs">
-										<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
-									</cfloop>
-								<cfelse>
-									<li class="list-group-item">None</li>
-								</cfif>
-							</ul>
-						</section>
+					</div>
+					<section title="Projects" class="row col-12 border rounded">
+						<h3>
+							Projects associated with this loan: 
+							<i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link"></i>
+						</h3>
+						<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select project_name, project.project_id from project,
+								project_trans 
+							where
+								project_trans.project_id =  project.project_id
+								and transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						</cfquery>
+						<ul class="list-group">
+							<cfif projs.recordcount gt 0>
+								<cfloop query="projs">
+									<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#"><strong>#project_name#</strong></a></li>
+								</cfloop>
+							<cfelse>
+								<li class="list-group-item">None</li>
+							</cfif>
+						</ul>
+					</section>
 				<cfcatch>
 					<h2>Error: #cfcatch.message#</h2>
 					<cfif cfcatch.detail NEQ ''>
