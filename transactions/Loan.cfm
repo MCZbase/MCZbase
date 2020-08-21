@@ -1329,7 +1329,7 @@ limitations under the License.
 							</h3>
 							<div id="projectsDiv"></div>
 							<script>
-								$(document).ready( loanProjects('projectsDiv',#loanDetails.transaction_id#) );
+								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
 							</script>
 							<div class="col-12">
 								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
