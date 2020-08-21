@@ -898,7 +898,7 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		stack: true,
 		height: "auto",
 		width: "auto",
-		minWidth: 200,
+		minWidth: 400,
 		minHeight: 300,
 		draggable:true,
 		buttons: {

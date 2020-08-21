@@ -1429,7 +1429,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row col-12">
 						<div class="col-12 col-md-6">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
@@ -1439,26 +1439,26 @@ limitations under the License.
 							<input type="text" name="end_date" class="form-control-sm">
 						</div>
 					</div>
-					<div class="row">
+					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_name" class="data-entry-label">Project Title</label>
 							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
 							<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
 						</div>
 					</div>
-					<div class="form-row my-2">
+					<div class="row col-12">
 						<div class="form-group col-12">
 							<input type="button" value="Create Project" class="btn btn-sm btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
@@ -1466,6 +1466,7 @@ limitations under the License.
 					</div>
 					<script>
 						function createProject(){
+							$('##create_project').html('Save not implemented yet.');
 						};
 					</script>
 				</form>
