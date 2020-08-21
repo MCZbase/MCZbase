@@ -1387,10 +1387,10 @@ limitations under the License.
 										queryformat : 'column'
 									},
 									function (result) {
-										if (result.data.status=='1') { 
+										if (result.DATA.STATUS[0]=='1') { 
 											$('##project_picker_form').html('Relationship to project saved.');
 										} else {
-											messageDialog('Error linking project to transaction record: '+result.data.message, 'Error saving project-transaction relation.');
+											messageDialog('Error linking project to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
 										}
 									}
 								).fail(function(jqXHR,textStatus,error){
