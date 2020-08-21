@@ -99,7 +99,7 @@ limitations under the License.
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
@@ -1363,5 +1363,44 @@ limitations under the License.
 	<cfreturn getPermitDialogThread.output>
 </cffunction>
 
+<cffunction name="removeMediaFromTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="media_relationship" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from media_relations
+			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				and media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #transaction_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+	<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
+
 </cfcomponent>
+
 

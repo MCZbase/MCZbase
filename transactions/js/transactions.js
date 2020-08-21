@@ -771,3 +771,30 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 		});
 	}
 }
+
+function deleteMediaFromTrans(mediaId,transactionId,relationType) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeMediaFromTransaction",
+			media_id : mediaId,
+			transaction_id : transactionId,
+			media_relationship : relationType,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			reloadTransMedia();
+		}
+	).fail(function(jqXHR,textStatus,error){
+		var message = "";
+		if (error == 'timeout') {
+			message = ' Server took too long to respond.';
+		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+			message = ' Backing method did not return JSON.';
+		} else {
+			message = jqXHR.responseText;
+		}
+		if (!error) { error = ""; } 
+		messageDialog('Error removing media from transaction record: '+message, 'Error: '+error.substring(0,50));
+	});
+}
