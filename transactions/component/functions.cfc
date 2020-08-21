@@ -1396,48 +1396,79 @@ limitations under the License.
 	<cfthread name="getProjectDialogThread">
 		<cftry>
 			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select transaction_type, specific_number
+				select transaction_type, specific_number, trans_date, trans_remarks
 				from transaction_view
 				where
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<label for="create_project">Create aProject linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+				<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
 				<!--- TODO: implement --->
-										<div id="create_project">
-											<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
-											<!--- TODO: Replace with Agent picker --->
-											<input type="text" name="newAgent_name" id="newAgent_name"
-												class="reqdClr form-control-sm"
-												onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
-												onKeyPress="return noenter(event);"
-												value="">
-											<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
-											<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select project_agent_role from ctproject_agent_role order by project_agent_role
-											</cfquery>
-											<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
-											<select name="project_agent_role" size="1" class="reqdClr form-control-sm">
-												<cfloop query="ctProjAgRole">
-													<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
-												</cfloop>
-											</select>
-											<label for="project_name" class="data-entry-label">Project Title</label>
-											<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
-											<label for="start_date" class="data-entry-label">Project Start Date</label>
-											<input type="text" name="start_date" value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
-											<label for="end_date" class="data-entry-label">Project End Date</label>
-											<input type="text" name="end_date" class="form-control-sm">
-											<label for="project_description" class="data-entry-label">Project Description</label>
-											<textarea name="project_description" class="form-control autogrow"
-														id="project_description" cols="50" rows="2">#loanDetails.loan_description#</textarea>
-											<label for="project_remarks" class="data-entry-label">Project Remark</label>
-											<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#loanDetails.trans_remarks#</textarea>
-										</div>
-										<div class="form-check">
-											<input type="checkbox" name="saveNewProject"  value="yes" class="form-check-input" id="saveNewProject">
-											<label class="form-check-label" for="saveNewProject">Check to create project with save</label>
-										</div>
+				<form id="create_project" class="row col-12" >
+					<input type="hidden" name="transaction_id" value="#transaction_id#">
+					<div class="row col-12">
+						<div class="col-12 col-md-6">
+							<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
+							<!--- TODO: Replace with Agent picker --->
+							<input type="text" name="newAgent_name" id="newAgent_name"
+								class="reqdClr form-control-sm"
+								onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
+								onKeyPress="return noenter(event);"
+								value="">
+							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
+						</div>
+						<div class="col-12 col-md-6">
+							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select project_agent_role from ctproject_agent_role order by project_agent_role
+							</cfquery>
+							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
+							<select name="project_agent_role" size="1" class="reqdClr form-control-sm">
+								<cfloop query="ctProjAgRole">
+								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
+								</cfloop>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 col-md-6">
+							<label for="start_date" class="data-entry-label">Project Start Date</label>
+							<input type="text" name="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="end_date" class="data-entry-label">Project End Date</label>
+							<input type="text" name="end_date" class="form-control-sm">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<label for="project_name" class="data-entry-label">Project Title</label>
+							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<label for="project_description" class="data-entry-label">Project Description</label>
+							<textarea name="project_description" class="form-control autogrow"
+								id="project_description" cols="50" rows="2"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
+							<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
+						</div>
+					</div>
+					<div class="form-row my-2">
+						<div class="form-group col-12">
+							<input type="button" value="Create Project" class="btn btn-sm btn-primary"
+								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
+						</div>
+					</div>
+					<script>
+						function createProject(){
+						};
+					</script>
+				</form>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
