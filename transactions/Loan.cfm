@@ -6,8 +6,9 @@
 	<cfset pageTitle = "Edit Loan">
 	<cfif isdefined("transaction_id") >
 		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select
 				loan_number
-			 from
+			from
 				loan
 			where
 				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
