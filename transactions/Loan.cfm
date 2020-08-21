@@ -2,6 +2,19 @@
 <cfif isdefined("action") AND action EQ 'newLoan'>
 	<cfset pageTitle = "Create New Loan">
 </cfif>
+<cfif isdefined("action") AND action EQ 'editLoan'>
+	<cfset pageTitle = "Edit Loan">
+	<cfif isdefined("transaction_id") >
+		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				loan_number
+			 from
+				loan
+			where
+				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+	</cfif>
+</cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
 <cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
