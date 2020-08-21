@@ -1330,7 +1330,7 @@ limitations under the License.
 				<ul class="list-group">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> (#start_date#-#end_date#) #project_trans_remarks#</li>
+							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> (#start_date#/#end_date#) #project_trans_remarks#</li>
 						</cfloop>
 					<cfelse>
 						<li class="list-group-item">None</li>

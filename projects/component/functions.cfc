@@ -42,7 +42,7 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.project_id#">
 			<cfset row["value"] = "#search.project_name#" >
-			<cfset row["meta"] = "#search.project_name# (#search.start_date#-#search.end_date#)" >
+			<cfset row["meta"] = "#search.project_name# (#search.start_date#/#search.end_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
