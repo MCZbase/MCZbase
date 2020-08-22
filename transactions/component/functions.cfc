@@ -1598,7 +1598,6 @@ limitations under the License.
 
 <cffunction name="createProjectLinkToTrans" returntype="any" access="remote" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfargument name="project_id" type="string" required="yes">
 	<cfargument name="project_name" type="string" required="yes">
 	<cfargument name="start_date" type="string" required="no">
 	<cfargument name="end_date" type="string" required="no">
