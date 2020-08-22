@@ -1125,8 +1125,6 @@ limitations under the License.
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
 												$(document).ready(function() {
-													console.log('Agent Picker for: agent_id_#i#');
-													console.log('Agent id: #agent_id#');
 													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 												});
 											</script>
@@ -1379,7 +1377,6 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
-				<!--- TODO: implement --->
 				<form id="create_project" class="row col-12" >
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
@@ -1388,13 +1385,20 @@ limitations under the License.
 					<div class="row col-12">
 						<div class="col-12 col-md-6">
 							<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
-							<!--- TODO: Replace with Agent picker --->
-							<input type="text" name="newAgent_name" id="newAgent_name"
-								class="reqdClr form-control-sm"
-								onchange="findAgentName('newAgent_name_id','newAgent_name',this.value); return false;"
-								onKeyPress="return noenter(event);"
-								value="">
-							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value="">
+							<span id="newAgentViewLink" class="px-2">&nbsp;</span>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control form-control-sm data-entry-input reqdClr" value="">
+							</div>
+							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value=""
+								onchange=" updateAgentLink($('##newAgent_name_id').val(),'newAgentViewLink'); ">
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('newAgent_name','newAgent_name_id','project_agent_icon','newAgentViewLink',null)); 
+								});
+							</script>
 						</div>
 						<div class="col-12 col-md-6">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
