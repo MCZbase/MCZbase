@@ -734,14 +734,13 @@ limitations under the License.
 	<cfargument name="collection_id" type="string" required="yes">
 	<cfargument name="initiating_date" type="string" required="yes">
 	<cfargument name="nature_of_material" type="string" required="yes">
-	<!--- TODO: Handle return_due_date disabled on exhibition subloans --->
-	<cfargument name="return_due_date" type="string" required="yes">
+	<!--- return_due_date is required, but not for exhibition subloans --->
+	<cfargument name="return_due_date" type="string" required="no">
 	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="loan_description" type="string" required="no">
 	<cfargument name="loan_instructions" type="string" required="no">
 	<cfargument name="insurance_value" type="string" required="no">
 	<cfargument name="insurance_maintained_by" type="string" required="no">
-	<cfargument name="project_id" type="string" required="no">
 	<cfargument name="numagents" type="string" required="no">
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
@@ -785,16 +784,6 @@ limitations under the License.
 						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				</cfquery>
 			</cfif>
-			<cfif isdefined("project_id") and len(project_id) gt 0>
-				<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO project_trans (
-						project_id, 
-						transaction_id)
-					VALUES (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">)
-				</cfquery>
-			</cfif>
 			<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
 				<!--- Propagate due date to child exhibition-subloans --->
 				<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
@@ -806,63 +795,6 @@ limitations under the License.
  						transaction_id in (select lr.related_transaction_id from loan_relations lr where
 						lr.relation_type = 'Subloan' AND
 						lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
-				</cfquery>
-			</cfif>
-			<!--- TODO:  Move project creation off to a separate function --->
-			<cfif isdefined("saveNewProject") and saveNewProject is "yes">
-				<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO project (
-						PROJECT_ID,
-						PROJECT_NAME
-						<cfif len(#START_DATE#) gt 0>
-							,START_DATE
-						</cfif>
-						<cfif len(#END_DATE#) gt 0>
-							,END_DATE
-						</cfif>
-						<cfif len(#PROJECT_DESCRIPTION#) gt 0>
-							,PROJECT_DESCRIPTION
-						</cfif>
-						<cfif len(#PROJECT_REMARKS#) gt 0>
-							,PROJECT_REMARKS
-						</cfif>
-						 )
-					VALUES (
-						sq_project_id.nextval,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
-						<cfif len(#START_DATE#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
-						</cfif>
-						<cfif len(#END_DATE#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(END_DATE,"yyyy-mm-dd")#">
-						</cfif>
-						<cfif len(#PROJECT_DESCRIPTION#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_DESCRIPTION#">
-						</cfif>
-						<cfif len(#PROJECT_REMARKS#) gt 0>
-							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_REMARKS#">
-						</cfif>
-						 )
-				</cfquery>
-				<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO project_agent (
-						PROJECT_ID,
-						AGENT_NAME_ID,
-						PROJECT_AGENT_ROLE,
-						AGENT_POSITION )
-					VALUES (
-						sq_project_id.currval,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newAgent_name_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_agent_role#">,
-						1 )
-				</cfquery>
-				<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					INSERT INTO project_trans 
-						(project_id, transaction_id) 
-					values (
-						sq_project_id.currval,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-					)
 				</cfquery>
 			</cfif>
 			<cfloop from="1" to="#numAgents#" index="n">
@@ -1450,6 +1382,9 @@ limitations under the License.
 				<!--- TODO: implement --->
 				<form id="create_project" class="row col-12" >
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
+					<input type="hidden" name="method" value="createProjectLinkToTrans">
+					<input type="hidden" name="returnformat" value="json">
+					<input type="hidden" name="queryformat" value="column">
 					<div class="row col-12">
 						<div class="col-12 col-md-6">
 							<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
@@ -1503,14 +1438,48 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row col-12">
+						<div class="col-12">
+							<label for="project_remarks" class="data-entry-label">Project-Transaction Remarks</label>
+							<textarea name="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="row col-12">
 						<div class="form-group col-12">
 							<input type="button" value="Create Project" class="btn btn-sm btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
 						</div>
 					</div>
 					<script>
+						$(document).ready(function() { 
+							$("textarea.autogrow").keyup(autogrow);  
+							$('textarea.autogrow').keyup();
+						});
 						function createProject(){
-							$('##create_project').html('Save not implemented yet.');
+							$.ajax({
+								url : "/transactions/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data: $("##create_project").serialize(),
+								success: function (result) {
+									if (result.DATA.STATUS[0]=='1') { 
+										$('##create_project').html('New project saved. ['+result.DATA.ID[0]+']');
+									} else {
+										messageDialog('Error creating project to link to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
+									}
+								},
+								fail: function(jqXHR,textStatus,error){
+									var message = "";
+									if (error == 'timeout') {
+										message = ' Server took too long to respond.';
+									} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+										message = ' Backing method did not return JSON.';
+									} else {
+										message = jqXHR.responseText;
+									}
+									if (!error) { error = ""; } 
+									messageDialog('Error creating project to link to transaction record: '+message, 'Error: '+error.substring(0,50));
+								}
+							});
 						};
 					</script>
 				</form>
@@ -1621,4 +1590,113 @@ limitations under the License.
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
+
+
+<cffunction name="createProjectLinkToTrans" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfargument name="project_name" type="string" required="yes">
+	<cfargument name="start_date" type="string" required="no">
+	<cfargument name="end_date" type="string" required="no">
+	<cfargument name="project_description" type="string" required="no">
+	<cfargument name="project_remarks" type="string" required="no">
+	<cfargument name="newAgent_name_id" type="string" required="yes">
+	<cfargument name="project_agent_role" type="string" required="yes">
+	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfset r=1>
+	<cftransaction>
+		<cftry>
+			<cfquery name="newProjSeq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_project_id.nextval as id from dual;
+			</cfquery>
+			<cfset project_id_new = newProjSeq.id>
+			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project (
+					PROJECT_ID
+					,PROJECT_NAME
+					<cfif len(#START_DATE#) gt 0>
+						,START_DATE
+					</cfif>
+					<cfif len(#END_DATE#) gt 0>
+						,END_DATE
+					</cfif>
+					<cfif len(#PROJECT_DESCRIPTION#) gt 0>
+						,PROJECT_DESCRIPTION
+					</cfif>
+					<cfif len(#PROJECT_REMARKS#) gt 0>
+						,PROJECT_REMARKS
+					</cfif>
+				)
+				VALUES 
+				(
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
+					<cfif len(#START_DATE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
+					</cfif>
+					<cfif len(#END_DATE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(END_DATE,"yyyy-mm-dd")#">
+					</cfif>
+					<cfif len(#PROJECT_DESCRIPTION#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_DESCRIPTION#">
+					</cfif>
+					<cfif len(#PROJECT_REMARKS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_REMARKS#">
+					</cfif>
+				)
+			</cfquery>
+			<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project_agent (
+					PROJECT_ID,
+					AGENT_NAME_ID,
+					PROJECT_AGENT_ROLE,
+					AGENT_POSITION )
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newAgent_name_id#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_agent_role#">
+					,1 )
+			</cfquery>
+			<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project_trans (
+					project_id
+					, transaction_id
+				) 
+				values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_trans_remarks#">
+					</cfif>
+				)
+			</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#project_id_new#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>
