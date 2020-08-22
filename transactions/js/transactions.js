@@ -953,14 +953,8 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
 		},
-		error: function (jqXHR, status, error) {
-			var message = "";
-			if (error == 'timeout') { 
-				message = ' Server took too long to respond.';
-			} else { 
-				message = jqXHR.responseText;
-			}
-			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		fail: function (jqXHR, status, error) {
+			handleFail(jqXHR,status,error,"opening dialog to for project creation from transaction dialog");
 		}
 	});
 }
@@ -985,15 +979,8 @@ function removeMediaFromTrans(mediaId,transactionId,relationType) {
 			reloadTransMedia();
 		}
 	).fail(function(jqXHR,textStatus,error){
-		var message = "";
-		if (error == 'timeout') {
-			message = ' Server took too long to respond.';
-		} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-			message = ' Backing method did not return JSON.';
-		} else {
-			message = jqXHR.responseText;
-		}
-		if (!error) { error = ""; } 
-		messageDialog('Error removing media from transaction record: '+message, 'Error: '+error.substring(0,50));
+		handleFail(jqXHR,textStatus,error,"removing media from transaction record");
 	});
 }
+
+

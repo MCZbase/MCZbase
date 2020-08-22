@@ -463,3 +463,27 @@ function makePublicationPicker(nameControl, idControl) {
 		return $("<li>").append("<span>" + item.value + "</span>").appendTo(ul);
 	};
 };
+
+/** 
+ * function handleFail general handler for ajax fail methods.
+ *	fail: function(jqXHR,textStatus,error){
+ *		handleFail(jqXHR,textStatus,error,"removing media from transaction record");
+ *	}
+ * @param jqXHR error object from ajax fail invocation
+ * @param textStatus error status value from ajax fail invocation
+ * @param error error value from ajax fail invocation
+ * @param contect text added by calling fail implementation to indicate the origin of the message. 
+ */
+function handleFail(jqXHR,textStatus,error,context) { 
+	var message = "";
+	if (error == 'timeout') {
+		message = ' Server took too long to respond.';
+	} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+		message = ' Backing method did not return JSON.';
+	} else {
+		message = jqXHR.responseText;
+	}
+	console.log('Error:' + context + ': ' + message);
+	if (!error) { error = ""; } 
+	messageDialog('Error '+context+': '+message, 'Error: '+error.substring(0,50));
+}

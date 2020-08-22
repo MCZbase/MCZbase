@@ -1472,16 +1472,7 @@ limitations under the License.
 									}
 								},
 								fail: function(jqXHR,textStatus,error){
-									var message = "";
-									if (error == 'timeout') {
-										message = ' Server took too long to respond.';
-									} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-										message = ' Backing method did not return JSON.';
-									} else {
-										message = jqXHR.responseText;
-									}
-									if (!error) { error = ""; } 
-									messageDialog('Error creating project to link to transaction record: '+message, 'Error: '+error.substring(0,50));
+									handleFail(jqXHR,textStatus,error,"creating project to link to transaction record");
 								}
 							});
 						};
