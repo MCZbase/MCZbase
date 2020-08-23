@@ -1667,10 +1667,12 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfset row = StructNew()>
-			<cfset row["status"] = "saved">
-			<cfset row["id"] = "#project_id_new#">
-			<cfset data[1] = row>
+			<cfset data=queryNew("status, message")>
+			<cfset t = queryaddrow(data,1)>
+			<cfset t = QuerySetCell(data, "status", "1", 1)>
+			<cfset t = QuerySetCell(data, "message", "Record Added.", 1)>
+			<cfset t = QuerySetCell(data, "id", "#project_id_new#", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No record added. #transaction_id# #project_id# #add.sql#", 1)>
 			<cftransaction action="commit">
 		<cfcatch>
 			<cftransaction action="rollback">
