@@ -1655,6 +1655,9 @@ limitations under the License.
 				INSERT INTO project_trans (
 					project_id
 					, transaction_id
+					<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+						,project_trans_remarks
+					</cfif>
 				) 
 				values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
