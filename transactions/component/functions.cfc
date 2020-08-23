@@ -1601,7 +1601,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfquery name="newProjSeq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select sq_project_id.nextval as id from dual;
+				select sq_project_id.nextval as id from dual
 			</cfquery>
 			<cfset project_id_new = newProjSeq.id>
 			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
