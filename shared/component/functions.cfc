@@ -216,7 +216,7 @@ limitations under the License.
 				success: function (data) {
 					$('##'+div_id).html(data);
 				},
-				fail: function (jqXHR, textStatus) {
+				error: function (jqXHR, textStatus) {
 					$('##'+div_id).html('Error:' + textStatus);
 				}
 			});

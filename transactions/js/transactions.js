@@ -490,7 +490,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			$('#numAgents').val(i);
 			jQuery('#transactionAgentsTable tr:last').after(d);
 		}
-	).fail(function(jqXHR,textStatus,error){
+	).error(function(jqXHR,textStatus,error){
 		var message = "";
 		if (error == 'timeout') {
 			message = ' Server took too long to respond.';
@@ -557,7 +557,7 @@ function addTransAgentDeacc (id,name,role) {
   			document.getElementById('numAgents').value=i;
   			jQuery('#deaccAgents tr:last').after(d);
 		}
-	).fail(function(jqXHR,textStatus,error){
+	).error(function(jqXHR,textStatus,error){
 		var message = "";
 		if (error == 'timeout') {
 			message = ' Server took too long to respond.';
@@ -641,7 +641,7 @@ function saveShipment(transactionId) {
 					$("#dialog-shipment").dialog( "close" );
 				}
 			},
-			fail: function (jqXHR,textStatus) {
+			error: function (jqXHR,textStatus) {
 				 $("#shipmentFormStatus").empty().append("Error Submitting Form: " + textStatus);
 			}
 		});
@@ -953,7 +953,7 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
 		},
-		fail: function (jqXHR, status, error) {
+		error: function (jqXHR, status, error) {
 			handleFail(jqXHR,status,error,"opening dialog to for project creation from transaction dialog");
 		}
 	});
@@ -978,7 +978,7 @@ function removeMediaFromTrans(mediaId,transactionId,relationType) {
 		function (result) {
 			reloadTransMedia();
 		}
-	).fail(function(jqXHR,textStatus,error){
+	).error(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing media from transaction record");
 	});
 }

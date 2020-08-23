@@ -1471,7 +1471,7 @@ limitations under the License.
 										messageDialog('Error creating project to link to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
 									}
 								},
-								fail: function(jqXHR,textStatus,error){
+								error: function(jqXHR,textStatus,error){
 									handleFail(jqXHR,textStatus,error,"creating project to link to transaction record");
 								}
 							});
