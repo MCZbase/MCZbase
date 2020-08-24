@@ -1677,7 +1677,12 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfif isDefined("cfcatch.TagContext[1].line") ><cfset line="Line: #cfcatch.TagContext[1].line#"><cfelse><cfset line = ''></cfif>
+			<cftry>
+				<cfif isDefined("cfcatch.TagContext") ><cfset line="Line: #cfcatch.TagContext[1].line#"><cfelse><cfset line = ''></cfif>
+			<cfcatch>
+				<cfset line = ''>
+			</cfcatch>
+			</cftry>
 			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & line & " " & queryError) >
 			<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
