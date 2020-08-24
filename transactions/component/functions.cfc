@@ -1667,7 +1667,7 @@ limitations under the License.
 					</cfif>
 				)
 			</cfquery>
-			<cfset data=queryNew("status, message")>
+			<cfset data=queryNew("status, message, id")>
 			<cfset t = queryaddrow(data,1)>
 			<cfset t = QuerySetCell(data, "status", "1", 1)>
 			<cfset t = QuerySetCell(data, "message", "Record Added.", 1)>
@@ -1677,7 +1677,8 @@ limitations under the License.
 		<cfcatch>
 			<cftransaction action="rollback">
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfif isDefined("cfcatch.TagContext[1].line") ><cfset line="Line: #cfcatch.TagContext[1].line#"><cfelse><cfset line = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & line & " " & queryError) >
 			<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
