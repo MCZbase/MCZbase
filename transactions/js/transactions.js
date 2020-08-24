@@ -998,7 +998,7 @@ function removeProjectFromTrans(projectId,transactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-			reloadTransProject();
+			reloadTransProjects();
 		}
 	).error(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing project from transaction record");

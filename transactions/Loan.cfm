@@ -1330,6 +1330,9 @@ limitations under the License.
 							<div id="projectsDiv"></div>
 							<script>
 								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
+								function reloadTransProjects() {
+									loadProjects('projectsDiv',#loanDetails.transaction_id#);
+								} 
 							</script>
 							<div class="col-12">
 								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
