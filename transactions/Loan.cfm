@@ -1171,19 +1171,36 @@ limitations under the License.
 									</div>
 									<div class="row">
 										<div class="col-12">
-											<label for="packed_by_agent" class="data-entry-label">Packed By Agent</label>
-											<input type="text" name="packed_by_agent" class="reqdClr form-control-sm" size="50" value="" id="packed_by_agent"
-												onchange="getAgent('packed_by_agent_id','packed_by_agent','shipmentForm',this.value); return false;"
-												onKeyPress="return noenter(event);" required>
-											<input type="hidden" name="packed_by_agent_id" value="" id="packed_by_agent_id" >
+											<span class="my-1 data-entry-label">
+												<label for="packed_by_agent">Packed By Agent</label>
+												<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="packed_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input type="text" name="packed_by_agent" id="packed_by_agent" required class="form-control form-control-sm data-entry-input reqdClr" value="">
+											</div>
+											<input type="hidden" name="packed_by_agent_id" id="packed_by_agent_id" value=""
+												onchange=" updateAgentLink($('##packed_by_agent_id').val(),'packed_by_agent_view_link'); ">
+											<script>
+												$(document).ready(function() {
+													$(makeRichTransAgentPicker('packed_by_agent','packed_by_agent_id','packed_by_agent_icon','packed_by_agent_view_link',null)); 
+												});
+											</script>
 										</div>
 									</div>
+<script>
+	function pickShipmentAddress(idField, addressField, formId) { 
+		console.log('TODO: Implement shipment picker');
+	}
+</script>
 									<div class="row">
 										<div class="col-12">
 											<span class="data-entry-label">
 												<label for="shipped_to_addr">Shipped To Address</label>
 												<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
-													onClick="addrPick('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
+													onClick="pickShipmentAddress('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
 											</span>
 											<textarea name="shipped_to_addr" id="shipped_to_addr" cols="60" rows="5"
 												readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
@@ -1195,7 +1212,7 @@ limitations under the License.
 											<span class="data-entry-label">
 												<label for="shipped_from_addr">Shipped From Address</label>
 												<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
-													onClick="addrPick('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
+													onClick="pickShipmentAddress('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
 											</span>
 											<textarea name="shipped_from_addr" id="shipped_from_addr" cols="60" rows="5"
 												readonly="yes" class="reqdClr"></textarea><!--- not autogrow --->
