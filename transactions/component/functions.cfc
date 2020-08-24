@@ -1409,7 +1409,7 @@ limitations under the License.
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
-							<select name="project_agent_role" size="1" class="reqdClr form-control-sm" required>
+							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr form-control-sm" required>
 								<cfloop query="ctProjAgRole">
 								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 								</cfloop>
@@ -1419,41 +1419,41 @@ limitations under the License.
 					<div class="row col-12">
 						<div class="col-12 col-md-6">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
-							<input type="text" name="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
+							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
 						</div>
 						<div class="col-12 col-md-6">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
-							<input type="text" name="end_date" class="form-control-sm">
+							<input type="text" name="end_date" id="end_date" class="form-control-sm">
 						</div>
 					</div>
 					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_name" class="data-entry-label">Project Title</label>
-							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
+							<textarea name="project_name" id="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
 						</div>
 					</div>
 					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_description" class="data-entry-label">Project Description</label>
-							<textarea name="project_description" class="form-control autogrow"
+							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
 						</div>
 					</div>
 					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
-							<textarea name="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
+							<textarea name="project_remarks" id="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
 						</div>
 					</div>
 					<div class="row col-12">
 						<div class="col-12">
-							<label for="project_remarks" class="data-entry-label">Project-Transaction Remarks</label>
-							<textarea name="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
+							<label for="project_trans_remarks" class="data-entry-label">Project-Transaction Remarks</label>
+							<textarea name="project_trans_remarks" id="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
 						</div>
 					</div>
 					<div class="row col-12">
 						<div class="form-group col-12">
-							<input type="button" value="Create Project" class="btn btn-sm btn-primary"
+							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-sm btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
 						</div>
 					</div>
