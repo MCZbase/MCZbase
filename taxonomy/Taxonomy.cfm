@@ -1078,7 +1078,7 @@ limitations under the License.
 											<cfloop query="ctSourceAuth">
 												<option
 													<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
-													value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
+								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 											</cfloop>
 										</select>
 									</div>
