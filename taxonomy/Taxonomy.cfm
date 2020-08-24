@@ -1061,11 +1061,11 @@ limitations under the License.
 							<h1 class="h3 mb-0 px-1 float-left">Create New Taxonomy</h1>
 							<p class="px-3 float-left w-100">(through cloning and editing)</p>
 							</div>
-								<div class="col-12 col-sm-6 px-0 float-right text-right mt-sm-5 pr-2">
+				<!---				<div class="col-12 col-sm-6 px-0 float-right text-right mt-sm-5 pr-2">
 									<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
 									<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 									<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
-								</div>
+								</div>--->
 							</div>
 						</div>
 						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
@@ -1469,7 +1469,7 @@ limitations under the License.
 									</div>
 									</div>
 									<div class="form-row col-12 px-0 justify-content-center mt-1 pt-2">
-								<input type="submit" value="Create" class="btn-xs btn-primary">
+									<input type="submit" value="Create" class="btn-xs btn-primary">
 									</div>
 							</form>
 					</div>
@@ -1493,7 +1493,7 @@ limitations under the License.
 			<cfif len(#author_text#) gt 0>
 				,author_text
 			</cfif>
-					<cfif len(#source_authority#) gt 0>
+			<cfif len(#source_authority#) gt 0>
 				,source_authority
 			</cfif>
 			<cfif len(#taxonid_guid_type#) gt 0>	
