@@ -983,4 +983,25 @@ function removeMediaFromTrans(mediaId,transactionId,relationType) {
 	});
 }
 
+/** function removeProjectFromTrans unlink a project record from a transaction 
+ * 
+ * @param projectId the project_id of project record to unlink from the transaction.
+ * @param transactionId the transaction_id of the transaction from which to unlink the project
+ */
+function removeProjectFromTrans(projectId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeProjectFromTransaction",
+			project_id : projectId,
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			reloadTransProject();
+		}
+	).error(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+	});
+}
 

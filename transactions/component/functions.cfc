@@ -1260,7 +1260,11 @@ limitations under the License.
 				<ul class="list-group">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="list-group-item"><a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> (#start_date#/#end_date#) #project_trans_remarks#</li>
+							<li class="list-group-item">
+								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
+								(#start_date#/#end_date#) #project_trans_remarks#
+								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
+							</li>
 						</cfloop>
 					<cfelse>
 						<li class="list-group-item">None</li>
@@ -1702,5 +1706,49 @@ limitations under the License.
 	</cftransaction>
 	<cfreturn #data#>
 </cffunction>
+
+<!--- 
+ ** method removeProjectFromTransaction unlink a project record from a transaction (weak entity, 
+ *  primary key comprised of foreign keys transaction_id and project_id.
+ *
+ * @param transaction_id the transaction id of the project_trans record to delate.
+ * @parem project_id the project id of the project_trans record to delete
+--->
+<cffunction name="removeProjectFromTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from project_trans
+			where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				and project_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #project_id# #transaction_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset theResult=queryNew("status, message")>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+	<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
+
 
 </cfcomponent>
