@@ -1088,20 +1088,6 @@ limitations under the License.
 							<!--- shippmentTable for ajax replace ---> 
 							<script>
 								$( document ).ready(loadShipments(#transaction_id#));
-									$(function() {
-									$("##dialog-shipment").dialog({
-										autoOpen: false,
-										modal: true,
-										width: 650,
-										buttons: {
-											"Save": function() {  saveShipment(#transaction_id#); } ,
-											Cancel: function() { $(this).dialog( "close" ); }
-										},
-										close: function() {
-											$(this).dialog( "close" );
-										}
-									});
-								});
 							</script>
 							<div class="addstyle">
 								<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
@@ -1109,15 +1095,31 @@ limitations under the License.
 							</div>
 						</div>
 					</section>
-				
+		
+					<!--- TODO: Move to cfinclude template="/transactions/shipmentDialog.cfm"> --->		
 					<!----  Shipment Popup Dialog autoOpen is false --->
+					<script>
+						$( document ).ready(function() {
+							$("##dialog-shipment").dialog({
+								autoOpen: false,
+								modal: true,
+								width: 650,
+								buttons: {
+									"Save": function() {  saveShipment(#transaction_id#); } ,
+									Cancel: function() { $(this).dialog( "close" ); }
+								},
+								close: function() {
+									$(this).dialog( "close" );
+								}
+							});
+						});
+					</script>
 					<dialog id="dialog-shipment" title="Create new Shipment">
 						<form name="shipmentForm" id="shipmentForm" >
 							<fieldset>
 								<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 								<input type="hidden" name="shipment_id" value="" id="shipment_id">
 								<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-								<!--- TODO: Restyle using divs and bootstrap classes --->
 								<div class="container">
 									<div class="row">
 										<div class="col-12 col-md-4">
@@ -1202,7 +1204,7 @@ limitations under the License.
 												<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
 													onClick="pickShipmentAddress('shipped_to_addr_id','shipped_to_addr','shipmentForm'); return false;">
 											</span>
-											<textarea name="shipped_to_addr" id="shipped_to_addr" cols="65" rows="5"
+											<textarea name="shipped_to_addr" id="shipped_to_addr" cols="65" rows="5" required
 												readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
 											<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 										</div>
@@ -1214,7 +1216,7 @@ limitations under the License.
 												<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
 													onClick="pickShipmentAddress('shipped_from_addr_id','shipped_from_addr','shipmentForm'); return false;">
 											</span>
-											<textarea name="shipped_from_addr" id="shipped_from_addr" cols="65" rows="5"
+											<textarea name="shipped_from_addr" id="shipped_from_addr" cols="65" rows="5" required
 												readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
 											<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 										</div>
