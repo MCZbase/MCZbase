@@ -1388,8 +1388,10 @@ limitations under the License.
 					<input type="hidden" name="queryformat" value="column">
 					<div class="row col-12">
 						<div class="col-12 col-md-6">
-							<label for="newAgent_name" class="data-entry-label">Project Agent Name</label>
-							<span id="newAgentViewLink" class="px-2">&nbsp;</span>
+							<span class="my-1 data-entry-label">
+								<label for="newAgent_name">Project Agent Name</label>
+								<span id="newAgentViewLink" class="px-2">&nbsp;</span>
+							</span>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
