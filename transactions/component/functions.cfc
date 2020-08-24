@@ -1700,7 +1700,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cftransaction>
-	<cfreturn #serializeJSON(data)#>
+	<cfreturn #data#>
 </cffunction>
 
 </cfcomponent>
