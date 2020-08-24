@@ -1068,7 +1068,7 @@ limitations under the License.
 								</div>--->
 							</div>
 						</div>
-						<form name="taxa" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
+						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
 								
 								<div class="tInput form-row mx-2 mb-1">
 									<div class="col-12 col-sm-6">
