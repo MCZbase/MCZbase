@@ -1409,7 +1409,7 @@ limitations under the License.
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
-							<select name="project_agent_role" size="1" class="reqdClr form-control-sm">
+							<select name="project_agent_role" size="1" class="reqdClr form-control-sm" required>
 								<cfloop query="ctProjAgRole">
 								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 								</cfloop>
@@ -1429,7 +1429,7 @@ limitations under the License.
 					<div class="row col-12">
 						<div class="col-12">
 							<label for="project_name" class="data-entry-label">Project Title</label>
-							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow"></textarea>
+							<textarea name="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
 						</div>
 					</div>
 					<div class="row col-12">
