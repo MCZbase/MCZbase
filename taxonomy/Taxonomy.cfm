@@ -1049,7 +1049,10 @@ limitations under the License.
 	<cfset title = "Add Taxon">
 	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-</cfquery>
+	</cfquery>
+	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select * from ctSourceAuth where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+	</cfquery>
 	<cfoutput>
 		<div class="container-fluid">
 			<div class="row mb-4 mx-0">
@@ -1074,13 +1077,13 @@ limitations under the License.
 									<div class="col-12 col-sm-6">
 										<input type="hidden" name="Action" value="saveNewTaxa">
 										<label for="source_authority">Source</label>
-										<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select w-75">
-											<cfloop query="ctSourceAuth">
-												<option
-													<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
+					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
+						<cfloop query="ctSourceAuth">
+							<option
+								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
-											</cfloop>
-										</select>
+						</cfloop>
+					</select>
 									</div>
 									<div class="col-12 col-sm-3">
 										<label for="valid_catalog_term_fg">Valid?</label>
