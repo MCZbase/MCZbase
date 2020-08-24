@@ -1410,6 +1410,7 @@ limitations under the License.
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
 							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr form-control-sm" required>
+								<option value=""></option>
 								<cfloop query="ctProjAgRole">
 								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
 								</cfloop>
