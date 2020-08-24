@@ -312,7 +312,7 @@ Change to: <select name="format">
        <cfset numRecordsPerPage = 25>
     <cfelse>
        <cfset numRecordsPerPage = maxCol * maxRow>
-    <cfif>
+    </cfif>
     <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
     <cfset curPage = 1>
     <cfset curRecord = 1>
