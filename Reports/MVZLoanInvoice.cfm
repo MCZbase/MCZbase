@@ -256,12 +256,13 @@ Change to: <select name="format">
 		<option value="Malacology2">Malacology 1"x2" with container</option>
 		<!---  <option value="Cryo">Cryogenic Locator List</option>  --->
 		<option value="Cryo-Sheet">Cryogenic Spreadsheet</option>
+		<option value="Cryo-Sheet-R">Cryogenic Spreadsheet with remarks</option>
 		<option value="Storage">Storage Locations</option>
 	</select>
 	<input type='submit' value='Change Format' />
 </form>
 </cfoutput>
-<cfif format is "Cryo-Sheet">
+<cfif format is "Cryo-Sheet" or format is "Cryo-Sheet-R">
      <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
       select
            cataloged_item.collection_cde,
@@ -273,10 +274,14 @@ Change to: <select name="format">
            c4.barcode as slot,
            c3.barcode as box,
            c2.label as position,
-           c1.barcode as vial
+           c1.barcode as vial,
+           corem.coll_object_remarks as part_remarks,
+           pcorem.coll_object_remarks as sampled_from_part_remarks
       from
          loan_item
             left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+            left join coll_object_remark corem on loan_item.collection_object_id = corem.collection_object_id
+            left join coll_object_remark pcorem on specimen_part.sampled_from_obj_id = pcorem.collection_object_id
             left join coll_obj_cont_hist on specimen_part.sampled_from_obj_id = coll_obj_cont_hist.collection_object_id
             left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
             left join identification on cataloged_item.collection_object_id = identification.collection_object_id
@@ -351,6 +356,10 @@ Change to: <select name="format">
     		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
+						<cfif format is "Cryo-Sheet-R">
+    		            <th #thStyle#><span class="#textHClass#"><strong>Part Remarks</strong></span></th>
+    		            <th #thStyle#><span class="#textHClass#"><strong>Sampled From Part Remarks</strong></span></th>
+						</cfif>
     	 	     </tr>
 
     <!--- Main loop --->
@@ -368,6 +377,10 @@ Change to: <select name="format">
     		         <td #tdStyle#><span class="#textClass#">#box#</span></td>
     		         <td #tdStyle#><span class="#textClass#"><strong>#position#</strong></span></td>
     		         <td #tdStyle#><span class="#textClass#">#vial#</span></td>
+						<cfif format is "Cryo-Sheet-R">
+    		         	<td #tdStyle#><span class="#textClass#">#part_remarks#</span></td>
+    		         	<td #tdStyle#><span class="#textClass#">#sampled_from_part_remarks#</span></td>
+						</cfif>
     	 	     </tr>
     	<!--- Page break --->
     	<cfif curRecord mod numRecordsPerPage is 0 AND curRecord lt getItems.recordcount>
@@ -385,6 +398,10 @@ Change to: <select name="format">
     		         <th #thStyle#><span class="#textHClass#"><strong>Freezer Box</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Position</strong></span></th>
     		         <th #thStyle#><span class="#textHClass#"><strong>Cryovial</strong></span></th>
+						<cfif format is "Cryo-Sheet-R">
+    		            <th #thStyle#><span class="#textHClass#"><strong>Part Remarks</strong></span></th>
+    		            <th #thStyle#><span class="#textHClass#"><strong>Sampled From Part Remarks</strong></span></th>
+						</cfif>
     	 	     </tr>
 
     	</cfif>
