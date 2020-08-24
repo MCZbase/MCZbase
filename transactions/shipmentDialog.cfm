@@ -1,6 +1,8 @@
+<cfoutput>
 <!----  Shipment Popup Dialog autoOpen is false --->
 <script>
 	$( document ).ready(function() {
+		console.log("initializing dialog-shipment");
 		$("##dialog-shipment").dialog({
 			autoOpen: false,
 			modal: true,
@@ -140,3 +142,4 @@
 	<div id="shipmentFormStatus"></div>
 </dialog>
 <!----  End Shipment dialog --->
+</cfoutput>
