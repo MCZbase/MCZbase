@@ -306,7 +306,13 @@ Change to: <select name="format">
     <cfset dateStyle = "dd mmm<br>yyyy">
     <cfset dateWidth = "width: 60px;">
 
-    <cfset numRecordsPerPage = maxCol * maxRow>
+	 <cfif format is "Cryo-Sheet-R">
+       <cfset numRecordsPerPage = 12>
+	 <cfelseif format is "Cryo-Sheet">
+       <cfset numRecordsPerPage = 25>
+    <cfelse>
+       <cfset numRecordsPerPage = maxCol * maxRow>
+    <cfif>
     <cfset maxPage = (getItems.recordcount-1) \ numRecordsPerPage + 1>
     <cfset curPage = 1>
     <cfset curRecord = 1>
