@@ -1005,3 +1005,63 @@ function removeProjectFromTrans(projectId,transactionId) {
 	});
 }
 
+function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id) { 
+	var title = "Find Shipping Addresses";
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		height: h,
+		width: w,
+		minWidth: 600,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogid).dialog('close');
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "get",
+		data: {
+			method: "getAddressPickerHtml",
+			returnformat: "plain",
+			valuecontrol: valueControl,
+			idcontrol: idControl,
+			dialog: dialogid,
+			transaction_id: transaction_id
+		},
+		success: function(data) {
+			$("#"+dialogid+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		}
+	});
+}

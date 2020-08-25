@@ -1074,9 +1074,6 @@ limitations under the License.
 									adialog.dialog('open');
 								};
 							</script>
-							<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
-							</cfquery>
 							<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
 								from shipment sh

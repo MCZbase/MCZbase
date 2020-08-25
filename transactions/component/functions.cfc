@@ -1754,4 +1754,217 @@ limitations under the License.
 </cffunction>
 
 
+
+<!--- 
+  ** obtain an html block for picking addresses for a shipment using an address text control and address_id control 
+  *  with a specified dialog.
+  *
+ --->
+<cffunction name="getAddressPickerHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="valuecontrol" type="string" required="yes">
+	<cfargument name="idcontrol" type="string" required="yes">
+	<cfargument name="dialog" type="string" required="yes">
+	<cfargument name="transaction_id" type="number" required="yes">
+
+	<cfthread name="getAddressPickerThread">
+
+	<cftry>
+		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select transaction_type, specific_number, trans_date, trans_remarks
+			from transaction_view
+			where
+				transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfif lookupTrans.transaction_type EQ "accn"> 
+			<!--- Temporary addresses for agents can be created for accessions, where an agent working at the MCZ is shipping from a temporary address on an expedition --->
+			<cfset includeTemporary = "true">
+		<cfelse>
+			<cfset includeTemporary = "">
+		</cfif>
+		<cfoutput>
+			<h3>Search for Addresses.</h3>
+   		<form id="findAddressSearchForm" name="findAddress">
+				<input type="hidden" name="method" value="getAddressesJSON" class="keeponclear">
+				<input type="hidden" name="include_temporary" value="#includeTemporary#" class="keeponclear">
+
+				<cfif includeTemporary EQ "true">
+					<h2>TODO: Implement temporary address creation.</h2>
+				</cfif>
+
+				<div class="row col-12">
+					<div class="col-12 col-md-6">
+						<span class="my-1 data-entry-label">
+							<label for="shipment_agent_name">Agent Name</label>
+							<span id="shipment_agent_view_link" class="px-2">&nbsp;</span>
+						</span>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+							</div>
+							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
+						</div>
+						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
+							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
+						<script>
+							$(document).ready(function() {
+								$(makeRichTransAgentPicker('shipment_agent_name','shipment_agent_id','shipment_agent_icon','shipment_agent_view_link',null)); 
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-6">
+						<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
+						<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
+					</div>
+				</div>
+			</form>
+
+			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+				<h4>Results: </h4>
+				<span class="d-block px-3 p-2" id="addressPickResultCount"></span> <span id="addressPickResultLink" class="d-block p-2"></span>
+			</div>
+			<div class="row mt-0">
+				<div id="addressPickSearchText"></div>
+				<div id="addressPickResultsGrid" class="jqxGrid"></div>
+				<div id="enableselection"></div>
+			</div>
+			<script>
+   				$("##findAddressSearchForm").bind("submit", function(evt){
+      				evt.preventDefault();
+					$("##addressPickResultsGrid").replaceWith(''<div id="addressPickResultsGrid" class="jqxGrid"></div>'');
+					$("##addressPickResultCount").html("");
+					$("##addressPickResultLink").html("");
+					$("##addressPickSearchText").jqxGrid("showloadelement");
+
+				   var addressSearch = {
+						datatype: "json",
+						datafields: [
+							{ name: "addr_id", type: "string" },
+							{ name: "agent_name", type: "string" },
+							{ name: "agent_id", type: "string" },
+							{ name: "formatted_addr", type: "string" },
+							{ name: "valid_addr_fg", type: "string" },
+							{ name: "addr_type", type: "string" },
+						],
+						root: "addressRecord",
+						id: "address_id",
+						url: "/transactions/component/functions.cfc?" + $("##findAddressSearchForm").serialize()
+					};
+
+					var dataAdapter = new $.jqx.dataAdapter(addressSearch);
+
+					// TODO: Implement agentcellrenderer, bind to agent id to create view link for agent
+
+					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
+						var pvalue =  rowdata.address_num + " " + rowdata.address_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+						var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
+						return result;
+					};
+
+					$("##addressPickResultsGrid").jqxGrid({
+						width: "100%",
+						autoheight: "true",
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: false,
+						pagesize: "50",
+						pagesizeoptions: ["50","100"],
+						showaggregates: false,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						columnsreorder: true,
+						groupable: false,
+						selectionmode: "none",
+						altrows: true,
+						showtoolbar: false,
+						columns: [
+							{text: "Select", datafield: "addr_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
+							{text: "Agent", datafield: "agent_name", width: 100, hideable: true, hidden: false }, 
+							{text: "agent_id", datafield: "agent_id", width: 50, hideable: true, hidden: true }, 
+							{text: "Address", datafield: "formatted_addr", width: 400, hideable: true, hidden: false },
+							{text: "Valid", datafield: "valid_addr_fg", width: 30, hideable: true, hidden: false },
+							{text: "Type", datafield: "addr_type", width: 30, hideable: true, hidden: false }
+         			]
+					});
+				});
+			</script>
+		<cfoutput>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	</cfthread>
+	<cfthread action="join" name="getAddressPickerThread" />
+	<cfreturn getAddressPickerThread.output>
+</cffunction>
+
+<cffunction name="getAddressesJSON" access="remote" returntype="any" returnformat="json">
+	<cfargument name="shipment_agent_id" type="string" required="no">
+	<cfargument name="formatted_address" type="string" required="no">
+	<cfargument name="include_temporary" type="string" required="no">
+	<cfif isdefined("include_temporary") and #include_temporary# IS "true">
+		<cfset showTemp = TRUE>
+	<cfelse>
+		<cfset showTemp = FALSE>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
+			FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
+			WHERE
+				formatted_addr is not null
+			<cfif showTemp EQ FALSE >
+				AND addr_type <> 'temporary'
+			</cfif >
+			<cfif isdefined("shipment_agent_id") AND len(agent_3_id) gt 0>
+				AND addr.agent_id = <cfqueryparam value="#shipment_agent_id#" cfsqltype="CF_SQL_DECIMAL">
+			<cfelseif isdefined("formatted_address") AND len(agent_3) gt 0>
+				AND upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(formatted_address)#%" >
+			</cfif>
+			ORDER BY valid_addr_fg desc, agent_name asc
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["agent_name"] = "#search.agent_name#">
+			<cfset row["agent_id"] = "#search.agent_id#">
+			<cfset row["formatted_addr"] = "#search.formatted_addr#">
+			<cfset row["addr_id"] = "#search.addr_id#">
+			<cfset row["valid_addr_fg"] = "#search.valid_addr_fg#">
+			<cfset row["addr_type"] = "#search.addr_type#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 </cfcomponent>
