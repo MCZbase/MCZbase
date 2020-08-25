@@ -145,6 +145,290 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+			
+<!-----------------------saveNewTaxa-------------------->		
+			
+<cffunction name="saveNewTaxa" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="source_authority" type="string" required="yes">
+	<cfargument name="nomenclatural_code" type="string" required="yes">	
+	<cfargument name="valid_catalog_term_fg" type="numeric" required="yes">	
+	<cfargument name="taxon_status" type="string" required="no">	
+	<cfargument name="genus" type="string" required="no">		
+	<cfargument name="subgenus" type="string" required="no">
+	<cfargument name="species" type="string" required="no">
+	<cfargument name="subspecies" type="string" required="no">
+	<cfargument name="author_text" type="string" required="no">
+	<cfargument name="infraspecific_author" type="string" required="yes">
+	<cfargument name="infraspecific_rank" type="string" required="no">	
+	<cfargument name="kingdom" type="string" required="no">		
+	<cfargument name="division" type="string" required="no">
+	<cfargument name="subdivision" type="string" required="no">	
+	<cfargument name="subsection" type="string" required="no">	
+	<cfargument name="phylum" type="string" required="no">
+	<cfargument name="subphylum" type="string" required="no">
+	<cfargument name="superclass" type="string" required="no">
+	<cfargument name="phylclass" type="string" required="no">
+	<cfargument name="subclass" type="string" required="no">
+	<cfargument name="infraclass" type="string" required="no">
+	<cfargument name="superorder" type="string" required="no">	
+	<cfargument name="phylorder" type="string" required="no">
+	<cfargument name="suborder" type="string" required="no">
+	<cfargument name="infraorder" type="string" required="no">
+	<cfargument name="superfamily" type="string" required="no">
+	<cfargument name="family" type="string" required="no">	
+	<cfargument name="subfamily" type="string" required="no">	
+	<cfargument name="tribe" type="string" required="no">		
+	<cfargument name="taxonid_guid_type" type="string" required="no">
+	<cfargument name="taxonid" type="string" required="no">
+	<cfargument name="scientificnameid_guid_type" type="string" required="no">
+	<cfargument name="scientificnameid" type="string" required="no">
+	<cfargument name="taxon_remarks" type="string" required="no">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfif len(trim(#source_authority#)) EQ 0>
+			<cfthrow type="Application" message="Source must contain a value.">
+		</cfif>
+		<cfif len(trim(#valid_catalog_term_fg#)) EQ 0>
+			<cfthrow type="Application" message="Valid for catalog must contain a value.">
+		</cfif>
+		<cfif len(trim(#nomenclatural_code#)) EQ 0>
+			<cfthrow type="Application" message="Nomenclatural code must contain a value.">
+		</cfif>
+		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		INSERT INTO taxonomy (
+				taxon_name_id,
+				valid_catalog_term_fg,
+				source_authority
+			<cfif len(#author_text#) gt 0>
+				,author_text
+			</cfif>
+			<cfif len(#source_authority#) gt 0>
+				,source_authority
+			</cfif>
+			<cfif len(#taxonid_guid_type#) gt 0>	
+				,taxonid_guid_type 
+			</cfif>
+			<cfif len(#taxonid#) gt 0>	
+				,taxonid
+			</cfif>
+			<cfif len(#scientificnameid_guid_type#) gt 0>	
+				,scientificnameid_guid_type 
+			</cfif>
+			<cfif len(#scientificnameid#) gt 0>	
+				,scientificnameid
+			</cfif>
+			<cfif len(#tribe#) gt 0>
+				,tribe
+			</cfif>
+			<cfif len(#infraspecific_rank#) gt 0>
+				,infraspecific_rank
+			</cfif>
+			<cfif len(#phylclass#) gt 0>
+				,phylclass
+			</cfif>
+			<cfif len(#phylorder#) gt 0>
+				,phylorder
+			</cfif>
+			<cfif len(#suborder#) gt 0>
+				,suborder
+			</cfif>
+			<cfif len(#family#) gt 0>
+				,family
+			</cfif>
+			<cfif len(#subfamily#) gt 0>
+				,subfamily
+			</cfif>
+			<cfif len(#genus#) gt 0>
+				,genus
+			</cfif>
+			<cfif len(#subgenus#) gt 0>
+				,subgenus
+			</cfif>
+			<cfif len(#species#) gt 0>
+				,species
+			</cfif>
+			<cfif len(#subspecies#) gt 0>
+				,subspecies
+			</cfif>
+			<cfif len(#taxon_remarks#) gt 0>
+				,taxon_remarks
+			</cfif>
+			<cfif len(#phylum#) gt 0>
+				,phylum
+			</cfif>
+			<cfif len(#infraspecific_author#) gt 0>
+				,infraspecific_author
+			</cfif>
+			<cfif len(#kingdom#) gt 0>
+				,kingdom
+			</cfif>
+			<cfif len(#nomenclatural_code#) gt 0>
+				,nomenclatural_code
+			</cfif>
+			<cfif len(#subphylum#) gt 0>
+				,subphylum
+			</cfif>
+			<cfif len(#superclass#) gt 0>
+				,superclass
+			</cfif>
+			<cfif len(#subclass#) gt 0>
+				,subclass
+			</cfif>
+			<cfif len(#superorder#) gt 0>
+				,superorder
+			</cfif>
+			<cfif len(#infraorder#) gt 0>
+				,infraorder
+			</cfif>
+			<cfif len(#superfamily#) gt 0>
+				,superfamily
+			</cfif>
+			<cfif len(#division#) gt 0>
+				,division
+			</cfif>
+			<cfif len(#subdivision#) gt 0>
+				,subdivision
+			</cfif>
+			<cfif len(#subsection#) gt 0>
+				,subsection
+			</cfif>
+			<cfif len(#infraclass#) gt 0>
+				,infraclass
+			</cfif>
+			<cfif len(#taxon_status#) gt 0>
+				,taxon_status
+			</cfif>
+			) VALUES (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextID.nextID#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
+			<cfif len(#author_text#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
+			</cfif>
+			<cfif len(#taxonid_guid_type#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonid_guid_type#">
+			</cfif>
+			<cfif len(#taxonid#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxonid#">
+			</cfif>
+			<cfif len(#scientificnameid_guid_type#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificnameid_guid_type#">
+			</cfif>
+			<cfif len(#scientificnameid#) gt 0>	
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientificnameid#">
+			</cfif>
+			<cfif len(#tribe#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tribe)#">
+			</cfif>
+			<cfif len(#infraspecific_rank#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_rank)#">
+			</cfif>
+			<cfif len(#phylclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylclass)#">
+			</cfif>
+			<cfif len(#phylorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylorder)#">
+			</cfif>
+			<cfif len(#suborder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(suborder)#">
+			</cfif>
+			<cfif len(#family#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(family)#">
+			</cfif>
+			<cfif len(#subfamily#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subfamily)#">
+			</cfif>
+			<cfif len(#genus#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(genus)#">
+			</cfif>
+			<cfif len(#subgenus#) gt 0>
+
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subgenus)#">
+			</cfif>
+			<cfif len(#species#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(species)#">
+			</cfif>
+			<cfif len(#subspecies#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subspecies)#">
+			</cfif>
+			<cfif len(#taxon_remarks#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_remarks)#">
+			</cfif>
+			<cfif len(#phylum#) gt 0>
+				,'#phylum#'
+			</cfif>
+			<cfif len(#infraspecific_author#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_author)#">
+			</cfif>
+			<cfif len(#kingdom#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#">
+			</cfif>
+			<cfif len(#nomenclatural_code#) gt 0>
+				,'#nomenclatural_code#'
+			</cfif>
+			<cfif len(#subphylum#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subphylum)#">
+			</cfif>
+			<cfif len(#superclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superclass)#">
+			</cfif>
+		 	<cfif len(#subclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subclass)#">
+			</cfif>
+			<cfif len(#superorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superorder)#">
+			</cfif>
+			<cfif len(#infraorder#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraorder)#">
+			</cfif>
+			<cfif len(#superfamily#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superfamily)#">
+			</cfif>
+			<cfif len(#division#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(division)#">
+			</cfif>
+			<cfif len(#subdivision#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subdivision)#">
+			</cfif>
+			<cfif len(#subsection#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subsection)#">
+			</cfif>
+			<cfif len(#infraclass#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraclass)#">
+			</cfif>
+			<cfif len(#taxon_status#) gt 0>
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_status)#">
+			</cfif>
+			)
+		</cfquery>
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=newTaxon&taxon_name_id=#nextID.nextID#" addtoken="false">
+		<cfset row = StructNew()>
+		<cfset row["status"] = "saved">
+		<cfset row["id"] = "#taxon_name_id#">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing saveTaxonomy: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 <!---------------------------------------------------------------------------------------------------->
 <cffunction name="removeTaxonPub" access="remote" returntype="any" returnformat="json">
 	<cfargument name="taxonomy_publication_id" type="numeric" required="yes">
