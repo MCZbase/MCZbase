@@ -343,6 +343,21 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+								<li class="d-md-flex align-items-start justify-content-start">
+									<div>
+										<div class="dropdown-header px-4 text-danger">Search</div>
+										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">All Transactions</a> <a class="dropdown-item" 			<a class="dropdown-item" href="/">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
+									</div>
+									<div>
+										<div class="dropdown-header px-4 text-danger">Create New Records</div>
+										<a class="dropdown-item" href="/">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
+									</div>
+						
+								</li>
+							</ul>
+						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
