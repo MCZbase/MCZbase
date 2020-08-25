@@ -26,7 +26,7 @@
 </script>
 <cfoutput>
 <main class="container-fluid">
-	<section class="row mx-0"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
+	<section class="row mx-sm-0"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
 		<div class="col-12">
 			<h1 class="h2">Loan Example</h1>
 		</div>
@@ -209,7 +209,7 @@
 			});
 		</script>
 	</section>
-	<section class="row mx-0">
+	<section class="row mx-sm-0">
 		<div class="col-12"><!--- aside isn't correct semantics here, this should all be within main - the semantics are this is main page content, but handled as subforms, not as loosely related sidebar content.  Aside would be appropriate for lists of similar loans or other content related, but not part of the loan itself. --->
 			<h2 class="h3 mb-0">Invoices and Reports</h2>
 			<h3 class="h4 font-weight-light">Print Invoices and Reports for shipments and files.</h3>
@@ -288,7 +288,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="row mx-0"><!--- see notes above about main, aside, and section --->
+	<section class="row mx-sm-0"><!--- see notes above about main, aside, and section --->
 		<div class="col-12 mb-4">
 			<h2 class="h3"> Accessions of Materials in this Loan</h2>
 			<ul class="list-group">
