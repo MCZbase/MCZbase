@@ -1046,11 +1046,11 @@ limitations under the License.
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxon">
-	<cfset title = "Add Taxon">
-	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfset title = "Add Taxon">
+<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-	<cfoutput>
+</cfquery>
+<cfoutput>
 		<div class="container-fluid">
 			<div class="row mb-4 mx-0">
 				<div class="col-12 px-0">
@@ -1068,11 +1068,12 @@ limitations under the License.
 								</div>--->
 							</div>
 						</div>
-		<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="float-left w-100">
+			<form name="taxa" method="post" action="Taxonomy.cfm">
+			<input type="hidden" name="Action" value="saveNewTaxa">
 								
 								<div class="tInput form-row mx-2 mb-1">
 									<div class="col-12 col-sm-6">
-										<input type="hidden" name="Action" value="saveNewTaxa">
+								
 										<label for="source_authority">Source</label>
 					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 						<cfloop query="ctSourceAuth">
