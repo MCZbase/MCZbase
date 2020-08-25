@@ -209,7 +209,7 @@
 			});
 		</script>
 	</section>
-	<section class="row">
+	<section class="row mx-0">
 		<div class="col-12"><!--- aside isn't correct semantics here, this should all be within main - the semantics are this is main page content, but handled as subforms, not as loosely related sidebar content.  Aside would be appropriate for lists of similar loans or other content related, but not part of the loan itself. --->
 			<h2 class="h3 mb-0">Invoices and Reports</h2>
 			<h3 class="h4 font-weight-light">Print Invoices and Reports for shipments and files.</h3>
