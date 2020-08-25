@@ -33,7 +33,7 @@
 		<div class="col-12">
 			<form id="loanTemplateForm"  class="was-validated"><!--- with the ajax save/update form handling instead of form posts to reload page, we would need much more complex logic to handle adding/removing needs-validation and was-validated, probably best to not use these, but use the browser's html5 required and pattern support.  Form must have ID--->
 				<div class="form-row mb-0">
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3"><!--- typically use 4 columns for forms --->
+					<div class="form-group col-12 col-md-3 col-lg-3 col-xl-3"><!--- typically use 4 columns for forms --->
 						<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option value="" selected>Choose...</option>
@@ -43,15 +43,15 @@
 							<option value="3">Invertebrate Zoology</option>
 						</select>
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
+					<div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="loan_number">Loan Number</label>
 						<input type="text" name="loan_number" class="form-control form-control-sm reqdClr" id="loan_number" required > <!--- Need to mark required elements, both with required and with a class, class must give them a yellow background --->
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
+					<div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="trans_date">Transaction Date</label>
 						<input type="text" class="form-control form-control-sm" id="trans_date" name="trans_date"><!--- all form inputs must have a name, this should almost always match the database field name, also provide an id, almost always the same as the name ---><!--- bound to date picker on document ready in script above --->
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
+					<div class="form-group col-12 col-md-3 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="inputNum">Due Date</label>
 						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
