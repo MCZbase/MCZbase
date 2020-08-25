@@ -348,7 +348,7 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Search</div>
-										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">All Transactions</a> <a class="dropdown-item" 			<a class="dropdown-item" href="/">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
+										<a class="dropdown-item" href="/Transactions.cfm">All Transactions</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
 									</div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Create New Records</div>
