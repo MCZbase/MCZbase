@@ -1056,7 +1056,7 @@ limitations under the License.
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
 	<table class="tInput">
-		<form name="taxa" method="post" action="Taxonomy.cfm">
+		<form name="taxa" method="post" action="Taxonomy.cfm" id="taxa">
 			<input type="hidden" name="Action" value="saveNewTaxa">
 			<tr>
 				<td>
@@ -1077,7 +1077,7 @@ limitations under the License.
 					</select>
 				</td>
 			</tr>
-<!---			<tr>
+			<tr>
 				<td colspan="2" class="detailCell">
 					<label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
 					<cfset pattern = "">
@@ -1222,7 +1222,7 @@ limitations under the License.
 						});
 					</script>
 				</td>
-			</tr>--->
+			</tr>
 			<tr>
 				<td>
 					<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
