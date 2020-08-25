@@ -1544,7 +1544,38 @@ textarea {
 .jqx-grid-column-menubutton {border-left:0;}
 
 #columntablesearchResultsGrid .jqx-widget-header:nth-child(3){color: transparent!important;}
-
+.custom-file-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    height: calc(1em + .87rem + 2px);
+    padding: .5rem .75rem;
+	font-size: .87em;
+    font-weight: 400;
+    line-height: 1;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+.custom-file-label::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    display: block;
+    height: calc(1em + .87rem + 1);
+    padding: .5rem .75rem;
+    line-height: 1;
+    color: #495057;
+    content: "Browse";
+    background-color: #e9ecef;
+    border-left: inherit;
+    border-radius: 0 .25rem .25rem 0;
+}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
