@@ -770,14 +770,28 @@ limitations under the License.
 						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
 					</script>
 					<div class="form-row col-12 px-0 justify-content-center mt-1 pt-2">
-						<input type="button" 
-							value="Save" title="Save" aria-label="Save"
-							class="btn btn-xs btn-primary mx-1"
-							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
-							>
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
-					
+			<td colspan="2">
+				<div align="center">
+					<input type="button" value="Save" class="savBtn" onclick=" qcTaxonEdits(); ">
+					<input type="button" value="Clone" class="insBtn" onclick="taxa.Action.value='newTaxon';submit();">
+					<input type="button" value="Delete" class="delBtn"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
+				</div>
+			</td>
+			<script>
+				function qcTaxonEdits() { 
+					$("##taxon_form_action_input").val('saveTaxonEdits');
+					<cfif hasTaxonId>
+						if ($("##taxonid").val()=="#gettaxa.taxonid#") { 
+							// GUID value has not changed from the initial value, but record changes are being saved, provide warning dialog.
+							confirmDialog("This taxon record is linked to an authority with a taxonID value.  Changes to the taxon name (but not the higher taxonomy) should only be made to conform the name with authority.", "Confirm Edits to taxon with GUID", function(){ $('##taxon_form').submit(); } )
+						} else { 
+							$('##taxon_form').submit();
+						}
+					<cfelse>
+						$('##taxon_form').submit();
+					</cfif>
+				}
+			</script>
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
