@@ -33,7 +33,7 @@
 		<div class="col-12">
 			<form id="loanTemplateForm"  class="was-validated"><!--- with the ajax save/update form handling instead of form posts to reload page, we would need much more complex logic to handle adding/removing needs-validation and was-validated, probably best to not use these, but use the browser's html5 required and pattern support.  Form must have ID--->
 				<div class="form-row mb-0">
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-2"><!--- typically use 4 columns for forms --->
+					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3"><!--- typically use 4 columns for forms --->
 						<label class="data-entry-label" for="inlineFormCustomSelect">Collection</label>
 						<select class="custom-select custom-select-sm" id="inlineFormCustomSelect">
 							<option value="" selected>Choose...</option>
