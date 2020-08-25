@@ -4,7 +4,7 @@
 <!--- source of function?  Looks like copy/paste from somwehere, not formatted according to style guide, won't work as is with expected ajax submission handling --->
 <!--- use $(document).ready() rather than adding a load event listener --->
 <script>
-	$(eocument).ready( function() {   
+	$(document).ready( function() {   
 		// Fetch all the forms we want to apply custom Bootstrap validation styles to
 		var forms = document.getElementsByClassName('needs-validation');
 		// Loop over them and prevent submission on validation failure
@@ -25,7 +25,7 @@
 	});
 </script>
 <cfoutput>
-<main class="container py-1" style="max-width: 100%;"><!--- Limit vertical whitespace ---><!--  TODO: Something in bootstrap is artificially creating lots of left and right whitespace on container, use more of width --->
+<main class="container-fluid">
 	<section class="row"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
 		<div class="col-12">
 			<h1 class="h2">Loan Example</h1>
