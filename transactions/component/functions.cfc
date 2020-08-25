@@ -1811,9 +1811,9 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-6">
-						<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
-						<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
+					<div class="col-12">
+						<button class="btn-xs btn-primary px-3" id="searchButton"
+							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
 					</div>
 				</div>
 			</form>
@@ -1828,8 +1828,8 @@ limitations under the License.
 				<div id="enableselection"></div>
 			</div>
 			<script>
-   				$("##findAddressSearchForm").bind("submit", function(evt){
-      				evt.preventDefault();
+   			$("##findAddressSearchForm").bind("submit", function(evt){
+      			evt.preventDefault();
 					$("##addressPickResultsGrid").replaceWith(''<div id="addressPickResultsGrid" class="jqxGrid"></div>'');
 					$("##addressPickResultCount").html("");
 					$("##addressPickResultLink").html("");
