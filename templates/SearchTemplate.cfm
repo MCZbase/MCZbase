@@ -26,13 +26,11 @@ limitations under the License.
 <cfoutput>
 
 <!--- Search form --->
-<div id="search-form-div" class="search-form-div pb-4 px-3">
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-11 col-sm-12 col-lg-11">
+		<div class="row mx-sm-0">
+			<div class="col-12 col-xl-11">
 				<h1 class="h3 smallcaps mt-4 pl-1">Search Specimen Records <span class="mt-2 font-italic pb-4 color-green small mx-0">(access to #getCount.cnt# records)</span></h1>
 				<div class="tab-card-main mt-1 tab-card">
-
 					<!--- Keyword Search, tab header div then tab contents div --->
 					<div class="card-header tab-card-header pb-0 w-100">
 						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
@@ -63,7 +61,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-</div>
+
 
 <!--- Results table as a jqxGrid. --->
 <div class="container-fluid">
