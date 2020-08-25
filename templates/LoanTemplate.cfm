@@ -43,15 +43,15 @@
 							<option value="3">Invertebrate Zoology</option>
 						</select>
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-2">
+					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="loan_number">Loan Number</label>
 						<input type="text" name="loan_number" class="form-control form-control-sm reqdClr" id="loan_number" required > <!--- Need to mark required elements, both with required and with a class, class must give them a yellow background --->
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-2">
+					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="trans_date">Transaction Date</label>
 						<input type="text" class="form-control form-control-sm" id="trans_date" name="trans_date"><!--- all form inputs must have a name, this should almost always match the database field name, also provide an id, almost always the same as the name ---><!--- bound to date picker on document ready in script above --->
 					</div>
-					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-2">
+					<div class="form-group col-12 col-md-4 col-lg-3 col-xl-3">
 						<label class="data-entry-label" for="inputNum">Due Date</label>
 						<input type="text" class="form-control form-control-sm" id="inputNum">
 					</div>
