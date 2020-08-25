@@ -1890,7 +1890,7 @@ limitations under the License.
 					});
 				});
 			</script>
-		<cfoutput>
+		</cfoutput>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
