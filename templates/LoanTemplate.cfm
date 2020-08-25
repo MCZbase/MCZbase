@@ -26,7 +26,7 @@
 </script>
 <cfoutput>
 <main class="container-fluid">
-	<section class="row"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
+	<section class="row mx-0"><!--- see notes below about aside, main form and additional form elements (shipments, media, permits, etc) should be sections, all wrapped in a main --->
 		<div class="col-12">
 			<h1 class="h2">Loan Example</h1>
 		</div>
