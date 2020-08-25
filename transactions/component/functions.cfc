@@ -1764,7 +1764,7 @@ limitations under the License.
 	<cfargument name="valuecontrol" type="string" required="yes">
 	<cfargument name="idcontrol" type="string" required="yes">
 	<cfargument name="dialog" type="string" required="yes">
-	<cfargument name="transaction_id" type="number" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
 
 	<cfthread name="getAddressPickerThread">
 
