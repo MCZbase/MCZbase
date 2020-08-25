@@ -1550,7 +1550,7 @@ textarea {
     right: 0;
     left: 0;
     z-index: 1;
-  height: calc(1.5em + .5rem + 2px);
+  height: calc(1.5em + .5rem + 1px);
     padding: .25rem .5rem;
     font-size: .875rem;
     line-height: 1.5;
@@ -1567,7 +1567,7 @@ textarea {
     bottom: 0;
     z-index: 3;
     display: block;
-	height: calc(1.5em + .5rem - 2px);
+	height: calc(1.5em + .5rem - 1px);
     padding: .25rem .5rem;
     font-size: .875rem;
     line-height: 1.5;
