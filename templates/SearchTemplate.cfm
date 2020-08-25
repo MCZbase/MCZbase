@@ -30,7 +30,7 @@ limitations under the License.
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-11 col-sm-12 col-lg-11">
-				<h1 class="h3 smallcaps mt-4 pl-1">Search Specimen Records <span class="mt-2 font-italic pb-4 color-green fs-15 mx-0">(access to #getCount.cnt# records)</span></h1>
+				<h1 class="h3 smallcaps mt-4 pl-1">Search Specimen Records <span class="mt-2 font-italic pb-4 color-green small mx-0">(access to #getCount.cnt# records)</span></h1>
 				<div class="tab-card-main mt-1 tab-card">
 
 					<!--- Keyword Search, tab header div then tab contents div --->
