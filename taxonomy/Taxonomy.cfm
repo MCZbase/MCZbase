@@ -505,7 +505,7 @@ limitations under the License.
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-					<div id="division_row" class="botanical">
+						<div id="division_row" class="botanical">
 						<div class="col-12 col-md-4 col-xl-3 px-0 botanical float-left">
 							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
@@ -775,7 +775,7 @@ limitations under the License.
 							class="btn btn-xs btn-primary mx-1"
 							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 							>
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
+						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
