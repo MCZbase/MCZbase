@@ -288,7 +288,7 @@
 			</div>
 		</div>
 	</section>
-	<section class="row"><!--- see notes above about main, aside, and section --->
+	<section class="row mx-0"><!--- see notes above about main, aside, and section --->
 		<div class="col-12 mb-4">
 			<h2 class="h3"> Accessions of Materials in this Loan</h2>
 			<ul class="list-group">
