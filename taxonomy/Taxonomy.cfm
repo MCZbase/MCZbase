@@ -1077,7 +1077,7 @@ limitations under the License.
 					</select>
 				</td>
 			</tr>
-			<tr>
+<!---			<tr>
 				<td colspan="2" class="detailCell">
 					<label for="taxonid">GUID for Taxon (dwc:taxonID)</label>
 					<cfset pattern = "">
@@ -1222,7 +1222,7 @@ limitations under the License.
 						});
 					</script>
 				</td>
-			</tr>
+			</tr>--->
 			<tr>
 				<td>
 					<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
