@@ -775,7 +775,7 @@ limitations under the License.
 							class="btn btn-xs btn-primary mx-1"
 							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 							>
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxa.Action.value='newTaxon';submit();">
+						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
 						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
@@ -1056,7 +1056,7 @@ limitations under the License.
   <h2 class="wikilink" style="margin-left: 0;float:none;">Create New Taxonomy: <img src="/images/info_i_2.gif" border="0" onClick="getMCZDocs('New taxon')" class="likeLink" alt="[ help ]"></h2>
   <p style="padding:2px 0;margin:2px 0;">(through cloning and editing)</p>
 	<table class="tInput">
-		<form name="taxa" method="post" action="Taxonomy.cfm" id="taxa">
+		<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form">
 			<input type="hidden" name="Action" value="saveNewTaxa">
 			<tr>
 				<td>
