@@ -1943,9 +1943,9 @@ limitations under the License.
 			<cfif showTemp EQ FALSE >
 				AND addr_type <> 'temporary'
 			</cfif >
-			<cfif isdefined("shipment_agent_id") AND len(agent_3_id) gt 0>
+			<cfif isdefined("shipment_agent_id") AND len(shipment_agent_id) gt 0>
 				AND addr.agent_id = <cfqueryparam value="#shipment_agent_id#" cfsqltype="CF_SQL_DECIMAL">
-			<cfelseif isdefined("formatted_address") AND len(agent_3) gt 0>
+			<cfelseif isdefined("formatted_address") AND len(formatted_address) gt 0>
 				AND upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(formatted_address)#%" >
 			</cfif>
 			ORDER BY valid_addr_fg desc, agent_name asc
