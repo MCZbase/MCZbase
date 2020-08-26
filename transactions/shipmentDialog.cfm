@@ -103,7 +103,7 @@
 						<span class="data-entry-label">
 							<label for="shipped_to_addr">Shipped To Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs"
-								onClick="openfindaddressdialog('shipped_to_addr_id','shipped_to_addr','addressDialog',#transaction_id#); return false;">
+								onClick="openfindaddressdialog('shipped_to_addr','shipped_to_addr_id','addressDialog',#transaction_id#); return false;">
 						</span>
 						<textarea name="shipped_to_addr" id="shipped_to_addr" cols="65" rows="5" required
 							readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
@@ -115,7 +115,7 @@
 						<span class="data-entry-label">
 							<label for="shipped_from_addr">Shipped From Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs" 
-								onClick="openfindaddressdialog('shipped_from_addr_id','shipped_from_addr','addressDialog',#transaction_id#); return false;">
+								onClick="openfindaddressdialog('shipped_from_addr','shipped_from_addr_id','addressDialog',#transaction_id#); return false;">
 						</span>
 						<textarea name="shipped_from_addr" id="shipped_from_addr" cols="65" rows="5" required
 							readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
