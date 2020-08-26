@@ -337,10 +337,14 @@ function deleteShipment(shipmentId,transactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-			loadShipments(transactionId);
+			if (result.DATA.STATUS=="1") { 
+				loadShipments(transactionId);
+			} else { 
+				messageDialog("Error deleting shipment " + result.DATA.MESSAGE, "Error deleting shipment");
+			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing shipment from transaction record");
+		handleFail(jqXHR,textStatus,error,"deleting shipment");
 	});
 }
 
@@ -695,7 +699,11 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-		loadShipments(transactionId);
+			if (result.DATA.STATUS == "1") { 
+				loadShipments(transactionId);
+			} else {
+				messageDialog("Error removing permit from shipment: " + result.DATA.MESSAGE, "Error removing permit");
+			}
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
