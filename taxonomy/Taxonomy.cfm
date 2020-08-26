@@ -951,7 +951,6 @@ limitations under the License.
 					</div>
 				</section>
 			</main>
-			</div>
 		</div>
 </cfoutput>
 </cfif>
