@@ -1956,7 +1956,7 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["agent_name"] = "#search.agent_name#">
 			<cfset row["agent_id"] = "#search.agent_id#">
-			<cfset row["formatted_addr"] = "#search.formatted_addr#">
+			<cfset row["formatted_addr"] = "#JSStringFormat(search.formatted_addr)#">
 			<cfset row["addr_id"] = "#search.addr_id#">
 			<cfset row["valid_addr_fg"] = "#search.valid_addr_fg#">
 			<cfset row["addr_type"] = "#search.addr_type#">
