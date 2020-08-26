@@ -1810,7 +1810,12 @@ limitations under the License.
 								$(makeRichTransAgentPicker('shipment_agent_name','shipment_agent_id','shipment_agent_icon','shipment_agent_view_link',null)); 
 							});
 						</script>
+					<div class="col-12 col-md-6">
+						<label for="start_date" class="data-entry-label">Address</label>
+						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control-sm">
 					</div>
+				</div>
+				<div class="row col-12">
 					<div class="col-12">
 						<button class="btn-xs btn-primary px-3" id="searchButton"
 							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
