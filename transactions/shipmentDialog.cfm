@@ -20,6 +20,51 @@
 		});
 	});
 </script>
+<script>
+	/** Given a form with id shipmentForm (with form fields matching shipment fields), invoke a backing
+	 *  function to save that shipment.
+	 *  Assumes an element with id shipmentFormStatus exists to present feedback.
+	 *  Assumes the form has an id of shipmentForm
+	 *
+	 *  @param transactionId the transaction_id of the transaction to which the shipment is to be added.
+	 */
+	function saveShipment(transactionId) { 
+		var valid = false;
+		if (checkFormValidity('shipmentForm')) { 
+			// save result
+			$('##methodSaveShipmentQF').remove();
+			$('<input id="methodSaveShipmentQF" />').attr('type', 'hidden')
+				.attr('name', "queryformat")
+				.attr('value', "column")
+				.appendTo('##shipmentForm');
+			$('##methodSaveShipmentInput').remove();
+			$('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
+				.attr('name', "method")
+				.attr('value', "saveShipment")
+				.appendTo('##shipmentForm');
+			$.ajax({
+				url : "/transactions/component/functions.cfc",
+				type : "post",
+				dataType : "json",
+				data: $("##shipmentForm").serialize(),
+				success: function (result) {
+					if (result.DATA.STATUS[0]==0) { 
+						$("##shipmentFormStatus").empty().append(result.DATA.MESSAGE[0]);
+					} else { 
+						loadShipments(transactionId);
+						valid = true;
+						$("##dialog-shipment").dialog( "close" );
+					}
+				},
+				error: function (jqXHR, status, error) {
+					$("##shipmentFormStatus").empty().append("Error Submitting Form: " + status);
+					handleFail(jqXHR,status,error,"opening dialog to for project creation from transaction dialog");
+				}
+			});
+		}
+		return valid;
+	};
+</script>
 <dialog id="dialog-shipment" title="Create new Shipment">
 	<form name="shipmentForm" id="shipmentForm" >
 		<fieldset>
