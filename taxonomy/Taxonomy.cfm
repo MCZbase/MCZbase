@@ -230,8 +230,8 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 			<div class="container">
-			<main class="row mx-sm-0" id="content">
-				<section class="col-12 mb-3">
+			<main class="row" id="content">
+				<section class="col-12 mb-3 px-0">
 					<div class="mb-2">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
@@ -778,7 +778,7 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 				</section>
-				<section class="col-12 mt-3 mb-5 border rounded pb-2 bg-grayish">
+				<section class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish">
 					 <div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
