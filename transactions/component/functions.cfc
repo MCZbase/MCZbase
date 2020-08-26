@@ -92,7 +92,7 @@ limitations under the License.
 		from
 			media_relations left join media on media_relations.media_id = media.media_id
 		where
-			media_relationship like '% #transaction_type#'
+			media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
 			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif query.recordcount gt 0>
@@ -228,6 +228,64 @@ limitations under the License.
 	<cfthread action="join" name="getSBTHtmlThread" />
 	<cfreturn getSBTHtmlThread.output>
 </cffunction>
+
+<!---
+  ** method getShipments returns a details of shipments matching a provided list of shipmentIDs,
+  * this method is used to populate the shipment dialog for transactions to edit a shipment, where
+  * it is provided with a single shipment_id in shipmentIdList 
+  * 
+  * @param a comma separated list of one or more shipment_id values for which to look up the shipment details.
+  * @return a serialization of a query object
+--->
+<cffunction name="getShipments" returntype="query" access="remote">
+	<cfargument name="shipmentidList" type="string" required="yes">
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, shipment_id, transaction_id,
+				packed_by_agent_id, 
+				mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, 
+				carriers_tracking_number,
+				shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, 
+				package_weight, no_of_packages,
+				hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+				shipped_from_addr_id, 
+				fromaddr.formatted_addr as shipped_from_address, 
+				toaddr.formatted_addr as shipped_to_address,
+				shipment.print_flag
+			from shipment
+				left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+				left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+			where 
+				shipment_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipmentIdList#" list="yes">)
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
 
 <!--- 
  ** method removePermitFromShipment deletes a relationship between a permit and a shipment.
@@ -1310,22 +1368,45 @@ limitations under the License.
   * @param subloan_transaction_id the child transaction
 --->
 <cffunction name="addSubLoanToLoan" access="remote">
-        <cfargument name="transaction_id" type="string" required="yes">
-        <cfargument name="subloan_transaction_id" type="string" required="yes">
-        <cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           insert into loan_relations (transaction_id, related_transaction_id, relation_type)
-               values (
-               <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
-               <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
-               'Subloan'
-               )
-        </cfquery>
-        <cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-           select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
-               where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-               order by l.loan_number
-        </cfquery>
-        <cfreturn childLoans>
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into loan_relations 
+				(transaction_id, related_transaction_id, relation_type)
+			values (
+				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				'Subloan'
+			)
+		</cfquery>
+		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select l.loan_number, l.transaction_id 
+			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			order by l.loan_number
+		</cfquery>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn childLoans>
 </cffunction>
 <!------------------------------------->
 
@@ -1646,11 +1727,23 @@ limitations under the License.
 			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
 		</cfif>
 	<cfcatch>
-		<cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-		</cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
 	</cftry>
 	<cfif isDefined("asTable") AND asTable eq "true">
 		<cfreturn resulthtml>
@@ -1700,10 +1793,22 @@ limitations under the License.
 			<cfset t = QuerySetCell(theResult, "message", "Record Added.", 1)>
 		</cfif>
 	<cfcatch>
-		<cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
@@ -1856,11 +1961,23 @@ limitations under the License.
 			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
 		</cfif>
 	<cfcatch>
-		<cfset theResult=queryNew("status, message")>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
-		</cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
 	</cftry>
 	<cfif isDefined("asTable") AND asTable eq "true">
 		<cfreturn resulthtml>
@@ -2081,10 +2198,22 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-      <cfheader statusCode="500" statusText="#message#">
-	   <cfabort>
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
@@ -2199,12 +2328,25 @@ limitations under the License.
       <cfset t = QuerySetCell(theResult, "status", "1", 1)>
       <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
 	<cfcatch>
-		<cfset t = queryaddrow(theResult,1)>
-		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		<cfset t = QuerySetCell(theResult, "message", "#debug# #cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
 	</cfcatch>
-    </cftry>
-    <cfreturn theResult>
+	</cftry>
+	<cfreturn theResult>
 </cffunction>
 
 

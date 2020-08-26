@@ -634,7 +634,7 @@ function loadShipment(shipmentId,form) {
 	$("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
 	$("#shipmentFormPermits").html(""); 
 	$("#shipmentFormStatus").html(""); 
-	jQuery.getJSON("/component/functions.cfc",
+	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getShipments",
 			shipmentidList : shipmentId,
@@ -684,7 +684,7 @@ $(target).attr("selected",true);
 			catch(e){ alert(e); }
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+		handleFail(jqXHR,textStatus,error,"loading shipment record");
 	});
 };
 
@@ -706,7 +706,7 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
 			}
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+		handleFail(jqXHR,textStatus,error,"removing permit from shipment record");
 	});
 };
 
