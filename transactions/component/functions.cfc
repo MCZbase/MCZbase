@@ -1943,7 +1943,7 @@ limitations under the License.
 	<cfargument name="project_id" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
 			delete from project_trans
 			where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				and project_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
