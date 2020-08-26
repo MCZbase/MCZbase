@@ -1834,14 +1834,14 @@ limitations under the License.
 				<div id="enableselection"></div>
 			</div>
 			<script>
-   			$("##findAddressSearchForm").bind("submit", function(evt){
-      			evt.preventDefault();
-					$("##addressPickResultsGrid").replaceWith(''<div id="addressPickResultsGrid" class="jqxGrid"></div>'');
+				$("##findAddressSearchForm").bind("submit", function(evt){
+					evt.preventDefault();
+					$("##addressPickResultsGrid").replaceWith('<div id="addressPickResultsGrid" class="jqxGrid"></div>');
 					$("##addressPickResultCount").html("");
 					$("##addressPickResultLink").html("");
 					$("##addressPickSearchText").jqxGrid("showloadelement");
 
-				   var addressSearch = {
+					var addressSearch = {
 						datatype: "json",
 						datafields: [
 							{ name: "addr_id", type: "string" },
@@ -1849,7 +1849,7 @@ limitations under the License.
 							{ name: "agent_id", type: "string" },
 							{ name: "formatted_addr", type: "string" },
 							{ name: "valid_addr_fg", type: "string" },
-							{ name: "addr_type", type: "string" },
+							{ name: "addr_type", type: "string" }
 						],
 						root: "addressRecord",
 						id: "address_id",
@@ -1861,8 +1861,8 @@ limitations under the License.
 					// TODO: Implement agentcellrenderer, bind to agent id to create view link for agent
 
 					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-						var pvalue =  rowdata.address_num + " " + rowdata.address_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-						var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
+						var pvalue = rowdata.address_num + " " + rowdata.address_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+						var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" + value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
 						return result;
 					};
 
@@ -1892,7 +1892,7 @@ limitations under the License.
 							{text: "Address", datafield: "formatted_addr", width: 400, hideable: true, hidden: false },
 							{text: "Valid", datafield: "valid_addr_fg", width: 30, hideable: true, hidden: false },
 							{text: "Type", datafield: "addr_type", width: 30, hideable: true, hidden: false }
-         			]
+						]
 					});
 				});
 			</script>
