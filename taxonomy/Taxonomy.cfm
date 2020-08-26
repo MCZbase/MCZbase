@@ -230,8 +230,9 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 			<div class="container">
-			<main class="row" id="content">
-				<section class="col-12 mb-3 px-3 px-lg-1">
+			<main class="row mx-sm-0" id="content">
+				<section class="col-12 mb-3">
+					<div class="mb-2">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -246,6 +247,7 @@ limitations under the License.
 					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
+							</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-5">
@@ -776,7 +778,7 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 				</section>
-				<section class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish">
+				<section class="col-12 mt-3 mb-5 border rounded pb-2 bg-grayish">
 					 <div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
