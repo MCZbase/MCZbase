@@ -229,7 +229,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-		<div class="container">
+			<div class="container">
 			<main class="row" id="content">
 				<section class="col-12 mb-3 px-3 px-lg-1">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
@@ -481,7 +481,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				
 						<div class="col-12 col-xl-3 col-md-4 px-0 float-left">
 							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left-center float-left">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
@@ -500,7 +499,7 @@ limitations under the License.
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
-					<div id="division_row" class="botanical">
+						<div id="division_row" class="botanical">
 						<div class="col-12 col-md-4 col-xl-3 px-0 botanical float-left">
 							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
@@ -777,12 +776,10 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 				</section>
-			</main>
-				<div class="col-12 mt-3 mb-5 px-0">
-					<div class="border rounded px-2 pb-2 bg-grayish float-left w-100">
-						<div class="col-12 px-0">
+				<section class="row">
+				 <div class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish float-left w-100">
+					 <div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
-						
 								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
@@ -800,7 +797,7 @@ limitations under the License.
 								</div>
 								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 						</div>
-					</div>
+					 </div>
 						<script>
 						$( document ).ready(
 						$('##newPubForm').bind('submit', function(evt){
@@ -860,8 +857,7 @@ limitations under the License.
 							});
 						}
 					</script>
-
-						<div class="col-12 px-0">
+					<div class="col-12 px-0">
 						<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 							<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" name="Action" value="newTaxonRelation">
@@ -885,13 +881,12 @@ limitations under the License.
 						</form>
 						<div id="taxonrelations"></div>
 					</div>
-
 						<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select common_name 
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					</cfquery>
-						<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
+					<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
 							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
@@ -917,7 +912,7 @@ limitations under the License.
 							</form>
 						</div>
 							</div>
-						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
+					<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
 							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 						<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select taxon_habitat 
@@ -955,8 +950,9 @@ limitations under the License.
 				</form>
 						</div>
 					</div>
-							</div>
 				</div>
+				</section>
+			</main>
 			</div>
 		</div>
 </cfoutput>
