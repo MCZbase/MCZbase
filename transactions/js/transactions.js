@@ -325,6 +325,25 @@ function loadShipments(transaction_id) {
 	});
 };
 
+/* function deleteShipment remove a shipment from a transaction.
+ */
+function deleteShipment(shipmentId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeShipment",
+			shipment_id : shipmentId,
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadShipments(transactionId);
+		}
+	).error(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing shipment from transaction record");
+	});
+}
+
 function loadTransactionFormPermits(transaction_id) {
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",

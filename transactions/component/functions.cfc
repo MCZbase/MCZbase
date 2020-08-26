@@ -225,6 +225,58 @@ limitations under the License.
 	<cfreturn getSBTHtmlThread.output>
 </cffunction>
 
+<!--- 
+ ** method removeShipment deletes a shipment record.
+ *  @param transaction_id the id of the transaction thie shipment is part of.
+ *  @param shipment_id the id of the shipment to delete.
+--->
+<cffunction name="removeShipment" returntype="query" access="remote">
+	<cfargument name="shipment_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset r=1>
+	<cftransaction>
+		<cftry>
+			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+				select count(*) as ct 
+				from permit_shipment
+			 	where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			</cfquery>
+			<cfif countPermits.ct EQ 0 >
+				<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+					delete from shipment
+					where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+				</cfquery>
+				<cfif deleteResult.recordcount eq 0>
+					<cfset theResult=queryNew("status, message")>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #deleteResult.sql#", 1)>
+				</cfif>
+				<cfif deleteResult.recordcount eq 1>
+					<cfset theResult=queryNew("status, message")>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+				</cfif>
+			<cfelse>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Can't delete shipment with attached permits.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
 
