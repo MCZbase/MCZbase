@@ -230,32 +230,27 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 		<div class="container">
-			<div class="row">
-				<div class="col-12 mb-3 px-3 px-lg-1">
-			<main id="content">
-				<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
-							<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
-							<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
-						</h1>
-						<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
-						<cfif len(getTaxa.taxonid) GT 0>
-							<cfset hasTaxonID = true>
-							<cfelse>
-							<cfset hasTaxonID = false>
-						</cfif>
-				
-						<span>
-						<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
-							<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
-						</span>
-					</div>
-			
+			<main class="row" id="content">
+				<section class="col-12 mb-3 px-3 px-lg-1">
+					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
+						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
+						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+					</h1>
+					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
+					<cfif len(getTaxa.taxonid) GT 0>
+						<cfset hasTaxonID = true>
+						<cfelse>
+						<cfset hasTaxonID = false>
+					</cfif>
+					<span>
+					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
+					</span>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-5">
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
-							
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									(#getTaxa.source_authority#)
@@ -781,6 +776,7 @@ limitations under the License.
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
+				</section>
 			</main>
 				<div class="col-12 mt-3 mb-5 px-0">
 					<div class="border rounded px-2 pb-2 bg-grayish float-left w-100">
@@ -1046,11 +1042,11 @@ limitations under the License.
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "newTaxon">
-<cfset title = "Add Taxon">
-<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfset title = "Add Taxon">
+	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-</cfquery>
-<cfoutput>
+	</cfquery>
+	<cfoutput>
 		<div class="container-fluid">
 			<div class="row mb-4 mx-0">
 				<div class="col-12 px-0">
@@ -1068,12 +1064,11 @@ limitations under the License.
 								</div>--->
 							</div>
 						</div>
-			<form name="taxa" method="post" action="Taxonomy.cfm">
-			<input type="hidden" name="Action" value="saveNewTaxa">
+						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
 								
 								<div class="tInput form-row mx-2 mb-1">
 									<div class="col-12 col-sm-6">
-								
+										<input type="hidden" name="Action" value="saveNewTaxa">
 										<label for="source_authority">Source</label>
 					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 						<cfloop query="ctSourceAuth">
