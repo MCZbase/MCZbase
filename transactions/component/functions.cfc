@@ -1862,7 +1862,7 @@ limitations under the License.
 
 					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 						var pvalue = rowdata.address_num + " " + rowdata.address_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-						var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" + value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
+						var result = "<button class=\"btn btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 						return result;
 					};
 
@@ -1887,11 +1887,11 @@ limitations under the License.
 						showtoolbar: false,
 						columns: [
 							{text: "Select", datafield: "addr_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
-							{text: "Agent", datafield: "agent_name", width: 100, hideable: true, hidden: false }, 
+							{text: "Agent", datafield: "agent_name", width: 150, hideable: true, hidden: false }, 
 							{text: "agent_id", datafield: "agent_id", width: 50, hideable: true, hidden: true }, 
-							{text: "Address", datafield: "formatted_addr", width: 400, hideable: true, hidden: false },
-							{text: "Valid", datafield: "valid_addr_fg", width: 30, hideable: true, hidden: false },
-							{text: "Type", datafield: "addr_type", width: 30, hideable: true, hidden: false }
+							{text: "Valid", datafield: "valid_addr_fg", width: 80, hideable: true, hidden: false },
+							{text: "Type", datafield: "addr_type", width: 800, hideable: true, hidden: false },
+							{text: "Address", datafield: "formatted_addr", hideable: true, hidden: false }
 						]
 					});
 				});
