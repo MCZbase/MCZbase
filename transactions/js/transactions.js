@@ -684,6 +684,24 @@ $(target).attr("selected",true);
 	});
 };
 
+
+function deletePermitFromShipment(shipmentId,permitId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removePermitFromShipment",
+			shipment_id : shipmentId,
+			permit_id : permitId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+		loadShipments(transactionId);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+	});
+};
+
 /** function loadAgentTable request the html to populate a div with an editable table of agents for a 
  * transaction.
  *

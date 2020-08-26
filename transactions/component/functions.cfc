@@ -193,18 +193,22 @@ limitations under the License.
 							</cfloop>
 							<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>
 							<ul class='permitshipul2'>
-							<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'></li>
-							<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
-							<li>
-							<input type='button' onClick=' opendialog("picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#","##movePermitDlg_#theResult.shipment_id##permit_id#","Move Permit to another Shipment");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
-							<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li></ul>
+								<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'></li>
+								<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
+								<li>
+									<input type='button' onClick=' opendialog("picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#","##movePermitDlg_#theResult.shipment_id##permit_id#","Move Permit to another Shipment");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
+									<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+								</li>
+							</ul>
 						</cfloop>
 						<cfif shippermit.recordcount eq 0>
 							<span>None</span>
 						</cfif>
 						</span></div></div> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 						<cfif shippermit.recordcount eq 0>
-							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-warning' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " ></div>
+							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'>
+								<input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-warning' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " >
+							</div>
 						<cfelse>
 							 <div class='deletestyle pb-1'><input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'></div>
 						</cfif>
@@ -223,6 +227,41 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getSBTHtmlThread" />
 	<cfreturn getSBTHtmlThread.output>
+</cffunction>
+
+<!--- 
+ ** method removePermitFromShipment deletes a relationship between a permit and a shipment.
+ *  @param permit_id the permissions and rights document the shipment is linked to.
+ *  @param shipment_id the id of the shipment to from which to unlink the permit_id.
+--->
+<cffunction name="removePermitFromShipment" returntype="query" access="remote">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="shipment_id" type="string" required="yes">
+	
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+			delete from permit_shipment
+			where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+		</cfquery>
+		<cfif deleteResultRes.recordcount eq 0>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResultRes.recordcount eq 1>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
 </cffunction>
 
 <!--- 
