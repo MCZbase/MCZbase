@@ -288,24 +288,24 @@ limitations under the License.
 	<cfset r=1>
 	<cftransaction>
 		<cftry>
-			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countPermits_result">
 				select count(*) as ct 
 				from permit_shipment
 			 	where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfif countPermits.ct EQ 0 >
-				<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+				<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult_result">
 					delete from shipment
 					where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 				</cfquery>
-				<cfif deleteResult.recordcount eq 0>
+				<cfif deleteResult_result.recordcount eq 0>
 					<cfset theResult=queryNew("status, message")>
 					<cfset t = queryaddrow(theResult,1)>
 					<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 					<cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #deleteResult.sql#", 1)>
 				</cfif>
-				<cfif deleteResult.recordcount eq 1>
+				<cfif deleteResult_result.recordcount eq 1>
 					<cfset theResult=queryNew("status, message")>
 					<cfset t = queryaddrow(theResult,1)>
 					<cfset t = QuerySetCell(theResult, "status", "1", 1)>
