@@ -294,7 +294,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row mb-2">
+					<div class="form-row col-12 mb-2">
 						<div class="col-12 col-md-6 border bg-light row pb-2 ml-0 pr-0 pt-1 rounded mt-2 pl-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
