@@ -628,7 +628,7 @@ function saveShipment(transactionId) {
 			.attr('value', "saveShipment")
 			.appendTo('#shipmentForm');
 		$.ajax({
-			url : "/component/functions.cfc",
+			url : "/transactions/component/functions.cfc",
 			type : "post",
 			dataType : "json",
 			data: $("#shipmentForm").serialize(),
@@ -641,8 +641,9 @@ function saveShipment(transactionId) {
 					$("#dialog-shipment").dialog( "close" );
 				}
 			},
-			error: function (jqXHR,textStatus) {
-				 $("#shipmentFormStatus").empty().append("Error Submitting Form: " + textStatus);
+			error: function (jqXHR, status, error) {
+				$("#shipmentFormStatus").empty().append("Error Submitting Form: " + status);
+				handleFail(jqXHR,status,error,"opening dialog to for project creation from transaction dialog");
 			}
 		});
 	}

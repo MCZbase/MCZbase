@@ -1973,4 +1973,123 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!---
+   Function to create or save a shipment from a ajax post
+   @param shipment_id the shipment_id of the shipment to save, if null, then create a new shipment.
+   @param transaction_id the transaction with which this shipment is associated.
+   @return json query structure with STATUS = 0|1 and MESSAGE, status = 0 on a failure.
+ --->
+<cffunction name="saveShipment" returntype="query" access="remote">
+   <cfargument name="shipment_id" required="no">
+   <cfargument name="transaction_id" type="numeric" required="yes">
+   <cfargument name="packed_by_agent_id" type="numeric" required="no">
+   <cfargument name="shipped_carrier_method" type="string" required="no">
+   <cfargument name="carriers_tracking_number" type="string" required="no">
+   <cfargument name="shipped_date" type="string" required="no">
+   <cfargument name="package_weight" type="string" required="no">
+   <cfargument name="no_of_packages" type="string" required="no">
+   <cfargument name="hazmat_fg" type="numeric" required="no">
+   <cfargument name="insured_for_insured_value" type="string" required="no">
+   <cfargument name="shipment_remarks" type="string" required="no">
+   <cfargument name="contents" type="string" required="no">
+   <cfargument name="foreign_shipment_fg" type="numeric" required="no">
+   <cfargument name="shipped_to_addr_id" type="string" required="no">
+   <cfargument name="shipped_from_addr_id" type="string" required="no">
+   <cfset theResult=queryNew("status, message")>
+   <cftry>
+      <cfset debug = shipment_id >
+      <!---  Try to obtain a numeric value for no_of_packages, if this fails, set no_of_packages to empty string to not include --->
+      <cfset noofpackages = val(#no_of_packages#) >
+      <cfif noofpackages EQ 0>
+          <cfset no_of_packages = "">
+      </cfif>
+      <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
+         <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
+         <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select count(*) ct from shipment
+                where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+         </cfquery>
+         <cfif countShipments.ct EQ 0>
+             <cfset printFlag = 1>
+         <cfelse>
+             <cfset printFlag = 0>
+         </cfif>
+         <cfset debug = shipment_id & "Insert" >
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             insert into shipment (
+                transaction_id, packed_by_agent_id, shipped_carrier_method, carriers_tracking_number, shipped_date, package_weight,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                  no_of_packages,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                  insured_for_insured_value,
+                </cfif>
+                hazmat_fg, shipment_remarks, contents, foreign_shipment_fg,
+                shipped_to_addr_id, shipped_from_addr_id,
+                print_flag
+             )
+             values (
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">,
+                <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#">,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#insured_for_insured_value#" null="yes">,
+                </cfif>
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">
+             )
+         </cfquery>
+      <cfelse>
+         <cfset debug = shipment_id & "Update" >
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             update shipment set
+                packed_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">,
+                shipped_carrier_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">,
+                carriers_tracking_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">,
+                shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">,
+                package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#" >,
+                <cfelse>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_NULL" null="yes" value="" >,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">,
+                </cfif>
+                hazmat_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
+                shipment_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
+                contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
+                foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
+                shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+             where
+                shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
+                transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+          </cfquery>
+      </cfif>
+      <cfset t = queryaddrow(theResult,1)>
+      <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
+	<cfcatch>
+		<cfset t = queryaddrow(theResult,1)>
+		<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+		<cfset t = QuerySetCell(theResult, "message", "#debug# #cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+	</cfcatch>
+    </cftry>
+    <cfreturn theResult>
+</cffunction>
+
+
 </cfcomponent>
