@@ -167,8 +167,8 @@ limitations under the License.
 						<td>#fromfaddr#</td>
 						</tr></tbody></table>
 						<div class='form-row'>
-						<div class='col-5'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div>
-						<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div>
+						<div class='col-5'><input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');"></div>
+						<div id='addPermit_#shipment_id#' class='col-6'><input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " ></div>
 						<div id='addPermitDlg_#shipment_id#'></div>
 						</div>
 						<div class='shippermitstyle'><h4 class='font-weight-bold mb-0'>Permits:</h4>
@@ -193,10 +193,10 @@ limitations under the License.
 							</cfloop>
 							<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>
 							<ul class='permitshipul2'>
-							<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li>
-							<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
+							<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'></li>
+							<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
 							<li>
-							<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
+							<input type='button' onClick=' opendialog("picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#","##movePermitDlg_#theResult.shipment_id##permit_id#","Move Permit to another Shipment");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
 							<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li></ul>
 						</cfloop>
 						<cfif shippermit.recordcount eq 0>
@@ -204,7 +204,7 @@ limitations under the License.
 						</cfif>
 						</span></div></div> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
 						<cfif shippermit.recordcount eq 0>
-							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-warning' onClick="" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>
+							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-warning' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " ></div>
 						<cfelse>
 							 <div class='deletestyle pb-1'><input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'></div>
 						</cfif>
