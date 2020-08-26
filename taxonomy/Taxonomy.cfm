@@ -776,8 +776,7 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 				</section>
-				<section class="row">
-				 <div class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish float-left w-100">
+				<section class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish">
 					 <div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
@@ -950,7 +949,6 @@ limitations under the License.
 				</form>
 						</div>
 					</div>
-				</div>
 				</section>
 			</main>
 			</div>
