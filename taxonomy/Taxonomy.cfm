@@ -36,7 +36,7 @@ limitations under the License.
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to Taxonomy search page --->
 	
-	<cflocation url="/Taxa.cfm?">
+	<cflocation url="/Taxa.cfm">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
@@ -247,7 +247,7 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 			<main class="container">
-			<div class="row" id="content">
+			<div class="row no-gutters" id="content">
 				<section class="col-12 mb-3 px-0">
 					<div class="m-3">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
