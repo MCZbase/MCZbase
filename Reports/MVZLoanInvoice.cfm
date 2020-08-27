@@ -451,7 +451,7 @@ Change to: <select name="format">
 			Decode(substr(loan_number, instr(loan_number, '-',1, 2)+1),
 				'Herp', 'Herpetology Collection',
 				'Mamm', 'Mammalogy Collection',
-				'IZ', 'Invertebrate Zoology (incl. Marine Invertebrates) Collection',
+				'IZ', 'Invertebrate Zoology Collection',
 				'Mala', 'Malacology Collection',
 				'VP','Vertebrate Paleontology Collection',
 				'SC','Special Collections',
