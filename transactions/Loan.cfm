@@ -635,7 +635,7 @@ limitations under the License.
 							</h2>
 							<div class="form-row mb-1">
 								<div class="col-12 col-md-3">
-									<label class="data-entry-label">Department</label>
+									<label class="data-entry-label" for="collection_id">Department</label>
 									<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control-sm" required >
 										<cfloop query="ctcollection">
 											<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
