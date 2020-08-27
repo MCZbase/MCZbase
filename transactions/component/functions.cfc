@@ -779,6 +779,137 @@ limitations under the License.
 	<cfreturn result>
 </cffunction>
 
+<!---  Given a shipment_id, return a block of html code for a permit picking dialog to pick permits for the given
+       shipment.
+       @param shipment_id the transaction to which selected permits are to be related.
+       @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
+
+       @see setShipmentForPermit 
+       @see findPermitShipSearchResults  
+--->
+<cffunction name="shipmentPermitPickerHtml" returntype="string" access="remote">
+    <cfargument name="shipment_id" type="string" required="yes">
+    <cfargument name="shipment_label" type="string" required="yes">
+   
+    <cfset result = "">
+    <cftry>
+        <cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    	select ct.permit_type, count(p.permit_id) uses 
+        from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+        group by ct.permit_type
+        order by ct.permit_type
+        </cfquery>
+        <cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+        select ct.specific_type, count(p.permit_id) uses 
+        from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+        group by ct.specific_type
+        order by ct.specific_type
+        </cfquery>
+        <cfset result = result & "
+   <h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
+   <form id='findPermitForm' onsubmit='searchforpermits(event);'>
+   	<input type='hidden' name='method' value='findPermitShipSearchResults'>
+    	<input type='hidden' name='returnformat' value='plain'>
+	<input type='hidden' name='shipment_id' value='#shipment_id#'>
+	<input type='hidden' name='shipment_label' value='#shipment_label#'>
+	<table>
+		<tr>
+			<td>Issued By</td>
+			<td><input type='text' name='IssuedByAgent'></td>
+			<td>Issued To</td>
+			<td><input type='text' name='IssuedToAgent'></td>
+			
+			
+		</tr>
+		<tr>
+			<td>Issued Date</td>
+			<td><input type='text' name='issued_Date'></td>
+			<td>Renewed Date</td>
+			<td><input type='text' name='renewed_Date'></td>
+		</tr>
+		<tr>
+			<td>Expiration Date</td>
+			<td><input type='text' name='exp_Date'></td>
+			<td>Permit Number</td>
+			<td><input type='text' name='permit_Num' id='permit_Num'></td>
+		</tr>
+		<tr>
+			<td>Permit Type</td>
+			<td>
+				<select name='permit_Type' size='1' style='width: 15em;'>
+					<option value=''></option>">
+					<cfloop query='ctPermitType'>
+                        <cfset result = result & "<option value = '#ctPermitType.permit_type#'>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>">
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Remarks</td>
+			<td><input type='text' name='permit_remarks'></td>
+		</tr>
+		<tr>
+			<td>Specific Type</td>
+			<td>
+				<select name='specific_type' size='1' style='width: 15em;'>
+					<option value=''></option> ">
+					<cfloop query='ctSpecificPermitType'>
+						<cfset result = result & "<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>" >
+					</cfloop>
+				    <cfset result = result & "
+				</select>
+			</td>
+			<td>Permit Title</td>
+			<td><input type='text' name='permit_title'></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+			    <input type='submit' value='Search' class='schBtn'>	
+			</td>
+			<td>
+                <script>
+                   function createPermitDialogDone () { 
+                       $('##permit_Num').val($('##permit_number_passon').val()); 
+                   };
+                </script>
+                <span id='createPermit_#shipment_id#_span'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog(""createPermitDlg_#shipment_id#"",""#shipment_label#"", #shipment_id#, ""shipment"", createPermitDialogDone);' ></span><div id='createPermitDlg_#shipment_id#'></div>
+
+			</td>
+			<td>
+   			    <input type='reset' value='Clear' class='clrBtn'>
+			</td>
+		</tr>
+	</table>
+	</form>
+    <script language='javascript' type='text/javascript'>
+        function searchforpermits(event) { 
+           event.preventDefault();
+           // to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+           // console.log($('##findPermitForm').serialize());
+           jQuery.ajax({
+             url: '/component/functions.cfc',
+             type: 'post',
+             data: $('##findPermitForm').serialize(),
+             success: function (data) {
+                 $('##permitSearchResults').html(data);
+             },
+             fail: function (jqXHR, textStatus, error) {
+						handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+              	   $('##permitSearchResults').html('Error:' + textStatus);
+             }
+           });
+           return false; 
+        };
+        </script>
+    <div id='permitSearchResults'></div>
+    ">
+    <cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+    </cfcatch>
+    </cftry>
+    <cfreturn result >
+</cffunction>
+
 <!--- backing for a permit lookup method returning json for permit table --->
 <cffunction name="getPermitsJSON" access="remote" returntype="any" returnformat="json">
 	<cfargument name="issuedByAgent" type="string" required="no">
