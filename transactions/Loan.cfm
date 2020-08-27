@@ -612,9 +612,9 @@ limitations under the License.
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
 		<main class="container">
-			<div class="row">
+			<!--- div class="row" --->
 				<cftry>
-					<section title="Edit Loan" class="row col-12 border rounded">
+					<section title="Edit Loan" class="row border rounded">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
@@ -820,13 +820,13 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-xl-6">
 									<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 									<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 										onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 										class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
 								</div>
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-xl-6">
 									<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 									<textarea name="loan_description" id="loan_description" rows="1"
 										onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
@@ -834,13 +834,13 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-xl-6">
 									<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 									<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 										onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 										class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
 								</div>
-								<div class="col-12 col-lg-6">
+								<div class="col-12 col-xl-6">
 									<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 									<textarea name="trans_remarks" id="trans_remarks" rows="1"
 										onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
@@ -912,7 +912,7 @@ limitations under the License.
 						</form>
 					</section>
 
-					<section name="loanItemsSection" class="row col-12 border rounded" title="Collection Objects in this loan">
+					<section name="loanItemsSection" class="row border rounded" title="Collection Objects in this loan">
 						<div class="col-12 mt-1">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
@@ -973,7 +973,7 @@ limitations under the License.
 						</div>
 					</section>
 
-					<section name="mediaSection" class="row col-12 border rounded bg-light">
+					<section name="mediaSection" class="row border rounded bg-light">
 						<div class="col-12">
 							<h3>
 								Media documenting this Loan: <br/>
@@ -1021,7 +1021,7 @@ limitations under the License.
 							</script>
 						</div> 
 					</section>
-					<section name="countriesOfOriginSection" class="row col-12 border rounded">
+					<section name="countriesOfOriginSection" class="row border rounded">
 						<div class="col-12">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1049,7 +1049,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section name="shipmentSection" class="row col-12 border rounded">
+					<section name="shipmentSection" class="row border rounded">
 						<div class="col-12">
 							<h3>Shipment Information:</h3>
 							<script>
@@ -1095,7 +1095,7 @@ limitations under the License.
 		
 					<cfinclude template="/transactions/shipmentDialog.cfm">
 					
-					<div class="row col-12 px-0">
+					<div class="row px-0">
 						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
@@ -1195,7 +1195,7 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row col-12 border rounded bg-light pb-1">
+					<section title="Projects" class="row border rounded bg-light pb-1">
 						<div class="col-12">
 							<h3>
 								Projects associated with this loan: 
@@ -1228,7 +1228,7 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 
-			</div>
+			<!--- /div --->
 		</main>
 	</cfoutput> 
 </cfif>
