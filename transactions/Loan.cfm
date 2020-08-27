@@ -117,7 +117,7 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-		<main class="container-fluid">
+		<main class="container">
 			<div class="row">
 				<div class="col-12">
 					<h2 class="wikilink mt-2 mb-0" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
@@ -611,8 +611,8 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<main class="container-fluid">
-			<div class="col-12 col-xl-11 mx-auto">
+		<main class="container">
+			<div class="row">
 				<cftry>
 					<section title="Edit Loan" class="row col-12 border rounded">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
