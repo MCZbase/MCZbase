@@ -218,7 +218,6 @@
 				<span id="collection">Institutional Catalog</span>:
 			</td>
 			<td class="srch">
-               <p class="topspace">&nbsp;</p>
 				<select name="collection_id" id="collection_id" size="1">
 				    <cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
@@ -232,7 +231,11 @@
 						</cfif>
 					</cfloop>
 				</select>
+			</td>
+			<td class="lbl">
 				<span id="cat_num">Number:</span>
+			</td>
+			<td class="srch">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
 				<cfelse>
