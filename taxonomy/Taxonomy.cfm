@@ -232,7 +232,7 @@ limitations under the License.
 			<div class="container">
 			<main class="row" id="content">
 				<section class="col-12 mb-3 px-0">
-					<div class="mb-2">
+					<div class="m-3">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -247,10 +247,10 @@ limitations under the License.
 					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
-							</div>
+				</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
-						<div class="col-12 col-sm-5">
+						<div class="col-12 col-xl-3">
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 							<label for="source_authority">Source
@@ -258,7 +258,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select" required>
+							<select name="source_authority" id="source_authority" size="1" class="reqdClr custom-select data-entry-select" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -268,14 +268,14 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-2">
+						<div class="col-12 col-xl-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
-						<div class="col-12 col-sm-2">
+						<div class="col-12 col-xl-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select" required>
 								<cfloop query="ctnomenclatural_code">
@@ -284,7 +284,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-3">
+						<div class="col-12 col-xl-3">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 							<select name="taxon_status" id="taxon_status" class="data-entry-input">
 								<option value=""></option>
