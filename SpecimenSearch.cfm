@@ -232,6 +232,8 @@
 					</cfloop>
 				</select>
 			</td>
+		</tr>
+		<tr>
 			<td class="lbl">
 				<span id="cat_num">Number:</span>
 			</td>
