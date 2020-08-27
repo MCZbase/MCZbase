@@ -298,7 +298,7 @@ limitations under the License.
 	
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
-		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
 			delete from permit_shipment
 			where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
@@ -352,18 +352,18 @@ limitations under the License.
 			 	where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 			</cfquery>
 			<cfif countPermits.ct EQ 0 >
-				<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult_result">
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
 					delete from shipment
 					where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 				</cfquery>
-				<cfif deleteResult_result.recordcount eq 0>
+				<cfif delete_result.recordcount eq 0>
 					<cfset theResult=queryNew("status, message")>
 					<cfset t = queryaddrow(theResult,1)>
 					<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-					<cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #deleteResult.sql#", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #delete_result.sql#", 1)>
 				</cfif>
-				<cfif deleteResult_result.recordcount eq 1>
+				<cfif delete_result.recordcount eq 1>
 					<cfset theResult=queryNew("status, message")>
 					<cfset t = queryaddrow(theResult,1)>
 					<cfset t = QuerySetCell(theResult, "status", "1", 1)>
@@ -1708,7 +1708,7 @@ limitations under the License.
 	<cfargument name="media_relationship" type="string" required="yes">
 	<cfset r=1>
 	<cftry>
-		<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
 			delete from media_relations
 			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
