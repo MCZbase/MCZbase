@@ -8,7 +8,7 @@
 		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Taxon #taxon_form.taxon_name_id#">
+		<cfset pageTitle = "Edit Taxon #TaxonIDNumber.taxon_name_id#">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
@@ -265,7 +265,7 @@ limitations under the License.
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
 				</div>
-				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
+				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-3"><!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
