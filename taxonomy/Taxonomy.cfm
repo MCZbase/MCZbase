@@ -1,19 +1,14 @@
 <cfset pageTitle = "Taxon Management">
-<cfif isdefined("action") AND action EQ 'newLoan'>
+<cfif isdefined("action") AND action EQ 'newTaxon'>
 	<cfset pageTitle = "Create New Loan">
 </cfif>
-<cfif isdefined("action") AND action EQ 'editLoan'>
-	<cfset pageTitle = "Edit Loan">
-	<cfif isdefined("transaction_id") >
-		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select
-				loan_number
-			from
-				loan
-			where
-				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+<cfif isdefined("action") AND action EQ 'editTaxon'>
+	<cfset pageTitle = "Edit Taxon">
+	<cfif isdefined("taxon_name_id") >
+		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+		<cfset pageTitle = "Edit Taxon #TaxonIDNumber.taxon_name_id#">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
@@ -41,7 +36,7 @@ limitations under the License.
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to Taxonomy search page --->
 	
-	<cflocation url="/Taxa.cfm?">
+	<cflocation url="/Taxa.cfm">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
@@ -242,7 +237,7 @@ limitations under the License.
 <!------------------------------------------------>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "edit">
+<cfif action is "editTaxon">
 <cfset title="Edit Taxonomy">
 <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
@@ -252,7 +247,7 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 			<main class="container">
-			<div class="row" id="content">
+			<div class="row no-gutters" id="content">
 				<section class="col-12 mb-3 px-0">
 					<div class="m-3">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
@@ -270,7 +265,7 @@ limitations under the License.
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
 				</div>
-				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
+				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-3"><!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
