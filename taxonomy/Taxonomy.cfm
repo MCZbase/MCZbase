@@ -251,8 +251,8 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-			<div class="container">
-			<main class="row" id="content">
+			<main class="container">
+			<div class="row" id="content">
 				<section class="col-12 mb-3 px-0">
 					<div class="m-3">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
@@ -974,8 +974,8 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-			</main>
-		</div>
+			</div>
+		</main>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
