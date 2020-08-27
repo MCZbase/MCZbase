@@ -1,19 +1,14 @@
 <cfset pageTitle = "Taxon Management">
-<cfif isdefined("action") AND action EQ 'newLoan'>
+<cfif isdefined("action") AND action EQ 'newTaxon'>
 	<cfset pageTitle = "Create New Loan">
 </cfif>
-<cfif isdefined("action") AND action EQ 'editLoan'>
-	<cfset pageTitle = "Edit Loan">
-	<cfif isdefined("transaction_id") >
-		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select
-				loan_number
-			from
-				loan
-			where
-				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+<cfif isdefined("action") AND action EQ 'editTaxon'>
+	<cfset pageTitle = "Edit Taxon">
+	<cfif isdefined("taxon_name_id") >
+		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+		<cfset pageTitle = "Edit Taxon #taxon_form.taxon_name_id#">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
@@ -242,7 +237,7 @@ limitations under the License.
 <!------------------------------------------------>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "edit">
+<cfif action is "editTaxon">
 <cfset title="Edit Taxonomy">
 <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
