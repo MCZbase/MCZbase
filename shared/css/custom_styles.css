@@ -36,6 +36,7 @@ form input.anchor-button:hover {
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
+
 option:hover {
     font-weight: normal;
     display: block;
@@ -1711,3 +1712,17 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
+
+/*@media (min-width: 768px){
+.container, .container-md, .container-sm {
+    max-width: 748px;
+	}}
+@media (min-width: 992px){
+.container, .container-lg, .container-md, .container-sm {
+    max-width: 972px;
+	}}
+@media (min-width: 1200px){
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1180px;
+}
+}*/

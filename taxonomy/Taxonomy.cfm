@@ -1,4 +1,24 @@
-<cfset pageTitle = "Edit Taxon">
+<cfset pageTitle = "Taxon Management">
+<cfif isdefined("action") AND action EQ 'newLoan'>
+	<cfset pageTitle = "Create New Loan">
+</cfif>
+<cfif isdefined("action") AND action EQ 'editLoan'>
+	<cfset pageTitle = "Edit Loan">
+	<cfif isdefined("transaction_id") >
+		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select
+				loan_number
+			from
+				loan
+			where
+				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+	</cfif>
+</cfif>
+<cfset MAGIC_MCZ_COLLECTION = 12>
+<cfset MAGIC_MCZ_CRYO = 11>
+<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 taxonomy/Taxonomy.cfm
 
@@ -18,6 +38,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfif not isdefined('action') OR  action is "nothing">
+	<!--- redirect to Taxonomy search page --->
+	
+	<cflocation url="/Taxa.cfm?">
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
@@ -214,11 +240,7 @@ limitations under the License.
 </script> 
 </cfoutput> 
 <!------------------------------------------------>
-<cfif action is "nothing">
-	<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="/Taxa.cfm">
-	<cfabort>
-</cfif>
+
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 <cfset title="Edit Taxonomy">
@@ -229,10 +251,10 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-			<div class="container">
-			<main class="row" id="content">
+			<main class="container">
+			<div class="row" id="content">
 				<section class="col-12 mb-3 px-0">
-					<div class="mb-2">
+					<div class="m-3">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -247,10 +269,10 @@ limitations under the License.
 					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
-							</div>
+				</div>
 				<form name="taxon_form" method="post" action="Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
 					<div class="tInput form-row mx-2 my-1">
-						<div class="col-12 col-sm-5">
+						<div class="col-12 col-sm-3"><!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 							<label for="source_authority">Source
@@ -258,7 +280,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" class="reqdClr custom-select data-entry-select" required>
+							<select name="source_authority" id="source_authority" size="1" class="reqdClr custom-select data-entry-select" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -268,14 +290,14 @@ limitations under the License.
 								</cfloop>
 							</select>
 						</div>
-						<div class="col-12 col-sm-2">
+						<div class="col-12 col-sm-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
 							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
-						<div class="col-12 col-sm-2">
+						<div class="col-12 col-sm-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
 							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select" required>
 								<cfloop query="ctnomenclatural_code">
@@ -952,8 +974,8 @@ limitations under the License.
 						</div>
 					</div>
 				</section>
-			</main>
-		</div>
+			</div>
+		</main>
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
