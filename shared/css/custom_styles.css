@@ -1712,7 +1712,11 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
-
+@media (min-width: 1600px){
+	.container{
+	max-width: 1500px;
+}
+}
 /*@media (min-width: 768px){
 .container, .container-md, .container-sm {
     max-width: 748px;
