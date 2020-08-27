@@ -228,8 +228,7 @@
 						<option <cfif #thisCollId# is #ctInst.collection_id#>
 					 		selected </cfif>
 							value="#ctInst.collection_id#">
-							<cfif #ctInst.collection_id# EQ 8>Invertebrate Zoology (incl. Marine Invertebrates)
-							<CFELSE>#ctInst.collection#</cfif></option>
+							#ctInst.collection#</option>
 						</cfif>
 					</cfloop>
 				</select>
