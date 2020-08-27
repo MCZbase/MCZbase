@@ -207,19 +207,19 @@
 	</cfif>
 	<table class="ssrch">
 		<tr>
-			<td colspan="2" class="secHead">
+			<td colspan="4" class="secHead">
 				<span class="secLabel">Identifiers</span>
 				<span class="secControl" id="c_identifiers"	onclick="showHide('identifiers',1)">Show More Options</span>
 				<span class="secControl" id="c_identifiers_cust">Customize</span>
 			</td>
 		</tr>
 		<tr>
-			<td class="lbl">
+			<td class="lbl" valign="top">
 				<span id="collection">Institutional Catalog</span>:
 			</td>
 			<td class="srch">
 				<select name="collection_id" id="collection_id" size="1">
-				    <cfif len(#session.exclusive_collection_id#) is 0>
+			   	<cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
 					</cfif>
 					<cfloop query="ctInst">
@@ -232,9 +232,7 @@
 					</cfloop>
 				</select>
 			</td>
-		</tr>
-		<tr>
-			<td class="lbl">
+			<td class="lbl" valign="top">
 				<span id="cat_num">Number:</span>
 			</td>
 			<td class="srch">
@@ -246,15 +244,15 @@
 			</td>
 		</tr>
 		<tr>
-			<td><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
-			<td><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
+			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
-	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
+		<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
-			<td class="lbl">
+			<td colspan="2" class="lbl">
 				<span id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
 			</td>
-			<td class="srch">
+			<td colspan="2" class="srch">
 				<label for="CustomOidOper">Display Value</label>
 				<select name="CustomOidOper" id="CustomOidOper" size="1">
 					<option value="IS">is</option>
@@ -264,12 +262,12 @@
 				</select>&nbsp;<input type="text" name="CustomIdentifierValue" id="CustomIdentifierValue" size="50">
 			</td>
 		</tr>
+		<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
 		<tr>
-		<td class="lbl">
-			<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
-				&nbsp;
-		</td>
-			<td class="srch">
+			<td class="lbl" colspan="2">
+					&nbsp;
+			</td>
+			<td class="srch" colspan="2">
 				<table>
 					<tr>
 						<td>
@@ -287,10 +285,10 @@
 					</tr>
 				</table>
 			</td>
-			</cfif>
 		</tr>
-	</cfif>
-</table>
+		</cfif>
+		</cfif>
+	</table>
 <div id="e_identifiers">
 
     <table id="t_identifiers" class="ssrch">
