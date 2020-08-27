@@ -1713,7 +1713,7 @@ and also iPads specifically.
 	}
 }
 
-@media (min-width: 768px){
+/*@media (min-width: 768px){
 .container, .container-md, .container-sm {
     max-width: 748px;
 	}}
@@ -1725,4 +1725,4 @@ and also iPads specifically.
 .container, .container-lg, .container-md, .container-sm, .container-xl {
     max-width: 1180px;
 }
-}
+}*/
