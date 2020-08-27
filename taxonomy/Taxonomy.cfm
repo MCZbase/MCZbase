@@ -1,4 +1,24 @@
-<cfset pageTitle = "Edit Taxon">
+<cfset pageTitle = "Taxon Management">
+<cfif isdefined("action") AND action EQ 'newLoan'>
+	<cfset pageTitle = "Create New Loan">
+</cfif>
+<cfif isdefined("action") AND action EQ 'editLoan'>
+	<cfset pageTitle = "Edit Loan">
+	<cfif isdefined("transaction_id") >
+		<cfquery name="loanNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select
+				loan_number
+			from
+				loan
+			where
+				loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfset pageTitle = "Edit Loan #loanNumber.loan_number#">
+	</cfif>
+</cfif>
+<cfset MAGIC_MCZ_COLLECTION = 12>
+<cfset MAGIC_MCZ_CRYO = 11>
+<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 taxonomy/Taxonomy.cfm
 
@@ -18,6 +38,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<cfif not isdefined('action') OR  action is "nothing">
+	<!--- redirect to Taxonomy search page --->
+	
+	<cflocation url="/Taxa.cfm?">
+</cfif>
+<!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select infraspecific_rank from ctinfraspecific_rank order by infraspecific_rank
@@ -214,11 +240,7 @@ limitations under the License.
 </script> 
 </cfoutput> 
 <!------------------------------------------------>
-<cfif action is "nothing">
-	<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="/Taxa.cfm">
-	<cfabort>
-</cfif>
+
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
 <cfset title="Edit Taxonomy">
