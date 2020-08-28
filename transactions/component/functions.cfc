@@ -1125,6 +1125,7 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfabort>
+	</cfcatch>
 	</cftry>
 	<cfreturn theResult>
 </cffunction>
