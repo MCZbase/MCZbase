@@ -181,15 +181,17 @@ limitations under the License.
 							where media_relations.media_relationship = 'shows permit' 
 							and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
 							</cfquery>
-							<cfset mediaLink = "&##8855;">
+							<cfset mediaLink = "&##8855;"><!--- show (x) character if there are no permit media --->
 							<cfloop query="mediaQuery">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
+									<!--- linked media, but no preview image --->
 									<cfset altText = "Red X in a red square, with text, no preview image available">
 								<cfelse>
+									<!--- linked media with preview image --->
 									<cfset altText = mediaQuery.media_descriptor>
 								</cfif>
-								<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15' alt='#altText#'></a>" >
+								<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 							</cfloop>
 							<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>
 							<ul class='permitshipul2'>
