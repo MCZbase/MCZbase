@@ -362,7 +362,7 @@ limitations under the License.
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
-						<div class="dropdown-item row mx-0 px-4 w-100"> About MCZbase (  <a href="https://mcz.harvard.edu/database" class="w-25 text-muted">Overview</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/home.cfm">Technical Notes</a> ) </div>
+						<div class="dropdown-item row mx-0 px-4 w-100"> About MCZbase (  <a href="https://mcz.harvard.edu/database" class="w-25 text-muted">Overview</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/home.cfm">Technical Details</a> ) </div>
 						<a class="dropdown-item" href="/"></a>
 						<div class="dropdown-divider"></div>
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
