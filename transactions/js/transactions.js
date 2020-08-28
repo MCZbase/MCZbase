@@ -1198,3 +1198,65 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 			}
 	});
 }
+
+/* function openMovePermitDialog create a dialog using an existing div to move or copy a permit among 
+ * shipments in a transaction.
+ * 
+ * @param transaction_id the id of the transaction to which the shipments are associated.
+ * @param curent_shipment_id the shipment with which the permit is currently associated.
+ * @param permit_id the permit_id of the permit to move or add to another shipment.
+ * @param dialogId the id, without a leading # selector, of the div that is to contain the dialog.
+ */
+function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, dialogId) { 
+	var title = "Move/Copy Permissions and Rights Document.";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		minWidth: 550,
+		minHeight: 200,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+				loadProjects(projectsDivId,transaction_id); 
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		type: "get",
+		data: {
+			method: 'movePermitHtml',
+			returnformat: "plain",
+			transaction_id: transaction_id
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		}
+	});
+}

@@ -198,7 +198,7 @@ limitations under the License.
 								<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'></li>
 								<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
 								<li>
-									<input type='button' onClick=' opendialog("picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#","##movePermitDlg_#theResult.shipment_id##permit_id#","Move Permit to another Shipment");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
+									<input type='button' onClick=' openMovePermitDialog(#transaction_id#,#current_shipment_id#,#permit_id#,"##movePermitDlg_#theResult.shipment_id##permit_id#");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
 									<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
 								</li>
 							</ul>
@@ -230,6 +230,82 @@ limitations under the License.
 	<cfthread action="join" name="getSBTHtmlThread" />
 	<cfreturn getSBTHtmlThread.output>
 </cffunction>
+
+
+<!--- 
+ ** method movePermitHtml populates a dialog to move a permit from one shipment to another shipment in the same transaction 
+ * Or to copy (add another link for) a permit from one shipment to another shipment in the same transaction
+ ---> 
+<cffunction name="movePermitHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="current_shipment_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfset feedbackId = "queryMovePermit#permit_id##current_shipment_id#">
+ 
+	<cfthread name="getMovePermitHtmlThread">
+		<cftry>
+			<cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct permit_num, permit_type, issued_date, permit.permit_id,
+					issuedBy.agent_name as IssuedByAgent
+				from permit left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				where permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+			</cfquery>
+			<cfoutput>
+				<cfloop query="queryPermit">
+					<h3>Move/Copy Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3><p><strong><span id='#feedbackId#'></span></strong></p>
+				</cfloop>
+				<cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 1 as status, shipment_id,
+						packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
+						shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
+						hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+						shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
+					from shipment
+						left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+						left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+						shipment_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_shipment_id#">
+				</cfquery>
+				<cfif queryShip.recordcount gt 0>
+					<ul>
+					<cfloop query="queryShip">
+						<li>
+							<input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Moved.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); "">
+							<input type='button' style='margin-left: 30px;' value='Copy To' class='lnkBtn' onClick=""  addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Added.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); "">
+							#shipped_carrier_method# #shipped_date# #carriers_tracking_number#
+						</li>
+					</cfloop>
+					<cfset result= result & "</ul>">
+				<cfelse>
+					<h3>There are no other shipments in this transaction, you must create a new shipment to move this permit to.</h3>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getMovePermitHtmlThread" />
+	<cfreturn getMovePermitHtmlThread.output>
+
+</cffunction>
+
 
 <!---
   ** method getShipments returns a details of shipments matching a provided list of shipmentIDs,
@@ -781,7 +857,7 @@ limitations under the License.
 
 <!---  Given a shipment_id, return a block of html code for a permit picking dialog to pick permits for the given
        shipment.
-       @param shipment_id the transaction to which selected permits are to be related.
+       @param shipment_id the shipment to which selected permits are to be related.
        @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
 
        @see setShipmentForPermit 
