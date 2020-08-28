@@ -369,7 +369,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Add New Annotations</a> 
 									</div>
 									<div><h5>Collection</h5>
-										<div class="dropdown-header px-4 text-danger"> Storage <div class="row mx-0">(<a class="dropdown-item w-50" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item w-50">Create New</a>)</div></div>
+										<div class="dropdown-header row mx-0 px-4 w-100 text-danger"> Storage (<a class="dropdown-item w-25" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item w-25">Create New</a>)</div>
 								
 									</div>
 								</li>
