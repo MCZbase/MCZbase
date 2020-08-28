@@ -399,7 +399,7 @@ limitations under the License.
 									All Transactions( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> )
+									Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/editAccn.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Loans ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm?action=findLoans">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Loan.cfm?action=newLoan" class="w-25 text-muted">Create New</a> )
