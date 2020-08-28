@@ -332,13 +332,14 @@ limitations under the License.
 								<div class="dropdown-item row mx-0 px-4 w-100"> Locality ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findLO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newLocality" class="w-25 text-muted">Create New</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Events ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO" class="w-25 text-muted">clone only</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Event Number Series ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Annotations ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Search &amp; Review</a> ) </div>
+								
 							</div>
 							<div>
 								<div class="h5 pt-2 dropdown-header text-danger">Collection</div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Storage ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer" class="w-25 text-muted">Create New</a> | <a href="https://mczbase.mcz.harvard.edu/CreateContainersForBarcodes.cfm" class="w-25 text-muted">Create New Series</a>) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Named Groups ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Encumbrances ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=create" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Annotations ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Search &amp; Review</a> ) </div>
 							</div>
 						</li>
 					</ul>
