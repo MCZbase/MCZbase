@@ -308,7 +308,7 @@ limitations under the License.
 						<li class="py-1"> <a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimens</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/MediaSearch.cfm">Media</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Publications</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/showLocality.cfm">Geography</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Event</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Projects</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a> <a class="dropdown-item" href="/Browse.cfm">Browse Specimens</a> </li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div>
