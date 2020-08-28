@@ -1047,7 +1047,7 @@ limitations under the License.
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
 			jQuery.ajax({
-				url: '/component/functions.cfc',
+				url: '/transactions/component/functions.cfc',
 				type: 'post',
 				data: {
 					method: 'setShipmentForPermit',
@@ -1075,6 +1075,58 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn result>
+</cffunction>
+
+<!---  
+	** function setShipmentForPermit Given a permit_id and a shipment_id, link the permit to the shipment 
+	*
+	* @param shipment_id the shipment to which to link the permit.
+	* @param permit_id the permit to link to the shipment
+	* @return a query containing status and message, status of 1 means success, 0 failure to insert, or 
+	* if an exception was raised, an http response with http statuscode of 500.
+	*
+	* @see shipmentPermitPickerHtml
+	* @see setShipmentForPermit 
+--->
+<cffunction name="setShipmentForPermit" access="remote">
+	<cfargument name="shipment_id" type="numeric" required="yes">
+	<cfargument name="permit_id" type="numeric" required="yes">
+	<cftry>
+		<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+			insert into permit_shipment (permit_id, shipment_id)
+			values ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">)
+		</cfquery>
+		<cfif insertResultRes.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record not added. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif insertResultRes.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cftry>
+	<cfreturn theResult>
 </cffunction>
 
 <!--- backing for a permit lookup method returning json for permit table --->
