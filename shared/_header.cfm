@@ -155,124 +155,124 @@ limitations under the License.
 		</ul>
 	</div>
 	<noscript>
-		<div class="container-fluid bg-light">
-			<div class="row">
-				<div class="col-12 pb-2">
-		<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
-			<ul class="navbar-nav mx-auto">
-				<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
-				<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
-				<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
-						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+	<div class="container-fluid bg-light">
+		<div class="row">
+			<div class="col-12 pb-2">
+				<h1 class="h2 text-center text-danger">MCZbase requires Javascript to function.</h1>
+				<nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+					<ul class="navbar-nav mx-auto">
+						<li class="nav-item"> <a class="nav-link mr-2" href="/SpecimenSearchHTML.cfm">Minimal Specimen Search</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/BrowseHTML.cfm">Browse Data</a></li>
+						<li class="nav-item"><a class="nav-link mr-2" href="/https://mcz.harvard.edu/database">About MCZbase</a></li>
+						<cfif isdefined("session.username") and len(#session.username#) gt 0>
+							<a href="/login.cfm?action=signOut" class="btn btn-outline-success py-0 px-2" aria-label="logout">Log out #session.username#
+							<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+								<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+							</cfif>
+							</a>
+							<cfelse>
+							<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+								<input type="hidden" name="action" value="signIn">
+								<div class="login-form" id="header_login_form_div">
+									<label for="username" class="sr-only"> Username:</label>
+									<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+									<label for="password" class="mr-1 sr-only"> Password:</label>
+									<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+									<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
+								</div>
+							</form>
 						</cfif>
-					</a>
-				<cfelse>
-					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-						<input type="hidden" name="action" value="signIn">
-						<div class="login-form" id="header_login_form_div">
-							<label for="username" class="sr-only"> Username:</label>
-							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
-							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons" aria-label="click to login">
-						</div>
-					</form>
-				</cfif>
-			</ul>
-		</nav>
+					</ul>
+				</nav>
 			</div>
-			</div>
-			</div>
+		</div>
+	</div>
 	</noscript>
-	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer"><!--- display turned on with javascript below ---> 
-		<!---	
+	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
+	<!--- display turned on with javascript below ---> 
+	<!---	
 		Test for Application.header_image is required for continued integration, as the production menu
 		must point to files present on production while the redesign menu points at their replacements in redesign
 	--->
-		<cfif isdefined("Application.header_image")>
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<button class="navbar-toggler" type="button" data-toggle="collapse"
+	<cfif isdefined("Application.header_image")>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="##navbarToggler1" aria-controls="navbarToggler1"
 					aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="navbarToggler1">
-					<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-						
-						<!---  Redesign menu for integration on production --->
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
-								<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
-								<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
-								<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-									<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
-								</cfif>
-								<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
+			<div class="collapse navbar-collapse" id="navbarToggler1">
+				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
+					
+					<!---  Redesign menu for integration on production --->
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
+							<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
+							<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
+							<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
+							</cfif>
+							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
+					</li>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
+							<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2"> 
+								<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
 						</li>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
-								<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2"> 
-									<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
-							</li>
-						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
-								<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-										<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
-									</cfif>
-								</div>
-							</li>
-						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
-								<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
-									<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
-									<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
-									<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
-									<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
-									<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
-									<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
-									<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
-							</li>
-						</cfif>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
-							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-								<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-									<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
+							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 								</cfif>
-								<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
+							</div>
 						</li>
-						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-							<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
-								<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-									<i class="fas fa-user-check color-green"></i>
-									<cfelse>
-									<i class="fas fa-user-cog text-body"></i>
+					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
+								<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
+								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
+								<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
+								<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
+								<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
+								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
+								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
+						</li>
+					</cfif>
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
+						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+								<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+							</cfif>
+							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
+					</li>
+					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
+							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+								<i class="fas fa-user-check color-green"></i>
+								<cfelse>
+								<i class="fas fa-user-cog text-body"></i>
+							</cfif>
+							</a>
+							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
+								<cfif session.roles contains "coldfusion_user">
+									<form name="profile" method="post" action="/UserProfile.cfm">
+										<input type="hidden" name="action" value="nothing">
+										<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									</form>
 								</cfif>
-								</a>
-								<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-									<cfif session.roles contains "coldfusion_user">
-										<form name="profile" method="post" action="/UserProfile.cfm">
-											<input type="hidden" name="action" value="nothing">
-											<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-										</form>
-									</cfif>
-									<cfif session.roles contains "public">
-										<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-									</cfif>
-								</div>
-							</li>
-						</cfif>
-					</ul>
-				</div>
-			</nav>
-			<cfelse>
-
-			<script>
+								<cfif session.roles contains "public">
+									<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+								</cfif>
+							</div>
+						</li>
+					</cfif>
+				</ul>
+			</div>
+		</nav>
+		<cfelse>
+		<script>
 				// Keyboard shortcut for Search
 				document.addEventListener ("keydown", function (evt) {
 					if (evt.altKey && evt.key === "m") {  
@@ -299,247 +299,158 @@ limitations under the License.
   					.on('mouseenter mouseleave','.dropdown',toggleDropdown)
   					.on('click', '.dropdown-menu a', toggleDropdown);
 			</script>
-			<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-				<div class="collapse navbar-collapse" id="menuTest1">
-					<ul class="navbar-nav nav-fill mr-auto">
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="py-1">
-									<a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimens</a> 
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy</a> 
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/MediaSearch.cfm">Media</a> 
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Publications</a> 
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/showLocality.cfm">Geography</a> 
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Event</a>
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a>
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Projects</a>
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a>
-									<a class="dropdown-item" href="/Browse.cfm">Browse Specimens</a>
-								</li>
-							</ul>
+		<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+			<div class="collapse navbar-collapse" id="menuTest1">
+				<ul class="navbar-nav nav-fill mr-auto">
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+						<li class="py-1"> <a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimens</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/MediaSearch.cfm">Media</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Publications</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/showLocality.cfm">Geography</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Event</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Projects</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a> <a class="dropdown-item" href="/Browse.cfm">Browse Specimens</a> </li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+						<li class="d-md-flex align-items-start justify-content-start pb-2">
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Enter Data</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen Form</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media Form</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication Form</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy (clone only)</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (from Pub result)</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a> </div>
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Specimen Bulkloader</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a> </div>
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
+								<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> </div>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-2">
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Enter Data</div>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen Form</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media Form</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication Form</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy (clone only)</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (from Pub result)</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a>
-									</div>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Specimen Bulkloader</div>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a> 
-									</div>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-										<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
-										<a class="dropdown-item" href="/">Bulk Add Parts</a> 
-										<a class="dropdown-item" href="/">Bulk Add Citations</a> 
-										<a class="dropdown-item" href="/">Bulk Add Attributes</a> 
-										<a class="dropdown-item" href="/">Bulk Add Identifiers</a> 
-										<a class="dropdown-item" href="/">Bulk Add Agents</a> 
-										<a class="dropdown-item" href="/">Bulk Add Media</a> 
-										<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
-									</div>
-								</li>
-							</ul>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
+						<li class="d-md-flex align-items-start justify-content-start pb-2">
+							<div>
+								<div class="h5 pt-2 dropdown-header text-danger">Space &amp; Time</div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Geography ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findHG">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newHG" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Locality ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findLO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newLocality" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Events ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO" class="w-25 text-muted">clone only</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Event Number Series ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Annotations ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Search &amp; Review</a> ) </div>
+							</div>
+							<div>
+								<div class="h5 pt-2 dropdown-header text-danger">Collection</div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Storage ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer" class="w-25 text-muted">Create New</a> | <a href="https://mczbase.mcz.harvard.edu/CreateContainersForBarcodes.cfm" class="w-25 text-muted">Create New Series</a>) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Named Groups ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Encumbrances ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=create" class="w-25 text-muted">Create New</a> ) </div>
+							</div>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-2">
-									<div>
-										<div class="h5 pt-2 dropdown-header text-danger">Space &amp; Time</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Geography ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findHG">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newHG" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Locality ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findLO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newLocality" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Collecting Events ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO" class="w-25 text-muted">clone only</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Collecting Event Number Series ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm?action=new" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Annotations ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Search &amp; Review</a> )
-										</div>
-									</div>
-									<div>
-										<div class="h5 pt-2 dropdown-header text-danger">Collection</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Storage ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer" class="w-25 text-muted">Create New</a> | <a href="https://mczbase.mcz.harvard.edu/CreateContainersForBarcodes.cfm" class="w-25 text-muted">Create New Series</a>)
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Named Groups ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm?action=new" class="w-25 text-muted">Create New</a> )
-										</div>
-									
-										<div class="dropdown-item row mx-0 px-4 w-100"> 
-											Encumbrances ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=create" class="w-25 text-muted">Create New</a> )
-										</div>
-									</div>
-									
-								</li>
-							</ul>
-
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
+						<li class="d-md-flex align-items-start justify-content-start pb-2">
+							<div> 
+								<!--		<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>-->
+								<div class="dropdown-item row mx-0 px-4 w-100"> All Transactions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/editAccn.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Loans ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm?action=findLoans">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Loan.cfm?action=newLoan" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Borrows ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Borrow.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Borrow.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Deaccessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?action=search">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?Action=newDeacc" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Permissions and Rights ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Permit.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Permit.cfm?action=newPermit" class="w-25 text-muted">Create New</a> ) </div>
+							</div>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-2">
-								<div>
-							<!--		<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>-->
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									All Transactions( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> )
-									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/editAccn.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> )
-									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Loans ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm?action=findLoans">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Loan.cfm?action=newLoan" class="w-25 text-muted">Create New</a> )
-									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Borrows ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Borrow.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Borrow.cfm?action=new" class="w-25 text-muted">Create New</a> )
-									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Deaccessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?action=search">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?Action=newDeacc" class="w-25 text-muted">Create New</a> )
-									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Permissions and Rights ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Permit.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Permit.cfm?action=newPermit" class="w-25 text-muted">Create New</a> )
-									</div>
-								</div>
-								</li>
-							</ul>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
+						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a>
+						<div class="dropdown-item row mx-0 px-4 w-100"> About MCZbase ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | <a href="https://mczbase.mcz.harvard.edu/home.cfm" class="w-25 text-muted">MCZbase/Arctos</a> ) </div>
+						<a class="dropdown-item" href="/"></a>
+						<div class="dropdown-divider"></div>
+						<li class="d-md-flex align-items-start justify-content-start pb-2">
+							<div>
+								<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/MoreCitationStats.cfm">Self-Service (needs landing)</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Collection Statistics</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm">Loan Stats</a> </div>
+							<div>
+								<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy Issues</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy By Class</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase Statistics</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> <a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a> </div>
 						</li>
-
-						
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-							
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
-								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> 
-									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									About MCZbase ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | <a href="https://mczbase.mcz.harvard.edu/home.cfm" class="w-25 text-muted">MCZbase/Arctos</a> )
-									</div>
-								
-								<a class="dropdown-item" href="/"></a>
-								<div class="dropdown-divider"></div>
-								<li class="d-md-flex align-items-start justify-content-start pb-2">
-									<div>
-										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/MoreCitationStats.cfm">Self-Service (needs landing)</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Collection Statistics</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm">Loan Stats</a>
-									</div>
-									<div>
-										<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy Issues</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy By Class</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase Statistics</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a>
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> 
-										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a>
-									</div>
-								</li>
-							</ul>
-						</li>
-						<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						</ul>
-					
-						
+					</ul>
+				</li>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					</ul>
 					<ul class="navbar-nav ml-auto">
-			
-							
-					<li class="nav-item dropdown mr-xl-2">
-						
-						<a id="dropdownMenu5" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle px-3 text-left">Account <cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
+					<li class="nav-item dropdown mr-xl-2"> <a id="dropdownMenu5" href="##" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle px-3 text-left">Account
+						<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 							<i class="fas fa-user-check color-green"></i>
 							<cfelse>
 							<i class="fas fa-user-cog text-body"></i>
 						</cfif>
 						</a>
 						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
-							<li>
-								<a href="##" class="dropdown-item">
+							<li> <a href="##" class="dropdown-item">
 								<cfif session.roles contains "coldfusion_user">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
+									<form name="profile" method="post" action="/UserProfile.cfm">
+										<input type="hidden" name="action" value="nothing">
+										<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									</form>
 								</cfif>
-								</a>
-							</li>
+								</a> </li>
 							<cfif session.roles contains "public">
-							<div><a href="##" class="dropdown-item">Settings</a></div>
+								<div><a href="##" class="dropdown-item">Settings</a></div>
 							</cfif>
 						</ul>
 					</li>
-					</cfif>
-					</ul>
-				</div>
-		
-				<cfif isdefined("session.username") and len(#session.username#) gt 0>
-					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-						<input type="hidden" name="action" value="signOut">
-						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
-						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-						</cfif>
-						</button>
-					</form>
-				<cfelse>
-					<cfif isdefined("gotopage") and len(gotopage) GT 0>
-						<cfset gtp = gotopage>
-						<cfelse>
-						<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-							<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
-							<cfelse>
-							<cfset requestData = #GetHttpRequestData()#>
-							<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-								<cfset gtp=requestData.headers.referer>
-								<cfelse>
-								<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
-							</cfif>
-						</cfif>
-					</cfif>
-					<cfif gtp EQ '/errors/forbidden.cfm'>
-						<cfset gtp = "/UserProfile.cfm">
-					</cfif>
-					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-						<input type="hidden" name="action" value="signIn">
-				
-						<input type="hidden" name="gotopage" value="#gtp#">
-						<div class="login-form" id="header_login_form_div">
-							<label for="username" class="sr-only"> Username:</label>
-							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
-							<label for="password" class="mr-1 sr-only"> Password:</label>
-							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-							<label for="login" class="mr-1 sr-only"> Password:</label>
-							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-							<label for="create_account" class="mr-1 sr-only"> Password:</label>
-							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-						</div>
-					</form>
 				</cfif>
-				</div>
-			</nav>
-
-		</cfif>
+				</ul>
+			</div>
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+					<input type="hidden" name="action" value="signOut">
+					<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+					</cfif>
+					</button>
+				</form>
+				<cfelse>
+				<cfif isdefined("gotopage") and len(gotopage) GT 0>
+					<cfset gtp = gotopage>
+					<cfelse>
+					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+						<cfelse>
+						<cfset requestData = #GetHttpRequestData()#>
+						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+							<cfset gtp=requestData.headers.referer>
+							<cfelse>
+							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif gtp EQ '/errors/forbidden.cfm'>
+					<cfset gtp = "/UserProfile.cfm">
+				</cfif>
+				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+					<input type="hidden" name="action" value="signIn">
+					<input type="hidden" name="gotopage" value="#gtp#">
+					<div class="login-form" id="header_login_form_div">
+						<label for="username" class="sr-only"> Username:</label>
+						<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+						<label for="password" class="mr-1 sr-only"> Password:</label>
+						<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+						<label for="login" class="mr-1 sr-only"> Password:</label>
+						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+						<label for="create_account" class="mr-1 sr-only"> Password:</label>
+						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+					</div>
+				</form>
+			</cfif>
+			</div>
+		</nav>
+	</cfif>
 	</div>
 	<!-- container //  --> 
 	<script>
 		document.getElementById("mainMenuContainer").style.display = "block";	
-	</script>
+	</script> 
 </header>
 <script type="text/javascript">
 	/** add active class when selected--makes the link of the menu bar item different color when active */
