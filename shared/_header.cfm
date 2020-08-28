@@ -351,7 +351,7 @@ limitations under the License.
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-								<li class="d-md-flex align-items-start justify-content-start">
+								<li class="d-md-flex align-items-start justify-content-start pb-3">
 					<div>
 										<h5 class="dropdown-header text-danger">Space &amp; Time</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
