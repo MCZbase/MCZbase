@@ -364,7 +364,7 @@ limitations under the License.
 											Collecting Events ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Collecting Event Number Series ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Collecting Event Number Series ( <a class="w-25 btn-link" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Annotations ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
