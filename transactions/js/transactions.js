@@ -308,6 +308,7 @@ function loadTransactionFormMedia(transaction_id,transaction_type) {
 };
 
 function loadShipments(transaction_id) {
+	console.log("Reloading shipments in #shipmentTable");
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
 		data : {
@@ -317,9 +318,8 @@ function loadShipments(transaction_id) {
 		success: function (result) {
 			$("#shipmentTable").html(result);
 		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading shipments: " + message + " " + msg ,'Error: '+ message);
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting shipment");
 		},
 		dataType: "html"
 	});
@@ -375,9 +375,8 @@ function loadShipmentFormPermits(shipment_id) {
 		success: function (result) {
 			$("#shipmentFormPermits").html(result);
 		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading shipment permits: " + message + " " + msg ,'Error: '+ status);
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting shipment");
 		},
 		dataType: "html"
 	});
