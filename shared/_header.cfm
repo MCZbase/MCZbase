@@ -353,26 +353,30 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header px-4 text-danger">Time and Space Metadata</div>
-									<a class="dropdown-item" href="/">Search and Edit Geography</a> 
+										<div class="dropdown-header px-4 text-danger">Search Time and Space Metadata</div>
+										<a class="dropdown-item" href="/">Geography</a>
+										<a class="dropdown-item" href="/">Locality</a> 
+										<a class="dropdown-item" href="/">Collecting Event</a> 
+										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/">Annotations</a> 
+									</div>
+									<div class="dropdown-header px-4 text-danger">Create Time and Space Metadata</div>
+									
 										<a class="dropdown-item" href="/">Add New Geography</a> 
-										<a class="dropdown-item" href="/">Search and Edit Locality</a> 
 										<a class="dropdown-item" href="/">Add New Locality</a> 
-										<a class="dropdown-item" href="/">Search and Edit Collecting Event</a> 
 										<a class="dropdown-item" href="/">Add New Collecting Event</a> 
-										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Search and Edit Collecting Event Number Series</a> 
 										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/">Search and Edit Annotations</a> 
-										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/">Add New Annotations</a> 
 									</div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Create New Records</div>
-										<a class="dropdown-item" href="/">Storage</a> 
-										<a class="dropdown-item" href="/">Find Named Groups</a> 
-										<a class="dropdown-item" href="/">New Named Group</a> 
-										<a class="dropdown-item" href="/">Annotations</a> 
-										<a class="dropdown-item" href="/">Encumbrances</a> 
-										<a class="dropdown-item" href="/">Projects</a> 
+										<div class="dropdown-header px-4 text-danger">Collection</div>
+										<ul class=""><li>Storage <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
+											<li><a class="dropdown-item" href="/">Find Named Groups</a> 
+										<li>Named Group <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li> 
+										<li>Annotations <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
+										<li>Encumbrances <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
+											<li>Projects <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
+										</ul>
 									</div>
 						
 								</li>
