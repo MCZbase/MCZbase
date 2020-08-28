@@ -368,8 +368,8 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
 										<a class="dropdown-item" href="/">Add New Annotations</a> 
 									</div>
-									<div>Collection
-										<div class="dropdown-header px-4 text-danger">Collection <a class="dropdown-item w-50" href="/">Search &amp; Edit</a>  <a href="/" class="dropdown-item w-50">Create New</a></div>
+									<div><h5>Collection</h5>
+										<div class="dropdown-header px-4 text-danger"> Storage <div class="row mx-0">(<a class="dropdown-item w-50" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item w-50">Create New</a>)</div></div>
 								
 									</div>
 								</li>
