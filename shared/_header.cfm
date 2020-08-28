@@ -370,16 +370,16 @@ limitations under the License.
 									</div>
 									<div>
 										<h5 class="dropdown-header">Collection</h5>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-danger"> 
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Storage (<a class=" w-25" href="/">Search &amp; Edit</a> | <a href="/" class="w-25">Create New</a>)
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-danger"> 
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Named Groups (<a class=" w-25" href="/">Search &amp; Edit</a> | <a href="/" class="w-25">Create New</a>)
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-danger"> 
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Annotations (<a class=" w-25" href="/">Search &amp; Edit</a> | <a href="/" class="w-25">Create New</a>)
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-danger"> 
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Encumbrances (<a class=" w-25" href="/">Search &amp; Edit</a> | <a href="/" class="w-25">Create New</a>)
 										</div>
 									</div>
