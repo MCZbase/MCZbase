@@ -385,22 +385,47 @@ limitations under the License.
 											Encumbrances ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
 										</div>
 									</div>
+									<div>
+										<h5 class="dropdown-header text-danger">Admin</h5>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											<a class="w-25 btn-link" href="/">Reporter</a>
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Code Table Editor ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Reports ( <a class=" w-25 btn-link" href="/">Genbank Missing</a> | <a href="/" class="w-25 btn-link">Problematic Data</a> | <a href="/" class="w-25 btn-link">SQL Queries</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Statistics ( <a class="w-25 btn-link" href="/">Loan Stats</a> )
+										</div>
+									</div>
 								</li>
 							</ul>
 
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="d-md-flex align-items-start justify-content-start">
-									<div>
-										<div class="dropdown-header px-4 text-danger">Search</div>
-										<a class="dropdown-item" href="/Transactions.cfm">All Transactions</a> <a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
+								<li class="d-md-flex align-items-start justify-content-start pb-3">
+					<div>
+										<h5 class="dropdown-header text-danger">Search, Edit, Create</h5>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										Accessions ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										Loans ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										Borrows ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										Deaccessions ( <a class="w-25 btn-link" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										Permissions and Rights ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
 									</div>
-									<div>
-										<div class="dropdown-header px-4 text-danger">Create New Records</div>
-										<a class="dropdown-item" href="/">Loan</a> <a class="dropdown-item" href="/">Accession</a> <a class="dropdown-item" href="/">Deaccession</a> <a class="dropdown-item" href="/">Borrows</a> <a class="dropdown-item" href="/">Permit</a> 
-									</div>
-						
+									
 								</li>
 							</ul>
 						</li>
