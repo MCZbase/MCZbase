@@ -305,7 +305,7 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="pb-3">
+								<li class="py-2">
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
 									<a class="dropdown-item" href="/Media.cfm">Media</a> 
@@ -313,9 +313,9 @@ limitations under the License.
 									<a class="dropdown-item" href="/Geography.cfm">Geography</a> 
 									<a class="dropdown-item" href="/Events.cfm">Event</a>
 									<a class="dropdown-item" href="/Agents.cfm">Agents</a>
-									<a class="dropdown-item" href="/Events.cfm">Projects</a>
-									<a class="dropdown-item" href="/Agents.cfm">Annotations</a>
-									<a class="dropdown-item" href="/Events.cfm">Browse Specimens</a>
+									<a class="dropdown-item" href="/Projects.cfm">Projects</a>
+									<a class="dropdown-item" href="/Annotations.cfm">Annotations</a>
+									<a class="dropdown-item" href="/Browse.cfm">Browse Specimens</a>
 								</li>
 							</ul>
 						</li>
