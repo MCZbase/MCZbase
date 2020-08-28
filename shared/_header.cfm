@@ -327,7 +327,7 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div>
-								<div class="h5 pt-2 dropdown-header text-danger">Space &amp; Time</div>
+								<div class="h5 pt-2 dropdown-header text-danger">Time &amp; Space</div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Geography ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findHG">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newHG" class="w-25 text-muted">Create New</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Locality ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findLO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newLocality" class="w-25 text-muted">Create New</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Events ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO" class="w-25 text-muted">clone only</a> ) </div>
