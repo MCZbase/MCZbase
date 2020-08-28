@@ -424,10 +424,10 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
 										<h5 class="dropdown-header text-danger">About Your Data (Admin)</h5>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Self-Service Reports</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Collection Statistics</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Saved Searches</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Loan Stats</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Self-Service Reports</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Collection Statistics</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Saved Searches</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Loan Stats</a></div>
 									</div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data (Admin)</div>
