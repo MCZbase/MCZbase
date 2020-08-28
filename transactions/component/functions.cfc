@@ -868,17 +868,17 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<input type="submit" value="Search" class="btn">	
+						<input type="button" value="Search" class="btn-xs btn-primary" onclick="$('##findPermitForm').submit()">	
 						<script>
 							function createPermitDialogDone () { 
 								$("##permit_Num").val($("##permit_number_passon").val()); 
 							};
 						</script>
-						<input type="reset" value="Clear" class="btn">
+						<input type="reset" value="Clear" class="btn-xs btn-warning">
 					</div>
 					<div class="col-12 col-md-6">
 						<span id="createPermit_#shipment_id#_span">
-							<input type='button' style='margin-left: 30px;' value='New Permit' class='btn' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+							<input type='button' style='margin-left: 30px;' value='New Permit' class='btn-xs btn-secondary' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
 						</span>
 						<div id="createPermitDlg_#shipment_id#"></div>
 					</div>
