@@ -323,20 +323,20 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
-										<div class="dropdown-header px-4 text-danger">Enter Specimen Data</div>
+										<div class="h5 dropdown-header px-4 text-danger">Enter Specimen Data</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> 
 										<a class="dropdown-item" href="/">Media Form</a> 
 										<a class="dropdown-item" href="/">Publication Form</a> 
 									</div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Specimen Bulkloader</div>
+										<div class="h5 dropdown-header px-4 text-danger">Specimen Bulkloader</div>
 										<a class="dropdown-item" href="/">Bulkload Specimens</a> 
 										<a class="dropdown-item" href="/">Bulkloader Status</a> 
 										<a class="dropdown-item" href="/">Bulkload Builder</a> 
 										<a class="dropdown-item" href="/">Browse and Edit</a> 
 									</div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
+										<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
 										<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
 										<a class="dropdown-item" href="/">Bulk Add Parts</a> 
 										<a class="dropdown-item" href="/">Bulk Add Citations</a> 
@@ -355,34 +355,34 @@ limitations under the License.
 					<div>
 										<h5 class="dropdown-header text-danger">Space &amp; Time</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Geography ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Geography ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Locality ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Locality ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Collecting Events ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Collecting Events ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-mutedk">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Collecting Event Number Series ( <a class="w-25 btn-link" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Collecting Event Number Series ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Annotations ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Annotations ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
 										</div>
 									</div>
 									<div>
 										<h5 class="dropdown-header text-danger">Collection</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Storage ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Storage ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Named Groups ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Named Groups ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Annotations ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Annotations ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Encumbrances ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+											Encumbrances ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 									</div>
 									
@@ -399,16 +399,16 @@ limitations under the License.
 										Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Loans ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										Loans ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Borrows ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										Borrows ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Deaccessions ( <a class="w-25 btn-link" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										Deaccessions ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Permissions and Rights ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										Permissions and Rights ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 									</div>
 									
