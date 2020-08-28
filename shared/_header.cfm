@@ -370,7 +370,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Collection</div>
-										<ul class=""><li>Storage <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
+										<ul class="list-unstyled"><li>Storage <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
 											<li><a class="dropdown-item" href="/">Find Named Groups</a> 
 										<li>Named Group <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li> 
 										<li>Annotations <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a> </li>
