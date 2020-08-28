@@ -1172,7 +1172,7 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 			success: function (data) { 
 				$("#"+dialogid+"_div").html(data);
 			}, 
-			fail: function (jqXHR, textStatus, error) { 
+			error: function (jqXHR, textStatus, error) { 
 				handleFail(jqXHR,textStatus,error,"removing project from transaction record");
 			}
 	});

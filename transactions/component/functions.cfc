@@ -588,19 +588,20 @@ limitations under the License.
 	<cfargument name="valuecontrol" type="string" required="yes">
 	<cfargument name="idcontrol" type="string" required="yes">
 	<cfargument name="dialog" type="string" required="yes">
-	<cfset result="">
-	<cftry>
-		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
-				group by ct.permit_type
-				order by ct.permit_type
-		</cfquery>
-		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
-				group by ct.specific_type
-				order by ct.specific_type
-		</cfquery>
-		<cfset result = '
+
+	<cfthread name="getPermitPickerThread">
+		<cftry>
+			<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
+					group by ct.permit_type
+					order by ct.permit_type
+			</cfquery>
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+					group by ct.specific_type
+					order by ct.specific_type
+			</cfquery>
+			<cfoutput>
 				<h3>Search for permits.</h3>
    			<form id="findPermitSearchForm" name="findPermit">
 					<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
@@ -639,11 +640,9 @@ limitations under the License.
 							<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
 							<select name="permit_Type" id="permit_type" class="data-entry-select w-75">
 								<option value=""></option>
-		'>
 								<cfloop query="ctPermitType">
-									<cfset result = result & '<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>' >
+									<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
 								</cfloop>
-		<cfset result = result & '
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
@@ -656,11 +655,9 @@ limitations under the License.
 							<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
 							<select name="specific_type" class="data-entry-select w-75">
 								<option value=""></option>
-		'>
 								<cfloop query="ctSpecificPermitType">
-									<cfset result = result & '<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>' >
+									<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
 								</cfloop>
-		<cfset result = result & '
 							</select>
 						</div>
 						<div class="col-12 col-md-6">
@@ -687,7 +684,7 @@ limitations under the License.
 				<script>
    				$("##findPermitSearchForm").bind("submit", function(evt){
       				evt.preventDefault();
-						$("##permitPickResultsGrid").replaceWith(''<div id="permitPickResultsGrid" class="jqxGrid"></div>'');
+						$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
 						$("##permitPickResultCount").html("");
 						$("##permitPickResultLink").html("");
 						$("##permitPickSearchText").jqxGrid("showloadelement");
@@ -716,7 +713,7 @@ limitations under the License.
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
+							var result = "<button class=\"btn btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 							return result;
 						};
 
@@ -755,28 +752,29 @@ limitations under the License.
 						});
 					});
 				</script>
-		'>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
 					</div>
 				</div>
-			</div>
-		</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-
-	<cfreturn result>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitPickerThread" />
+	<cfreturn getPermitPickerThread.output>
 </cffunction>
 
 <!---  Given a shipment_id, return a block of html code for a permit picking dialog to pick permits for the given
@@ -807,84 +805,86 @@ limitations under the License.
 		</cfquery>
 		<cfoutput>
 			<h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
-			<form id='findPermitForm' onsubmit='searchforpermits(event);' class="container">
-				<input type='hidden' name='method' value='findPermitShipSearchResults'>
-				<input type='hidden' name='returnformat' value='plain'>
-				<input type='hidden' name='shipment_id' value='#shipment_id#'>
-				<input type='hidden' name='shipment_label' value='#shipment_label#'>
+			<form id="findPermitForm" onsubmit="searchforpermits(event);" class="container">
+				<input type="hidden" name="method" value="findPermitShipSearchResults">
+				<input type="hidden" name="returnformat" value="plain">
+				<input type="hidden" name="shipment_id" value="#shipment_id#">
+				<input type="hidden" name="shipment_label" value="#shipment_label#">
 				<div class="row">
 					<div class="col-12 col-md-3">
-						<label for="pf_issuedByAgent">Issued By</label>
-						<input type='text' name='IssuedByAgent' id="pf_issuedByAgent">
+						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
+						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="pf_issuedToAgent">Issued To<label>
-						<input type='text' name='IssuedToAgent' id="pf_issuedToAgent">
+						<label for="pf_issuedToAgent" class="data-entry-label">Issued To<label>
+						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="pf_issued_date">Issued Date</label>
-						<input type='text' name='issued_Date' id="pf_issued_date">
+						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
+						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="pf_renewed_date">Renewed Date</label>
-						<input type='text' name='renewed_Date' id="pf_renewed_date">
+						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
+						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control-sm">
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 col-md-6">
-						<label>Expiration Date</label>
-						<input type='text' name='exp_Date'>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
+						<input type="text" name="exp_Date" class="form-control-sm" id="pf_exp_date">
 					</div>
 					<div class="col-12 col-md-3">
-						<label>Permit Number</label>
-						<input type='text' name='permit_Num' id='permit_Num'>
+						<label class="data-entry-label" for="permit_Num">Permit Number</label>
+						<input type="text" name="permit_Num" id="permit_Num" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
-						<label>Permit Type</label>
-						<select name='permit_Type' size='1' style='width: 15em;'>
-							<option value=''></option>
-							<cfloop query='ctPermitType'>
-								<option value = '#ctPermitType.permit_type#'>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
+						<select name="permit_Type" size="1" style="width: 15em;" class="form-control-sm" id="pf_permit_type">
+							<option value=""></option>
+							<cfloop query="ctPermitType">
+								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
 							</cfloop>
 						</select>
 					</div>
 					<div class="col-12 col-md-3">
-						<label>Remarks</label>
-						<input type='text' name='permit_remarks'>
+						<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
+						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control-sm">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<label>Specific Type</label>
-						<select name='specific_type' size='1' style='width: 15em;'>
-							<option value=''></option>
-							<cfloop query='ctSpecificPermitType'>
-								<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
+						<select name="specific_type" size="1" id="pf_specific_type" class="form-control-sm">
+							<option value=""></option>
+							<cfloop query="ctSpecificPermitType">
+								<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
 							</cfloop>
 						</select>
 					</div>
 					<div class="col-12 col-md-6">
-						<label>Permit Title</label>
-						<input type='text' name='permit_title'>
+						<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
+						<input type="text" name="permit_title" id="pf_permit_title" class="form-control-sm">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<input type='submit' value='Search' class='schBtn'>	
+						<input type="submit" value="Search" class="btn">	
 						<script>
 							function createPermitDialogDone () { 
-								$('##permit_Num').val($('##permit_number_passon').val()); 
+								$("##permit_Num").val($("##permit_number_passon").val()); 
 							};
 						</script>
-						<input type='reset' value='Clear' class='clrBtn'>
+						<input type="reset" value="Clear" class="btn">
 					</div>
 					<div class="col-12 col-md-6">
-						<span id='createPermit_#shipment_id#_span'><input type='button' style='margin-left: 30px;' value='New Permit' class='lnkBtn' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' ></span>
-						<div id='createPermitDlg_#shipment_id#'></div>
+						<span id="createPermit_#shipment_id#_span">
+							<input type='button' style='margin-left: 30px;' value='New Permit' class='btn' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+						</span>
+						<div id="createPermitDlg_#shipment_id#"></div>
 					</div>
 				</div>
 			</form>
-			<script language='javascript' type='text/javascript'>
+			<script>
 				function searchforpermits(event) { 
 					event.preventDefault();
 					// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
@@ -904,7 +904,7 @@ limitations under the License.
 					return false; 
 				};
 			</script>
-			<div id='permitSearchResults'></div>
+			<div id="permitSearchResults"></div>
 		</cfoutput>
 	<cfcatch>
 		<cfoutput>
