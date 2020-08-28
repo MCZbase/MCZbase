@@ -360,8 +360,8 @@ limitations under the License.
 										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
 										<a class="dropdown-item" href="/">Annotations</a> 
 									</div>
+									<div>
 									<div class="dropdown-header px-4 text-danger">Create Time and Space Metadata</div>
-									
 										<a class="dropdown-item" href="/">Add New Geography</a> 
 										<a class="dropdown-item" href="/">Add New Locality</a> 
 										<a class="dropdown-item" href="/">Add New Collecting Event</a> 
@@ -371,9 +371,7 @@ limitations under the License.
 									<div>
 										<div class="dropdown-header px-4 text-danger">Collection</div>
 										<span>Storage <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a></span>
-									
 									</div>
-						
 								</li>
 							</ul>
 
