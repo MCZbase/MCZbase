@@ -816,7 +816,7 @@ limitations under the License.
 						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
-						<label for="pf_issuedToAgent" class="data-entry-label">Issued To<label>
+						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
 						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control-sm">
 					</div>
 					<div class="col-12 col-md-3">
@@ -839,7 +839,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
-						<select name="permit_Type" size="1" style="width: 15em;" class="form-control-sm" id="pf_permit_type">
+						<select name="permit_Type" size="1" class="form-control-sm" id="pf_permit_type">
 							<option value=""></option>
 							<cfloop query="ctPermitType">
 								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
