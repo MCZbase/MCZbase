@@ -432,7 +432,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a> <a class="dropdown-item" href="/">Reporter</a>
+										<a class="dropdown-item" href="/project-rescue">Taxonomy Issues</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents Issues</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a> <a class="dropdown-item" href="/">Reporter</a>
 									</div>
 								</li>
 							</ul>
