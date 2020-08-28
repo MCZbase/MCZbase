@@ -387,8 +387,16 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	var title = "Find Permissions and Rights Documents";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
+	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
-	w = Math.floor(w *.9);
+	// full width at less than medium screens
+	if (w>768 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at 1200 pixel
+		w = 1200;
+	} 
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -811,9 +819,6 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
 	} else { 
 		var content = '<div id="'+dialogid+'_div">Loading....</div>';
-		var h = $(window).height();
-		var w = $(window).width();
-		w = Math.floor(w *.9);
 		var thedialog = $("#"+dialogid).html(content)
 		.dialog({
 			title: title,
@@ -1070,8 +1075,16 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 	var title = "Find Shipping Addresses";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
+	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
-	w = Math.floor(w *.9);
+	// full width at less than medium screens
+	if (w>768 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at 1200 pixel
+		w = 1200;
+	} 
 	var thedialog = $("#"+dialogid).html(content)
 	.dialog({
 		title: title,
@@ -1131,8 +1144,16 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 	var title = "Link Permit record(s) to " + shipment_label;
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
+	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
-	w = Math.floor(w *.9);
+	// full width at less than medium screens
+	if (w>768 && w<=1333) { 
+		// 90% width up to extra large screens
+		w = Math.floor(w *.9);
+	} else if (w>1333) { 
+		// cap width at 1200 pixel
+		w = 1200;
+	} 
 	var thedialog = $("#"+dialogid).html(content)
 		.dialog({
 			title: title,
