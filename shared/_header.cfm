@@ -327,7 +327,8 @@ limitations under the License.
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen Form</a> 
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media Form</a> 
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication Form</a> 
-										<a class="dropdown-item" href="/">Taxonomy Form</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy Form (clone only)</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation Form (from Pub results only)</a> 
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a>
 									</div>
 									<div>
@@ -432,7 +433,7 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
 										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/MoreCitationStats.cfm">Self-Service (needs landing)</a>
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Collection Statistics</a>
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm">Loan Stats</a>
