@@ -349,12 +349,12 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
-								<li>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
+								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Time and Space Metadata</div>
-										<a class="dropdown-item" href="/">Search and Edit Geography</a> 
+									<a class="dropdown-item" href="/">Search and Edit Geography</a> 
 										<a class="dropdown-item" href="/">Add New Geography</a> 
 										<a class="dropdown-item" href="/">Search and Edit Locality</a> 
 										<a class="dropdown-item" href="/">Add New Locality</a> 
@@ -366,7 +366,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
 									</div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Collection</div>
+										<div class="dropdown-header px-4 text-danger">Create New Records</div>
 										<a class="dropdown-item" href="/">Storage</a> 
 										<a class="dropdown-item" href="/">Find Named Groups</a> 
 										<a class="dropdown-item" href="/">New Named Group</a> 
@@ -374,13 +374,10 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Encumbrances</a> 
 										<a class="dropdown-item" href="/">Projects</a> 
 									</div>
-									<a class="dropdown-item" href="/">Projects</a> 
-									<a class="dropdown-item" href="/">Named Groups</a> 
-									<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-									<a class="dropdown-item" href="/">Object Tracking</a> 
-									<a class="dropdown-item" href="/">Encumbrances</a> 
+						
 								</li>
 							</ul>
+
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
