@@ -398,19 +398,22 @@ limitations under the License.
 								<div>
 									<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									All Transactions( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Loans ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Borrows ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									Loans ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm?action=findLoans">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Loan.cfm?action=newLoan" class="w-25 text-muted">Create New</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Deaccessions ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									Borrows ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Borrow.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Borrow.cfm?action=new" class="w-25 text-muted">Create New</a> )
 									</div>
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
-									Permissions and Rights ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									Deaccessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?action=search">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Deaccession.cfm?Action=newDeacc" class="w-25 text-muted">Create New</a> )
+									</div>
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
+									Permissions and Rights ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Permit.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Permit.cfm?action=newPermit" class="w-25 text-muted">Create New</a> )
 									</div>
 								</div>
 								</li>
