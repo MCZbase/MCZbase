@@ -791,7 +791,7 @@ limitations under the License.
 	<cfargument name="shipment_id" type="string" required="yes">
 	<cfargument name="shipment_label" type="string" required="yes">
    
-	<cfthread action="join" name="getSPPHtmlThread" />
+	<cfthread name="getSPPHtmlThread">
  	<cftry>
 		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select ct.permit_type, count(p.permit_id) uses 
@@ -912,6 +912,7 @@ limitations under the License.
 		</cfoutput>
 	</cfcatch>
 	</cftry>
+	</cfthread>
 	<cfthread action="join" name="getSPPHtmlThread" />
 	<cfreturn getSPPHtmlThread.output>
 </cffunction>
