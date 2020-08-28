@@ -306,15 +306,15 @@ limitations under the License.
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 								<li class="py-1">
-									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
-									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
-									<a class="dropdown-item" href="/Media.cfm">Media</a> 
-									<a class="dropdown-item" href="/Publications.cfm">Publications</a> 
-									<a class="dropdown-item" href="/Geography.cfm">Geography</a> 
-									<a class="dropdown-item" href="/Events.cfm">Event</a>
-									<a class="dropdown-item" href="/Agents.cfm">Agents</a>
-									<a class="dropdown-item" href="/Projects.cfm">Projects</a>
-									<a class="dropdown-item" href="/Annotations.cfm">Annotations</a>
+									<a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimens</a> 
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy</a> 
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/MediaSearch.cfm">Media</a> 
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Publications</a> 
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/showLocality.cfm">Geography</a> 
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Event</a>
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a>
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Projects</a>
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a>
 									<a class="dropdown-item" href="/Browse.cfm">Browse Specimens</a>
 								</li>
 							</ul>
@@ -328,6 +328,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Media Form</a> 
 										<a class="dropdown-item" href="/">Publication Form</a> 
 										<a class="dropdown-item" href="/">Taxonomy Form</a> 
+										<a class="dropdown-item" href="/">Agent Form</a>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Specimen Bulkloader</div>
