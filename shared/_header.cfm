@@ -305,7 +305,7 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li>
+								<li class="pb-3">
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
 									<a class="dropdown-item" href="/Media.cfm">Media</a> 
@@ -321,7 +321,7 @@ limitations under the License.
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="d-md-flex align-items-start justify-content-start">
+								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
 										<div class="dropdown-header px-4 text-danger">Enter Specimen Data</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> 
