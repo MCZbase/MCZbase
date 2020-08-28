@@ -417,18 +417,18 @@ limitations under the License.
 						</li>
 
 						
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><h4>About</h4></a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
-								<li class="d-md-flex align-items-start justify-content-start">
+								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
 										<div class="dropdown-header text-danger">About Your Data (Admin)</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a><a class="dropdown-item" href="/">Reporter</a><a class="dropdown-item" href="/">Loan Stats</a>
+										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a> <a class="dropdown-item" href="/">Saved Searches</a> <a class="dropdown-item" href="/">Loan Stats</a>
 									</div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data (Admin)</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a>
+										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a> <a class="dropdown-item" href="/">Reporter</a>
 									</div>
 								</li>
 							</ul>
