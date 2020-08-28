@@ -305,7 +305,7 @@ limitations under the License.
 					<ul class="navbar-nav nav-fill mr-auto">
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="py-2">
+								<li class="py-1">
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a> 
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a> 
 									<a class="dropdown-item" href="/Media.cfm">Media</a> 
@@ -354,34 +354,34 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
 										<div class="h5 pt-2 dropdown-header text-danger">Space &amp; Time</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Geography ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Locality ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Collecting Events ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-mutedk">Create New</a> )
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
+											Collecting Events ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Collecting Event Number Series ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Annotations ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
+											Annotations ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 									</div>
 									<div>
 										<div class="h5 pt-2 dropdown-header text-danger">Collection</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Storage ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Named Groups ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Annotations ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+										<div class="dropdown-item row mx-0 px-4 w-100"> 
 											Encumbrances ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 									</div>
@@ -395,19 +395,19 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 								<div>
 									<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>
-									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Loans ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Borrows ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Deaccessions ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
-									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									Permissions and Rights ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
 								</div>
