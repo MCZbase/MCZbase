@@ -385,21 +385,7 @@ limitations under the License.
 											Encumbrances ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
 										</div>
 									</div>
-									<div>
-										<h5 class="dropdown-header text-danger">Admin</h5>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											<a class="w-25 btn-link" href="/">Reporter</a>
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Code Table Editor ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Reports ( <a class=" w-25 btn-link" href="/">Genbank Missing</a> | <a href="/" class="w-25 btn-link">Problematic Data</a> | <a href="/" class="w-25 btn-link">SQL Queries</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-											Statistics ( <a class="w-25 btn-link" href="/">Loan Stats</a> )
-										</div>
-									</div>
+									
 								</li>
 							</ul>
 
@@ -429,18 +415,20 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
+
+						
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header text-danger">About Your Data</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a>
+										<div class="dropdown-header text-danger">About Your Data (Admin)</div>
+										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a>  <a class="dropdown-item" href="/">Saved Searches</a><a class="dropdown-item" href="/">Reporter</a><a class="dropdown-item" href="/">Loan Stats</a>
 									</div>
 									<div>
-										<div class="dropdown-header text-danger">Shared Data</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> 
+										<div class="dropdown-header text-danger">Shared Data (Admin)</div>
+										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a>
 									</div>
 								</li>
 							</ul>
