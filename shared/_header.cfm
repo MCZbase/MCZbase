@@ -352,21 +352,23 @@ limitations under the License.
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
-									<div>
-										<div class="dropdown-header px-4 text-danger">Search Time and Space</div>
-										<a class="dropdown-item" href="/">Geography</a>
-										<a class="dropdown-item" href="/">Locality</a> 
-										<a class="dropdown-item" href="/">Collecting Event</a> 
-										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/">Annotations</a> 
-									</div>
-									<div>
-									<div class="dropdown-header px-4 text-danger">Create Time and Space</div>
-										<a class="dropdown-item" href="/">Add New Geography</a> 
-										<a class="dropdown-item" href="/">Add New Locality</a> 
-										<a class="dropdown-item" href="/">Add New Collecting Event</a> 
-										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
-										<a class="dropdown-item" href="/">Add New Annotations</a> 
+					<div>
+										<h5 class="dropdown-header text-danger">Space &amp; Time</h5>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Geography ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Locality ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Collecting Events ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Collecting Event Number Series ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+											Annotations ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										</div>
 									</div>
 									<div>
 										<h5 class="dropdown-header text-danger">Collection</h5>
