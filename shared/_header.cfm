@@ -321,7 +321,7 @@ limitations under the License.
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-3">
+								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Enter Specimen Data</div>
 										<a class="dropdown-item" href="/">Specimen Form</a> 
@@ -351,9 +351,9 @@ limitations under the License.
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-3">
-					<div>
-										<h5 class="dropdown-header text-danger">Space &amp; Time</h5>
+								<li class="d-md-flex align-items-start justify-content-start pb-2">
+									<div>
+										<div class="h5 pt-2 dropdown-header text-danger">Space &amp; Time</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Geography ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
@@ -371,7 +371,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div>
-										<h5 class="dropdown-header text-danger">Collection</h5>
+										<div class="h5 pt-2 dropdown-header text-danger">Collection</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 											Storage ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
@@ -392,26 +392,25 @@ limitations under the License.
 						</li>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
-								<li class="d-md-flex align-items-start justify-content-start pb-3">
-					<div>
-										<h5 class="dropdown-header text-danger">Search, Edit, Create</h5>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Loans ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Borrows ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Deaccessions ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
-										</div>
-										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Permissions and Rights ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
-										</div>
+								<li class="d-md-flex align-items-start justify-content-start pb-2">
+								<div>
+									<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>
+									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 									</div>
-									
+									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									Loans ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									</div>
+									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									Borrows ( <a class=" w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									</div>
+									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									Deaccessions ( <a class="w-25 text-muted" href="/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									</div>
+									<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
+									Permissions and Rights ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
+									</div>
+								</div>
 								</li>
 							</ul>
 						</li>
@@ -421,9 +420,9 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
-								<li class="d-md-flex align-items-start justify-content-start pb-3">
+								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
-										<h5 class="dropdown-header text-danger pt-0">About Your Data (Admin)</h5>
+										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Self-Service Reports</a></div>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Collection Statistics</a></div>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Saved Searches</a></div>
@@ -465,11 +464,8 @@ limitations under the License.
 							<cfif session.roles contains "public">
 							<div><a href="##" class="dropdown-item">Settings</a></div>
 							</cfif>
-			
 						</ul>
 					</li>
-						
-
 					</cfif>
 					</ul>
 				</div>
