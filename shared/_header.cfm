@@ -374,13 +374,14 @@ limitations under the License.
 							</div>
 							<div>
 								<div class="h5 dropdown-header text-danger pt-2">Shared Data</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a>
+								<div class="dropdown-item row mx-0 px-4 w-100"> Statistics ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase</a> | <a href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm" class="w-25 text-muted">Loan</a> ) </div>
 								<div class="dropdown-item row mx-0 px-4 w-100"> Taxonomy ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Issues</a> | <a href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm" class="w-25 text-muted">By Class</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Statistics ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase</a> | <a href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm" class="w-25 text-muted">Loan</a> ) </div></div>
+								</div>
 						</li>
 					</ul>
 				</li>
