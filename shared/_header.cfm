@@ -417,14 +417,17 @@ limitations under the License.
 						</li>
 
 						
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><h4>About</h4></a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
-										<div class="dropdown-header text-danger">About Your Data (Admin)</div>
-										<a class="dropdown-item" href="/">Self-Service Reports</a> <a class="dropdown-item" href="/">Collection Statistics</a> <a class="dropdown-item" href="/">Saved Searches</a> <a class="dropdown-item" href="/">Loan Stats</a>
+										<h5 class="dropdown-header text-danger">About Your Data (Admin)</h5>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Self-Service Reports</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Collection Statistics</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Saved Searches</a></div>
+										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> <a class="btn-link" href="/">Loan Stats</a></div>
 									</div>
 									<div>
 										<div class="dropdown-header text-danger">Shared Data (Admin)</div>
