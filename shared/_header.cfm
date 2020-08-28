@@ -367,13 +367,13 @@ limitations under the License.
 						<div class="dropdown-divider"></div>
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div>
-								<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
+								<div class="h5 dropdown-header text-danger pt-2">About Your Data</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Personal MCZbase Activity</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>  
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
+								<div class="h5 dropdown-header text-danger pt-2">Shared Data</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> 
