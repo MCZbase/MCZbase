@@ -319,27 +319,66 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Specimen Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header px-4 text-danger">Create New Records</div>
-										<a class="dropdown-item" href="/">Specimen Form</a> <a class="dropdown-item" href="/">Media Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Taxonomy Form</a> <a class="dropdown-item" href="/">Higher Geography Form</a> <a class="dropdown-item" href="/">Locality Form</a> <a class="dropdown-item" href="/">Publication Form</a> <a class="dropdown-item" href="/">Agent Form</a><a class="dropdown-item" href="/">Loan Form</a> <a class="dropdown-item" href="/">Deaccession Form</a> <a class="dropdown-item" href="/">Accession Form</a> <a class="dropdown-item" href="/">Permit Form</a> <a class="dropdown-item" href="/">Borrow Form</a> 
+										<div class="dropdown-header px-4 text-danger">Enter Specimen Data</div>
+										<a class="dropdown-item" href="/">Specimen Form</a> 
+										<a class="dropdown-item" href="/">Media Form</a> 
+										<a class="dropdown-item" href="/">Publication Form</a> 
 									</div>
 									<div>
-										<div class="dropdown-header px-4 text-danger">Bulkloader</div>
-										<a class="dropdown-item" href="/">Bulkload Specimens</a> <a class="dropdown-item" href="/">Bulkloader Status</a> <a class="dropdown-item" href="/">Bulkload Builder</a> <a class="dropdown-item" href="/">Browse and Edit</a> 
+										<div class="dropdown-header px-4 text-danger">Specimen Bulkloader</div>
+										<a class="dropdown-item" href="/">Bulkload Specimens</a> 
+										<a class="dropdown-item" href="/">Bulkloader Status</a> 
+										<a class="dropdown-item" href="/">Bulkload Builder</a> 
+										<a class="dropdown-item" href="/">Browse and Edit</a> 
 									</div>
 									<div>
 										<div class="dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-										<a class="dropdown-item" href="/">Bulk Edit Parts</a> <a class="dropdown-item" href="/">Bulk Add Parts</a> <a class="dropdown-item" href="/">Bulk Add Citations</a> <a class="dropdown-item" href="/">Bulk Add Attributes</a> <a class="dropdown-item" href="/">Bulk Add Identifiers</a> <a class="dropdown-item" href="/">Bulk Add Agents</a> <a class="dropdown-item" href="/">Bulk Add Media</a> <a class="dropdown-item" href="/">Bulk Add Identifications</a> 
+										<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
+										<a class="dropdown-item" href="/">Bulk Add Parts</a> 
+										<a class="dropdown-item" href="/">Bulk Add Citations</a> 
+										<a class="dropdown-item" href="/">Bulk Add Attributes</a> 
+										<a class="dropdown-item" href="/">Bulk Add Identifiers</a> 
+										<a class="dropdown-item" href="/">Bulk Add Agents</a> 
+										<a class="dropdown-item" href="/">Bulk Add Media</a> 
+										<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
 									</div>
 								</li>
 							</ul>
 						</li>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Tools</a>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
-								<li><a class="dropdown-item" href="/">Projects</a> <a class="dropdown-item" href="/">Named Groups</a> <a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> <a class="dropdown-item" href="/">Object Tracking</a> <a class="dropdown-item" href="/">Encumbrances</a> 
+								<li>
+									<div>
+										<div class="dropdown-header px-4 text-danger">Time and Space Metadata</div>
+										<a class="dropdown-item" href="/">Search and Edit Geography</a> 
+										<a class="dropdown-item" href="/">Add New Geography</a> 
+										<a class="dropdown-item" href="/">Search and Edit Locality</a> 
+										<a class="dropdown-item" href="/">Add New Locality</a> 
+										<a class="dropdown-item" href="/">Search and Edit Collecting Event</a> 
+										<a class="dropdown-item" href="/">Add New Collecting Event</a> 
+										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Search and Edit Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
+										<a class="dropdown-item" href="/">Search and Edit Annotations</a> 
+										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
+									</div>
+									<div>
+										<div class="dropdown-header px-4 text-danger">Collection</div>
+										<a class="dropdown-item" href="/">Storage</a> 
+										<a class="dropdown-item" href="/">Find Named Groups</a> 
+										<a class="dropdown-item" href="/">New Named Group</a> 
+										<a class="dropdown-item" href="/">Annotations</a> 
+										<a class="dropdown-item" href="/">Encumbrances</a> 
+										<a class="dropdown-item" href="/">Projects</a> 
+									</div>
+									<a class="dropdown-item" href="/">Projects</a> 
+									<a class="dropdown-item" href="/">Named Groups</a> 
+									<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+									<a class="dropdown-item" href="/">Object Tracking</a> 
+									<a class="dropdown-item" href="/">Encumbrances</a> 
 								</li>
 							</ul>
 						</li>
