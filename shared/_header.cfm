@@ -420,20 +420,34 @@ limitations under the License.
 
 						
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
+							
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown"> 
-								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> <a class="dropdown-item" href="/">About MCZbase</a> <a class="dropdown-item" href="/"></a>
+								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki)</a> 
+									<div class="dropdown-item row mx-0 px-4 w-100"> 
+									About MCZbase ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">Interacting API</a> | <a href="https://mczbase.mcz.harvard.edu/home.cfm" class="w-25 text-muted">MCZbase/Arctos</a> )
+									</div>
+								
+								<a class="dropdown-item" href="/"></a>
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
 										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
 										<a class="dropdown-item" href="/">Self-Service Reports</a>
-										<a class="dropdown-item" href="/">Collection Statistics</a>
-										<a class="dropdown-item" href="/">Saved Searches</a>
-										<a class="dropdown-item" href="/">Loan Stats</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Collection Statistics</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm">Loan Stats</a>
 									</div>
 									<div>
 										<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
-										<a class="dropdown-item" href="/project-rescue">Taxonomy Issues</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents Issues</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a> <a class="dropdown-item" href="/">Reporter</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy Issues</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Taxonomy By Class</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase Statistics</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a>
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> 
+										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a>
 									</div>
 								</li>
 							</ul>
