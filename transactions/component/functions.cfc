@@ -896,7 +896,7 @@ limitations under the License.
 						success: function (data) {
 							$('##permitSearchResults').html(data);
 						},
-						fail: function (jqXHR, textStatus, error) {
+						error: function (jqXHR, textStatus, error) {
 							handleFail(jqXHR,textStatus,error,'removing project from transaction record');
 							$('##permitSearchResults').html('Error:' + textStatus);
 						}
