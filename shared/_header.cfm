@@ -353,7 +353,7 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
-										<div class="dropdown-header px-4 text-danger">Search Time and Space Metadata</div>
+										<div class="dropdown-header px-4 text-danger">Search Time and Space</div>
 										<a class="dropdown-item" href="/">Geography</a>
 										<a class="dropdown-item" href="/">Locality</a> 
 										<a class="dropdown-item" href="/">Collecting Event</a> 
@@ -361,16 +361,16 @@ limitations under the License.
 										<a class="dropdown-item" href="/">Annotations</a> 
 									</div>
 									<div>
-									<div class="dropdown-header px-4 text-danger">Create Time and Space Metadata</div>
+									<div class="dropdown-header px-4 text-danger">Create Time and Space</div>
 										<a class="dropdown-item" href="/">Add New Geography</a> 
 										<a class="dropdown-item" href="/">Add New Locality</a> 
 										<a class="dropdown-item" href="/">Add New Collecting Event</a> 
 										<a class="dropdown-item" href="/">Add New Collecting Event Number Series</a> 
 										<a class="dropdown-item" href="/">Add New Annotations</a> 
 									</div>
-									<div>
+									<div>Collection
 										<div class="dropdown-header px-4 text-danger">Collection</div>
-										<span>Storage <a class="dropdown-item" href="/">Search &amp; Edit</a> | <a href="/" class="dropdown-item">Create New</a></span>
+										<a class="dropdown-item" href="/">Search &amp; Edit</a>  <a href="/" class="dropdown-item">Create New</a>
 									</div>
 								</li>
 							</ul>
