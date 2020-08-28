@@ -422,14 +422,14 @@ limitations under the License.
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 									<div>
-										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</h5>
-										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Self-Service Reports</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Collection Statistics</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Saved Searches</a></div>
-										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Loan Stats</a></div>
+										<div class="h5 dropdown-header text-danger pt-2">About Your Data (Admin)</div>
+										<a class="dropdown-item" href="/">Self-Service Reports</a>
+										<a class="dropdown-item" href="/">Collection Statistics</a>
+										<a class="dropdown-item" href="/">Saved Searches</a>
+										<a class="dropdown-item" href="/">Loan Stats</a>
 									</div>
 									<div>
-										<div class="dropdown-header text-danger">Shared Data (Admin)</div>
+										<div class="h5 dropdown-header text-danger pt-2">Shared Data (Admin)</div>
 										<a class="dropdown-item" href="/project-rescue">Taxonomy</a> <a class="dropdown-item" href="/">Recently Georeferenced Localities</a><a class="dropdown-item" href="/">Agents</a><a class="dropdown-item" href="/">MCZbase Statistics</a> <a class=" dropdown-item" href="/">Genbank Missing</a> <a class="dropdown-item" href="/">SQL Queries</a> <a class="dropdown-item" href="/">Code Table Editor</a> <a class="dropdown-item" href="/">Reporter</a>
 									</div>
 								</li>
