@@ -395,7 +395,7 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
 								<li class="d-md-flex align-items-start justify-content-start pb-2">
 								<div>
-									<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>
+							<!--		<div class="dropdown-header text-danger pt-2 h5">Search, Edit, Create</div>-->
 									<div class="dropdown-item row mx-0 px-4 w-100"> 
 									All Transactions( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> )
 									</div>
