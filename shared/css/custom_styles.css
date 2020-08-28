@@ -172,6 +172,7 @@ label {
 }
 .ui-multiselect {
 	padding: .25em .5em;
+	padding: .32em .5em;
 	margin: 0;
 	font-size: .875rem;
 	border-radius: .2em;
