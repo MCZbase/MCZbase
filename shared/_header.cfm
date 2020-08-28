@@ -396,7 +396,7 @@ limitations under the License.
 					<div>
 										<h5 class="dropdown-header text-danger">Search, Edit, Create</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
-										Accessions ( <a class="w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
+										Accessions ( <a class="w-25 text-muted" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 text-muted">Create New</a> )
 										</div>
 										<div class="dropdown-item row mx-0 px-4 w-100 text-dark"> 
 										Loans ( <a class=" w-25 btn-link" href="/">Search &amp; Edit</a> | <a href="/" class="w-25 btn-link">Create New</a> )
@@ -423,7 +423,7 @@ limitations under the License.
 								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start pb-3">
 									<div>
-										<h5 class="dropdown-header text-danger">About Your Data (Admin)</h5>
+										<h5 class="dropdown-header text-danger pt-0">About Your Data (Admin)</h5>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Self-Service Reports</a></div>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Collection Statistics</a></div>
 										<div class="dropdown-item row mx-0 px-4 w-100"> <a class="text-dark" href="/">Saved Searches</a></div>
