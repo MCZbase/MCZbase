@@ -1340,9 +1340,9 @@ limitations under the License.
 					from
 						<cfif transaction EQ "loan"> 
 							loan_item li
-						<cfelse if transaction EQ "deacc">
+						<cfelseif transaction EQ "deacc">
 							deacc_item li
-						<cfelse if transaction EQ "borrow">
+						<cfelseif transaction EQ "borrow">
 							borrow_item li
 						<cfelse>
 							-- TODO: Accession not supported yet
