@@ -151,7 +151,7 @@ limitations under the License.
 							where
 								permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 					</cfquery>
-					<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>
+					<script>function reloadShipments() { loadShipments(#transaction_id#); loadTransactionPermitMediaList(#transaction_id#) } </script>
 						
 					<div class='shipment my-2'>
 						<table class='table table-sm'>
@@ -1314,6 +1314,96 @@ limitations under the License.
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<cffunction name="getTransPermitMediaList" access="remote">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getPermitMediaListThread">
+		<cftry>
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type
+				from trans
+				where
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfset transaction = transType.transaction_type>
+			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
+				from (
+					select 
+						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+						mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+						p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+						ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+					from
+						<cfif transaction EQ "loan"> 
+							loan_item li
+						<cfelse if transaction EQ "deacc">
+							deacc_item li
+						<cfelse if transaction EQ "borrow">
+							borrow_item li
+						<cfelse>
+							-- TODO: Accession not supported yet
+						</cfif>
+						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						left join accn on ci.accn_id = accn.transaction_id
+						left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						left join permit p on permit_trans.permit_id = p.permit_id
+						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					union
+					select 
+						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
+						mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+						p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
+					from shipment s
+						left join permit_shipment ps on s.shipment_id = ps.shipment_id
+						left join permit p on ps.permit_id = p.permit_id
+					where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+				) where permit_type is not null
+			</cfquery>
+			<cfoutput>
+					<cfset uriList = ''>
+					<ul class="">
+						<cfloop query="getPermitMedia">
+							<cfif media_id is ''>
+								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
+							<cfelse>
+								<cfif show_on_shipment EQ 1>
+									<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+									<cfset uriList = ListAppend(uriList,uri)>
+								<cfelse>
+									<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+								</cfif>
+							</cfif>
+						</cfloop>
+					</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitMediaListThread" />
+	<cfreturn getPermitMediaListThread.output>
 </cffunction>
 
 <!------------------------------------------------------->

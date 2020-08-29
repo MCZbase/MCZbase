@@ -1176,6 +1176,7 @@ limitations under the License.
 								) where permit_type is not null
 							</cfquery>
 							<cfset uriList = ''>
+							<div id="transPermitMediaListDiv">
 							<ul class="">
 								<cfloop query="getPermitMedia">
 									<cfif media_id is ''>
@@ -1190,6 +1191,7 @@ limitations under the License.
 									</cfif>
 								</cfloop>
 							</ul>
+							</div>
 							<cfif ListLen(uriList,',',false) gt 0 >
 								<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
 							</cfif>

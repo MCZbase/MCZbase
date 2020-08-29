@@ -325,6 +325,8 @@ function loadShipments(transaction_id) {
 	});
 };
 
+
+
 /* function deleteShipment remove a shipment from a transaction.
  */
 function deleteShipment(shipmentId,transactionId) {
@@ -360,6 +362,25 @@ function loadTransactionFormPermits(transaction_id) {
 		},
 		error: function (jqXHR, status, message) {
 			messageDialog("Error loading transaction permits: " + message + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		dataType: "html"
+	});
+};
+
+function loadTransactionPermitMediaList(transaction_id) {
+	targetDiv="transPermitMediaListDiv";
+	console.log("Reloading permit media in #"+ targetDiv);
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getTransPermitMediaList",
+			transaction_id : transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading permit media list");
 		},
 		dataType: "html"
 	});
