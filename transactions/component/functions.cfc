@@ -1317,7 +1317,7 @@ limitations under the License.
 </cffunction>
 
 
-<cffunction name="getTransPermitMediaList" access="remote">
+<cffunction name="getTransPermitMediaList" access="remote" returntype="string">
 	<cfargument name="transaction_id" type="string" required="yes">
 
 	<cfthread name="getPermitMediaListThread">
