@@ -151,7 +151,7 @@ limitations under the License.
 							where
 								permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
 					</cfquery>
-					<script>function reloadShipments() { loadShipments(#transaction_id#); loadTransactionPermitMediaList(#transaction_id#) } </script>
+					<script>function reloadShipments() { console.log("reloadShipments()"); loadShipments(#transaction_id#); loadTransactionPermitMediaList(#transaction_id#) } </script>
 						
 					<div class='shipment my-2'>
 						<table class='table table-sm'>
@@ -196,7 +196,7 @@ limitations under the License.
 							<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>
 							<ul class='permitshipul2'>
 								<li><input type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'></li>
-								<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>
+								<li><input type='button' class='delBtn btn btn-xs btn-secondary mr-1' onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); ' value='Remove Permit'></li>
 								<li>
 									<input type='button' onClick=' openMovePermitDialog(#transaction_id#,#current_shipment_id#,#permit_id#,"##movePermitDlg_#theResult.shipment_id##permit_id#");' class='lnkBtn btn btn-xs btn-secondary' value='Move'>
 									<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
