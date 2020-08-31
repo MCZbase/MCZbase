@@ -225,7 +225,7 @@ limitations under the License.
 											</li>
 											<li>
 												<button type='button' 
-													class='delBtn btn btn-xs warning mr-1' 
+													class='delBtn btn btn-xs btn-warning mr-1' 
 													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
 													value='Remove Permit'>Remove</button>
 											</li>
