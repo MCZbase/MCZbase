@@ -130,7 +130,7 @@ limitations under the License.
 						 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						 order by shipped_date
 				</cfquery>
-				<div id='shipments' class='shipments'>
+				<div id='shipments'>
 				<cfloop query="theResult">
 					<cfif print_flag eq "1">
 						<cfset printedOnInvoice = "&##9745; Printed on invoice">
@@ -159,24 +159,32 @@ limitations under the License.
 						} 
 					</script>
 						
-					<div class='shipment my-2'>
+					<div class='shipments my-2'>
+						<table class='table table-sm mb-0'>
+							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
+							<tbody>
+								<tr>
+									<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>
+									<td>#shipped_carrier_method#&nbsp;</td>
+									<td>#no_of_packages#&nbsp;</td>
+									<td>#carriers_tracking_number#</td>
+								</tr>
+							</tbody>
+						</table>
 						<table class='table table-sm'>
-						<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
-						<tbody><tr>
-						<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>
-						<td>#shipped_carrier_method#&nbsp;</td>
-						<td>#no_of_packages#&nbsp;</td>
-						<td>#carriers_tracking_number#</td>
-						</tr></tbody></table>
-						<table class='table table-sm'><thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
-						<tbody><tr><td>(#printedOnInvoice#) #tofaddr#</td>
-						<td>#fromfaddr#</td>
-						</tr></tbody></table>
+							<thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
+							<tbody>
+								<tr>
+									<td>(#printedOnInvoice#) #tofaddr#</td>
+									<td>#fromfaddr#</td>
+								</tr>
+							</tbody>
+						</table>
 						<div class='form-row'>
-							<div class='col-5'>
+							<div class='col-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
-							<div id='addPermit_#shipment_id#' class='col-6'>
+							<div id='addPermit_#shipment_id#' class='col-10'>
 								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>
@@ -205,7 +213,7 @@ limitations under the License.
 											</cfif>
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
-										<ul class='permitshipul'>
+										<ul class='permitshipul mb-0'>
 											<li>
 												<span>#mediaLink# #permit_type# #permit_Num#</span>
 											</li>
@@ -217,7 +225,7 @@ limitations under the License.
 											</li>
 											<li>
 												<button type='button' 
-													class='delBtn btn btn-xs btn-secondary mr-1' 
+													class='delBtn btn btn-xs warning mr-1' 
 													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
 													value='Remove Permit'>Remove</button>
 											</li>
@@ -226,7 +234,7 @@ limitations under the License.
 												<li>
 													<button type='button' 
 														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"##movePermitDlg_#theResult.shipment_id##permit_id#");' 
-														class='lnkBtn btn btn-xs btn-secondary' value='Move'>Move</button>
+														class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
 													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
 												</li>
 											</cfif>
