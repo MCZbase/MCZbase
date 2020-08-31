@@ -1883,7 +1883,7 @@ limitations under the License.
 									<th colspan="2"> 
 										<span>
 											Agent&nbsp;Name&nbsp;
-											<button type="button" class="ui-button btn-primary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Row </button>
+											<button type="button" class="ui-button btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 										</span>
 									</th>
 									<th>Role</th>
