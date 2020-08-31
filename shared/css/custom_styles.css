@@ -371,7 +371,7 @@ span.data-entry-addon {
 	margin-top: 0;
 }
 .btn-primary.disabled, .btn-primary:disabled, .btn-secondary:disabled, .btn-secondary.disabled, .btn-warning.disabled, .btn-warning:disabled, .btn-danger.disabled, .btn-danger:disabled {
-	background-color: #deebec;	
+	background-color: #d7d7d7;	
 	color: #999;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
