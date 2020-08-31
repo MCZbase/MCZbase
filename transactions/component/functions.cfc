@@ -213,20 +213,20 @@ limitations under the License.
 										</ul>
 										<ul class='permitshipul2'>
 											<li>
-												<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'>
+												<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=editPermit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 											</li>
 											<li>
 												<button type='button' 
 													class='delBtn btn btn-xs btn-secondary mr-1' 
 													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
-													value='Remove Permit'>
+													value='Remove Permit'>Remove</button>
 											</li>
 											<cfif theResult.recordcount GT 1>
 												<!--- add the option to copy/move the permit if there is more than one shipment --->
 												<li>
 													<button type='button' 
 														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"##movePermitDlg_#theResult.shipment_id##permit_id#");' 
-														class='lnkBtn btn btn-xs btn-secondary' value='Move'>
+														class='lnkBtn btn btn-xs btn-secondary' value='Move'>Move</button>
 													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
 												</li>
 											</cfif>
