@@ -325,7 +325,24 @@ function loadShipments(transaction_id) {
 	});
 };
 
-
+function setShipmentToPrint(shipmentId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "setShipmentToPrint",
+			shipment_id : shipmentId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS=="0") {
+				messagDialog(result.DATA.MESSAGE,'Error setting Shipment to Print');
+			}
+			loadShipments(transactionId);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"deleting shipment");
+	});
+};
 
 /* function deleteShipment remove a shipment from a transaction.
  */

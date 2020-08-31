@@ -405,6 +405,67 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!---  Given a shipment_id, set only that shipment out of the set of shipments in that transaction to print. --->
+<cffunction name="setShipmentToPrint" access="remote">
+	<cfargument name="shipment_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction action="begin">
+		<!--- First set the print flag off for all shipments on this transaction. --->
+		<cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearResultRes">
+			update shipment set print_flag = 0 where transaction_id in (
+				select transaction_id from shipment where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			)
+		</cfquery>
+		<!--- Then set the print flag on for the provided shipments. --->
+		<cfif clearResultRes.recordcount GT 0 >
+			<cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
+				 update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			</cfquery>
+
+			<cfif updateResultRes.recordcount eq 0>
+				<cftransaction action="rollback"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment not updated. #shipment_id# #updateResultRes.sql#", 1)>
+			</cfif>
+			<cfif updateResultRes.recordcount eq 1>
+				<cftransaction action="commit"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
+			</cfif>
+		<cfelse>
+				<cftransaction action="rollback"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment not found. #shipment_id# #clearResultRes.sql#", 1)>
+		</cfif>
+		</cftransaction>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
 
 <!--- 
  ** method removePermitFromShipment deletes a relationship between a permit and a shipment.
