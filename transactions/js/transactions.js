@@ -1281,6 +1281,8 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		data: {
 			method: 'movePermitHtml',
 			returnformat: "plain",
+			permit_id: permit_id,
+			current_shipment_id: current_shipment_id,
 			transaction_id: transaction_id
 		},
 		success: function(data) {
