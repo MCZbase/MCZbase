@@ -233,7 +233,7 @@ limitations under the License.
 												<!--- add the option to copy/move the permit if there is more than one shipment --->
 												<li>
 													<button type='button' 
-														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"##movePermitDlg_#theResult.shipment_id##permit_id#");' 
+														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
 														class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
 													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
 												</li>
