@@ -1299,3 +1299,63 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		}
 	});
 }
+
+// Add a permit to a shipment with a callback function callback(statuscode).
+function addPermitToShipmentCB(shipmentId,permitId,transactionId,callback) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "setShipmentForPermit",
+			shipment_id : shipmentId,
+			permit_id : permitId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS==1) {
+				callback(1);
+			} else {
+				alert(result.DATA.MESSAGE);
+				callback(0);
+			}
+			loadShipments(transactionId);
+		}
+	);
+};
+// Move a permit from one shipment to another with a callback function callback(statuscode).
+function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transactionId,callback) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removePermitFromShipment",
+			shipment_id : oldShipmentId,
+			permit_id : permitId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS==1) {
+				jQuery.getJSON("/component/functions.cfc",
+				{
+					method : "setShipmentForPermit",
+					shipment_id : newShipmentId,
+					permit_id : permitId,
+					returnformat : "json",
+					queryformat : 'column'
+				},
+				function (result) {
+					if (result.DATA.STATUS==1) {
+						callback(1);
+					} else {
+						alert(result.DATA.MESSAGE);
+						callback(0);
+					}
+				}
+				);
+			} else {
+				alert(result.DATA.MESSAGE);
+				callback(0);
+			}
+		}
+	);
+	loadShipments(transactionId);
+}
+
