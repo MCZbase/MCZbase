@@ -312,8 +312,8 @@ limitations under the License.
 					<ul>
 						<cfloop query="queryShip">
 							<li>
-								<input type='button' style='margin-left: 30px;' value='Move To' class='lnkBtn' onClick="" movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Moved.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); "">
-								<input type='button' style='margin-left: 30px;' value='Copy To' class='lnkBtn' onClick=""  addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Added.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); "">
+								<input type='button' style='margin-left: 30px;' value='Move To' class='btn btn-warning' onClick=" movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Moved.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); ">
+								<input type='button' style='margin-left: 30px;' value='Copy To' class='btn btn-secondary' onClick="  addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, function(status) { if (status == 1) { $('##" & "#feedbackId#').html('Added.  Click OK to close dialog.'); } else { $('##" & "#feedbackId#').html('Error.'); }; }); ">
 								#shipped_carrier_method# #shipped_date# #carriers_tracking_number#
 						</li>
 						</cfloop>
