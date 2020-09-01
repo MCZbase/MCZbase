@@ -1260,7 +1260,6 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
-				loadShipments(transaction_id); 
 			}
 		},
 		open: function (event, ui) {
@@ -1325,37 +1324,24 @@ function addPermitToShipmentCB(shipmentId,permitId,transactionId,callback) {
 function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transactionId,callback) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
-			method : "removePermitFromShipment",
-			shipment_id : oldShipmentId,
+			method : "movePermitToShipment",
+			source_shipment_id : oldShipmentId,
+			target_shipment_id : newShipmentId,
 			permit_id : permitId,
 			returnformat : "json",
 			queryformat : 'column'
 		},
 		function (result) {
 			if (result.DATA.STATUS==1) {
-				jQuery.getJSON("/component/functions.cfc",
-				{
-					method : "setShipmentForPermit",
-					shipment_id : newShipmentId,
-					permit_id : permitId,
-					returnformat : "json",
-					queryformat : 'column'
-				},
-				function (result) {
-					if (result.DATA.STATUS==1) {
-						callback(1);
-					} else {
-						alert(result.DATA.MESSAGE);
-						callback(0);
-					}
-				}
-				);
+				callback(1);
 			} else {
 				alert(result.DATA.MESSAGE);
 				callback(0);
 			}
 		}
-	);
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+	});
 	loadShipments(transactionId);
 }
 

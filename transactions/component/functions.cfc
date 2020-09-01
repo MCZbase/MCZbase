@@ -1334,6 +1334,67 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<!--- 
+  ** function movePermitToShipment move a permit from one shippment to another 
+  * @param permit_id the permit to move.
+  * @source_shipment_id the shipment to move the permit from.
+  * @target_shipment_id the shipment to move the permit to.
+--->
+<cffunction name="movePermitToShipment" access="remote">
+	<cfargument name="source_shipment_id" type="numeric" required="yes">
+	<cfargument name="target_shipment_id" type="numeric" required="yes">
+	<cfargument name="permit_id" type="numeric" required="yes">
+	<cftransaction>
+		<cftry>
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+				delete from permit_shipment
+				where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_shipment_id#">
+			</cfquery>
+			<cfif insertResultRes.recordcount NEQ 1>
+				<cfthrow message="Failed to properly delete old permit_shipment record">
+			</cfif>
+			<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+				insert into permit_shipment (permit_id, shipment_id)
+				values ( 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_shipment_id#">
+				)
+			</cfquery>
+			<cfif insertResultRes.recordcount eq 0>
+				<cfthrow message="Failed to properly insert new permit_shipment record">
+			</cfif>
+			<cfif insertResultRes.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
+
 <!--- backing for a permit lookup method returning json for permit table --->
 <cffunction name="getPermitsJSON" access="remote" returntype="any" returnformat="json">
 	<cfargument name="issuedByAgent" type="string" required="no">
