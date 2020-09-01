@@ -213,7 +213,9 @@ a.qutBtn {
 	<a href="Encumbrances.cfm" style="margin-left: 3em;">Back to Search Encumbrances</a>
 	<br>
 	<cfoutput>
-		<cfset s="select 
+		<cfquery name="getEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 
+				count(coll_object_encumbrance.collection_object_id as object_count,
 				encumbrance.encumbrance_id,
 				encumbrance.encumbrance,
 				encumbrance.encumbrance_action,
@@ -223,52 +225,48 @@ a.qutBtn {
 				encumbrance.expiration_event,
 				encumbrance.remarks
 			from 
-				encumbrance, 
-				preferred_agent_name">
-		<cfset q = "
+				encumbrance 
+				left join preferred_agent_name on encumbrance.encumbering_agent_id = preferred_agent_name.agent_id
+				<cfif isdefined("encumberingAgent") and len(encumberingAgent) gt 0>
+					left join agent_name on encumbrance.encumbering_agent_id = agent_name.agent_id
+				</cfif>
 			WHERE
-				encumbrance.encumbering_agent_id = preferred_agent_name.agent_id">
-		<cfset sql=" ">
 		<cfif isdefined("encumberingAgent") and len(encumberingAgent) gt 0>
-			<cfset s=s & ",agent_name">
-			<cfset q=q & " AND agent_name.agent_id=encumbrance.encumbering_agent_id ">
-			<cfset sql = "#sql# AND upper(agent_name.agent_name) like '%#ucase(encumberingAgent)#%'">	
+				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(encumberingAgent)#%">	
 		</cfif>
 		<cfif isdefined("made_date_after") and len(#made_date_after#) gt 0>
-			<cfset sql = "#sql# AND made_date >= to_date('#made_date_after#')">	
+				AND made_date >= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date_after#">)
 		</cfif>
 		<cfif isdefined("made_date_before") and len(#made_date_before#) gt 0>
-			<cfset sql = "#sql# AND made_date <= to_date('#made_date_before#')">	
+				AND made_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#made_date_before#">)
 		</cfif>
 		<cfif isdefined("expiration_date_after") and len(#expiration_date_after#) gt 0>
-			<cfset sql = "#sql# AND expiration_date >= to_date('#expiration_date_after#')">	
+				AND expiration_date >= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#expiration_date_after#">)
 		</cfif>
 		<cfif isdefined("expiration_date_before") and len(#expiration_date_before#) gt 0>
-			<cfset sql = "#sql# AND expiration_date <= to_date('#expiration_date_before#')">	
+				AND expiration_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#expiration_date_before#">)
 		</cfif>
 		<cfif isdefined("encumbrance_id") and len(encumbrance_id) gt 0>
-			<cfset sql = "#sql# AND encumbrance_id = #encumbrance_id#">	
+				AND encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">	
 		</cfif>
 		<cfif isdefined("encumbrance") and len(encumbrance) gt 0>
-			<cfset sql = "#sql# AND upper(encumbrance) like '%#ucase(encumbrance)#%'">	
+				AND upper(encumbrance) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(encumbrance)#%">	
 		</cfif>
 		<cfif isdefined("encumbrance_action") and len(encumbrance_action) gt 0>
-			<cfset sql = "#sql# AND encumbrance_action = '#encumbrance_action#'">	
+				AND encumbrance_action = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#encumbrance_action#">	
 		</cfif>
 		<cfif isdefined("remarks") and len(remarks) gt 0>
-			<cfset sql = "#sql# AND upper(remarks) like '%#ucase(remarks)#%'">	
+				AND upper(remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(remarks)#%">	
 		</cfif>
-		<cfset sql=s & q & sql & "group by encumbrance.encumbrance_id,
+			GROUP BY encumbrance.encumbrance_id,
 				encumbrance.encumbrance,
 				encumbrance.encumbrance_action,
 				preferred_agent_name.agent_name,
 				encumbrance.made_date,
 				encumbrance.expiration_date,
 				encumbrance.expiration_event,
-				encumbrance.remarks">
-		<cfset sql= sql & " order by encumbrance.encumbrance, preferred_agent_name.agent_name, encumbrance.made_date ">
-		<cfquery name="getEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+				encumbrance.remarks
+			ORDER BY encumbrance.encumbrance, preferred_agent_name.agent_name, encumbrance.made_date 
 		</cfquery>
 		<cfif getEnc.recordcount is 0>
 			<div class="error">Nothing Found</div>
@@ -284,7 +282,7 @@ a.qutBtn {
 				   <input type="hidden" name="collection_object_id" value="#collection_object_id#">
            
                   <li>  
-                      #i#. &nbsp; <span style="font-weight: bold;"> #encumbrance# (#encumbrance_action#) </span> <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks#</span>
+                      #i#. &nbsp; <span style="font-weight: bold;"> #encumbrance# (#encumbrance_action#) </span> <span style="color: ##666; font-style: italic;"> by #agent_name# made #dateformat(made_date,"yyyy-mm-dd")#,</span><span style="color: ##666"> expires:  #dateformat(expiration_date,"yyyy-mm-dd")# #expiration_event# #remarks# (#object_count# items)</span>
 				<div style="margin-top: .25em;margin-left: 0em;text-align:right;margin-bottom:.2em;">
 				<cfif len(collection_object_id) gt 0>
 					<span class="likeLink picBtn" style="display:inline-block;margin-bottom: .45em;width:auto;" onclick="listEnc#i#.Action.value='saveEncumbrances';listEnc#i#.submit();">
