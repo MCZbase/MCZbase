@@ -1351,7 +1351,7 @@ limitations under the License.
 				where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_shipment_id#">
 			</cfquery>
-			<cfif insertResultRes.recordcount NEQ 1>
+			<cfif deleteResultRes.recordcount NEQ 1>
 				<cfthrow message="Failed to properly delete old permit_shipment record">
 			</cfif>
 			<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
