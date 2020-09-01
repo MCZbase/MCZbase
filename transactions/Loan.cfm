@@ -1114,15 +1114,30 @@ limitations under the License.
 										<a style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
 										, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 										<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct permit_num, permit.permit_type, permit.specific_type, issued_date, permit.permit_id,
-												issuedBy.agent_name as IssuedByAgent
-											from permit_trans 
-												left join permit on permit_trans.permit_id = permit.permit_id
-												left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-												left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-											where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-												and ctspecific_permit_type.accn_show_on_shipment = 1
-											order by permit.permit_type, issued_date
+											select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
+											from (
+												select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
+													issuedBy.agent_name as IssuedByAgent
+												from permit_trans 
+													left join permit on permit_trans.permit_id = permit.permit_id
+													left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
+													left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+												where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+													and ctspecific_permit_type.accn_show_on_shipment = 1
+												order by permit.permit_type, issued_date
+											union
+												select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
+													issuedBy.agent_name as IssuedByAgent
+												from shipment
+													left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+													left join permit on permit_shipment.permit_id = permit.permit_id
+													left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
+													left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+												where shipment.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+													and ctspecific_permit_type.accn_show_on_shipment = 1
+											)
+											where permit_id is not null
+											order by permit_type, issued_date
 										</cfquery>
 										<cfif getAccnPermits.recordcount gt 0>
 											<ul class="accnpermit">
@@ -1162,6 +1177,20 @@ limitations under the License.
 										left join accn on ci.accn_id = accn.transaction_id
 										left join permit_trans on accn.transaction_id = permit_trans.transaction_id
 										left join permit p on permit_trans.permit_id = p.permit_id
+										left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+									union
+									select 
+										mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+										mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+										p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+										ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+									from loan_item li
+										left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+										left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+										left join shipment on ci.accn_id = shipment.transaction_id
+										left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+										left join permit p on permit_shipment.permit_id = p.permit_id
 										left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 									union
