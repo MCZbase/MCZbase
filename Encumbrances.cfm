@@ -231,6 +231,7 @@ a.qutBtn {
 					left join agent_name on encumbrance.encumbering_agent_id = agent_name.agent_id
 				</cfif>
 			WHERE
+				encumbrance.encumbrance_id is not null
 		<cfif isdefined("encumberingAgent") and len(encumberingAgent) gt 0>
 				AND upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(encumberingAgent)#%">	
 		</cfif>
