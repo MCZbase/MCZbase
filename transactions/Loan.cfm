@@ -1124,7 +1124,6 @@ limitations under the License.
 													left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 												where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
 													and ctspecific_permit_type.accn_show_on_shipment = 1
-												order by permit.permit_type, issued_date
 											union
 												select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
 													issuedBy.agent_name as IssuedByAgent
