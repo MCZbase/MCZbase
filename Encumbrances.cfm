@@ -230,7 +230,7 @@ a.qutBtn {
 				<cfif isdefined("encumberingAgent") and len(encumberingAgent) gt 0>
 					left join agent_name on encumbrance.encumbering_agent_id = agent_name.agent_id
 				</cfif>
-				left join coll_object_encubrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
+				left join coll_object_encumbrance on encumbrance.encumbrance_id = coll_object_encumbrance.encumbrance_id
 			WHERE
 				encumbrance.encumbrance_id is not null
 		<cfif isdefined("encumberingAgent") and len(encumberingAgent) gt 0>
