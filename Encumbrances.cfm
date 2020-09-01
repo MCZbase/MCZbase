@@ -266,6 +266,7 @@ a.qutBtn {
 				encumbrance.expiration_date,
 				encumbrance.expiration_event,
 				encumbrance.remarks">
+		<cfset sql= sql & " order by encumbrance.encumbrance, preferred_agent_name.agent_name, encumbrance.made_date ">
 		<cfquery name="getEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#
 		</cfquery>
