@@ -215,7 +215,7 @@ a.qutBtn {
 	<cfoutput>
 		<cfquery name="getEnc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
-				count(coll_object_encumbrance.collection_object_id as object_count,
+				count(coll_object_encumbrance.collection_object_id) as object_count,
 				encumbrance.encumbrance_id,
 				encumbrance.encumbrance,
 				encumbrance.encumbrance_action,
