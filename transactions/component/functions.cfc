@@ -318,18 +318,20 @@ limitations under the License.
 											$('##" & "#feedbackId#').html('Moved.  Click OK to close dialog.'); 
 										} else { 
 											$('##" & "#feedbackId#').html('Error.'); 
+										}
 									}; 
 									function moveClickHandler() { 
-										 movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback }; 
+										 movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback); 
 									};
 									function addClickCallback(status) { 
 										if (status == 1) { 
 											$('##" & "#feedbackId#').html('Added.  Click OK to close dialog.'); 
 										} else { 
 											$('##" & "#feedbackId#').html('Error.'); 
+										}
 									}; 
 									function addClickHandler() { 
-										addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback}; 
+										addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback); 
 									}; 
 								</script>
 								<input type='button' style='margin-left: 30px;' value='Move To' class='btn-xs btn-warning' 
