@@ -767,7 +767,8 @@ limitations under the License.
 																	var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
 																	var separator = "";
 																	for (var i=0; i<r.ROWCOUNT; i++) {
-																		retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+																		retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>";
+																		retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>Remove</button>"; 
 																	separator = ";&nbsp";
 																	};
 																	retval = retval + "<BR>";

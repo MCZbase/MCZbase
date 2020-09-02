@@ -72,6 +72,53 @@ limitations under the License.
 	<cfreturn rankCount>
 </cffunction>
 
+<!--- ** removeSubloanFromParent removes a record from loan_relations of type Subloan.
+  * @param parent_transaction_id the master exhibition loan from which to remove the subloan.
+  * @param child_transaction_id the subloan to remove from the master exhibition loan.
+--->
+<cffunction name="removeSubloanFromParent" returntype="query" access="remote">
+	<cfargument name="parent_transaction_id" type="string" required="yes">
+	<cfargument name="child_transaction_id" type="string" required="yes">
+	
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+			delete from LOAN_RELATIONS 
+			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_transaction_id#">
+			and related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child_transaction_id#">
+			and relation_type = 'Subloan'
+		</cfquery>
+		<cfif deleteResultRes.recordcount eq 0>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResultRes.recordcount eq 1>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
 
 <!-------------------------------------------->
 <!--- obtain an html block listing the media for a transaction  --->

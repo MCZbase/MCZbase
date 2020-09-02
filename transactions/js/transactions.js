@@ -288,6 +288,23 @@ function updateLoanItemCount(transactionId,targetDiv) {
 	)
 };
 
+function removeSubloanFromParent(parentTransactionId,childTransactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeSubloanFromParent",
+			parent_transaction_id : parentTransactionId,
+			child_transaction_id : childTransactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			reloadTransProjects();
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+	});
+}
+
 function loadTransactionFormMedia(transaction_id,transaction_type) {
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
