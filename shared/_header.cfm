@@ -378,7 +378,7 @@ limitations under the License.
 						<li class="d-md-flex align-items-start justify-content-start pb-2">	
 							<div class="dropdown-item row mx-0 px-4 w-100"><a href="https://mczbase.mcz.harvard.edu/Transactions.cfm"> All Transactions ( Search &amp; Edit )</a> </div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Search< & Edit/div>
+								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions/a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Borrows</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Deaccessions</a> 
@@ -401,13 +401,8 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
-					
-								<div class="dropdown-item row mx-0 px-4 w-100"> Statistics ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Collections/index.cfm">MCZbase</a> | <a href="https://mczbase.mcz.harvard.edu/info/loanStats.cfm" class="w-25 text-muted">Loan</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Taxonomy ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm">Issues</a> | <a href="https://mczbase.mcz.harvard.edu/tools/TaxonomyGaps.cfm" class="w-25 text-muted">By Class</a> ) </div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Reports</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Statistics</a> 
 							</div>
 						</li>
 					</ul>
