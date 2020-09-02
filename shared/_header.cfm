@@ -333,52 +333,51 @@ limitations under the License.
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Specimen Bulkloader</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a> </div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
 							<div>
 							<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-								<a class="dropdown-item" href="/">Bulk Add Attributes</a>
 								<a class="dropdown-item" href="/">Bulk Add Agents</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/BulkloadCitations.cfm">Bulk Add Citations</a>
-								<a class="dropdown-item" href="/">Bulk Add Identifiers</a> 
-								<a class="dropdown-item" href="/">Bulk Add Identifications</a>
-								<a class="dropdown-item" href="/">Bulk Add Media</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/BulkloadNewParts.cfm">Bulk Add Parts</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/BulkloadEditedParts.cfm">Bulk Edit Parts</a> 
+								<a class="dropdown-item" href="/">Bulk Add Attributes</a>
+								<a class="dropdown-item" href="/">Bulk Add Cataloged Items to Data Loans</a>
+								<a class="dropdown-item" href="/">Bulk Add Citations</a>
+								<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
+								<a class="dropdown-item" href="/">Bulk Add Parts to Containers</a> 
+								<a class="dropdown-item" href="/">Bulk Add/Edit Taxonomy</a>
+								<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
 							</div>
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage</a>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="" title="Curation" >Curation</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
+						<li class="py-1"> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Annotations</a> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Find Named Groups</a>
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">New Named Group</a> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer">Storage</a> 
+						 </li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-						<li class="d-md-flex align-items-start justify-content-start pb-2">
-							<div>
-								<div class="h5 pt-2 dropdown-header text-danger">??</div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Geography ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findHG">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newHG" class="w-25 text-muted">Create New</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Locality ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findLO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=newLocality" class="w-25 text-muted">Create New</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Events ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO" class="w-25 text-muted">clone only</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Collecting Event Number Series ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/vocabularies/CollEventNumberSeries.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
-								
-							</div>
-							<div>
-								<div class="h5 pt-2 dropdown-header text-danger">Collection ?? </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Annotations ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Search &amp; Review</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Encumbrances ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Encumbrances.cfm?action=create" class="w-25 text-muted">Create New</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Named Groups ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/grouping/NamedCollection.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
-								<div class="dropdown-item row mx-0 px-4 w-100"> Storage ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer" class="w-25 text-muted">Create New</a> | <a href="https://mczbase.mcz.harvard.edu/CreateContainersForBarcodes.cfm" class="w-25 text-muted">Create New Series</a>) </div>
-							</div>
-						</li>
+						<li class="py-1"> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Events</a> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Event Number Series</a>
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Geography</a> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Localities</a> 
+						 </li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div> 
-								<div class="dropdown-item row mx-0 px-4 w-100"> All Transactions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm">Search &amp; Edit</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"><a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Transactions.cfm"> All Transactions ( Search &amp; Edit )</a> </div>
 								
-								<div class="dropdown-item row mx-0 px-4 w-100"> Accessions ( <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/editAccn.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New</a> ) </div>
+								<div class="dropdown-item row mx-0 px-4 w-100"><a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/editAccn.cfm"> Accessions ( Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/newAccn.cfm" class="w-25 text-muted">Create New )</a>  </div>
 								
 								<div class="dropdown-item row mx-0 px-4 w-100"> Borrows ( <a class=" w-25 text-muted" href="https://mczbase.mcz.harvard.edu/Borrow.cfm">Search &amp; Edit</a> | <a href="https://mczbase.mcz.harvard.edu/Borrow.cfm?action=new" class="w-25 text-muted">Create New</a> ) </div>
 								
