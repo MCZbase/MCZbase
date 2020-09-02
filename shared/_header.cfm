@@ -403,7 +403,7 @@ limitations under the License.
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
-						<li class="d-md-flex align-items-start justify-content-start pb-2">
+						<li class="align-items-start justify-content-start pb-2">
 							<div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Reports</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Statistics</a> 
