@@ -337,7 +337,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
-							<div>
+							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
 								<a class="dropdown-item" href="/">Bulk Add Agents</a>
@@ -376,10 +376,10 @@ limitations under the License.
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 						<li class="d-md-flex align-items-start justify-content-start pb-2">	
-							<div class="dropdown-item row mx-0 px-4 w-100"><a href="https://mczbase.mcz.harvard.edu/Transactions.cfm"> All Transactions ( Search &amp; Edit )</a> </div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Transactions.cfm"> All Transactions ( Search &amp; Edit )</a> 
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions/a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Borrows</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Deaccessions</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Loans</a> 
