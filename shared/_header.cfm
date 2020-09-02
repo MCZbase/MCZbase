@@ -386,7 +386,7 @@ limitations under the License.
               </li>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 						<li>	
-						    <a class="dropdown-item" href="#">All Transactions</a>
+						    <a class="dropdown-item" href="##">All Transactions</a>
 								 <div class="dropdown-divider"></div>
 							<div class="d-md-flex align-items-start justify-content-start pb-2">
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
