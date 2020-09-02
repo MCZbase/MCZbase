@@ -385,10 +385,10 @@ limitations under the License.
                 </div>
               </li>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-						<li>	
+						<li class="d-md-flex align-items-start justify-content-start pb-2">	
 						    <a class="dropdown-item" href="##">All Transactions</a>
 								 <div class="dropdown-divider"></div>
-							<div class="d-md-flex align-items-start justify-content-start pb-2">
+							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Borrows</a>
