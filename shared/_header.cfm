@@ -374,10 +374,21 @@ limitations under the License.
 				</li>
 
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+					
+					 <div class="dropdown-menu show" aria-labelledby="servicesDropdown">
+                  <a class="dropdown-item" href="/services">What we do</a>
+                  <a class="dropdown-item" href="/how">How we fit your needs</a>
+                  <div class="dropdown-divider"></div>
+                  <div class="d-md-flex align-items-start justify-content-start">
+         
+                  </div>
+                </div>
+              </li>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-						<li class="d-md-flex align-items-start justify-content-start pb-2">	
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Transactions.cfm"> All Transactions ( Search &amp; Edit )</a> 
-							<div>
+						<li>	
+						    <a class="dropdown-item" href="#">All Transactions</a>
+								 <div class="dropdown-divider"></div>
+							<div class="d-md-flex align-items-start justify-content-start pb-2">
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Borrows</a>
