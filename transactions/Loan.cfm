@@ -751,7 +751,7 @@ limitations under the License.
 												<cfloop query="childLoans">
 													#childseparator#
  													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-													<button class="ui-button ui-widget ui-corner-all" id="button_remove_subloan_#childLoanCounter#"> - </button>
+													<button class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#">-</button>
 													<script>
 														$(function() {
 															$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
@@ -768,7 +768,7 @@ limitations under the License.
 																	var separator = "";
 																	for (var i=0; i<r.ROWCOUNT; i++) {
 																		retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>";
-																		retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>Remove</button>"; 
+																		retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>-</button>"; 
 																	separator = ";&nbsp";
 																	};
 																	retval = retval + "<BR>";
@@ -800,7 +800,8 @@ limitations under the License.
 															var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
 															var separator = "";
 															for (var i=0; i<r.ROWCOUNT; i++) {
-																retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>[-]";
+																retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>";
+																retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>-</button>"; 
 																separator = ";&nbsp";
 															};
 															retval = retval + "<BR>";
