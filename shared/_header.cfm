@@ -397,7 +397,7 @@ limitations under the License.
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Reports</a>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 						<li class="d-md-flex align-items-start justify-content-start pb-2">
 							<div>
@@ -412,49 +412,16 @@ limitations under the License.
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="servicesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">About</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="servicesDropdown">
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
-						<div class="dropdown-item row mx-0 px-4 w-100"> About MCZbase (  <a href="https://mcz.harvard.edu/database" class="w-25 text-muted">Overview</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | <a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/home.cfm">Technical Details</a> ) </div>
-						<a class="dropdown-item" href="/"></a>
-						<div class="dropdown-divider"></div>
-						<li class="d-md-flex align-items-start justify-content-start pb-2">
-							<div>
-								<div class="h5 dropdown-header text-danger pt-2">About Your Data</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Personal MCZbase Activity</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>  
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
-							</div>
-							<div>
-								<div class="h5 dropdown-header text-danger pt-2">Shared Data</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Agents Duplicates</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Code Table Editor</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/mia_in_genbank.cfm">Genbank Missing</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a>
-							</div>
-						</li>
-					</ul>
-				</li>
+		
 
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
+						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">API</a>
+						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">About MCZbase</a>
+						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Controlled Vocabularies</a>
+						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Technical Details</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
-						<div class="dropdown-item row mx-0 px-4 w-100"> About MCZbase (  
-							<a href="https://mcz.harvard.edu/database" class="w-25 text-muted">Overview</a> | 
-							<a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/info/api.cfm">API Interactions</a> | 
-							<a class="w-25 text-muted" href="https://mczbase.mcz.harvard.edu/home.cfm">Technical Details</a> ) 
-						</div>
-						<a class="dropdown-item" href="/"></a>
-						<div class="dropdown-divider"></div>
-						<li class="d-md-flex align-items-start justify-content-start pb-2">
-							<div>
-								<div class="h5 dropdown-header text-danger pt-2">About Your Data</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Personal MCZbase Activity</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/saveSearch.cfm?action=manage">Saved Searches</a>  
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
-							</div>
-						</li>
+					
 					</ul>
 				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
