@@ -323,7 +323,7 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
+								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (on Pub result)</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media</a> 
@@ -354,7 +354,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Localities</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
+								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Collecting Event Number Series</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Collecting Event</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Geography</a> 
@@ -373,7 +373,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Storage Locations</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
+								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Annotation (through Publication results)</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Named Grouping</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Storage Locations</a> 
@@ -396,7 +396,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Permissions &amp; Rights</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
+								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Accession</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Borrow</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Deaccession</a> 
