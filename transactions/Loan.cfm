@@ -754,7 +754,7 @@ limitations under the License.
 											loadSubLoans(#loanDetails.transaction_id#);
 										});
 									</script>
-								</div
+								</div>
 							</div>
 							<div class="form-row mb-1">
 								<div class="col-12 col-xl-6">
