@@ -82,18 +82,18 @@ limitations under the License.
 	
 	<cfset theResult=queryNew("status, message")>
 	<cftry>
-		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
 			delete from LOAN_RELATIONS 
 			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_transaction_id#">
 			and related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child_transaction_id#">
 			and relation_type = 'Subloan'
 		</cfquery>
-		<cfif deleteResultRes.recordcount eq 0>
+		<cfif deleteResult.recordcount eq 0>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #parent_transaction_id# #child_transaction_id# #deleteResult.sql#", 1)>
 		</cfif>
-		<cfif deleteResultRes.recordcount eq 1>
+		<cfif deleteResult.recordcount eq 1>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
