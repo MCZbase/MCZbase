@@ -299,7 +299,7 @@ limitations under the License.
   					.on('mouseenter mouseleave','.dropdown',toggleDropdown)
   					.on('click', '.dropdown-menu a', toggleDropdown);
 			</script>
-		<nav class="navbar navbar-light bg-transparent navbar-expand-lg py-0" id="main_nav">
+		<nav class="navbar navbar-light bg-transparent navbar-expand-md py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="menuTest1">
 				<ul class="navbar-nav nav-fill mr-auto">
