@@ -305,7 +305,7 @@ function removeSubloanFromParent(parentTransactionId,childTransactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-			loadSubloans(parentTransactionId);
+			loadSubLoans(parentTransactionId);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
@@ -329,7 +329,7 @@ function addSubloanToParent(parentTransactionId,childTransactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-			loadSubloans(parentTransactionId);
+			loadSubLoans(parentTransactionId);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
