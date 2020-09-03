@@ -402,8 +402,8 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 						<li class="align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" href="">Reports</a> 
-								<a class="dropdown-item" href="">Statistics</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Reports</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Statistics</a> 
 							</div>
 						</li>
 					</ul>
