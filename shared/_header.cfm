@@ -444,9 +444,10 @@ limitations under the License.
 							<li class="d-md-flex align-items-start justify-content-start">		
 							<div>
 									<div class="h5 dropdown-header px-4 text-danger">Admin</div>
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Reporter</a>
-									<a class="dropdown-item" href="/">MCZbase Users</a>
+									<a class="dropdown-item" href="/">Code Table Editor</a>
 									<a class="dropdown-item" href="/">Form Permissions</a>
+									<a class="dropdown-item" href="/">MCZbase Users</a>
+									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Reporter</a>
 								</div>
 							</li>
 						</ul>
