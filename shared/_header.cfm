@@ -340,12 +340,12 @@ limitations under the License.
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-								<a class="dropdown-item" href="/">Bulk Add Agents</a>
-								<a class="dropdown-item" href="/">Bulk Add Attributes</a>
-								<a class="dropdown-item" href="/">Bulk Add Cataloged Items to Data Loans</a>
-								<a class="dropdown-item" href="/">Bulk Add Citations</a>
-								<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
-								<a class="dropdown-item" href="/">Bulk Add Parts to Containers</a> 
+								<a class="dropdown-item" href="/">Bulk Agents</a>
+								<a class="dropdown-item" href="/">Bulk Attributes</a>
+								<a class="dropdown-item" href="/">Bulk Cataloged Items to Data Loans</a>
+								<a class="dropdown-item" href="/">Bulk Citations</a>
+								<a class="dropdown-item" href="/">Bulk Identifications</a> 
+								<a class="dropdown-item" href="/">Bulk Parts to Containers</a> 
 								<a class="dropdown-item" href="/">Bulk Add/Edit Taxonomy</a>
 								<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
 							</div>
