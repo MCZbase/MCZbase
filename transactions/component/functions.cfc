@@ -157,7 +157,7 @@ limitations under the License.
 						<cfloop query="childLoans">
 							#childseparator#
 	 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-							<button class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.transaction_id#); ">-</button>
+							<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.transaction_id#); ">-</button>
 							<cfset childLoanCounter = childLoanCounter + 1 >
 							<cfset childseparator = ";&nbsp;">
 						</cfloop>
@@ -173,7 +173,7 @@ limitations under the License.
 								<option value="#transaction_id#">#loan_number#</option>
 							</cfloop>
 						</select>
-						<button class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+						<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
 					</cfif>
 				</div>
 			<cfcatch>
