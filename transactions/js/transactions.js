@@ -327,7 +327,7 @@ function loadSubLoans(transactionId) {
 		url: "/transactions/component/functions.cfc",
 		data : {
 			method : "getSubloansForLoanHtml",
-			transaction_id: transaction_id
+			transaction_id: transactionId
 		},
 		success: function (result) {
 			$("#transactionFormMedia").html(result);

@@ -749,7 +749,7 @@ limitations under the License.
 									<script>
 										$(document).ready(function() { 
 											loadSubLoans(#loanDetails.transaction_id#);
-										)};
+										});
 									</script>
 								</div>
 							</div>
