@@ -150,30 +150,36 @@ limitations under the License.
 					order by pc.loan_number
 				</cfquery>
 	
-				<span id="subloan_list"> Exhibition-Subloans (#childLoans.RecordCount#):
-					<cfif childLoans.RecordCount GT 0>
-						<cfset childLoanCounter = 0>
-						<cfset childseparator = "">
-						<cfloop query="childLoans">
-							#childseparator#
-	 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
-							<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
-							<cfset childLoanCounter = childLoanCounter + 1 >
-							<cfset childseparator = ";&nbsp;">
-						</cfloop>
-					</cfif>
-					<br>
-				</span>
-				<div>
+				<div class="col-12">
+					<span id="subloan_list">Exhibition-Subloans (#childLoans.RecordCount#):
+						<cfif childLoans.RecordCount GT 0>
+							<cfset childLoanCounter = 0>
+							<cfset childseparator = "">
+							<cfloop query="childLoans">
+								#childseparator#
+	 							<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
+								<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
+								<cfset childLoanCounter = childLoanCounter + 1 >
+								<cfset childseparator = ";&nbsp;">
+							</cfloop>
+						</cfif>
+					</span>
+				</div>
+				<div class="col-12">
 					<cfif potentialChildLoans.recordcount EQ 0>
 						<h3>No subloans available to add</h3>
 					<cfelse>
-						<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
-							<cfloop query="potentialChildLoans">
-								<option value="#potentialChildLoans.potential_transaction_id#">#potentialChildLoans.loan_number#</option>
-							</cfloop>
-						</select>
-						<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+						<label for="possible_subloans">Subloans that can be added to this exhibition-master loan:</label>
+						<div class="input-group">
+							<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
+								<cfloop query="potentialChildLoans">
+									<option value="#potentialChildLoans.potential_transaction_id#">#potentialChildLoans.loan_number#</option>
+								</cfloop>
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+							</div>
+						</div>
 					</cfif>
 				</div>
 			<cfcatch>

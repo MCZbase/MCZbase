@@ -733,7 +733,8 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mb-1">
-								<div class="col-12 col-md-6">
+								<div class="col-12">
+									<!--- note, parentloan_section and subloan_section are turned on and off with javascript as loan type can change while editing --->
 									<span id="parentloan_section">Exhibition-Master Loan:
 										<cfif parentLoan.RecordCount GT 0>
 											<cfloop query="parentLoan">
@@ -743,7 +744,9 @@ limitations under the License.
 											This exhibition subloan has not been linked to a master loan.
 										</cfif>
 									</span>
-									<span id="subloan_section">
+								</div>
+								<div class="col-12">
+									<span class="form-row" id="subloan_section">
 										Loading subloans...
 									</span><!--- end subloan section ---> 
 									<script>
@@ -751,7 +754,7 @@ limitations under the License.
 											loadSubLoans(#loanDetails.transaction_id#);
 										});
 									</script>
-								</div>
+								</div
 							</div>
 							<div class="form-row mb-1">
 								<div class="col-12 col-xl-6">
