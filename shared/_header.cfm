@@ -332,7 +332,7 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy (clone only)</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Bulkloader</div>
+								<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
