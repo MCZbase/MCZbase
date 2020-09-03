@@ -298,12 +298,47 @@ function removeSubloanFromParent(parentTransactionId,childTransactionId) {
 			queryformat : 'column'
 		},
 		function (result) {
-			reloadTransProjects();
+			loadSubloans(parentTransactionId);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
 	});
-}
+};
+
+function addSubloanToParent(parentTransactionId,childTransactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "addSubLoanToLoan",
+			transaction_id : parentTransactionId,
+			subloan_transaction_id : childTransactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadSubloans(parentTransactionId);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+	});
+};
+
+function loadSubLoans(transactionId) { 
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getSubloansForLoanHtml",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#transactionFormMedia").html(result);
+		},
+		error: function (jqXHR, status, message) {
+			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
+			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
+		},
+		dataType: "html"
+	});
+};
 
 function loadTransactionFormMedia(transaction_id,transaction_type) {
 	jQuery.ajax({
