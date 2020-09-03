@@ -158,13 +158,19 @@ limitations under the License.
 						</cfloop>
 					</cfif>
 					<br>
-				</span><!--- end subloan_list ---> 
-				<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
-					<cfloop query="potentialChildLoans">
-						<option value="#transaction_id#">#loan_number#</option>
-					</cfloop>
-				</select>
-				<button class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+				</span>
+				<div>
+					<cfif potentialChildLoans.recordcount EQ 0>
+						<h3>No subloans available to add</h3>
+					<cfelse>
+						<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
+							<cfloop query="potentialChildLoans">
+								<option value="#transaction_id#">#loan_number#</option>
+							</cfloop>
+						</select>
+						<button class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+					</cfif>
+				</div>
 			<cfcatch>
 				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
 			</cfcatch>

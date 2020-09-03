@@ -288,6 +288,13 @@ function updateLoanItemCount(transactionId,targetDiv) {
 	)
 };
 
+/** 
+ * removeSubloandFromParent unlink a subloan from a master exhibition loan and reload
+ * the subloan_section of the page.
+ *
+ * @param parentTransactionId the transaction_id the id of the master exhibition loan.
+ * @param childTransactionId the transaction_id of the subloan to unlink from the parent.
+ */
 function removeSubloanFromParent(parentTransactionId,childTransactionId) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
@@ -305,6 +312,13 @@ function removeSubloanFromParent(parentTransactionId,childTransactionId) {
 	});
 };
 
+/**
+ * addSubloanToParent, given a parent exhibition loan and a subloan, link the subloan to 
+ * the parent exhibition loan and reload the subloan_section of the page.
+ * 
+ * @param parentTransactionId the transaction_id the id of the master exhibition loan.
+ * @param childTransactionId the transaction_id of the subloan to link to the parent.
+ */
 function addSubloanToParent(parentTransactionId,childTransactionId) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
@@ -322,6 +336,12 @@ function addSubloanToParent(parentTransactionId,childTransactionId) {
 	});
 };
 
+/**  
+ * :oadSubloans populate the subloan_section div of a loan form
+ * with a list of subloans, if any, and a picklist of unlinked subloans, if any.
+ * 
+ * @param transaction_id the id of the master exhibition loan.
+ */
 function loadSubLoans(transactionId) { 
 	jQuery.ajax({
 		url: "/transactions/component/functions.cfc",
@@ -330,7 +350,7 @@ function loadSubLoans(transactionId) {
 			transaction_id: transactionId
 		},
 		success: function (result) {
-			$("#transactionFormMedia").html(result);
+			$("#").html(result);
 		},
 		error: function (jqXHR, status, message) {
 			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
