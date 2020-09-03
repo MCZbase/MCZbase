@@ -410,8 +410,8 @@ limitations under the License.
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
-						<a class="dropdown-item" href="/">API</a>
 						<a class="dropdown-item" href="/">About MCZbase</a>
+						<a class="dropdown-item" href="/">API</a>
 						<a class="dropdown-item" href="/">Controlled Vocabularies</a>
 						<a class="dropdown-item" href="/">Technical Details</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
