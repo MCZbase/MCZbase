@@ -171,8 +171,8 @@ limitations under the License.
 			</cftry>
 		</cfoutput>
 	</cfthread>
-	<cfthread action="join" name="getSBTHtmlThread" />
-	<cfreturn getSBTHtmlThread.output>
+	<cfthread action="join" name="getSubloanHtmlThread" />
+	<cfreturn getSubloanHtmlThread.output>
 </cffunction>
 
 <!-------------------------------------------->
