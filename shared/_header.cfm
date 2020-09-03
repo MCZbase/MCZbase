@@ -438,6 +438,8 @@ limitations under the License.
 								</form>
 								</a> 
 									<a href="##" class="dropdown-item">Settings</a>
+									<a href="##" class="dropdown-item">Saved Searches</a>
+									<a href="##" class="dropdown-item">Saved Search Queries</a>
 							</cfif>
 						</li>	
 							 <div class="dropdown-divider"></div>
