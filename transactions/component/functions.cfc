@@ -170,7 +170,7 @@ limitations under the License.
 					<cfelse>
 						<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
 							<cfloop query="potentialChildLoans">
-								<option value="#subloan_list.potential_transaction_id#">#subloan_list.loan_number#</option>
+								<option value="#potentialChildLoans.potential_transaction_id#">#potentialChildLoans.loan_number#</option>
 							</cfloop>
 						</select>
 						<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
