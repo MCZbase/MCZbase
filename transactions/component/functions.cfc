@@ -171,7 +171,7 @@ limitations under the License.
 					<cfelse>
 						<label for="possible_subloans">Subloans that can be added to this exhibition-master loan:</label>
 						<div class="input-group">
-							<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
+							<select name="possible_subloans" id="possible_subloans" class="input-group-text">
 								<cfloop query="potentialChildLoans">
 									<option value="#potentialChildLoans.potential_transaction_id#">#potentialChildLoans.loan_number#</option>
 								</cfloop>

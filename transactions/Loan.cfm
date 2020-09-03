@@ -735,7 +735,7 @@ limitations under the License.
 							<div class="form-row mb-1">
 								<div class="col-12">
 									<!--- note, parentloan_section and subloan_section are turned on and off with javascript as loan type can change while editing --->
-									<span id="parentloan_section">Exhibition-Master Loan:
+									<span id="parentloan_section">This is a subloan of Exhibition-Master Loan:
 										<cfif parentLoan.RecordCount GT 0>
 											<cfloop query="parentLoan">
 												<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
