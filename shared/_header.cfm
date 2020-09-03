@@ -323,7 +323,7 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Enter Data</div>
+								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (on Pub result)</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media Form</a> 
@@ -339,13 +339,13 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (add to records)</div>
-								<a class="dropdown-item" href="/">Bulk Agents</a>
-								<a class="dropdown-item" href="/">Bulk Attributes</a>
-								<a class="dropdown-item" href="/">Bulk Cataloged Items to Data Loans</a>
-								<a class="dropdown-item" href="/">Bulk Citations</a>
-								<a class="dropdown-item" href="/">Bulk Identifications</a> 
-								<a class="dropdown-item" href="/">Bulk Parts to Containers</a> 
+								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (alter existing records)</div>
+								<a class="dropdown-item" href="/">Bulk Add Agents</a>
+								<a class="dropdown-item" href="/">Bulk Add Attributes</a>
+								<a class="dropdown-item" href="/">Bulk Add Cataloged Items to Data Loans</a>
+								<a class="dropdown-item" href="/">Bulk Add Citations</a>
+								<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
+								<a class="dropdown-item" href="/">Bulk Add Parts to Containers</a> 
 								<a class="dropdown-item" href="/">Bulk Add/Edit Taxonomy</a>
 								<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
 							</div>
