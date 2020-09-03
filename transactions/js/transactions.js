@@ -350,7 +350,7 @@ function loadSubLoans(transactionId) {
 			transaction_id: transactionId
 		},
 		success: function (result) {
-			$("#").html(result);
+			$("#subloan_section").html(result);
 		},
 		error: function (jqXHR, status, message) {
 			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
