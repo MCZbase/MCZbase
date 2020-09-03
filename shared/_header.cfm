@@ -367,9 +367,8 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
 						<li> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Annotations</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Find Named Groups</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">New Named Group</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer">Storage</a> 
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Named Collections</a>
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer">Containers</a> 
 						</li>
 					</ul>
 				</li>
@@ -390,10 +389,10 @@ limitations under the License.
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create Forms</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Accessions</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Borrows</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Deaccessions</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Loans</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Accession</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Borrow</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Deaccession</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Loan</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Permissions &amp; Rights</a> 
 							<div>
 						</li>
