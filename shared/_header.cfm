@@ -402,18 +402,18 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 						<li class="align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/dupAgent.cfm">Reports</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/CodeTableEditor.cfm">Statistics</a> 
+								<a class="dropdown-item" href="">Reports</a> 
+								<a class="dropdown-item" href="">Statistics</a> 
 							</div>
 						</li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">API</a>
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">About MCZbase</a>
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Controlled Vocabularies</a>
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Technical Details</a>
+						<a class="dropdown-item" href="/">API</a>
+						<a class="dropdown-item" href="/">About MCZbase</a>
+						<a class="dropdown-item" href="/">Controlled Vocabularies</a>
+						<a class="dropdown-item" href="/">Technical Details</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 					</ul>
 				</li>
@@ -439,6 +439,8 @@ limitations under the License.
 										</a> 
 									</cfif>
 										<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Reports/reporter.cfm">Reporter</a>
+									<a class="dropdown-item" href="/">MCZbase Users</a>
+									<a class="dropdown-item" href="/">Form Permissions</a>
 									<cfif session.roles contains "public">
 										<a href="##" class="dropdown-item">Settings</a>
 									</cfif>
