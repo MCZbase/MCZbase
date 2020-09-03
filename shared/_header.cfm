@@ -305,7 +305,7 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-						<li class="py-1"> <a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimen Details</a> 
+						<li> <a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimen Details</a> 
 							<a class="dropdown-item" href="/Browse.cfm">Browse Specimens By Category</a>
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a> 
@@ -321,7 +321,7 @@ limitations under the License.
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-						<li class="d-md-flex align-items-start justify-content-start pb-2">
+						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Enter Data</div>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a> 
@@ -354,28 +354,26 @@ limitations under the License.
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-						<li class="py-1"> 
+						<li> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Events</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Event Number Series</a>
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Geography</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Localities</a> 
-						 </li>
+						</li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="" title="Curation" >Curation</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
-						<li class="py-1"> 
+						<li> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Annotations</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Find Named Groups</a>
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">New Named Group</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer">Storage</a> 
-						 </li>
+						</li>
 					</ul>
 				</li>
 
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-					
-			
               		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 					<li>
 						<a class="dropdown-item" href="##">All Transactions</a></li>
@@ -388,7 +386,6 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Deaccessions</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Loans</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Permissions &amp; Rights</a> 
-							
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create Forms</div>
@@ -411,8 +408,6 @@ limitations under the License.
 						</li>
 					</ul>
 				</li>
-		
-
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">API</a>
@@ -420,7 +415,6 @@ limitations under the License.
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Controlled Vocabularies</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Technical Details</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
-					
 					</ul>
 				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
