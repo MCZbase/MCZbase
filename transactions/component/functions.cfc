@@ -120,6 +120,61 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+
+<cffunction name="getSubloansForLoanHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getSubloanHtmlThread">
+		<cfoutput>
+			<cftry>
+
+				<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
+				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select c.loan_number, c.transaction_id 
+					from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+						left join loan c on lr.related_transaction_id = c.transaction_id 
+					where lr.relation_type = 'Subloan'
+						 and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+					order by c.loan_number
+				</cfquery>
+				<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
+				<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select pc.loan_number, pc.transaction_id 
+					from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id
+					where pc.loan_type = 'exhibition-subloan' 
+						and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
+					order by pc.loan_number
+				</cfquery>
+	
+				<span id="subloan_list"> Exhibition-Subloans (#childLoans.RecordCount#):
+					<cfif childLoans.RecordCount GT 0>
+						<cfset childLoanCounter = 0>
+						<cfset childseparator = "">
+						<cfloop query="childLoans">
+							#childseparator#
+	 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
+							<button class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.transaction_id#); ">-</button>
+							<cfset childLoanCounter = childLoanCounter + 1 >
+							<cfset childseparator = ";&nbsp;">
+						</cfloop>
+					</cfif>
+					<br>
+				</span><!--- end subloan_list ---> 
+				<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
+					<cfloop query="potentialChildLoans">
+						<option value="#transaction_id#">#loan_number#</option>
+					</cfloop>
+				</select>
+				<button class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+			<cfcatch>
+				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getSBTHtmlThread" />
+	<cfreturn getSBTHtmlThread.output>
+</cffunction>
+
 <!-------------------------------------------->
 <!--- obtain an html block listing the media for a transaction  --->
 <cffunction name="getMediaForTransHtml" returntype="string" access="remote" returnformat="plain">

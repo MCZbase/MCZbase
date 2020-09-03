@@ -744,81 +744,13 @@ limitations under the License.
 										</cfif>
 									</span>
 									<span id="subloan_section">
-										<span id="subloan_list"> Exhibition-Subloans (#childLoans.RecordCount#):
-											<cfif childLoans.RecordCount GT 0>
-												<cfset childLoanCounter = 0>
-												<cfset childseparator = "">
-												<cfloop query="childLoans">
-													#childseparator#
- 													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-													<button class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#">-</button>
-													<script>
-														$(function() {
-															$("##button_remove_subloan_#childLoanCounter#").click( function(event) {
-																event.preventDefault();
-																$.get( "/transactions/component/functions.cfc", {
-																	transaction_id : "#loanDetails.transaction_id#",
-																	subloan_transaction_id : "#childLoans.transaction_id#" ,
-																	method : "removeSubLoan",
-																	returnformat : "json",
-																	queryformat : 'column'
-																},
-																function(r) {
-																	var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
-																	var separator = "";
-																	for (var i=0; i<r.ROWCOUNT; i++) {
-																		retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>";
-																		retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>-</button>"; 
-																	separator = ";&nbsp";
-																	};
-																	retval = retval + "<BR>";
-																	$("##subloan_list").html(retval);
-																},
-																"json"
-																);
-															});
-														});
-													</script>
-													<cfset childLoanCounter = childLoanCounter + 1 >
-													<cfset childseparator = ";&nbsp;">
-												</cfloop>
-											</cfif>
-											<br>
-										</span><!--- end subloan_list ---> 
-										<script>
-											$(function() {
-												$("##button_add_subloans").click( function(event) {
-													event.preventDefault();
-													$.get( "/transactions/component/functions.cfc",
-														{ transaction_id : "#loanDetails.transaction_id#",
-															subloan_transaction_id : $("##possible_subloans").val() ,
-															method : "addSubLoanToLoan",
-															returnformat : "json",
-															queryformat : 'column'
-														},
-														function(r) {
-															var retval = "Exhibition-Subloans (" + r.ROWCOUNT + "): ";
-															var separator = "";
-															for (var i=0; i<r.ROWCOUNT; i++) {
-																retval = retval + separator + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + r.DATA.TRANSACTION_ID[i] + "'>" + r.DATA.LOAN_NUMBER[i] + "</a>";
-																retval = retval + "<button type='button' class='btn-xs btn-warning' onclick='removeSubloanFromParent(#loanDetails.transaction_id#,"+r.DATA.TRANSACTION_ID[i]+")'>-</button>"; 
-																separator = ";&nbsp";
-															};
-															retval = retval + "<BR>";
-															$("##subloan_list").html(retval);
-														},
-														"json"
-													);
-												});
-											});
-										</script>
-										<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
-											<cfloop query="potentialChildLoans">
-												<option value="#transaction_id#">#loan_number#</option>
-											</cfloop>
-										</select>
-										<button class="ui-button ui-widget ui-corner-all" id="button_add_subloans"> Add </button>
+										Loading...
 									</span><!--- end subloan section ---> 
+									<script>
+										$(document).ready(function() { 
+											loadSubloans(#loanDetails.transaction_id#);
+										)};
+									</script>
 								</div>
 							</div>
 							<div class="form-row mb-1">
