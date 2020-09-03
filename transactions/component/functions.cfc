@@ -134,7 +134,7 @@ limitations under the License.
 
 				<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
 				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select c.loan_number, c.transaction_id 
+					select c.loan_number, c.transaction_id as child_transaction_id
 					from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
 						left join loan c on lr.related_transaction_id = c.transaction_id 
 					where lr.relation_type = 'Subloan'
@@ -143,7 +143,7 @@ limitations under the License.
 				</cfquery>
 				<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
 				<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select pc.loan_number, pc.transaction_id 
+					select pc.loan_number, pc.transaction_id as potential_transaction_id
 					from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id
 					where pc.loan_type = 'exhibition-subloan' 
 						and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
@@ -156,8 +156,8 @@ limitations under the License.
 						<cfset childseparator = "">
 						<cfloop query="childLoans">
 							#childseparator#
-	 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.transaction_id#">#childLoans.loan_number#</a>
-							<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.transaction_id#); ">-</button>
+	 						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
+							<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
 							<cfset childLoanCounter = childLoanCounter + 1 >
 							<cfset childseparator = ";&nbsp;">
 						</cfloop>
@@ -170,7 +170,7 @@ limitations under the License.
 					<cfelse>
 						<select name="possible_subloans" id="possible_subloans" class="form-control-sm">
 							<cfloop query="potentialChildLoans">
-								<option value="#transaction_id#">#loan_number#</option>
+								<option value="#subloan_list.potential_transaction_id#">#subloan_list.loan_number#</option>
 							</cfloop>
 						</select>
 						<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
