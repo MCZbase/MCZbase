@@ -337,42 +337,52 @@ limitations under the License.
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
+							  <div class="dropdown-divider"></div>
+								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (alter existing records)</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Landing Page</a>
+							</div>
+						</li>
+					</ul>
+				</li>
+					
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
+              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">			
+							<li class="d-md-flex align-items-start justify-content-start">		
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Collecting Event Number Series</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Collecting Events</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Geography</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Localities</a> 
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Batch Tools (alter existing records)</div>
-								<a class="dropdown-item" href="/">Bulk Add Agents</a>
-								<a class="dropdown-item" href="/">Bulk Add Attributes</a>
-								<a class="dropdown-item" href="/">Bulk Add Cataloged Items to Data Loans</a>
-								<a class="dropdown-item" href="/">Bulk Add Citations</a>
-								<a class="dropdown-item" href="/">Bulk Add Identifications</a> 
-								<a class="dropdown-item" href="/">Bulk Add Parts</a> 
-								<a class="dropdown-item" href="/">Bulk Add Parts to Containers</a> 
-								<a class="dropdown-item" href="/">Bulk Add/Edit Taxonomy</a>
-								<a class="dropdown-item" href="/">Bulk Edit Parts</a> 
+								<div class="h5 dropdown-header px-4 text-danger">Create Forms</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Collecting Event Number Series</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Collecting Event</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Geography</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Localities</a> 
+							<div>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
+              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
+							<li class="d-md-flex align-items-start justify-content-start">		
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Annotations</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Named Groupings</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Storage Locations</a> 
 							</div>
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Create Forms</div>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Annotation (through Publication results)</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Named Grouping</a>
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Storage Locations</a> 
+							<div>
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-						<li> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Event Number Series</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Events</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Geography</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Localities</a> 
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="" title="Curation" >Curation</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
-						<li> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Annotations</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/findContainer.cfm">Named Collections</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/editContainer.cfm?action=newContainer">Containers</a> 
-						</li>
-					</ul>
-				</li>
-
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
               		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 					<li>
