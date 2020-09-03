@@ -91,7 +91,7 @@ limitations under the License.
 		<cfif deleteResultRes.recordcount eq 0>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #parent_transaction_id# #child_transaction_id# #deleteResult.sql#", 1)>
 		</cfif>
 		<cfif deleteResultRes.recordcount eq 1>
 			<cfset t = queryaddrow(theResult,1)>
@@ -120,7 +120,12 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-
+<!---
+  ** getSubloansForLoanHtml obtain an html block listing the subloans for an exhibition master loan
+  * along with a pick list of available not-yet related to a parent subloans available to add.
+  *
+  * @param transaction_id the transaction_id of the parent exhibition loan.
+--->
 <cffunction name="getSubloansForLoanHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfthread name="getSubloanHtmlThread">

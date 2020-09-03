@@ -352,9 +352,8 @@ function loadSubLoans(transactionId) {
 		success: function (result) {
 			$("#subloan_section").html(result);
 		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
 		},
 		dataType: "html"
 	});
@@ -371,9 +370,8 @@ function loadTransactionFormMedia(transaction_id,transaction_type) {
 		success: function (result) {
 			$("#transactionFormMedia").html(result);
 		},
-		error: function (jqXHR, status, message) {
-			if (jqXHR.responseXML) { msg = jqXHR.responseXML; } else { msg = jqXHR.responseText; }
-			messageDialog("Error loading media: " + message + " " + msg ,'Error: '+ message);
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
 		},
 		dataType: "html"
 	});
