@@ -744,11 +744,11 @@ limitations under the License.
 										</cfif>
 									</span>
 									<span id="subloan_section">
-										Loading...
+										Loading subloans...
 									</span><!--- end subloan section ---> 
 									<script>
 										$(document).ready(function() { 
-											loadSubloans(#loanDetails.transaction_id#);
+											loadSubLoans(#loanDetails.transaction_id#);
 										)};
 									</script>
 								</div>
