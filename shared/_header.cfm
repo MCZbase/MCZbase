@@ -355,8 +355,8 @@ limitations under the License.
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 						<li> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Events</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Event Number Series</a>
+							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Collecting Events</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Geography</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Localities</a> 
 						</li>
