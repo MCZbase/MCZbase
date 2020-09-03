@@ -324,11 +324,11 @@ limitations under the License.
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Records</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent Form</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (on Pub result)</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media Form</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication Form</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen Form</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication</a> 
+								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen</a> 
 								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy (clone only)</a> 
 							</div>
 							<div>
