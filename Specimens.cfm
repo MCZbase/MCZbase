@@ -113,7 +113,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 												</div>
 												<div class="col-12 col-sm-3 col-md-3 input-group-btn">
 													<label for="keySearch" class="sr-only">Keyword search button - click to search MCZbase around Harvard or put in a search term to in the keyword input field and click</label>
-													<button class="btn btn-primary px-2 py-1" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
+													<button class="btn btn-sm btn-primary px-2 py-1" id="keySearch" type="submit" aria-label="Keyword Search of MCZbase"> Search <i class="fa fa-search"></i> </button>
 												</div>
 											</div>
 										</div>
