@@ -143,6 +143,7 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
  */
 function opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
 	var title = "Add new Media record to " + related_value;
+   console.log("TODO: Redesign opencreatemediadialog()");
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();

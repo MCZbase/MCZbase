@@ -1147,33 +1147,33 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 col-md-3">
 						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
-						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control-sm">
+						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
-						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control-sm">
+						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
-						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control-sm">
+						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
-						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control-sm">
+						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
-						<input type="text" name="exp_Date" class="form-control-sm" id="pf_exp_date">
+						<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="permit_Num">Permit Number</label>
-						<input type="text" name="permit_Num" id="permit_Num" class="form-control-sm">
+						<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
-						<select name="permit_Type" size="1" class="form-control-sm" id="pf_permit_type">
+						<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
 							<option value=""></option>
 							<cfloop query="ctPermitType">
 								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
@@ -1182,13 +1182,13 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
-						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control-sm">
+						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6">
 						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
-						<select name="specific_type" size="1" id="pf_specific_type" class="form-control-sm">
+						<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
 							<option value=""></option>
 							<cfloop query="ctSpecificPermitType">
 								<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
@@ -1197,7 +1197,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6">
 						<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
-						<input type="text" name="permit_title" id="pf_permit_title" class="form-control-sm">
+						<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
 					</div>
 				</div>
 				<div class="row">
@@ -2128,7 +2128,7 @@ limitations under the License.
 													<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
 												<!--- trans_agent_{i} is the human readable agent --->
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
@@ -2337,9 +2337,9 @@ limitations under the License.
 				<form id="project_picker_form">
 					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
-					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control-sm reqdClr" >
+					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control data-entry-input reqdClr" >
 					<label for="project_trans_remarks">Project-Transaction Remarks</label>
-					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="form-control-sm" >
+					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="form-control data-entry-input" >
 					<script>
 						$(document).ready( makeProjectPicker('pick_project_name','pick_project_id') );
 						function saveProjectLink() {
@@ -2429,7 +2429,7 @@ limitations under the License.
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control form-control-sm data-entry-input reqdClr" value="">
+								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control data-entry-input reqdClr" value="">
 							</div>
 							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value=""
 								onchange=" updateAgentLink($('##newAgent_name_id').val(),'newAgentViewLink'); ">
@@ -2444,7 +2444,7 @@ limitations under the License.
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
-							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr form-control-sm" required>
+							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr form-control data-entry-input" required>
 								<option value=""></option>
 								<cfloop query="ctProjAgRole">
 								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
@@ -2455,11 +2455,11 @@ limitations under the License.
 					<div class="row col-12">
 						<div class="col-12 col-md-6">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
-							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control-sm">
+							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
 						</div>
 						<div class="col-12 col-md-6">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
-							<input type="text" name="end_date" id="end_date" class="form-control-sm">
+							<input type="text" name="end_date" id="end_date" class="form-control data-entry-input">
 						</div>
 					</div>
 					<div class="row col-12">
@@ -2489,7 +2489,7 @@ limitations under the License.
 					</div>
 					<div class="row col-12">
 						<div class="form-group col-12">
-							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-sm btn-primary"
+							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
 						</div>
 					</div>
@@ -2870,7 +2870,7 @@ limitations under the License.
 							<div class="input-group-prepend">
 								<span class="input-group-text" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
-							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
+							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control data-entry-input" value="">
 						</div>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
 							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
@@ -2882,7 +2882,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-6">
 						<label for="start_date" class="data-entry-label">Address</label>
-						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control-sm">
+						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>
 				</div>
 				<div class="row col-12">

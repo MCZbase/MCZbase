@@ -136,7 +136,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 										<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-										<input type="text" name="loan_number" class="reqdClr form-control-sm" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+										<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -149,7 +149,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control form-control-sm" required >
+											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control data-entry-input" required >
 										</div>
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>
@@ -165,7 +165,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control form-control-sm" required >
+											<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control data-entry-input" required >
 										</div>
 										<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 										<script>
@@ -184,7 +184,7 @@ limitations under the License.
 												<span class="input-group-text" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
-												class="reqdClr form-control form-control-sm" required >
+												class="reqdClr form-control data-entry-input" required >
 										</div>
 										<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
 										<script>
@@ -200,7 +200,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="additional_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control form-control-sm" >
+											<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control data-entry-input" >
 										</div>
 										<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
 										<script>
@@ -219,7 +219,7 @@ limitations under the License.
 												<span class="input-group-text" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
-												class="reqdClr form-control form-control-sm" required >
+												class="reqdClr form-control data-entry-input" required >
 										</div>
 										<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
 										<script>
@@ -235,7 +235,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control form-control-sm" >
+											<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control data-entry-input" >
 										</div>
 										<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
 										<script>
@@ -271,11 +271,11 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-5">
 										<label for="initiating_date">Transaction Date</label>
-										<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm">
+										<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input">
 									</div>
 									<div class="col-12 col-md-5">
 										<label for="return_due_date">Return Due Date</label>
-										<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm" >
+										<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input" >
 									</div>
 								</div>
 								<div class="form-row mb-2" id="insurance_section">
@@ -365,7 +365,7 @@ limitations under the License.
 								</script>
 								<div class="form-row my-2">
 									<div class="form-group col-12">
-										<input type="button" value="Create Loan" class="btn btn-sm btn-primary"
+										<input type="button" value="Create Loan" class="btn btn-xs btn-primary"
 											onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
 									</div>
 								</div>
@@ -664,7 +664,7 @@ limitations under the License.
 								<div class="col-12 col-md-3">
 									<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 									<input type="text" name="initiating_date" id="initiating_date"
-										value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr form-control-sm" required >
+										value="#dateformat(loanDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
 								</div>
 							</div>
 							<div class="form-row mb-1">
@@ -695,7 +695,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-3">
 									<label for="return_due_date" class="data-entry-label">Due Date</label>
-									<input type="text" id="return_due_date" name="return_due_date" class="form-control-sm"
+									<input type="text" id="return_due_date" name="return_due_date" class="data-entry-input"
 										value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 								</div>
 								<div class="col-12 col-md-3">
@@ -725,11 +725,11 @@ limitations under the License.
 							<div class="form-row mb-1" id="insurance_section">
 								<div class="col-12 col-md-6">
 									<label for="insurance_value" class="data-entry-label">Insurance value</label>
-									<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="form-control-sm">
+									<input type="text" name="insurance_value" id="insurance_value" value="#loanDetails.insurance_value#" size="40" class="data-entry-input">
 								</div>
 								<div class="col-12 col-md-6">
 									<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-									<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="form-control-sm">
+									<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#loanDetails.insurance_maintained_by#" size="40" class="data-entry-input">
 								</div>
 							</div>
 							<div class="form-row mb-1">
@@ -799,7 +799,7 @@ limitations under the License.
 										onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 										id="submitButton" >
 									<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
-										class="btn btn-sm btn-info" value="Print..."
+										class="btn btn-xs btn-info" value="Print..."
 										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
 									<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 									<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
@@ -1177,10 +1177,10 @@ limitations under the License.
 							</script>
 							<div class="col-12">
 								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
-										class="btn btn-sm btn-secondary" value="Link to Project"
+										class="btn btn-xs btn-secondary" value="Link to Project"
 										onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
 								<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
-										class="btn btn-sm btn-secondary" value="New Project"
+										class="btn btn-xs btn-secondary" value="New Project"
 										onClick=" openTransProjectCreateDialog(#transaction_id#, 'projectsAddDialog','projectsDiv');">New Project</button>
 							</div>
 							<div id="projectsLinkDialog"></div>
