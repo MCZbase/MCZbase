@@ -2293,7 +2293,7 @@ limitations under the License.
 				<ul class="list-group">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="list-group-item">
+							<li class="list-group-item py-1">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
