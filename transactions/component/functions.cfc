@@ -132,6 +132,12 @@ limitations under the License.
 		<cfoutput>
 			<cftry>
 
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select loan_number from loan 
+					where 
+						transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+				</cfquery>
+				<cfset parent_loan_number = parentLoan.loan_number>
 				<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
 				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select c.loan_number, c.transaction_id as child_transaction_id
@@ -151,8 +157,7 @@ limitations under the License.
 				</cfquery>
 	
 				<div class="col-12">
-					<span id="subloan_list">Exhibition-Subloans (#childLoans.RecordCount#):
-<!--- TODO: Link out to search on these loans, add subloan of to search --->
+					<span id="subloan_list"><a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
 						<cfif childLoans.RecordCount GT 0>
 							<cfset childLoanCounter = 0>
 							<cfset childseparator = "">

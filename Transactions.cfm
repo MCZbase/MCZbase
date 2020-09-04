@@ -669,7 +669,7 @@ limitations under the License.
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
 												<div class="col-md-12">
-													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (exhibition-subloans): </label>
+													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (find exhibition-subloans): </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
 												</div>
 											</div>
