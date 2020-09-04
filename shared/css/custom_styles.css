@@ -278,13 +278,11 @@ span.data-entry-addon {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
-	box-shadow: none;
 	border-color: #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-
-/*.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,*/
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
@@ -298,7 +296,6 @@ span.data-entry-addon {
 	margin-top: 0;
 }
 .btn-secondary:hover {
-	background-color: #d7d7d7;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
 	background-color: rgba(220, 220, 220, .8);
