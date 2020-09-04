@@ -788,8 +788,8 @@ limitations under the License.
 							class="btn btn-xs btn-primary mx-1"
 							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 							>
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.Action.value='deleTaxa';confirmDelete('taxon_form');">
+						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.action.value='newTaxon';submit();">
+						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
@@ -943,7 +943,7 @@ limitations under the License.
 						<cfset i=1>
 						<cfloop query="habitat">
 						<form name="habitat#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-							<input type="hidden" name="Action">
+							<input type="hidden" name="action">
 							<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 							<div class="form-row mx-0">
@@ -954,7 +954,7 @@ limitations under the License.
 						<cfset i=i+1>
 					</cfloop>
 						<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
-					<input type="hidden" name="Action" value="newhabitat">
+					<input type="hidden" name="action" value="newhabitat">
 					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
 					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
