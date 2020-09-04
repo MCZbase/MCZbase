@@ -152,6 +152,7 @@ limitations under the License.
 	
 				<div class="col-12">
 					<span id="subloan_list">Exhibition-Subloans (#childLoans.RecordCount#):
+<!--- TODO: Link out to search on these loans, add subloan of to search --->
 						<cfif childLoans.RecordCount GT 0>
 							<cfset childLoanCounter = 0>
 							<cfset childseparator = "">

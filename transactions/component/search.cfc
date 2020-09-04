@@ -205,6 +205,7 @@ limitations under the License.
     <cfargument name="trans_agent_role_3" type="string" required="no">
     <cfargument name="agent_3" type="string" required="no">
     <cfargument name="agent_3_id" type="string" required="no">
+    <cfargument name="parent_loan_number" type="string" required="no">
 
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
@@ -292,6 +293,10 @@ limitations under the License.
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					left join shipment on loan.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+				</cfif>
+				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
+					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
+					left join loan parent_loan on loan_relations.transaction_id = parent_loan.transaction_id
 				</cfif>
 			where
 				trans.transaction_id is not null
@@ -386,6 +391,10 @@ limitations under the License.
 							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
+				</cfif>
+				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
+					AND loan_relations.relation_type = "Subloan" 
+					AND parent_loan.loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
