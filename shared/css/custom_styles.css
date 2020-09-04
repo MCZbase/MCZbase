@@ -8,7 +8,8 @@ input.badPick, select.badPick, textarea.badPick {
 	background-color: #FF3366!important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
-	background-color: #8BFEB9!important;
+/*	background-color: #8BFEB9!important;*/
+	background-color: rgba(173,236,199,0.3)!important;
 }
 #taxon_form label {font-size: .8em;line-height: 1.02em;}
 /* BELOW: Are these used?  */
@@ -124,6 +125,9 @@ p {
 }
 .input-group-text-sm {
 	padding: .25em .5em!important;
+}
+.input-group-text {
+	font-size: .7em;
 }
 /*.custom-file-label::after {
 	height: calc(.9em + .75rem)!important;
