@@ -230,12 +230,12 @@ limitations under the License.
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				trans_remarks,
-				loan_number,
+				loan.loan_number,
 				loan.loan_type loan_type,
 				ctloan_type.scope loan_type_scope,
-				loan_status,
-				loan_instructions,
-				loan_description,
+				loan.loan_status,
+				loan.loan_instructions,
+				loan.loan_description,
 				concattransagent(trans.transaction_id,'authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
@@ -245,9 +245,9 @@ limitations under the License.
 				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent,
 				concattransagent(trans.transaction_id,'recipient institution') recip_inst,
 				nature_of_material,
-				to_char(return_due_date,'YYYY-MM-DD') return_due_date,
-				return_due_date - trunc(sysdate) dueindays,
-				to_char(closed_date, 'YYYY-MM-DD') closed_date,
+				to_char(loan.return_due_date,'YYYY-MM-DD') return_due_date,
+				loan.return_due_date - trunc(sysdate) dueindays,
+				to_char(loan.closed_date, 'YYYY-MM-DD') closed_date,
 				project_name,
 				project.project_id pid,
 				collection.collection,
@@ -301,7 +301,7 @@ limitations under the License.
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
-					AND upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
+					AND upper(loan.loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
 				</cfif>
 				<cfif isdefined("collection_id") AND collection_id gt 0>
 					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
@@ -318,30 +318,30 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
 					<cfif loan_status eq "not closed">
-						AND loan_status <> 'closed'
+						AND loan.loan_status <> 'closed'
 					<cfelse>
-						 AND loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
+						 AND loan.loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
 					</cfif>
 				</cfif>
 				<cfif isdefined("loan_instructions") AND len(#loan_instructions#) gt 0>
-					AND upper(loan_instructions) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_instructions)#%'>
+					AND upper(loan.loan_instructions) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_instructions)#%'>
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
 					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isdefined("loan_description") AND len(#loan_description#) gt 0>
-					AND upper(loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
+					AND upper(loan.loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
 				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
-					AND return_due_date between 
+					AND loan.return_due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_due_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("closed_date") and len(closed_date) gt 0>
-					AND closed_date between 
+					AND loan.closed_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
 				</cfif>
@@ -396,7 +396,7 @@ limitations under the License.
 					AND loan_relations.relation_type = 'Subloan'
 					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
 				</cfif>
-			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
+			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 
 <!--- 
