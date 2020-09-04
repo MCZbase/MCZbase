@@ -173,6 +173,9 @@ limitations under the License.
 	<cfif not isdefined("specimen_guid")>
 		<cfset specimen_guid="">
 	</cfif>
+	<cfif not isdefined("parent_loan_number")>
+		<cfset parent_loan_number="">
+	</cfif>
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
@@ -665,6 +668,11 @@ limitations under the License.
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
+												<div class="col-md-12">
+													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (exhibition-subloans): </label>
+													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+												</div>
+											</div>
 											</div>
 										</div>
 									</div>
