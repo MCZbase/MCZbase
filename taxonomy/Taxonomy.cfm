@@ -237,7 +237,7 @@ limitations under the License.
 <!------------------------------------------------>
 
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "editTaxon">
+<cfif action is "edit">
 <cfset title="Edit Taxonomy">
 <cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
