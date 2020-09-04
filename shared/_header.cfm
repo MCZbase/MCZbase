@@ -305,7 +305,7 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-						<li> <a class="dropdown-item" id="specimenMenuItem" href="https://mczbase.mcz.harvard.edu/">Specimen Details</a> 
+						<li> <a class="dropdown-item" id="specimenMenuItem" href="Specimens.cfm">Specimen Details</a> 
 							<a class="dropdown-item" href="/Browse.cfm">Browse Specimens By Category</a>
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a> 
 							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a> 
