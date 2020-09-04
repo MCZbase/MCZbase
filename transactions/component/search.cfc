@@ -393,8 +393,8 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
-					AND loan_relations.relation_type = "Subloan" 
-					AND parent_loan.loan_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
+					AND loan_relations.relation_type = 'Subloan'
+					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
 		</cfquery>
