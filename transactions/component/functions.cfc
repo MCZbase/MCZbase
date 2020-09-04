@@ -157,7 +157,12 @@ limitations under the License.
 				</cfquery>
 	
 				<div class="col-12">
-					<span id="subloan_list"><a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
+					<span id="subloan_list">
+						<cfif childLoans.RecordCount GT 0>
+							<a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
+						<cfelse>
+							<h3>No exhibition subloans are currently linked to this exhibtion master loan</h3>
+						</cfif>
 						<cfif childLoans.RecordCount GT 0>
 							<cfset childLoanCounter = 0>
 							<cfset childseparator = "">
