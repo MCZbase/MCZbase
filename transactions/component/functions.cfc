@@ -169,7 +169,7 @@ limitations under the License.
 							<cfloop query="childLoans">
 								#childseparator#
 	 							<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
-								<button type="button" class="btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
+								<button type="button" class="btn btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
 								<cfset childLoanCounter = childLoanCounter + 1 >
 								<cfset childseparator = ";&nbsp;">
 							</cfloop>
@@ -188,7 +188,7 @@ limitations under the License.
 								</cfloop>
 							</select>
 							<div class="input-group-append">
-								<button type="button" class="btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+								<button type="button" class="btn btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
 							</div>
 						</div>
 					</cfif>
@@ -464,9 +464,9 @@ limitations under the License.
 										addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback); 
 									}; 
 								</script>
-								<input type='button' style='margin-left: 30px;' value='Move To' class='btn-xs btn-warning' 
+								<input type='button' style='margin-left: 30px;' value='Move To' class='btn btn-xs btn-warning' 
 									onClick=" moveClickHandler(); ">
-								<input type='button' style='margin-left: 30px;' value='Copy To' class='btn-xs btn-secondary'
+								<input type='button' style='margin-left: 30px;' value='Copy To' class='btn btn-xs btn-secondary'
 									 onClick=" addClickHandler(); ">
 								#shipped_carrier_method# #shipped_date# #carriers_tracking_number#
 						</li>
@@ -771,8 +771,8 @@ limitations under the License.
 
 
 		<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn btn btn-xs btn-secondary pr-1' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn btn btn-xs btn-secondary pr-1' onClick='confirmDialog(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick='confirmDialog(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
 		<cfset resulthtml = resulthtml & "</ul>">
 	</cfloop>
 	<cfif query.recordcount eq 0>
@@ -1001,7 +1001,7 @@ limitations under the License.
 					</div>
 					<div class="form-row mb-2">
 						<div class="col-12 col-md-6">
-							<button type="submit" aria-label="Search for Permits" class="btn-xs btn-primary">Search<span class="fa fa-search pl-1"></span></button>
+							<button type="submit" aria-label="Search for Permits" class="btn btn-xs btn-primary">Search<span class="fa fa-search pl-1"></span></button>
 						</div>
 					</div>
 				</form>
@@ -1047,7 +1047,7 @@ limitations under the License.
 
 						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button class=\"btn btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+							var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 							return result;
 						};
 
@@ -1202,17 +1202,17 @@ limitations under the License.
 				</div>
 				<div class="row">
 					<div class="col-12 col-md-6">
-						<input type="button" value="Search" class="btn-xs btn-primary" onclick="$('##findPermitForm').submit()">	
+						<input type="button" value="Search" class="btn btn-xs btn-primary" onclick="$('##findPermitForm').submit()">	
 						<script>
 							function createPermitDialogDone () { 
 								$("##permit_Num").val($("##permit_number_passon").val()); 
 							};
 						</script>
-						<input type="reset" value="Clear" class="btn-xs btn-warning">
+						<input type="reset" value="Clear" class="btn btn-xs btn-warning">
 					</div>
 					<div class="col-12 col-md-6">
 						<span id="createPermit_#shipment_id#_span">
-							<input type='button' style='margin-left: 30px;' value='New Permit' class='btn-xs btn-secondary' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+							<input type='button' style='margin-left: 30px;' value='New Permit' class='btn btn-xs btn-secondary' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
 						</span>
 						<div id="createPermitDlg_#shipment_id#"></div>
 					</div>
@@ -2098,7 +2098,7 @@ limitations under the License.
 									<th colspan="2"> 
 										<span>
 											Agent&nbsp;Name&nbsp;
-											<button type="button" class="ui-button btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+											<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 										</span>
 									</th>
 									<th>Role</th>
@@ -2379,7 +2379,7 @@ limitations under the License.
 							}
 						};
 					</script>
-					<button type="button" class="btn btn-primary" onClick="saveProjectLink();">Save</button>
+					<button type="button" class="btn btn-xs btn-primary" onClick="saveProjectLink();">Save</button>
 				</form>
 			</cfoutput>
 		<cfcatch>
@@ -2887,7 +2887,7 @@ limitations under the License.
 				</div>
 				<div class="row col-12">
 					<div class="col-12">
-						<button class="btn-xs btn-primary px-3" id="searchButton"
+						<button class="btn btn-xs btn-primary px-3" id="searchButton"
 							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
 					</div>
 				</div>
@@ -2931,7 +2931,7 @@ limitations under the License.
 
 					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 						var pvalue = rowdata.formatted_addr;
-						var result = "<button class=\"btn btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+						var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 						return result;
 					};
 

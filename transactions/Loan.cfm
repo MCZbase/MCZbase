@@ -409,7 +409,7 @@ limitations under the License.
 									</cfcatch>
 									</cftry>
 									<cfif len(nextNumberQuery.nextNumber) gt 0>
-										<span class="btn btn-link " onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</span>
+										<span class="btn btn-xs btn-link " onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</span>
 									<cfelse>
 										<span style="font-size:x-small"> No data available for #collection#. </span>
 									</cfif>
@@ -795,7 +795,7 @@ limitations under the License.
 							</script> 
 							<div class="form-row mb-1">
 								<div class="form-group col-12">
-									<input type="button" value="Save" class="btn-xs btn-primary mr-2"
+									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 										onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 										id="submitButton" >
 									<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
