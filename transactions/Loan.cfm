@@ -956,7 +956,7 @@ limitations under the License.
 						</div> 
 					</section>
 					<section name="countriesOfOriginSection" class="row border rounded my-2">
-						<div class="col-12">
+						<div class="col-12 pb-2">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(*) as ct, sovereign_nation 
@@ -984,7 +984,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section name="shipmentSection" class="row border rounded my-2">
-						<div class="col-12">
+						<div class="col-12 pb-3">
 							<h3>Shipment Information:</h3>
 							<script>
 								function opendialog(page,id,title) {
@@ -1090,7 +1090,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded my-2">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
