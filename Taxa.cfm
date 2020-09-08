@@ -308,15 +308,15 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 		<!--- Search form --->
-		<div id="search-form-div" class="pb-2 px-3">
+		<div id="search-form-div">
 			<div class="container-fluid">
-				<div class="row mb-3">
+				<div class="row mx-0 mb-3">
 					<div class="col-12">
 						<section id="content" role="search">
-						<div class="tab-card-main mt-4 pb-2 tab-card"> 
+						<div class="search-box"> 
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
-							<div class="card-header tab-card-header pb-0 w-100">
+							<div class="search-box-header">
 								<h1 class="h3 smallcaps text-white mt-1 mb-2 pl-1" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
