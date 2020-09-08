@@ -611,10 +611,10 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<main class="container">
+		<main class="container py-3">
 			<!--- div class="row" --->
 				<cftry>
-					<section title="Edit Loan" class="row border rounded">
+					<section title="Edit Loan" class="row border rounded my-2">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
@@ -645,7 +645,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-3">
 									<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-									<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control data-entry-select" 
+									<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control data-entry-input" 
 										required  pattern="#LOANNUMBERPATTERN#"  >
 								</div>
 								<div class="col-12 col-md-3">
@@ -848,9 +848,8 @@ limitations under the License.
 							</script>
 						</form>
 					</section>
-
-					<section name="loanItemsSection" class="row border rounded" title="Collection Objects in this loan">
-						<div class="col-12 mt-1">
+					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan">
+						<div class="col-12 my-2">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
@@ -860,7 +859,7 @@ limitations under the License.
 							<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info"
 								onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 						</div>
-						<div class="col-12">
+						<div class="col-12 my-2">
 							<div id="loanItemCountDiv"></div>
 							<script>
 								$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
@@ -909,8 +908,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-
-					<section name="mediaSection" class="row border rounded bg-light">
+					<section name="mediaSection" class="row border rounded bg-light my-2">
 						<div class="col-12">
 							<h3>
 								Media documenting this Loan: <br/>
@@ -957,7 +955,7 @@ limitations under the License.
 							</script>
 						</div> 
 					</section>
-					<section name="countriesOfOriginSection" class="row border rounded">
+					<section name="countriesOfOriginSection" class="row border rounded my-2">
 						<div class="col-12">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -985,7 +983,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section name="shipmentSection" class="row border rounded">
+					<section name="shipmentSection" class="row border rounded my-2">
 						<div class="col-12">
 							<h3>Shipment Information:</h3>
 							<script>
@@ -1092,7 +1090,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border rounded my-2">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
@@ -1161,7 +1159,7 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row border rounded bg-light pb-1">
+					<section title="Projects" class="row border rounded bg-light my-2">
 						<div class="col-12">
 							<h3>
 								Projects associated with this loan: 
@@ -1174,9 +1172,9 @@ limitations under the License.
 									loadProjects('projectsDiv',#loanDetails.transaction_id#);
 								} 
 							</script>
-							<div class="col-12">
+							<div class="col-12 my-2">
 								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
-										class="btn btn-xs btn-secondary" value="Link to Project"
+										class="btn btn-xs btn-secondary mr-2" value="Link to Project"
 										onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
 								<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
 										class="btn btn-xs btn-secondary" value="New Project"
