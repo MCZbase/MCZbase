@@ -1050,7 +1050,7 @@ table.inputTable tr {
 }
 .search-box-header {
 	background-color: #3e6f7d;	
-	padding: .15em 1em .1em 1em;	
+	padding: .15em 1em .1em 1.65em;	
 }
 ::-ms-clear {
 	display: none;
