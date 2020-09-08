@@ -464,6 +464,7 @@ limitations under the License.
 	<cfargument name="permit_id" default="">
 	<cfargument name="ContactAgent" default="">
 
+	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select permit.permit_id,
