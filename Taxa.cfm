@@ -328,7 +328,7 @@ limitations under the License.
 									<form name="searchForm" id="searchForm">
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
-											<div class="col-12 col-xl-4">
+											<div class="col-12 col-xl-3">
 												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 												<fieldset>
 													<legend class="text-transparent">Accepted Names?</legend>
@@ -393,7 +393,7 @@ limitations under the License.
 												</ul>
 												</fieldset>
 											</div>
-											<div class="col-12 col-xl-8 mt-2">
+											<div class="col-12 col-xl-9 mt-2">
 												<div class="col-12">
 													<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 												</div>
