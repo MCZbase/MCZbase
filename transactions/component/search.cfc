@@ -450,4 +450,159 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<cffunction name="getPermits" access="remote" returntype="any" returnformat="json">
+	<cfargument name="IssuedByAgent" default="">
+	<cfargument name="IssuedToAgent" default="">
+	<cfargument name="issued_Date" default="">
+	<cfargument name="renewed_Date" default="">
+	<cfargument name="exp_Date" default="">
+	<cfargument name="permit_Num" default="">
+	<cfargument name="permit_Type" default="">
+	<cfargument name="specific_type" default="">
+	<cfargument name="permit_title" default="">
+	<cfargument name="permit_remarks" default="">
+	<cfargument name="permit_id" default="">
+	<cfargument name="ContactAgent" default="">
+
+	<cftry>
+		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select permit.permit_id,
+				issuedBy.agent_name as IssuedByAgent,
+				issuedTo.agent_name as IssuedToAgent,
+				Contact.agent_name as ContactAgent,
+				issued_Date,
+				renewed_Date,
+				exp_Date,
+				permit_Num,
+				permit_Type,
+				specific_type,
+				permit_title,
+				permit_remarks
+			from
+				permit  
+				left join preferred_agent_name issuedTo on permit.issued_by_agent_id = issuedBy.agent_id
+				left join preferred_agent_name issuedBy on permit.issued_to_agent_id = issuedTo.agent_id
+				left join preferred_agent_name Contact on permit.contact_agent_id = Contact.agent_id
+			where
+				permit.permit_id is not null 
+				<cfif isdefined("IssuedByAgent") AND len(#IssuedByAgent#) gt 0>
+					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapequotes(ucase(IssuedByAgent))#%">
+				</cfif>
+				<cfif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
+					AND ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_BY_AGENT_ID#">
+				</cfif>
+				<cfif isdefined("IssuedToAgent") AND len(#IssuedToAgent#) gt 0>
+					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapequotes(ucase(IssuedToAgent))#%">
+				</cfif>
+				<cfif isdefined("ISSUED_TO_AGENT_ID") and len(#ISSUED_TO_AGENT_ID#) gt 0>
+					AND ISSUED_TO_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_TO_AGENT_ID#">
+				</cfif>
+				<cfif isdefined("ContactAgent") AND len(#ContactAgent#) gt 0>
+					AND upper(Contact.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ContactAgent)#%">
+				</cfif>
+				<cfif isdefined("CONTACT_AGENT_ID") and len(#CONTACT_AGENT_ID#) gt 0>
+					AND CONTACT_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#">
+				</cfif>
+				<cfif isdefined("issued_date") AND len(#issued_date#) gt 0>
+					<cfif len(#issued_date#) EQ 4>
+						<cfif NOT isdefined("issued_until_date") OR len(#issued_until_date#) EQ 0>
+							<cfset issued_until_date = "#issued_date#-12-31">
+						</cfif>
+						<cfset issued_date = "#issued_date#-01-01">
+						<cfif isdefined("issued_until_date") AND  len(#issued_until_date#) EQ 4>
+							<cfset issued_until_date = "#issued_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
+						AND upper(issued_date) 
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(issued_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("renewed_date") AND len(#renewed_date#) gt 0>
+					<cfif len(#renewed_date#) EQ 4>
+						<cfif NOT isdefined("renwewed_until_date") OR len(#renewed_until_date#) EQ 0>
+							<cfset renewed_until_date = "#renewed_date#-12-31">
+						</cfif>
+						<cfset renewed_date = "#renewed_date#-01-01">
+						<cfif ifdefined("renewed_until_date") AND len(#renewed_until_date#) EQ 4>
+							<cfset renewed_until_date = "#renewed_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("renewed_until_date") OR len(#renewed_until_date#) gt 0>
+						AND upper(renewed_date)
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(renewed_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("exp_date") AND len(#exp_date#) gt 0>
+					<cfif len(#exp_date#) EQ 4>
+						<cfif NOT isdefined("exp_until_date") OR len(#exp_until_date#) EQ 0>
+							<cfset exp_until_date = "#exp_date#-12-31">
+						</cfif>
+						<cfset exp_date = "#exp_date#-01-01">
+						<cfif isdefined("exp_until_date") AND len(#exp_until_date#) EQ 4>
+							<cfset exp_until_date = "#exp_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
+						AND upper(exp_date) 
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(exp_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("permit_Num") AND len(#permit_Num#) gt 0>
+					AND upper(permit_Num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_Num)#%">
+				</cfif>
+				<cfif isdefined("permit_type") AND  len(#permit_type#) gt 0>
+					AND permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				</cfif>
+				<cfif isdefined("permit_title") AND len(#permit_title#) gt 0>
+					AND upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_title)#%">
+				</cfif>
+				<cfif isdefined("specific_type") AND len(#specific_type#) gt 0>
+					AND specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+				</cfif>
+				<cfif isdefined("permit_remarks") AND len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+				</cfif>
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset targetform = "Permit.cfm?action=edit&">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfif isdefined("Application.header_image")>
+				<!--- Link for integration on production --->
+				<cfset row["id_link"] = "<a href='/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_number#</a>">
+			<cfelse>
+				<!--- Link for redesign --->
+				<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_number#</a>">
+			</cfif>
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
 </cfcomponent>
