@@ -167,53 +167,7 @@ label {
 .text-grayish {
 	color: #f5f5f5;
 }
-/***************************************/
-/*   BELOW: override for collection    */
-/*  dropdown (JQuery) taken from Arctos*/
-/***************************************/
-.ui-widget {
-	font-size: .875em;
-}
-.ui-multiselect {
-	padding: .25em .5em;
-	padding: .32em .5em;
-	margin: 0;
-	font-size: .875rem;
-	border-radius: .2em;
-	font-weight: 500;
-	padding-left: 12px;
-	line-height: 1.5em;
-	color: #495057;
-}
-button.ui.multiselect {
-	width: 100% !important;
-}
-.ui-multiselect-header span.ui-icon {
-	top: -1px;
-}
-button.ui-multiselect.ui-state-default {
-	border-color: #bac5c6;
-	background-color: white;
-	width:100%;
-}
-button.ui-multiselect.ui-state-active {
-	color: #333;
-	border: 1px solid #bac5c6;
-	border-color: #bac5c6;
-	border-radius: 5px;
-	background-color: white;
-}
-button.ui-multiselect.ui-state-hover {
-	color: #333;
-	border: 1px solid #bac5c6;
-	border-color: #bac5c6;
-	border-radius: 5px;
-	background-color: white;
-}
-span.ui-icon {
-	color: #555;
-	margin-top: 1px;
-}
+
 /*********************************/
 /* BELOW:    code for 3 searches */
 /*********************************/
@@ -823,68 +777,7 @@ code {
 #jqxDropDownList {
 	padding: .86em 0;
 }
-/************************
-*************************
-BELOW: DIALOG BOXES STYLES to 
-override Bootstrap styles
-************************/
-#ui-dialog {
-	/* note: z-index almost certainly needs to be set dynamically to play well with jqxwidgets */
-	z-index: 60001;
-}
-#dialog-form header {
-	background-color: white;
-	-webkit-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
-	-moz-box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
-	box-shadow: -2px -3px 40px -5px rgba(204, 204, 204, 1);
-	/*http://colorzilla.com/gradient-editor/#a90329+0,a51c30+0,a51c30+0,a51c30+0,a51c30+0,a51c30+58,a51c30+87,a51c30+87,6d0019+100&1+0,0.04+100*/
-	background: -moz-linear-gradient(top, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*FF3.6-15*/
-	background: -webkit-linear-gradient(top, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*Chrome10-25,Safari5.1-6*/
-	background: linear-gradient(to bottom, rgba(229, 143, 22, .3) 17%, rgba(239, 157, 32, 0.17) 100%, rgba(109, 0, 25, .14) 100%); /*W3C,IE10+,FF16+,Chrome26+, Opera12+,Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e58f2a', endColorstr='#0a6d0019', GradientType=0);
-	border: 1px solid #333;
-}
-#dialog-form header p {
-	font-size: 18px;
-	font-size: bold;
-	padding: 10px;
-}
-#dialog-form header a {
-	color: #007bff
-}
-#dialog-form form {
-	display: block;
-	-moz-column-gap: 20px;
-	-webkit-column-gap: 20px;
-	column-gap: 20px;
-	-moz-column-count: 1;
-	-webkit-column-count: 1;
-	column-count: 1;
-}
-#dialog-form form label {
-	font-size: smaller;
-	font-weight: 600;
-	padding-bottom: 0;
-	margin-bottom: 0;
-}
-.ui-dialog .ui-dialog-title {
-	color: black;
-}
-.ui-dialog .ui-dialog-titlebar-close {
-	background-color: white;
-	background-image: url("/lib/JQWidgets/jqwidgets/styles/images/close.png");
-	background-repeat: no-repeat;
-	background-size: 16px;
-	border: 2px solid #ddd;
-	color: black;
-	border-radius: 4px;
-}
-.ui-widget.ui-widget-content {
-	border: 1px solid #333;
-}
-.ui-widget-header {
-	font-weight: bold;
-}
+
 button.detail-edit-cell {
 	width: auto;
 	margin-top: -1.9em;
@@ -1092,17 +985,73 @@ table.inputTable tr {
 .tab-card-header > .tab-content {
 	padding-bottom: 0;
 }
+/******************/
+/*.tab-card-header > .nav-tabs {
+	border: none;
+	margin: 0px;
+	background-color: #3E6F7D;
+}*/
+/*.tab-card-header > .nav-tabs > li {
+	margin-right: 2px;
+	background-color: #3E6F7D;
+	border-top: 1px solid #3E6F7D;
+}*/
+/*.tab-card-header > .nav-tabs > li > a.active {
+	background-color: #f8f9fa;
+	border-bottom: 2px solid #f8f9fa;
+	outline:0;
+}*/
+/*.tab-card-header > .nav-tabs > li > a {
+	border: 0;
+	margin-right: 0;
+	color: #555;
+	background-color: #deebec;
+	font-size: .95em;
+	outline: 0;
+}*/
+.search-box {
+	border: 2px solid #3E6F7D;
+	border-radius: 8px;
+}
+/*.tab-card-header > .nav-tabs > li > a {
+	color: #3E657D !important;
+	font-weight: 555;
+}*/
+/*.tab-card-header > .nav-tabs > li > a.show {
+	border-bottom: 2px solid #3E657D;
+	color: #3E657D;
+	border: 1px solid rgba(0, 34, 51, 0.1);
+	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
+	border-radius: 0.15rem;
+	background-color: #E5E4E4;
+}*/
+/*.tab-card-header > .nav-tabs > li > a:hover {
+	color: #3E657D;
+	background-color: #f5f5f5;
+}*/
+/*.tab-card-header > .nav-tabs > li > a:focus {
+	color: #3E657D;
+	background-color: #f5f5f5;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .2);
+}*/
+/*.tab-card-header > .tab-content {
+	padding-bottom: 0;
+}
+
+*/
 .search-box {
 	background-color: #f9f9f9;
 	margin-top: 1em;
 	padding-bottom: .75em;
 	width: 100%;
+	border-radius: 8px;
+	border: 2px solid #3E6F7D;
 }
 .search-box-header {
 	background-color: #3e6f7d;
-	border: 2px solid #3E6F7D;
-	border-radius: 8px;
-	border-top: 4px;	
+	padding-top: 4px;	
+	
 }
 ::-ms-clear {
 	display: none;
