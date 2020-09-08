@@ -363,9 +363,8 @@ limitations under the License.
 												</ul>
 												</fieldset>
 												</div>	
-															<p class="smaller-text mt-3" tabindex="0">Not all taxa in MCZbase have associated specimens.</p>
 												<div class="col-12 col-md-5 float-left">
-													
+													<p class="smaller-text mt-3" tabindex="0">Not all taxa in MCZbase have associated specimens.</p>
 												<fieldset>
 													<legend>Specimens?</legend>
 													<ul class="list-group list-group-flush p-2 bg-light border rounded">
