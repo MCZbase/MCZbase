@@ -586,10 +586,10 @@ limitations under the License.
 			</cfloop>
 			<cfif isdefined("Application.header_image")>
 				<!--- Link for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_number#</a>">
+				<cfset row["id_link"] = "<a href='/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_num#</a>">
 			<cfelse>
 				<!--- Link for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_number#</a>">
+				<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#search.permit_num#</a>">
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
