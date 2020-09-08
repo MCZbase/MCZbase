@@ -1049,9 +1049,8 @@ table.inputTable tr {
 	border: 2px solid #3E6F7D;
 }
 .search-box-header {
-	background-color: #3e6f7d;
-	padding-top: 4px;	
-	
+	background-color: #3e6f7d;	
+	padding: .5em 1em;	
 }
 ::-ms-clear {
 	display: none;
