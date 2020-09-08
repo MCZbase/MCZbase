@@ -481,8 +481,8 @@ limitations under the License.
 				permit_remarks
 			from
 				permit  
-				left join preferred_agent_name issuedTo on permit.issued_by_agent_id = issuedBy.agent_id
-				left join preferred_agent_name issuedBy on permit.issued_to_agent_id = issuedTo.agent_id
+				left join preferred_agent_name issuedTo on permit.issued_by_agent_id = issuedTo.agent_id
+				left join preferred_agent_name issuedBy on permit.issued_to_agent_id = issuedBy.agent_id
 				left join preferred_agent_name Contact on permit.contact_agent_id = Contact.agent_id
 			where
 				permit.permit_id is not null 
