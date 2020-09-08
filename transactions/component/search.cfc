@@ -466,7 +466,7 @@ limitations under the License.
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
-		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			select permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent,
