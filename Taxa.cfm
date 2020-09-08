@@ -317,7 +317,7 @@ limitations under the License.
 							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
 							<!--- Tab header div --->
 							<div class="search-box-header">
-								<h1 class="h3 smallcaps text-white mt-1 mb-2 pl-1" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+								<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
 							<!--- End tab header div ---> 
 												
