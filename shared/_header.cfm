@@ -338,7 +338,7 @@ limitations under the License.
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 											<cfif targetMenu EQ "production"><cfset href = "/tools/sqlTaxonomy.cfm"><cfelse><cfset href=""></cfif>
 											<a class="dropdown-item" href="">SQL Taxonomy</a>
-										</cfif
+										</cfif>
 									</div>
 								</li>
 							</ul>
