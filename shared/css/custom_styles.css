@@ -1579,6 +1579,7 @@ textarea {
 	color: #036ee0 !important;
 	position: relative;
 	top:-3px;
+	font-size: .85em;
 }
 /****************end small form fields*********************/
 /**********************************************************/
