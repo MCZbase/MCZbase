@@ -628,11 +628,11 @@ limitations under the License.
 									$('##saveResultDiv').removeClass('text-warning');
 								};
 							</script>
-							<h2 class="mt-3 mb-0">
+							<h1 class="h2 mt-3 mb-0">
 								Edit Loan 
 								<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
-							</h2>
+							</h1>
 							<div class="form-row mb-1">
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label" for="collection_id">Department</label>
