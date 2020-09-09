@@ -306,17 +306,20 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-						<li> <a class="dropdown-item" id="specimenMenuItem" href="Specimens.cfm">Specimen Details</a> 
-							<a class="dropdown-item" href="/Browse.cfm">Browse Specimens By Category</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agents</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/reviewAnnotation.cfm">Annotations</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Locality.cfm?action=findCO">Events</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/showLocality.cfm">Geography</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/MediaSearch.cfm">Media</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Projects</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Publications</a>
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/tools/userSQL.cfm">SQL Queries</a> 
-							<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy</a> 
+						<li> 
+							<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimen Details</a> 
+							<a class="dropdown-item" href="">Browse Specimens By Category</a>
+							<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
+							<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
+							<a class="dropdown-item" href="">Geography</a>
+							<a class="dropdown-item" href="">Geology</a>
+							<a class="dropdown-item" href="">Localities</a>
+							<a class="dropdown-item" href="">Collecting Events</a> 
+							<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+							<a class="dropdown-item" href="">Publications</a>
+							<a class="dropdown-item" href="">Annotations</a>
+							<a class="dropdown-item" href="">Projects</a> 
+							<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old --->
 						 </li>
 					</ul>
 				</li>
@@ -325,20 +328,22 @@ limitations under the License.
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Agent</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Citation (on Pub results)</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Media</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Publication</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Specimen</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Taxa.cfm">Taxonomy (clone only)</a> 
+								<a class="dropdown-item" href="/DataEntry.cfm">Specimen</a> 
+								<a class="dropdown-item" href="/media.cfm?action=newMedia">Media</a> 
+								<a class="dropdown-item" href="/agents.cfm">Agent</a> 
+								<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a> 
+								<!--- remove, can't create from menu <a class="dropdown-item" href="/Publication.cfm">Citation (on Pub results)</a> --->
+								<!--- remove, can't create from menu <a class="dropdown-item" href="/Taxa.cfm">Taxonomy (clone only)</a> --->
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Browse and Edit</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Bulkload Specimens</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Batch Tools (alter existing records)</a>
+								<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+								<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
+								<a class="dropdown-item" href="/Bulkloader/">Bulkload Specimens</a> 
+								<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
+								<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Batch Tools (alter existing records)</a>
+								<a class="dropdown-item" href="">Publication Staging</a>
+								<a class="dropdown-item" href="">Data Loan Items</a>
 							</div>
 						</li>
 					</ul>
@@ -349,18 +354,29 @@ limitations under the License.
 							<li class="d-md-flex align-items-start justify-content-start">		
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Collecting Event Number Series</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Collecting Events</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Geography</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Localities</a> 
+								<a class="dropdown-item" href="">Geography</a> 
+								<a class="dropdown-item" href="">Localities</a> 
+								<a class="dropdown-item" href="">Geology Attributes Heirarchy</a>
+								<a class="dropdown-item" href="">Collecting Events</a>
+								<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Collecting Event Number Series</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Collecting Event</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Geography</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Localities</a> 
+								<a class="dropdown-item" href="">Geography</a> 
+								<a class="dropdown-item" href="">Locality</a> 
+								<a class="dropdown-item" href="">Collecting Event</a>
+								<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+							</div>
 							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+								<a class="dropdown-item" href="">Encumbrances</a>
+								<a class="dropdown-item" href="">Annotations</a>
+								<a class="dropdown-item" href="">Review Pending Agent Merges</a>
+								<a class="dropdown-item" href="">Merge bad duplicate agents</a>
+								<a class="dropdown-item" href="">Sync parent/child taxonomy</a>
+								<a class="dropdown-item" href="">Pending Relationships</a>
+								<a class="dropdown-item" href="">SQL Taxonomy</a>
+							</div>
 						</li>
 					</ul>
 				</li>
@@ -369,16 +385,30 @@ limitations under the License.
 							<li class="d-md-flex align-items-start justify-content-start">		
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Annotations</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Named Groupings</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Storage Locations</a> 
+								<a class="dropdown-item" href="">Annotations</a> 
+								<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
+								<a class="dropdown-item" href="">Browse Storage Locations</a> 
+								<a class="dropdown-item" href="">Find Storage Location/Container</a> 
+								<a class="dropdown-item" href="">DGR Locator</a> 
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/SpecimenUsage.cfm">Annotation (on Pub results)</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Named Grouping</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Storage Locations</a> 
+								<a class="dropdown-item" href="">Annotation (on Pub results)</a>
+								<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
+								<a class="dropdown-item" href="">Storage Location/Create Container</a> 
+								<a class="dropdown-item" href="">Create Container Series</a> 
+							</div>
 							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+								<a class="dropdown-item" href="">Move Container</a> 
+								<a class="dropdown-item" href="">Batch Scan</a> 
+								<a class="dropdown-item" href="">Label>Container</a> 
+								<a class="dropdown-item" href="">Object+BC>Container</a> 
+								<a class="dropdown-item" href="">Clear Part Flags</a> 
+								<a class="dropdown-item" href="">Upload Scan File</a> 
+								<a class="dropdown-item" href="">Put Parts in Containers</a> 
+								<a class="dropdown-item" href="">Bulk Edit Containers</a> 
+							</div>
 						</li>
 					</ul>
 				</li>
@@ -390,20 +420,20 @@ limitations under the License.
 							<li class="d-md-flex align-items-start justify-content-start">		
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/agents.cfm">Accessions</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm">Borrows</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/media.cfm?action=newMedia">Deaccessions</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Publication.cfm?action=newPub">Loans</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/DataEntry.cfm">Permissions &amp; Rights</a> 
+								<a class="dropdown-item" href="/agents.cfm">Accessions</a> 
+								<a class="dropdown-item" href="/Publication.cfm">Borrows</a>
+								<a class="dropdown-item" href="/media.cfm?action=newMedia">Deaccessions</a> 
+								<a class="dropdown-item" href="/Publication.cfm?action=newPub">Loans</a> 
+								<a class="dropdown-item" href="/DataEntry.cfm">Permissions &amp; Rights</a> 
 							</div>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/browseBulk.cfm">Accession</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloaderBuilder.cfm">Borrow</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/">Deaccession</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Loan</a>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/Bulkloader/bulkloader_status.cfm">Permissions &amp; Rights</a> 
-							<div>
+								<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Accession</a>
+								<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Borrow</a>
+								<a class="dropdown-item" href="/Bulkloader/">Deaccession</a> 
+								<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Loan</a>
+								<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Permissions &amp; Rights</a> 
+							</div>
 						</li>
 					</ul>
 				</li>
@@ -411,19 +441,54 @@ limitations under the License.
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 						<li class="align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/recentgeorefs.cfm">Reports</a> 
-								<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/info/queryStats.cfm">Statistics</a> 
+								<a class="dropdown-item" href="/info/recentgeorefs.cfm">Reports</a> 
+								<a class="dropdown-item" href="/info/queryStats.cfm">Statistics</a> 
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
+						<li class="align-items-start justify-content-start">
+							<!--- TODO: Review administrative functions --->
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Data</div>
+								<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
+								<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
+								<a class="dropdown-item" href="/">Download Tables</a>
+								<a class="dropdown-item" href="/">Dump</a>
+								<a class="dropdown-item" href="/">Scheduled Tasks</a>
+								<a class="dropdown-item" href="/">Image List</a>
+							</div>
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+								<a class="dropdown-item" href="/">Form Permissions</a>
+								<a class="dropdown-item" href="/">Audit SQL</a>
+								<a class="dropdown-item" href="/">MCZbase Users</a>
+								<a class="dropdown-item" href="/">Blacklist</a>
+								<a class="dropdown-item" href="/">Blacklist IP</a>
+								<a class="dropdown-item" href="/">See Form Permissions</a>
+								<a class="dropdown-item" href="/">Database roles</a>
+								<a class="dropdown-item" href="/">Oracle roles</a>
+								<a class="dropdown-item" href="/">User Loan</a>
+								<a class="dropdown-item" href="/">All User Stats</a>
+							</div>
+							<div>
+								<div class="h5 dropdown-header px-4 text-danger">Application</div>
+								<a class="dropdown-item" href="/">Manage Collection</a>
+								<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
+								<a class="dropdown-item" href="/">Redirects</a>
 							</div>
 						</li>
 					</ul>
 				</li>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
-						<a class="dropdown-item" href="/">About MCZbase</a>
-						<a class="dropdown-item" href="/">API</a>
-						<a class="dropdown-item" href="/">Controlled Vocabularies</a>
-						<a class="dropdown-item" href="/">Technical Details</a>
 						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+						<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+						<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+						<a class="dropdown-item" href="/">API</a>
+						<a class="dropdown-item" href="/">Technical Details</a>
 					</ul>
 				</li>
 				<cfif isdefined("session.username") and len(#session.username#) gt 0>
@@ -437,30 +502,20 @@ limitations under the License.
 						</cfif>
 						</a>
 						<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
-						<li>
-							<cfif session.roles contains "coldfusion_user">
-								<a href="##" class="dropdown-item">
-								<form name="profile" method="post" action="/UserProfile.cfm">
-									<input type="hidden" name="action" value="nothing">
-									<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-								</form>
-								</a> 
+							<li>
+								<cfif session.roles contains "coldfusion_user">
+									<a href="##" class="dropdown-item">
+									<!--- TODO: Fix this, should be just a link, not a form POST --->
+									<form name="profile" method="post" action="/UserProfile.cfm">
+										<input type="hidden" name="action" value="nothing">
+										<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
+									</form>
+									</a> 
 									<a href="##" class="dropdown-item">Settings</a>
 									<a href="##" class="dropdown-item">Saved Searches</a>
 									<a href="##" class="dropdown-item">Saved Search Queries</a>
-							</cfif>
-						</li>	
-							 <div class="dropdown-divider"></div>
-							<li class="d-md-flex align-items-start justify-content-start">		
-							<div>
-									<div class="h5 dropdown-header px-4 text-danger">Admin</div>
-									<a class="dropdown-item" href="/">Blacklist</a>
-									<a class="dropdown-item" href="/">Code Table Editor</a>
-									<a class="dropdown-item" href="/">Form Permissions</a>
-									<a class="dropdown-item" href="/">MCZbase Users</a>
-									<a class="dropdown-item" href="https://mczbase.mcz.harvard.edu/">Reporter</a>
-								</div>
-							</li>
+								</cfif>
+							</li>	
 						</ul>
 					</li>
 				</cfif>
