@@ -247,12 +247,13 @@ limitations under the License.
 	</cfquery>
 <cfoutput>
 	<main class="container" id="content" role="main">
-		<section class="row border rounded my-2">
-				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
-					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
+			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 					</h1>
+		<section class="row border rounded my-2">
+				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
+				
 					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 					<cfif len(getTaxa.taxonid) GT 0>
 						<cfset hasTaxonID = true>
