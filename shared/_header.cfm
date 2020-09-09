@@ -521,7 +521,7 @@ limitations under the License.
 										<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										<a class="dropdown-item" href="/">Redirects</a>
 									</div>
-								<cfif>
+								</cfif>
 							</li>
 						</ul>
 					</li>
