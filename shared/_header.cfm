@@ -335,7 +335,10 @@ limitations under the License.
 										<a class="dropdown-item" href="">Merge bad duplicate agents</a>
 										<a class="dropdown-item" href="">Sync parent/child taxonomy</a>
 										<a class="dropdown-item" href="">Pending Relationships</a>
-										<a class="dropdown-item" href="">SQL Taxonomy</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production"><cfset href = "/tools/sqlTaxonomy.cfm"><cfelse><cfset href=""></cfif>
+											<a class="dropdown-item" href="">SQL Taxonomy</a>
+										</cfif
 									</div>
 								</li>
 							</ul>
@@ -434,7 +437,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") )>
+					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin" )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
@@ -450,17 +453,24 @@ limitations under the License.
 										<!--- TODO: are the rest of these DBA or another role?  --->
 										<a class="dropdown-item" href="/">Download Tables</a>
 										<a class="dropdown-item" href="/">Dump</a>
-										<a class="dropdown-item" href="/">Scheduled Tasks</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production"><cfset href = "/ScheduledTasks/index.cfm"><cfelse><cfset href=""></cfif>
+											<a class="dropdown-item" href="#href#">Scheduled Tasks</a>
+										</cfif>
 										<a class="dropdown-item" href="/">Image List</a>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
-										<a class="dropdown-item" href="/">Form Permissions</a>
 										<a class="dropdown-item" href="/">Audit SQL</a>
 										<a class="dropdown-item" href="/">MCZbase Users</a>
-										<a class="dropdown-item" href="/">Blacklist</a>
-										<a class="dropdown-item" href="/">Blacklist IP</a>
-										<a class="dropdown-item" href="/">See Form Permissions</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production"><cfset href = "/Admin/form_roles.cfm"><cfelse><cfset href=""></cfif>
+											<a class="dropdown-item" href="#href#">Form Permissions</a>
+											<cfif targetMenu EQ "production"><cfset href = "/tools/uncontrolledPages.cfm"><cfelse><cfset href=""></cfif>
+											<a class="dropdown-item" href="#href#">See Form Permissions</a>
+											<cfif targetMenu EQ "production"><cfset href = "/Admin/blacklist.cfm"><cfelse><cfset href=""></cfif>
+											<a class="dropdown-item" href="#href#">Blacklist</a>
+										</cfif>
 										<a class="dropdown-item" href="/">Database roles</a>
 										<a class="dropdown-item" href="/">Oracle roles</a>
 										<a class="dropdown-item" href="/">User Loan</a>
