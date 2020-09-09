@@ -246,12 +246,15 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-	<main class="container py-3" id="content" role="main">
+	<main class="container" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
-						<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 					</h1>
-				<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
+		<section class="row border rounded my-2">
+				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
+				
+					<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
 					<cfif len(getTaxa.taxonid) GT 0>
 						<cfset hasTaxonID = true>
 						<cfelse>
@@ -261,10 +264,6 @@ limitations under the License.
 					<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
-		<section class="row border rounded my-2">
-				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
-				
-			
 			
 		
 					<div class="tInput form-row mx-2 my-1">
