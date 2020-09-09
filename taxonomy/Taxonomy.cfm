@@ -246,8 +246,8 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-			<main class="container" id="content" role="main">
-			<section class="row border rounded my-2">
+	<main class="container" id="content" role="main">
+		<section class="row border rounded my-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
@@ -260,13 +260,14 @@ limitations under the License.
 						<cfset hasTaxonID = false>
 					</cfif>
 					<span>
-					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+					<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
 			
 		
 					<div class="tInput form-row mx-2 my-1">
-						<div class="col-12 col-sm-3"><!---some devices (under @media < 991px need 4 columns)--->
+						<div class="col-12 col-sm-3">
+							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 							<input type="hidden" id="method" name="method" value="saveTaxonomy" >
 							<label for="source_authority">Source
@@ -794,25 +795,26 @@ limitations under the License.
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
 				</form>
 				</section>
-				<section class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish">
+		<section class="row">
+				<div class="col-12 mt-3 mb-5 px-0 border rounded px-2 pb-2 bg-grayish">
 					 <div class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
-								<div class="col-12 px-0">
-									<h4 class="mt-0 mb-1">Related Publications</h4>
-									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
-									<span>
-										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
-										<form name="newPubForm" id="newPubForm">
-											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
-												<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
-											</div>
-									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-									<input type="hidden" name="method" value="newTaxonPub">
-									<input type="hidden" name="publication_id" id="publication_id">
-										</form>
-									</span>
-								</div>
-								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
+							<div class="col-12 px-0">
+								<h4 class="mt-0 mb-1">Related Publications</h4>
+								<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
+								<span>
+									<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
+									<form name="newPubForm" id="newPubForm">
+										<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
+											<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
+										</div>
+								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+								<input type="hidden" name="method" value="newTaxonPub">
+								<input type="hidden" name="publication_id" id="publication_id">
+									</form>
+								</span>
+							</div>
+							<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 						</div>
 					 </div>
 						<script>
@@ -902,9 +904,9 @@ limitations under the License.
 							select common_name 
 							from common_name 
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					</cfquery>
+						</cfquery>
 					<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
-							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 						<h4 class="mt-0">Common Names</h4>
 						<cfset i=1>
 						<cfloop query="common">
@@ -951,24 +953,24 @@ limitations under the License.
 							</div>
 						</form>
 						<cfset i=i+1>
-					</cfloop>
+						</cfloop>
 						<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
-					<input type="hidden" name="action" value="newhabitat">
-					<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-					<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
-					<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
-					<cfloop query="cttaxon_habitat">
-						<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
-							<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
-						</cfif>
-					</cfloop>
-					</select>
-					<input type="submit" value="Add" class="btn-xs btn-secondary m-1 float-left">
-				</form>
-						</div>
+							<input type="hidden" name="action" value="newhabitat">
+							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+							<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
+							<cfloop query="cttaxon_habitat">
+								<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
+									<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
+								</cfif>
+							</cfloop>
+							</select>
+							<input type="submit" value="Add" class="btn-xs btn-secondary m-1 float-left">
+						</form>
 					</div>
-				</section>
+				</div>
 			</div>
+		</section>
 		</main>
 </cfoutput>
 </cfif>
