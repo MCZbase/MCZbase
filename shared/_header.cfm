@@ -196,6 +196,7 @@ limitations under the License.
 		must point to files present on production while the redesign menu points at their replacements in redesign
 	--->
 	<cfif isdefined("Application.header_image")>
+		<!---  TODO:  work the decisions in this block into the menu below, just have one menu that decides on menu item targets by server --->
 		<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="##navbarToggler1" aria-controls="navbarToggler1"
