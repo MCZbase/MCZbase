@@ -1492,13 +1492,14 @@ textarea {
 	display: inline;
 	list-style: none;
 }
-.fas-info {
+/*i.fas-info {
 	position: absolute;
 	right: 9px;
 	top: 3px;
 	color: #46a1dc;
 	color: #036ee0 !important;
-}
+}*/
+i.fas {color:#036ee0 !important;}
 .fas-info2 {
 	position: absolute;
 	right: 35px;

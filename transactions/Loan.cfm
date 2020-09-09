@@ -616,7 +616,7 @@ limitations under the License.
 				<cftry>
 					<h1 class="h2 mt-3 mb-0">Edit Loan 
 						<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
-						<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
+						<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 					</h1>
 					<section title="Edit Loan" class="row border rounded my-2">
 						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
