@@ -190,116 +190,45 @@ limitations under the License.
 	</div>
 	</noscript>
 	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
-	<!--- display turned on with javascript below ---> 
-	<!---	
-		Test for Application.header_image is required for continued integration, as the production menu
-		must point to files present on production while the redesign menu points at their replacements in redesign
-	--->
-	<cfif isdefined("Application.header_image")>
-		<!---  TODO:  work the decisions in this block into the menu below, just have one menu that decides on menu item targets by server --->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_nav">
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-					data-target="##navbarToggler1" aria-controls="navbarToggler1"
-					aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
-					
-					<!---  Redesign menu for integration on production --->
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Search </a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/SpecimenSearch.cfm">Specimen Search</a> 
-							<!---old---><a class="dropdown-item" aria-label="media search" name="media" href="/MediaSearch.cfm">Media</a> 
-							<!---old---><a class="dropdown-item" aria-label="locations search" name="locations" href="/showLocality.cfm">Locations</a> 
-							<!---old---><a class="dropdown-item" aria-label="publication search" name="publications" href="/SpecimenUsage.cfm">Publications</a>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<!---old---><a class="dropdown-item" aria-label="agent search" name="agents" href="/agents.cfm">Agents</a>
-							</cfif>
-							<!---old---><a class="dropdown-item" aria-label="taxonomy search" name="taxonomy" href="/TaxonomySearch.cfm">Taxonomy</a> </div>
-					</li>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Data Entry </a>
-							<div class="dropdown-menu pl-5 pl-xl-0" aria-labelledby="navbarDropdownMenuLink2"> 
-								<!---old---><a class="dropdown-item <cfif pageTitle EQ 'Data Entry'>active </cfif>" name="enter a record" href="/DataEntry.cfm">Enter a Record</a> </div>
-						</li>
-					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Manage Data </a>
-							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink3">
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-									<a class="dropdown-item" name="named collections" href="/grouping/NamedCollection.cfm">Named Collections</a> <a class="dropdown-item" name="named collections" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
-								</cfif>
-							</div>
-						</li>
-					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Transactions </a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4"> <a class="dropdown-item <cfif pageTitle EQ "Search Transactions">active </cfif>" name="find transactions" href="/Transactions.cfm">Find Transactions</a> 
-								<!---old---><a class="dropdown-item" name="accessions" href="/editAccn.cfm">Find Accessions</a> 
-								<!---old---><a class="dropdown-item" name="accessions" href="/newAccn.cfm">New Accession</a> <a class="dropdown-item <cfif pageTitle EQ "Find Loans">active </cfif>" name="find loans" href="/Transactions.cfm?action=findLoans">Find Loans</a> 
-								<!---old---><a class="dropdown-item <cfif pageTitle EQ "Create New Loan">active </cfif>" name="create new loan" href="/Loan.cfm?action=newLoan">New Loan</a> 
-								<!---old---><a class="dropdown-item" name="deaccessions" href="/Deaccession.cfm?action=search">Deaccessions</a> 
-								<!---old---><a class="dropdown-item" name="borrows" href="/Borrow.cfm">Borrows</a> 
-								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm">Find Permits</a> 
-								<!---old---><a class="dropdown-item" name="permits" href="/Permit.cfm?action=newPermit">New Permit</a> </div>
-						</li>
-					</cfif>
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLink5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Help </a>
-						<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLink5">
-							<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" name="MCZbase Wiki" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a> <a class="dropdown-item" name="Controlled Vocabularies" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-							</cfif>
-							<a class="dropdown-item" name="about MCZbase" href="https://mcz.harvard.edu/database">About MCZbase</a> </div>
-					</li>
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="##" id="navbarDropdownMenuLinka" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Account
-							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
-								<i class="fas fa-user-check color-green"></i>
-								<cfelse>
-								<i class="fas fa-user-cog text-body"></i>
-							</cfif>
-							</a>
-							<div class="dropdown-menu pl-5 pl-lg-0" aria-labelledby="navbarDropdownMenuLinka">
-								<cfif session.roles contains "coldfusion_user">
-									<form name="profile" method="post" action="/UserProfile.cfm">
-										<input type="hidden" name="action" value="nothing">
-										<input type="submit" aria-label="Search" value="User Profile" class="anchor-button form-control mr-sm-0 my-0" placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
-									</form>
-								</cfif>
-								<cfif session.roles contains "public">
-									<a class="dropdown-item pl-3" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-								</cfif>
-							</div>
-						</li>
-					</cfif>
-				</ul>
-				<ul class="navbar-nav ml-auto">
-		<!--- nav and div navbar_top_level_div and ul with ml-auto are closed after the end of the cfif block--->
-	<cfelse>
+		<!--- display turned on with javascript below ---> 
+		<!---	
+			Test for Application.header_image is required for continued integration, as the production menu
+			must point to files present on production while the redesign menu points at their replacements in redesign
+		--->
+		<cfif isdefined("Application.header_image")>
+			<cfset targetMenu = "production">
+		<cfelse>
+			<cfset targetMenu = "redesign">
+		</cfif>
 		<script>
-				// Keyboard shortcut for Search
-				document.addEventListener ("keydown", function (evt) {
-					if (evt.altKey && evt.key === "m") {  
-						evt.preventDefault();
-						evt.stopPropagation();
-						$('##searchDropdown').click();	
-						$('##specimenMenuItem').focus();	
-						return false;
-					}
-				});
-				
-				// This toggleDropdown function removes the click to stick the menu dropdown behavior
-				function toggleDropdown (e) {
-  					const _d = $(e.target).closest('.dropdown'),
-    				_m = $('.dropdown-menu', _d);
-  					setTimeout(function(){
-    					const shouldOpen = e.type !== 'click' && _d.is(':hover');
-    					_m.toggleClass('show', shouldOpen);
-    					_d.toggleClass('show', shouldOpen);
-    				$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
-  					}, e.type === 'mouseleave' ? 100 : 0);
+			// Keyboard shortcut for Search
+			document.addEventListener ("keydown", function (evt) {
+				if (evt.altKey && evt.key === "m") {  
+					evt.preventDefault();
+					evt.stopPropagation();
+					$('##searchDropdown').click();	
+					$('##specimenMenuItem').focus();	
+					return false;
 				}
-				$('body')
-  					.on('mouseenter mouseleave','.dropdown',toggleDropdown)
-  					.on('click', '.dropdown-menu a', toggleDropdown);
+			});
+				
+			// This toggleDropdown function removes the click to stick the menu dropdown behavior
+			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
+			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
+			// need to rewrite.
+			function toggleDropdown (e) {
+				const _d = $(e.target).closest('.dropdown'),
+				_m = $('.dropdown-menu', _d);
+				setTimeout(function(){
+					const shouldOpen = e.type !== 'click' && _d.is(':hover');
+					_m.toggleClass('show', shouldOpen);
+					_d.toggleClass('show', shouldOpen);
+					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+				}, e.type === 'mouseleave' ? 100 : 0);
+			}
+			$('body')
+				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
+				.on('click', '.dropdown-menu a', toggleDropdown);
 		</script>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -309,10 +238,19 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 
-								<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimen Details</a> 
-								<a class="dropdown-item" href="">Browse Specimens By Category</a>
-								<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
-								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
+								<cfif targetMenu EQ "production"><cfset href = "/SpecimenSearch.cfm"><cfelse><cfset href="/Specimens.cfm"></cfif>
+								<a class="dropdown-item" id="specimenMenuItem" href="#href#">Specimen Details</a> 
+								<cfif targetMenu EQ "redesign">
+									<a class="dropdown-item" href="">Browse Specimens By Category</a>
+								</cfif>
+								<cfif targetMenu EQ "production"><cfset href = "/MediaSearch.cfm"><cfelse><cfset href=""></cfif>
+								<a class="dropdown-item" href="#href#">Media</a><!--- old --->
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a>
+									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy (new)</a>
+								</cfelse>
+									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
+								</cfif>
 								<a class="dropdown-item" href="">Geography</a>
 								<a class="dropdown-item" href="">Geology</a>
 								<a class="dropdown-item" href="">Localities</a>
@@ -457,19 +395,28 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Accessions</a> 
-										<a class="dropdown-item" href="/Borrow.cfm">Borrows</a><!--- old --->
-										<a class="dropdown-item" href="/media.cfm?action=newMedia">Deaccessions</a> 
-										<a class="dropdown-item" href="/Publication.cfm?action=newPub">Loans</a> 
-										<a class="dropdown-item" href="/DataEntry.cfm">Permissions &amp; Rights</a> 
+										<cfif targetMenu EQ "production"><cfset href = "/editAccn.cfm"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Accessions</a> 
+										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
+										<cfif targetMenu EQ "production"><cfset href = "/Borrow.cfm"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Borrows</a><!--- old --->
+										<cfif targetMenu EQ "production"><cfset href = "/Deaccession.cfm"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Deaccessions</a> 
+										<cfif targetMenu EQ "production"><cfset href = "/Permit.cfm"><cfelse><cfset href="/transactions/Permit.cfm"></cfif>
+										<a class="dropdown-item" href="#href#">Permissions &amp; Rights</a> 
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<a class="dropdown-item" href="">Accession</a>
-										<a class="dropdown-item" href="">Borrow</a>
-										<a class="dropdown-item" href="/Bulkloader/">Deaccession</a> 
-										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Loan</a>
-										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Permissions &amp; Rights</a> 
+										<cfif targetMenu EQ "production"><cfset href = "/addAccn.cfm"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Accession</a>
+										<cfif targetMenu EQ "production"><cfset href = "/Loan.cfm?action=newLoan"><cfelse><cfset href="/transactions/Loan.cfm?action=newLoan"></cfif>
+										<a class="dropdown-item" href="#href#">Loan</a>
+										<cfif targetMenu EQ "production"><cfset href = "/Deaccession.cfm?action=newDeacc"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Deaccession</a> 
+										<cfif targetMenu EQ "production"><cfset href = "/Borrow.cfm?action=new"><cfelse><cfset href=""></cfif>
+										<a class="dropdown-item" href="#href#">Borrow</a>
+										<cfif targetMenu EQ "production"><cfset href = "/Permit.cfm"><cfelse><cfset href="/transactions/Permit.cfm?action=new"></cfif>
+										<a class="dropdown-item" href="#href#">Permissions &amp; Rights</a> 
 									</div>
 								</li>
 							</ul>
@@ -570,8 +517,6 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-		<!--- nav and div navbar_top_level_div and ul for ml-auto are closed after this block --->
-	</cfif>
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 							<input type="hidden" name="action" value="signOut">
