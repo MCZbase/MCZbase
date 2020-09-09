@@ -263,10 +263,6 @@ limitations under the License.
 					</span>
 		<section class="row border rounded my-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
-				
-			
-			
-		
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-3">
 							<!---some devices (under @media < 991px need 4 columns)--->
@@ -277,7 +273,7 @@ limitations under the License.
 									(#getTaxa.source_authority#)
 								</cfif>
 							</label>
-							<select name="source_authority" id="source_authority" size="1" class="reqdClr custom-select data-entry-select" required>
+							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
@@ -289,14 +285,14 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="valid_catalog_term_fg"><span>ValidForCatalog?</span></label>
-							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select" required>
+							<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select" required>
 								<option <cfif getTaxa.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 								<option <cfif getTaxa.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 							</select>
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="nomenclatural_code"><span>Nomenclatural Code</span></label>
-							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr custom-select data-entry-select" required>
+							<select name="nomenclatural_code" id="nomenclatural_code" size="1" class="reqdClr data-entry-select" required>
 								<cfloop query="ctnomenclatural_code">
 									<option <cfif gettaxa.nomenclatural_code is ctnomenclatural_code.nomenclatural_code> selected="selected" </cfif>
 										value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
@@ -315,8 +311,8 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="form-row col-12 mb-2">
-						<div class="col-12 col-md-6 border bg-light row pb-2 ml-0 pr-0 pt-1 rounded mt-2 pl-2">
+					<div class="row my-2">
+						<div class="col-12 col-md-6 border bg-light pb-2 pt-1 rounded mt-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
