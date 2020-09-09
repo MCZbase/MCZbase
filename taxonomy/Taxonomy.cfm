@@ -246,10 +246,9 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 <cfoutput>
-			<main class="container">
-			<div class="row no-gutters" id="content">
-				<section class="col-12 mb-3 px-0">
-					<div class="m-3">
+			<main class="container" id="content" role="main">
+			<section class="row border rounded my-2">
+				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 						<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 						<i class="fas fas-info fa-info-circle mr-2" style="top:0!important;" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -264,8 +263,8 @@ limitations under the License.
 					<a class="btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
-				</div>
-				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form" class="w-100 pb-1 float-left border rounded">
+			
+		
 					<div class="tInput form-row mx-2 my-1">
 						<div class="col-12 col-sm-3"><!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
