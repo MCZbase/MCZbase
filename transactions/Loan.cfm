@@ -859,7 +859,7 @@ limitations under the License.
 							<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info"
 								onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 						</div>
-						<div class="col-12 my-2">
+						<div class="col-12 mt-2 mb-3">
 							<div id="loanItemCountDiv"></div>
 							<script>
 								$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
