@@ -945,7 +945,7 @@ table.inputTable tr {
 }
 .tab-card-header > .nav-tabs > li > a.active {
 	background-color: #f8f9fa;
-/*	border-bottom: 2px solid #f8f9fa;*/
+	border-bottom: 2px solid #f8f9fa;
 	outline:0;
 }
 .tab-card-header > .nav-tabs > li > a {
@@ -963,7 +963,7 @@ table.inputTable tr {
 .tab-card-header > .nav-tabs > li > a {
 	color: #3E657D !important;
 	font-weight: 555;
-	border: 2px solid #3e657D;
+	border-bottom: 1px solid #3e657D;
 }
 .tab-card-header > .nav-tabs > li > a.show {
 	border-bottom: 2px solid #3E657D;
