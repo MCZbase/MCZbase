@@ -636,7 +636,7 @@ limitations under the License.
 							<div class="form-row mb-1">
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label" for="collection_id">Department</label>
-									<select name="collection_id" id="collection_id" size="1" class="reqdClr form-control data-entry-select" required >
+									<select name="collection_id" id="collection_id" size="1" class="reqdClr data-entry-select" required >
 										<cfloop query="ctcollection">
 											<option <cfif ctcollection.collection_id is loanDetails.collection_id> selected </cfif>
 												value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -645,12 +645,12 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-md-3">
 									<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-									<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr form-control data-entry-input" 
+									<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr data-entry-input" 
 										required  pattern="#LOANNUMBERPATTERN#"  >
 								</div>
 								<div class="col-12 col-md-3">
 									<label for="loan_type" class="data-entry-label">Loan Type</label>
-									<select name="loan_type" id="loan_type" class="reqdClr form-control data-entry-select" required >
+									<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
 										<cfloop query="ctLoanType">
 											<cfif ctLoanType.loan_type NEQ "transfer" OR loanDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
 												<option <cfif ctLoanType.loan_type is loanDetails.loan_type> selected="selected" </cfif>
@@ -671,7 +671,7 @@ limitations under the License.
 								<div class="col-12 col-md-3">
 									<label for="loan_status" class="data-entry-label">Loan Status</label>
 									<span>
-										<select name="loan_status" id="loan_status" class="reqdClr form-control data-entry-select" required >
+										<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
 											<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
 											<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
 											<cfloop query="ctLoanStatus">
