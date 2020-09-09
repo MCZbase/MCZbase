@@ -196,11 +196,11 @@ limitations under the License.
 		must point to files present on production while the redesign menu points at their replacements in redesign
 	--->
 	<cfif isdefined("Application.header_image")>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="##navbarToggler1" aria-controls="navbarToggler1"
 					aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-			<div class="collapse navbar-collapse" id="navbarToggler1">
+			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 				<ul class="navbar-nav mr-auto mt-0 mt-lg-0">
 					
 					<!---  Redesign menu for integration on production --->
@@ -270,9 +270,8 @@ limitations under the License.
 						</li>
 					</cfif>
 				</ul>
-			</div>
-		</nav>
-		<cfelse>
+		<!--- nav and div navbar_top_level_div are closed after the end of the cfif block--->
+	<cfelse>
 		<script>
 				// Keyboard shortcut for Search
 				document.addEventListener ("keydown", function (evt) {
@@ -299,10 +298,10 @@ limitations under the License.
 				$('body')
   					.on('mouseenter mouseleave','.dropdown',toggleDropdown)
   					.on('click', '.dropdown-menu a', toggleDropdown);
-			</script>
+		</script>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##menuTest1" aria-controls="menuTest1" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
-			<div class="collapse navbar-collapse" id="menuTest1">
+			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 				<ul class="navbar-nav nav-fill mr-auto">
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
@@ -568,49 +567,50 @@ limitations under the License.
 					</li>
 				</cfif>
 				</ul>
-			</div>
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-					<input type="hidden" name="action" value="signOut">
-					<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
-					<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
-						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
-					</cfif>
-					</button>
-				</form>
-				<cfelse>
-				<cfif isdefined("gotopage") and len(gotopage) GT 0>
-					<cfset gtp = gotopage>
+		<!--- nav and div navbar_top_level_div are closed after this block --->
+	</cfif>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
+					<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+						<input type="hidden" name="action" value="signOut">
+						<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
+						<cfif isdefined("session.last_login") and len(#session.last_login#)gt 0>
+							<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy, hh:mm")#)</small>
+						</cfif>
+						</button>
+					</form>
 					<cfelse>
-					<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
-						<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
+					<cfif isdefined("gotopage") and len(gotopage) GT 0>
+						<cfset gtp = gotopage>
 						<cfelse>
-						<cfset requestData = #GetHttpRequestData()#>
-						<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
-							<cfset gtp=requestData.headers.referer>
+						<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
+							<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 							<cfelse>
-							<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+							<cfset requestData = #GetHttpRequestData()#>
+							<cfif isdefined("requestData.headers.referer") and len(requestData.headers.referer) gt 0>
+								<cfset gtp=requestData.headers.referer>
+								<cfelse>
+								<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
+							</cfif>
 						</cfif>
 					</cfif>
+					<cfif gtp EQ '/errors/forbidden.cfm'>
+						<cfset gtp = "/UserProfile.cfm">
+					</cfif>
+					<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+						<input type="hidden" name="action" value="signIn">
+						<input type="hidden" name="gotopage" value="#gtp#">
+						<div class="login-form" id="header_login_form_div">
+							<label for="username" class="sr-only"> Username:</label>
+							<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+							<label for="password" class="mr-1 sr-only"> Password:</label>
+							<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+							<label for="login" class="mr-1 sr-only"> Password:</label>
+							<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+							<label for="create_account" class="mr-1 sr-only"> Password:</label>
+							<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+						</div>
+					</form>
 				</cfif>
-				<cfif gtp EQ '/errors/forbidden.cfm'>
-					<cfset gtp = "/UserProfile.cfm">
-				</cfif>
-				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
-					<input type="hidden" name="action" value="signIn">
-					<input type="hidden" name="gotopage" value="#gtp#">
-					<div class="login-form" id="header_login_form_div">
-						<label for="username" class="sr-only"> Username:</label>
-						<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
-						<label for="password" class="mr-1 sr-only"> Password:</label>
-						<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
-						<label for="login" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-						<label for="create_account" class="mr-1 sr-only"> Password:</label>
-						<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-					</div>
-				</form>
-			</cfif>
 			</div>
 		</nav>
 	</cfif>
