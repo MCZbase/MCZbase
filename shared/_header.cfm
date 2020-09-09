@@ -341,6 +341,7 @@ limitations under the License.
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
 											<a class="dropdown-item" href="/agents.cfm">Agent</a> 
+										</cfif>
 										</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a> 
@@ -616,7 +617,6 @@ limitations under the License.
 				</ul>
 			</div>
 		</nav>
-	</cfif>
 	</div>
 	<!-- container //  --> 
 	<script>
