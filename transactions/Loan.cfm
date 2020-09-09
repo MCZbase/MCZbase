@@ -628,7 +628,7 @@ limitations under the License.
 									$('##saveResultDiv').removeClass('text-warning');
 								};
 							</script>
-							<h2 class="wikilink mt-1 mb-0">
+							<h2 class="mt-3 mb-0">
 								Edit Loan 
 								<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
