@@ -521,6 +521,10 @@ limitations under the License.
 					<cfelse>
 						AND upper(issued_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
 					</cfif>
+				<cfelse>
+					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
+						AND issued_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+					</cfif>
 				</cfif>
 				<cfif isdefined("renewed_date") AND len(#renewed_date#) gt 0>
 					<cfif len(#renewed_date#) EQ 4>
@@ -539,6 +543,10 @@ limitations under the License.
 					<cfelse>
 						AND upper(renewed_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
 					</cfif>
+				<cfelse>
+					<cfif isdefined("renewed_until_date") AND len(#renewed_until_date#) gt 0>
+						AND renewed_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+					</cfif>
 				</cfif>
 				<cfif isdefined("exp_date") AND len(#exp_date#) gt 0>
 					<cfif len(#exp_date#) EQ 4>
@@ -556,6 +564,10 @@ limitations under the License.
 							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
 					<cfelse>
 						AND upper(exp_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
+					</cfif>
+				<cfelse>
+					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
+						AND exp_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
 					</cfif>
 				</cfif>
 				<cfif isdefined("permit_Num") AND len(#permit_Num#) gt 0>
