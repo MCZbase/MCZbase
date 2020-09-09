@@ -849,7 +849,7 @@ limitations under the License.
 						</form>
 					</section>
 					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan">
-						<div class="col-12 my-2">
+						<div class="col-12 py-2">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary"
@@ -859,7 +859,7 @@ limitations under the License.
 							<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info"
 								onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 						</div>
-						<div class="col-12 mt-2 mb-3">
+						<div class="col-12 pt-2 pb-3">
 							<div id="loanItemCountDiv"></div>
 							<script>
 								$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
