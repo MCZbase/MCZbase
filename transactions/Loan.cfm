@@ -611,7 +611,7 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<main class="container py-3">
+		<main class="container">
 			<!--- div class="row" --->
 				<cftry>
 					<section title="Edit Loan" class="row border rounded my-2">
