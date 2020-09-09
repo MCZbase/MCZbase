@@ -156,7 +156,7 @@ label {
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
-	border: 1px solid #bac5c6 !important;
+/*	border: 1px solid #bac5c6 !important;*/
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
@@ -945,7 +945,7 @@ table.inputTable tr {
 }
 .tab-card-header > .nav-tabs > li > a.active {
 	background-color: #f8f9fa;
-	border-bottom: 2px solid #f8f9fa;
+	border-bottom: 1px solid #f8f9fa;
 	outline:0;
 }
 .tab-card-header > .nav-tabs > li > a {
