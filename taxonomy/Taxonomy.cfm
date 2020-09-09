@@ -263,7 +263,7 @@ limitations under the License.
 					</span>
 		<section class="row border rounded my-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
-					<div class="tInput form-row mx-2 my-1">
+					<div class="tInput row my-1">
 						<div class="col-12 col-sm-3">
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
