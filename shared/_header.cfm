@@ -445,14 +445,15 @@ limitations under the License.
 					</li>
 				</cfif>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
               		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-						<li>
-							  <div class="dropdown-divider"></div>
+							<li>
+								<div class="dropdown-divider"></div>
 								<li class="d-md-flex align-items-start justify-content-start">		
 								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-									<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a></li>
+									<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
 									<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Accessions</a> 
 									<a class="dropdown-item" href="/Borrow.cfm">Borrows</a><!--- old --->
 									<a class="dropdown-item" href="/media.cfm?action=newMedia">Deaccessions</a> 
@@ -529,7 +530,9 @@ limitations under the License.
 				</cfif>
 				<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
-						<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+							<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+						</cfif>
 						<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 						<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
 						<a class="dropdown-item" href="/">API</a>
