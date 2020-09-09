@@ -329,7 +329,7 @@ limitations under the License.
 										<div class="row mx-2">
 											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 											<div class="col-12 col-xl-3">
-												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
+												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 												<fieldset>
 													<legend class="text-transparent">Accepted Names?</legend>
 													<input type="hidden" name="action" value="search">
@@ -361,7 +361,7 @@ limitations under the License.
 													</li>
 												</ul>
 												</fieldset>
-													<p class="smaller-text mt-3" tabindex="0">Not all taxa in MCZbase have associated specimens.</p>
+												
 												<fieldset>
 													<legend>Specimens?</legend>
 													<ul class="list-group list-group-flush p-2 bg-light border rounded">
