@@ -321,6 +321,7 @@ limitations under the License.
 							<a class="dropdown-item" href="">Projects</a> 
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old --->
+							</cfif>
 							</li>
 						 </li>
 					</ul>
