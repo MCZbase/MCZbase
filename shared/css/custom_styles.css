@@ -1577,6 +1577,8 @@ textarea {
 }
 .fas-info-circle, .fa-info-circle {
 	color: #036ee0 !important;
+	position: relative;
+	top:-8px;
 }
 /****************end small form fields*********************/
 /**********************************************************/
