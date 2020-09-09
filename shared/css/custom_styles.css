@@ -2,16 +2,19 @@
 /************************/
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
-	background-color: #E4E476!important;
+	background-color: #E4E476 !important;
 }
 input.badPick, select.badPick, textarea.badPick {
-	background-color: #FF3366!important;
+	background-color: #FF3366 !important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
-/*	background-color: #8BFEB9!important;*/
-	background-color: rgba(173,236,199,0.3)!important;
+	/*	background-color: #8BFEB9!important;*/
+	background-color: rgba(173, 236, 199, 0.3) !important;
 }
-#taxon_form label {font-size: .8em;line-height: 1.02em;}
+#taxon_form label {
+	font-size: .8em;
+	line-height: 1.02em;
+}
 /* BELOW: Are these used?  */
 /*form input.anchor-button {  
 	background-color: white;
@@ -28,27 +31,26 @@ form input.anchor-button:hover {
 	text-decoration: none;
 	background-color: #f8f9fa;
 }*/
- /*********************************************/
+/*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
 /*********************************************/
-.bg-lightgreen { 
+.bg-lightgreen {
 	background-color: #CAEAAD;
 }
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
-
 option:hover {
-    font-weight: normal;
-    display: block;
-    white-space: pre;
-    min-height: 1.2em;
-    padding: .25em .5em;
+	font-weight: normal;
+	display: block;
+	white-space: pre;
+	min-height: 1.2em;
+	padding: .25em .5em;
 	outline: #ccc auto 1px;
 }
 select:focus {
-    outline-offset: 0;
-	outline:0;
+	outline-offset: 0;
+	outline: 0;
 }
 h1, h2, h3, h4, h5, h6 {
 	line-height: 1.25;
@@ -69,7 +71,7 @@ legend {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: .25em;
-	color:transparent!important;
+	color: transparent !important;
 }
 [hidden] {
 	display: none;
@@ -92,14 +94,36 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem
 }
-.btn-link,.helpText, .fas-info {color: #036ee0 !important;}
-#resultLink a {padding: .15em .25em; outline:0;}
-#resultLink a.hover, #resultLink a:hover {padding: .15em .25em; outline:0;}
-#resultLink a.focus, #resultLink a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+.btn-link, .helpText, .fas-info {
+	color: #036ee0 !important;
+}
+#resultLink a {
+	padding: .15em .25em;
+	outline: 0;
+}
+#resultLink a.hover, #resultLink a:hover {
+	padding: .15em .25em;
+	outline: 0;
+}
+#resultLink a.focus, #resultLink a:focus {
+	padding: .15em .25em;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 /*.jqx-widget .jqx-grid-cell, .jqx-widget .jqx-grid-column-header, .jqx-widget .jqx-grid-group-cell {border-color: transparent;}*/
-.jqx-grid-cell-left-align a {padding: .15em .25em; outline:0;}
-.jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {padding: .15em .25em; outline:0;}
-.jqx-grid-cell-left-align a.focus, .jqx-grid-cell-left-align a:focus {padding:.15em .25em;	outline: 0;	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);}
+.jqx-grid-cell-left-align a {
+	padding: .15em .25em;
+	outline: 0;
+}
+.jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {
+	padding: .15em .25em;
+	outline: 0;
+}
+.jqx-grid-cell-left-align a.focus, .jqx-grid-cell-left-align a:focus {
+	padding: .15em .25em;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+}
 p {
 	margin-bottom: .75em;
 	line-height: normal;
@@ -124,7 +148,7 @@ p {
 	font-variant: small-caps;
 }
 .input-group-text-sm {
-	padding: .25em .5em!important;
+	padding: .25em .5em !important;
 }
 .input-group-text {
 	font-size: .7em;
@@ -143,7 +167,7 @@ p {
 	font-size: .87em !important;
 }*/
 .custom-form-input {
-height: calc(1em + .375rem + .5em);
+	height: calc(1em + .375rem + .5em);
 }
 .line-height-sm {
 	line-height: 1.15em;
@@ -156,7 +180,7 @@ label {
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
-/*	border: 1px solid #bac5c6 !important;*/
+	/*	border: 1px solid #bac5c6 !important;*/
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
@@ -167,7 +191,6 @@ label {
 .text-grayish {
 	color: #f5f5f5;
 }
-
 /*********************************/
 /* BELOW:    code for 3 searches */
 /*********************************/
@@ -194,9 +217,9 @@ BELOW: Small Form button (bootstrap override)
 	border-radius: .2rem;
 }
 .btn-info {
-    color: #fff;
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+	color: #fff;
+	background-color: #17a2b8;
+	border-color: #17a2b8;
 }
 .btn-outline-success {
 	color: #28a745;
@@ -245,8 +268,7 @@ span.data-entry-addon {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
-.show > .btn-primary.dropdown-toggle {
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
 	border: 1px solid hsl(0, 2%, 47%);
@@ -271,7 +293,6 @@ span.data-entry-addon {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-
 .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
 	background-color: #d7d7d7;
 	color: #212529;
@@ -304,7 +325,6 @@ span.data-entry-addon {
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
-
 .btn-warning:not(:disabled):not(.disabled):active, .btn-warning:not(:disabled):not(.disabled).active, .show > .btn-warning.dropdown-toggle {
 	background-color: #f5bd12ba;
 	color: #212529;
@@ -317,11 +337,21 @@ span.data-entry-addon {
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
 	box-shadow: none;
 }
-.jqx-grid-cell { border-width: 0px 1px 1px 1px;border-color: buttonface;}
-.jqx-grid-cell a { padding-left: .3em;}
-.jqx-grid-cell a.focus, .jqx-grid-cell a:focus {text-decoration: underline;	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
-	box-shadow: none;}
-.text-success {color:#1e5d16 !important;}
+.jqx-grid-cell {
+	border-width: 0px 1px 1px 1px;
+	border-color: buttonface;
+}
+.jqx-grid-cell a {
+	padding-left: .3em;
+}
+.jqx-grid-cell a.focus, .jqx-grid-cell a:focus {
+	text-decoration: underline;
+	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
+	box-shadow: none;
+}
+.text-success {
+	color: #1e5d16 !important;
+}
 .btn-danger {
 	background-color: #f8d7da;
 	background: #f8d7da;
@@ -330,7 +360,7 @@ span.data-entry-addon {
 	margin-top: 0;
 }
 .btn-primary.disabled, .btn-primary:disabled, .btn-secondary:disabled, .btn-secondary.disabled, .btn-warning.disabled, .btn-warning:disabled, .btn-danger.disabled, .btn-danger:disabled {
-	background-color: #d7d7d7;	
+	background-color: #d7d7d7;
 	color: #999;
 	border: 1px solid hsl(0, 2%, 47%);
 	box-shadow: 0 0 0 0.02rem rgba(255, 255, 255, 0.5);
@@ -338,7 +368,6 @@ span.data-entry-addon {
 }
 /*.btn-link,.helpText {color:#2f6eb1 !important;}
 .btn-link,.helpText {color:#046aa2 !important;}*/
-
 /************************
 *************************
 BELOW: SPECIMEN DETAIL STYLES 
@@ -777,7 +806,6 @@ code {
 #jqxDropDownList {
 	padding: .86em 0;
 }
-
 button.detail-edit-cell {
 	width: auto;
 	margin-top: -1.9em;
@@ -914,7 +942,6 @@ table.inputTable tr {
 	position: absolute;
 	left: 1.5em !important;
 }
-
 .tab-card-main {
 	background-color: #f9f9f9;
 }
@@ -946,7 +973,7 @@ table.inputTable tr {
 .tab-card-header > .nav-tabs > li > a.active {
 	background-color: #f8f9fa;
 	border-bottom: 1px solid #f8f9fa;
-	outline:0;
+	outline: 0;
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
@@ -1050,8 +1077,8 @@ table.inputTable tr {
 	border: 2px solid #3E6F7D;
 }
 .search-box-header {
-	background-color: #3e6f7d;	
-	padding: .15em 1em .1em 1.65em;	
+	background-color: #3e6f7d;
+	padding: .15em 1em .1em 1.65em;
 }
 ::-ms-clear {
 	display: none;
@@ -1214,7 +1241,7 @@ data-entry-select:after {
 	border: 6px solid #ccc;
 	background-color: #ccc !important;
 	border-color: white;
-	outline:0;
+	outline: 0;
 }
 #clear {
 	cursor: pointer;
@@ -1231,7 +1258,6 @@ data-entry-select:after {
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
-
 .data-entry-title {
 	font-weight: 500;
 	font-size: 15px;
@@ -1278,9 +1304,11 @@ select.data-entry-select option {
 	background-color: white !important;
 	color: rgba(0, 0, 0, .8);
 	padding: .25em .5em;
-	outline:0;
+	outline: 0;
 }
-select.data-entry-select option:focus {outline: 0;}
+select.data-entry-select option:focus {
+	outline: 0;
+}
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 450;
 	line-height: 1.5em;
@@ -1335,7 +1363,7 @@ select.data-entry-select {
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus,select.data-entry-select option:focus, select.data-entry-select option.focus, select.custom-select option:focus, select.custom-select option.focus  {
+select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus, select.data-entry-select option:focus, select.data-entry-select option.focus, select.custom-select option:focus, select.custom-select option.focus {
 	color: #495057;
 	background-color: #fff;
 	border-color: #ced4da;
@@ -1473,11 +1501,11 @@ textarea {
 }
 .infoLink {
 	cursor: pointer;
-	color:#3366cc;
-   text-decoration:underline;
+	color: #3366cc;
+	text-decoration: underline;
 }
 .infoLink:hover {
-   text-decoration:none;
+	text-decoration: none;
 	text-shadow: 1px 1px 1px #eee;
 }
 .shipments {
@@ -1499,7 +1527,6 @@ textarea {
 	color: #46a1dc;
 	color: #036ee0 !important;
 }*/
-i.fas, i.fa {color:#036ee0 !important;}
 .fas-info2 {
 	position: absolute;
 	right: 35px;
@@ -1509,41 +1536,47 @@ i.fas, i.fa {color:#036ee0 !important;}
 .nav-tabs .nav-item {
 	margin-bottom: -1px;
 }
-.jqx-grid-column-menubutton {border-left:0;}
-
-#columntablesearchResultsGrid .jqx-widget-header:nth-child(3){color: transparent!important;}
+.jqx-grid-column-menubutton {
+	border-left: 0;
+}
+#columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
+	color: transparent !important;
+}
 .custom-file-label {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    z-index: 1;
-  height: calc(1.5em + .5rem + 1px);
-    padding: .25rem .5rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    border-radius: .2rem;
-    font-weight: 400;
-    color: #495057;
-    background-color: #fff;
-    border: 1px solid #ced4da;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1;
+	height: calc(1.5em + .5rem + 1px);
+	padding: .25rem .5rem;
+	font-size: .875rem;
+	line-height: 1.5;
+	border-radius: .2rem;
+	font-weight: 400;
+	color: #495057;
+	background-color: #fff;
+	border: 1px solid #ced4da;
 }
 .custom-file-label::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 3;
-    display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 3;
+	display: block;
 	height: calc(1.5em + .5rem - 1px);
-    padding: .25rem .5rem;
-    font-size: .875rem;
-    line-height: 1.5;
-    color: #495057;
-    content: "Browse";
-    background-color: #e9ecef;
-    border-left: inherit;
-    border-radius: 0 .2rem .2rem 0;
+	padding: .25rem .5rem;
+	font-size: .875rem;
+	line-height: 1.5;
+	color: #495057;
+	content: "Browse";
+	background-color: #e9ecef;
+	border-left: inherit;
+	border-radius: 0 .2rem .2rem 0;
+}
+i.fas-info-circle, i.fa-info-circle {
+	color: #036ee0 !important;
 }
 /****************end small form fields*********************/
 /**********************************************************/
@@ -1679,15 +1712,15 @@ and also iPads specifically.
 		text-align: right;
 	}
 }
-@media (min-width: 1600px){
-	.container{
-	max-width: 1540px;
+@media (min-width: 1600px) {
+	.container {
+		max-width: 1540px;
+	}
 }
-}
-@media (min-width: 1800px){
-	.container{
-	max-width: 1600px;
-}
+@media (min-width: 1800px) {
+	.container {
+		max-width: 1600px;
+	}
 }
 /*@media (min-width: 768px){
 .container, .container-md, .container-sm {
