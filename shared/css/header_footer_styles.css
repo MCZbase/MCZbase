@@ -427,12 +427,6 @@ input#Password {
 	.file-os-file-medium {
 		max-width: 350px;
 	}
-	.login-form {
-		position:absolute;
-		top:2px;
-		right:.25em;
-		max-width:280px;
-	}
 	.logout {
 		padding: .1em .45em;
 		font-size: .83em;
@@ -444,9 +438,14 @@ input#Password {
 		letter-spacing: .02em;
 	}
 	.login-form {
+		position:absolute;
+		top:2px;
+		right:.25em;
+	}
+	.login-form {
 		position: absolute;
 		top: 2px;
-		right: 1em;
+		right: .5em;
 	}
 	.loginfld1 {
 		width:65px;
