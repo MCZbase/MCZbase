@@ -392,11 +392,11 @@ input#Password {
 	}
 	.logout {
 		padding: .1em .45em;
-		font-size: .83em;
+		font-size: .89em;
 		font-weight: bold;
 		position: absolute;
 		right: 1em;
-		top: 6px;
+		top: 5px;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
 	}
