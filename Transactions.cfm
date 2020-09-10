@@ -181,9 +181,9 @@ limitations under the License.
 	<!--- Search form --->
 	<div id="search-form-div" class="pb-3 px-3">
 		<div class="container-fluid">
-			<section id="content" role="search" class="row mx-0 mb-3">
-				<form class="col-12" id="searchForm" class="search-box" name="searchForm">
-					<h1 class="h3 smallcaps text-white" tabindex="0">Search Transactions <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+			<div class="row">
+				<div class="col-12">
+					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
 						
 						<!--- Set Active Tab --->
