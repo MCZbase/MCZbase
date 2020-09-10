@@ -7,13 +7,15 @@
 "permitUseReport">
 "saveChanges"> to backing method
 "createPermit"> to backing method
-"deletePermit"> to backing method
 --->
 	<cfcase value="search">
 		<cfset pageTitle = "Find Permissions/Rights Documents">
 	</cfcase>
-	<cfcase value="newPermit">
+	<cfcase value="new">
 		<cfset pagetitle = "New Permissions/Rights Document">
+	</cfcase>
+	<cfcase value="delete">
+		<cfset pagetitle = "Delete a Permissions/Rights Document">
 	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Find Permissions/Rights Documents">
@@ -78,7 +80,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<section role="search" aria-labelledby="formheading">
-								<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>>
+								<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
 								<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 								material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
 								</p>
@@ -428,7 +430,7 @@ limitations under the License.
 		</div><!--- overlay container --->
 	</cfcase>
 	<!--------------------------------------------------------------------------->
-	<cfcase value="newPermit">
+	<cfcase value="new">
 		<!--- TODO: Refactor from here --->
 
     <font size="+1"><strong>New Permissions &amp; Rights Document</strong></font>
@@ -538,7 +540,42 @@ limitations under the License.
 </cfcase>
 
 
+<cfcase value="delete">
+	<cfoutput>
+	<cftry>
+		<cfif NOT isdefined("permit_id") or len(permit_id) EQ 0)>
+			<cfthrow message="No permit_id provided to delete">
+		</cfif>
+		<!--- FK constraints will prevent deletion of a permit if a parent permit has children or a permit is in a permit_trans or permit_shipment relationship --->
+		<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			DELETE FROM permit 
+			WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+		</cfquery>
+		<section class="container">
+			<h1 class="h2">Permission and Rights Document deleted.....</h1>
+			<ul>
+				<li><a href="/transactions/Permit.cfm?action=search">Search for Permissions and Rights Documents</a>.</li>
+				<li><a href="/transactions/Permit.cfm?action=new">Create a New Permissions and Rights Document</a>.</li>
+			</ul>
+		</section>
+	<cfcatch>
+		<section class="container">
+			<div class="row">
+				<div class="alert alert-danger" role="alert">
+					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+					<h1 class="h2">Delete Failed</h1>
+					<p>Permits cannot be deleted if they are used in a shipment, in a transaction, or have child permits.</p>
+					<p>#cfcatch.message#</p>
+					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				</div>
+			</div>
+			<p><cfdump var=#cfcatch#></p>
+		</section>
+	</cfcatch>
+	</cftry>
+  </cfoutput>
 
+</cfcase>
 
 </cfswitch>
 
@@ -702,7 +739,7 @@ function opendialog(page,id,title) {
 
 				<input type="button" value="Delete" class="delBtn"
 				   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-				   onCLick="newPermit.Action.value='deletePermit';confirmDelete('newPermit');">
+				   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
 
                                 <input type="button" value="Permit Report" class="lnkBtn"
                                     onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
@@ -1319,12 +1356,3 @@ VALUES (
   </cfoutput>
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
-<cfif #Action# is "deletePermit">
-<cfoutput>
-<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-DELETE FROM permit WHERE permit_id = #permit_id#
-</cfquery>
-
-	<cflocation url="Permit.cfm">
-  </cfoutput>
-</cfif>
