@@ -439,14 +439,17 @@ input#Password {
 	}
 }
 @media(max-width:414px) {
-		.login-form {
-		width: 265px;
+nav.navbar{
+	padding: 0 .5em;
+    font-size: .9em;
+}
+.login-form {
+	width: 265px;
 	}
-		.loginfld1 {
-		width:65px;
+.loginfld1 {
+	width:55px;
 	}
-	.loginfld2 {
-		width: 60px;
+.loginfld2 {
+	width: 55px;
 	}
-
 }
