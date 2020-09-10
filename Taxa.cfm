@@ -389,109 +389,109 @@ limitations under the License.
 								</div>
 								<div class="form-row bg-light border rounded p-2 mx-0">
 									<div class="col-md-4">
-										<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
+										<label for="scientific_name" class="data-entry-label align-left">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
 										<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name equals">
 									</div>
 									<div class="col-md-4">
-										<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
+										<label for="full_taxon_name" class="data-entry-label align-left">Any part of name or classification</label>
 										<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 									</div>
 									<div class="col-md-4">
-										<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
+										<label for="common_name" class="data-entry-label align-left">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" aria-labelledby="common_name equals" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
 									</div>
 								</div>
 								<div class="form-row mt-2">
 									<div class="form-group col-md-2">
-										<label for="genus" class="data-entry-label align-left-center">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
+										<label for="genus" class="data-entry-label align-left">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
 										<input type="text" class="data-entry-input" aria-labelledby="genus equals" id="genus" name="genus" value="#genus#" placeholder="generic name">
 									</div>
 									<div class="col-md-2">
-										<label for="subgenus" class="data-entry-label align-left-center">Subgenus <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </a></label>
+										<label for="subgenus" class="data-entry-label align-left">Subgenus <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="subgenus" aria-labelledby="subgenus equals" name="subgenus" value="#subgenus#" placeholder="subgenus">
 									</div>
 									<div class="form-group col-md-2">
-										<label for="species" class="data-entry-label align-left-center">Species <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</a> </label>
+										<label for="species" class="data-entry-label align-left">Species <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</a> </label>
 										<input type="text" class="data-entry-input" id="species" aria-labelledby="species equals" name="species" value="#species#" placeholder="specific name">
 									</div>
 									<div class="form-group col-md-2">
-										<label for="subspecies" class="data-entry-label align-left-center">Subspecies <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </a></label>
+										<label for="subspecies" class="data-entry-label align-left">Subspecies <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="subspecies" name="subspecies" aria-labelledby="subspecies equals" value="#subspecies#" placeholder="subspecific name">
 									</div>
 									<div class="col-md-2">
-										<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
+										<label for="author_text" class="data-entry-label align-left">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
 										<input type="text" class="data-entry-input" id="author_text" name="author_text" aria-labelledby="author_text equals" value="#author_text#" placeholder="author text">
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-md-2">
-										<label for="kingdom" class="data-entry-label align-left-center">Kingdom <a href="##" aria-hidden="true" tabindex="-1"  class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </a></label>
+										<label for="kingdom" class="data-entry-label align-left">Kingdom <a href="##" aria-hidden="true" tabindex="-1"  class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </a></label>
 										<input type="text" class="data-entry-input" id="kingdom" aria-labelledby="kingdom equals" name="kingdom" value="#kingdom#" placeholder="kingdom">
 									</div>
 									<div class="col-md-2">
-										<label for="phylum" class="data-entry-label align-left-center">Phylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </a></label>
+										<label for="phylum" class="data-entry-label align-left">Phylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="phylum" name="phylum" aria-labelledby="phylum equals" value="#phylum#" placeholder="phylum">
 									</div>
 									<div class="col-md-2">
-										<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
+										<label for="subphylum" class="data-entry-label align-left">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
 										<input type="small" class="data-entry-input" id="subphylum" name="subphylum" aria-labelledby="subphylum equals" value="#subphylum#" placeholder="subphylum">
 									</div>
 									<div class="col-md-2">
-										<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
+										<label for="superclass" class="data-entry-label align-left">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
 										<input type="small" class="data-entry-input" id="superclass" aria-labelledby="superclass equals" name="superclass" value="#superclass#" placeholder="superclass">
 									</div>
 									<div class="col-md-2">
-										<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
+										<label for="phylclass" class="data-entry-label align-left">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="phylclass" name="phylclass" aria-labelledby="phylclass equals" value="#phylclass#" placeholder="class">
 									</div>
 									<div class="col-md-2">
-										<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
+										<label for="subclass" class="data-entry-label align-left">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
 										<input type="text" class="data-entry-input" id="subclass" id="subclass" aria-labelledby="subclass equals" name="subclass" value="#subclass#" placeholder="subclass">
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-md-2">
-										<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
+										<label for="superorder" class="data-entry-label align-left">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
 										<input type="text" class="data-entry-input" id="superorder" name="superorder" aria-labelledby="superorder equals" value="#superorder#" placeholder="superorder">
 									</div>
 									<div class="col-md-2">
-										<label for="phylorder" class="data-entry-label align-left-center">Order <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </a></label>
+										<label for="phylorder" class="data-entry-label align-left">Order <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="phylorder" name="phylorder" aria-labelledby="phylorder equals" value="#phylorder#" placeholder="order">
 									</div>
 									<div class="col-md-2">
-										<label for="suborder" class="data-entry-label align-left-center">Suborder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </a></label>
+										<label for="suborder" class="data-entry-label align-left">Suborder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="suborder" name="suborder" aria-labelledby="suborder equals" value="#suborder#" placeholder="suborder">
 									</div>
 									<div class="col-md-2">
-										<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
+										<label for="infraorder" class="data-entry-label align-left">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
 										<input type="text" class="data-entry-input" id="infraorder" name="infraorder" aria-labelledby="infraorder equals" value="#infraorder#" placeholder="infraorder">
 									</div>
 								</div>
 								<div class="form-row mb-1">
 									<div class="col-md-2">
-										<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
+										<label for="superfamily" class="data-entry-label align-left">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
 										<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
 									</div>
 									<div class="col-md-2">
-										<label for="family" class="data-entry-label align-left-center">Family <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </a></label>
+										<label for="family" class="data-entry-label align-left">Family <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="family" name="family" aria-labelledby="family equals" value="#family#" placeholder="family">
 									</div>
 									<div class="col-md-2">
-										<label for="subfamily" class="data-entry-label align-left-center">Subfamily <a class="btn-link" tabindex="-1" aria-hidden="true" href="##" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </a></label>
+										<label for="subfamily" class="data-entry-label align-left">Subfamily <a class="btn-link" tabindex="-1" aria-hidden="true" href="##" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="subfamily" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
 									</div>
 									<div class="col-md-2">
-										<label for="tribe" class="data-entry-label align-left-center">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
+										<label for="tribe" class="data-entry-label align-left">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="tribe" name="tribe" aria-labelledby="tribe equals" value="#tribe#" placeholder="tribe">
 									</div>
 									<div class="col-md-2">
-										<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
+										<label for="taxon_remarks" class="data-entry-label align-left">Remarks</label>
 										<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
 									</div>
 								</div>
 								<div class="form-row mb-3 mt-2">
 									<div class="col-md-3">
-										<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+										<label for="nomenclatural_code" class="data-entry-label align-left">Nomenclatural Code</label>
 										<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
 											<option></option>
 											<cfloop query="ctnomenclatural_code">
@@ -501,7 +501,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-md-3">
-										<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+										<label for="source_authority" class="data-entry-label align-left">Source Authority</label>
 										<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
 											<option></option>
 											<cfloop query="CTTAXONOMIC_AUTHORITY">
@@ -511,7 +511,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-md-3">
-										<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+										<label for="taxon_status" class="data-entry-label align-left">Nomenclatural Status</label>
 										<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
 											<option></option>
 											<cfloop query="cttaxon_status">
@@ -521,7 +521,7 @@ limitations under the License.
 										</select>
 									</div>
 									<div class="col-md-3">
-										<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+										<label for="infraspecific_author" class="data-entry-label align-left">Infraspecifc Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
 										<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-labelledby="infraspecific_author equals" aria-label="infraspecific author for botanical names only">
 									</div>
 								</div>
