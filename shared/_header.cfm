@@ -527,7 +527,10 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			
+				</ul>
+			</div>
+														<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 							<input type="hidden" name="action" value="signOut">
 							<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
@@ -569,8 +572,6 @@ limitations under the License.
 							</div>
 						</form>
 					</cfif>
-				</ul>
-			</div>
 		</nav>
 	</div>
 	<!-- container //  --> 
