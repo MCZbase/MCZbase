@@ -489,4 +489,8 @@ nav.navbar{
 .loginfld2 {
 	width: 55px;
 	}
+	.logout {
+		font-size: .78em;
+		margin-right:0;
+	}
 }
