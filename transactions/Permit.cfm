@@ -603,7 +603,7 @@ limitations under the License.
 	<cfcase value="delete">
 		<cfoutput>
 			<cftry>
-				<cfif NOT isdefined("permit_id") or len(permit_id) EQ 0)>
+				<cfif NOT isdefined("permit_id") or len(permit_id) EQ 0 >
 					<cfthrow message="No permit_id provided to delete">
 				</cfif>
 				<!--- FK constraints will prevent deletion of a permit if a parent permit has children or a permit is in a permit_trans or permit_shipment relationship --->
