@@ -71,7 +71,7 @@ legend {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: .25em;
-	color: transparent !important;
+/*	color: transparent !important;*/
 }
 [hidden] {
 	display: none;
