@@ -147,7 +147,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control data-entry-input" required >
 										</div>
@@ -163,7 +163,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control data-entry-input" required >
 										</div>
@@ -181,7 +181,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name"
 												class="reqdClr form-control data-entry-input" required >
@@ -198,7 +198,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="additional_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="additional_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control data-entry-input" >
 										</div>
@@ -216,7 +216,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" 
 												class="reqdClr form-control data-entry-input" required >
@@ -233,7 +233,7 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
 											<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control data-entry-input" >
 										</div>
