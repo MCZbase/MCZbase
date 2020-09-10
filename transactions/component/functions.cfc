@@ -3258,6 +3258,7 @@ limitations under the License.
 						</cfif>
 					where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 				</cfquery>
+			</cfoutput>
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
 			<cfset row["id"] = "#permit_id#">
