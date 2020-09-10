@@ -418,6 +418,17 @@ input#Password {
 	.file-os-file-medium {
 		max-width: 350px;
 	}
+	
+	/* Small device login/logout */
+nav.navbar{
+	padding: 0 .5em;
+    font-size: .9em;
+}
+.navbar-toggler {
+    padding: .12rem .5rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+}
 	.logout {
 		padding: .1em .45em;
 		font-size: .83em;
@@ -439,6 +450,27 @@ input#Password {
 	}
 }
 @media(max-width:414px) {
+	nav.navbar{
+	padding: 0 .5em;
+    font-size: .9em;
+}
+.navbar-toggler {
+    padding: .12rem .5rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+}
+.login-form {
+	width: 310px;
+	}
+.loginfld1 {
+	width:85px;
+	}
+.loginfld2 {
+	width: 75px;
+	}
+
+}
+@media(max-width:280px) {
 nav.navbar{
 	padding: 0 .5em;
     font-size: .9em;
