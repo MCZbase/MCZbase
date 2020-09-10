@@ -451,7 +451,7 @@ limitations under the License.
       				 material transfer agreements, collecting permits, salvage permits, etc.)</p>
 						<div class="form-row mb-2">
 							<section id="newPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newPermitFormSectionLabel" >
-								<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
+								<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
     							<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
 								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 									<input type="hidden" name="action" value="create">
