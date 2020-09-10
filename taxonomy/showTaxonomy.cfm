@@ -332,8 +332,8 @@
 		<cfset scientificnameidlink = REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 	</cfif>
 	
-	<div class="row px-0">
-		<div class="col-12 mb-5 px-0"> 
+	<div class="row">
+		<div class="col-12 mb-5"> 
 			<cfoutput> 
 				<!--- TODO: Review these, replace with queries to load data directly in page load, no need for ajax here --->
 				<script>
