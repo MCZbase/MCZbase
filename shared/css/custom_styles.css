@@ -150,9 +150,9 @@ p {
 .input-group-text-sm {
 	padding: .25em .5em !important;
 }
-.input-group-text {
+/*.input-group-text {
 	font-size: .7em;
-}
+}*/
 /*.custom-file-label::after {
 	height: calc(.9em + .75rem)!important;
     padding: .4rem .5rem .25em .5em !important;
