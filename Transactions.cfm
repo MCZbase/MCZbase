@@ -206,11 +206,9 @@ limitations under the License.
 								<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
 									<li class="nav-item col-5 col-lg-3 px-1"> 
 										<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
-										<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i>
 									</li>
 									<li class="nav-item col-5 col-lg-3 px-1"> 
-										<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 
-										<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
+										<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 	
 									</li>
 								</ul>
 							</div>
@@ -219,7 +217,7 @@ limitations under the License.
 							<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 								<!--- All Transactions search tab panel --->
 								<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-									<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
+									<h2 class="h4 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 									<form id="searchForm">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 										<div class="form-row mb-2 mx-0">
@@ -335,7 +333,7 @@ limitations under the License.
 
 								<!--- Loan search tab panel --->
 								<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-									<h2 class="h3 card-title mb-0 mt-2">Find Loans </h2>
+									<h2 class="h4 card-title mb-0 mt-2">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 									<!--- Search for just loans ---->
 									<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select coll_obj_disposition from ctcoll_obj_disp
