@@ -1582,6 +1582,7 @@ textarea {
 	top:-3px;
 	font-size: .85em;
 }
+.form-login {position:absolute;top:2px;right:.5em;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
