@@ -314,6 +314,12 @@ input#Password {
 		top: 2px;
 		right: 1em;
 	}
+	.loginfld1 {
+		width:65px;
+	}
+	.loginfld2 {
+		width: 60px;
+	}
 .nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
 	padding: .5em 1em;
