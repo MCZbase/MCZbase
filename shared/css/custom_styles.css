@@ -983,6 +983,11 @@ table.inputTable tr {
 	font-size: .95em;
 	outline: 0;
 }
+.tab-card-header > .nav-tabs > li > a:hover {
+	color: #555;
+	background-color: #deebec;
+	outline: 0;
+}
 .tab-card-main {
 	border: 2px solid #3E6F7D;
 	border-radius: 8px;
@@ -1583,7 +1588,7 @@ textarea {
 	font-size: .85em;
 }
 .form-login {position:absolute;top:2px;right:.5em;}
-.bg-lightgreen {font-size: .7em!important;}
+.smaller {font-size: .7em!important;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
