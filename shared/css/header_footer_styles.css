@@ -151,9 +151,10 @@ nav button {
 	position:absolute;
 	top:2px;
 	right:.5em;
+
 }
 .login-form {
-	width:301px;
+	width:325px;
 }
 .loginButtons {
 	padding: 5px 6px 4px 6px;
@@ -294,9 +295,6 @@ input#Password {
 		padding-inline-start: 0px;
 	}
 	.login-form {
-		position:absolute;
-		top:2px;
-		right:.25em;
 		width: 265px;
 	}
 	.logout {
@@ -309,11 +307,6 @@ input#Password {
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
 	}
-	.login-form {
-		position: absolute;
-		top: 2px;
-		right: 1em;
-	}
 	.loginfld1 {
 		width:100px;
 	}
@@ -323,9 +316,7 @@ input#Password {
 .nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
 	padding: .5em 1em;
-}	
-
-	
+	}	
 }
 @media(min-width:991px) {
 	.mcz-center {
@@ -438,19 +429,24 @@ input#Password {
 		letter-spacing: .02em;
 	}
 	.login-form {
-		position:absolute;
-		top:2px;
-		right:.25em;
-	}
-	.login-form {
-		position: absolute;
-		top: 2px;
-		right: .5em;
+		width: 290px;
 	}
 	.loginfld1 {
+		width:70px;
+	}
+	.loginfld2 {
+		width: 66px;
+	}
+}
+@media(max-width:414px) {
+		.login-form {
+		width: 265px;
+	}
+		.loginfld1 {
 		width:65px;
 	}
 	.loginfld2 {
 		width: 60px;
 	}
+
 }
