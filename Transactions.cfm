@@ -532,7 +532,7 @@ limitations under the License.
 										</script>
 										<div class="form-row mx-0 mt-2">
 											<div class="col-md-6">
-												<div class="border bg-light rounded pt-1 mb-2 pb-3 px-4">
+												<div class="border bg-light rounded py-3 mb-2 px-4">
 													<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
