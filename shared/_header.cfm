@@ -562,9 +562,9 @@ limitations under the License.
 							<input type="hidden" name="gotopage" value="#gtp#">
 							<div class="login-form" id="header_login_form_div">
 								<label for="username" class="sr-only"> Username:</label>
-								<input type="text" name="username" id="username" placeholder="username" class="loginButtons" style="width:100px;">
+								<input type="text" name="username" id="username" placeholder="username" class="loginButtons loginfld1">
 								<label for="password" class="mr-1 sr-only"> Password:</label>
-								<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons" style="width: 80px;">
+								<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfld2">
 								<label for="login" class="mr-1 sr-only"> Password:</label>
 								<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 								<label for="create_account" class="mr-1 sr-only"> Password:</label>
