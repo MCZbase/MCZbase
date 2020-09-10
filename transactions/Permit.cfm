@@ -1,18 +1,24 @@
 <cfif not isdefined("action")>
 	<cfset action="nothing">
 </cfif>
+<!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
-<!--- TODO: cases to refactor
-"editPermit"> 
-"permitUseReport">
-"saveChanges"> to backing method
-"createPermit"> to backing method
---->
+	<!--- TODO: cases to refactor
+	"editPermit"> 
+	"permitUseReport">
+	"saveChanges"> to backing method
+	--->
 	<cfcase value="search">
 		<cfset pageTitle = "Find Permissions/Rights Documents">
 	</cfcase>
 	<cfcase value="new">
 		<cfset pagetitle = "New Permissions/Rights Document">
+	</cfcase>
+	<cfcase value="create">
+		<cfset pagetitle = "Save New Permissions/Rights Document">
+	</cfcase>
+	<cfcase value="edit">
+		<cfset pagetitle = "Edit Permissions/Rights Document">
 	</cfcase>
 	<cfcase value="delete">
 		<cfset pagetitle = "Delete a Permissions/Rights Document">
@@ -431,194 +437,245 @@ limitations under the License.
 	</cfcase>
 	<!--------------------------------------------------------------------------->
 	<cfcase value="new">
-		<!--- TODO: Refactor from here --->
-
-    <font size="+1"><strong>New Permissions &amp; Rights Document</strong></font>
-    <p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
-       material transfer agreements, collecting permits, salvage permits, etc.)</p>
-	<cfoutput>
-	<cfform name="newPermit" action="Permit.cfm" method="post">
-	<input type="hidden" name="Action" value="createPermit">
-        <cfif isdefined("headless") and headless EQ 'true'>
-	    <input type="hidden" name="headless" value="true">
-        </cfif>
-	<table>
-		<tr>
-			<td>Issued By</td>
-			<td colspan="3">
-			<input type="hidden" name="IssuedByAgentId">
-			<input type="text" name="IssuedByAgent" class="reqdClr" size="50"
-		 onchange="getAgent('IssuedByAgentId','IssuedByAgent','newPermit',this.value); return false;"
-			  onKeyUp="return noenter();">
-
-
-		    </td>
-		</tr>
-			<tr>
-			<td>Issued To</td>
-			<td colspan="3">
-			<input type="hidden" name="IssuedToAgentId">
-			<input type="text" name="IssuedToAgent" class="reqdClr" size="50"
-		 onchange="getAgent('IssuedToAgentId','IssuedToAgent','newPermit',this.value); return false;"
-			  onKeyUp="return noenter();">
-
-
-		    </td>
-		</tr>
-		<tr>
-			<td>Contact Person</td>
-			<td colspan="3">
-			<input type="hidden" name="contact_agent_id">
-			<input type="text" name="ContactAgent" size="50"
-		 		onchange="getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;"
-			  	onKeyUp="return noenter();">
-
-
-		    </td>
-		</tr>
-		<tr>
-			<td>Issued Date</td>
-			<td><input type="text" name="issued_Date"></td>
-			<td>Renewed Date</td>
-			<td><input type="text" name="renewed_Date"></td>
-		</tr>
-		<tr>
-			<td>Expiration Date</td>
-			<td><input type="text" name="exp_Date"></td>
-			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num"></td>
-		</tr>
-		<tr>
-			<td>Specific Document Type</td>
-			<td colspan=3>
-				<select name="specific_type" id="specific_type" size="1" class="reqdClr">
-					<option value=""></option>
-					<cfloop query="ctSpecificPermitType">
-						<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
-					</cfloop>
-				</select>
-                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                   <div id="newPermitASTDialog"></div>
-                                </cfif>
-			</td>
-		</tr>
-		<tr>
-			<td>Document Title</td>
-			<td><input type="text" name="permit_title" style="width: 26em;" ></td>
-			<td>Remarks</td>
-			<td><input type="text" name="permit_remarks" style="width: 26em;" ></td>
-		</tr>
-		<tr>
-			<td>Summary of Restrictions on use</td>
-			<td colspan="3"><textarea cols="80" rows="3" name="restriction_summary"></textarea></td>
-		</tr>
-		<tr>
-			<td>Summary of Agreed Benefits</td>
-			<td colspan="3"><textarea cols="80" rows="3" name="benefits_summary"></textarea></td>
-		</tr>
-		<tr>
-			<td>Benefits Provided</td>
-			<td colspan="3"><textarea cols="80" rows="3" name="benefits_provided"></textarea></td>
-		</tr>
-		<tr>
-			<td colspan="4" align="center">
-				<input type="submit" value="Save" class="insBtn"
-   					onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
-
-                                   <cfif  not ( isdefined("headless") and headless EQ 'true' ) >
-					<input type="button" value="Quit" class="qutBtn"
-   					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
-					 onClick="document.location='Permit.cfm'">
-                                   </cfif>
-
-			</td>
-		</tr>
-	</table>
-</cfform>
-	</cfoutput>
-</cfcase>
-
-
-<cfcase value="delete">
-	<cfoutput>
-	<cftry>
-		<cfif NOT isdefined("permit_id") or len(permit_id) EQ 0)>
-			<cfthrow message="No permit_id provided to delete">
-		</cfif>
-		<!--- FK constraints will prevent deletion of a permit if a parent permit has children or a permit is in a permit_trans or permit_shipment relationship --->
-		<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM permit 
-			WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
-		</cfquery>
-		<section class="container">
-			<h1 class="h2">Permission and Rights Document deleted.....</h1>
-			<ul>
-				<li><a href="/transactions/Permit.cfm?action=search">Search for Permissions and Rights Documents</a>.</li>
-				<li><a href="/transactions/Permit.cfm?action=new">Create a New Permissions and Rights Document</a>.</li>
-			</ul>
-		</section>
-	<cfcatch>
-		<section class="container">
-			<div class="row">
-				<div class="alert alert-danger" role="alert">
-					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-					<h1 class="h2">Delete Failed</h1>
-					<p>Permits cannot be deleted if they are used in a shipment, in a transaction, or have child permits.</p>
-					<p>#cfcatch.message#</p>
-					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+		<cfoutput>
+			<script>
+				jQuery(document).ready(function() {
+					$("##issued_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##renewed_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
+				});
+			</script>
+			<main class="container">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
+    					<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+      				 material transfer agreements, collecting permits, salvage permits, etc.)</p>
+						<div class="form-row mb-2">
+							<section id="newPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newPermitFormSectionLabel" >
+								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
+									<input type="hidden" name="action" value="createPermit">
+        							<cfif isdefined("headless") and headless EQ 'true'>
+	    								<input type="hidden" name="headless" value="true">
+       							</cfif>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="issued_by_agent_name">Issued By:</label>
+												<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
+											</div>
+											<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" >
+											<script>
+												$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
+											</script> 
+										</div>
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="issued_to_agent_name">Issued To:</label>
+												<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
+											</div>
+											<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" >
+											<script>
+												$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+											</script> 
+										</div>
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="contact_agent_name">Contact Person:</label>
+												<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
+											</div>
+											<input type="hidden" name="contact_agent_id" id="contact_agent_id" >
+											<script>
+												$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+											</script> 
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<label for="issued_date" class="data-entry-label">Issued Date</label>
+											<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="renewed_date" class="data-entry-label">Renewed Date</label>
+											<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="exp_date" class="data-entry-label">Expiration Date</label>
+											<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="permit_num" class="data-entry-label">Permit Number</label>
+											<input type="text" name="permit_num" id="permit_num" class="data-entry-input">
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="permit_title" class="data-entry-label">Document Title</label>
+											<input type="text" name="permit_title" id="permit_title" class="data-entry-input">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+											<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctSpecificPermitType">
+													<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+												</cfloop>
+											</select>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+												<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+												<div id="newPermitASTDialog"></div>
+											</cfif>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="permit_remarks" class="data-entry-label">Remarks</label>
+											<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
+											<textarea rows="1" name="restriction_summary" id="restriction_summary" 
+												onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
+												class="autogrow border rounded w-100"></textarea>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+											<textarea rows="1" name="benefits_summary" id="benefits_summary" 
+												onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+												class="autogrow border rounded w-100"></textarea>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
+											<textarea rows="1" name="benefits_provided" id="benefits_provided" 
+												onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
+												class="autogrow border rounded w-100"></textarea>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<div class="form-group col-12">
+											<input type="button" value="Create" class="btn btn-xs btn-primary"
+												onClick="if (checkFormValidity($('##newPermitForm')[0])) { submit();  } " 
+												id="submitButton" >
+										</div>
+									</div>
+								</form>
+								<script>
+									// make selected textareas autogrow as text is entered.
+									$(document).ready(function() {
+										// bind the autogrow function to the keyup event
+										$('textarea.autogrow').keyup(autogrow);
+										// trigger keyup event to size textareas to existing text
+										$('textarea.autogrow').keyup();
+									});
+								</script> 
+							</section>
+						</div>
+					</div>
 				</div>
-			</div>
-			<p><cfdump var=#cfcatch#></p>
-		</section>
-	</cfcatch>
-	</cftry>
-  </cfoutput>
-
-</cfcase>
-
-</cfswitch>
-
-<!--------------------------------------------------------------------------------------------------->
-<!--------------------------------------------------------------------------------------------------->
-<cfif #Action# is "editPermit">
-<cfset title = "Edit Permissions/Rights document">
-<font size="+1"><strong>Edit Permissions &amp; Rights Document</strong></font><br>
-<cfoutput>
-<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
-	Error: You didn't pass this form a permit_id. Go back and try again.<cfabort>
-</cfif>
-<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select permit.permit_id,
-	issuedBy.agent_name as IssuedByAgent,
-	issuedBy.agent_id as IssuedByAgentID,
-	issuedTo.agent_name as IssuedToAgent,
-	issuedTo.agent_id as IssuedToAgentID,
-	contact_agent_id,
-	contact.agent_name as ContactAgent,
-	issued_Date,
-	renewed_Date,
-	exp_Date,
-    restriction_summary,
-    benefits_summary,
-    benefits_provided,
-	permit_Num,
-	permit_Type,
-	specific_type,
-	permit_title,
-	permit_remarks
-	from
-		permit,
-		preferred_agent_name issuedTo,
-		preferred_agent_name issuedBy ,
-		preferred_agent_name contact
-	where
-		permit.issued_by_agent_id = issuedBy.agent_id (+) and
-	permit.issued_to_agent_id = issuedTo.agent_id (+) AND
-	permit.contact_agent_id = contact.agent_id (+)
-	and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-	order by permit_id
-</cfquery>
+			</main>
+		</cfoutput>
+	</cfcase>
+	<!--------------------------------------------------------------------------------------------------->
+	<cfcase value="delete">
+		<cfoutput>
+			<cftry>
+				<cfif NOT isdefined("permit_id") or len(permit_id) EQ 0)>
+					<cfthrow message="No permit_id provided to delete">
+				</cfif>
+				<!--- FK constraints will prevent deletion of a permit if a parent permit has children or a permit is in a permit_trans or permit_shipment relationship --->
+				<cfquery name="deletePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					DELETE FROM permit 
+					WHERE permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+				</cfquery>
+				<section class="container">
+					<h1 class="h2">Permission and Rights Document deleted.....</h1>
+					<ul>
+						<li><a href="/transactions/Permit.cfm?action=search">Search for Permissions and Rights Documents</a>.</li>
+						<li><a href="/transactions/Permit.cfm?action=new">Create a New Permissions and Rights Document</a>.</li>
+					</ul>
+				</section>
+			<cfcatch>
+				<section class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h1 class="h2">Delete Failed</h1>
+							<p>Permits cannot be deleted if they are used in a shipment, in a transaction, or have child permits.</p>
+							<p>#cfcatch.message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+					<p><cfdump var=#cfcatch#></p>
+				</section>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfcase>
+	<!--------------------------------------------------------------------------------------------------->
+	<cfcase value="edit">
+		<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
+			<cfthrow message="Error: Unable to edit a permissions and rights document without a permit_id">
+		</cfif>
+		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				permit.permit_id,
+				issuedBy.agent_name as IssuedByAgent,
+				issuedBy.agent_id as IssuedByAgentID,
+				issuedTo.agent_name as IssuedToAgent,
+				issuedTo.agent_id as IssuedToAgentID,
+				contact_agent_id,
+				contact.agent_name as ContactAgent,
+				issued_Date,
+				renewed_Date,
+				exp_Date,
+				restriction_summary,
+				benefits_summary,
+				benefits_provided,
+				permit_num,
+				permit_Type,
+				specific_type,
+				permit_title,
+				permit_remarks
+			from
+				permit left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
+			where
+				permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			order by permit_id
+		</cfquery>
+		<cfoutput query="permitInfo" group="permit_id">
+			<script>
+				jQuery(document).ready(function() {
+					$("##issued_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##renewed_date").datepicker({ dateFormat: 'yy-mm-dd'});
+					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
+				});
+			</script>
 <script>
 function opendialog(page,id,title) {
   var $dialog = $(id)
@@ -637,118 +694,170 @@ function opendialog(page,id,title) {
   });
   $dialog.dialog('open');
 };
-</script>
-</cfoutput>
-<cfoutput query="permitInfo" group="permit_id">
-<cfform name="newPermit" action="Permit.cfm" method="post">
-	<input type="hidden" name="Action">
-	<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-    <!--- make permit number available as a element with a distinct id to grab with jquery --->
-	<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_Num#">
-	<table>
-		<tr>
-			<td>Issued By</td>
-			<td colspan="3">
-				<input type="hidden" name="IssuedByAgentId">
-				<input type="hidden" name="IssuedByOldAgentId" value="#IssuedByAgentID#">
-				<input type="text" name="IssuedByAgent" class="reqdClr" size="50"
-				value="#IssuedByAgent#"
-		 onchange="getAgent('IssuedByAgentId','IssuedByAgent','newPermit',this.value); return false;"
-			  onKeyUp="return noenter();">
-
-		  </td>
-		</tr>
-		<tr>
-			<td>Issued To</td>
-			<td colspan="3">
-				<input type="hidden" name="IssuedToAgentId">
-				<input type="text" name="IssuedToAgent" class="reqdClr" size="50"
-				value="#IssuedToAgent#"
-		 onchange="getAgent('IssuedToAgentId','IssuedToAgent','newPermit',this.value); return false;"
-			  onKeyUp="return noenter();">
-			</td>
-		</tr>
-		<tr>
-			<td>Contact Person</td>
-			<td colspan="3">
-			<input type="hidden" name="contact_agent_id" value="#contact_agent_id#">
-			<input type="text" name="ContactAgent"  size="50" value="#ContactAgent#"
-		 onchange="getAgent('contact_agent_id','ContactAgent','newPermit',this.value); return false;"
-			  onKeyUp="return noenter();">
-		</td>
-		</tr>
-		<tr>
-			<td>Issued Date</td>
-			<td><input type="text" name="issued_Date" value="#dateformat(issued_Date,"yyyy-mm-dd")#"></td>
-			<td>Renewed Date</td>
-			<td><input type="text" name="renewed_Date" value="#dateformat(renewed_Date,"yyyy-mm-dd")#"></td>
-		</tr>
-		<tr>
-			<td>Expiration Date</td>
-			<td><input type="text" name="exp_Date" value="#dateformat(exp_Date,"yyyy-mm-dd")#"></td>
-			<td>Permit Number</td>
-			<td><input type="text" name="permit_Num" id="permit_Num" value="#permit_Num#"></td>
-		</tr>
-        <tr>
-            <td>Summary of Restrictions on use</td>
-            <td colspan="3"><textarea cols="80" rows="3" name="restriction_summary" >#restriction_summary#</textarea></td>
-        </tr>
-        <tr>
-            <td>Summary of Agreed Benefits</td>
-            <td colspan="3"><textarea cols="80" rows="3" name="benefits_summary" >#benefits_summary#</textarea></td>
-        </tr>
-        <tr>
-            <td>Benefits Provided</td>
-            <td colspan="3"><textarea cols="80" rows="3" name="benefits_provided" >#benefits_provided#</textarea></td>
-        </tr>
-
-		<tr>
-			<td>Document Type</td>
-			<td colspan=3>
-				<select name="specific_type" id="specific_type" class="reqdClr" size="1">
-					<option value=""></option>
-					<cfloop query="ctSpecificPermitType">
-						<option <cfif #ctSpecificPermitType.specific_type# is "#permitInfo.specific_type#"> selected </cfif>value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
-					</cfloop>
-				</select>
-                                <cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-                                   <button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-                                   <div id="newPermitASTDialog"></div>
-                                </cfif>
-			</td>
-		</tr>
-		<tr>
-			<td>Permit Title</td>
-			<td><input type="text" name="permit_title" value="#permit_title#" style="width: 26em;"></td>
-			<td>Remarks</td>
-			<td><input type="text" name="permit_remarks" value="#permit_remarks#" style="width: 26em;"></td>
-		</tr>
-		<tr>
-			<td colspan="4" align="center">
-				<input type="submit" value="Save changes" class="savBtn"
-   					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'"
-					onCLick="newPermit.Action.value='saveChanges';">
-
-                                <cfif isdefined("headless") and headless EQ 'true' >
-                                   <strong>Permit Added.  Click OK when done.</strong>
-                                <cfelse>
-				   <input type="button" value="Quit" class="qutBtn"
-   					onmouseover="this.className='qutBtn btnhov'" onmouseout="this.className='qutBtn'"
-					 onClick="document.location='Permit.cfm'">
-                                </cfif>
-
-				<input type="button" value="Delete" class="delBtn"
-				   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-				   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
-
+</script>>
+			<main class="container">
+				<div class="row">
+					<div class="col-12">
+						<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >Edit Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
+						<div class="form-row mb-2">
+							<section id="editPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="editPermitFormSectionLabel" >
+								<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post">
+									<input type="hidden" name="method" value="savePermit">
+									<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+   								 <!--- make permit number available as a element with a distinct id to grab with jquery --->
+									<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_num#">
+        							<cfif isdefined("headless") and headless EQ 'true'>
+	    								<input type="hidden" name="headless" value="true">
+       							</cfif>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="issued_by_agent_name">Issued By:</label>
+												<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
+											</div>
+											<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
+											<script>
+												$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
+											</script> 
+										</div>
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="issued_to_agent_name">Issued To:</label>
+												<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedToAgent#" >
+											</div>
+											<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
+											<script>
+												$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+											</script> 
+										</div>
+										<div class="col-12 col-md-4">
+											<span>
+												<label for="contact_agent_name">Contact Person:</label>
+												<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											</span>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input" value="#ContactAgent#">
+											</div>
+											<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
+											<script>
+												$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+											</script> 
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-4">
+											<label for="issued_date" class="data-entry-label">Issued Date</label>
+											<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="#dateformat(issued_date,"yyyy-mm-dd")#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="renewed_date" class="data-entry-label">Renewed Date</label>
+											<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="#dateformat(renewed_date,"yyyy-mm-dd")#">
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="exp_date" class="data-entry-label">Expiration Date</label>
+											<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="#dateformat(exp_date,"yyyy-mm-dd")#">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="permit_num" class="data-entry-label">Permit Number</label>
+											<input type="text" name="permit_num" id="permit_num" class="data-entry-input" value="#permit_num#">
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="permit_title" class="data-entry-label">Document Title</label>
+											<input type="text" name="permit_title" id="permit_title" class="data-entry-input" value="#permit_title#">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
+											<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+											<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select">
+												<option value=""></option>
+												<cfloop query="ctSpecificPermitType">
+													<cfif permitInfo.specific_type IS ctSpecificPermitType.specific_type>
+														<cfset selected=' selected="true" '>
+													<cfelse>
+														<cfset selected=''>
+													</cfif>
+													<option #selected# value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+												</cfloop>
+											</select>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+												<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+												<div id="newPermitASTDialog"></div>
+											</cfif>
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="permit_remarks" class="data-entry-label">Remarks</label>
+											<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300" value="#permit_remarks#">
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
+											<textarea rows="1" name="restriction_summary" id="restriction_summary" 
+												onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
+												class="autogrow border rounded w-100">#restriction_summary#</textarea>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+											<textarea rows="1" name="benefits_summary" id="benefits_summary" 
+												onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+												class="autogrow border rounded w-100">#benefits_summary#</textarea>
+										</div>
+									</div>
+									<div class="form-row mb-2">
+										<div class="col-12">
+											<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
+											<textarea rows="1" name="benefits_provided" id="benefits_provided" 
+												onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
+												class="autogrow border rounded w-100">#benefits_provided#</textarea>
+										</div>
+									</div>
+									<div class="form-row mb-1">
+										<div class="form-group col-12">
+											<!--- TODO: Ajax action for save --->
+											<input type="button" value="Save" class="btn btn-xs btn-primary"
+												onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
+												id="submitButton" >
+												<!--- TODO: Refactor/fix/remove Headless use --->
+                                		<cfif isdefined("headless") and headless EQ 'true' >
+                                  		 <strong>Permit Added.  Click OK when done.</strong>
+												</cfif>
                                 <input type="button" value="Permit Report" class="lnkBtn"
                                     onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-                                    onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'"
-                                    >
-			</td>
-		</tr>
-	</table>
-</cfform>
+                                    onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
+											<input type="button" value="Delete" class="delBtn"
+											   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
+											   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
+										</div>
+									</div>
+								</form>
+							</section>
+<!--- TODO: Work blocks below into sections --->
+
+
+						</div>
+					</div>
+				</div>
+			</main>
     <!---  Show/add media copy of permit  (shows permit) --->
     <div id="copyofpermit" class="shippingBlock" ><img src='images/indicator.gif'></div>
     <!---  list/add media copy of associated documents (document for permit) --->
@@ -909,7 +1018,126 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      </span>
 
 </cfoutput>
-</cfif>
+
+	</cfcase>
+
+
+	<cfcase value="create">
+		<cfoutput>
+			<cfset hasError = 0 >
+			<cfif not isdefined("specific_type") OR len(#specific_type#) is 0>
+				Error: You didn't select a document type. Go back and try again.
+				<cfset hasError = 1 >
+			</cfif>
+			<cfif not isdefined("issuedByAgentId") OR len(#issuedByAgentId#) is 0>
+				Error: You didn't select an issued by agent. Do you have popups enabled?  Go back and try again.
+				<cfset hasError = 1 >
+			</cfif>
+			<cfif not isdefined("issuedToAgentId") OR len(#issuedToAgentId#) is 0>
+				Error: You didn't select an issued to agent. Do you have popups enabled?  Go back and try again.
+				<cfset hasError = 1 >
+			</cfif>
+			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select permit_type 
+				from ctspecific_permit_type 
+				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			</cfquery>
+			<cfset permit_type = #ptype.permit_type#>
+			<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_permit_id.nextval nextPermit from dual
+			</cfquery>
+			<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
+				Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.
+				<cfset hasError = 1 >
+			</cfif>
+			<cfif hasError eq 1>
+				<cfabort>
+			</cfif>
+			<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+				INSERT INTO permit (
+					PERMIT_ID,
+					ISSUED_BY_AGENT_ID
+					<cfif len(#ISSUED_DATE#) gt 0>
+						,ISSUED_DATE
+					</cfif>
+					,ISSUED_TO_AGENT_ID
+					<cfif len(#RENEWED_DATE#) gt 0>
+						,RENEWED_DATE
+					</cfif>
+					<cfif len(#EXP_DATE#) gt 0>
+						,EXP_DATE
+					</cfif>
+					<cfif len(#PERMIT_NUM#) gt 0>
+						,PERMIT_NUM
+					</cfif>
+					,PERMIT_TYPE
+					,SPECIFIC_TYPE
+					<cfif len(#PERMIT_TITLE#) gt 0>
+						,PERMIT_TITLE
+					</cfif>
+					<cfif len(#PERMIT_REMARKS#) gt 0>
+						,PERMIT_REMARKS
+					</cfif>
+					<cfif len(#restriction_summary#) gt 0>
+						,restriction_summary
+					</cfif>
+					<cfif len(#benefits_summary#) gt 0>
+						,benefits_summary
+					</cfif>
+					<cfif len(#benefits_provided#) gt 0>
+						,benefits_provided
+					</cfif>
+					<cfif len(#contact_agent_id#) gt 0>
+						,contact_agent_id
+					</cfif>)
+				VALUES (
+					#nextPermit.nextPermit#
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
+					<cfif len(#ISSUED_DATE#) gt 0>
+						,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
+					</cfif>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+					<cfif len(#RENEWED_DATE#) gt 0>
+						,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
+					</cfif>
+					<cfif len(#EXP_DATE#) gt 0>
+						,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
+					</cfif>
+					<cfif len(#PERMIT_NUM#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
+					</cfif>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+					<cfif len(#PERMIT_TITLE#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+					</cfif>
+					<cfif len(#PERMIT_REMARKS#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+					</cfif>
+					<cfif len(#restriction_summary#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+					</cfif>
+					<cfif len(#benefits_summary#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+					</cfif>
+					<cfif len(#benefits_provided#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+					</cfif>
+					<cfif len(#contact_agent_id#) gt 0>
+						, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
+					</cfif>)
+			</cfquery>
+			<cfif isdefined("headless") and headless EQ 'true'>
+				<cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
+			<cfelse>
+				<cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+			</cfif>
+		</cfoutput>
+	</cfcase>
+
+</cfswitch>
+
+
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
 <cfif #Action# is "permitUseReport">
@@ -930,7 +1158,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
     restriction_summary,
     benefits_summary,
     benefits_provided,
-    permit_Num,
+    permit_num,
     permit_Type,
     specific_type,
     permit_title,
@@ -950,7 +1178,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
      <cfoutput>
         <h3>Permit</h3>
         <cfloop query="permitInfo">
-          #permit_Type# #permit_Num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+          #permit_Type# #permit_num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
         </cfloop>
 	<form action="Permit.cfm" method="get" name="EditPermit">
 	   <input type="hidden" name="permit_id" value="#permit_id#">
@@ -1245,114 +1473,4 @@ UPDATE permit SET
 </cfif>
 <!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
-<cfif #Action# is "createPermit">
-<cfoutput>
-<cfset hasError = 0 >
-<cfif not isdefined("specific_type") OR len(#specific_type#) is 0>
-	Error: You didn't select a document type. Go back and try again.
-        <cfset hasError = 1 >
-</cfif>
-<cfif not isdefined("issuedByAgentId") OR len(#issuedByAgentId#) is 0>
-	Error: You didn't select an issued by agent. Do you have popups enabled?  Go back and try again.
-        <cfset hasError = 1 >
-</cfif>
-<cfif not isdefined("issuedToAgentId") OR len(#issuedToAgentId#) is 0>
-	Error: You didn't select an issued to agent. Do you have popups enabled?  Go back and try again.
-        <cfset hasError = 1 >
-</cfif>
-<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
-</cfquery>
-<cfset permit_type = #ptype.permit_type#>
-<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select sq_permit_id.nextval nextPermit from dual
-</cfquery>
-<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
-	Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.
-        <cfset hasError = 1 >
-</cfif>
-<cfif hasError eq 1>
-    <cfabort>
-</cfif>
-<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
-INSERT INTO permit (
-	 PERMIT_ID,
-	 ISSUED_BY_AGENT_ID
-	 <cfif len(#ISSUED_DATE#) gt 0>
-	 	,ISSUED_DATE
-	 </cfif>
-	 ,ISSUED_TO_AGENT_ID
-	  <cfif len(#RENEWED_DATE#) gt 0>
-	 	,RENEWED_DATE
-	 </cfif>
-	 <cfif len(#EXP_DATE#) gt 0>
-	 	,EXP_DATE
-	 </cfif>
-	 <cfif len(#PERMIT_NUM#) gt 0>
-	 	,PERMIT_NUM
-	 </cfif>
-	 ,PERMIT_TYPE
-	 ,SPECIFIC_TYPE
-	 <cfif len(#PERMIT_TITLE#) gt 0>
-	 	,PERMIT_TITLE
-	 </cfif>
-	 <cfif len(#PERMIT_REMARKS#) gt 0>
-	 	,PERMIT_REMARKS
-	 </cfif>
-	 <cfif len(#restriction_summary#) gt 0>
-	 	,restriction_summary
-	 </cfif>
-	 <cfif len(#benefits_summary#) gt 0>
-	 	,benefits_summary
-	 </cfif>
-	 <cfif len(#benefits_provided#) gt 0>
-	 	,benefits_provided
-	 </cfif>
-	  <cfif len(#contact_agent_id#) gt 0>
-	 	,contact_agent_id
-	 </cfif>)
-VALUES (
-	 #nextPermit.nextPermit#
-	 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
-	 <cfif len(#ISSUED_DATE#) gt 0>
-	 	,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
-	 </cfif>
-	 , <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
-	  <cfif len(#RENEWED_DATE#) gt 0>
-	 	,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
-	 </cfif>
-	 <cfif len(#EXP_DATE#) gt 0>
-	 	,'#dateformat(EXP_DATE,"yyyy-mm-dd")#'
-	 </cfif>
-	 <cfif len(#PERMIT_NUM#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
-	 </cfif>
-	 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
-	 , <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
-	<cfif len(#PERMIT_TITLE#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
-	 </cfif>
-	<cfif len(#PERMIT_REMARKS#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
-	 </cfif>
-	 <cfif len(#restriction_summary#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
-     </cfif>
-	 <cfif len(#benefits_summary#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
-     </cfif>
-	 <cfif len(#benefits_provided#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
-     </cfif>
-	 <cfif len(#contact_agent_id#) gt 0>
-	 	, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
-	 </cfif>)
-</cfquery>
-        <cfif isdefined("headless") and headless EQ 'true'>
-   	     <cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
-        <cfelse>
-   	     <cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
-        </cfif>
-  </cfoutput>
-</cfif>
 <!--------------------------------------------------------------------------------------------------->
