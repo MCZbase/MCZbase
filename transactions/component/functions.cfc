@@ -2125,7 +2125,7 @@ limitations under the License.
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 												<div class="input-group-prepend">
-													<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
 												<!--- trans_agent_{i} is the human readable agent --->
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
