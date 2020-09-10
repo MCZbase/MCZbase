@@ -321,6 +321,8 @@ limitations under the License.
 							<div class="col-12 col-xl-3">
 								<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 								<input type="hidden" name="action" value="search">
+								<fieldset>
+									<legend>Search accepted taxa?</legend>
 								<ul class="list-group btn-link list-group-flush p-2 border bg-light rounded">
 									<cfif valid_catalog_term_fg EQ 1>
 										<cfset validFlagAllSelected = ''>
@@ -348,6 +350,9 @@ limitations under the License.
 										<label for="validFGNot" class="btn-link smaller-text">Taxa not accepted for data entry</label>
 									</li>
 								</ul>
+											</fieldset>
+										<fieldset>
+											<legend>Search taxa used on specimen records?</legend>
 								<ul class="list-group list-group-flush mt-2 p-2 bg-light border rounded">
 									<cfif we_have_some EQ 1>
 										<cfset usedInIdAllSelected = ''>
@@ -375,6 +380,7 @@ limitations under the License.
 										<label for="wehavesomeNot" class="btn-link smaller-text">Taxa not used in identifications</label>
 									</li>
 								</ul>
+											</fieldset>
 							</div>
 							<div class="col-12 col-xl-9 mt-2">
 								<div class="col-12">
