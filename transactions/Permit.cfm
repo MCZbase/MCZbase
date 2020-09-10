@@ -4,7 +4,6 @@
 <!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
 	<!--- TODO: cases to refactor
-	"editPermit"> 
 	"permitUseReport">
 	"saveChanges"> to backing method
 	--->
@@ -1179,7 +1178,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
         </cfloop>
 	<form action="Permit.cfm" method="get" name="EditPermit">
 	   <input type="hidden" name="permit_id" value="#permit_id#">
-	   <input type="hidden" name="Action" value="editPermit">
+	   <input type="hidden" name="action" value="edit">
 	   <input type="submit" value="Edit this permit" class="lnkBtn"
    	        onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
 	</form>

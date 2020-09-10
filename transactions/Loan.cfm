@@ -1079,7 +1079,7 @@ limitations under the License.
 														<span style="font-weight:bold;">#permit_type#:</span> 
 														#specific_type# #permit_num#, 
 														<span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# 
-														<a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a>
+														<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">Edit</a>
 													</li>
 												</cfloop>
 											</ul>
