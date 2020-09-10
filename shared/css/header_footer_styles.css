@@ -147,7 +147,14 @@ nav button {
 .headerCollectionTextSmall {
 	font-size: smaller;
 }
-.login-form {width:301px;}
+.form-login {
+	position:absolute;
+	top:2px;
+	right:.5em;
+}
+.login-form {
+	width:301px;
+}
 .loginButtons {
 	padding: 5px 6px 4px 6px;
 	font-size: .78rem;
