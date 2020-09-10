@@ -1159,7 +1159,7 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row border rounded bg-light my-2">
+					<section title="Projects" class="row border rounded bg-light mt-2 mb-4">
 						<div class="col-12 pb-2">
 							<h3>
 								Projects associated with this loan: 
