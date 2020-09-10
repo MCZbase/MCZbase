@@ -1583,7 +1583,7 @@ textarea {
 	font-size: .85em;
 }
 .form-login {position:absolute;top:2px;right:.5em;}
-.smaller {font-size: .7em;}
+.smaller {font-size: .7em!important;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
