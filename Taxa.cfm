@@ -320,7 +320,7 @@ limitations under the License.
 							<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 							<div class="col-12 col-xl-3">
 								<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
-								<div class="row mx-0">
+							
 								<input type="hidden" name="action" value="search">
 								<fieldset class="col-12 col-md-6 my-2">
 									<legend class="text-dark">Search accepted taxa?</legend>
