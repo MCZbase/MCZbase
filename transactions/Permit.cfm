@@ -446,14 +446,16 @@ limitations under the License.
 				});
 			</script>
 			<main class="container">
-				<div class="row">
-					<div class="col-12">
-      				 material transfer agreements, collecting permits, salvage permits, etc.)</p>
-						<div class="form-row mb-2">
-							<section id="newPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newPermitFormSectionLabel" >
-								<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
-    							<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
-								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
+				<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >
+					Create New Permissions &amp; Rights Document 
+					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
+				</h2>
+    			<p>
+					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+      			material transfer agreements, collecting permits, salvage permits, etc.)
+				</p>
+				<section id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
+								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();" class="col-12">
 									<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
@@ -592,10 +594,7 @@ limitations under the License.
 										$('textarea.autogrow').keyup();
 									});
 								</script> 
-							</section>
-						</div>
-					</div>
-				</div>
+				</section>
 			</main>
 		</cfoutput>
 	</cfcase>
@@ -698,7 +697,7 @@ function opendialog(page,id,title) {
 			<main class="container">
 				<div class="row">
 					<div class="col-12">
-						<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >Edit Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
+						<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >Edit Permissions &amp; Rights Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
 						<div class="form-row mb-2">
 							<section id="editPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="editPermitFormSectionLabel" >
 								<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post">
