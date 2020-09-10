@@ -364,7 +364,7 @@ limitations under the License.
 												
 												<fieldset>
 													<legend>Specimens?</legend>
-													<ul class="list-group list-group-flush p-2 bg-light border rounded">
+													<ul class="list-group list-group-flush mt-2 p-2 bg-light border rounded">
 													<cfif we_have_some EQ 1>
 														<cfset usedInIdAllSelected = ''>
 														<cfset usedInIdOnlySelected = 'checked="checked"'>
