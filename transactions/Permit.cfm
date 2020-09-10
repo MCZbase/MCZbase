@@ -1018,8 +1018,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 </cfoutput>
 
 	</cfcase>
-
-
+	<!--------------------------------------------------------------------------------------------------->
 	<cfcase value="create">
 		<cfoutput>
 			<cfset hasError = 0 >
@@ -1126,9 +1125,9 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 					</cfif>)
 			</cfquery>
 			<cfif isdefined("headless") and headless EQ 'true'>
-				<cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="Permit.cfm?Action=edit&headless=true&permit_id=#nextPermit.nextPermit#">
 			<cfelse>
-				<cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
 			</cfif>
 		</cfoutput>
 	</cfcase>
