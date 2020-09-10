@@ -218,7 +218,7 @@ limitations under the License.
 								<!--- All Transactions search tab panel --->
 								<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-2 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 									<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
-									<form id="searchForm">
+									<form id="searchForm" class="mt-2">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 										<div class="form-row mb-2 mx-0">
 											<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
@@ -376,7 +376,7 @@ limitations under the License.
 									<cfif not isdefined("loan_number")>
 										<cfset loan_number="">
 									</cfif>
-									<form id="loanSearchForm">
+									<form id="loanSearchForm" class="mt-2">
 										<input type="hidden" name="method" value="getLoans" class="keeponclear">
 										<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 										<div class="form-row mb-2 mx-0 mb-xl-2">
@@ -546,7 +546,7 @@ limitations under the License.
 														<div id="permitpickerdialog"></div>
 													</div>
 												</div>
-												<div class="border bg-light rounded px-2 pt-2 mb-2 mb-xl-0 pb-4">
+												<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3">
 													<div class="form-row mx-0 mb-1 px-3">
 														<div class="col-3 px-0">
 															<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
