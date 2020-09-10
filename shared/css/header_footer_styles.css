@@ -293,6 +293,12 @@ input#Password {
 		margin-inline-end: 0px;
 		padding-inline-start: 0px;
 	}
+	.login-form {
+		position:absolute;
+		top:2px;
+		right:.25em;
+		width: 265px;
+	}
 	.logout {
 		padding: .1em .45em;
 		font-size: .83em;
