@@ -614,7 +614,7 @@ limitations under the License.
 		<main class="container py-3" id="content" role="main">
 			<!--- div class="row" --->
 				<cftry>
-					<h1 class="h2 mt-3 mb-0">Edit Loan 
+					<h1 class="h2">Edit Loan 
 						<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 						<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 					</h1>
