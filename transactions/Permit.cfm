@@ -448,11 +448,11 @@ limitations under the License.
 			<main class="container">
 				<div class="row">
 					<div class="col-12">
-						<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
-    					<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
       				 material transfer agreements, collecting permits, salvage permits, etc.)</p>
 						<div class="form-row mb-2">
 							<section id="newPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newPermitFormSectionLabel" >
+								<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >Create New Permissions &amp; Rigths Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
+    							<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
 								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 									<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
@@ -535,7 +535,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<label for="specific_type" class="data-entry-label">Specific Document Type</label>
-											<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select">
+										<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select" required>
 												<option value=""></option>
 												<cfloop query="ctSpecificPermitType">
 													<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
