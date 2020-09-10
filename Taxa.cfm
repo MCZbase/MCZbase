@@ -310,243 +310,228 @@ limitations under the License.
 		<!--- Search form --->
 		<div id="search-form-div">
 			<div class="container-fluid">
-				<div class="row mx-0 mb-3">
-					<div class="col-12">
-						<section id="content" role="search">
-						<div class="search-box"> 
-							<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs???? --->
-							<!--- Tab header div --->
-							<div class="search-box-header">
-								<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+			<section id="content" role="search" class="row mx-0 mb-3">
+				<form name="searchForm"  id="searchForm" class="search-box col-12"> 
+				<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs????  ...update: changed to search-box --->
+					<div class="search-box-header">
+						<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					</div>
+						<div class="row mx-2">
+							<input type="hidden" name="method" value="getTaxa" class="keeponclear">
+							<div class="col-12 col-xl-3">
+								<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
+								<fieldset>
+									<legend class="text-transparent">Accepted Names?</legend>
+									<input type="hidden" name="action" value="search">
+									<ul class="list-group btn-link list-group-flush p-2 border bg-light rounded">
+									<cfif valid_catalog_term_fg EQ 1>
+										<cfset validFlagAllSelected = ''>
+										<cfset validFlagOnlySelected = 'checked="checked"'>
+										<cfset validFlagNotSelected = ''>
+									<cfelseif valid_catalog_term_fg EQ 0>
+										<cfset validFlagAllSelected = ''>
+										<cfset validFlagOnlySelected = ''>
+										<cfset validFlagNotSelected = 'checked="checked"'>
+									<cfelse>
+										<cfset validFlagAllSelected = 'checked="checked"'>
+										<cfset validFlagOnlySelected = ''>
+										<cfset validFlagNotSelected = ''>
+									</cfif>
+									<li class="list-group-item px-0 pb-0 pt-1">
+										<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+										<label for="validFGChecked" class="btn-link smaller-text">Show all matches?</label>
+									</li>
+									<li class="list-group-item px-0 pb-0 pt-1">
+										<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+										<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry?</label>
+									</li>
+									<li class="list-group-item px-0 py-1">
+										<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+										<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
+									</li>
+								</ul>
+								</fieldset>
+
+								<fieldset>
+									<legend>Specimens?</legend>
+									<ul class="list-group list-group-flush mt-2 p-2 bg-light border rounded">
+									<cfif we_have_some EQ 1>
+										<cfset usedInIdAllSelected = ''>
+										<cfset usedInIdOnlySelected = 'checked="checked"'>
+										<cfset usedInIdNotSelected = ''>
+									<cfelseif we_have_some EQ 0>
+										<cfset usedInIdAllSelected = ''>
+										<cfset usedInIdOnlySelected = ''>
+										<cfset usedInIdNotSelected = 'checked="checked"'>
+									<cfelse>
+										<cfset usedInIdAllSelected = 'checked="checked"'>
+										<cfset usedInIdOnlySelected = ''>
+										<cfset usedInIdNotSelected = ''>
+									</cfif>
+									<li class="list-group-item px-0 pb-0 pt-1">
+										<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+										<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
+									</li>
+									<li class="list-group-item px-0 pb-0 pt-1">
+										<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+										<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which cataloged items exist?</label>
+									</li>
+									<li class="list-group-item px-0 py-1">
+										<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+										<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
+									</li>
+								</ul>
+								</fieldset>
 							</div>
-							<!--- End tab header div ---> 
-												
-							<!--- Tab content div --->
-							<div class="tab-content pb-0" id="myTabContent">
-								<!---Keyword Search--->
-								<div class="tab-pane fade show active py-3 mb-0" id="one" role="tabpanel" aria-label="tab 1">
-									<form name="searchForm" id="searchForm">
-										<div class="row mx-2">
-											<input type="hidden" name="method" value="getTaxa" class="keeponclear">
-											<div class="col-12 col-xl-3">
-												<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
-												<fieldset>
-													<legend class="text-transparent">Accepted Names?</legend>
-													<input type="hidden" name="action" value="search">
-													<ul class="list-group btn-link list-group-flush p-2 border bg-light rounded">
-													<cfif valid_catalog_term_fg EQ 1>
-														<cfset validFlagAllSelected = ''>
-														<cfset validFlagOnlySelected = 'checked="checked"'>
-														<cfset validFlagNotSelected = ''>
-													<cfelseif valid_catalog_term_fg EQ 0>
-														<cfset validFlagAllSelected = ''>
-														<cfset validFlagOnlySelected = ''>
-														<cfset validFlagNotSelected = 'checked="checked"'>
-													<cfelse>
-														<cfset validFlagAllSelected = 'checked="checked"'>
-														<cfset validFlagOnlySelected = ''>
-														<cfset validFlagNotSelected = ''>
-													</cfif>
-													<li class="list-group-item px-0 pb-0 pt-1">
-														<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-														<label for="validFGChecked" class="btn-link smaller-text">Show all matches?</label>
-													</li>
-													<li class="list-group-item px-0 pb-0 pt-1">
-														<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-														<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry?</label>
-													</li>
-													<li class="list-group-item px-0 py-1">
-														<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-														<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry?</label>
-													</li>
-												</ul>
-												</fieldset>
-												
-												<fieldset>
-													<legend>Specimens?</legend>
-													<ul class="list-group list-group-flush mt-2 p-2 bg-light border rounded">
-													<cfif we_have_some EQ 1>
-														<cfset usedInIdAllSelected = ''>
-														<cfset usedInIdOnlySelected = 'checked="checked"'>
-														<cfset usedInIdNotSelected = ''>
-													<cfelseif we_have_some EQ 0>
-														<cfset usedInIdAllSelected = ''>
-														<cfset usedInIdOnlySelected = ''>
-														<cfset usedInIdNotSelected = 'checked="checked"'>
-													<cfelse>
-														<cfset usedInIdAllSelected = 'checked="checked"'>
-														<cfset usedInIdOnlySelected = ''>
-														<cfset usedInIdNotSelected = ''>
-													</cfif>
-													<li class="list-group-item px-0 pb-0 pt-1">
-														<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-														<label for="wehavesomeAll" class="btn-link smaller-text">Find all taxa without regard for use?</label>
-													</li>
-													<li class="list-group-item px-0 pb-0 pt-1">
-														<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-														<label for="wehavesomeHave" class="btn-link smaller-text">Find only taxa for which cataloged items exist?</label>
-													</li>
-													<li class="list-group-item px-0 py-1">
-														<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-														<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications?</label>
-													</li>
-												</ul>
-												</fieldset>
-											</div>
-											<div class="col-12 col-xl-9 mt-2">
-												<div class="col-12">
-													<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
-												</div>
-												<div class="form-row bg-light border rounded p-2 mx-0">
-													<div class="col-md-4">
-														<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
-														<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name equals">
-													</div>
-													<div class="col-md-4">
-														<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
-														<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
-													</div>
-													<div class="col-md-4">
-														<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" aria-labelledby="common_name equals" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
-													</div>
-												</div>
-												<div class="form-row mt-2">
-													<div class="form-group col-md-2">
-														<label for="genus" class="data-entry-label align-left-center">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
-														<input type="text" class="data-entry-input" aria-labelledby="genus equals" id="genus" name="genus" value="#genus#" placeholder="generic name">
-													</div>
-													<div class="col-md-2">
-														<label for="subgenus" class="data-entry-label align-left-center">Subgenus <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="subgenus" aria-labelledby="subgenus equals" name="subgenus" value="#subgenus#" placeholder="subgenus">
-													</div>
-													<div class="form-group col-md-2">
-														<label for="species" class="data-entry-label align-left-center">Species <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</a> </label>
-														<input type="text" class="data-entry-input" id="species" aria-labelledby="species equals" name="species" value="#species#" placeholder="specific name">
-													</div>
-													<div class="form-group col-md-2">
-														<label for="subspecies" class="data-entry-label align-left-center">Subspecies <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="subspecies" name="subspecies" aria-labelledby="subspecies equals" value="#subspecies#" placeholder="subspecific name">
-													</div>
-													<div class="col-md-2">
-														<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
-														<input type="text" class="data-entry-input" id="author_text" name="author_text" aria-labelledby="author_text equals" value="#author_text#" placeholder="author text">
-													</div>
-												</div>
-												<div class="form-row mb-1">
-													<div class="col-md-2">
-														<label for="kingdom" class="data-entry-label align-left-center">Kingdom <a href="##" aria-hidden="true" tabindex="-1"  class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </a></label>
-														<input type="text" class="data-entry-input" id="kingdom" aria-labelledby="kingdom equals" name="kingdom" value="#kingdom#" placeholder="kingdom">
-													</div>
-													<div class="col-md-2">
-														<label for="phylum" class="data-entry-label align-left-center">Phylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="phylum" name="phylum" aria-labelledby="phylum equals" value="#phylum#" placeholder="phylum">
-													</div>
-													<div class="col-md-2">
-														<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
-														<input type="small" class="data-entry-input" id="subphylum" name="subphylum" aria-labelledby="subphylum equals" value="#subphylum#" placeholder="subphylum">
-													</div>
-													<div class="col-md-2">
-														<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
-														<input type="small" class="data-entry-input" id="superclass" aria-labelledby="superclass equals" name="superclass" value="#superclass#" placeholder="superclass">
-													</div>
-													<div class="col-md-2">
-														<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="phylclass" name="phylclass" aria-labelledby="phylclass equals" value="#phylclass#" placeholder="class">
-													</div>
-													<div class="col-md-2">
-														<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
-														<input type="text" class="data-entry-input" id="subclass" id="subclass" aria-labelledby="subclass equals" name="subclass" value="#subclass#" placeholder="subclass">
-													</div>
-												</div>
-												<div class="form-row mb-1">
-													<div class="col-md-2">
-														<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
-														<input type="text" class="data-entry-input" id="superorder" name="superorder" aria-labelledby="superorder equals" value="#superorder#" placeholder="superorder">
-													</div>
-													<div class="col-md-2">
-														<label for="phylorder" class="data-entry-label align-left-center">Order <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="phylorder" name="phylorder" aria-labelledby="phylorder equals" value="#phylorder#" placeholder="order">
-													</div>
-													<div class="col-md-2">
-														<label for="suborder" class="data-entry-label align-left-center">Suborder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="suborder" name="suborder" aria-labelledby="suborder equals" value="#suborder#" placeholder="suborder">
-													</div>
-													<div class="col-md-2">
-														<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
-														<input type="text" class="data-entry-input" id="infraorder" name="infraorder" aria-labelledby="infraorder equals" value="#infraorder#" placeholder="infraorder">
-													</div>
-												</div>
-												<div class="form-row mb-1">
-													<div class="col-md-2">
-														<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
-														<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
-													</div>
-													<div class="col-md-2">
-														<label for="family" class="data-entry-label align-left-center">Family <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="family" name="family" aria-labelledby="family equals" value="#family#" placeholder="family">
-													</div>
-													<div class="col-md-2">
-														<label for="subfamily" class="data-entry-label align-left-center">Subfamily <a class="btn-link" tabindex="-1" aria-hidden="true" href="##" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="subfamily" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
-													</div>
-													<div class="col-md-2">
-														<label for="tribe" class="data-entry-label align-left-center">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="tribe" name="tribe" aria-labelledby="tribe equals" value="#tribe#" placeholder="tribe">
-													</div>
-													<div class="col-md-2">
-														<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
-														<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
-													</div>
-												</div>
-												<div class="form-row mb-3 mt-2">
-													<div class="col-md-3">
-														<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
-														<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
-															<option></option>
-															<cfloop query="ctnomenclatural_code">
-																<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-																<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-md-3">
-														<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
-														<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
-															<option></option>
-															<cfloop query="CTTAXONOMIC_AUTHORITY">
-																<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-																<option value="#source_authority#">#source_authority#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-md-3">
-														<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
-														<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
-															<option></option>
-															<cfloop query="cttaxon_status">
-																<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
-																<option value="#taxon_status#">#taxon_status#</option>
-															</cfloop>
-														</select>
-													</div>
-													<div class="col-md-3">
-														<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
-														<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-labelledby="infraspecific_author equals" aria-label="infraspecific author for botanical names only">
-													</div>
-												</div>
-												<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
-												<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
-												<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
-											</div>
-										</div>
-									</form>
+							<div class="col-12 col-xl-9 mt-2">
+								<div class="col-12">
+									<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 								</div>
+								<div class="form-row bg-light border rounded p-2 mx-0">
+									<div class="col-md-4">
+										<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) </a></label>
+										<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name equals">
+									</div>
+									<div class="col-md-4">
+										<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
+										<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
+									</div>
+									<div class="col-md-4">
+										<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" aria-labelledby="common_name equals" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
+									</div>
+								</div>
+								<div class="form-row mt-2">
+									<div class="form-group col-md-2">
+										<label for="genus" class="data-entry-label align-left-center">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
+										<input type="text" class="data-entry-input" aria-labelledby="genus equals" id="genus" name="genus" value="#genus#" placeholder="generic name">
+									</div>
+									<div class="col-md-2">
+										<label for="subgenus" class="data-entry-label align-left-center">Subgenus <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subgenus');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="subgenus" aria-labelledby="subgenus equals" name="subgenus" value="#subgenus#" placeholder="subgenus">
+									</div>
+									<div class="form-group col-md-2">
+										<label for="species" class="data-entry-label align-left-center">Species <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('species');e.value='='+e.value;"> (=)</a> </label>
+										<input type="text" class="data-entry-input" id="species" aria-labelledby="species equals" name="species" value="#species#" placeholder="specific name">
+									</div>
+									<div class="form-group col-md-2">
+										<label for="subspecies" class="data-entry-label align-left-center">Subspecies <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subspecies');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="subspecies" name="subspecies" aria-labelledby="subspecies equals" value="#subspecies#" placeholder="subspecific name">
+									</div>
+									<div class="col-md-2">
+										<label for="author_text" class="data-entry-label align-left-center">Authorship <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('author_text');e.value='='+e.value;" > (=) </a> </label>
+										<input type="text" class="data-entry-input" id="author_text" name="author_text" aria-labelledby="author_text equals" value="#author_text#" placeholder="author text">
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-2">
+										<label for="kingdom" class="data-entry-label align-left-center">Kingdom <a href="##" aria-hidden="true" tabindex="-1"  class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </a></label>
+										<input type="text" class="data-entry-input" id="kingdom" aria-labelledby="kingdom equals" name="kingdom" value="#kingdom#" placeholder="kingdom">
+									</div>
+									<div class="col-md-2">
+										<label for="phylum" class="data-entry-label align-left-center">Phylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylum');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="phylum" name="phylum" aria-labelledby="phylum equals" value="#phylum#" placeholder="phylum">
+									</div>
+									<div class="col-md-2">
+										<label for="subphylum" class="data-entry-label align-left-center">Subphylum <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subphylum');e.value='='+e.value;">(=) </a></label>
+										<input type="small" class="data-entry-input" id="subphylum" name="subphylum" aria-labelledby="subphylum equals" value="#subphylum#" placeholder="subphylum">
+									</div>
+									<div class="col-md-2">
+										<label for="superclass" class="data-entry-label align-left-center">Superclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superclass');e.value='='+e.value;">(=) </a></label>
+										<input type="small" class="data-entry-input" id="superclass" aria-labelledby="superclass equals" name="superclass" value="#superclass#" placeholder="superclass">
+									</div>
+									<div class="col-md-2">
+										<label for="phylclass" class="data-entry-label align-left-center">Class <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('phylclass');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="phylclass" name="phylclass" aria-labelledby="phylclass equals" value="#phylclass#" placeholder="class">
+									</div>
+									<div class="col-md-2">
+										<label for="subclass" class="data-entry-label align-left-center">Subclass <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('subclass');e.value='='+e.value;">(=) </a></label>
+										<input type="text" class="data-entry-input" id="subclass" id="subclass" aria-labelledby="subclass equals" name="subclass" value="#subclass#" placeholder="subclass">
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-2">
+										<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
+										<input type="text" class="data-entry-input" id="superorder" name="superorder" aria-labelledby="superorder equals" value="#superorder#" placeholder="superorder">
+									</div>
+									<div class="col-md-2">
+										<label for="phylorder" class="data-entry-label align-left-center">Order <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('phylorder');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="phylorder" name="phylorder" aria-labelledby="phylorder equals" value="#phylorder#" placeholder="order">
+									</div>
+									<div class="col-md-2">
+										<label for="suborder" class="data-entry-label align-left-center">Suborder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('suborder');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="suborder" name="suborder" aria-labelledby="suborder equals" value="#suborder#" placeholder="suborder">
+									</div>
+									<div class="col-md-2">
+										<label for="infraorder" class="data-entry-label align-left-center">Infraorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraorder');e.value='='+e.value;">(=) </a></label>
+										<input type="text" class="data-entry-input" id="infraorder" name="infraorder" aria-labelledby="infraorder equals" value="#infraorder#" placeholder="infraorder">
+									</div>
+								</div>
+								<div class="form-row mb-1">
+									<div class="col-md-2">
+										<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
+										<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
+									</div>
+									<div class="col-md-2">
+										<label for="family" class="data-entry-label align-left-center">Family <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('family');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="family" name="family" aria-labelledby="family equals" value="#family#" placeholder="family">
+									</div>
+									<div class="col-md-2">
+										<label for="subfamily" class="data-entry-label align-left-center">Subfamily <a class="btn-link" tabindex="-1" aria-hidden="true" href="##" onclick="var e=document.getElementById('subfamily');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="subfamily" name="subfamily" aria-labelledby="subfamily equals" value="#subfamily#" placeholder="subfamily">
+									</div>
+									<div class="col-md-2">
+										<label for="tribe" class="data-entry-label align-left-center">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="tribe" name="tribe" aria-labelledby="tribe equals" value="#tribe#" placeholder="tribe">
+									</div>
+									<div class="col-md-2">
+										<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
+										<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
+									</div>
+								</div>
+								<div class="form-row mb-3 mt-2">
+									<div class="col-md-3">
+										<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
+										<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
+											<option></option>
+											<cfloop query="ctnomenclatural_code">
+												<cfif in_nomenclatural_code EQ nomenclatural_code><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#nomenclatural_code#" #selected#>#nomenclatural_code#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label for="source_authority" class="data-entry-label align-left-center">Source Authority</label>
+										<select name="source_authority" id="source_authority" class="data-entry-select" size="1">
+											<option></option>
+											<cfloop query="CTTAXONOMIC_AUTHORITY">
+												<cfif in_source_authority EQ source_authority><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#source_authority#">#source_authority#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label for="taxon_status" class="data-entry-label align-left-center">Nomenclatural Status</label>
+										<select name="taxon_status" id="taxon_status" class="data-entry-select" size="1">
+											<option></option>
+											<cfloop query="cttaxon_status">
+												<cfif in_taxon_status EQ taxon_status><cfset selected="selected='true'"><cfelse><cfset selected=""></cfif>
+												<option value="#taxon_status#">#taxon_status#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-md-3">
+										<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+										<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-labelledby="infraspecific_author equals" aria-label="infraspecific author for botanical names only">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span></button>
+								<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
+								<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 							</div>
 						</div>
-						</section>
-					</div>
-				</div>
+				</form>
+			</section>
 			</div>
 		</div><!--- end search form div --->
 
