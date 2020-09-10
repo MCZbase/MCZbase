@@ -311,7 +311,7 @@ limitations under the License.
 		<div id="search-form-div">
 			<div class="container-fluid">
 			<section id="content" role="search" class="row mx-0 mb-3">
-				<form name="searchForm"  id="searchForm" class="search-box col-12"> 
+				<form name="searchForm"  id="searchForm" class="search-box"> 
 				<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs????  ...update: changed to search-box --->
 					<div class="search-box-header">
 						<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
