@@ -217,7 +217,7 @@ limitations under the License.
 							<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 								<!--- All Transactions search tab panel --->
 								<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-									<h2 class="h4 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+									<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 									<form id="searchForm">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 										<div class="form-row mb-2 mx-0">
@@ -333,7 +333,7 @@ limitations under the License.
 
 								<!--- Loan search tab panel --->
 								<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-									<h2 class="h4 card-title mb-0 mt-2">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
+									<h2 class="h3 card-title mb-0 mt-2">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 									<!--- Search for just loans ---->
 									<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select coll_obj_disposition from ctcoll_obj_disp
@@ -546,7 +546,7 @@ limitations under the License.
 														<div id="permitpickerdialog"></div>
 													</div>
 												</div>
-												<div class="border bg-light rounded px-2 pt-1 mb-2 pb-1">
+												<div class="border bg-light rounded px-2 pt-1 mb-2 pb-3">
 													<div class="form-row mx-0 mb-1 px-3">
 														<div class="col-3 px-0">
 															<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
@@ -632,7 +632,7 @@ limitations under the License.
 														</cfif>
 														<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 														<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-														<div class="col-md-12">
+														<div class="col-md-12 px-0">
 															<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
 															<input type="text" name="specimen_guid" 
 																class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
