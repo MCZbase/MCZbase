@@ -3185,5 +3185,106 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
+<cffunction name="savePermit" access="remote" returntype="any" returnformat="json">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="issued_to_agent_id" type="string" required="yes">
+	<cfargument name="issued_by_agent_id" type="string" required="yes">
+	<cfargument name="specific_type" type="string" required="yes">
+	<cfargument name="contact_agent_id" type="string" required="no">
+	<cfargument name="issued_date" type="string" required="no">
+	<cfargument name="renewed_date" type="string" required="no">
+	<cfargument name="exp_date" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			   select permit_type 
+				from ctspecific_permit_type 
+				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			</cfquery>
+			<cfset permit_type = #ptype.permit_type#>
+			<cfoutput>
+				<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE permit SET
+						permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
+						,ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
+						,ISSUED_TO_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_agent_id#">
+						,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+						,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+						<cfif isdefined("contact_agent_id") and len(#contact_agent_id#) gt 0>
+							,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
+						<cfelse>
+							,contact_agent_id = null
+						</cfif>
+						<cfif isdefined("issued_date") AND len(#issued_date#) GT 0 >
+							,ISSUED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#issued_date#">
+						<cfelse>
+							,ISSUED_DATE = null
+						</cfif>
+						<cfif isdefined("renewed_date") and len(#renewed_date#) GT 0 >
+							,RENEWED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#renewed_date#">
+						<cfelse>
+							,RENEWED_DATE = null
+						</cfif>
+						<cfif isdefined("exp_date") and len(#exp_date#) GT 0>
+							,EXP_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#exp_date#">
+						<cfelse>
+							,EXP_DATE = null
+						</cfif>
+						<cfif isdefined("PERMIT_NUM")>
+							,PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_num#">
+						</cfif>
+						<cfif isdefined("PERMIT_TITLE")>
+							,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+						</cfif>
+						<cfif isdefined("PERMIT_REMARKS")>
+							,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+						</cfif>
+						<cfif isdefined("restriction_summary")>
+							,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+						</cfif>
+						<cfif isdefined("benefits_summary")>
+							,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+						</cfif>
+						<cfif isdefined("benefits_provided")>
+							,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+						</cfif>
+					where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+				</cfquery>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#permit_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 </cfcomponent>
