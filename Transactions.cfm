@@ -185,7 +185,6 @@ limitations under the License.
 				<div class="col-12">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 pb-2 tab-card"> 
-						
 						<!--- Set Active Tab --->
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
@@ -216,7 +215,6 @@ limitations under the License.
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
-						
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
@@ -337,8 +335,7 @@ limitations under the License.
 							
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink h3 card-title mb-0 mt-2">Find Loans </h2>
-								
+								<h2 class="h3 card-title mb-0 mt-2">Find Loans </h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -440,8 +437,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded p-1 mx-1 my-2">
-									<div class="form-row mb-2 mx-0 my-2">
-									
+										<div class="form-row mb-2 mx-0 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -674,8 +670,7 @@ limitations under the License.
 												</div>
 											</div>
 											</div>
-										</div>
-									</div>
+									</div>	
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
@@ -684,16 +679,15 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							</div>
+							</div><!---tab-pane loan search---> 
 						</div>
+						<!--- End tab-content div ---> 
 					</div>
-					<!---tab-pane loan search---> 
-					
 				</div>
-				<!--- End tab-content div ---> 
-				
-			</div>
+			</div>	
 		</div>
+	</div>
+																
 	</div>
 	
 	<!--- Results table as a jqxGrid. --->
