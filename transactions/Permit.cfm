@@ -455,145 +455,145 @@ limitations under the License.
       			material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
 				<section id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
-								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();" class="col-12">
-									<input type="hidden" name="action" value="create">
+					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();" class="col-12">
+						<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
        							</cfif>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="issued_by_agent_name">Issued By:</label>
-												<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
-											</div>
-											<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" >
-											<script>
-												$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
-											</script> 
-										</div>
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="issued_to_agent_name">Issued To:</label>
-												<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
-											</div>
-											<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" >
-											<script>
-												$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
-											</script> 
-										</div>
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="contact_agent_name">Contact Person:</label>
-												<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
-											</div>
-											<input type="hidden" name="contact_agent_id" id="contact_agent_id" >
-											<script>
-												$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
-											</script> 
-										</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_by_agent_name">Issued By:</label>
+									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<label for="issued_date" class="data-entry-label">Issued Date</label>
-											<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="">
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="renewed_date" class="data-entry-label">Renewed Date</label>
-											<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="">
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="exp_date" class="data-entry-label">Expiration Date</label>
-											<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="">
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="permit_num" class="data-entry-label">Permit Number</label>
-											<input type="text" name="permit_num" id="permit_num" class="data-entry-input">
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="permit_title" class="data-entry-label">Document Title</label>
-											<input type="text" name="permit_title" id="permit_title" class="data-entry-input">
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="specific_type" class="data-entry-label">Specific Document Type</label>
-										<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select" required>
-												<option value=""></option>
-												<cfloop query="ctSpecificPermitType">
-													<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
-												</cfloop>
-											</select>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-												<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-												<div id="newPermitASTDialog"></div>
-											</cfif>
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="permit_remarks" class="data-entry-label">Remarks</label>
-											<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300">
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
-											<textarea rows="1" name="restriction_summary" id="restriction_summary" 
-												onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
-												class="autogrow border rounded w-100"></textarea>
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
-											<textarea rows="1" name="benefits_summary" id="benefits_summary" 
-												onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
-												class="autogrow border rounded w-100"></textarea>
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
-											<textarea rows="1" name="benefits_provided" id="benefits_provided" 
-												onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
-												class="autogrow border rounded w-100"></textarea>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="form-group col-12">
-											<input type="button" value="Create" class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newPermitForm')[0])) { submit();  } " 
-												id="submitButton" >
-										</div>
-									</div>
-								</form>
+									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
+								</div>
+								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" >
 								<script>
-									// make selected textareas autogrow as text is entered.
-									$(document).ready(function() {
-										// bind the autogrow function to the keyup event
-										$('textarea.autogrow').keyup(autogrow);
-										// trigger keyup event to size textareas to existing text
-										$('textarea.autogrow').keyup();
-									});
+									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
 								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_to_agent_name">Issued To:</label>
+									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
+								</div>
+								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="contact_agent_name">Contact Person:</label>
+									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
+								</div>
+								<input type="hidden" name="contact_agent_id" id="contact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<label for="issued_date" class="data-entry-label">Issued Date</label>
+								<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="renewed_date" class="data-entry-label">Renewed Date</label>
+								<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="exp_date" class="data-entry-label">Expiration Date</label>
+								<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="permit_num" class="data-entry-label">Permit Number</label>
+								<input type="text" name="permit_num" id="permit_num" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="permit_title" class="data-entry-label">Document Title</label>
+								<input type="text" name="permit_title" id="permit_title" class="data-entry-input">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+							<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select" required>
+									<option value=""></option>
+									<cfloop query="ctSpecificPermitType">
+										<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+									</cfloop>
+								</select>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+									<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+									<div id="newPermitASTDialog"></div>
+								</cfif>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="permit_remarks" class="data-entry-label">Remarks</label>
+								<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
+								<textarea rows="1" name="restriction_summary" id="restriction_summary" 
+									onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
+									class="autogrow border rounded w-100"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
+									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+									class="autogrow border rounded w-100"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
+								<textarea rows="1" name="benefits_provided" id="benefits_provided" 
+									onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
+									class="autogrow border rounded w-100"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="form-group col-12">
+								<input type="button" value="Create" class="btn btn-xs btn-primary"
+									onClick="if (checkFormValidity($('##newPermitForm')[0])) { submit();  } " 
+									id="submitButton" >
+							</div>
+						</div>
+					</form>
+					<script>
+						// make selected textareas autogrow as text is entered.
+						$(document).ready(function() {
+							// bind the autogrow function to the keyup event
+							$('textarea.autogrow').keyup(autogrow);
+							// trigger keyup event to size textareas to existing text
+							$('textarea.autogrow').keyup();
+						});
+					</script> 
 				</section>
 			</main>
 		</cfoutput>
@@ -695,172 +695,171 @@ function opendialog(page,id,title) {
 };
 </script>>
 			<main class="container">
-				<div class="row">
-					<div class="col-12">
-						<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >Edit Permissions &amp; Rights Document <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i></h2>
-						<div class="form-row mb-2">
-							<section id="editPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="editPermitFormSectionLabel" >
-								<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post">
-									<input type="hidden" name="method" value="savePermit">
-									<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+				<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >
+					Edit Permissions &amp; Rights Document 
+					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
+				</h2>
+				<section id="editPermitFormSection" class="row" aria-labeledby="editPermitFormSectionLabel" >
+					<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post" class="col-12">
+						<input type="hidden" name="method" value="savePermit">
+						<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
    								 <!--- make permit number available as a element with a distinct id to grab with jquery --->
-									<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_num#">
+						<input type="hidden" name="permit_number_passon" id="permit_number_passon" value="#permit_num#">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
        							</cfif>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="issued_by_agent_name">Issued By:</label>
-												<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
-											</div>
-											<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
-											<script>
-												$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
-											</script> 
-										</div>
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="issued_to_agent_name">Issued To:</label>
-												<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedToAgent#" >
-											</div>
-											<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
-											<script>
-												$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
-											</script> 
-										</div>
-										<div class="col-12 col-md-4">
-											<span>
-												<label for="contact_agent_name">Contact Person:</label>
-												<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-											</span>
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input" value="#ContactAgent#">
-											</div>
-											<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
-											<script>
-												$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
-											</script> 
-										</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_by_agent_name">Issued By:</label>
+									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<label for="issued_date" class="data-entry-label">Issued Date</label>
-											<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="#dateformat(issued_date,"yyyy-mm-dd")#">
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="renewed_date" class="data-entry-label">Renewed Date</label>
-											<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="#dateformat(renewed_date,"yyyy-mm-dd")#">
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="exp_date" class="data-entry-label">Expiration Date</label>
-											<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="#dateformat(exp_date,"yyyy-mm-dd")#">
-										</div>
+									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
+								</div>
+								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
+								<script>
+									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="issued_to_agent_name">Issued To:</label>
+									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="permit_num" class="data-entry-label">Permit Number</label>
-											<input type="text" name="permit_num" id="permit_num" class="data-entry-input" value="#permit_num#">
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="permit_title" class="data-entry-label">Document Title</label>
-											<input type="text" name="permit_title" id="permit_title" class="data-entry-input" value="#permit_title#">
-										</div>
+									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedToAgent#" >
+								</div>
+								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
+								<script>
+									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-4">
+								<span>
+									<label for="contact_agent_name">Contact Person:</label>
+									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-											<label for="specific_type" class="data-entry-label">Specific Document Type</label>
-											<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctSpecificPermitType">
-													<cfif permitInfo.specific_type IS ctSpecificPermitType.specific_type>
-														<cfset selected=' selected="true" '>
-													<cfelse>
-														<cfset selected=''>
-													</cfif>
-													<option #selected# value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
-												</cfloop>
-											</select>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
-												<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
-												<div id="newPermitASTDialog"></div>
-											</cfif>
-										</div>
-										<div class="col-12 col-md-6">
-											<label for="permit_remarks" class="data-entry-label">Remarks</label>
-											<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300" value="#permit_remarks#">
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
-											<textarea rows="1" name="restriction_summary" id="restriction_summary" 
-												onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
-												class="autogrow border rounded w-100">#restriction_summary#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
-											<textarea rows="1" name="benefits_summary" id="benefits_summary" 
-												onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
-												class="autogrow border rounded w-100">#benefits_summary#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
-											<textarea rows="1" name="benefits_provided" id="benefits_provided" 
-												onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
-												class="autogrow border rounded w-100">#benefits_provided#</textarea>
-										</div>
-									</div>
-									<div class="form-row mb-1">
-										<div class="form-group col-12">
-											<!--- TODO: Ajax action for save --->
-											<input type="button" value="Save" class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
-												id="submitButton" >
-												<!--- TODO: Refactor/fix/remove Headless use --->
-                                		<cfif isdefined("headless") and headless EQ 'true' >
-                                  		 <strong>Permit Added.  Click OK when done.</strong>
-												</cfif>
-                                <input type="button" value="Permit Report" class="lnkBtn"
-                                    onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
-                                    onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
-											<input type="button" value="Delete" class="delBtn"
-											   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-											   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
-										</div>
-									</div>
-								</form>
-							</section>
-<!--- TODO: Work blocks below into sections --->
-
-
+									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input" value="#ContactAgent#">
+								</div>
+								<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
+								<script>
+									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+								</script> 
+							</div>
 						</div>
-					</div>
-				</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-4">
+								<label for="issued_date" class="data-entry-label">Issued Date</label>
+								<input type="text" id="issued_date" name="issued_date" class="data-entry-input" value="#dateformat(issued_date,"yyyy-mm-dd")#">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="renewed_date" class="data-entry-label">Renewed Date</label>
+								<input type="text" id="renewed_date" name="renewed_date" class="data-entry-input" value="#dateformat(renewed_date,"yyyy-mm-dd")#">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="exp_date" class="data-entry-label">Expiration Date</label>
+								<input type="text" id="exp_date" name="exp_date" class="data-entry-input" value="#dateformat(exp_date,"yyyy-mm-dd")#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="permit_num" class="data-entry-label">Permit Number</label>
+								<input type="text" name="permit_num" id="permit_num" class="data-entry-input" value="#permit_num#">
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="permit_title" class="data-entry-label">Document Title</label>
+								<input type="text" name="permit_title" id="permit_title" class="data-entry-input" value="#permit_title#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+								<select name="specific_type" id="specific_type" size="1" class="reqdClr data-entry-select">
+									<option value=""></option>
+									<cfloop query="ctSpecificPermitType">
+										<cfif permitInfo.specific_type IS ctSpecificPermitType.specific_type>
+											<cfset selected=' selected="true" '>
+										<cfelse>
+											<cfset selected=''>
+										</cfif>
+										<option #selected# value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+									</cfloop>
+								</select>
+								<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+									<button id="addSpecificTypeButton" onclick="openAddSpecificTypeDialog(); event.preventDefault();">+</button>
+									<div id="newPermitASTDialog"></div>
+								</cfif>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="permit_remarks" class="data-entry-label">Remarks</label>
+								<input type="text" name="permit_remarks" id="permit_remarks" class="data-entry-input" maxlength="300" value="#permit_remarks#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="restriction_summary" class="data-entry-label">Summary of Restrictions on Use (<span id="length_restriction_summary"></span>)</label>
+								<textarea rows="1" name="restriction_summary" id="restriction_summary" 
+									onkeyup="countCharsLeft('restriction_summary', 4000, 'length_restriction_summary');"
+									class="autogrow border rounded w-100">#restriction_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_summary" class="data-entry-label">Summary of Agreed Benefits (<span id="length_benefits_summary"></span>)</label>
+								<textarea rows="1" name="benefits_summary" id="benefits_summary" 
+									onkeyup="countCharsLeft('benefits_summary', 4000, 'length_benefits_summary');"
+									class="autogrow border rounded w-100">#benefits_summary#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12">
+								<label for="benefits_provided" class="data-entry-label">Benefits Provided (<span id="length_benefits_provided"></span>)</label>
+								<textarea rows="1" name="benefits_provided" id="benefits_provided" 
+									onkeyup="countCharsLeft('benefits_provided', 4000, 'length_benefits_provided');"
+									class="autogrow border rounded w-100">#benefits_provided#</textarea>
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="form-group col-12">
+								<!--- TODO: Ajax action for save --->
+								<input type="button" value="Save" class="btn btn-xs btn-primary"
+									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
+									id="submitButton" >
+									<!--- TODO: Refactor/fix/remove Headless use --->
+								<cfif isdefined("headless") and headless EQ 'true' >
+									<strong>Permit Added.  Click OK when done.</strong>
+								</cfif>
+								<input type="button" value="Permit Report" class="lnkBtn"
+									onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
+									onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
+								<input type="button" value="Delete" class="delBtn"
+								   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
+								   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
+							</div>
+						</div>
+					</form>
+				</section>
+<!--- TODO: Work blocks below into sections --->
+				<section>
+				    <!---  Show/add media copy of permit  (shows permit) --->
+				    <div id="copyofpermit"><img src='images/indicator.gif'></div>
+				</section>
+				    <!---  list/add media copy of associated documents (document for permit) --->
+				    <div id="associateddocuments"><img src='images/indicator.gif'></div>
+				</section>
+
 			</main>
-    <!---  Show/add media copy of permit  (shows permit) --->
-    <div id="copyofpermit" class="shippingBlock" ><img src='images/indicator.gif'></div>
-    <!---  list/add media copy of associated documents (document for permit) --->
-    <div id="associateddocuments" class="shippingBlock"><img src='images/indicator.gif'></div>
 
     <script>
     function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
