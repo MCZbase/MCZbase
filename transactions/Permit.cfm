@@ -662,7 +662,7 @@ limitations under the License.
 			from
 				permit left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-				preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
+				left join preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
 			where
 				permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			order by permit_id
