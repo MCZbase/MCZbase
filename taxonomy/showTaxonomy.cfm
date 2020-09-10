@@ -382,7 +382,7 @@
 					</cfif>
 				</div>
 		
-				<div class="row">
+				<div>
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
 						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps">#one.AUTHOR_TEXT#</span></h1>
