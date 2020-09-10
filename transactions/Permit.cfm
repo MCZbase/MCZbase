@@ -454,7 +454,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<section id="newPermitFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newPermitFormSectionLabel" >
 								<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
-									<input type="hidden" name="action" value="createPermit">
+									<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
        							</cfif>
