@@ -421,7 +421,7 @@ input#Password {
 	
 	/* Small device login/logout */
 nav.navbar{
-	padding: 0 .5em;
+	padding: 0 1em;
     font-size: .9em;
 }
 .navbar-toggler {
