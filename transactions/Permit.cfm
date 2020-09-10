@@ -1024,15 +1024,15 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 		<cfoutput>
 			<cfset hasError = 0 >
 			<cfif not isdefined("specific_type") OR len(#specific_type#) is 0>
-				Error: You didn't select a document type. Go back and try again.
+				Error: You didn't select a document type. 
 				<cfset hasError = 1 >
 			</cfif>
-			<cfif not isdefined("issuedByAgentId") OR len(#issuedByAgentId#) is 0>
-				Error: You didn't select an issued by agent. Do you have popups enabled?  Go back and try again.
+			<cfif not isdefined("issued_by_agent_id") OR len(#issued_by_agent_id#) is 0>
+				Error: You didn't select an issued by agent. 
 				<cfset hasError = 1 >
 			</cfif>
-			<cfif not isdefined("issuedToAgentId") OR len(#issuedToAgentId#) is 0>
-				Error: You didn't select an issued to agent. Do you have popups enabled?  Go back and try again.
+			<cfif not isdefined("issued_to_agent_id") OR len(#issued_to_agent_id#) is 0>
+				Error: You didn't select an issued to agent. 
 				<cfset hasError = 1 >
 			</cfif>
 			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1090,11 +1090,11 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 					</cfif>)
 				VALUES (
 					#nextPermit.nextPermit#
-					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
 					<cfif len(#ISSUED_DATE#) gt 0>
 						,'#dateformat(ISSUED_DATE,"yyyy-mm-dd")#'
 					</cfif>
-					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#issued_to_agent_id#">
 					<cfif len(#RENEWED_DATE#) gt 0>
 						,'#dateformat(RENEWED_DATE,"yyyy-mm-dd")#'
 					</cfif>
@@ -1409,66 +1409,4 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 
      </cfoutput>
 </cfif>
-<!--------------------------------------------------------------------------------------------------->
-<!--------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveChanges">
-<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
-</cfquery>
-<cfset permit_type = #ptype.permit_type#>
-<cfoutput>
-<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-UPDATE permit SET
-	permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
-	<cfif len(#issuedByAgentId#) gt 0>
-	 	,ISSUED_BY_AGENT_ID = #issuedByAgentId#
-    </cfif>
-	 <cfif len(#ISSUED_DATE#) gt 0>
-	 	,ISSUED_DATE = '#ISSUED_DATE#'
-	 </cfif>
-	 <cfif len(#IssuedToAgentId#) gt 0>
-	 	,ISSUED_TO_AGENT_ID = #IssuedToAgentId#
-	 </cfif>
-	 <cfif len(#RENEWED_DATE#) gt 0>
-	 	,RENEWED_DATE = '#RENEWED_DATE#'
-	 </cfif>
-	 <cfif len(#EXP_DATE#) gt 0>
-	 	,EXP_DATE = '#EXP_DATE#'
-	 </cfif>
-	 <cfif len(#PERMIT_NUM#) gt 0>
-	 	,PERMIT_NUM = '#PERMIT_NUM#'
-	 </cfif>
-	 <cfif len(#PERMIT_TYPE#) gt 0>
-	 	,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
-	 </cfif>
-	 <cfif len(#SPECIFIC_TYPE#) gt 0>
-	 	,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
-	 </cfif>
-	 <cfif len(#PERMIT_TITLE#) gt 0>
-	 	,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
-	 </cfif>
-	<cfif len(#PERMIT_REMARKS#) gt 0>
-	 	,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
-    </cfif>
-	<cfif len(#restriction_summary#) gt 0>
-	 	,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
-    </cfif>
-	<cfif len(#benefits_summary#) gt 0>
-	 	,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
-    </cfif>
-	<cfif len(#benefits_provided#) gt 0>
-	 	,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
-    </cfif>
-	 <cfif len(#contact_agent_id#) gt 0>
-	 	,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
-	<cfelse>
-		,contact_agent_id = null
-	 </cfif>
-	 where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-</cfquery>
-<cflocation url="Permit.cfm?Action=editPermit&permit_id=#permit_id#">
-</cfoutput>
-</cfif>
-<!--------------------------------------------------------------------------------------------------->
-<!--------------------------------------------------------------------------------------------------->
 <!--------------------------------------------------------------------------------------------------->
