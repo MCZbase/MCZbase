@@ -499,81 +499,81 @@ limitations under the License.
 						</div>
 					</div>
 						<div class="col-12 col-xl-3 col-md-4 px-0 float-left">
-							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left-center float-left">Kingdom</label>
+							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left float-left">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="kingdom" id="kingdom" value="#gettaxa.kingdom#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div id="phylum_row" class="col-12 col-xl-3 col-md-4 px-0 float-left">
-							<label for="phylum" id="phylum_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Phylum</label>
+							<label for="phylum" id="phylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Phylum</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylum" id="phylum" value="#gettaxa.phylum#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Subphylum</label>
+							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Subphylum</label>
 							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="subphylum" id="subphylum" value="#gettaxa.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div id="division_row" class="botanical">
 						<div class="col-12 col-md-4 col-xl-3 px-0 botanical float-left">
-							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left-center float-left">Division</label>
+							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="division" id="division" value="#gettaxa.division#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-xl-3 col-md-4 px-0 botanical float-left">
-							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label align-left-center float-left">SubDivision</label>
+							<label for="subdivision" id="subdivsion_label" class="col-sm-3 col-form-label align-left float-left">SubDivision</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subdivision" id="subdivision" value="#gettaxa.subdivision#" class="data-entry-input my-1">
 							</div>
 						</div>
 					</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="superclass" class="col-12 col-md-3 col-form-label align-left-center float-left">Superclass</label>
+							<label for="superclass" class="col-12 col-md-3 col-form-label align-left float-left">Superclass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superclass" id="superclass" value="#gettaxa.superclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="phylclass" class="col-12 col-md-3 col-form-label align-left-center float-left">Class</label>
+							<label for="phylclass" class="col-12 col-md-3 col-form-label align-left float-left">Class</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylclass" id="phylclass" value="#gettaxa.phylclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="subclass" class="col-12 col-md-3 col-form-label align-left-center float-left">SubClass</label>
+							<label for="subclass" class="col-12 col-md-3 col-form-label align-left float-left">SubClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subclass" id="subclass" value="#gettaxa.subclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="infraclass" class="col-12 col-md-3 col-form-label align-left-center float-left">InfraClass</label>
+							<label for="infraclass" class="col-12 col-md-3 col-form-label align-left float-left">InfraClass</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraclass" id="infraclass" value="#gettaxa.infraclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="superorder" class="col-12 col-md-3 col-form-label align-left-center float-left">Superorder</label>
+							<label for="superorder" class="col-12 col-md-3 col-form-label align-left float-left">Superorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superorder" id="superorder" value="#gettaxa.superorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="phylorder" class="col-12 col-md-3 col-form-label align-left-center float-left">Order</label>
+							<label for="phylorder" class="col-12 col-md-3 col-form-label align-left float-left">Order</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="phylorder" id="phylorder" value="#gettaxa.phylorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="suborder" class="col-12 col-md-3 col-form-label align-left-center float-left">Suborder</label>
+							<label for="suborder" class="col-12 col-md-3 col-form-label align-left float-left">Suborder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="suborder" id="suborder" value="#gettaxa.suborder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="infraorder" class="col-12 col-md-3 col-form-label align-left-center float-left">Infraorder</label>
+							<label for="infraorder" class="col-12 col-md-3 col-form-label align-left float-left">Infraorder</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="infraorder" id="infraorder" value="#gettaxa.infraorder#" class="data-entry-input my-1">
 							</div>
@@ -602,32 +602,32 @@ limitations under the License.
 					</cfif>
 					
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="superfamily" class="col-sm-3 col-form-label align-left-center float-left">Superfamily</label>
+							<label for="superfamily" class="col-sm-3 col-form-label align-left float-left">Superfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="superfamily" id="superfamily" value="#gettaxa.superfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="family" class="col-12 col-md-3 col-form-label align-left-center float-left">Family</label>
+							<label for="family" class="col-12 col-md-3 col-form-label align-left float-left">Family</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="family" id="family" value="#gettaxa.family#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="subfamily" class="col-sm-3 col-form-label align-left-center float-left">Subfamily</label>
+							<label for="subfamily" class="col-sm-3 col-form-label align-left float-left">Subfamily</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subfamily" id="subfamily" value="#gettaxa.subfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="tribe" class="col-12 col-md-3 col-form-label align-left-center float-left">Tribe</label>
+							<label for="tribe" class="col-12 col-md-3 col-form-label align-left float-left">Tribe</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="form-row float-left mx-0">
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="genus" class="col-12 col-md-3 col-form-label align-left-center float-left">Genus
+							<label for="genus" class="col-12 col-md-3 col-form-label align-left float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
 								</span>
@@ -640,7 +640,7 @@ limitations under the License.
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
-							<label for="subgenus" class="col-12 col-md-3 col-form-label align-left-center float-left">Subgenus</label>
+							<label for="subgenus" class="col-12 col-md-3 col-form-label align-left float-left">Subgenus</label>
 							<div class="col-12 col-md-9 float-left"><span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> </div>
@@ -649,20 +649,20 @@ limitations under the License.
 				
 		
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="species" class="col-12 col-md-3 col-form-label align-left-center float-left">Species</label>
+							<label for="species" class="col-12 col-md-3 col-form-label align-left float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left-center float-left">Subspecies</label>
+							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
 							</div>
 						<div class="col-12 col-md-4 col-xl-3 px-0 float-left">
-							<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label align-left-center float-left"><span>Infraspecific&nbsp;Rank</span></label>
+							<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label align-left float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="col-12 col-md-6 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-1" data-style="btn-primary" show-tick>
 									<option value=""></option>
@@ -677,7 +677,7 @@ limitations under the License.
 				
 			
 						<div class="col-12 col-md-6 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-form-label align-left-center float-left">Author</label>
+							<label for="author_text" class="col-12 col-md-2 col-form-label align-left float-left">Author</label>
 							<div class="col-12 col-md-10 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
