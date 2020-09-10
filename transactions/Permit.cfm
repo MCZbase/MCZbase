@@ -662,7 +662,7 @@ limitations under the License.
 			from
 				permit left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-				preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
+				left join preferred_agent_name contact on permit.contact_agent_id = contact.agent_id
 			where
 				permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 			order by permit_id
@@ -1018,8 +1018,7 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 </cfoutput>
 
 	</cfcase>
-
-
+	<!--------------------------------------------------------------------------------------------------->
 	<cfcase value="create">
 		<cfoutput>
 			<cfset hasError = 0 >
@@ -1126,9 +1125,9 @@ from permit_shipment left join shipment on permit_shipment.shipment_id = shipmen
 					</cfif>)
 			</cfquery>
 			<cfif isdefined("headless") and headless EQ 'true'>
-				<cflocation url="Permit.cfm?Action=editPermit&headless=true&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="Permit.cfm?Action=edit&headless=true&permit_id=#nextPermit.nextPermit#">
 			<cfelse>
-				<cflocation url="Permit.cfm?Action=editPermit&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
 			</cfif>
 		</cfoutput>
 	</cfcase>
