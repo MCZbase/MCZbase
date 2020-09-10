@@ -443,8 +443,13 @@ nav.navbar{
 	padding: 0 .5em;
     font-size: .9em;
 }
+.navbar-toggler {
+    padding: .12rem .5rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+}
 .login-form {
-	width: 265px;
+	width: 229px;
 	}
 .loginfld1 {
 	width:55px;
