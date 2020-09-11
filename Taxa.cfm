@@ -322,8 +322,8 @@ limitations under the License.
 								<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 							<div class="form-row">
 								<input type="hidden" name="action" value="search">
-								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 px-0 my-4">
-									<legend class="text-dark">Search accepted taxa?</legend>
+								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 px-0 my-3">
+									<legend class="text-dark mb-3">Search accepted taxa?</legend>
 								<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
 									<cfif valid_catalog_term_fg EQ 1>
 										<cfset validFlagAllSelected = ''>
@@ -352,8 +352,8 @@ limitations under the License.
 									</li>
 								</ul>
 								</fieldset>
-								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 px-0 my-4">
-								<legend class="dark">Search taxa used on specimen records?</legend>
+								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 px-0 my-3">
+								<legend class="text-dark mb-3">Search taxa used on specimen records?</legend>
 								<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
 									<cfif we_have_some EQ 1>
 										<cfset usedInIdAllSelected = ''>
