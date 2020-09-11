@@ -517,4 +517,8 @@ nav.navbar{
 		margin-right:0;
 		top: 2px;
 	}
+	.navbar-toggler-icon {
+    width: 1em;
+    height: 1.5em;
+}
 }
