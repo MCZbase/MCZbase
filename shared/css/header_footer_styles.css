@@ -442,13 +442,13 @@ nav.navbar{
 		margin-right:.25em;
 	}
 	.login-form {
-		width: 290px;
+		width: 275px;
 	}
 	.loginfld1 {
-		width:70px;
+		width:77px;
 	}
 	.loginfld2 {
-		width: 66px;
+		width: 73px;
 	}
 }
 @media(max-width:414px) {
