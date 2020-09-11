@@ -566,9 +566,9 @@ limitations under the License.
 								<label for="password" class="mr-1 sr-only"> Password:</label>
 								<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfld2">
 								<label for="login" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Log In" id="login" class="btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+								<input type="submit" value="Log In" id="login" class="btn-xs btn-primary loginButtons"  onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 								<label for="create_account" class="mr-1 sr-only"> Password:</label>
-								<input type="submit" value="Register" class="btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+								<input type="submit" value="Register" class="btn-xs btn-primary loginButtons" id="create_account" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
 							</div>
 						</form>
 					</cfif>
