@@ -140,6 +140,7 @@ p {
 .brackets {
 	width: 5px;
 	font-size: 24px;
+	margin-top:-4px;
 }
 .warning {
 	border: 5px solid red;
