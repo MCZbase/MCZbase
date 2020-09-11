@@ -160,6 +160,7 @@ nav button {
 	padding: 5px 6px 4px 6px;
 	font-size: .78rem;
 	line-height: 1em;
+	margin-top:1px;
 	border-radius: .2rem;
 	display: inline-block;
 	border: 1px solid #ddd;
