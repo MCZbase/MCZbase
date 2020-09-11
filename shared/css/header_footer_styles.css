@@ -158,13 +158,12 @@ nav button {
 	text-align:right;
 }
 .loginButtons {
-	padding: 5px 6px 4px 6px;
+	padding: 4px 6px 4px 6px;
 	font-size: .78rem;
 	line-height: 1em;
-	margin-top:1px;
 	border-radius: .2rem;
 	display: inline-block;
-	border: 1px solid #ddd;
+/*	border: 1px solid #ddd;*/
 	max-width:100px;
 }
 .footer {
