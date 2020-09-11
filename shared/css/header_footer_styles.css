@@ -465,14 +465,14 @@ nav.navbar{
 }
 .form-login {right:.7em;}
 .login-form {
-	width: 318px;
+	width: 323px;
 	text-align:right;
 	}
 .loginfld1 {
-	width:75px!important;
+	width:78px!important;
 	}
 .loginfld2 {
-	width: 75px!important;
+	width: 76px!important;
 	}
 }
 @media(max-width:375px) {
