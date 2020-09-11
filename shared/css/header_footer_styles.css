@@ -156,6 +156,7 @@ nav button {
 .login-form {
 	width:340px;
 	text-align:right;
+	margin-top: 3px;
 }
 .loginButtons {
 	padding: 4px 6px 4px 6px;
