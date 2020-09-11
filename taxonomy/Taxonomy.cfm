@@ -625,14 +625,14 @@ limitations under the License.
 								<input type="text" name="tribe" id="tribe" value="#gettaxa.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
-						<div class="form-row float-left mx-0">
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
+						<div class="form-row float-left col-12 mt-3 px-0">
+						<div class="col-12 col-md-6 col-xl-3 float-left">
 							<label for="genus" class="col-12 col-md-3 col-form-label align-left float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add &##215;</small>
 								</span>
 							</label>
-							<div class="col-12 col-md-9 float-left">
+							<div class="col-12 col-md-9 float-left pl-3 pr-2">
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
