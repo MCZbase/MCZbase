@@ -329,7 +329,7 @@ limitations under the License.
 										<cfelse>
 										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
-									<cfset searchclass = 'class="btn-xs btn-secondary"' >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
 							<div class="col-7 px-0 float-left">
@@ -416,7 +416,7 @@ limitations under the License.
 										<cfelse>
 										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									</cfif>
-									<cfset searchclass = 'class="btn-xs btn-secondary"' >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
 							<div class="col-7 px-0 float-left">
@@ -786,8 +786,8 @@ limitations under the License.
 							class="btn btn-xs btn-primary mx-1"
 							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 							>
-						<input type="button" value="Clone" class="btn-xs btn-secondary mx-1" onclick="taxon_form.action.value='newTaxon';submit();">
-						<input type="button" value="Delete" class="btn-xs btn-danger mx-1"	onclick="taxon_form.action.value='deleTaxa';confirmDelete('taxon_form');">
+						<input type="button" value="Clone" class="btn btn-xs btn-secondary mx-1" onclick="taxon_form.action.value='newTaxon';submit();">
+						<input type="button" value="Delete" class="btn btn-xs btn-danger mx-1"	onclick="taxon_form.action.value='deleTaxa';confirmDelete('taxon_form');">
 					
 					</div>
 					<div id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</div>	
@@ -804,7 +804,7 @@ limitations under the License.
 									<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
 									<form name="newPubForm" id="newPubForm">
 										<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
-											<input type="submit" value="Add" class="insBtn btn-xs btn-secondary">
+											<input type="submit" value="Add" class="btn btn-xs btn-secondary">
 										</div>
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="method" value="newTaxonPub">
@@ -893,7 +893,7 @@ limitations under the License.
 								<input type="hidden" name="newRelatedId">
 								<label for="relation_authority" class="data-entry-label">Authority</label>
 								<input type="text" name="relation_authority" class="data-entry-input">
-								<input type="submit" value="Create" class="btn-xs btn-secondary mt-2 ml-1">
+								<input type="submit" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1">
 							</div>
 						</form>
 						<div id="taxonrelations"></div>
@@ -914,8 +914,8 @@ limitations under the License.
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<div class="form-row mx-0 my-1">
 								<input type="text" name="common_name" value="#common_name#" class="data-entry-input w-50 float-left">
-								<input type="button" value="Save" class="btn-xs btn-primary ml-1 float-left" onClick="common#i#.Action.value='saveCommon';submit();">
-								<input type="button" value="Delete" class="btn-xs btn-danger ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
+								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" onClick="common#i#.Action.value='saveCommon';submit();">
+								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
 								</div>
 							</form>
 							<cfset i=i+1>
@@ -925,7 +925,7 @@ limitations under the License.
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
-								<input type="submit" value="Create" class="btn-xs btn-secondary ml-1 mt-1 float-left">
+								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left">
 							</form>
 						</div>
 							</div>
@@ -947,7 +947,7 @@ limitations under the License.
 							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 							<div class="form-row mx-0">
 							<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input w-50 float-left">
-							<input type="button" value="Delete" class="btn-xs btn-danger ml-1 mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
+							<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
 							</div>
 						</form>
 						<cfset i=i+1>
@@ -963,7 +963,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							</select>
-							<input type="submit" value="Add" class="btn-xs btn-secondary m-1 float-left">
+							<input type="submit" value="Add" class="btn btn-xs btn-secondary m-1 float-left">
 						</form>
 					</div>
 				</div>
@@ -1121,7 +1121,7 @@ limitations under the License.
 										<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-											<cfset searchclass = 'class="btn-xs btn-secondary"'>
+											<cfset searchclass = 'class="btn btn-xs btn-secondary"'>
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-6 px-0 float-left">
@@ -1201,7 +1201,7 @@ limitations under the License.
 										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
 											<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-											<cfset searchclass = 'class="btn-xs btn-secondary"' >
+											<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
@@ -1476,7 +1476,7 @@ limitations under the License.
 									</div>
 									</div>
 									<div class="form-row col-12 px-0 justify-content-center mt-1 pt-2">
-									<input type="submit" value="Create" class="btn-xs btn-primary">
+									<input type="submit" value="Create" class="btn btn-xs btn-primary">
 									</div>
 							</form>
 					</div>
