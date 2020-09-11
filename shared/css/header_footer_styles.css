@@ -447,10 +447,10 @@ nav.navbar{
 		text-align:right;
 	}
 	.loginfld1 {
-		width:77px;
+		width:77px!important;
 	}
 	.loginfld2 {
-		width: 73px;
+		width: 73px!important;
 	}
 }
 @media(max-width:414px) {
@@ -469,10 +469,10 @@ nav.navbar{
 	text-align:right;
 	}
 .loginfld1 {
-	width:75px;
+	width:75px!important;
 	}
 .loginfld2 {
-	width: 75px;
+	width: 75px!important;
 	}
 }
 @media(max-width:375px) {
@@ -491,12 +491,14 @@ nav.navbar{
 	text-align:right;
 	}
 .loginfld1 {
-	width:75px;
+	width:75px!important;
 	}
 .loginfld2 {
-	width: 75px;
+	width: 75px!important;
 	}
 }
+@media(max-width:320px) {}
+@media(max-width:320px) {}
 @media(max-width:280px) {
 nav.navbar{
 	padding: 0 .5em;
@@ -512,10 +514,10 @@ nav.navbar{
 	text-align: right;
 	}
 .loginfld1 {
-	width:55px;
+	width:55px!important;
 	}
 .loginfld2 {
-	width: 55px;
+	width: 55px!important;
 	}
 	.logout {
 		font-size: .78em;
