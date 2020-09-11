@@ -560,7 +560,7 @@ limitations under the License.
 						<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 							<input type="hidden" name="action" value="signIn">
 							<input type="hidden" name="gotopage" value="#gtp#">
-							<div class="login-form mt-xl-0 mt-1" id="header_login_form_div">
+							<div class="login-form" id="header_login_form_div">
 								<label for="username" class="sr-only"> Username:</label>
 								<input type="text" name="username" id="username" placeholder="username" class="data-entry-input d-inline loginButtons loginfld1">
 								<label for="password" class="mr-1 sr-only"> Password:</label>
