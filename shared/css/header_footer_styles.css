@@ -150,7 +150,7 @@ nav button {
 .form-login {
 	position:absolute;
 	top:2px;
-	right:.5em;
+	right:1em;
 
 }
 .login-form {
@@ -296,7 +296,8 @@ input#Password {
 		padding-inline-start: 0px;
 	}
 	.login-form {
-		width: 265px;
+		width: 340px;
+		text-align: right;
 	}
 	.logout {
 		padding: .1em .45em;
@@ -443,6 +444,7 @@ nav.navbar{
 	}
 	.login-form {
 		width: 275px;
+		text-align:right;
 	}
 	.loginfld1 {
 		width:77px;
@@ -464,6 +466,7 @@ nav.navbar{
 .form-login {right:.7em;}
 .login-form {
 	width: 269px;
+	text-align:right;
 	}
 .loginfld1 {
 	width:75px;
@@ -485,6 +488,7 @@ nav.navbar{
 .form-login {right:.7em;}
 .login-form {
 	width: 276px;
+	text-align:right;
 	}
 .loginfld1 {
 	width:75px;
@@ -505,6 +509,7 @@ nav.navbar{
 }
 .login-form {
 	width: 229px;
+	text-align: right;
 	}
 .loginfld1 {
 	width:55px;
