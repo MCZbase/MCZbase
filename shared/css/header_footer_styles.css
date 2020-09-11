@@ -445,6 +445,7 @@ nav.navbar{
 	.login-form {
 		width: 320px;
 		text-align:right;
+		margin-top: 3px;
 	}
 	.loginfld1 {
 		width:77px!important;
@@ -467,6 +468,7 @@ nav.navbar{
 .login-form {
 	width: 269px;
 	text-align:right;
+	margin-top: 3px;
 	}
 .loginfld1 {
 	width:75px!important;
@@ -489,6 +491,7 @@ nav.navbar{
 .login-form {
 	width: 318px;
 	text-align:right;
+	margin-top: 3px;
 	}
 .loginfld1 {
 	width:75px!important;
@@ -497,8 +500,6 @@ nav.navbar{
 	width: 75px!important;
 	}
 }
-@media(max-width:320px) {}
-@media(max-width:320px) {}
 @media(max-width:280px) {
 nav.navbar{
 	padding: 0 .5em;
@@ -512,6 +513,7 @@ nav.navbar{
 .login-form {
 	width: 229px;
 	text-align: right;
+	margin-top: 3px;
 	}
 .loginfld1 {
 	width:55px!important;
