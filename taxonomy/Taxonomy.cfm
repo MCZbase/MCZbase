@@ -258,7 +258,7 @@ limitations under the License.
 						<cfset hasTaxonID = false>
 					</cfif>
 					<span>
-					<a class="btn btn-info btn-sm" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
+					<a class="btn btn-info btn-xs" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 						<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 					</span>
 		<section class="row border rounded my-2">
