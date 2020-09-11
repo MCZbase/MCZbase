@@ -636,7 +636,7 @@ limitations under the License.
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
+						<div class="col-12 col-md-6 col-xl-3 float-left">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
@@ -648,13 +648,13 @@ limitations under the License.
 					
 				
 		
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
+						<div class="col-12 col-md-6 col-xl-3 float-left">
 							<label for="species" class="col-12 col-md-3 col-form-label align-left float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
-						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
+						<div class="col-12 col-md-6 col-xl-3 float-left">
 							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
