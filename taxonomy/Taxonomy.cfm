@@ -677,8 +677,8 @@ limitations under the License.
 				
 			
 						<div class="col-12 col-md-6 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-2 col-form-label align-left float-left">Author</label>
-							<div class="col-12 col-md-10 float-left">
+							<label for="author_text" class="col-12 col-md-3 col-form-label align-left float-left">Author</label>
+							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
