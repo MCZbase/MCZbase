@@ -202,7 +202,7 @@ limitations under the License.
 							</cfswitch>
 
 							<!--- Tab header div --->
-							<div class="card-header tab-card-header pb-0 w-100" id="content">
+							<div class="card-header tab-card-header pb-0" id="content">
 								<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 									<li class="nav-item col-5 col-lg-3 px-1"> 
 										<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 

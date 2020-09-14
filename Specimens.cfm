@@ -85,7 +85,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 				<div class="col-12 col-lg-11 mb-3">
 					<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
 					<div class="tab-card-main mt-1 tab-card">
-						<div class="card-header tab-card-header pb-0 w-100">
+						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
 								<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-selected="true" >Keyword Search</a> </li>
 								<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link" id="two-tab" data-toggle="tab" href="##two" role="tab" aria-selected="false">Search Builder</a> </li>
