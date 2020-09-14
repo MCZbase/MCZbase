@@ -345,7 +345,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							</div>
 							
 							<!---custom fixed search--->
-							<div class="tab-pane fade px-2 py-4 mb-3" id="three" aria-label="tab 3">
+							<div class="tab-pane fade px-2 py-4" id="three" aria-label="tab 3">
 							<form id="searchForm3">
 								<div class="container">
 									<div class="form-row col-12 px-0 mx-0 mb-2">

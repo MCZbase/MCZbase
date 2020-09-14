@@ -203,7 +203,7 @@ limitations under the License.
 
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0 w-100" id="content">
-								<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
+								<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 									<li class="nav-item col-5 col-lg-3 px-1"> 
 										<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 									</li>
