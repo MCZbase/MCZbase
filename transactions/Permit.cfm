@@ -101,6 +101,12 @@ limitations under the License.
 											<input type="text" id="permit_num" name="permit_num" class="form-control-sm" value="#permit_num#" aria-labelledby="permit_num_label" >					
 										</div>
 									</div>
+									<script>
+										$(document).ready(function() {
+											makePermitTitleAutocomplete("permit_title");	
+											makePermitNumberAutocomplete("permit_num");	
+										});
+									</script>
 									<div class="form-row mb-2">
 										<div class="col-md-4">
 											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued To</label>

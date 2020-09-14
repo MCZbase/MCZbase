@@ -29,6 +29,56 @@ function makePermitPicker(valueControl, idControl) {
 		minLength: 3
 	});
 };
+/** Make a text permit_title control into an autocomplete 
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makePermitTitleAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/transactions/component/functions.cfc",
+				data: { term: request.term, method: 'getPermitTitleAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		minLength: 3
+	});
+};
+/** Make a text permit_number control into an autocomplete 
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ */
+function makePermitNumberAutocomplete(valueControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/transactions/component/functions.cfc",
+				data: { term: request.term, method: 'getPermitNumberAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		minLength: 3
+	});
+};
 
 /** Check an agent to see if the agent has a flag on the agent, if so alert a message
   * @param agent_id the agent_id of the agent to check for rank flags.
