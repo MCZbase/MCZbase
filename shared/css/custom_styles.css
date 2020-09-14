@@ -1040,33 +1040,33 @@ table.inputTable tr {
 	font-size: .95em;
 	outline: 0;
 }
-/*.tab-card-header > .nav-tabs > li > a {
+.tab-card-header > .nav-tabs > li > a {
 	color: #3E657D !important;
 	font-weight: 555;
-}*/
-/*.tab-card-header > .nav-tabs > li > a.show {
+}
+.tab-card-header > .nav-tabs > li > a.show {
 	border-bottom: 2px solid #3E657D;
 	color: #3E657D;
 	border: 1px solid rgba(0, 34, 51, 0.1);
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 	border-radius: 0.15rem;
 	background-color: #E5E4E4;
-}*/
-/*.tab-card-header > .nav-tabs > li > a:hover {
+}
+.tab-card-header > .nav-tabs > li > a:hover {
 	color: #3E657D;
 	background-color: #f5f5f5;
-}*/
-/*.tab-card-header > .nav-tabs > li > a:focus {
+}
+.tab-card-header > .nav-tabs > li > a:focus {
 	color: #3E657D;
 	background-color: #f5f5f5;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .2);
-}*/
-/*.tab-card-header > .tab-content {
+}
+.tab-card-header > .tab-content {
 	padding-bottom: 0;
 }
 
-*/
+
 .search-box {
 	background-color: #f5f5f5;
 	margin-top: 1em;
