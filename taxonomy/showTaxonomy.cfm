@@ -1,7 +1,7 @@
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
 
-<div class="container py-3">
+<main role="main" class="container py-3">
 	
 	<cftry>
 		<!--- if given a scientific name, (as in redirect from /name/Aus+bus in /errors/missing.cfm), try to look up the record --->
@@ -147,7 +147,7 @@
 				<div class="error">Provided taxon_name_id Not Found</div>
 			</cfif>
 		</cfif>
-	<cfcatch>
+		<cfcatch>
 		<cfoutput>
 			<h1 class="h2 mt-3">Error looking up taxonomy record.</h1>
 			<p>#cfcatch.Message#</p>
@@ -332,7 +332,7 @@
 		<cfset scientificnameidlink = REReplace(one.scientificnameid,ctguid_type_taxon.resolver_regex,ctguid_type_taxon.resolver_replacement)>
 	</cfif>
 	
-	<div class="row">
+	<section class="row">
 		<div class="col-12 mb-5"> 
 			<cfoutput> 
 				<!--- TODO: Review these, replace with queries to load data directly in page load, no need for ajax here --->
@@ -601,6 +601,6 @@
 				</div><!--- internal-external-links-lists --->
 			</cfoutput> 
 		</div> <!--- col --->
-	</div><!-- row --->
-</div><!--- class="container" --->
+	</section><!-- row --->
+</main><!--- class="container" --->
 <cfinclude template = "/shared/_footer.cfm">
