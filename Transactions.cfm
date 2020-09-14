@@ -184,7 +184,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 pt-1 pb-3">
 						<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-						<div class="tab-card-main mt-1 pb-2 tab-card"> 
+						<div class="tab-card-main mt-1 tab-card"> 
 							<!--- Set Active Tab --->
 							<cfswitch expression="#action#">
 								<cfcase value="findLoans">
@@ -216,7 +216,7 @@ limitations under the License.
 							<!--- Tab content div --->
 							<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 								<!--- All Transactions search tab panel --->
-								<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-2 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+								<div class="tab-pane fade #allTabShow# #allTabActive# py-4 mx-2 mx-sm-2 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 									<h2 class="h3 card-title mb-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 									<form id="searchForm" class="mt-2">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
