@@ -352,7 +352,7 @@ limitations under the License.
 									</li>
 								</ul>
 								</fieldset>
-								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mb-2">
+								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
 								<legend class="text-dark mb-2">Search taxa used on specimen records?</legend>
 								<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
 									<cfif we_have_some EQ 1>
