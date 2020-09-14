@@ -109,12 +109,12 @@ limitations under the License.
 									</script>
 									<div class="form-row mb-2">
 										<div class="col-md-4">
-											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued To</label>
+											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued By</label>
 											<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
 											<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id">
 										</div>
 										<div class="col-md-4">
-											<label for="IssuedToAgent" id="IssuedToAgent_label">Issued By</label>
+											<label for="IssuedToAgent" id="IssuedToAgent_label">Issued To</label>
 											<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
 											<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id">
 										</div>
