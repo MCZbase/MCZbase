@@ -291,7 +291,7 @@ function makeConstrainedAgentPicker(nameControl, idControl, constraint) {
 				url: "/agents/component/search.cfc",
 				data: { 
 					term: request.term, 
-					method: 'getAgentAutocompleteMeta'
+					method: 'getAgentAutocompleteMeta',
 					constraint: constraint
 					 },
 				dataType: 'json',
