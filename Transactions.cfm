@@ -179,9 +179,8 @@ limitations under the License.
 	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
-		<div id="search-form-div">
-			<div class="container-fluid">
-				<div class="row">
+	<div class="container-fluid">
+				<section class="row" role="search">
 					<div class="col-12 pt-1 pb-3">
 						<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<div class="tab-card-main mt-1 tab-card"> 
@@ -200,7 +199,6 @@ limitations under the License.
 								<cfset loanTabShow = "">
 								</cfdefaultcase>
 							</cfswitch>
-
 							<!--- Tab header div --->
 							<div class="card-header tab-card-header pb-0" id="content">
 								<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
@@ -330,7 +328,6 @@ limitations under the License.
 										</div>
 									</form>
 								</div>
-
 								<!--- Loan search tab panel --->
 								<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-2 mx-sm-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 									<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
@@ -682,37 +679,32 @@ limitations under the License.
 							<!--- End tab-content div ---> 
 						</div>
 					</div>
-				</div>	
-			</div>
-		</div>
-																
-	</div>
-	
+				</section>	
+			</div>													
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
-		<div class="row">
+		<section class="row" role="main">
 			<div class="col-12">
-				<main role="main">
-					<div class="mb-5"> 
-						<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
-							<h4>Results: </h4>
-							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-							<div id="columnPickDialog">
-								<div id="columnPick" class="px-1"></div>
-							</div>
-							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer"></div>
+				<div class="mb-5"> 
+					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
+						<h4>Results: </h4>
+						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<div id="columnPickDialog">
+							<div id="columnPick" class="px-1"></div>
 						</div>
-						<div class="row mt-0 mx-0">
-							<!--- div id="searchText"></div  not needed?  --->
-							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-							<div id="enableselection"></div>
-						</div>
+						<div id="columnPickDialogButton"></div>
+						<div id="resultDownloadButtonContainer"></div>
 					</div>
-				</main>
+					<div class="row mt-0 mx-0">
+						<!--- div id="searchText"></div  not needed?  --->
+						<!--Grid Related code is below along with search handlers-->
+						<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+						<div id="enableselection"></div>
+					</div>
+				</div>
 			</div>
-		</div>
+		</section>
+	</div>															
 	</div>
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
