@@ -111,17 +111,17 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued By</label>
 											<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
-											<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id">
+											<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#issued_by_agent_id#">
 										</div>
 										<div class="col-md-4">
 											<label for="IssuedToAgent" id="IssuedToAgent_label">Issued To</label>
 											<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
-											<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id">
+											<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#issued_to_agent_id#">
 										</div>
 										<div class="col-md-4">
 											<label for="ContactAgent" id="ContactAgent_label">Contact</label>
 											<input type="text" id="ContactAgent" name="ContactAgent" class="form-control-sm" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
-											<input type="hidden" id="contact_agent_id" name="contact_agent_id">
+											<input type="hidden" id="contact_agent_id" name="contact_agent_id" value="#contact_agent_id#">
 										</div>
 										<script>
 											$(document).ready(function() {
