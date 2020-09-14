@@ -111,15 +111,25 @@ limitations under the License.
 										<div class="col-md-4">
 											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued To</label>
 											<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
+											<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id">
 										</div>
 										<div class="col-md-4">
 											<label for="IssuedToAgent" id="IssuedToAgent_label">Issued By</label>
 											<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
+											<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id">
 										</div>
 										<div class="col-md-4">
 											<label for="ContactAgent" id="ContactAgent_label">Contact</label>
 											<input type="text" id="ContactAgent" name="ContactAgent" class="form-control-sm" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
+											<input type="hidden" id="contact_agent_id" name="contact_agent_id">
 										</div>
+										<script>
+											$(document).ready(function() {
+												makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
+												makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
+												makeConstrainedAgentPicker("ContactAgent", "contact_agent_id","permit_contact_agent");
+											});
+										</script>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-4">
@@ -245,9 +255,9 @@ limitations under the License.
 								[
 									{ name: 'permit_id', type: 'string' },
 									{ name: 'permit_num', type: 'string' },
-									{ name: 'IssuedByAgent', type: 'string' },
-									{ name: 'IssuedToAgent', type: 'string' },
-									{ name: 'ContactAgent', type: 'string' },
+									{ name: 'issuedbyagent', type: 'string' },
+									{ name: 'issuedtoagent', type: 'string' },
+									{ name: 'contactagent', type: 'string' },
 									{ name: 'issued_date', type: 'string' },
 									{ name: 'renewed_date', type: 'string' },
 									{ name: 'exp_date', type: 'string' },
@@ -317,9 +327,9 @@ limitations under the License.
 									{text: 'Issued', datafield: 'issued_date', width:110, hideable: true, hidden: false },
 									{text: 'Category', datafield: 'permit_type', width:200, hideable: true, hidden: false },
 									{text: 'Specific Type', datafield: 'specific_type', width:200, hideable: true, hidden: false },
-									{text: 'Issued By', datafield: 'IssuedByAgent', width:100, hideable: true, hidden: false },
-									{text: 'Issued To', datafield: 'IssuedToAgent', width:100, hideable: true, hidden: false },
-									{text: 'Contact', datafield: 'ContactAgent', width:100, hideable: true, hidden: true },
+									{text: 'Issued By', datafield: 'issuedbyagent', width:100, hideable: true, hidden: false },
+									{text: 'Issued To', datafield: 'issuedtoagent', width:100, hideable: true, hidden: false },
+									{text: 'Contact', datafield: 'contactagent', width:100, hideable: true, hidden: true },
 									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: true },
 									{text: 'Expires', datafield: 'exp_date', width:80, hideable: true, hidden: true },
 									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: false },
@@ -334,7 +344,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/transactions/Permit.cfm?action=search&execute=true&' + $('##searchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collecting event number');
+								gridLoaded('searchResultsGrid','permission and rights document');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
