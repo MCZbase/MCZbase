@@ -950,15 +950,15 @@ table.inputTable tr {
 	border-radius: 8px 8px 0 0;
 }
 .tab-card-header {
-	background-color: #3E6F7D;
 	padding-top: 8px;
 	border-radius: 8px 8px 0 0;
+	padding: 0;
 }
 .card-title:first-child {
 	padding-left: .5em;
 }
 .tab-card-header > .nav-tabs {
-	border: none;
+	border: 3px solid #3e6f7d;
 	margin: 0px;
 	background-color: #3E6F7D;
 }
