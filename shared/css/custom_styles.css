@@ -1034,6 +1034,9 @@ table.inputTable tr {
 	font-size: .95em;
 	outline: 0;
 }
+.card-header:first-child {
+    border-radius: .25em .25em 0 0;
+}
 .search-box {
 	background-color: #f5f5f5;
 	margin-top: 1em;
