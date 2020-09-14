@@ -192,7 +192,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
-				<cfif is sdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_contact_agent' )>
+				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_contact_agent' )>
 					AND permit.permit_id is not null
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'transaction_agent'>
