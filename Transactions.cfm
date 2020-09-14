@@ -216,7 +216,7 @@ limitations under the License.
 							<!--- Tab content div --->
 							<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 								<!--- All Transactions search tab panel --->
-								<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+								<div class="tab-pane fade #allTabShow# #allTabActive# pt-2 pb-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 									<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 									<form id="searchForm" class="mt-2">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -332,7 +332,7 @@ limitations under the License.
 								</div>
 
 								<!--- Loan search tab panel --->
-								<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-2 mx-sm-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+								<div class="tab-pane fade #loanTabShow# #loanTabActive# pt-2 pb-3 mx-2 mx-sm-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 									<h2 class="h3 card-title mb-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 									<!--- Search for just loans ---->
 									<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
