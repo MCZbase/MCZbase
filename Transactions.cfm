@@ -680,7 +680,8 @@ limitations under the License.
 						</div>
 					</div>
 				</section>	
-			</div>													
+	</div>													
+	</div>
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
 		<section class="row" role="main">
@@ -704,7 +705,8 @@ limitations under the License.
 				</div>
 			</div>
 		</section>
-	</div>															
+	</div>
+																	
 	</div>
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
