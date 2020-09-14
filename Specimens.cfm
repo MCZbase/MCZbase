@@ -131,7 +131,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 								});	
 							</script> 
 							<!---Search Builder--->
-							<div class="tab-pane fade show p-4" id="two" role="tabpanel" aria-label="tab 2">
+							<div class="tab-pane fade show px-2 py-4" id="two" role="tabpanel" aria-label="tab 2">
 							<form id="searchForm2">
 							<div class="bg-0 col-sm-12 col-md-12 p-0">
 								<div class="input-group">
@@ -345,7 +345,7 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 							</div>
 							
 							<!---custom fixed search--->
-							<div class="tab-pane fade p-4" id="three" aria-label="tab 3">
+							<div class="tab-pane fade px-2 py-4" id="three" aria-label="tab 3">
 							<form id="searchForm3">
 								<div class="container">
 									<div class="form-row col-12 px-0 mx-0 mb-2">
