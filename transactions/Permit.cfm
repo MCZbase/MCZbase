@@ -125,9 +125,9 @@ limitations under the License.
 										</div>
 										<script>
 											$(document).ready(function() {
-												makeConstrainedAgentPicker(IssuedByAgent, issued_by_agent_id,'permit_issued_by_agent');
-												makeConstrainedAgentPicker(IssuedToAgent, issued_to_agent_id,'permit_issued_to_agent');
-												makeConstrainedAgentPicker(ContactAgent, contact_agent_id,'permit_contact_agent');
+												makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
+												makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
+												makeConstrainedAgentPicker("ContactAgent", "contact_agent_id","permit_contact_agent");
 											});
 										</script>
 									</div>
