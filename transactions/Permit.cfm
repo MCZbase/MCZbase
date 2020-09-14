@@ -255,7 +255,7 @@ limitations under the License.
 								[
 									{ name: 'permit_id', type: 'string' },
 									{ name: 'permit_num', type: 'string' },
-									{ name: 'IssuedByAgent', type: 'string' },
+									{ name: 'issuedbyagent', type: 'string' },
 									{ name: 'IssuedToAgent', type: 'string' },
 									{ name: 'ContactAgent', type: 'string' },
 									{ name: 'issued_date', type: 'string' },
@@ -327,7 +327,7 @@ limitations under the License.
 									{text: 'Issued', datafield: 'issued_date', width:110, hideable: true, hidden: false },
 									{text: 'Category', datafield: 'permit_type', width:200, hideable: true, hidden: false },
 									{text: 'Specific Type', datafield: 'specific_type', width:200, hideable: true, hidden: false },
-									{text: 'Issued By', datafield: 'IssuedByAgent', width:100, hideable: true, hidden: false },
+									{text: 'Issued By', datafield: 'issuedbyagent', width:100, hideable: true, hidden: false },
 									{text: 'Issued To', datafield: 'IssuedToAgent', width:100, hideable: true, hidden: false },
 									{text: 'Contact', datafield: 'ContactAgent', width:100, hideable: true, hidden: true },
 									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: true },
