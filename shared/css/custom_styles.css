@@ -964,7 +964,7 @@ table.inputTable tr {
 .tab-card-header > .nav-tabs > li {
 	margin-right: 2px;
 	background-color: #3E6F7D;
-	border-top: 1px solid #3E6F7D;
+/*	border-top: 1px solid #3E6F7D;*/
 }
 .tab-card-header > .nav-tabs > li > a {
 	border: 0;
