@@ -952,7 +952,7 @@ table.inputTable tr {
 .tab-card-header {
 	background-color: #3E6F7D;
 	padding-top: 8px;
-	border-radius: 8px 8px 0 0;
+	border-radius: 4px 4px 0 0;
 }
 .card-title:first-child {
 	padding-left: .5em;
