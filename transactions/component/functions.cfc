@@ -916,7 +916,7 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			select distinct permit_title, permit_id
 			from permit 
-			where upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			where upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			order by permit_title
 		</cfquery>
 		<cfset rows = search_result.recordcount>
