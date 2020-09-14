@@ -488,20 +488,17 @@ limitations under the License.
 				permit.permit_id is not null 
 				<cfif isdefined("IssuedByAgent") AND len(#IssuedByAgent#) gt 0>
 					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
-				</cfif>
-				<cfif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
+				<cfelseif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
 					AND ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_BY_AGENT_ID#">
 				</cfif>
 				<cfif isdefined("IssuedToAgent") AND len(#IssuedToAgent#) gt 0>
 					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
-				</cfif>
-				<cfif isdefined("ISSUED_TO_AGENT_ID") and len(#ISSUED_TO_AGENT_ID#) gt 0>
+				<cfelseif isdefined("ISSUED_TO_AGENT_ID") and len(#ISSUED_TO_AGENT_ID#) gt 0>
 					AND ISSUED_TO_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_TO_AGENT_ID#">
 				</cfif>
 				<cfif isdefined("ContactAgent") AND len(#ContactAgent#) gt 0>
 					AND upper(Contact.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ContactAgent)#%">
-				</cfif>
-				<cfif isdefined("CONTACT_AGENT_ID") and len(#CONTACT_AGENT_ID#) gt 0>
+				<cfelseif isdefined("CONTACT_AGENT_ID") and len(#CONTACT_AGENT_ID#) gt 0>
 					AND CONTACT_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#">
 				</cfif>
 				<cfif isdefined("issued_date") AND len(#issued_date#) gt 0>
