@@ -70,6 +70,9 @@ limitations under the License.
 			<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
 			<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
 			<cfif not isdefined("ContactAgent")><cfset ContactAgent=""></cfif>
+			<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
+			<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
+			<cfif not isdefined("contact_agent_id")><cfset contact_agent_id=""></cfif>
 			<cfif not isdefined("issued_date")><cfset issued_date=""></cfif>
 			<cfif not isdefined("issued_until_date")><cfset issued_until_date=""></cfif>
 			<cfif not isdefined("renewed_date")><cfset renewed_date=""></cfif>
