@@ -310,7 +310,14 @@ function makeConstrainedAgentPicker(nameControl, idControl, constraint) {
 			})
 		},
 		select: function (event, result) {
+			// Handle case of a selection from the pick list, set value in id control
 			$('#'+idControl).val(result.item.id);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the id control.
+				$('#'+idControl).val("");
+			}
 		},
 		minLength: 3
 	}).autocomplete("instance")._renderItem = function(ul,item) { 
