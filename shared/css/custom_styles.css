@@ -461,6 +461,7 @@ li.pid {
 .card-header {
 	background-color: #DEEBEC;
 	padding: .1rem 1.25rem;
+	border-bottom: none;
 }
 .no-card {
 	background-color: transparent;
@@ -944,14 +945,13 @@ table.inputTable tr {
 	left: 1.5em !important;
 }
 .tab-card-main {
-	background-color: #f9f9f9;
+	background-color: #f5f5f5;
 }
 .tab-card {
 	border: 1px solid #eee;
 	border-radius: 8px;
 }
 .tab-card-header {
-	background: none;
 	background-color: #3E6F7D;
 	padding-top: 8px;
 }
