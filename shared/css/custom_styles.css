@@ -989,7 +989,7 @@ table.inputTable tr {
 }
 .tab-card-header > .nav-tabs > li > a:focus {
 	color: #3E657D;
-	background-color: #f8f9fa;
+	background-color: #f5f5f5;
 	outline: 0;
 	box-shadow:none;
 }
