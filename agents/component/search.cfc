@@ -176,7 +176,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				left join agent on searchname.agent_id = agent.agent_id
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
 				<cfif isdefined("constraint") AND constraint EQ 'permit_issued_by_agent'>
-					left join permit on agent.agent_id = permit.issued_by_agentid
+					left join permit on agent.agent_id = permit.issued_by_agent_id
 				</cfif>
 				<cfif isdefined("constraint") AND constraint EQ 'permit_issued_by_agent'>
 					left join permit on agent.agent_id = permit.issued_to_agent_id
