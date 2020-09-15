@@ -880,11 +880,20 @@ function opendialog(page,id,title) {
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
 								<input type="button" value="Permit Report" class="btn btn-xs btn-secondary"
-									onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
-								<input type="button" value="Delete" class="btn btn-xs btn-warning"
-								   onClick="newPermit.Action.value='delete';confirmDelete('newPermit');">
+									onClick="document.location='/transactions/Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
+								<script>
+									function submitDeletePermit() { 
+										$('##deletePermitForm').submit();
+									};
+								</script>
+								<input type="button" value="Delete" class="btn btn-xs btn-danger float-right"
+								   onClick=" confirmDialog('Delete this permissions and rights document record?','Confirm Delete Permit', submitDeletePermit ); ">
 							</div>
 						</div>
+					</form>
+					<form id="deletePermitForm" action="/transactions/Permit.cfm" method="POST">
+						<input type="hidden" name="action" value="delete">
+						<input type="hidden" name="permit_id" value="#permit_id#">
 					</form>
 				</section>
 				<section name="permitMediaSection" class="row border rounded my-2">
