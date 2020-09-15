@@ -684,7 +684,7 @@ limitations under the License.
 	</div>
 	<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
-			<div class="row mx-0">
+			<div class="row">
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 						<h4>Results: </h4>
