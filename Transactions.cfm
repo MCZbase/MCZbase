@@ -707,7 +707,7 @@ limitations under the License.
 		</section>
 	</div>
 																	
-
+	</div>
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
 	/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
