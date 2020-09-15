@@ -313,9 +313,9 @@ limitations under the License.
 											</div>
 											<script>
 												$(document).ready(function() {
-													$(makeAgentPicker('all_agent_1','all_agent_1_id'));
-													$(makeAgentPicker('all_agent_2','all_agent_2_id'));
-													$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+													$(makeConstrainedAgentPicker('all_agent_1','all_agent_1_id','transaction_agent'));
+													$(makeConstrainedAgentPicker('all_agent_2','all_agent_2_id','transaction_agent'));
+													$(makeConstrainedAgentPicker('all_agent_3','all_agent_3_id','transaction_agent'));
 												});
 											</script> 
 										</div>
@@ -486,9 +486,9 @@ limitations under the License.
 											</div>
 											<script>
 										$(document).ready(function() {
-											$(makeAgentPicker('loan_agent_1','loan_agent_1_id'));
-											$(makeAgentPicker('loan_agent_2','loan_agent_2_id'));
-											$(makeAgentPicker('loan_agent_3','loan_agent_3_id'));
+											$(makeConstrainedAgentPicker('loan_agent_1','loan_agent_1_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('loan_agent_2','loan_agent_2_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('loan_agent_3','loan_agent_3_id','transaction_agent'));
 										});
 										</script> 
 										</div>
