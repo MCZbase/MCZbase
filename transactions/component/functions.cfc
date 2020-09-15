@@ -3291,7 +3291,7 @@ limitations under the License.
 	<cftransaction>
 		<cftry>
 			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			   select permit_type 
+				select permit_type 
 				from ctspecific_permit_type 
 				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
 			</cfquery>
@@ -3372,6 +3372,107 @@ limitations under the License.
 		</cftry>
 	</cftransaction>
 	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getPermitMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="correspondence" type="string" required="no">
+
+	<cfif isdefined("correspondence") and len(#correspondence#) gt 0>
+		<cfset relation = "document for permit">
+		<cfset heading = "Additional Documents">
+	<cfelse>
+		<cfset relation = "shows permit">
+		<cfset heading = "The Document (copy of the actual permit)">
+	</cfif>
+	<cfset rel = left(relation,3)>
+
+	<cfthread name="getPermitMediaThread">
+		<cftry>
+			<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select permit.permit_id,
+					issuedBy.agent_name as IssuedByAgent,
+					issued_Date,
+					permit_Num,
+			 		permit_Type
+				from
+					permit,
+					preferred_agent_name issuedBy
+				where
+					permit.issued_by_agent_id = issuedBy.agent_id (+)
+					and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			</cfquery>
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
+					MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+	  				MCZBASE.get_media_descriptor(media.media_id) as media_descriptor,
+					label_value
+				from media_relations left join media on media_relations.media_id = media.media_id
+					left join media_labels on media.media_id = media_labels.media_id
+				where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
+					and (media_label = 'description' or media_label is null )
+					and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
+			</cfquery>
+			<cfoutput>
+				<h3>#heading# Media</h3>
+				<cfif query.recordcount gt 0>
+					<ul>
+					<cfloop query="query">
+						<cfset puri=getMediaPreview(preview_uri,media_type) >
+						<cfif puri EQ "/images/noThumb.jpg">
+							<cfset altText = "Red X in a red square, with text, no preview image available">
+						<cfelse>
+							<cfset altText = query.media_descriptor>
+						</cfif>
+						<li>
+							<a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a>
+							#mime_type# #media_type# #label_value# 
+							<a href='/media/#media_id#' target='_blank'>Media Details</a>
+							<input class='btn btn-xs btn-warning' 
+									onClick=' confirmAction("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.prefentDefault(); ' 
+									value='Remove' style='width: 5em; text-align: center;' 
+									onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'" >
+						</li>
+					</cfloop>
+					</ul>
+				</cfif>
+				<span>
+					<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
+						<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
+							value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
+						<span id='addPermit_#permit_id#'>
+							<input type='button' value='Link Media' class='btn btn-xs btn-secondary' 
+								onClick="openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); " >
+						</span>
+					</cfif>
+				</span>
+				<div id='addMediaDlg_#permit_id#_#rel#'></div>
+				<div id='addPermitDlg_#permit_id#_#rel#'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitMediaThread" />
+	<cfreturn getPermitMediaThread.output>
 </cffunction>
 
 </cfcomponent>

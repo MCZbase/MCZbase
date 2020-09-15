@@ -870,183 +870,176 @@ function opendialog(page,id,title) {
 								<cfif isdefined("headless") and headless EQ 'true' >
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
-								<input type="button" value="Permit Report" class="lnkBtn"
-									onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'"
+								<input type="button" value="Permit Report" class="btn btn-xs btn-secondary"
 									onClick="document.location='Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
-								<input type="button" value="Delete" class="delBtn"
-								   onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'"
-								   onCLick="newPermit.Action.value='delete';confirmDelete('newPermit');">
+								<input type="button" value="Delete" class="btn btn-xs btn-warning"
+								   onClick="newPermit.Action.value='delete';confirmDelete('newPermit');">
 							</div>
 						</div>
 					</form>
 				</section>
-<!--- TODO: Work blocks below into sections --->
-				<section>
+				<section name="permitMediaSection" class="row border rounded my-2">
 				    <!---  Show/add media copy of permit  (shows permit) --->
 				    <div id="copyofpermit"><img src='images/indicator.gif'></div>
 				</section>
+				<section name="associatedMediaSection" class="row border rounded my-2">
 				    <!---  list/add media copy of associated documents (document for permit) --->
 				    <div id="associateddocuments"><img src='images/indicator.gif'></div>
 				</section>
-
+				<script>
+					function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
+						var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
+						var amddialog = $('##'+targetid)
+						.html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
+						.dialog({
+							title: title,
+							autoOpen: false,
+							dialogClass: 'dialog_fixed,ui-widget-header',
+							modal: true,
+							height: 900,
+							width: 1100,
+							minWidth: 400,
+							minHeight: 400,
+							draggable:true,
+							buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
+						});
+						amddialog.dialog('open');	       
+						amddialog.dialog('moveToTop');
+					};
+		
+					function removeMediaDiv() {
+						if(document.getElementById('bgDiv')){
+							jQuery('##bgDiv').remove();
+						}
+						if	(document.getElementById('mediaDiv')) {
+							jQuery('##mediaDiv').remove();
+						}
+					};
+					function loadPermitMedia(permit_id) {
+						jQuery.get("/transactions/component/functions.cfc",
+						{
+							method : "getPermitMediaHtml",
+							permit_id : permit_id
+						},
+						function (result) {
+							$("##copyofpermit").html(result);
+						});
+					};
+		
+					function loadPermitRelatedMedia(permit_id) {
+						jQuery.get("/transactions/component/functions.cfc",
+						{
+							method : "getPermitMediaHtml",
+							permit_id : permit_id,
+							correspondence : "yes"
+						},
+						function (result) {
+							$("##associateddocuments").html(result);
+						});
+					};
+			
+					function	reloadTransMedia() { 
+						reloadPermitMedia();
+					}
+					function	reloadPermitMedia() { 
+						loadPermitMedia(#permit_id#);
+						loadPermitRelatedMedia(#permit_id#);
+					}
+		
+					jQuery(document).ready(loadPermitMedia(#permit_id#));
+					jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
+				</script>
+				<section name="associatedMediaSection" class="row border rounded my-2">
+					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join accn on trans.transaction_id = accn.transaction_id
+						where trans.transaction_type = 'accn'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join loan on trans.transaction_id = loan.transaction_id
+						where trans.transaction_type = 'loan'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
+						where trans.transaction_type = 'deaccession'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+						from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join borrow on trans.transaction_id = borrow.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join borrow on trans.transaction_id = borrow.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join loan on trans.transaction_id = loan.transaction_id
+						where trans.transaction_type = 'loan'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join accn on trans.transaction_id = accn.transaction_id
+						where trans.transaction_type = 'accn'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+						union
+						select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+							concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
+						from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+							left join trans on shipment.transaction_id = trans.transaction_id
+							left join collection on trans.collection_id = collection.collection_id
+							left join deaccession on trans.transaction_id = deaccession.transaction_id
+						where trans.transaction_type = 'deaccession'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					</cfquery>
+					<div id="permitsusedin" class="shippingBlock" >
+						<h3>Permit used for</h3>
+						<ul>
+							<cfloop query="permituse">
+								<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
+							</cfloop>
+							<cfif permituse.recordCount eq 0>
+								<li>No linked transactions or shipments.</li>
+							</cfif>
+						</ul>
+					</div>
+					<span>
+						<form action="Permit.cfm" method="get">
+							<input type="hidden" name="permit_id" value="#permit_id#">
+							<input type="hidden" name="Action" value="PermitUseReport">
+							<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary">
+						</form>
+					</span>
+				</section>
 			</main>
-
-    <script>
-    function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
-           var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
-           var amddialog = $('##'+targetid)
-           .html('<iframe style="border: 0px; " src="'+url+'" width="100%" height="100%" id="mediaIframe"></iframe>')
-           .dialog({
-                 title: title,
-                 autoOpen: false,
-                 dialogClass: 'dialog_fixed,ui-widget-header',
-                 modal: true,
-                 height: 900,
-                 width: 1100,
-                 minWidth: 400,
-                 minHeight: 400,
-                 draggable:true,
-                 buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
-           });
-           amddialog.dialog('open');          
-           amddialog.dialog('moveToTop');
-     };
-
-     function removeMediaDiv() {
-		if(document.getElementById('bgDiv')){
-			jQuery('##bgDiv').remove();
-		}
-		if (document.getElementById('mediaDiv')) {
-			jQuery('##mediaDiv').remove();
-		}
-     };
-    function loadPermitMedia(permit_id) {
-        jQuery.get("/component/functions.cfc",
-        {
-            method : "getPermitMediaHtml",
-            permit_id : permit_id
-        },
-        function (result) {
-           $("##copyofpermit").html(result);
-        }
-        );
-    };
-
-    function loadPermitRelatedMedia(permit_id) {
-        jQuery.get("/component/functions.cfc",
-        {
-            method : "getPermitMediaHtml",
-            permit_id : permit_id,
-            correspondence : "yes"
-        },
-        function (result) {
-          $("##associateddocuments").html(result);
-        }
-        );
-    };
-	
-	function reloadTransMedia() { 
-		reloadPermitMedia();
-	}
-	function reloadPermitMedia() { 
-		loadPermitMedia(#permit_id#);
-		loadPermitRelatedMedia(#permit_id#);
-	}
-
-     jQuery(document).ready(loadPermitMedia(#permit_id#));
-     jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
-
-     </script>
-     <cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
-from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join accn on trans.transaction_id = accn.transaction_id
-  where trans.transaction_type = 'accn'
-        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
-from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join loan on trans.transaction_id = loan.transaction_id
-  where trans.transaction_type = 'loan'
-        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
-from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join MCZBASE.deaccession on trans.transaction_id = deaccession.transaction_id
-  where trans.transaction_type = 'deaccession'
-        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Borrow.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
-from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join borrow on trans.transaction_id = borrow.transaction_id
-  where trans.transaction_type = 'borrow'
-        and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri
-from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-  left join trans on shipment.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join borrow on trans.transaction_id = borrow.transaction_id
-  where trans.transaction_type = 'borrow'
-        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri
-from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-  left join trans on shipment.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join loan on trans.transaction_id = loan.transaction_id
-  where trans.transaction_type = 'loan'
-        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
-from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-  left join trans on shipment.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join accn on trans.transaction_id = accn.transaction_id
-  where trans.transaction_type = 'accn'
-        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-union
-select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-    concat('Deaccession.cfm?Action=editDeacc&transaction_id=',trans.transaction_id) as uri
-from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-  left join trans on shipment.transaction_id = trans.transaction_id
-  left join collection on trans.collection_id = collection.collection_id
-  left join deaccession on trans.transaction_id = deaccession.transaction_id
-  where trans.transaction_type = 'deaccession'
-        and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-
-     </cfquery>
-     <div id="permitsusedin" class="shippingBlock" ><h3>Permit used for</h3><ul>
-        <cfloop query="permituse">
-           <li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
-        </cfloop>
-        <cfif permituse.recordCount eq 0>
-           <li>No linked transactions or shipments.</li>
-        </cfif>
-     </ul></div>
-
-     <span>
-     <form action="Permit.cfm" method="get" name="Copy">
-        <input type="hidden" name="permit_id" value="#permit_id#">
-        <input type="hidden" name="Action" value="PermitUseReport">
-                <input type="submit" value="Detailed report on use of this Permit" class="lnkBtn"
-                                onmouseover="this.className='lnkBtn btnhov'" onmouseout="this.className='lnkBtn'">
-     </form>
-     </span>
-
-</cfoutput>
-
+		</cfoutput>
 	</cfcase>
 	<!--------------------------------------------------------------------------------------------------->
 	<cfcase value="create">
