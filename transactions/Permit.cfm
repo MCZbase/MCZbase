@@ -162,6 +162,18 @@ limitations under the License.
 												<input type='text' name='exp_until_date' id="exp_until_date" value="#exp_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>
 										</div>
+										<script>
+											/* Setup date time input controls */
+											$(".datetimeinput").datepicker({ 
+												defaultDate: null,
+												changeMonth: true,
+												changeYear: true,
+												dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
+												buttonImageOnly: true,
+												buttonImage: "/shared/images/calendar_icon.png",
+												showOn: "both"
+											});
+										</script>
 									</div>
 
 									<div class="form-row mb-2">
