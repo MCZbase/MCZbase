@@ -176,7 +176,7 @@ limitations under the License.
 	<cfif not isdefined("parent_loan_number")>
 		<cfset parent_loan_number="">
 	</cfif>
-	
+	<main>
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
 	<div class="container-fluid">
@@ -684,7 +684,7 @@ limitations under the License.
 	</div>
 	<!--- Results table as a jqxGrid. --->
 	<div class="container-fluid">
-		<section class="row" role="main">
+		<section class="row">
 			<div class="col-12">
 				<div class="mb-5"> 
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
@@ -705,9 +705,8 @@ limitations under the License.
 				</div>
 			</div>
 		</section>
-	</div>
-																	
-	</div>
+	</div>																
+	</main>
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
 	/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
