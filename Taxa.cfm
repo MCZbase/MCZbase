@@ -578,7 +578,7 @@ limitations under the License.
 		<script>
 			var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-				var v = string(value);
+				var v = String(value);
 				if (v.toUpperCase().trim()=='YES'))) { 
 					color = 'text-success'; 
 					bg = '';
