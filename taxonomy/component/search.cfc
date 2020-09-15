@@ -419,7 +419,7 @@ limitations under the License.
 				<cfif isdefined("taxon_remarks") AND len(taxon_remarks) gt 0>
 					<cfif left(taxon_remarks,1) is "=">
 						AND upper(taxonomy.taxon_remarks) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_remarks,len(taxon_remarks)-1))#">
-					<cfif left(taxon_remarks,1) is "!">
+					<cfelseif left(taxon_remarks,1) is "!">
 						AND upper(taxonomy.taxon_remarks) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(taxon_remarks,len(taxon_remarks)-1))#">
 					<cfelseif taxon_remarks is "NULL">
 						AND upper(taxonomy.taxon_remarks) is null
