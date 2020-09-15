@@ -179,7 +179,7 @@ limitations under the License.
 	<main>
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
-		<section class="container-fluid" role="search">
+		<section class="container-fluid" role="search" id="content">
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
@@ -684,7 +684,7 @@ limitations under the License.
 	</div>
 	<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
-			<div class="row">
+			<div class="row mx-0">
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 						<h4>Results: </h4>

@@ -79,19 +79,20 @@ select media_type from ctmedia_type order by media_type
 	<cfquery name="column_headers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 select column_name, data_type from all_tab_columns where table_name = 'FLAT' and rownum = 1
 </cfquery>
-	<div class="container-fluid pb-3 px-3" id="content">
-	<section class="row" role="search">
-		<div class="col-12 col-lg-11 mb-3">
-			<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
-			<div class="tab-card-main mt-1 tab-card">
-				<div class="card-header tab-card-header pb-0">
-					<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
-						<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-selected="true" >Keyword Search</a> </li>
-						<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link" id="two-tab" data-toggle="tab" href="##two" role="tab" aria-selected="false">Search Builder</a> </li>
-						<li class="nav-item col-sm-12 col-md-4 px-1"> <a class="nav-link" id="three-tab" data-toggle="tab" href="##three" role="tab" aria-selected="false">Custom Fixed Search</a> </li>
-					</ul>
-				</div>
-				<div class="tab-content pb-0" id="myTabContent"> 
+<main>
+	<section class="container-fluid pb-3 px-3" id="content" role="search">
+		<div class="row">
+			<div class="col-12 col-lg-11 mb-3">
+				<h1 class="h3 smallcaps pl-1">Search Specimen Records <span class="count font-italic color-green mx-0"><small>(access to #getCount.cnt# records)</small></span> </h1>
+				<div class="tab-card-main mt-1 tab-card">
+					<div class="card-header tab-card-header pb-0">
+						<ul class="nav nav-tabs card-header-tabs pt-1" id="myTab" role="tablist">
+							<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link active" id="one-tab" data-toggle="tab" href="##one" role="tab" aria-selected="true" >Keyword Search</a> </li>
+							<li class="nav-item col-sm-12 col-md-3 px-1"> <a class="nav-link" id="two-tab" data-toggle="tab" href="##two" role="tab" aria-selected="false">Search Builder</a> </li>
+							<li class="nav-item col-sm-12 col-md-4 px-1"> <a class="nav-link" id="three-tab" data-toggle="tab" href="##three" role="tab" aria-selected="false">Custom Fixed Search</a> </li>
+						</ul>
+					</div>
+					<div class="tab-content pb-0" id="myTabContent"> 
 					<!---Keyword Search--->
 					<div class="tab-pane fade show active px-2 py-4" id="one" role="tabpanel" aria-label="tab 1">
 						<form id="searchForm">
@@ -417,10 +418,10 @@ select column_name, data_type from all_tab_columns where table_name = 'FLAT' and
 					</form>
 				</div>
 				</div>
+				</div>
 			</div>
 		</div>
 	</section>
-	</div>
 	<script>
 //// script for multiselect dropdown for collections
 //// on keyword
@@ -437,12 +438,12 @@ $("select.multiselect").multiselect({
 
 		</script>
 	<!--Grid Related code below along with search handler for keyword search-->
-	<div class="container-fluid">
-	<section class="row mx-0" role="main">
-		<div class="col-12">
-			<div id="jqxWidget">
-				<div class="mb-5">
-					<div class="row mx-0">
+	<section class="container-fluid">
+		<div class="row mx-0">
+			<div class="col-12">
+				<div id="jqxWidget">
+					<div class="mb-5">
+						<div class="row mx-0">
 						<div id="jqxgrid" class="jqxGrid"></div>
 						<div class="mt-005" id="enableselection"></div>
 						<div style="margin-top: 30px;">
@@ -488,23 +489,23 @@ $("select.multiselect").multiselect({
 							</div>
 						</div>
 					</div>
-				</div>
-				<nav aria-label="filter_menu" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
-				<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button" aria-label="refine results slider">Refine Results</a> </section>
-				<h3 class="filters">Refine Results</h3>
-				<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
-					<div class="float-left">
-						<label for="columnchooser" class="mt-1"><em>By Columns in Dropdown</em></label>
-						<div id="columnchooser" class="mb-1"></div>
-						<div class="mt-2"><em>Then by checkboxes of values</em></div>
-						<div class="mt-1 ml-0 d-inline float-left w-257" id="filterbox">
-							<p>Search for something to filter</p>
-						</div>
-						<div>
-							<input type="button" id="applyfilter" class="d-inline float-left ml-0 mr-3 mt-2 py-1 px-2 fs-14" aria-label="apply filter" value="Apply Filter"/>
-							<input type="button" id="clearfilter" class="d-inline ml-0 mt-2 py-1 px-2 fs-14" value="Clear Filter"/>
-						</div>
 					</div>
+					<nav aria-label="filter_menu" class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right zindex-sticky" id="cbp-spmenu-s2">
+					<section> <a id="showRightPush" class="btn black-filter-btn hiddenclass" role="button" aria-label="refine results slider">Refine Results</a> </section>
+					<h3 class="filters">Refine Results</h3>
+					<div class="col-md-3 py-2 px-4 mb-3 pl-3 bg-transparent">
+						<div class="float-left">
+							<label for="columnchooser" class="mt-1"><em>By Columns in Dropdown</em></label>
+							<div id="columnchooser" class="mb-1"></div>
+							<div class="mt-2"><em>Then by checkboxes of values</em></div>
+							<div class="mt-1 ml-0 d-inline float-left w-257" id="filterbox">
+								<p>Search for something to filter</p>
+							</div>
+							<div>
+								<input type="button" id="applyfilter" class="d-inline float-left ml-0 mr-3 mt-2 py-1 px-2 fs-14" aria-label="apply filter" value="Apply Filter"/>
+								<input type="button" id="clearfilter" class="d-inline ml-0 mt-2 py-1 px-2 fs-14" value="Clear Filter"/>
+							</div>
+						</div>
 					</nav>
 					<nav aria-label="choose_columns" class="cbp-spmenu cbp-spmenu-vertical-left cbp-spmenu-left zindex-sticky" id="cbp-spmenu-s3">
 						<section> <a id="showLeftPush" class="btn black-columns-btn hiddenclass" aria-label="display column selections" role="button">Columns</a> </section>
@@ -524,9 +525,10 @@ $("select.multiselect").multiselect({
 						</div>
 					</nav>
 				</div>
+			</div>
 		</div>
 	</section>
-	</div>
+</main>
 	<script>
 ///   JQXGRID -- for Keyword Search /////
 $(document).ready(function() {
