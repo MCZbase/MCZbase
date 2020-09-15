@@ -176,7 +176,7 @@ limitations under the License.
 	<cfif not isdefined("parent_loan_number")>
 		<cfset parent_loan_number="">
 	</cfif>
-	<main>
+	
 	<div id="overlaycontainer" style="position: relative;">
 	<!--- Search form --->
 	<div class="container-fluid">
@@ -705,9 +705,9 @@ limitations under the License.
 				</div>
 			</div>
 		</section>
-	</div>																
-	</main>
-																</div>
+	</div>
+																	
+
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
 	/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
