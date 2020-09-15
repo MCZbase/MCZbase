@@ -3431,7 +3431,7 @@ limitations under the License.
 							#mime_type# #media_type# #label_value# 
 							<a href='/media/#media_id#' target='_blank'>Media Details</a>
 							<input class='btn btn-xs btn-warning' 
-									onClick=' confirmAction("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.prefentDefault(); ' 
+									onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.prefentDefault(); ' 
 									value='Remove' style='width: 5em; text-align: center;' >
 						</li>
 					</cfloop>
