@@ -685,8 +685,7 @@ limitations under the License.
 	<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
 			<div class="row">
-				<div class="col-12">
-				<div class="mb-5"> 
+				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 						<h4>Results: </h4>
 						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
@@ -703,7 +702,6 @@ limitations under the License.
 						<div id="enableselection"></div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</section>															
 	</main>
