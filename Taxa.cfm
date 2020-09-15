@@ -621,7 +621,7 @@ limitations under the License.
 						color = 'text-white'; 
 						bg = 'bg-danger'; 
 					} 
-					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
+					return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
 				};
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
@@ -752,7 +752,7 @@ limitations under the License.
 							</cfif>
 							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false cellsrenderer: validCellRenderer },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
 							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: false },
