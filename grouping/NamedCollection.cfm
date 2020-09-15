@@ -360,7 +360,7 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-md-12">
 									<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
-									<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" required aria-labelledby="collection_name_label" >
+									<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
 								</div>
 							</div>
 							<div class="form-row mb-2">
