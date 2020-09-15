@@ -176,9 +176,9 @@ limitations under the License.
 	<cfif not isdefined("parent_loan_number")>
 		<cfset parent_loan_number="">
 	</cfif>
-	<main>
 	<div id="overlaycontainer" style="position: relative;">
-	<!--- Search form --->
+	<main>
+		<!--- Search form --->
 		<section class="container-fluid" role="search" id="content">
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
@@ -681,8 +681,7 @@ limitations under the License.
 				</div>
 			</div>	
 		</section>													
-	</div>
-	<!--- Results table as a jqxGrid. --->
+		<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
 			<div class="row">
 				<div class="col-12 mb-5">
@@ -1235,6 +1234,6 @@ function gridLoaded(gridId, searchType) {
 			<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
 		</div>
 	</div>	
-	</div>
+	</div><!--- overlaycontainer --->
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
