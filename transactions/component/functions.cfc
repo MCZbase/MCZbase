@@ -3431,7 +3431,7 @@ limitations under the License.
 							#mime_type# #media_type# #label_value# 
 							<a href='/media/#media_id#' target='_blank'>Media Details</a>
 							<input class='btn btn-xs btn-warning' 
-									onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.prefentDefault(); ' 
+									onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
 									value='Remove' style='width: 5em; text-align: center;' >
 						</li>
 					</cfloop>
@@ -3472,6 +3472,53 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getPermitMediaThread" />
 	<cfreturn getPermitMediaThread.output>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="removeMediaFromPermit" returntype="query" access="remote">
+	 <cfargument name="permit_id" type="string" required="yes">
+	 <cfargument name="media_id" type="string" required="yes">
+	 <cfargument name="media_relationship" type="string" required="yes">
+	 <cfset r=1>
+	 <cftry>
+	 	<cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from media_relations
+			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			and media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #permit_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	 <cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	 </cfcatch>
+	 </cftry>
+	 <cfreturn theResult>
 </cffunction>
 
 </cfcomponent>

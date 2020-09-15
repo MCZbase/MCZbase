@@ -1465,3 +1465,18 @@ function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transacti
 	loadShipments(transactionId);
 }
 
+function deleteMediaFromPermit(mediaId,permitId,relationType) {
+    jQuery.getJSON("/transactions/component/functions.cfc",
+        {
+            method : "removeMediaFromPermit",
+            media_id : mediaId,
+            permit_id : permitId,
+            media_relationship : relationType,
+            returnformat : "json",
+            queryformat : 'column'
+        },
+        function (result) {
+           loadPermitMedia(permitId);
+           loadPermitRelatedMedia(permitId);
+        }
+      )};
