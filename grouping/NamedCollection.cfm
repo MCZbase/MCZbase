@@ -383,9 +383,9 @@ limitations under the License.
 									</span>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
-										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="goodpick form-control data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
 										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 									</div>
 									<script>
