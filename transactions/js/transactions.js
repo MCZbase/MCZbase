@@ -1479,4 +1479,7 @@ function deleteMediaFromPermit(mediaId,permitId,relationType) {
            loadPermitMedia(permitId);
            loadPermitRelatedMedia(permitId);
         }
-      )};
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
+	});
+}
