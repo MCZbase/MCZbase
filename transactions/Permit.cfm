@@ -860,6 +860,15 @@ function opendialog(page,id,title) {
 									class="autogrow border rounded w-100">#benefits_provided#</textarea>
 							</div>
 						</div>
+					<script>
+						// make selected textareas autogrow as text is entered.
+						$(document).ready(function() {
+							// bind the autogrow function to the keyup event
+							$('textarea.autogrow').keyup(autogrow);
+							// trigger keyup event to size textareas to existing text
+							$('textarea.autogrow').keyup();
+						});
+					</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<!--- TODO: Ajax action for save --->
