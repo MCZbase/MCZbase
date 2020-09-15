@@ -87,8 +87,10 @@ limitations under the License.
 				<div class="container pt-0 mt-2 mb-3">
 					<div class="row">
 						<div class="col-12">
-							<section role="search" aria-labelledby="formheading">
-								<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
+							<section role="search" aria-labelledby="formheading" class="search-box px-1">
+								<div class="search-box-header">
+									<h1 class="h3 smallcaps text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
+								</div>
 								<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 								material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
 								</p>
