@@ -8,29 +8,13 @@ input.badPick, select.badPick, textarea.badPick {
 	background-color: #FF3366 !important;
 }
 input.goodPick, select.goodPick, textarea.goodPick {
-	/*	background-color: #8BFEB9!important;*/
 	background-color: rgba(173, 236, 199, 0.3) !important;
 }
 #taxon_form label {
 	font-size: .8em;
 	line-height: 1.02em;
 }
-/* BELOW: Are these used?  */
-/*form input.anchor-button {  
-	background-color: white;
-	border: none;
-	width: 100%;
-	color: #16181b;
-	text-align: left;
-	padding: .65em 1.12em;
-	margin: 0 0;
-}
-form input.anchor-button:hover {
-	border: none;
-	color: #16181b;
-	text-decoration: none;
-	background-color: #f8f9fa;
-}*/
+
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
 /*********************************************/
@@ -70,7 +54,6 @@ legend {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: .25em;
-/*	color: transparent !important;*/
 }
 [hidden] {
 	display: none;
@@ -150,22 +133,6 @@ p {
 .input-group-text-sm {
 	padding: .25em .5em !important;
 }
-/*.input-group-text {
-	font-size: .7em;
-}*/
-/*.custom-file-label::after {
-	height: calc(.9em + .75rem)!important;
-    padding: .4rem .5rem .25em .5em !important;
-    line-height: .9;
-    font-size: .87em !important;
-    content: "Find";
-}
-.custom-file-label {
-	  height: calc(1em + .75rem)!important;
-    padding: .4rem .5rem !important;
-    line-height: 1 !important;
-	font-size: .87em !important;
-}*/
 .custom-form-input {
 	height: calc(1em + .375rem + .5em);
 }
@@ -180,7 +147,7 @@ label {
 	margin-bottom: 0;
 }
 .border { /* bootstrap border override */
-	/*	border: 1px solid #bac5c6 !important;*/
+		border: 1px solid #bac5c6 !important;
 }
 .shadowbox {
 	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
