@@ -3432,8 +3432,7 @@ limitations under the License.
 							<a href='/media/#media_id#' target='_blank'>Media Details</a>
 							<input class='btn btn-xs btn-warning' 
 									onClick=' confirmAction("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.prefentDefault(); ' 
-									value='Remove' style='width: 5em; text-align: center;' 
-									onmouseover="this.className='delBtn btnhov'" onmouseout="this.className='delBtn'" >
+									value='Remove' style='width: 5em; text-align: center;' >
 						</li>
 					</cfloop>
 					</ul>
