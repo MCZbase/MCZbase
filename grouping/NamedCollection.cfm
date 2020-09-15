@@ -66,7 +66,7 @@ limitations under the License.
 		</cfif>
 		<!--- Search Form ---> 
 		<cfoutput>
-			<div class="container mt-2 mb-3">
+			<section class="container mt-2 mb-3" role="search">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
@@ -78,7 +78,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-6">
 										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
 											$(document).ready(function() {
 												makeNamedCollectionPicker('collection_name',null);
@@ -87,13 +87,13 @@ limitations under the License.
 									</div>
 									<div class="col-md-6">
 										<label for="description" id="description_label">Description</label>
-										<input type="text" id="description" name="description" class="form-control-sm" value="#description#" aria-labelledby="description_label" >
+										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
-										<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+										<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
@@ -110,11 +110,11 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 		</cfoutput> 
 		
 		<!--- Results table as a jqxGrid. --->
-		<div class="container-fluid">
+		<section class="container-fluid" role="main">
 			<div class="row mx-0">
 				<div class="col-12">
 					<main role="main">
@@ -137,7 +137,7 @@ limitations under the License.
 					</main>
 				</div>
 			</div>
-		</div>
+		</section>
 		<cfoutput> 
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
