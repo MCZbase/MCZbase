@@ -575,6 +575,19 @@ limitations under the License.
 		</div>
 
 		<cfset cellRenderClasses = "ml-1">
+		<script>
+			var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				if (value=='Yes') { 
+					color = 'text-success'; 
+					bg = '';
+				} else { 
+					color = 'text-white'; 
+					bg = 'bg-danger'; 
+				} 
+				return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
+			};
+		</script>
 		<cfif isdefined("Application.header_image")>
 			<!--- Production links --->
 			<script>
@@ -611,17 +624,6 @@ limitations under the License.
 				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/TaxonDetails.cfm?action=edit&taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
-				};
-				var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					if (value=='Yes') { 
-						color = 'text-success'; 
-						bg = '';
-					} else { 
-						color = 'text-white'; 
-						bg = 'bg-danger'; 
-					} 
-					return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
 				};
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
