@@ -469,7 +469,7 @@ limitations under the License.
 		<cfoutput query="undColl">
 			<cfset collname = collection_name>
 			<!--- save name for later use outside this output section --->
-			<div class="container">
+			<main class="container" role="main">
 				<div class="row">
 					<div class="col-12">
 						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
@@ -510,7 +510,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
 										<script>
@@ -587,7 +587,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-10">
 										<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
-										<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
+										<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 									</div>
 									<script>
