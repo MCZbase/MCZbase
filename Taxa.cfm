@@ -558,6 +558,21 @@ limitations under the License.
 			</section>
 		</div>
 
+		<cfset cellRenderClasses = "ml-1">
+		<script>
+			var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var v = String(value);
+				if (v.toUpperCase().trim()=='YES') { 
+					color = 'text-success'; 
+					bg = '';
+				} else { 
+					color = 'text-white'; 
+					bg = 'bg-danger'; 
+				} 
+				return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
+			};
+		</script>
 		<cfif isdefined("Application.header_image")>
 			<!--- Production links --->
 			<script>
@@ -703,6 +718,7 @@ limitations under the License.
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: true }, 
 							</cfif>
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:80, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
 							{ text: 'Phylum', datafield: 'PHYLUM', width:100, hideable: true, hidden: false },
@@ -730,7 +746,6 @@ limitations under the License.
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
 							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:80, hideable: true, hidden: false },
 							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
