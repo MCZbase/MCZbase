@@ -224,7 +224,7 @@ limitations under the License.
 			  $( this ).fadeOut( 100 );
 			  $( this ).fadeIn( 500 );
 			});
-		</script>
+
 			// This toggleDropdown function removes the click to stick the menu dropdown behavior
 			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
 			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
