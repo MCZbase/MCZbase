@@ -1485,18 +1485,7 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-menu {
-	margin-top:-2px;
-}
-.dropdown:hover > .dropdown-menu {
-	display:block;
-}
-.dropdown:hover > .dropdown-menu {
-	pointer-events:none;
-}
-.nav-link {
-	display:block;
-}
+
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/

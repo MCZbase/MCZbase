@@ -212,7 +212,25 @@ limitations under the License.
 				}
 			});
 		</script>
-
+//		<script>
+//			// This toggleDropdown function removes the click to stick the menu dropdown behavior
+//			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
+//			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
+//			// need to rewrite.
+//			function toggleDropdown (e) {
+//				const makeHover = $(e.target).closest('.dropdown'),
+//				useMouse = $('.dropdown-menu', makeHover);
+//				setTimeout(function(){
+//					const openMenu = e.type !== 'click' && makeHover.is(':hover');
+//					useMouse.toggleClass('show', openMenu);
+//					makeHover.toggleClass('show', openMenu);
+//					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', openMenu);
+//				}, e.type === 'mouseleave' ? 100 : 0);
+//			}
+//			$('body')
+//				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
+//				.on('click', '.dropdown-menu a', toggleDropdown);
+//		</script>
 
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -220,7 +238,7 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 					<li class="nav-item dropdown"> 
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+						<ul class="navdropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 
 								<cfif targetMenu EQ "production"><cfset href = "/SpecimenSearch.cfm"><cfelse><cfset href="/Specimens.cfm"></cfif>
 								<a class="dropdown-item" id="specimenMenuItem" href="#href#">Specimen Details</a> 
@@ -573,12 +591,12 @@ limitations under the License.
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
 	
 	//prevents double click behavior on menu
-//	$('.dropdown-toggle').click(function(e) {
-//    e.preventDefault();
-//    e.stopPropagation();
-//
-//    return false;
-//	});
+	$('.dropdown-toggle').click(function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    return false;
+	});
 </script>
 <cf_rolecheck>
 </cfoutput>
