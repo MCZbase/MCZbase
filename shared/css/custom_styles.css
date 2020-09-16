@@ -1485,6 +1485,15 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
+.dropdown-item:hover, .dropdown-item:focus {
+	
+}
+.dropdown:hover > .dropdown-menu {
+	display:block;
+}
+.dropdown:hover > .dropdown-menu {
+	pointer-events:none;
+}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/

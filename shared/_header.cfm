@@ -211,26 +211,25 @@ limitations under the License.
 					return false;
 				}
 			});
-			</script>
-			<script>
-
-			// This toggleDropdown function removes the click to stick the menu dropdown behavior
-			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
-			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
-			// need to rewrite.
-			function toggleDropdown (e) {
-				const makeHover = $(e.target).closest('.dropdown'),
-				useMouse = $('.dropdown-menu', makeHover);
-				setTimeout(function(){
-					const openMenu = e.type !== 'click' && makeHover.is(':hover');
-					useMouse.toggleClass('show', openMenu);
-					makeHover.toggleClass('show', openMenu);
-					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', openMenu);
-				}, e.type === 'mouseleave' ? 100 : 0);
-			}
-			$('body')
-				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
-				.on('click', '.dropdown-menu a', toggleDropdown);
+		</script>
+		<script>
+//			// This toggleDropdown function removes the click to stick the menu dropdown behavior
+//			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
+//			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
+//			// need to rewrite.
+//			function toggleDropdown (e) {
+//				const makeHover = $(e.target).closest('.dropdown'),
+//				useMouse = $('.dropdown-menu', makeHover);
+//				setTimeout(function(){
+//					const openMenu = e.type !== 'click' && makeHover.is(':hover');
+//					useMouse.toggleClass('show', openMenu);
+//					makeHover.toggleClass('show', openMenu);
+//					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', openMenu);
+//				}, e.type === 'mouseleave' ? 100 : 0);
+//			}
+//			$('body')
+//				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
+//				.on('click', '.dropdown-menu a', toggleDropdown);
 		</script>
 
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
