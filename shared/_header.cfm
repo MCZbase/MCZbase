@@ -560,7 +560,7 @@ limitations under the License.
 	</div>
 	<!-- container //  --> 
 	<script>
-		document.getElementById("mainMenuContainer").style.display = "block";	
+		//document.getElementById("mainMenuContainer").style.display = "block";	
 	</script> 
 </header>
 <script type="text/javascript">
