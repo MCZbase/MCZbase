@@ -238,7 +238,7 @@ limitations under the License.
 $(document).ready(function(){
 	$( "navbar-nav li" ).hover(
 		function() {
-		var makeHover = $( this ).children( $( ".dropdown-menu" ) );
+		var makeHover = $( this ).children( $( ".dropdown-toggle" ) );
 		  if (makeHover.is(":visible")){
 			  makeHover.parent().toggleClass("show");
   			}
