@@ -212,18 +212,6 @@ limitations under the License.
 				}
 			});
 			
-			$( "li.dropdown" ).hover(
-  				function() {
-    			$( this ).append( $( "show" ) );
-  				}, function() {
-    			$( this ).find( "show" ).last().remove();
-  			}
-			);
- 
-			$( "li.fade" ).hover(function() {
-			  $( this ).fadeOut( 100 );
-			  $( this ).fadeIn( 500 );
-			});
 
 			// This toggleDropdown function removes the click to stick the menu dropdown behavior
 			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
@@ -243,6 +231,16 @@ limitations under the License.
 //				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
 //				.on('click', '.dropdown-menu a', toggleDropdown);
 		</script>
+			<script type="text/javascript">
+			$(document).ready(function(){
+				$(".dropdown, .btn-group").hover(function(){
+					var dropdownMenu = $(this).children(".dropdown-menu");
+					if(dropdownMenu.is(":visible")){
+						dropdownMenu.parent().toggleClass("open");
+					}
+				});
+			});     
+			</script>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
