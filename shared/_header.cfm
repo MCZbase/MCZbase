@@ -242,10 +242,8 @@ $(document).ready(function(){
 		  if (makeHover.is(":visible")){
 			  makeHover.parent().toggleClass("open");
   			}
-	  	},
- 		function() {
-		$( this ).find( "open" ).last().remove();
-	});
+	  	}
+ 		);
 });		
 </script>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
