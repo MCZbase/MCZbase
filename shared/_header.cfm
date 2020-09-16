@@ -219,13 +219,13 @@ limitations under the License.
 			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
 			// need to rewrite.
 			function toggleDropdown (e) {
-				const _d = $(e.target).closest('.dropdown'),
-				_m = $('.dropdown-menu', _d);
+				const makeHover = $(e.target).closest('.dropdown'),
+				useMouse = $('.dropdown-menu', makeHover);
 				setTimeout(function(){
-					const shouldOpen = e.type !== 'click' && _d.is(':hover');
-					_m.toggleClass('show', shouldOpen);
-					_d.toggleClass('show', shouldOpen);
-					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+					const shouldOpen = e.type !== 'click' && makeHover.is(':hover');
+					useMouse.toggleClass('show', shouldOpen);
+					makeHover.toggleClass('show', shouldOpen);
+					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', shouldOpen);
 				}, e.type === 'mouseleave' ? 100 : 0);
 			}
 			$('body')
