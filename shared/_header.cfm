@@ -560,7 +560,7 @@ limitations under the License.
 	</div>
 	<!-- container //  --> 
 	<script>
-		//document.getElementById("mainMenuContainer").style.display = "block";	
+		document.getElementById("mainMenuContainer").style.display = "block";	
 	</script> 
 </header>
 <script type="text/javascript">
@@ -573,12 +573,12 @@ limitations under the License.
 	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
 	
 	//prevents double click behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    return false;
-	});
+//	$('.dropdown-toggle').click(function(e) {
+//    e.preventDefault();
+//    e.stopPropagation();
+//
+//    return false;
+//	});
 </script>
 <cf_rolecheck>
 </cfoutput>
