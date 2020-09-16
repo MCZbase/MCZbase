@@ -22,6 +22,9 @@
 	<cfcase value="delete">
 		<cfset pagetitle = "Delete a Permissions/Rights Document">
 	</cfcase>
+	<cfcase value="permitUseReport">
+   	<cfset pagetitle = "Permissions/Rights Document Use Report">
+	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Find Permissions/Rights Documents">
 		<cfset action="search">
@@ -1173,14 +1176,8 @@ function opendialog(page,id,title) {
 			</cfif>
 		</cfoutput>
 	</cfcase>
-
-</cfswitch>
-
-
-<!--------------------------------------------------------------------------------------------------->
-<!--------------------------------------------------------------------------------------------------->
-<cfif #Action# is "permitUseReport">
-   <cfset title = "Permissions/Rights Use Report">
+	<!--------------------------------------------------------------------------------------------------->
+	<cfcase value="permitUseReport">
    <cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
       <cfoutput>Error: You didn't pass this form a permit_id. Go back and try again.</cfoutput>
       <cfabort>
@@ -1449,5 +1446,6 @@ from permit_trans left join trans on permit_trans.transaction_id = trans.transac
 
 
      </cfoutput>
-</cfif>
+	</cfcase>
+</cfswitch>
 <!--------------------------------------------------------------------------------------------------->
