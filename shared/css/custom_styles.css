@@ -1485,7 +1485,9 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-
+.dropdown-menu {
+	margin-top:-2px;
+}
 .dropdown:hover > .dropdown-menu {
 	display:block;
 }
