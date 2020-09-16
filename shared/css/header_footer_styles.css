@@ -280,17 +280,11 @@ input#Username {
 input#Password {
 	width: 75px;
 }
-.dropdown-menu {
-	margin-top:-2px;
-}
-.dropdown:hover > .dropdown-menu {
-	display:block;
-}
-.dropdown:hover > .dropdown-menu {
-	pointer-events:none;
-}
-.nav-link {
-	display:block;
+
+@media (min-width: 992px) {
+	/*	.dropdown-menu {
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	}*/
 }
 @media (max-width:991px) {
 	ul {
