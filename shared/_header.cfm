@@ -222,10 +222,10 @@ limitations under the License.
 				const makeHover = $(e.target).closest('.dropdown'),
 				useMouse = $('.dropdown-menu', makeHover);
 				setTimeout(function(){
-					const shouldOpen = e.type !== 'click' && makeHover.is(':hover');
-					useMouse.toggleClass('show', shouldOpen);
-					makeHover.toggleClass('show', shouldOpen);
-					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', shouldOpen);
+					const openMenu = e.type !== 'click' && makeHover.is(':hover');
+					useMouse.toggleClass('show', openMenu);
+					makeHover.toggleClass('show', openMenu);
+					$('[data-toggle="dropdown"]', makeHover).attr('aria-expanded', openMenu);
 				}, e.type === 'mouseleave' ? 100 : 0);
 			}
 			$('body')
