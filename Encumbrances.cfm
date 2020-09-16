@@ -249,7 +249,7 @@ a.qutBtn {
 				AND expiration_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#expiration_date_before#">)
 		</cfif>
 		<cfif isdefined("encumbrance_id") and len(encumbrance_id) gt 0>
-				AND encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">	
+				AND encumbrance.encumbrance_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#encumbrance_id#">	
 		</cfif>
 		<cfif isdefined("encumbrance") and len(encumbrance) gt 0>
 				AND upper(encumbrance) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(encumbrance)#%">	
