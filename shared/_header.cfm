@@ -201,16 +201,16 @@ limitations under the License.
 			<cfset targetMenu = "redesign">
 		</cfif>
 		<script>
-//			// Keyboard shortcut for Search
-//			document.addEventListener ("keydown", function (evt) {
-//				if (evt.altKey && evt.key === "m") {  
-//					evt.preventDefault();
-//					evt.stopPropagation();
-//					$('##searchDropdown').click();	
-//					$('##specimenMenuItem').focus();	
-//					return false;
-//				}
-//			});
+			// Keyboard shortcut for Search
+			document.addEventListener ("keydown", function (evt) {
+				if (evt.altKey && evt.key === "m") {  
+					evt.preventDefault();
+					evt.stopPropagation();
+					$('##searchDropdown').click();	
+					$('##specimenMenuItem').focus();	
+					return false;
+				}
+			});
 //				
 //			// This toggleDropdown function removes the click to stick the menu dropdown behavior
 //			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
@@ -235,8 +235,7 @@ limitations under the License.
     display: block;
     margin-top: 0; 
     }
-   
-</style>
+	</style>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
