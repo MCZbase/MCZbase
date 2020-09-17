@@ -300,7 +300,7 @@ limitations under the License.
 	<!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
 	<cfset result = result & '
 		<div class="container-fluid">
-			<h1 class="h3">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h1>
+			<h1 class="h3">Create Media</h1>
 			<div class="border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="action" value="saveNew">
@@ -381,7 +381,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12 pb-2">
 						<label for="relationships" class="mt-2">Media Relationships</label>
-						<div id="relationships" class="border">
+						<div id="relationships" class="border p-2">
 							<div id="relationshiperror"></div>
 								<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
 									<option value="">None/Unpick</option>'>
@@ -401,9 +401,9 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12">
 						<label for="labels" class="mt-2">Media Labels</label>
-						<div id="labels" class="graydot">
+						<div id="labels" class="border p-2">
 							<div id="labelsDiv__1">
-								<select name="label__1" id="label__1" size="1" style="width: 200px;">
+								<select name="label__1" id="label__1" size="1" class="w-25">
 									<option value=""></option>'>
 									<cfloop query="ctmedia_label">
 										<cfset result = result & '<option value="#media_label#">#media_label#</option>'>
