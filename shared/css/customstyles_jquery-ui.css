@@ -15,7 +15,6 @@ customstyles_jquery-ui.css  */
     line-height: 1em;
     border-radius: .2rem;
 }
-
 .ui-multiselect {
 	padding: .25em .5em;
 	padding: .32em .5em;
@@ -28,7 +27,7 @@ customstyles_jquery-ui.css  */
 	color: #495057;
 }
 .ui-dialog input[type=text], 
-.ui-widget input, .ui-dialog select {
+.ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input, .ui-dialog select, .ui-dialog textarea  {
 /*	display: block;
 	width: 100%;*/
 	font-size: .875em;
@@ -146,30 +145,18 @@ override Bootstrap styles
 	line-height: 1em;
 	border-radius: .2rem;
 }
-input[type=button].btn-primary {
+.ui-dialog .btn-primary {
 	background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
-	padding: .3em .5em;
-	font-size: .95em;
-	line-height: 1em;
-	border-radius: .2rem;
 }
-input[type=reset].btn-warning {
+.ui-dialog .btn-warning {
 	background-color: #ffc10782;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
-	padding: .3em .5em;
-	font-size: .95em;
-	line-height: 1em;
-	border-radius: .2rem;
 }
-input[type=submit].btn-primary {
+.ui-dialog .btn-primary {
 	background-color: #d9f1f3;
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
-	padding: .3em .5em;
-	font-size: .95em;
-	line-height: 1em;
-	border-radius: .2rem;
 }
