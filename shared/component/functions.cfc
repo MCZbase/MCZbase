@@ -363,7 +363,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-12 col-md-12 pb-2">
+					<div class="col-12 col-md-12">
 						<p>Notes:</p>
 						<ul class="lisc">
 							<li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
