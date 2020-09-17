@@ -5,6 +5,7 @@ input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
 	border: 1px solid #bac5c6 !important;
 	outline:none;
+	border-radius:.2em;
 }
 input.badPick, select.badPick, textarea.badPick {
 	background-color: #FF3366 !important;
