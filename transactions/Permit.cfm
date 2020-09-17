@@ -1172,9 +1172,9 @@ limitations under the License.
 					issuedTo.agent_name as IssuedToAgent,
 					contact_agent_id,
 					contact.agent_name as ContactAgent,
-					issued_Date,
-					renewed_Date,
-					exp_Date,
+					to_char(issued_Date,'yyyy-mm-dd') as issued_date,
+					to_char(renewed_Date,'yyyy-mm-dd') as renewed_date,
+					to_char(exp_Date,'yyyy-mm-dd') as exp_date,
 					restriction_summary,
 					benefits_summary,
 					benefits_provided,
@@ -1199,7 +1199,7 @@ limitations under the License.
 				<cfloop query="permitInfo">
 					<div class="row">
 						<div class="col-12">
-							#permit_Type# #permit_num# #permit_title#
+							<h2 class="h3">#permit_Type# #permit_num# #permit_title#</h2>
 						</div>
 						<div class="col-12">
 							Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
@@ -1334,7 +1334,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 				</cfquery>
 				<div id="permitsusedin" class="row">
-					<h3>Used for</h3>
+					<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
 					<table>
 						<tr>
 							<th>Transaction</th>
@@ -1394,7 +1394,7 @@ limitations under the License.
 				</cfquery>
 				<div id="permitaccessionsummary" class="row">
 					<div class="col-12">
-						<h2 class="h3">Accession Summary (Salvage Permit Reporting)</h2>
+						<h3 class="h5">Accession Summary (Salvage Permit Reporting)</h3>
 					</div>
 					<div class="col-12">
 						<cfif permitsalvagereport.RecordCount eq 0>
