@@ -15,6 +15,7 @@ customstyles_jquery-ui.css  */
     line-height: 1em;
     border-radius: .2rem;
 }
+
 .ui-multiselect {
 	padding: .25em .5em;
 	padding: .32em .5em;
@@ -27,7 +28,7 @@ customstyles_jquery-ui.css  */
 	color: #495057;
 }
 ui.dialog input[type=text], 
-ui-dialog.ui-widget input {
+.ui-widget input {
 	display: block;
 	width: 100%;
 	font-size: .875em;
