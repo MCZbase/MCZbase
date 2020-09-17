@@ -120,7 +120,7 @@ limitations under the License.
 		<main class="container py-3" id="content" role="main">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
-				<section class="col-12 col-md-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
+				<section class="col-12 col-sm-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
 							<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeLoan">
 								<div class="form-row mb-2">
@@ -368,7 +368,7 @@ limitations under the License.
 							</form>
 						</section>
 				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				<aside class="col-12 col-md-4" aria-labeledby="nextNumberSectionLabel"> 
+				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
 							<div id="nextNumDiv">
 								<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
 								<!--- Find list of all non-observational collections --->
