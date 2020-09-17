@@ -405,7 +405,7 @@ limitations under the License.
 									</cfcatch>
 									</cftry>
 									<cfif len(nextNumberQuery.nextNumber) gt 0>
-										<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+										<button type="button" class="btn btn-xs btn-outline-primary bg-white pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 									<cfelse>
 										<span style="font-size:x-small"> No data available for #collection#. </span>
 									</cfif>
