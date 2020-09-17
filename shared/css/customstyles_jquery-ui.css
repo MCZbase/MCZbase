@@ -20,6 +20,22 @@ customstyles_jquery-ui.css  */
 	line-height: 1.5em;
 	color: #495057;
 }
+input[type=text] {
+	display: block;
+	width: 100%;
+	font-size: .875em;
+	line-height: .875em;
+	padding: .25em .5em;
+	color: rgba(0, 0, 0, .8);
+	height: calc(1.25em + .43rem + 2px);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: .2em;
+	vertical-align: middle;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 450;
+}
 button.ui.multiselect {
 	width: 100% !important;
 }
@@ -111,4 +127,41 @@ override Bootstrap styles
 .ui-widget-header {
 	font-weight: bold;
 }
-
+.ui-dialog .ui-dialog-buttonpane button {
+	cursor: pointer;
+	background-color: #d7d7d7;
+	background: #d7d7d7;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
+input[type=button].btn-primary {
+	background-color: #d9f1f3;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
+input[type=reset].btn-warning {
+	background-color: #ffc10782;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
+input[type=submit].btn-primary {
+	background-color: #d9f1f3;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
