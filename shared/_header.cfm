@@ -216,19 +216,19 @@ limitations under the License.
 			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
 			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
 			// need to rewrite.
-//			function toggleDropdown (e) {
-//				const _d = $(e.target).closest('.dropdown'),
-//				_m = $('.dropdown-menu', _d);
-//				setTimeout(function(){
-//					const shouldOpen = e.type !== 'click' && _d.is(':hover');
-//					_m.toggleClass('show', shouldOpen);
-//					_d.toggleClass('show', shouldOpen);
-//					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
-//				}, e.type === 'mouseleave' ? 100 : 0);
-//			}
-//			$('body')
-//				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
-//				.on('click', '.dropdown-menu a', toggleDropdown);
+			function toggleDropdown (e) {
+				const _d = $(e.target).closest('.dropdown'),
+				_m = $('.dropdown-menu', _d);
+				setTimeout(function(){
+					const shouldOpen = e.type !== 'click' && _d.is(':hover');
+					_m.toggleClass('show', shouldOpen);
+					_d.toggleClass('show', shouldOpen);
+					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+				}, e.type === 'mouseleave' ? 100 : 0);
+			}
+			$('body')
+				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
+				.on('click', '.dropdown-menu a', toggleDropdown);
 		</script>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
@@ -392,7 +392,9 @@ limitations under the License.
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 	              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-								<li class="d-md-flex align-items-start justify-content-start">		
+								<li>
+									<div class="dropdown-divider"></div>
+									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
@@ -489,12 +491,12 @@ limitations under the License.
 					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<li><a class="nav-link dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a></li>
+								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 							</cfif>
-							<li><a class="nav-link dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
-							<li><a class="nav-link dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
-							<li><a class="nav-link dropdown-item" href="/">API</a></li>
-							<li><a class="nav-link dropdown-item" href="/">Technical Details</a></li>
+							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+							<a class="dropdown-item" href="/">API</a>
+							<a class="dropdown-item" href="/">Technical Details</a>
 						</ul>
 					</li>
 				</ul>
