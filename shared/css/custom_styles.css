@@ -159,7 +159,7 @@ label {
 	background-color: #F5F5F5;
 }
 .dotted-box {
-	border: 2px dotted gray;
+	border: 2px dotted gray!important;
 }
 .text-grayish {
 	color: #f5f5f5;
