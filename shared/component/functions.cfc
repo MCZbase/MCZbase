@@ -383,7 +383,7 @@ limitations under the License.
 						<label for="relationships" class="mt-2">Media Relationships</label>
 						<div id="relationships" class="border p-2">
 							<div id="relationshiperror"></div>
-								<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
+								<select name="relationship__1" id="relationship__1" size="1" class="w-25" onchange="pickedRelationship(this.id)">
 									<option value="">None/Unpick</option>'>
 									<cfloop query="ctmedia_relationship">
 										<cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
@@ -391,7 +391,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
+								<input type="text" name="related_value__1" id="related_value__1" class="w-50" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<br>
 								<button type="button" class="btn-xs btn-primary" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
@@ -411,7 +411,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
+								<input type="text" name="label_value__1" id="label_value__1" class="w-50">&nbsp;
 								<br>
 								<button type="button" class="btn-xs btn-primary" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
