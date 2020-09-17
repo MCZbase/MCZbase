@@ -45,7 +45,7 @@ limitations under the License.
     </cfif>
     </div>
 
-<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.js"></script>
 
 </footer>
 </body></html>
