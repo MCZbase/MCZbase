@@ -29,8 +29,8 @@ customstyles_jquery-ui.css  */
 }
 ui.dialog input[type=text], 
 .ui-widget input {
-	display: block;
-	width: 100%;
+/*	display: block;
+	width: 100%;*/
 	font-size: .875em;
 	line-height: .875em;
 	padding: .25em .5em;
