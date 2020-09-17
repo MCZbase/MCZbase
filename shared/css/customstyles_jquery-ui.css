@@ -112,9 +112,13 @@ override Bootstrap styles
 	font-weight: bold;
 }
 .ui-dialog .ui-dialog-buttonpane button {
-	margin: .25em .5em;
 	cursor: pointer;
-	background-color:#d7d7d7;
-	color: black;
-	border-radius: .2em;
+	background-color: #d7d7d7;
+	background: #d7d7d7;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
 }
