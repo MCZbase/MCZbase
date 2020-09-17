@@ -20,6 +20,22 @@ customstyles_jquery-ui.css  */
 	line-height: 1.5em;
 	color: #495057;
 }
+input[type=text] {
+	display: block;
+	width: 100%;
+	font-size: .875em;
+	line-height: .875em;
+	padding: .25em .5em;
+	color: rgba(0, 0, 0, .8);
+	height: calc(1.25em + .43rem + 2px);
+	border: 1px solid #ced4da;
+	background-clip: padding-box;
+	background-color: #fff;
+	border-radius: .2em;
+	vertical-align: middle;
+	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+	font-weight: 450;
+}
 button.ui.multiselect {
 	width: 100% !important;
 }
