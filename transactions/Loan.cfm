@@ -145,9 +145,9 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller bg-lightgree" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control data-entry-input" required >
+											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr goodPick form-control data-entry-input" required >
 										</div>
 										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 										<script>
