@@ -28,8 +28,7 @@ customstyles_jquery-ui.css  */
 }
 
 .ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input, .ui-dialog select, .ui-dialog textarea  {
-/*	display: block;
-	width: 100%;*/
+
 	font-size: inherit;
 	line-height: .875em;
 	padding: .25em .5em;

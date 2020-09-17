@@ -299,29 +299,29 @@ limitations under the License.
 
 	<!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
 	<cfset result = result & '
-		<div class="container-fluid>
-			<h2 class="wikilink">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h2>
-			<div style="border: 1px dotted gray; background-color: ##f8f8f8;padding: 1em;margin: .5em 0 1em 0;">
+		<div class="container-fluid">
+			<h1 class="h3">Create Media <img src="/images/info_i.gif" onClick="getMCZDocs(''Media'')" class="likeLink" alt="[ help ]"></h1>
+			<div class="border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="action" value="saveNew">
 				<input type="hidden" name="headless" value="true">
 				<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 				<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 				<div class="form-row">
-					<div class="col-md-12">
+					<div class="col-12 col-md-12 pb-2">
 						<label for="media_uri">Media URI</label>
 						<input type="text" name="media_uri" id="media_uri" class="reqdClr w-100" required>
 						<!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
+					<div class="col-12 col-md-12 pb-2">
 						<label for="preview_uri">Preview URI</label>
 		 				<input type="text" name="preview_uri" id="preview_uri" class="w-100">
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-4">
+					<div class="col-12 col-md-4 pb-2">
 						<label for="mime_type">MIME Type</label>
 	 			 		<select name="mime_type" id="mime_type" class="reqdClr w-75" required>
 							<option value=""></option>'>
@@ -331,7 +331,7 @@ limitations under the License.
 							<cfset result = result & '
 						</select>
 					</div>
-					<div class="col-md-4">
+					<div class="col-12 col-md-4 pb-2">
 						<label for="media_type">Media Type</label>
 							<select name="media_type" id="media_type" class="reqdClr w-75"  required>
 								<option value=""></option>'>
@@ -341,7 +341,7 @@ limitations under the License.
 								<cfset result = result & '
 							</select>
 					</div>
-					<div class="col-md-4">
+					<div class="col-12 col-md-4 pb-2">
 						<label for="mask_media_fg">Media Record Visibility</label>
 						<select name="mask_media_fg" value="mask_media_fg" class="w-50">
 							<option value="0" selected="selected">Public</option>
@@ -350,7 +350,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
+					<div class="col-12 col-md-12 pb-2">
 						<label for="media_license_id">License</label>
 						<select name="media_license_id" id="media_license_id" style="width:300px;">
 							<option value="">Research copyright &amp; then choose...</option>'>
@@ -363,7 +363,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
+					<div class="col-12 col-md-12 pb-2">
 						<p>Notes:</p>
 						<ul class="lisc">
 							<li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
@@ -373,15 +373,15 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
+					<div class="col-12 col-md-12 pb-2">
 						<label for="description">Description</label>
 		 				<input type="text" name="description" id="description" class="w-100 reqdClr" required>
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
-						<label for="relationships" style="margin-top:.5em;">Media Relationships</label>
-						<div id="relationships" class="graydot">
+					<div class="col-12 col-md-12 pb-2">
+						<label for="relationships" class="mt-2">Media Relationships</label>
+						<div id="relationships" class="border">
 							<div id="relationshiperror"></div>
 								<select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
 									<option value="">None/Unpick</option>'>
@@ -399,8 +399,8 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-12">
-						<label for="labels" style="margin-top:.5em;">Media Labels</label>
+					<div class="col-12 col-md-12">
+						<label for="labels" class="mt-2">Media Labels</label>
 						<div id="labels" class="graydot">
 							<div id="labelsDiv__1">
 								<select name="label__1" id="label__1" size="1" style="width: 200px;">
