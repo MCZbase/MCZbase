@@ -127,7 +127,7 @@ override Bootstrap styles
 }
 .ui-widget.ui-widget-content {
 	border: 2px solid #bac5c6;
-	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.09);
+	box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.13);
 }
 .ui-widget-header {
 	font-weight: bold;
