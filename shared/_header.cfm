@@ -392,8 +392,7 @@ limitations under the License.
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 	              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-								<li>
-									<div class="dropdown-divider"></div>
+								
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
