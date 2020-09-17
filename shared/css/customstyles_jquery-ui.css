@@ -20,7 +20,8 @@ customstyles_jquery-ui.css  */
 	line-height: 1.5em;
 	color: #495057;
 }
-input[type=text] {
+ui.dialog input[type=text], 
+ui-dialog.ui-widget input {
 	display: block;
 	width: 100%;
 	font-size: .875em;
