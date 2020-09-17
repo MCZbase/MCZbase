@@ -275,10 +275,11 @@ input#Username {
 input#Password {
 	width: 75px;
 }
-.dropdown:hover > dropdown-menu {
-	display:block;
-}
-.dropdown:hover > .dropdown-menu .dropdown > .dropdown-toggle:active {
+.dropdown:hover .dropdown-menu {/* Needed for dropdown menu to work with hover */
+    display: block;
+    margin-top: 0; 
+    }
+.dropdown:hover > .dropdown-menu .dropdown > .dropdown-toggle:active { /* needed to eliminate click for dropdown opening */
 	pointer-events:none;
 }
 .nav-link {display:block;}
