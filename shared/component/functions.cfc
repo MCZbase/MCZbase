@@ -49,13 +49,13 @@ limitations under the License.
 			<input type='hidden' name='target_relation' value='#target_relation#'>
 			<div class='container-fluid'>
 				<div class='form-row'>
-					<div class='col-md-12'>
+					<div class='col-12 col-md-12 pb-2'>
 						<label for='media_uri'>Media URI</label>
 			 			<input type='text' name='media_uri' id='media_uri' size='90' value=''>
 					</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-6'>
+					<div class='col-12 col-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
 						<select name='mimetype' id='mimetype'>
 							<option value=''></option>
@@ -66,7 +66,7 @@ limitations under the License.
 		<cfset result = result & "
 						</select>
 			 		</div>
-					<div class='col-6'>
+					<div class='col-12 col-md-4 pb-2'>
 			 			<label for='mediatype'>Media Type</label>
 						<select name='mediatype' id='mediatype'>
 							<option value=''></option>
@@ -79,16 +79,16 @@ limitations under the License.
 			 		</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-4'>
+					<div class='col-12 col-md-4 pb-2'>
 						<span>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
 						</span>
 					</div>
-					<div class='col-4'>
-						<input type='submit' value='Search' class='btn-primary'>
+					<div class='col-12 col-md-4'>
+						<input type='submit' value='Search' class='btn-primary px-3'>
 					</div>
-					<div class='col-4'>
+					<div class='col-12 col-md-4'>
 						<span ><input type='reset' value='Clear' class='btn-warning px-3'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
 								value='Create Media' class='btn-primary px-3' >&nbsp;
