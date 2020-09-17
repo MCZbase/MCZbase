@@ -111,4 +111,10 @@ override Bootstrap styles
 .ui-widget-header {
 	font-weight: bold;
 }
-
+.ui-dialog .ui-dialog-buttonpane button {
+	margin: .25em .5em;
+	cursor: pointer;
+	background-color:#d7d7d7;
+	color: black;
+	border-radius: .2em;
+}
