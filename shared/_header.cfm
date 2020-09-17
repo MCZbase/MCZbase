@@ -201,35 +201,42 @@ limitations under the License.
 			<cfset targetMenu = "redesign">
 		</cfif>
 		<script>
-			// Keyboard shortcut for Search
-			document.addEventListener ("keydown", function (evt) {
-				if (evt.altKey && evt.key === "m") {  
-					evt.preventDefault();
-					evt.stopPropagation();
-					$('##searchDropdown').click();	
-					$('##specimenMenuItem').focus();	
-					return false;
-				}
-			});
-				
-			// This toggleDropdown function removes the click to stick the menu dropdown behavior
-			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
-			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
-			// need to rewrite.
-			function toggleDropdown (e) {
-				const _d = $(e.target).closest('.dropdown'),
-				_m = $('.dropdown-menu', _d);
-				setTimeout(function(){
-					const shouldOpen = e.type !== 'click' && _d.is(':hover');
-					_m.toggleClass('show', shouldOpen);
-					_d.toggleClass('show', shouldOpen);
-					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
-				}, e.type === 'mouseleave' ? 100 : 0);
-			}
-			$('body')
-				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
-				.on('click', '.dropdown-menu a', toggleDropdown);
+//			// Keyboard shortcut for Search
+//			document.addEventListener ("keydown", function (evt) {
+//				if (evt.altKey && evt.key === "m") {  
+//					evt.preventDefault();
+//					evt.stopPropagation();
+//					$('##searchDropdown').click();	
+//					$('##specimenMenuItem').focus();	
+//					return false;
+//				}
+//			});
+//				
+//			// This toggleDropdown function removes the click to stick the menu dropdown behavior
+//			// Source?  TODO: Identify source as compatible with apache 2 or rewrite/remove
+//			// looks like source is copy from https://stackoverflow.com/questions/42183672/how-to-implement-a-navbar-dropdown-hover-in-bootstrap-v4 
+//			// need to rewrite.
+//			function toggleDropdown (e) {
+//				const _d = $(e.target).closest('.dropdown'),
+//				_m = $('.dropdown-menu', _d);
+//				setTimeout(function(){
+//					const shouldOpen = e.type !== 'click' && _d.is(':hover');
+//					_m.toggleClass('show', shouldOpen);
+//					_d.toggleClass('show', shouldOpen);
+//					$('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+//				}, e.type === 'mouseleave' ? 100 : 0);
+//			}
+//			$('body')
+//				.on('mouseenter mouseleave','.dropdown',toggleDropdown)
+//				.on('click', '.dropdown-menu a', toggleDropdown);
 		</script>
+	<style>
+    .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; 
+    }
+   
+</style>
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
