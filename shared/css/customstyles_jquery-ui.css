@@ -9,6 +9,12 @@ customstyles_jquery-ui.css  */
 .ui-widget {
 	font-size: .875em;
 }
+.ui-widget-button {
+	padding: .3em .5em;
+    font-size: .95em;
+    line-height: 1em;
+    border-radius: .2rem;
+}
 .ui-multiselect {
 	padding: .25em .5em;
 	padding: .32em .5em;
