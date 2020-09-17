@@ -275,7 +275,13 @@ input#Username {
 input#Password {
 	width: 75px;
 }
-
+.dropdown:hover > dropdown-menu {
+	display:block;
+}
+.dropdown:hover > .dropdown-menu .dropdown > .dropdown-toggle:active {
+	pointer-events:none;
+}
+.nav-link {display:block;}
 
 
 
