@@ -120,7 +120,7 @@ limitations under the License.
 		<main class="container py-3" id="content" role="main">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
-				<section id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" class="col-8 border bg-white">
+				<section id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" class="col-8 border bg-white pt-3">
 							<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeLoan">
 								<div class="form-row mb-2">
@@ -405,7 +405,7 @@ limitations under the License.
 									</cfcatch>
 									</cftry>
 									<cfif len(nextNumberQuery.nextNumber) gt 0>
-										<button type="button" class="btn btn-xs btn-outline-primary pt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+										<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 									<cfelse>
 										<span style="font-size:x-small"> No data available for #collection#. </span>
 									</cfif>
