@@ -350,7 +350,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-12 col-md-12 pb-2">
+					<div class="col-12 col-md-12 py-2">
 						<label for="media_license_id">License</label>
 						<select name="media_license_id" id="media_license_id" style="width:300px;">
 							<option value="">Research copyright &amp; then choose...</option>'>
