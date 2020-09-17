@@ -300,7 +300,7 @@ limitations under the License.
 	<!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
 	<cfset result = result & '
 		<div class="container-fluid">
-			<h1 class="h3">Create Media</h1>
+			<h1 class="h4">Create Media</h1>
 			<div class="border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="action" value="saveNew">
