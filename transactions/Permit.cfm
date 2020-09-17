@@ -710,25 +710,6 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-<script>
-function opendialog(page,id,title) {
-  var $dialog = $(id)
-  .html('<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>')
-  .dialog({
-    title: title,
-    autoOpen: false,
-    dialogClass: 'dialog_fixed,ui-widget-header',
-    modal: true,
-    height: 900,
-    width: 1200,
-    minWidth: 400,
-    minHeight: 400,
-    draggable:true,
-    buttons: { "Ok": function () { loadPermitMedia(#permit_id#); loadPermitRelatedMedia(#permit_id#); $(this).dialog("close"); } }
-  });
-  $dialog.dialog('open');
-};
-</script>
 			<main class="container">
 				<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >
 					Edit Permissions &amp; Rights Document 
@@ -1417,7 +1398,7 @@ function opendialog(page,id,title) {
 					</div>
 					<div class="col-12">
 						<cfif permitsalvagereport.RecordCount eq 0>
-							<strong>No accessions</strong>
+							<strong>No accessions for this Permissions &amp; Rights Document</strong>
 	 					<cfelse>
 							<table>
 								<tr>
