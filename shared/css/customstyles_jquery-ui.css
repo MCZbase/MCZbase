@@ -9,7 +9,7 @@ customstyles_jquery-ui.css  */
 .ui-widget {
 	font-size: .875em;
 }
-.ui-widget-button {
+.ui-widget button {
 	padding: .3em .5em;
     font-size: .95em;
     line-height: 1em;
