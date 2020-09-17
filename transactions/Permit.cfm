@@ -1184,7 +1184,7 @@ function opendialog(page,id,title) {
 			<cfthrow message="Error: permit use report invoked without a permit_id. Go back and try again">
  		</cfif>
 	 	<cfoutput>
-			<main id="content">
+			<main id="content" class="container">
 				<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select permit.permit_id,
 					issuedBy.agent_name as IssuedByAgent,
@@ -1214,21 +1214,21 @@ function opendialog(page,id,title) {
 					and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					order by permit_id
 				</cfquery>
-				<h3>Permit</h3>
+				<h1 class="h3">Use Report for Permissions &amp; Rights Document</h1>
 				<cfloop query="permitInfo">
-					<div>
-					#permit_Type# #permit_num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+					<div class="row">
+						<div class="col-12">
+							#permit_Type# #permit_num# #permit_title#
+						</div>
+						<div class="col-12">
+							Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+						</div>
+						<div class="col-12">
+							<a class="btn btn-xs btn-secondary" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
+							<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
+						</div>
 					</div>
 				</cfloop>
-				<form action="Permit.cfm" method="GET" name="EditPermit">
-					<input type="hidden" name="permit_id" value="#permit_id#">
-					<input type="hidden" name="action" value="edit">
-					<input type="submit" value="Edit this permit" class="btn btn-xs btn-secondary">
-				</form>
-				<form action="Reports/permit.cfm" method="GET" name="Copy">
-					<input type="hidden" name="permit_id" value="#permit_id#">
-					<input type="submit" value="(Old) Permit Report" class="btn btn-xs btn-secondary">
-				</form>
 				<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
@@ -1412,35 +1412,39 @@ function opendialog(page,id,title) {
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
 				</cfquery>
 				<div id="permitaccessionsummary" class="row">
-					<h3>Accession Summary (Salvage Permit Reporting)</h3>
-					<cfif permitsalvagereport.RecordCount eq 0>
-						<h4>No accessions</h4>
-	 				<cfelse>
-						<table>
-							<tr>
-								<th>Specimen&nbsp;Count</th>
-								<th>Collection</th>
-								<th>Country</th>
-								<th>State</th>
-								<th>County</th>
-								<th>Scientific&nbsp;Name</th>
-								<th>Common&nbsp;Name</th>
-								<th>Parts</th>
-							</tr>
-							<cfloop query="permitsalvagereport">
+					<div class="col-12">
+						<h2 class="h3">Accession Summary (Salvage Permit Reporting)</h2>
+					</div>
+					<div class="col-12">
+						<cfif permitsalvagereport.RecordCount eq 0>
+							<strong>No accessions</strong>
+	 					<cfelse>
+							<table>
 								<tr>
-									<td>#spec_count#</td>
-									<td>#guid_prefix#</td>
-									<td>#country#</td>
-									<td>#state_prov#</td>
-									<td>#county#</td>
-									<td>#scientific_name#</td>
-									<td>#common_name#</td>
-									<td>#parts#</td>
+									<th>Specimen&nbsp;Count</th>
+									<th>Collection</th>
+									<th>Country</th>
+									<th>State</th>
+									<th>County</th>
+									<th>Scientific&nbsp;Name</th>
+									<th>Common&nbsp;Name</th>
+									<th>Parts</th>
 								</tr>
-							</cfloop>
-						</table>
-					</cfif>
+								<cfloop query="permitsalvagereport">
+									<tr>
+										<td>#spec_count#</td>
+										<td>#guid_prefix#</td>
+										<td>#country#</td>
+										<td>#state_prov#</td>
+										<td>#county#</td>
+										<td>#scientific_name#</td>
+										<td>#common_name#</td>
+										<td>#parts#</td>
+									</tr>
+								</cfloop>
+							</table>
+						</cfif>
+					</div>
 				</div>
 			</main>
 		</cfoutput>
