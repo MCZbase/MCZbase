@@ -55,7 +55,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-12 col-4 pb-2'>
+					<div class='col-12 col-md-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
 						<select name='mimetype' id='mimetype'>
 							<option value=''></option>
