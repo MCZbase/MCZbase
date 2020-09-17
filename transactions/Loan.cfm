@@ -119,8 +119,8 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content" role="main">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
-			<div class="row border rounded bg-light my-2 p-2">
-				<section id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" class="col-8 border bg-white py-3">
+			<div class="row border rounded bg-light mt-2 mb-4 p-2">
+				<section id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" class="col-8 border bg-white">
 							<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeLoan">
 								<div class="form-row mb-2">
