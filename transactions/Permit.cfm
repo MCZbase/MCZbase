@@ -726,7 +726,7 @@ function opendialog(page,id,title) {
   });
   $dialog.dialog('open');
 };
-</script>>
+</script>
 			<main class="container">
 				<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >
 					Edit Permissions &amp; Rights Document 
