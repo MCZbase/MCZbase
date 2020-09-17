@@ -131,3 +131,12 @@ input[type=button].btn-primary {
 	line-height: 1em;
 	border-radius: .2rem;
 }
+input[type=reset].btn-warning {
+	background-color: #ffc10782;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
