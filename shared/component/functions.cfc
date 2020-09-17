@@ -77,14 +77,15 @@ limitations under the License.
 		 <cfset result = result & "
 						</select>
 			 		</div>
-				</div>
-				<div class='form-row'>
+			
 					<div class='col-12 col-md-4 pb-2'>
 						<span>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
 						</span>
 					</div>
+				</div>
+				<div class='form-row'>
 					<div class='col-12 col-md-4'>
 						<input type='submit' value='Search' class='btn-primary px-3'>
 					</div>
