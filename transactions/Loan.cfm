@@ -117,13 +117,11 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-		<main class="container">
-			<div class="row">
-				<div class="col-12">
-					<h2 class="wikilink mt-2 mb-0" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fas-info2 fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h2>
-					<div class="form-row mb-2">
-						<section id="newLoanFormSection" class="col-12 col-md-9 col-xl-7 offset-xl-1" aria-labeledby="newLoanFormSectionLabel" >
-							<form name="newloan" id="newLoan" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
+		<main class="container py-3" id="content" role="main">
+			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
+			<div class="row border rounded bg-light my-2 p-2">
+				<section id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" class="col-8 border bg-white py-3">
+							<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 								<input type="hidden" name="action" value="makeLoan">
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
@@ -371,9 +369,9 @@ limitations under the License.
 								</div>
 							</form>
 						</section>
-						<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-						<aside class="coll-sm-4 ml-sm-4" aria-labeledby="nextNumberSectionLabel"> 
-							<div id="nextNumDiv" class="border border-primary p-md-2">
+				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
+				<aside class="col-4" aria-labeledby="nextNumberSectionLabel"> 
+							<div id="nextNumDiv">
 								<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
 								<!--- Find list of all non-observational collections --->
 								<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -409,7 +407,7 @@ limitations under the License.
 									</cfcatch>
 									</cftry>
 									<cfif len(nextNumberQuery.nextNumber) gt 0>
-										<span class="btn btn-xs btn-link " onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</span>
+										<button type="button" class="btn btn-xs btn-outline-primary pt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 									<cfelse>
 										<span style="font-size:x-small"> No data available for #collection#. </span>
 									</cfif>
@@ -417,8 +415,6 @@ limitations under the License.
 								</nav>
 							</div>
 						</aside><!--- next number aside --->
-					</div>
-				</div>
 			</div>
 		</main>
 	</cfoutput>
