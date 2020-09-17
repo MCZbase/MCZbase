@@ -26,9 +26,7 @@ customstyles_jquery-ui.css  */
 	line-height: 1.5em;
 	color: #495057;
 }
-
 .ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input, .ui-dialog select, .ui-dialog textarea  {
-
 	font-size: inherit;
 	line-height: .875em;
 	padding: .25em .5em;
@@ -42,7 +40,6 @@ customstyles_jquery-ui.css  */
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-
 button.ui.multiselect {
 	width: 100% !important;
 }
@@ -129,7 +126,7 @@ override Bootstrap styles
 	border-radius: 4px;
 }
 .ui-widget.ui-widget-content {
-	border: 1px solid #333;
+	border: 2px solid #bac5c6;
 }
 .ui-widget-header {
 	font-weight: bold;
