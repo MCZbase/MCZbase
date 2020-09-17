@@ -489,12 +489,12 @@ limitations under the License.
 					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+								<li><a class="nav-link dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a></li>
 							</cfif>
-							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
-							<a class="dropdown-item" href="/">API</a>
-							<a class="dropdown-item" href="/">Technical Details</a>
+							<li><a class="nav-link dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
+							<li><a class="nav-link dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+							<li><a class="nav-link dropdown-item" href="/">API</a></li>
+							<li><a class="nav-link dropdown-item" href="/">Technical Details</a></li>
 						</ul>
 					</li>
 				</ul>
