@@ -67,191 +67,193 @@ limitations under the License.
 <cfswitch expression="#action#">
 	<cfcase value="search">
 		<div id="overlaycontainer" style="position: relative;">
-			<!--- ensure fields have empty values present if not defined. --->
-			<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
-			<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
-			<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
-			<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
-			<cfif not isdefined("ContactAgent")><cfset ContactAgent=""></cfif>
-			<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
-			<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
-			<cfif not isdefined("contact_agent_id")><cfset contact_agent_id=""></cfif>
-			<cfif not isdefined("issued_date")><cfset issued_date=""></cfif>
-			<cfif not isdefined("issued_until_date")><cfset issued_until_date=""></cfif>
-			<cfif not isdefined("renewed_date")><cfset renewed_date=""></cfif>
-			<cfif not isdefined("renewed_until_date")><cfset renewed_until_date=""></cfif>
-			<cfif not isdefined("exp_date")><cfset exp_date=""></cfif>
-			<cfif not isdefined("exp_until_date")><cfset exp_until_date=""></cfif>
-			<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
-			<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
-			<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
-			<!--- Search Form --->
-			<cfoutput>
-				<div class="container pt-0 mt-2 mb-3">
-					<div class="row">
-						<div class="col-12">
-							<section role="search" aria-labelledby="formheading">
-								<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
-								<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
-								material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
-								</p>
-								<form name="searchForm" id="searchForm"> 
-									<input type="hidden" name="method" value="getPermits" class="keeponclear">
-									<div class="form-row mb-2">
-										<div class="col-md-6">
-											<label for="permit_title" id="permit_title_label">Document Title</label>
-											<input type="text" id="permit_title" name="permit_title" class="form-control-sm" value="#permit_title#" aria-labelledby="permit_title_label" >
-										</div>
-										<div class="col-md-6">
-											<label for="permit_num" id="permit_num_label">Permit Number</label>
-											<input type="text" id="permit_num" name="permit_num" class="form-control-sm" value="#permit_num#" aria-labelledby="permit_num_label" >					
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											makePermitTitleAutocomplete("permit_title");	
-											makePermitNumberAutocomplete("permit_num");	
-										});
-									</script>
-									<div class="form-row mb-2">
-										<div class="col-md-4">
-											<label for="IssuedByAgent" id="IssuedByAgent_label">Issued By</label>
-											<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
-											<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#issued_by_agent_id#">
-										</div>
-										<div class="col-md-4">
-											<label for="IssuedToAgent" id="IssuedToAgent_label">Issued To</label>
-											<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
-											<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#issued_to_agent_id#">
-										</div>
-										<div class="col-md-4">
-											<label for="ContactAgent" id="ContactAgent_label">Contact</label>
-											<input type="text" id="ContactAgent" name="ContactAgent" class="form-control-sm" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
-											<input type="hidden" id="contact_agent_id" name="contact_agent_id" value="#contact_agent_id#">
+			<main id="content">
+				<!--- ensure fields have empty values present if not defined. --->
+				<cfif not isdefined("permit_title")><cfset permit_title=""></cfif>
+				<cfif not isdefined("permit_num")><cfset permit_num=""></cfif>
+				<cfif not isdefined("IssuedByAgent")><cfset IssuedByAgent=""></cfif>
+				<cfif not isdefined("IssuedToAgent")><cfset IssuedToAgent=""></cfif>
+				<cfif not isdefined("ContactAgent")><cfset ContactAgent=""></cfif>
+				<cfif not isdefined("issued_by_agent_id")><cfset issued_by_agent_id=""></cfif>
+				<cfif not isdefined("issued_to_agent_id")><cfset issued_to_agent_id=""></cfif>
+				<cfif not isdefined("contact_agent_id")><cfset contact_agent_id=""></cfif>
+				<cfif not isdefined("issued_date")><cfset issued_date=""></cfif>
+				<cfif not isdefined("issued_until_date")><cfset issued_until_date=""></cfif>
+				<cfif not isdefined("renewed_date")><cfset renewed_date=""></cfif>
+				<cfif not isdefined("renewed_until_date")><cfset renewed_until_date=""></cfif>
+				<cfif not isdefined("exp_date")><cfset exp_date=""></cfif>
+				<cfif not isdefined("exp_until_date")><cfset exp_until_date=""></cfif>
+				<cfif not isdefined("permit_type")><cfset permit_type=""></cfif>
+				<cfif not isdefined("specific_type")><cfset specific_type=""></cfif>
+				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
+				<!--- Search Form --->
+				<cfoutput>
+					<div class="container pt-0 mt-2 mb-3">
+						<div class="row">
+							<div class="col-12">
+								<section role="search" aria-labelledby="formheading">
+									<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
+									<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
+									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
+									</p>
+									<form name="searchForm" id="searchForm"> 
+										<input type="hidden" name="method" value="getPermits" class="keeponclear">
+										<div class="form-row mb-2">
+											<div class="col-md-6">
+												<label for="permit_title" id="permit_title_label">Document Title</label>
+												<input type="text" id="permit_title" name="permit_title" class="form-control-sm" value="#permit_title#" aria-labelledby="permit_title_label" >
+											</div>
+											<div class="col-md-6">
+												<label for="permit_num" id="permit_num_label">Permit Number</label>
+												<input type="text" id="permit_num" name="permit_num" class="form-control-sm" value="#permit_num#" aria-labelledby="permit_num_label" >					
+											</div>
 										</div>
 										<script>
 											$(document).ready(function() {
-												makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
-												makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
-												makeConstrainedAgentPicker("ContactAgent", "contact_agent_id","permit_contact_agent");
+												makePermitTitleAutocomplete("permit_title");	
+												makePermitNumberAutocomplete("permit_num");	
 											});
 										</script>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="issued_date">Issued Date:</label>
-												<input name="issued_date" id="issued_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#issued_date#" aria-label="start of range for closed date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="issued_until_date">end of range for issued date </label>
-												<input type='text' name='issued_until_date' id="issued_until_date" value="#issued_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+										<div class="form-row mb-2">
+											<div class="col-md-4">
+												<label for="IssuedByAgent" id="IssuedByAgent_label">Issued By</label>
+												<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
+												<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#issued_by_agent_id#">
+											</div>
+											<div class="col-md-4">
+												<label for="IssuedToAgent" id="IssuedToAgent_label">Issued To</label>
+												<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
+												<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#issued_to_agent_id#">
+											</div>
+											<div class="col-md-4">
+												<label for="ContactAgent" id="ContactAgent_label">Contact</label>
+												<input type="text" id="ContactAgent" name="ContactAgent" class="form-control-sm" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
+												<input type="hidden" id="contact_agent_id" name="contact_agent_id" value="#contact_agent_id#">
+											</div>
+											<script>
+												$(document).ready(function() {
+													makeConstrainedAgentPicker("IssuedByAgent", "issued_by_agent_id","permit_issued_by_agent");
+													makeConstrainedAgentPicker("IssuedToAgent", "issued_to_agent_id","permit_issued_to_agent");
+													makeConstrainedAgentPicker("ContactAgent", "contact_agent_id","permit_contact_agent");
+												});
+											</script>
+										</div>
+										<div class="form-row mb-2">
+											<div class="col-12 col-md-4">
+												<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
+													<label class="data-entry-label mb-0 px-4 mx-1" for="issued_date">Issued Date:</label>
+													<input name="issued_date" id="issued_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#issued_date#" aria-label="start of range for closed date">
+													<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="issued_until_date">end of range for issued date </label>
+													<input type='text' name='issued_until_date' id="issued_until_date" value="#issued_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
+													<label class="data-entry-label mb-0 px-4 mx-1" for="renewed_date">Renewed Date:</label>
+													<input name="renewed_date" id="renewed_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#renewed_date#" aria-label="start of range for closed date">
+													<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="renewed_until_date">end of range for renewed date </label>
+													<input type='text' name='renewed_until_date' id="renewed_until_date" value="#renewed_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
+													<label class="data-entry-label mb-0 px-4 mx-1" for="exp_date">Expiration Date:</label>
+													<input name="exp_date" id="exp_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#exp_date#" aria-label="start of range for closed date">
+													<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="exp_until_date">end of range for expiration date </label>
+													<input type='text' name='exp_until_date' id="exp_until_date" value="#exp_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												</div>
+											</div>
+											<script>
+												/* Setup date time input controls */
+												$(".datetimeinput").datepicker({ 
+													defaultDate: null,
+													changeMonth: true,
+													changeYear: true,
+													dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
+													buttonImageOnly: true,
+													buttonImage: "/shared/images/calendar_icon.png",
+													showOn: "both"
+												});
+											</script>
+										</div>
+	
+										<div class="form-row mb-2">
+											<div class="col-md-4">
+												<cfset ppermit_type = permit_type>
+												<label for="permit_type" class="data-entry-label mb-0">Document Category:</label>
+												<select name="permit_type" id="permit_type" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctPermitType">
+														<cfif ppermit_type eq ctPermitType.permit_type>
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctPermitType.permit_type#" #selected#>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-md-4">
+												<cfset pspecific_type = specific_type>
+												<label for="specific_type" class="data-entry-label mb-0">Specific Document Type:</label>
+												<select name="specific_type" id="specific_type" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctSpecificPermitType">
+														<cfif pspecific_type eq ctSpecificPermitType.specific_type>
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctSpecificPermitType.specific_type#" #selected#>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-md-4">
+												<label for="permit_remarks" id="permit_remarks_label">Remarks:</label>
+												<input type="text" id="permit_remarks" name="permit_remarks" class="form-control-sm" value="#permit_remarks#" aria-labelledby="permit_remarks_label" >					
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="renewed_date">Renewed Date:</label>
-												<input name="renewed_date" id="renewed_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#renewed_date#" aria-label="start of range for closed date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="renewed_until_date">end of range for renewed date </label>
-												<input type='text' name='renewed_until_date' id="renewed_until_date" value="#renewed_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 px-0">
+												<button class="btn-xs btn-primary px-2 mt-3" id="permitSearchButton" type="submit" aria-label="Search permits">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a permit search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/transactions/Permit.cfm?action=search';" >New Search</button>
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="exp_date">Expiration Date:</label>
-												<input name="exp_date" id="exp_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#exp_date#" aria-label="start of range for closed date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="exp_until_date">end of range for expiration date </label>
-												<input type='text' name='exp_until_date' id="exp_until_date" value="#exp_until_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
-											</div>
-										</div>
-										<script>
-											/* Setup date time input controls */
-											$(".datetimeinput").datepicker({ 
-												defaultDate: null,
-												changeMonth: true,
-												changeYear: true,
-												dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
-												buttonImageOnly: true,
-												buttonImage: "/shared/images/calendar_icon.png",
-												showOn: "both"
-											});
-										</script>
+									</form>
+								</section>
+							</div>
+						</div>
+					</div>
+				</cfoutput>
+		
+				<!--- Results table as a jqxGrid. --->
+				<div class="container-fluid">
+					<div class="row mx-0">
+						<div class="col-12 mb-5">
+							<section>
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h4>Results: </h4>
+									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<div id="columnPickDialog">
+										<div id="columnPick" class="px-1"></div>
 									</div>
-
-									<div class="form-row mb-2">
-										<div class="col-md-4">
-											<cfset ppermit_type = permit_type>
-											<label for="permit_type" class="data-entry-label mb-0">Document Category:</label>
-											<select name="permit_type" id="permit_type" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctPermitType">
-													<cfif ppermit_type eq ctPermitType.permit_type>
-														<cfset selected="selected">
-														<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctPermitType.permit_type#" #selected#>#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-4">
-											<cfset pspecific_type = specific_type>
-											<label for="specific_type" class="data-entry-label mb-0">Specific Document Type:</label>
-											<select name="specific_type" id="specific_type" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctSpecificPermitType">
-													<cfif pspecific_type eq ctSpecificPermitType.specific_type>
-														<cfset selected="selected">
-														<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctSpecificPermitType.specific_type#" #selected#>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-md-4">
-											<label for="permit_remarks" id="permit_remarks_label">Remarks:</label>
-											<input type="text" id="permit_remarks" name="permit_remarks" class="form-control-sm" value="#permit_remarks#" aria-labelledby="permit_remarks_label" >					
-										</div>
-									</div>
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 px-0">
-											<button class="btn-xs btn-primary px-2 mt-3" id="permitSearchButton" type="submit" aria-label="Search permits">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a permit search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/transactions/Permit.cfm?action=search';" >New Search</button>
-										</div>
-									</div>
-								</form>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+								</div>
+								<div class="row mt-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
 							</section>
 						</div>
 					</div>
 				</div>
-			</cfoutput>
-	
-			<!--- Results table as a jqxGrid. --->
-			<div class="container-fluid">
-				<div class="row mx-0">
-					<div class="col-12 mb-5">
-						<section role="main">
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h4>Results: </h4>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
-								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
-							</div>
-						</section>
-					</div>
-				</div>
-			</div>
+			</main>
 		
 			<cfoutput>
 				<script>
@@ -478,7 +480,7 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<main class="container">
+			<main class="container" id="content">
 				<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >
 					Create New Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
@@ -751,7 +753,7 @@ function opendialog(page,id,title) {
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
+									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control form-control-sm" required value="#IssuedByAgent#" >
 								</div>
 								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
 								<script>
@@ -767,7 +769,7 @@ function opendialog(page,id,title) {
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedToAgent#" >
+									<input name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control form-control-sm" required value="#IssuedToAgent#" >
 								</div>
 								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
 								<script>
@@ -783,7 +785,7 @@ function opendialog(page,id,title) {
 									<div class="input-group-prepend">
 										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input" value="#ContactAgent#">
+									<input name="contact_agent_name" id="contact_agent_name" class="form-control form-control-sm" value="#ContactAgent#">
 								</div>
 								<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
 								<script>
@@ -1181,264 +1183,266 @@ function opendialog(page,id,title) {
 		<cfif not isdefined("permit_id") OR len(#permit_id#) is 0>
 			<cfthrow message="Error: permit use report invoked without a permit_id. Go back and try again">
  		</cfif>
-		<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select permit.permit_id,
-			issuedBy.agent_name as IssuedByAgent,
-			issuedTo.agent_name as IssuedToAgent,
-			contact_agent_id,
-			contact.agent_name as ContactAgent,
-			issued_Date,
-			renewed_Date,
-			exp_Date,
-			restriction_summary,
-			benefits_summary,
-			benefits_provided,
-			permit_num,
-			permit_Type,
-			specific_type,
-			permit_title,
-			permit_remarks
-			from
-				permit,
-				preferred_agent_name issuedTo,
-				preferred_agent_name issuedBy ,
-				preferred_agent_name contact
-			where
-				permit.issued_by_agent_id = issuedBy.agent_id (+) and
-			permit.issued_to_agent_id = issuedTo.agent_id (+) AND
-			permit.contact_agent_id = contact.agent_id (+)
-			and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			order by permit_id
-		</cfquery>
 	 	<cfoutput>
-			<h3>Permit</h3>
-			<cfloop query="permitInfo">
-				#permit_Type# #permit_num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
-			</cfloop>
-			<form action="Permit.cfm" method="GET" name="EditPermit">
-				<input type="hidden" name="permit_id" value="#permit_id#">
-				<input type="hidden" name="action" value="edit">
-				<input type="submit" value="Edit this permit" class="btn btn-xs btn-secondary">
-			</form>
-			<form action="Reports/permit.cfm" method="GET" name="Copy">
-				<input type="hidden" name="permit_id" value="#permit_id#">
-				<input type="submit" value="(Old) Permit Report" class="btn btn-xs btn-secondary">
-			</form>
-		</cfoutput>
-		<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join accn on trans.transaction_id = accn.transaction_id
-				left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-				left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'accn'
-					and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-				left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-				left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-				left join trans on shipment.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join accn on trans.transaction_id = accn.transaction_id
-				left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-				left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'accn'
-					and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join loan on trans.transaction_id = loan.transaction_id
-				left join loan_item on loan.transaction_id = loan_item.transaction_id
-				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-				left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'loan'
-					and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-				left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-				left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-				left join trans on shipment.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join loan on trans.transaction_id = loan.transaction_id
-				left join loan_item on loan.transaction_id = loan_item.transaction_id
-				left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-				left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'loan'
-					and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join deaccession on trans.transaction_id = deaccession.transaction_id
-				left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-				left join flat on deacc_item.collection_object_id = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'deaccession'
-					and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
-				flat.country, flat.state_prov, flat.scientific_name, flat.guid,
-				shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-				left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-				left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-				left join trans on shipment.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join deaccession on trans.transaction_id = deaccession.transaction_id
-				left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
-				left join flat on deacc_item.collection_object_id = flat.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-				where trans.transaction_type = 'deaccession'
-					and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-				borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-				TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
-				' ' as common_name
-			from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join borrow on trans.transaction_id = borrow.transaction_id
-				left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
-				where trans.transaction_type = 'borrow'
-					and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			union
-			select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-				concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
-				borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
-				shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
-				' ' as common_name
-			from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
-				left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
-				left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
-				left join trans on shipment.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join borrow on trans.transaction_id = borrow.transaction_id
-				left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
-				where trans.transaction_type = 'borrow'
-					and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-		</cfquery>
-		<cfoutput>
-			<div id="permitsusedin"><h3>Used for</h3>
-				<table>
-					<tr>
-						<th>Transaction</th>
-						<th>Type</th>
-						<th>Date</th>
-						<th>Ship&nbsp;Date</th>
-						<th>Collection</th>
-						<th>Country&nbsp;of&nbsp;Origin</th>
-						<th>State/Province</th>
-						<th>Scientific&nbsp;Name</th>
-						<th>Common&nbsp;Name</th>
-						<th>Preparations</th>
-						<th>Catalog&nbsp;Number</th>
-						<th>From&nbsp;Institution</th>
-						<th>To&nbsp;Institution</th>
-					</tr>
-					<cfloop query="permituse">
-						<tr>
-							<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
-							<td>#ontype# #ttype#</td>
-							<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
-							<td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
-							<td>#guid_prefix#</td>
-							<td>#country#</td>
-							<td>#state_prov#</td>
-							<td>#scientific_name#</td>
-							<td>#common_name#</td>
-							<td>#parts#</td>
-							<td>#guid#</td>
-							<td>#frominstitution#</td>
-							<td>#toinstitution#</td>
-						</tr>
-					</cfloop>
-				</table>
-			</div>
-		</cfoutput>
-		<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select
-				count(cataloged_item.collection_object_id) as cat_count,
-				sum(coll_object.lot_count) as spec_count,
-				collection.guid_prefix,
-				flat.country, flat.state_prov, flat.scientific_name, flat.county,
-				mczbase.get_part_prep(specimen_part.collection_object_id) as parts,
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
-			from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
-				left join collection on trans.collection_id = collection.collection_id
-				left join accn on trans.transaction_id = accn.transaction_id
-				left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-				left join flat on cataloged_item.collection_object_id = flat.collection_object_id
-				left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
-				left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
-				left join taxonomy on flat.scientific_name = taxonomy.scientific_name
-			where trans.transaction_type = 'accn'
-				and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
-			group by collection.guid_prefix, country, state_prov, flat.scientific_name, flat.county,
-				mczbase.get_part_prep(specimen_part.collection_object_id),
-				decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
-		</cfquery>
- 		<cfoutput>
-			<div id="permitaccessionsummary"><h3>Accession Summary (Salvage Permit Reporting)</h3>
-				<cfif permitsalvagereport.RecordCount eq 0>
-					<h4>No accessions</h4>
- 				<cfelse>
+			<main id="content">
+				<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select permit.permit_id,
+					issuedBy.agent_name as IssuedByAgent,
+					issuedTo.agent_name as IssuedToAgent,
+					contact_agent_id,
+					contact.agent_name as ContactAgent,
+					issued_Date,
+					renewed_Date,
+					exp_Date,
+					restriction_summary,
+					benefits_summary,
+					benefits_provided,
+					permit_num,
+					permit_Type,
+					specific_type,
+					permit_title,
+					permit_remarks
+					from
+						permit,
+						preferred_agent_name issuedTo,
+						preferred_agent_name issuedBy ,
+						preferred_agent_name contact
+					where
+						permit.issued_by_agent_id = issuedBy.agent_id (+) and
+					permit.issued_to_agent_id = issuedTo.agent_id (+) AND
+					permit.contact_agent_id = contact.agent_id (+)
+					and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					order by permit_id
+				</cfquery>
+				<h3>Permit</h3>
+				<cfloop query="permitInfo">
+					<div>
+					#permit_Type# #permit_num# Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+					</div>
+				</cfloop>
+				<form action="Permit.cfm" method="GET" name="EditPermit">
+					<input type="hidden" name="permit_id" value="#permit_id#">
+					<input type="hidden" name="action" value="edit">
+					<input type="submit" value="Edit this permit" class="btn btn-xs btn-secondary">
+				</form>
+				<form action="Reports/permit.cfm" method="GET" name="Copy">
+					<input type="hidden" name="permit_id" value="#permit_id#">
+					<input type="submit" value="(Old) Permit Report" class="btn btn-xs btn-secondary">
+				</form>
+				<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join accn on trans.transaction_id = accn.transaction_id
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'accn'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join accn on trans.transaction_id = accn.transaction_id
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'accn'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join loan on trans.transaction_id = loan.transaction_id
+						left join loan_item on loan.transaction_id = loan_item.transaction_id
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'loan'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join loan on trans.transaction_id = loan.transaction_id
+						left join loan_item on loan.transaction_id = loan_item.transaction_id
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'loan'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join deaccession on trans.transaction_id = deaccession.transaction_id
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join flat on deacc_item.collection_object_id = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'deaccession'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						flat.country, flat.state_prov, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join deaccession on trans.transaction_id = deaccession.transaction_id
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join flat on deacc_item.collection_object_id = flat.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'deaccession'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
+						' ' as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join borrow on trans.transaction_id = borrow.transaction_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						borrow_item.country_of_origin as country, '' as state_prov, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
+						' ' as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join borrow on trans.transaction_id = borrow.transaction_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+				</cfquery>
+				<div id="permitsusedin" class="row">
+					<h3>Used for</h3>
 					<table>
 						<tr>
-							<th>Specimen&nbsp;Count</th>
+							<th>Transaction</th>
+							<th>Type</th>
+							<th>Date</th>
+							<th>Ship&nbsp;Date</th>
 							<th>Collection</th>
-							<th>Country</th>
-							<th>State</th>
-							<th>County</th>
+							<th>Country&nbsp;of&nbsp;Origin</th>
+							<th>State/Province</th>
 							<th>Scientific&nbsp;Name</th>
 							<th>Common&nbsp;Name</th>
-							<th>Parts</th>
+							<th>Preparations</th>
+							<th>Catalog&nbsp;Number</th>
+							<th>From&nbsp;Institution</th>
+							<th>To&nbsp;Institution</th>
 						</tr>
-						<cfloop query="permitsalvagereport">
+						<cfloop query="permituse">
 							<tr>
-								<td>#spec_count#</td>
+								<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
+								<td>#ontype# #ttype#</td>
+								<td>#dateformat(trans_date,'yyyy-mm-dd')#</td>
+								<td>#dateformat(shipped_date,'yyyy-mm-dd')#</td>
 								<td>#guid_prefix#</td>
 								<td>#country#</td>
 								<td>#state_prov#</td>
-								<td>#county#</td>
 								<td>#scientific_name#</td>
 								<td>#common_name#</td>
 								<td>#parts#</td>
+								<td>#guid#</td>
+								<td>#frominstitution#</td>
+								<td>#toinstitution#</td>
 							</tr>
 						</cfloop>
 					</table>
-				</cfif>
-			</div>
+				</div>
+				<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						count(cataloged_item.collection_object_id) as cat_count,
+						sum(coll_object.lot_count) as spec_count,
+						collection.guid_prefix,
+						flat.country, flat.state_prov, flat.scientific_name, flat.county,
+						mczbase.get_part_prep(specimen_part.collection_object_id) as parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join accn on trans.transaction_id = accn.transaction_id
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+					where trans.transaction_type = 'accn'
+						and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					group by collection.guid_prefix, country, state_prov, flat.scientific_name, flat.county,
+						mczbase.get_part_prep(specimen_part.collection_object_id),
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
+				</cfquery>
+				<div id="permitaccessionsummary" class="row">
+					<h3>Accession Summary (Salvage Permit Reporting)</h3>
+					<cfif permitsalvagereport.RecordCount eq 0>
+						<h4>No accessions</h4>
+	 				<cfelse>
+						<table>
+							<tr>
+								<th>Specimen&nbsp;Count</th>
+								<th>Collection</th>
+								<th>Country</th>
+								<th>State</th>
+								<th>County</th>
+								<th>Scientific&nbsp;Name</th>
+								<th>Common&nbsp;Name</th>
+								<th>Parts</th>
+							</tr>
+							<cfloop query="permitsalvagereport">
+								<tr>
+									<td>#spec_count#</td>
+									<td>#guid_prefix#</td>
+									<td>#country#</td>
+									<td>#state_prov#</td>
+									<td>#county#</td>
+									<td>#scientific_name#</td>
+									<td>#common_name#</td>
+									<td>#parts#</td>
+								</tr>
+							</cfloop>
+						</table>
+					</cfif>
+				</div>
+			</main>
 		</cfoutput>
 	</cfcase>
 </cfswitch>
