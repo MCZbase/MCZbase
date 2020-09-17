@@ -126,7 +126,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-12 col-md-6">
 										<label for="collection_id">Collection</label>
-										<select name="collection_id" size="1" id="collection_id" class="reqdClr custom-select form-control data-entry-select">
+										<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
 											<cfloop query="ctcollection">
 												<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 											</cfloop>
