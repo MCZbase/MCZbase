@@ -122,3 +122,12 @@ override Bootstrap styles
 	line-height: 1em;
 	border-radius: .2rem;
 }
+input[type=button].btn-primary {
+	background-color: #d9f1f3;
+	border: 1px solid hsl(0, 0%, 56%, 1);
+	color: buttontext;
+	padding: .3em .5em;
+	font-size: .95em;
+	line-height: 1em;
+	border-radius: .2rem;
+}
