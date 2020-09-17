@@ -43,9 +43,7 @@ customstyles_jquery-ui.css  */
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
-.ui-dialog input[type=text] {
-	font-size: .875em 
-}
+
 button.ui.multiselect {
 	width: 100% !important;
 }
