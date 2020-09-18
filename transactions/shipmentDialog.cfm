@@ -66,13 +66,15 @@
 	};
 </script>
 <dialog id="dialog-shipment" title="Create new Shipment">
+	<div class="container-fluid">
+	<div class="row">
+			<div class="col-12">
 	<form name="shipmentForm" id="shipmentForm" >
 		<fieldset>
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 			<input type="hidden" name="shipment_id" value="" id="shipment_id">
 			<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-			<div class="container-fluid">
-				<div class="row">
+		
 					<div class="col-12 col-md-4">
 						<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 						<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
@@ -184,6 +186,9 @@
 	<div id="shipmentFormPermits"></div>
 	<div id="shipmentFormStatus"></div>
 	<div id="addressDialog"></div>
+			</div>
+		</div>
+	</div>
 </dialog>
 <!----  End Shipment dialog --->
 </cfoutput>
