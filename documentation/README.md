@@ -283,7 +283,7 @@ Whenever possible, use Bootstrap classes instead of directly using css styles.
 
 Use `<h1 class=”h3”>` **not** `<h1 style=”font-size: medium;”>`
 
-See: Styling Pages [In Progress] for details on which bootstrap classes to use where.
+See: [Styling Pages - In Progress](#styling-pages-in-progress) for details on which bootstrap classes to use where.
 
 Avoid using inline styling whenever possible, except in early development and testing.
 
@@ -303,62 +303,33 @@ Layout blocks in the stylesheet files with the selector on one line then an inde
   Semantic Tags
 --------------
 
--   <div style="color:#444444;">
-    header, used inside /shared/\_header.cfm
+MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most frequently and on most pages.
 
-    </div>
--   <div style="color:#444444;">
-    nav, used inside /shared/\_header.cfm
-
-    </div>
--   <div style="color:#444444;">
-    main, use once on all pages which include /shared/\_header.cfm
-
-    </div>
-    -   <div style="color:#444444;">
-        section, include, and repeat, when needed on pages
-
-        </div>
-
--   <div style="color:#444444;">
-    article, use rarely
-
-    </div>
--   <div style="color:#444444;">
-    aside, use rarely
-
-    </div>
--   <div style="color:#444444;">
-    footer, used inside /shared/\_footer.cfm
-
-    </div>
+* header, used inside /shared/\_header.cfm
+* nav, used inside /shared/\_header.cfm
+* main, use once on all pages which include /shared/\_header.cfm
+  * section, include, and repeat, when needed on pages
+* article, use rarely
+* aside, use rarely
+* footer, used inside /shared/\_footer.cfm
 
 Use the following semantic tags to organize the body of the page:
 
-`   `<main class=”container” id=”content”>
-`       `
-
-<section class=”row” >
-`           Main form or page content`
-`       `
-
-</section>
-<section class=”row” >
-`           Additional forms or content`
-`       `
-
-</section>
-`   `</main>
+	<main class=”container” id=”content”>
+		<section class=”row” >
+			Main form or page content
+		</section>
+		<section class=”row” >
+			Additional forms or content
+		</section>
+	</main>
 
 A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
 
-For Ajax feedback, use
+For Ajax feedback, use `<output>`
 
-<output>
-<output id=”submitFeedback”>
- 
+	<output id=”submitFeedback”>&nbsp;</output>
 
-</output>
 Use html semantic tags instead of role properties whenever possible.
 
 Every coldfusion page that includes /shared/\_header.cfm MUST have one and only one <main> tag, and this tag MUST have the id of content. <main id=”content”> identifies the main content when it is an edit page and there is only one main content. The id=”content” MUST be provided in every page used to support the link, which is always present in the header to the “skip to main content”.
@@ -392,10 +363,8 @@ New record pages in MCZbase SHOULD save changes by posting the new record form t
 
 Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
 
-<output id=”getsReplacedOnPageLoad”>
-Loading stuff...
+	<output id=”getsReplacedOnPageLoad”> Loading stuff...  </output>
 
-</output>
 **Provide a consistent spinner that ajax is happening.**
 
   Styling Pages [In Progress]
@@ -406,13 +375,7 @@ Loading stuff...
 
 There are a handful of page types from which we can generalize styles: search pages with results, edit forms with grouped related elements (e.g., edit taxonomy), edit pages with separate related elements (e.g., edit loans), create and clone pages, and show pages (e.g., showTaxonomy.cfm).
 
-The full page search with results uses
-
-<div class=”container-fluid”>
-but all the other pages use <main class=”container”>. The results should always use
-
-<div class=”container-fluid”>
-.
+The full page search with results uses `<div class=”container-fluid”>` but all the other pages use `<main class=”container”>`. The results should always use `<div class=”container-fluid”>' .
 
 The pages use the form fields data-entry-select, data-entry-input, and data-entry-prepend-select among others. These are custom fields that are smaller than the smallest fields of Bootstrap v4.5.
 
@@ -420,119 +383,37 @@ The only form that uses the bootstrap fields is the account profile page.
 
 EDIT PAGES
 
-Header and footer are included as includes
+Header and footer are included as includes.  Content between these includes on edit record pages SHOULD be structured with: 
 
-`   `<main class=”container py-3” id=”content” >
-`       `
-
-<section class=”row border rounded my-2”>
-<h1 class=”h2”>
-Title of Page
-
-</h1>
-<form class=”col-12” name=”” id=”” method=”” action=””>
-</form>
-`           ... edit form for concept of page, e.g. loan ...`
-`           ... end section with Save/Delete buttons ...`
-`       `
-
-</section>
-<section class=”row”>
-<div class=”col-12 mt-3 mb-4 border rounded px-2 pb-2”>
-...
-
+	<main class=”container py-3” id=”content” >
+		<section class=”row border rounded my-2”>
+			<h1 class=”h2”>Title of Page </h1>
+			<form class=”col-12” name=”” id=”” method=”” action=””>
+`  	        	... edit form for concept of page, e.g. loan ...`
+				... end section with Save/Delete buttons ...`
+			</form>
+		</section>
+		<section class=”row”>
+			<div class=”col-12 mt-3 mb-4 border rounded px-2 pb-2”>...
 `           ... related concepts, e.g. shipments for loans...`
-`       `
+		</section>
+	</main>
 
-</section>
-`   `</main>
+See: (??)Edit loans on Transactions.cfm(??) to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-{n} div or form.
 
-See
+	<section class="row px-0">
+		<form  name="Name" class="col-12 col-md-6 border rounded">
+	</section>
 
-<div style="margin-left:0in;margin-right:0in;">
-<span style="background-color:transparent;">There isn’t an Edit loans section on Transactions.cfm, not clear what is referenced here.</span>
-
-</div>
-Edit loans on Transactions.cfm to see how to how two boxes of content side-by-side. Essentially, you want to put a class=“row” in a div or section around a col-<n> div or form.
-
-<section class="row px-0">
-<form  name="Name" class="col-12 col-md-6 border rounded">
-</section>
 On smaller screens, the boxes will be stacked, but on medium screens and up, they will be side-by-side (iPad 768px width).
-
-SEARCH PAGES
-
-Use <main>
-
-<section class = container-fluid>
-,
-
-<div class=”row”>
-,
-
-<div class=”col-12”>
-as the initial outer containers. Add interior rows/form-rows and columns as necessary. JQXwidget code for grid. Buttons on the grid such as show/hide columns should have class=”btn-xs btn-secondary”.
-
-Use semantic tags instead of roles whenever possible.
-
-Use the following top level structure for search/results pages. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
-
-<div id="overlaycontainer" style="position: relative;">
-`   `<main id=”content’>
-`       `
-
-<section class="container-fluid" role="search" >
-`           search form...`
-`       `
-
-</section>
-<section class="container-fluid">
-`           results jqxgrid...`
-`       `
-
-</section>
-`   `</main>
-`   `
-
-<script>
-`       code supporting jqxgrid`
-`   `
-
-</script>
-<div id=”overlay”....>
-</div>
-</div>
-Use
-
-`   `<main id=”content”>
-`       `
-
-<section class<nowiki>
-=</nowiki>”container-fluid” role=”search”\>
-
-<div class=”row”>
-<div class=”col-12”>
-as the initial outer containers for the search form. Add interior rows/form-rows and columns as necessary.
-
-Follow the results section with JQXwidget code for the grid (the results section, with the ids of each of its components works with the javascript for the grid functionality. Currently, these sections are copied and pasted onto each page, but may in future should have the generalities extracted to a single common location. Buttons on and in the head/foot of the grid, such as show/hide columns buttons should have class=”btn btn-xs btn-secondary”.
-
-SEARCH FORM RADIO BOX LARGE SCREEN (Example of Taxa.cfm -- large screen):
-
-![](Picture 2.png "Picture 2.png")
-
-SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
-
-![](Picture 1.png "Picture 1.png")
-
-EDIT FORM
 
 Also see GUID search boxes on Taxonomy.cfm?action=edit&taxon\_name\_id=3449 and space at bottom left for status messages. See “Unsaved changes” under the save button below.
 
-EDIT FORM LARGE SCREEN
+Example: EDIT FORM LARGE SCREEN
 
 ![](Picture 6.png "Picture 6.png")
 
-EDIT FORM MEDIUM SCREEN
+Example: EDIT FORM MEDIUM SCREEN
 
 ![](Picture 3.png "Picture 3.png")
 
@@ -546,29 +427,71 @@ See Edit Loan page to compare boxes for related information such as Accession, M
 
 ![](Picture 8.png "Picture 8.png")
 
+SEARCH PAGES
+
+Use semantic tags instead of roles whenever possible.
+
+Use the following top level structure for search/results pages. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
+
+	<div id="overlaycontainer" style="position: relative;">
+		<main id=”content’>
+			<section class="container-fluid" role="search" >
+				search form...
+			</section>
+			<section class="container-fluid">
+				results jqxgrid...
+			</section>
+		</main>
+		<script>
+`       	code supporting jqxgrid`
+		</script>
+		<div id=”overlay”....></div>
+	</div>
+
+A search form SHOULD use
+
+	<main id=”content”>
+		<section class=”container-fluid” role=”search”>
+			<div class=”row”>
+				<div class=”col-12”>
+
+as the initial outer containers for the search form. Add interior rows/form-rows and columns as necessary to layout form elements in a responsive grid.
+
+Follow the results section with JQXwidget code for the grid (the results section, with the ids of each of its components works with the javascript for the grid functionality. Currently, these sections are copied and pasted onto each page, but may in future should have the generalities extracted to a single common location. Buttons on and in the head/foot of the grid, such as show/hide columns buttons should have class=”btn btn-xs btn-secondary”.
+
+SEARCH FORM RADIO BOX LARGE SCREEN (Example of Taxa.cfm -- large screen):
+
+![](Picture 2.png "Picture 2.png")
+
+SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
+
+![](Picture 1.png "Picture 1.png")
+
   Headers
 --------
 
+Headers MUST reflect actual nesting of content, and SHOULD use bootstrap classes to control appearance, e.g. for top level header, use h1 styled with class="h2".
+
 EDIT PAGE HEADERS
 
-<h1 class="h2">
-\< i class="fas fas-info fa-info-circle mr-2” onClick="getMCZDocs('Edit\_Taxonomy')" aria-label="help link"\></i>
+	<h1 class="h2">
+		< i class="fas fas-info fa-info-circle mr-2” onClick="getMCZDocs('Edit\_Taxonomy')" aria-label="help link"\></i>
+	</h1>
 
-</h1>
+
 SEARCH PAGE HEADERS (NO TABS)
 
-<div class="search-box-header ">
-<h1 class="h3 smallcaps text-white" tabindex="0">
-Search Taxonomy <span class="count font-italic text-grayish mx-0"><small>(\#getCount.cnt\# records)</small></span>
+	<div class="search-box-header ">
+		<h1 class="h3 smallcaps text-white" tabindex="0">
+			Search Taxonomy <span class="count font-italic text-grayish mx-0"><small>(\#getCount.cnt\# records)</small></span>
+		</h1>
+	</div>
 
-</h1>
-</div>
 Header titles for record searches are inside dark teal tab-cards with outer container as class=”container-fluid”. See Taxonomy search page.
 
 SEARCH PAGE HEADERS FOR RECORD METADATA
 
-<h1 class=”h3”>
-…
+	<h1 class=”h3”>…
 
 Use on pages that hold metadata for records (e.g., encumbrances, named groups). These are usually short search forms inside “container” and with input fields as control-input-sm (longer forms should use data-entry-input field, data-entry-select, data-entry-label, etc. See custom\_styles.css).
 
@@ -594,12 +517,14 @@ Minimize whitespace in both horizontal and vertical directions to the minimum ne
 </div>
 <span style="background-color:#fff8e5;color:#000000;">*Anything from 45 to 75 characters is widely regarded as a satisfactory length of line for a single-column page set in a serifed text face in a text size. The 66-character line *</span><span style="background-color:#fff8e5;color:#000000;">(</span><span style="background-color:#fff8e5;color:#000000;">*counting both letters and spaces*</span><span style="background-color:#fff8e5;color:#000000;">)</span><span style="background-color:#fff8e5;color:#000000;">'' is widely regarded as ideal. For multiple column work, a better average is 40 to 50 characters. From </span>[<http://webtypography.net/2.1.2>](http://webtypography.net/2.1.2)<span style="background-color:#fff8e5;color:#000000;"> ''</span>Research was done to come up with the 960px width that is used as the breakpoint in many applications.
 
-Make sure the last section on the page has at least a margin of class=”mb-4” so there is about 1/2 inch of white space before the footer. Margin of mb-2 under boxes.
+The last section on each page MUST have at least a margin of class=”mb-4” so there is about 1/2 inch of white space before the footer. 
+
+There SHOULD be a margin of mb-2 under boxes.
 
    Colors
 -------
 
-Colors SHOULD be provided from the included style libraries (bootstrap), or overidden in stylesheets in /shared/css/
+Colors SHOULD be provided from the included style libraries (bootstrap), or overidden in stylesheets in /shared/css/  Colors SHOULD NOT be set with inline css styles.
 
 For page content, bootstrap classes SHOULD be used to set colors.
 
@@ -607,21 +532,22 @@ For reference purposes, the following colors are used throughout the website.
 
 ![](Picture 12.png "Picture 12.png")
 
-From left to right.\# Red = \#a51c30
+From left to right.
 
-1.  Required = \#e4e476
-2.  Warning = \#ffc107
-3.  Danger = \#f8d7da
-4.  Search-box gray = \#f5f5f5
-5.  Secondary = \#d7d7d7
-6.  Primary = \#deebec
-7.  Pick list = \#caeaad
-8.  Green = \#28a745
-9.  Info = \#17a2b8
-10. Link blue = \#007bff
-11. Teal = \#3e6f7d
-12. Good pick = rgba(173, 236, 199, 0.3)
-13. Border = \#dee2e6
+1. Red = \#a51c30
+1. Required = \#e4e476  
+1. Warning = \#ffc107
+1. Danger = \#f8d7da
+1. Search-box gray = \#f5f5f5
+1. Secondary = \#d7d7d7
+1. Primary = \#deebec
+1. Pick list = \#caeaad
+1. Green = \#28a745
+1. Info = \#17a2b8
+1. Link blue = \#007bff
+1. Teal = \#3e6f7d
+1. Good pick = rgba(173, 236, 199, 0.3)
+1. Border = \#dee2e6
 
    Buttons
 --------
@@ -630,7 +556,7 @@ From left to right.\# Red = \#a51c30
 
 (class=”btn-primary” makes a light blue button)
 
-SAVE = btn btn-xs **btn-primar**y. Use save buttons where needed. Make sure its application is evident. If it only applies to one set of fields, put a thin gray line around them all with the button inside (custom class=”border”, which has been customized on custom\_styles.css where it equals border: 1px solid \#bac5c6;). Where save applies to multiple fields, put the Save button under all the fields aligning the left side flush to the start of the fields above it.
+SAVE = btn btn-xs **btn-primary**. Use save buttons where needed. Make sure its application is evident. If it only applies to one set of fields, put a thin gray line around them all with the button inside (custom class=”border”, which has been customized on custom\_styles.css where it equals border: 1px solid \#bac5c6;). Where save applies to multiple fields, put the Save button under all the fields aligning the left side flush to the start of the fields above it.
 
 CREATE = btn btn-xs **btn-primary**. Use Create buttons on New {object} forms instead of a Save button to save the content of the form as a new primary record. Put the Create button under all the fields aligning the left side flush to the start of the fields above it.
 
@@ -658,7 +584,7 @@ NEW\_SEARCH = btn btn-xs **btn-warning**. Reset the search form to all empty/def
 
 ###  Buttons that take you to alternative representations of a record, use btn-info
 
-(c lass=”btn-info” makes a teal button)
+(class=”btn-info” makes a teal button)
 
 VIEW DETAILS = btn btn-xs **btn-info**. Use to see record details when used as a button on the page (not on the results grid. To see the details of row from the results grid (for editing) use a transparent button dk gray outline and text with hover in link blue. Use link blue for links <a> in grid and on page including round info button links to the wiki.
 
@@ -689,29 +615,18 @@ for Organization and Focus
 
 <u>**Main grouping of fields for search section**</u>
 
-*'*Without Tabs: *'*Use the class=”search-box”, which has a teal border and gray background \#f5f5f5 and within it there is class=”search-header” with the
-
-<h1 class="h3 smallcaps text-white" tabindex="0">
-</h1>
-(inside the teal header).
+*'*Without Tabs: *'*Use the class=”search-box”, which has a teal border and gray background \#f5f5f5 and within it there is class=”search-header” with the `<h1 class="h3 smallcaps text-white" tabindex="0"> </h1>` (inside the teal header).
 
 *'*With Tabs: *'*The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.
 
-<div class=”tab-card-main mt-1 tab-card”>
-<div style="margin-left:0in;margin-right:0in;">
-<div class="tab-card-main mt-1 tab-card">
-</div>
-<div style="margin-left:0.4902in;margin-right:0in;">
-<div class="card-header tab-card-header pb-0">
-</div>
+	<div class=”tab-card-main mt-1 tab-card”>
+		<div class="tab-card-main mt-1 tab-card">
+			<div class="card-header tab-card-header pb-0">
+				<li class="nav-item col-5 col-lg-3 px-1">
+					<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
+					<div class="tab-content pb-0 px-2" id="tabContentDiv">
+						<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 
-<li class="nav-item col-5 col-lg-3 px-1">
-<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >
-
-<div class="tab-content pb-0 px-2" id="tabContentDiv">
-<div style="margin-left:0in;margin-right:0in;">
-<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-</div>
 Within main groupings, try to keep the spaces and margins even. Give highlight boxes or borders when additional grouping is needed. Sometimes it is difficult to distribute the fields evenly on the page. The “Find loans” page search section shows the difficulty.
 
 <u>'''For grouping buttons, radio buttons, or checkboxes</u> '''
@@ -720,102 +635,75 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 
 <u>**For highlighting a field or group of fields**</u>
 
-Put a bg-light (gray background) border-rounded box with an outline around them
-
-<div class=”bg-light border-rounded p-2”>
-. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
+Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
 
   Accessibility:
 ===============
 
-     The tags
+     Use Semantic tags
 ---------
 
 The proper use of semantic tags allows for better accessibility.
 
-Header
+Header `<header>` is included in /shared/\_header.cfm and MUST NOT have a second instance added by pages which include /shared/\_header.cfm.
 
-<header>
-included in /shared/\_header.cfm
+Main tag `<main>` MUST be used once and only per page. The main tag MUST NOT include a role=”main” (this is provided by the default semantics of main).
 
-Main tag <main> MUST be used once and only per page. The main tag MUST NOT include a role=”main” (this is provided by the default semantics of main).
+Sections `<section>`. When the main section changes focus as with a search page, use `<section role=”search”>` for the search section and `<section>` for the results.
 
-Sections
+Sidebar `<aside>`. The aside tag will be used if we have a sidebar.
 
-<section>
-. When the main section changes focus as with a search page, use
-
-<section role=”search”>
-for the search section and
-
-<section>
-for the results.
-
-Sidebar
-
-<aside>
-. The aside tag will be used if we have a sidebar.
-
-Footer
-
-<footer>
-included in /shared/\_footer.cfm
+Footer `<footer>` included in /shared/\_footer.cfm and MUST NOT have a second instance added by pages which include /shared/\_header.cfm.
 
  Using Labels and aria properties for controls
 ----------------------------------------------
 
-Some form of visible label is usually best. The labeled element MUST have an “id” for the “for” property to linked to it.
+Some form of visible label is usually best. The labeled element MUST have an “id” for the “for” property to linked to it. 
 
-<label for=”<span style="color:#0000ff;">**loan\_number**</span>”\>Loan Number</label>
-
-<input type=”text” id=”<span style="color:#0000ff;">**loan\_number**</span>” name=loan\_number” value=””\>
+	<label for="loan_number">Loan Number</label>
+	<input type="text" id="loan_number" name="loan_number" value="">
 
 If an element has a label with a “for” property that links to it by id, then aria properties are generally not needed and should not be included (as they are likely to introduce copy/paste errors or become out of date as the page is updated). Check for duplicity by using a screen reader. See if your label is read to determine if you need aria-labels.
 
 If there is no visible label for an element, there are several alternatives:
 
-(1) If a visible label is not desirable, add <label class=”sr-only”> to a label. This allows the label to be read by the screen reader but positions the text off-screen so it isn’t visible.
+(1) If a visible label is not desirable, add `<label class=”sr-only”>` to a label. This allows the label to be read by the screen reader but positions the text off-screen so it isn’t visible.
 
-<label for=”loan_number” class=”sr-only”>Loan Number</label>
+	<label for=”loan_number” class=”sr-only”>Loan Number</label>
+	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll”>
 
-<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll”>
+(2) Point to an existing element that can act as a label using aria-labelledby. It is similar to `<label for=””>` with establishes the relationship between objects and their labels. It needs an ID on the element it is pointing to (in the example below it is the `<span>`).
 
-(2) Point to an existing element that can act as a label using aria-labelledby. It is similar to <label for=””> with establishes the relationship between objects and their labels. It needs an ID on the element it is pointing to (in the example below it is the <span>).
-
-Searching on <span id=”loan_number_label”>Loan Number</span> lets you find loans...
-
-<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” aria-labeledby=”loan_number_label”>
+	Searching on <span id=”loan_number_label”>Loan Number</span> lets you find loans...
+	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” aria-labeledby=”loan_number_label”>
 
 (3) Provide a title attribute.
 
-<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” title=”Loan Number”>
+	<input type=”text” id=”loan_number” name=”loan_number” paceholder=”yyyy-n-Coll” title=”Loan Number”>
 
 (4) Explicitly set the accessible name on an element using aria-label.
 
-<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” aria-label=”Loan Number”>
+	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” aria-label=”Loan Number”>
 
-<div style="margin-left:0in;margin-right:0in;">
-Beware of copy/paste errors in aria-labels. Confirm that the arial-label applies to the element it is attached to and isn’t copied from some other element and not updated.
 
-</div>
-If none of these are present assistive technologies may resort to using the placeholder attribute as a fallback for the accessible name on <input> and
 
-<textarea>
-elements.
+If none of these are present assistive technologies may resort to using the placeholder attribute as a fallback for the accessible name on `<input>` and `<textarea>` elements.
+
+Beware of copy/paste errors in aria-labels. You MUST confirm that the arial-label applies to the element it is attached to and isn’t copied from some other element and not updated.
 
 There MUST NOT be multiple types of accessible label on the same input field. Redundancy will cause it to take a long time for the person using a screen reader to get through each form.
 
 Antipattern to avoid (a screen reader is likely to read “Loan Number” four times to identify the input):
 
-`   `<label for=”loan_number” id=”loan_number_label”>`Loan Number`</label>
-`   `<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” title=”Load Number” aria-label=”Loan Number” labeled-by=”loan_number_label”>
+	<label for=”loan_number” id=”loan_number_label”>`Loan Number`</label>
+	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” title=”Load Number” aria-label=”Loan Number” labeled-by=”loan_number_label”>
 
    Skip to main content link
 --------------------------
 
 For visually hidden interactive controls, such as traditional “skip” links,<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only</span><span style="background-color:#ffffff;color:#212529;"> </span>can be combined with the<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only-focusable</span><span style="background-color:#ffffff;color:#212529;"> </span>class. This will ensure that the control becomes visible once focused (for sighted keyboard users).
 
-In practice, you MUST add “id=content” to the <main> tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as <a class="sr-only sr-only-focusable" href="#content">Skip to main content</a> so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link.
+You MUST add “id=content” to the <main> tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as `<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>` so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link, and MUST include it.
 
 == Tabindex=0 [need to check this] ==
 
