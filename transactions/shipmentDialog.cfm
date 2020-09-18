@@ -123,7 +123,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12">
+					<div class="col-12 mt-2">
 						<span class="my-1 data-entry-label">
 							<label for="packed_by_agent">Packed By Agent</label>
 							<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 my-2">
+					<div class="col-12 mt-2">
 						<span class="data-entry-label">
 							<label for="shipped_to_addr">Shipped To Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2"
@@ -156,7 +156,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 my-3">
+					<div class="col-12 my-2">
 						<span class="data-entry-label">
 							<label for="shipped_from_addr">Shipped From Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2" 
