@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 my-2">
+					<div class="col-12 my-1">
 						<span class="data-entry-label">
 							<label for="shipped_to_addr">Shipped To Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2"
@@ -156,7 +156,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 my-3">
+					<div class="col-12 my-1">
 						<span class="data-entry-label">
 							<label for="shipped_from_addr">Shipped From Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2" 
