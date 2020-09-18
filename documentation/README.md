@@ -1,14 +1,12 @@
-**MCZbase Developer’s Guide**
+# MCZbase Developer’s Guide
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://tools.ietf.org/html/rfc2119).
 
 \_\_TOC\_\_
 
-  Files and Directories
-======================
+## Files and Directories
 
-  File Naming
-------------
+### File Naming
 
 File names that represent editable objects SHOULD be singular nouns starting with an upper case letter: /transactions/Loan.cfm
 
@@ -18,8 +16,7 @@ File names that represent actions that can be taken with objects SHOULD be a low
 
 In general, use filenames and organization of directories such that redesign files can coexist with the files they will replace. For example, /shared/ replaces /includes/, and /Taxa.cfm replaces /Taxonomy.cfm (while TaxonomyDetails.cfm and other top level Taxonomy... pages move to /taxonomy/
 
-  Core Pages For an Object
--------------------------
+### Core Pages For an Object
 
 For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, in general, be three cfm files representing 4 pages:
 
@@ -29,8 +26,7 @@ For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, 
 
 (3) Edit and Create pages – contains forms to create a new record and to edit an existing record, access usually controlled to a role=manage\_x.
 
-  Directory Organization
------------------------
+### Directory Organization
 
 .cfc component files SHOULD be in a component/ directory.
 
@@ -56,13 +52,11 @@ Accompany top level pages about objects (nouns, in upper case), with a lower cas
 
 Place javascript functions that will be widely used outside their concept in /shared/, e.g. /shared/js/vocabularies.js for ajax lookups of controlled vocabulary terms. If a javascript function will be used outside of its concept, place it in a file in /shared/js/ and include this file in /shared/\_header.cfm. If a javascript function is only used within a concept, place it in a file in /{concept}/js/, include this file in /shared/\_header.cfm, but in a section that checks for the /concept/ path in the request (or in rare cases, where the code isn’t reused include directly from a .cfm file, or more likely place inline in that file).
 
-  External Dependencies
-----------------------
+### External Dependencies
 
 Avoid external dependencies whenever possible. Included libraries MUST be loaded from copies stored in /lib/ rather than from external IRIs.
 
-  Page identification and rights
--------------------------------
+### Page identification and rights
 
 At the top of each new page include the following block:
 
@@ -92,11 +86,9 @@ On pages modified from existing MCZbase code, use these copyright statements ins
 
 This block MAY be followed by a brief comment about intended function of the page.
 
-  Coding Conventions
-===================
+## Coding Conventions
 
-  Line Endings
--------------
+### Line Endings
 
 Files MUST use **unix** line endings. Set your editing environment to do this automatically. Exceptions to this rule are .cfr report files, which MUST retain the line endings produced by the ColdFusion report builder, .png files, and files from external libraries placed in /lib/, which SHOULD retain their original line endings as provided by their source.
 
@@ -110,8 +102,7 @@ To convert files to unix line endings use:
 
 `   dos2unix filename.cfm`
 
-  Indentation
-------------
+### Indentation
 
 Indent each level of control nesting with **one tab** character. Indentation MUST use tabs.
 
@@ -148,8 +139,7 @@ Nest <cftry><cfcatch> blocks at the same level of indentation.
 	</cfcatch>
 	</cftry>
 
-  Variable Naming
-----------------
+### Variable Naming
 
 For variables declared in coldfusion or javascript that are not references to fields in the database, use camel case: localVariableName
 
@@ -159,8 +149,7 @@ For IDs of DOM elements such as `<div>` tags in html that are to be referred to 
 
 In general, use long descriptive names for variables. Exception: Loop counters can use single lower case letters, in particular i or j. Avoid using q for the name of a query, except in very small function calls where the query will be operated on and referenced only within a few lines of the query.
 
-  Operators
-----------
+### Operators
 
 Place coldfusion operators in upper case.
 
@@ -176,8 +165,7 @@ Beware of logic errors created by using = instead of == to test for equality in 
 
 Use spaces around operators when needed for clarity.
 
-  Scopes
--------
+### Scopes
 
 Except for placing a value in pageTitle for \_header.cfm, avoid using the request scope to pass parameters between coldfusion files.
 
@@ -191,8 +179,7 @@ Avoid:
 
 Pass variables explicitly to .cfc methods, and declare those variables explicitly using cfargument.
 
-  Functions
-----------
+### Functions
 
 Documentation for functions in both javascript or colfusion SHOULD be provided with a comment in javadoc format. Use @param, @return, and @see as needed.
 
@@ -208,8 +195,7 @@ Documentation for functions in both javascript or colfusion SHOULD be provided w
 		.....
 	}
 
-  Embeded SQL
-------------
+### Embeded SQL
 
 Embedded SQL *'MUST **always use** <cfqueryparam>*' for parameters in all queries, no exceptions. User provided content MUST NOT be passed to the database except through a <cfqueryparam>.
 
@@ -235,8 +221,7 @@ When declaring a result within each named query, use the name of the query with 
 
 	<cfquery name=”getCounts” .... result=”getCounts_result”>
 
-  Javascript Organization.
--------------------------
+### Javascript Organization.
 
 Include short javascript function invocations in onClick elements of button and other html tags rather than binding them to clickEvents. (This practice makes generalization harder, but makes following the sequence of events from an event easier to trace out).
 
@@ -248,8 +233,7 @@ In general, embed `<script>` blocks within `<cfoutput>` tags in coldfusion, and 
 		</script>
 	</cfoutput>
 
-  Javascript References to DOM
------------------------------
+### Javascript References to DOM
 
 Whenever possible, pass the ID values of elements in the DOM that are reference in javascript or coldfusion functions as parameters to the ajax function calls and then on to downstream handlers rather than embedding them as magic names downstream.
 
@@ -276,8 +260,7 @@ Not (hard coding div id):
 		}
 	</script>
 
-  CSS
-----
+### CSS
 
 Whenever possible, use Bootstrap classes instead of directly using css styles.
 
@@ -300,8 +283,7 @@ Layout blocks in the stylesheet files with the selector on one line then an inde
 		padding-left: 2em;
 	}
 
-  Semantic Tags
---------------
+### Semantic Tags
 
 MCZbase pages use HTML semantic tags, `<main>` and `<section>` will used most frequently and on most pages.
 
@@ -336,30 +318,25 @@ Every coldfusion page that includes /shared/\_header.cfm MUST have one and only 
 
 See accessibility and style section of this document for addition guidance.
 
-  Behaviors
-==========
+## Behaviors
 
- Relational Integrity
----------------------
+### Relational Integrity
 
 Relational integrity MUST be enforced at the database level. Do not rely on the coldfusion or javascript layers to enforce database integrity. Provide primary key, not null, foreign key, and similar constraints in the DDL for schema objects.
 
 Enforcement of required fields MUST be provided through not null constraints on fields, and SHOULD also use required constraints on html input elements and coldfusion cffunction cfattributes to handle user errors gracefully.
 
-   Search/Results
----------------
+### Search/Results
 
 MCZbase uses a model where a search form is at the top of a page and search results are loaded by Ajax into a jqxgrid below. These pages MUST support an API that allows the entire search form to be populated with url parameters, with the option to include an execute=true parameter in the url. When the execute=true parameter is present, on page loading, the search form mustMUST be filled in with the provided parameters and the search executed.
 
- Saving Changes
----------------
+### Saving Changes
 
 Edit pages in MCZbase SHOULD save changes to data via ajax posts from a save button to a backing cfcomponent cffunction method, with reloads of relevant parts of the page, rather than posting a form to reload the entire page.
 
 New record pages in MCZbase SHOULD save changes by posting the new record form to a save handler, which then produces or redirects to the edit page for the newly created record.
 
-  Ajax Feedback
---------------
+### Ajax Feedback
 
 Provide a marker to indicate that content is expected to be loaded by ajax when a page loads.
 
@@ -367,11 +344,9 @@ Provide a marker to indicate that content is expected to be loaded by ajax when 
 
 **Provide a consistent spinner that ajax is happening.**
 
-  Styling Pages [In Progress]
-============================
+## Styling Pages [In Progress]
 
-   Types of Pages
----------------
+### Types of Pages
 
 There are a handful of page types from which we can generalize styles: search pages with results, edit forms with grouped related elements (e.g., edit taxonomy), edit pages with separate related elements (e.g., edit loans), create and clone pages, and show pages (e.g., showTaxonomy.cfm).
 
@@ -381,7 +356,7 @@ The pages use the form fields data-entry-select, data-entry-input, and data-entr
 
 The only form that uses the bootstrap fields is the account profile page.
 
-EDIT PAGES
+#### Edit Pages
 
 Header and footer are included as includes.  Content between these includes on edit record pages SHOULD be structured with: 
 
@@ -427,7 +402,7 @@ See Edit Loan page to compare boxes for related information such as Accession, M
 
 ![](Picture 8.png "Picture 8.png")
 
-SEARCH PAGES
+#### Search Pages
 
 Use semantic tags instead of roles whenever possible.
 
@@ -467,8 +442,7 @@ SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
 
 ![](Picture 1.png "Picture 1.png")
 
-  Headers
---------
+### Headers
 
 Headers MUST reflect actual nesting of content, and SHOULD use bootstrap classes to control appearance, e.g. for top level header, use h1 styled with class="h2".
 
@@ -495,15 +469,13 @@ SEARCH PAGE HEADERS FOR RECORD METADATA
 
 Use on pages that hold metadata for records (e.g., encumbrances, named groups). These are usually short search forms inside “container” and with input fields as control-input-sm (longer forms should use data-entry-input field, data-entry-select, data-entry-label, etc. See custom\_styles.css).
 
-  Responsive Styles
-------------------
+### Responsive Styles
 
 Col-12 should be included for most columns with a column size in the class for tablet and monitor sized screens (e.g., col-12 in addition to col-md-6, col-xl-3). Labels should be aligned left on all screens. Make sure spacing works when text, fields and buttons wrap. Also check that they don’t get stuck in rows when the elements are intended to wrap on smaller screens.
 
 The class=”row” – important to know that the row class has a -15px margin on each side. Combined with class=”col-12” (or any column number, col-N), which has padding of 15px on each side, allows it to fit devices to the edge without movement (bouncing left or right when a field is brought into focus).
 
-  Whitespace
------------
+### Whitespace
 
 Pages SHOULD have enough whitespace for clarity, but not too much.
 
@@ -521,8 +493,7 @@ The last section on each page MUST have at least a margin of class=”mb-4” so
 
 There SHOULD be a margin of mb-2 under boxes.
 
-   Colors
--------
+### Colors
 
 Colors SHOULD be provided from the included style libraries (bootstrap), or overidden in stylesheets in /shared/css/  Colors SHOULD NOT be set with inline css styles.
 
@@ -549,10 +520,9 @@ From left to right.
 1. Good pick = rgba(173, 236, 199, 0.3)
 1. Border = \#dee2e6
 
-   Buttons
---------
+### Buttons
 
-###  Buttons related to the primary function of a page: use btn-primary.
+####  Buttons related to the primary function of a page: use btn-primary.
 
 (class=”btn-primary” makes a light blue button)
 
@@ -562,19 +532,19 @@ CREATE = btn btn-xs **btn-primary**. Use Create buttons on New {object} forms in
 
 SEARCH = btn-xs '''btn-primary '''Execute the search
 
-###  Buttons that Delete records, use btn-danger.
+####  Buttons that Delete records, use btn-danger.
 
 (class=”btn-danger” makes a red button)
 
 DELETE = btn btn-xs **btn-danger**. Used when there is a stand-alone record (e.g., delete Named Group record, delete Encumbrance). Make sure that the Delete button seems like it applies to the whole record that is to be deleted by using placement, spacing, and alignment. This button should be outside of the borders if there are any for the form.
 
-###  Buttons that unlink records (delete relationships), use btn-warning.
+#### Buttons that unlink records (delete relationships), use btn-warning.
 
 (class=”btn-warning” makes an orange button)
 
 REMOVE = btn btn-xs **btn-warning**. Use remove buttons where there is a relationship from one record to another of the same or different type that needs to be removed (e.g., publication link on taxonomy record). As with a Delete button, clearly associate with the relationship to be removed.
 
-###  Buttons that clear a form, use btn-warning.
+####  Buttons that clear a form, use btn-warning.
 
 (class=”btn-warning” makes an orange button)
 
@@ -582,7 +552,7 @@ RESET = btn btn-xs **btn-warning**. Button type=reset. Reset the search form to 
 
 NEW\_SEARCH = btn btn-xs **btn-warning**. Reset the search form to all empty/default values by reloading the page passing no parameters (this is needed because requests with parameters won’t be cleared with a form reset).
 
-###  Buttons that take you to alternative representations of a record, use btn-info
+####  Buttons that take you to alternative representations of a record, use btn-info
 
 (class=”btn-info” makes a teal button)
 
@@ -590,7 +560,7 @@ VIEW DETAILS = btn btn-xs **btn-info**. Use to see record details when used as a
 
 PRINT = btn btn-xs **btn-info**. Use to navigate to printable reports of or related to a record.
 
-###  For most other buttons on the page, use btn-secondary.
+####  For most other buttons on the page, use btn-secondary.
 
 (class=”btn-secondary” makes a gray button)
 
@@ -600,7 +570,7 @@ EDIT = btn btn-xs '''btn-secondary '''Use edit details of a related record when 
 
 CREATE\_NEW\_{OBJECT} = btn btn-xs''' btn-secondary. '''Use Create New {Object} buttons on search forms, rendered only for users with rights to create as an alternative route from the main menu to create a new object of the type the search form applies to. Put the Create New {Object} button inline with the Search, Reset, and New Search buttons.
 
-###  For buttons that link out from a search results grid cell, use btn-outline-primary
+####  For buttons that link out from a search results grid cell, use btn-outline-primary
 
 (class=”btn-outline-primary” makes a white button that turns blue upon hover)
 
@@ -608,8 +578,7 @@ For buttons that take you to an edit page from a results grid.
 
 EDIT = btn-xs **btn-outline-primary** from button on taxonomy results.
 
-   Content Boxes
---------------
+### Content Boxes
 
 for Organization and Focus
 
@@ -637,11 +606,9 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
 
-  Accessibility:
-===============
+## Accessibility:
 
-     Use Semantic tags
----------
+### Use Semantic tags
 
 The proper use of semantic tags allows for better accessibility.
 
@@ -655,15 +622,16 @@ Sidebar `<aside>`. The aside tag will be used if we have a sidebar.
 
 Footer `<footer>` included in /shared/\_footer.cfm and MUST NOT have a second instance added by pages which include /shared/\_header.cfm.
 
- Using Labels and aria properties for controls
-----------------------------------------------
+### Use Labels and aria properties for controls
 
 Some form of visible label is usually best. The labeled element MUST have an “id” for the “for” property to linked to it. 
+
+MCZbase inputs on search and edit forms SHOULD be accessibly labeled with a label for the input: 
 
 	<label for="loan_number">Loan Number</label>
 	<input type="text" id="loan_number" name="loan_number" value="">
 
-If an element has a label with a “for” property that links to it by id, then aria properties are generally not needed and should not be included (as they are likely to introduce copy/paste errors or become out of date as the page is updated). Check for duplicity by using a screen reader. See if your label is read to determine if you need aria-labels.
+If an element has a label with a “for” property that links to it by id, then aria properties are generally not needed and SHOULD NOT be included (as they are likely to introduce copy/paste errors or become out of date as the page is updated). Check for duplicity by using a screen reader. See if your label is read to determine if you need aria-labels.
 
 If there is no visible label for an element, there are several alternatives:
 
@@ -698,14 +666,13 @@ Antipattern to avoid (a screen reader is likely to read “Loan Number” four t
 	<label for=”loan_number” id=”loan_number_label”>`Loan Number`</label>
 	<input type=”text” id=”loan_number” name=”loan_number” placeholder=”yyyy-n-Coll” title=”Load Number” aria-label=”Loan Number” labeled-by=”loan_number_label”>
 
-   Skip to main content link
---------------------------
+### Skip to main content link
 
 For visually hidden interactive controls, such as traditional “skip” links,<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only</span><span style="background-color:#ffffff;color:#212529;"> </span>can be combined with the<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only-focusable</span><span style="background-color:#ffffff;color:#212529;"> </span>class. This will ensure that the control becomes visible once focused (for sighted keyboard users).
 
-You MUST add “id=content” to the <main> tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as `<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>` so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link, and MUST include it.
+You MUST add “id=content” to the `<main>` tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as `<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>` so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link, and MUST include it.
 
-== Tabindex=0 [need to check this] ==
+### Tabindex=0 [need to check this] 
 
 Use tabindex=0 when keyboard focus doesn’t happen automatically and screen reader isn’t reading an element such as with headers and paragraphs within a form.
 
