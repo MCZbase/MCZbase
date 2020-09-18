@@ -530,7 +530,7 @@ For page content, bootstrap classes SHOULD be used to set colors.
 
 For reference purposes, the following colors are used throughout the website.
 
-![](Picture 12.png "Picture 12.png")
+![](MCZbase_colors.png "MCZbase_colors.png")
 
 From left to right.
 
