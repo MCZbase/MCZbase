@@ -77,7 +77,7 @@ limitations under the License.
 						</select>
 			 		</div>
 			
-					<div class='col-12 col-md-4 pb-2 mt-0'>
+					<div class='col-12 col-md-4 pb-2 mt-3'>
 						<span>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
