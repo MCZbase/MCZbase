@@ -354,7 +354,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12 py-2">
 						<label for="media_license_id">License</label>
-						<select name="media_license_id" id="media_license_id" style="width:300px;">
+						<select name="media_license_id" id="media_license_id" class="col-3">
 							<option value="">Research copyright &amp; then choose...</option>'>
 							<cfloop query="ctmedia_license">
 								<cfset result = result & '<option value="#media_license_id#">#media_license#</option>'>
