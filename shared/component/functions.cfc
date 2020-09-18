@@ -50,7 +50,7 @@ limitations under the License.
 				<div class='form-row'>
 					<div class='col-12 col-md-12 pb-2'>
 						<label for='media_uri'>Media URI</label>
-			 			<input type='text' name='media_uri' id='media_uri' value='' class="w-75">
+			 			<input type='text' name='media_uri' id='media_uri' value='' class='w-75'>
 					</div>
 				</div>
 				<div class='form-row'>
