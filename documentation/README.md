@@ -670,7 +670,7 @@ Antipattern to avoid (a screen reader is likely to read “Loan Number” four t
 
 For visually hidden interactive controls, such as traditional “skip” links,<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only</span><span style="background-color:#ffffff;color:#212529;"> </span>can be combined with the<span style="background-color:#ffffff;color:#212529;"> </span><span style="background-color:#ffffff;color:#e83e8c;">.sr-only-focusable</span><span style="background-color:#ffffff;color:#212529;"> </span>class. This will ensure that the control becomes visible once focused (for sighted keyboard users).
 
-You MUST add “id=content” to the <main> tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as `<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>` so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link, and MUST include it.
+You MUST add “id=content” to the `<main>` tag or the portion of the page that you want the jump link “skip to main content” to be. There is a skip provided in /shared/\_header.cfm as part of the header of MCZbase pages as `<a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>` so all MCZbase pages which include /shared/\_header.cfm need the “id = “content” as the target for this link, and MUST include it.
 
 ### Tabindex=0 [need to check this] 
 
