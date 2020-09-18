@@ -2978,10 +2978,13 @@ limitations under the License.
 					</div>
 				</div>
 			</form>
-
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
 			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 				<h4>Results: </h4>
-				<span class="d-block px-3 p-2" id="addressPickResultCount"></span> <span id="addressPickResultLink" class="d-block p-2"></span>
+				<div class="px-3 p-2" id="addressPickResultCount"></div> 
+				<div id="addressPickResultLink" class="p-2"></div>
 			</div>
 			<div class="row mt-0">
 				<div id="addressPickSearchText"></div>
@@ -3051,6 +3054,9 @@ limitations under the License.
 					});
 				});
 			</script>
+		</div>
+	</div>
+			</div>
 		</cfoutput>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
