@@ -317,7 +317,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-12 col-md-12 pb-2">
+					<div class="col-12 col-md-12 mb-3">
 						<label for="preview_uri">Preview URI</label>
 		 				<input type="text" name="preview_uri" id="preview_uri" class="w-100">
 					</div>
