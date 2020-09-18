@@ -186,15 +186,15 @@
 						and #key# is not "newsearch"
 						and #key# is not "STARTROW">
 					<cfif len(#returnURL#) is 0>
-						<cfset returnURL='SpecimenResultsHTML.cfm?#key#=#form[key]#'>
+						<cfset returnURL='SpecimenResultsHTML.cfm?#key#=#encodeForHTML(form[key])#'>
 					<cfelse>
-						<cfset returnURL='#returnURL#&#key#=#form[key]#'>
+						<cfset returnURL='#returnURL#&#key#=#encodeForHTML(form[key])#'>
 					</cfif>
 					<cfif #key# is not "detail_level">
 						<cfif len(#searchParams#) is 0>
-							<cfset searchParams='<input type="hidden" name="#key#" value="#form[key]#">'>
+							<cfset searchParams='<input type="hidden" name="#key#" value="#encodeForHTML(form[key])#">'>
 						<cfelse>
-							<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#form[key]#">'>
+							<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#encodeForHTML(form[key])#">'>
 						</cfif>
 					</cfif>
 				</cfif>
@@ -220,16 +220,16 @@
 				</cfif>
 				<cfif #key# is not "detail_level">
 					<cfif len(#searchParams#) is 0>
-						<cfset searchParams='<input type="hidden" name="#key#" value="#url[key]#">'>
+						<cfset searchParams='<input type="hidden" name="#key#" value="#encodeForHTML(url[key])#">'>
 					<cfelse>
-						<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#url[key]#">'>
+						<cfset searchParams='#searchParams#<input type="hidden" name="#key#" value="#encodeForHTML(url[key])#">'>
 					</cfif>
 				</cfif>
 				</cfif>
 			 </cfif>
 		</cfloop>
 		<cfset strippyReturnURL = replace(returnURL,'"','&quot;','all')>
-		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#strippyReturnURL#"'>
+		<cfset searchParams = '#searchParams#<input type="hidden" name="returnURL" value="#encodeForURL(strippyReturnURL)#"'>
 
 
 		<cfset searchParams = #replace(searchParams,"'","","all")#>
@@ -273,7 +273,7 @@
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">Arctos Taxonomy</a>.
+				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">The MCZbase Taxonomy</a>.
 			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc. Don't assume we've accurately or predictably recorded data!
@@ -417,7 +417,7 @@ document.getElementById('saveme').submit();
 </script>
 		<cfif isdefined("returnURL")>
 		<form name="saveme" id="saveme" method="post" action="saveSearch.cfm" target="myWin">
-			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#mapURL#&detail_level=#detail_level#" />
+			<input type="hidden" name="returnURL" value="#Application.ServerRootUrl#/SpecimenResultsHTML.cfm?#encodeForURL(mapURL)#&detail_level=#encodeForURL(detail_level)#" />
 			<input type="button" value="Save This Search" onclick="cForm();" class="savBtn"
    					onmouseover="this.className='savBtn btnhov'" onmouseout="this.className='savBtn'">
 		</form>
@@ -561,22 +561,6 @@ document.getElementById('saveme').submit();
 	<td><b>Request</b></td>
 </cfif>
 	<td nowrap><strong>Catalog ##</strong>
-	<cfif
-		(isdefined("session.username") AND #detail_level# gte 2)
-			and (
-				#session.username# is "cindy"
-				OR #session.username# is "dusty"
-				OR #session.username# is "ahope"
-				OR #session.username# is "jmalaney"
-				OR #session.username# is "rsampson"
-				OR #session.username# is "cmcclarin"
-				)
-		>
-		<a href="##"
-			onClick="reorder.order_by.value='scientific_name,country,state_prov,county,cat_num';reorder.order_order.value='asc';reorder.submit();"
-			>
-		Cindy Sort</a>
-	</cfif>
 	<a href="##"
 		onClick="reorder.order_by.value='cat_num';reorder.order_order.value='asc';reorder.submit();"
 		onMouseOver="self.status='Sort Ascending.';catup.src='/images/up_mo.gif';return true;"
