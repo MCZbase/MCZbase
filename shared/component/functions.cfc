@@ -368,9 +368,9 @@ limitations under the License.
 					<div class="col-12 col-md-12">
 						<p>Notes:</p>
 						<ul class="lisc">
-							<li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
-							<li>remove media immediately if owner requests it</li>
-							<li>contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise</li>
+							<li>Media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>).</li>
+							<li>Remove media immediately if owner requests it.</li>
+							<li>Contact <a href="mailto:mcz_collections_operations@oeb.harvard.edu?subject=media licensing">MCZ Collections Operations</a> if additional licensing situations arise,</li>
 						</ul>
 					</div>
 				</div>
@@ -385,7 +385,7 @@ limitations under the License.
 						<label for="relationships" class="mt-2">Media Relationships</label>
 						<div id="relationships" class="border p-2 rounded dotted-box">
 							<div id="relationshiperror"></div>
-								<select name="relationship__1" id="relationship__1" size="1" class="col-12 col-md-3" onchange="pickedRelationship(this.id)">
+								<select name="relationship__1" id="relationship__1" size="1" class="col-11 col-md-3" onchange="pickedRelationship(this.id)">
 									<option value="">None/Unpick</option>'>
 									<cfloop query="ctmedia_relationship">
 										<cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
@@ -395,7 +395,6 @@ limitations under the License.
 								:&nbsp;
 								<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-8" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
-								<br>
 								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
 							</div>
 					</div>
@@ -405,7 +404,7 @@ limitations under the License.
 						<label for="labels" class="mt-2">Media Labels</label>
 						<div id="labels" class="border p-2 rounded dotted-box">
 							<div id="labelsDiv__1">
-								<select name="label__1" id="label__1" size="1" class="col-12 col-md-3">
+								<select name="label__1" id="label__1" size="1" class="col-11 col-md-3">
 									<option value=""></option>'>
 									<cfloop query="ctmedia_label">
 										<cfset result = result & '<option value="#media_label#">#media_label#</option>'>
@@ -413,8 +412,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="label_value__1" id="label_value__1" class="col-12 col-md-8">&nbsp;
-								<br>
+								<input type="text" name="label_value__1" id="label_value__1" class="col-12 col-md-8">
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
