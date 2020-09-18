@@ -56,7 +56,7 @@ limitations under the License.
 				<div class='form-row'>
 					<div class='col-12 col-md-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
-						<select name='mimetype' id='mimetype'>
+						<select name='mimetype' id='mimetype' class='w-75'>
 							<option value=''></option>
 		">
 							<cfloop query='ctmime_type'>
@@ -67,7 +67,7 @@ limitations under the License.
 			 		</div>
 					<div class='col-12 col-md-4 pb-2'>
 			 			<label for='mediatype'>Media Type</label>
-						<select name='mediatype' id='mediatype'>
+						<select name='mediatype' id='mediatype' class='w-75'>
 							<option value=''></option>
 		 ">
 							<cfloop query='ctmedia_type'>
@@ -91,7 +91,7 @@ limitations under the License.
 					<div class='col-12 col-md-8'>
 						<span ><input type='reset' value='Clear' class='btn-warning px-3 mb-2'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
-								value='Create Media' class='btn-primary px-3 mb-2' >&nbsp;
+								value='Create Media' class='btn-secondary px-3 mb-2' >&nbsp;
 						</span>
 					</div>
 				</div>
