@@ -66,15 +66,13 @@
 	};
 </script>
 <dialog id="dialog-shipment" title="Create new Shipment">
-	<div class="container-fluid">
-	<div class="row">
-			<div class="col-12">
 	<form name="shipmentForm" id="shipmentForm" >
 		<fieldset>
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 			<input type="hidden" name="shipment_id" value="" id="shipment_id">
 			<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-		
+			<div class="container">
+				<div class="row">
 					<div class="col-12 col-md-4">
 						<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 						<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
@@ -128,11 +126,11 @@
 					<div class="col-12">
 						<span class="data-entry-label">
 							<label for="packed_by_agent">Packed By Agent</label>
-							<span id="packed_by_agent_view_link" class="px-2 infoLink">&nbsp;</span>
+							<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
 						</span>
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text small bg-light" id="packed_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								<span class="input-group-text small" id="packed_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
 							<input type="text" name="packed_by_agent" id="packed_by_agent" required class="form-control form-control-sm data-entry-input reqdClr" value="">
 						</div>
@@ -186,9 +184,6 @@
 	<div id="shipmentFormPermits"></div>
 	<div id="shipmentFormStatus"></div>
 	<div id="addressDialog"></div>
-			</div>
-		</div>
-	</div>
 </dialog>
 <!----  End Shipment dialog --->
 </cfoutput>
