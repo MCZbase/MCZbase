@@ -158,3 +158,8 @@ override Bootstrap styles
 	border: 1px solid hsl(0, 0%, 56%, 1);
 	color: buttontext;
 }
+.ui-dialog .btn-secondary {
+	background-color: #d7d7d7;
+	border: 1px solid hsl(0, 0%, 62%);
+	color: #212529;
+}
