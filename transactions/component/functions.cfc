@@ -2983,7 +2983,7 @@ limitations under the License.
 			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 				<h4>Results: </h4>
 				<div class="px-3 p-2" id="addressPickResultCount"></div> 
-				<div id="addressPickResultLink" class="p-2 m-1"></div>
+				<div id="addressPickResultLink" class="p-2"></div>
 			</div>
 			<div class="row mt-0">
 				<div id="addressPickSearchText"></div>
@@ -3019,7 +3019,7 @@ limitations under the License.
 
 					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 						var pvalue = rowdata.formatted_addr;
-						var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+						var result = "<button class=\"btn btn-xs btn-outline-primary mx-2 mt-1\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 						return result;
 					};
 
