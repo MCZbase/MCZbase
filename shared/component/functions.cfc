@@ -301,6 +301,7 @@ limitations under the License.
 	<!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
 	<cfset result = result & '
 		<div class="container-fluid">
+		<div class="row">
 			<h1 class="h3">Create Media</h1>
 			<div class="border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
@@ -384,7 +385,7 @@ limitations under the License.
 						<label for="relationships" class="mt-2">Media Relationships</label>
 						<div id="relationships" class="border p-2 rounded dotted-box">
 							<div id="relationshiperror"></div>
-								<select name="relationship__1" id="relationship__1" size="1" class="w-25" onchange="pickedRelationship(this.id)">
+								<select name="relationship__1" id="relationship__1" size="1" class="col-12 col-md-3" onchange="pickedRelationship(this.id)">
 									<option value="">None/Unpick</option>'>
 									<cfloop query="ctmedia_relationship">
 										<cfset result = result & '<option value="#media_relationship#">#media_relationship#</option>'>
@@ -392,7 +393,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="related_value__1" id="related_value__1" class="w-75" readonly>
+								<input type="text" name="related_value__1" id="related_value__1" class="col-12 col-md-8" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<br>
 								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
@@ -404,7 +405,7 @@ limitations under the License.
 						<label for="labels" class="mt-2">Media Labels</label>
 						<div id="labels" class="border p-2 rounded dotted-box">
 							<div id="labelsDiv__1">
-								<select name="label__1" id="label__1" size="1" class="w-25">
+								<select name="label__1" id="label__1" size="1" class="col-12 col-md-3">
 									<option value=""></option>'>
 									<cfloop query="ctmedia_label">
 										<cfset result = result & '<option value="#media_label#">#media_label#</option>'>
@@ -412,14 +413,14 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
+								<input type="text" name="label_value__1" id="label_value__1" class="col-12 col-md-8">&nbsp;
 								<br>
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
 				</div>
 			</div>
-		</form>
+															  </form></div></div></div>
 	</div>'>
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
