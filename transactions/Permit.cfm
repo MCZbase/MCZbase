@@ -1465,7 +1465,7 @@ limitations under the License.
 								altrows: true,
 								showtoolbar: false,
 								columns: [
-									{text: 'Transaction', datafield: 'id_link', width: 160 hideable: false, hidden: false},
+									{text: 'Transaction', datafield: 'id_link', width: 160, hideable: false, hidden: false},
 									{text: 'Type', datafield: 'ttype', width:50, hideable: true, hidden: false },
 									{text: 'Number', datafield: 'tnumber', width:150, hideable: true, hidden: true },
 									{text: 'Transaction Type', datafield: 'transaction_type', width:150, hideable: true, hidden: true },
