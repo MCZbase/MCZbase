@@ -26,7 +26,7 @@ customstyles_jquery-ui.css  */
 	line-height: 1.5em;
 	color: #495057;
 }
-.ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input[type=text], .ui-dialog select, .ui-dialog textarea,.ui-dialog input[type=button]  {
+.ui-widget input, .ui-widget select, .ui-widget textarea,.ui-dialog input[type=text], .ui-dialog select, .ui-dialog textarea  {
 	font-size: inherit;
 	line-height: .875em;
 	padding: .25em .5em;
@@ -39,11 +39,9 @@ customstyles_jquery-ui.css  */
 	vertical-align: middle;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
-	width: 100%;
+
 }
-.ui-dialog input[type=button], .ui-dialog input[type=button] .form-control  {
-	width:auto;
-}
+
 button.ui.multiselect {
 	width: 100% !important;
 }

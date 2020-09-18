@@ -123,8 +123,8 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 mt-2">
-						<span class="my-1 data-entry-label">
+					<div class="col-12">
+						<span class="data-entry-label">
 							<label for="packed_by_agent">Packed By Agent</label>
 							<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
 						</span>
@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 mt-2">
+					<div class="col-12 my-2">
 						<span class="data-entry-label">
 							<label for="shipped_to_addr">Shipped To Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2"
@@ -156,7 +156,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-12 my-2">
+					<div class="col-12 my-3">
 						<span class="data-entry-label">
 							<label for="shipped_from_addr">Shipped From Address</label>
 							<input type="button" value="Pick Address" class="btn btn-primary btn-xs my-2" 
@@ -170,13 +170,13 @@
 				<div class="row">
 					<div class="col-12">
 						<label for="shipment_remarks" class="data-entry-label">Remarks</label>
-						<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="form-control-sm">
+						<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="w-100">
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-12">
 						<label for="contents" class="data-entry-label">Contents</label>
-						<input type="text" value="" name="contents" id="contents" size="60" class="form-control-sm">
+						<input type="text" value="" name="contents" id="contents" size="60" class="w-100">
 					</div>
 				</div>
 		</fieldset>
