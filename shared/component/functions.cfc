@@ -40,13 +40,13 @@ limitations under the License.
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
-		<div id='mediaSearchForm'><h1 class='h3 m-3'>Search for media. Any part of media uri accepted.</h1>
+		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm'><h1 class='h3 m-3'>Search for media. Any part of media uri accepted.</h1>
 		<form id='findMediaForm' onsubmit='return searchformedia(event);' >
 			<input type='hidden' name='method' value='findMediaSearchResults'>
 			<input type='hidden' name='returnformat' value='plain'>
 			<input type='hidden' name='target_id' value='#target_id#'>
 			<input type='hidden' name='target_relation' value='#target_relation#'>
-			<div class='container-fluid'>
+		
 				<div class='form-row'>
 					<div class='col-12 col-md-12 pb-2'>
 						<label for='media_uri'>Media URI</label>
@@ -97,6 +97,7 @@ limitations under the License.
 				</div>
 			</div>
 		</form>
+		</div></div></div>
 		</div>
 		<script language='javascript' type='text/javascript'>
 			function searchformedia(event) { 
