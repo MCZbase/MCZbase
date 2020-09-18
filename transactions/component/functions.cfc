@@ -2947,10 +2947,10 @@ limitations under the License.
 				</cfif>
 
 				<div class="row col-12">
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-4">
 						<span class="my-1 data-entry-label">
 							<label for="shipment_agent_name">Agent Name</label>
-							<span id="shipment_agent_view_link" class="px-2">&nbsp;</span>
+							<span id="shipment_agent_view_link" class="px-2 infoLink">&nbsp;</span>
 						</span>
 						<div class="input-group">
 							<div class="input-group-prepend">
@@ -2966,13 +2966,11 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-6">
+					<div class="col-12 col-md-4">
 						<label for="start_date" class="data-entry-label">Address</label>
 						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>
-				</div>
-				<div class="row col-12">
-					<div class="col-12">
+					<div class="col-12 col-md-4">
 						<button class="btn btn-xs btn-primary px-3" id="searchButton"
 							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
 					</div>
@@ -2984,7 +2982,7 @@ limitations under the License.
 			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 				<h4>Results: </h4>
 				<div class="px-3 p-2" id="addressPickResultCount"></div> 
-				<div id="addressPickResultLink" class="p-2"></div>
+				<div id="addressPickResultLink" class="p-2 m-1"></div>
 			</div>
 			<div class="row mt-0">
 				<div id="addressPickSearchText"></div>

@@ -126,11 +126,11 @@
 					<div class="col-12">
 						<span class="data-entry-label">
 							<label for="packed_by_agent">Packed By Agent</label>
-							<span id="packed_by_agent_view_link" class="px-2">&nbsp;</span>
+							<span id="packed_by_agent_view_link" class="px-2 infoLink">&nbsp;</span>
 						</span>
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text small" id="packed_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								<span class="input-group-text small bg-light" id="packed_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
 							<input type="text" name="packed_by_agent" id="packed_by_agent" required class="form-control form-control-sm data-entry-input reqdClr" value="">
 						</div>
