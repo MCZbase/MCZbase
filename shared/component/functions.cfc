@@ -56,7 +56,7 @@ limitations under the License.
 				<div class='form-row'>
 					<div class='col-12 col-md-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
-						<select name='mimetype' id='mimetype'>
+						<select name='mimetype' id='mimetype' class='w-75'>
 							<option value=''></option>
 		">
 							<cfloop query='ctmime_type'>
@@ -67,7 +67,7 @@ limitations under the License.
 			 		</div>
 					<div class='col-12 col-md-4 pb-2'>
 			 			<label for='mediatype'>Media Type</label>
-						<select name='mediatype' id='mediatype'>
+						<select name='mediatype' id='mediatype' class='w-75'>
 							<option value=''></option>
 		 ">
 							<cfloop query='ctmedia_type'>
@@ -91,7 +91,7 @@ limitations under the License.
 					<div class='col-12 col-md-8'>
 						<span ><input type='reset' value='Clear' class='btn-warning px-3 mb-2'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
-								value='Create Media' class='btn-primary px-3 mb-2' >&nbsp;
+								value='Create Media' class='btn-secondary px-3 mb-2' >&nbsp;
 						</span>
 					</div>
 				</div>
@@ -300,7 +300,7 @@ limitations under the License.
 	<!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
 	<cfset result = result & '
 		<div class="container-fluid">
-			<h1 class="h4">Create Media</h1>
+			<h1 class="h3">Create Media</h1>
 			<div class="border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="action" value="saveNew">
@@ -391,7 +391,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="related_value__1" id="related_value__1" class="w-50" readonly>
+								<input type="text" name="related_value__1" id="related_value__1" class="w-75" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<br>
 								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
@@ -411,7 +411,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 								:&nbsp;
-								<input type="text" name="label_value__1" id="label_value__1" class="w-50">&nbsp;
+								<input type="text" name="label_value__1" id="label_value__1" class="w-75">&nbsp;
 								<br>
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
