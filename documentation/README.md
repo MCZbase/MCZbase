@@ -386,17 +386,20 @@ Also see GUID search boxes on Taxonomy.cfm?action=edit&taxon\_name\_id=3449 and 
 
 Example: EDIT FORM LARGE SCREEN
 
-![](Picture 6.png "Picture 6.png")
+
+![](/documentation/screenshot_taxon_details_large.png "/documentation/screenshot_taxon_details_large.png")
 
 Example: EDIT FORM MEDIUM SCREEN
 
-![](Picture 3.png "Picture 3.png")
+![](/documentation/screenshot_taxon_details_ipad.png "/documentation/screenshot_taxon_details_ipad.png")
 
 Look at Edit Taxon page for an example of related forms that not central to the task. The sections for Related Publications, Related Taxa, Common Names are combined. The column number changes between laptop and larger screens and tablets. The content fills the full width of phones.
 
-![](Picture 4.png "Picture 4.png")
+![]( documentation/screenshot_taxon_details_related_records.png "documentation/screenshot_taxon_details_related_records.png") 
 
 See Edit Loan page to compare boxes for related information such as Accession, Media, and Permits. Also, see styling around the agent pick lists.
+
+** Need new screenshots of an example that isn't a real loan **
 
 ![](Picture 10.png "Picture 10.png")
 
@@ -436,11 +439,11 @@ Follow the results section with JQXwidget code for the grid (the results section
 
 SEARCH FORM RADIO BOX LARGE SCREEN (Example of Taxa.cfm -- large screen):
 
-![](Picture 2.png "Picture 2.png")
+![](/documentation/screenshot_taxon_search_radio_buttons_large.png "/documentation/screenshot_taxon_search_radio_buttons_large.png")
 
 SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
 
-![](Picture 1.png "Picture 1.png")
+![]( documentation/screenshot_taxon_search_radio_buttons_ipad.png "documentation/screenshot_taxon_search_radio_buttons_ipad.png")
 
 ### Headers
 
