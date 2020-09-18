@@ -3685,8 +3685,8 @@ limitations under the License.
 			<cfset row["island"] = "#use.island#">
 			<cfset row["scientific_name"] = "#use.scientific_name#">
 			<cfset row["guid"] = "#use.guid#">
-			<cfset row["to_institution"] = "#use.to_institution#">
-			<cfset row["from_institution"] = "#use.from_institution#">
+			<cfset row["toinstitution"] = "#use.toinstitution#">
+			<cfset row["frominstitution"] = "#use.frominstitution#">
 			<cfset row["parts"] = "#use.parts#">
 			<cfset row["common_name"] = "#use.common_name#">
 			<cfset row["row_number"] = "#i#">
