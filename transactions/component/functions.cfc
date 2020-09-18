@@ -2939,6 +2939,7 @@ limitations under the License.
 		<cfoutput>
 		<div class="container-fluid">
 			<div class="row">
+			<div claa="col-12">
 			<h1 class="h3">Search for Addresses</h1>
    			<form id="findAddressSearchForm" name="findAddress" class="mb-4">
 				<input type="hidden" name="method" value="getAddressesJSON" class="keeponclear">
@@ -2981,6 +2982,7 @@ limitations under the License.
 				</div>
 				
 			</form>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-12 jqx-widget-header border">
