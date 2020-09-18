@@ -1357,7 +1357,7 @@ limitations under the License.
 						<div class="col-12 mb-5">
 							<section>
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h4>Results: </h4>
+									<h4>Report: </h4>
 									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 									<div id="columnPickDialog">
 										<div id="columnPick" class="px-1"></div>
@@ -1492,8 +1492,8 @@ limitations under the License.
 							});
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/transactions/Permit.cfm?action=permit_use_report&permit_id=#permit_id#">Link to this report</a>');
-								gridLoaded('searchResultsGrid','permission and rights document report');
+								$('##resultLink').html('<a href="/transactions/Permit.cfm?action=PermitUseReport&permit_id=#permit_id#">Link to this report</a>');
+								gridLoaded('searchResultsGrid','uses of this document');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
