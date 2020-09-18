@@ -1205,6 +1205,7 @@ limitations under the License.
 							Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
 						</div>
 						<div class="col-12">
+							<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
 							<a class="btn btn-xs btn-secondary" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
 							<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
 						</div>
@@ -1347,6 +1348,250 @@ limitations under the License.
 						where trans.transaction_type = 'borrow'
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 				</cfquery>
+				
+					
+
+				<!--- Results table as a jqxGrid. --->
+				<div class="container-fluid">
+					<div class="row mx-0">
+						<div class="col-12 mb-5">
+							<section>
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h4>Results: </h4>
+									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<div id="columnPickDialog">
+										<div id="columnPick" class="px-1"></div>
+									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+								</div>
+								<div class="row mt-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
+							</section>
+						</div>
+					</div>
+				</div>
+				<script>
+					$(document).ready(function() {
+						/* Setup jqxgrid for Search */
+						$('##displayReportButton').bind('click', function(evt){
+							evt.preventDefault();
+					
+							$("##overlay").show();
+					
+							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+							$('##resultCount').html('');
+							$('##resultLink').html('');
+					
+							var search =
+							{
+								datatype: "json",
+								datafields:
+								[
+									{ name: 'id_link', type: 'string' },
+									{ name: 'ontype', type: 'string' },
+									{ name: 'tnumber', type: 'string' },
+									{ name: 'ttype', type: 'string' },
+									{ name: 'transaction_type', type: 'string' },
+									{ name: 'trans_date', type: 'string' },
+									{ name: 'guid_prefix', type: 'string' },
+									{ name: 'uri', type: 'string' },
+									{ name: 'sovereign_nation', type: 'string' },
+									{ name: 'country', type: 'string' },
+									{ name: 'state_prov', type: 'string' },
+									{ name: 'county', type: 'string' },
+									{ name: 'island', type: 'string' },
+									{ name: 'scientific_name', type: 'string' },
+									{ name: 'guid', type: 'string' }
+									{ name: 'toinstitution', type: 'string' }
+									{ name: 'frominstitution', type: 'string' }
+									{ name: 'parts', type: 'string' }
+									{ name: 'commonname', type: 'string' }
+									{ name: 'row_number', type: 'string' }
+								],
+								updaterow: function (rowid, rowdata, commit) {
+									commit(true);
+								},
+								root: 'permitUseRecord',
+								id: 'row_number',
+								url: '/transactions/component/function.cfc?method=getUseReportJSON&permit_id=#permit_id#',
+								timeout: 30000,  // units not specified, miliseconds? 
+								loadError: function(jqXHR, status, error) { 
+									$("##overlay").hide();
+					            var message = "";      
+									if (error == 'timeout') { 
+					               message = ' Server took too long to respond.';
+					            } else { 
+					               message = jqXHR.responseText;
+					            }
+					            messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+								},
+								async: true
+							};
+					
+							var dataAdapter = new $.jqx.dataAdapter(search);
+							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+								var details = $($(parentElement).children()[0]);
+								details.html("<div id='rowDetailsTarget" + index + "'></div>");
+					
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+								// Workaround, expansion sits below row in zindex.
+								var maxZIndex = getMaxZIndex();
+								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+							}
+					
+							$("##searchResultsGrid").jqxGrid({
+								width: '100%',
+								autoheight: 'true',
+								source: dataAdapter,
+								filterable: true,
+								sortable: true,
+								pageable: true,
+								editable: false,
+								pagesize: '50',
+								pagesizeoptions: ['50','100'],
+								showaggregates: true,
+								columnsresize: true,
+								autoshowfiltericon: true,
+								autoshowcolumnsmenubutton: false,
+								autoshowloadelement: false,  // overlay acts as load element for form+results
+								columnsreorder: true,
+								groupable: true,
+								selectionmode: 'none',
+								altrows: true,
+								showtoolbar: false,
+								columns: [
+									{text: 'Transaction', datafield: 'id_link', width: 160 hideable: false, hidden: false},
+									{text: 'Type', datafield: 'ttype', width:50, hideable: true, hidden: false },
+									{text: 'Number', datafield: 'tnumber', width:150, hideable: true, hidden: true },
+									{text: 'Transaction Type', datafield: 'transaction_type', width:150, hideable: true, hidden: true },
+									{text: 'Date', datafield: 'trans_date', width:110, hideable: true, hidden: false },
+									{text: 'Ship Date', datafield: 'shipped_date', width:110, hideable: true, hidden: false },
+									{text: 'Collection', datafield: 'guid_prefix', width:50, hideable: true, hidden: false },
+									{text: 'Sovereign Nation', datafield: 'sovereign_nation', width:180, hideable: true, hidden: false },
+									{text: 'Country', datafield: 'country', width:150, hideable: true, hidden: true },
+									{text: 'State/Province', datafield: 'state_prov', width:180, hideable: true, hidden: false },
+									{text: 'County', datafield: 'county', width:150, hideable: true, hidden: true },
+									{text: 'Scientific Name', datafield: 'scientific_name', width:200, hideable: true, hidden: false },
+									{text: 'Common Name', datafield: 'common_name', width:150, hideable: true, hidden: false },
+									{text: 'Preparations', datafield: 'parts', width:180, hideable: true, hidden: false },
+									{text: 'Catalog Number', datafield: 'guid', width:100, hideable: true, hidden: false },
+									{text: 'From Institution', datafield: 'frominstitution', width:100, hideable: true, hidden: false},
+									{text: 'To Institution', datafield: 'toinstitution', hideable: true, hidden: false }
+								],
+								rowdetails: true,
+								rowdetailstemplate: {
+									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+									rowdetailsheight:  1 // row details will be placed in popup dialog
+								},
+								initrowdetails: initRowDetails
+							});
+							$("##searchResultsGrid").on("bindingcomplete", function(event) {
+								// add a link out to this search, serializing the form as http get parameters
+								$('##resultLink').html('<a href="/transactions/Permit.cfm?action=permit_use_report&permit_id=#permit_id#">Link to this report</a>');
+								gridLoaded('searchResultsGrid','permission and rights document report');
+							});
+							$('##searchResultsGrid').on('rowexpand', function (event) {
+								//  Create a content div, add it to the detail row, and make it into a dialog.
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								var datarecord = args.owner.source.records[rowIndex];
+								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+							});
+							$('##searchResultsGrid').on('rowcollapse', function (event) {
+								// remove the dialog holding the row details
+								var args = event.args;
+								var rowIndex = args.rowindex;
+								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+							});
+						});
+						/* End Setup jqxgrid for number series Search ******************************/
+		
+						// If requested in uri, execute search immediately.
+						<cfif isdefined("execute")>
+							$('##searchForm').submit();
+						</cfif>
+					}); /* End document.ready */
+	
+					function gridLoaded(gridId, searchType) { 
+						$("##overlay").hide();
+						var now = new Date();
+						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+						var filename = searchType + '_results_' + nowstring + '.csv';
+						// display the number of rows found
+						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+						var rowcount = datainformation.rowscount;
+						if (rowcount == 1) {
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+						} else { 
+							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+						}
+						// set maximum page size
+						if (rowcount > 100) { 
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+						} else if (rowcount > 50) { 
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+						} else { 
+						   $('##' + gridId).jqxGrid({ pageable: false });
+						}
+						// add a control to show/hide columns
+						var columns = $('##' + gridId).jqxGrid('columns').records;
+						var columnListSource = [];
+						for (i = 0; i < columns.length; i++) {
+							var text = columns[i].text;
+							var datafield = columns[i].datafield;
+							var hideable = columns[i].hideable;
+							var hidden = columns[i].hidden;
+							var show = ! hidden;
+							if (hideable == true) { 
+								var listRow = { label: text, value: datafield, checked: show };
+								columnListSource.push(listRow);
+							}
+						} 
+						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+						$("##columnPick").on('checkChange', function (event) {
+							$("##" + gridId).jqxGrid('beginupdate');
+							if (event.args.checked) {
+								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+							} else {
+								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							}
+							$("##" + gridId).jqxGrid('endupdate');
+						});
+						$("##columnPickDialog").dialog({ 
+							height: 'auto', 
+							title: 'Show/Hide Columns',
+							autoOpen: false,  
+							modal: true, 
+							reszable: true, 
+							buttons: { 
+								Ok: function(){ $(this).dialog("close"); }
+							},
+							open: function (event, ui) { 
+								var maxZIndex = getMaxZIndex();
+								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+								$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							} 
+						});
+						$("##columnPickDialogButton").html(
+							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 my-2 mx-3' >Show/Hide Columns</button>"
+						);
+						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+						var maxZIndex = getMaxZIndex();
+						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+						$('##resultDownloadButtonContainer').html('<button id="permitcsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-3 mx-lg-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					}
+				</script>
+
+
 				<div id="permitsusedin" class="row">
 					<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
 					<table>
