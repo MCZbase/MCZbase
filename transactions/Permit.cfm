@@ -1405,11 +1405,11 @@ limitations under the License.
 									{ name: 'county', type: 'string' },
 									{ name: 'island', type: 'string' },
 									{ name: 'scientific_name', type: 'string' },
-									{ name: 'guid', type: 'string' }
-									{ name: 'toinstitution', type: 'string' }
-									{ name: 'frominstitution', type: 'string' }
-									{ name: 'parts', type: 'string' }
-									{ name: 'commonname', type: 'string' }
+									{ name: 'guid', type: 'string' },
+									{ name: 'toinstitution', type: 'string' },
+									{ name: 'frominstitution', type: 'string' },
+									{ name: 'parts', type: 'string' },
+									{ name: 'commonname', type: 'string' },
 									{ name: 'row_number', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
