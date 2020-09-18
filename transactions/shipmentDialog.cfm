@@ -71,7 +71,7 @@
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 			<input type="hidden" name="shipment_id" value="" id="shipment_id">
 			<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12 col-md-4">
 						<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
