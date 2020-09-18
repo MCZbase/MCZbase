@@ -2947,7 +2947,7 @@ limitations under the License.
 				</cfif>
 
 				<div class="row col-12">
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 mt-1">
 						<span class="my-1 data-entry-label">
 							<label for="shipment_agent_name">Agent Name</label>
 							<span id="shipment_agent_view_link" class="px-2 infoLink">&nbsp;</span>
@@ -2966,7 +2966,7 @@ limitations under the License.
 							});
 						</script>
 					</div>
-					<div class="col-12 col-md-4">
+					<div class="col-12 col-md-4 mt-1">
 						<label for="start_date" class="data-entry-label">Address</label>
 						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>

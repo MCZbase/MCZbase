@@ -77,7 +77,7 @@ limitations under the License.
 						</select>
 			 		</div>
 			
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-12 col-md-4 pb-2 mt-5'>
 						<span>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
@@ -85,13 +85,13 @@ limitations under the License.
 					</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-12 col-md-4'>
+					<div class=''>
 						<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
 					</div>
-					<div class='col-12 col-md-8'>
-						<span ><input type='reset' value='Clear' class='btn-warning px-3 mb-2'>
+					<div class='ml-3'>
+						<span ><input type='reset' value='Clear' class='btn-warning mb-2'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
-								value='Create Media' class='btn-secondary px-3 mb-2' >&nbsp;
+								value='Create Media' class='btn-secondary mb-2' >&nbsp;
 						</span>
 					</div>
 				</div>
