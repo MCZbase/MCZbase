@@ -88,8 +88,8 @@ limitations under the License.
 					<div class=''>
 						<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
 					</div>
-					<div class='ml-3'>
-						<span ><input type='reset' value='Clear' class='btn-warning mb-2'>
+					<div class='ml-5'>
+						<span ><input type='reset' value='Clear' class='btn-warning mb-2 pr-1'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
 								value='Create Media' class='btn-secondary mb-2' >&nbsp;
 						</span>
