@@ -303,7 +303,7 @@ limitations under the License.
 		<div class="container-fluid">
 		<div class="row">
 			<h1 class="h3">Create Media</h1>
-			<div class="border bg-light p-3 mt-2 mb-4">
+			<div class="col-12 border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="action" value="saveNew">
 				<input type="hidden" name="headless" value="true">
@@ -420,7 +420,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-															  </form></div></div></div>
+</form></div></div></div>
 	</div>'>
 	<cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
 		<cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
