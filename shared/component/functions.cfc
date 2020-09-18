@@ -86,12 +86,12 @@ limitations under the License.
 				</div>
 				<div class='form-row'>
 					<div class='col-12 col-md-4'>
-						<input type='submit' value='Search' class='btn-primary px-3 pb-2'>
+						<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
 					</div>
 					<div class='col-12 col-md-8'>
-						<span ><input type='reset' value='Clear' class='btn-warning px-3 pb-2'>
+						<span ><input type='reset' value='Clear' class='btn-warning px-3 mb-2'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
-								value='Create Media' class='btn-primary px-3' >&nbsp;
+								value='Create Media' class='btn-primary px-3 mb-2' >&nbsp;
 						</span>
 					</div>
 				</div>
