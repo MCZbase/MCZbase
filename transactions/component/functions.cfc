@@ -2937,16 +2937,18 @@ limitations under the License.
 			<cfset includeTemporary = "">
 		</cfif>
 		<cfoutput>
-			<h3>Search for Addresses.</h3>
-   		<form id="findAddressSearchForm" name="findAddress">
+		<div class="container-fluid">
+			<div class="row">
+			<h1 class="h3">Search for Addresses</h1>
+   			<form id="findAddressSearchForm" name="findAddress" class="mb-4">
 				<input type="hidden" name="method" value="getAddressesJSON" class="keeponclear">
 				<input type="hidden" name="include_temporary" value="#includeTemporary#" class="keeponclear">
 
 				<cfif includeTemporary EQ "true">
 					<h2>TODO: Implement temporary address creation.</h2>
 				</cfif>
-
-				<div class="row col-12">
+		
+				<div class="col-8">
 					<div class="col-12 col-md-6">
 						<span class="my-1 data-entry-label">
 							<label for="shipment_agent_name">Agent Name</label>
@@ -2954,7 +2956,7 @@ limitations under the License.
 						</span>
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								<span class="input-group-text small bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
 							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control data-entry-input" value="">
 						</div>
@@ -2971,24 +2973,26 @@ limitations under the License.
 						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>
 				</div>
-				<div class="row col-12">
+				<div class="col-4">
 					<div class="col-12">
 						<button class="btn btn-xs btn-primary px-3" id="searchButton"
 							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
 					</div>
 				</div>
+				
 			</form>
-
-			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-				<h4>Results: </h4>
+			</div>
+			<div class="row">
+				<div class="col-12 jqx-widget-header border">
+					<h4>Results: </h4>
 				<span class="d-block px-3 p-2" id="addressPickResultCount"></span> <span id="addressPickResultLink" class="d-block p-2"></span>
-			</div>
-			<div class="row mt-0">
-				<div id="addressPickSearchText"></div>
-				<div id="addressPickResultsGrid" class="jqxGrid"></div>
-				<div id="enableselection"></div>
-			</div>
-			<script>
+				</div>
+				<div class="col-12">
+					<div id="addressPickSearchText"></div>
+					<div id="addressPickResultsGrid" class="jqxGrid"></div>
+					<div id="enableselection"></div>
+				</div>
+				<script>
 				$("##findAddressSearchForm").bind("submit", function(evt){
 					evt.preventDefault();
 					$("##addressPickResultsGrid").replaceWith('<div id="addressPickResultsGrid" class="jqxGrid"></div>');
@@ -3051,6 +3055,7 @@ limitations under the License.
 					});
 				});
 			</script>
+			</div>
 		</cfoutput>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
