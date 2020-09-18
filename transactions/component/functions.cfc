@@ -2971,6 +2971,7 @@ limitations under the License.
 						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-4">
+							<label for="start_date" class="data-entry-label invisible">search for shipping address</label>
 						<button class="btn btn-xs btn-primary px-3" id="searchButton"
 							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
 					</div>
