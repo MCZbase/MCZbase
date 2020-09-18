@@ -41,7 +41,7 @@ customstyles_jquery-ui.css  */
 	font-weight: 450;
 	width: 100%;
 }
-.ui-dialog input[type=button] {
+.ui-dialog input[type=button], .ui-dialog input[type=button] .form-control  {
 	width:auto;
 }
 button.ui.multiselect {
