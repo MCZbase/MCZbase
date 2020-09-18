@@ -40,7 +40,7 @@ limitations under the License.
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
-		<div id='mediaSearchForm'><h1 class='h4 m-3'>Search for media. Any part of media uri accepted.</h1>
+		<div id='mediaSearchForm'><h1 class='h3 m-3'>Search for media. Any part of media uri accepted.</h1>
 		<form id='findMediaForm' onsubmit='return searchformedia(event);' >
 			<input type='hidden' name='method' value='findMediaSearchResults'>
 			<input type='hidden' name='returnformat' value='plain'>
@@ -48,13 +48,13 @@ limitations under the License.
 			<input type='hidden' name='target_relation' value='#target_relation#'>
 			<div class='container-fluid'>
 				<div class='form-row'>
-					<div class='col-12 col-md-12 pb-2'>
+					<div class='col-12 pb-2'>
 						<label for='media_uri'>Media URI</label>
-			 			<input type='text' name='media_uri' id='media_uri' size='90' value=''>
+			 			<input type='text' name='media_uri' id='media_uri' value=''>
 					</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
 						<select name='mimetype' id='mimetype'>
 							<option value=''></option>
@@ -65,7 +65,7 @@ limitations under the License.
 		<cfset result = result & "
 						</select>
 			 		</div>
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-5 pb-2'>
 			 			<label for='mediatype'>Media Type</label>
 						<select name='mediatype' id='mediatype'>
 							<option value=''></option>
@@ -91,7 +91,7 @@ limitations under the License.
 					<div class='col-12 col-md-4'>
 						<span ><input type='reset' value='Clear' class='btn-warning px-3'>
 							<input type='button' onClick=""opencreatemediadialog('newMediaDlg1_#target_id#','#target_label#','#target_id#','#relationship#',reloadTransMedia);"" 
-								value='Create Media' class='btn-primary px-3' >&nbsp;
+								value='Create Media' class='btn-secondary px-3' >&nbsp;
 						</span>
 					</div>
 				</div>
