@@ -1493,7 +1493,7 @@ limitations under the License.
 							$("##searchResultsGrid").on("bindingcomplete", function(event) {
 								// add a link out to this search, serializing the form as http get parameters
 								$('##resultLink').html('<a href="/transactions/Permit.cfm?action=PermitUseReport&permit_id=#permit_id#">Link to this report</a>');
-								gridLoaded('searchResultsGrid','uses of this document');
+								gridLoaded('searchResultsGrid','use');
 							});
 							$('##searchResultsGrid').on('rowexpand', function (event) {
 								//  Create a content div, add it to the detail row, and make it into a dialog.
