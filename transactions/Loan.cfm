@@ -606,14 +606,13 @@ limitations under the License.
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
 		<main class="container py-3" id="content" role="main">
-			<!--- div class="row" --->
 				<cftry>
 					<h1 class="h2">Edit Loan 
 						<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 						<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 					</h1>
-					<section title="Edit Loan" class="row border rounded my-2 pt-2">
-						<form name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post" class="col-12">
+					<section class="row border rounded my-2 pt-2" title="Edit Loan" >
+						<form class="col-12" name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
 							<input type="hidden" name="transaction_id" value="#loanDetails.transaction_id#">
@@ -1186,7 +1185,8 @@ limitations under the License.
 				</cfcatch>
 				</cftry>
 
-			<!--- /div --->
+				</div>
+			</div>
 		</main>
 	</cfoutput> 
 </cfif>
