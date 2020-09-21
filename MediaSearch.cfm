@@ -239,19 +239,21 @@
 					<cfif not isdefined("kwType") >
 						<cfset kwType="all">
 					</cfif>
-					<cfset orSep = "">
-					AND (
-					<cfloop list="#keyword#" index="i" delimiters=",;: ">
-						#orSep# upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
-						<cfif kwType is "any">
-							<cfset orSep = "OR">
-						<cfelse>
-							<cfset orSep = "AND">
-						</cfif>
-					</cfloop>
-					)
-				<cfelse>
-					AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">
+					<cfif kwType EQ "phrase">
+						AND upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(keyword)#%">
+					<cfelse>
+						<cfset orSep = "">
+						AND (
+						<cfloop list="#keyword#" index="i" delimiters=",;: ">
+							#orSep# upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
+							<cfif kwType is "any">
+								<cfset orSep = "OR">
+							<cfelse>
+								<cfset orSep = "AND">
+							</cfif>
+						</cfloop>
+						)
+					</cfif>
 				</cfif>
 				<cfif isdefined("media_uri") and len(media_uri) gt 0>
 					AND upper(media_uri) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(media_uri)#%">
