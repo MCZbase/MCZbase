@@ -132,7 +132,8 @@
 <cfif action is "search">
 <cfoutput>
 	<cfset title = "Usage Search Results">
-	<cfset emptyQueryMessage = "">
+	<cfset emptyPubQueryMessage = "">
+	<cfset emptyProjQueryMessage = "">
 
 	<cfif not isdefined("search_type")>
 		<cfset search_type = "publications">
@@ -236,7 +237,7 @@
 				ORDER BY project_name
 		</cfquery>
 		<cfif go EQ "no">
-			<cfset emptyQueryMessage = emptyQueryMessage = "You did not specify any search terms to find projects.">
+			<cfset emptyProjQueryMessage = "You did not specify any search terms to find projects.">
 		</cfif>
 		<cfquery name="projNames" dbtype="query">
 			SELECT distinct
@@ -356,7 +357,7 @@
 				publication.publication_id
 		</cfquery>
 		<cfif go EQ "no">
-			<cfset emptyQueryMessage = emptyQueryMessage = "You did not specify any search terms to find publications.">
+			<cfset emptyPubQueryMessage = "You did not specify any search terms to find publications.">
 		</cfif>
 	</cfif>
 <div class="projPubSearchResults">
@@ -380,7 +381,7 @@
 			Projects
 			<cfif projNames.recordcount is 0>
 				<div class="notFound">
-					No projects matched your criteria.  #emptyQueryMessage#
+					No projects matched your criteria.  #emptyProjQueryMessage#
 				</div>
 			<cfelse>
 				(#projNames.recordcount# result(s))
@@ -447,7 +448,7 @@
           <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
-				No publications matched your criteria.  #emptyQueryMessage#
+				No publications matched your criteria.  #emptyPubQueryMessage#
 			</div>
 		<cfelseif publication.recordcount is 1>
             <span class="pr_count">(#publication.recordcount# result)</span>
