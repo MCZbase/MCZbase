@@ -408,7 +408,7 @@
 					projects
 				WHERE
 					project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
-					sponsor_name is not null
+					AND sponsor_name is not null
 				GROUP BY
 					ACKNOWLEDGEMENT,
 					sponsor_name
