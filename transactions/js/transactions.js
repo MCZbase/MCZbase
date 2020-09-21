@@ -985,7 +985,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			stack: true,
 			height: "auto",
 			width: "auto",
-			minWidth: 200,
+			minWidth: '90%',
 			minHeight: 300,
 			draggable:true,
 			buttons: {
