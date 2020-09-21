@@ -563,7 +563,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: 400,
+		minWidth: '90%',
 		minHeight: 450,
 		draggable:true,
 		buttons: {
@@ -985,7 +985,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			stack: true,
 			height: "auto",
 			width: "auto",
-			minWidth: '90%',
+			minWidth: '200',
 			minHeight: 300,
 			draggable:true,
 			buttons: {
