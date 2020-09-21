@@ -2549,11 +2549,11 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-6 px-0">
+						<div class="col-12 px-0">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
 						</div>
-						<div class="col-12 col-md-6 px-0">
+						<div class="col-12 px-0">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
 							<input type="text" name="end_date" id="end_date" class="form-control data-entry-input">
 						</div>
