@@ -1251,7 +1251,7 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: 600,
+		minWidth: 300,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
@@ -1321,7 +1321,7 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 			zindex: 2000,
 			height: h,
 			width: w,
-			minWidth: 300,
+			minWidth: 400,
 			minHeight: 450,
 			draggable:true,
 			buttons: {
