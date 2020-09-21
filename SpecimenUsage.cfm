@@ -42,7 +42,7 @@
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
-					<label for="year"><span id="project_publication_year">Year</span</label>
+					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
 					<fieldset style="margin-left: 0; width: 415px;">
 						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
