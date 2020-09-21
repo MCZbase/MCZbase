@@ -2499,13 +2499,15 @@ limitations under the License.
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
-				<form id="create_project" class="row col-12" >
+				<div class="container-fluid">
+					<div class="row">
+						<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+						<form id="create_project" class="row col-12" >
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
-					<div class="row col-12">
+					<div class="col-12">
 						<div class="col-12 col-md-6">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
@@ -2604,6 +2606,8 @@ limitations under the License.
 						};
 					</script>
 				</form>
+					</div>
+				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
