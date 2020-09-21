@@ -315,7 +315,7 @@
 		<cfif isdefined("journal") AND len(journal) gt 0>
 			<cfset go="yes">
 				AND (jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name') 
-				AND upper(jname.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value"%#ucase(escapeQuotes(journal))#%">
+				AND upper(jname.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(journal))#%">
 		</cfif>
 		<cfif isdefined("onlyCitePubs") AND len(onlyCitePubs) gt 0>
 			<cfset go="yes">
