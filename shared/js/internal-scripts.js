@@ -158,7 +158,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 300,
+		minWidth: '90%',
 		minHeight: 450,
 		draggable:true,
 		buttons: {
