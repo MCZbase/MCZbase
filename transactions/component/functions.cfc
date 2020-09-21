@@ -2514,15 +2514,15 @@ limitations under the License.
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
-					<div class="row">
-						<div class="col-12 col-md-6">
+					<div class="form-row">
+						<div class="col-12 col-md-6 px-0">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
 								<span id="newAgentViewLink" class="px-2">&nbsp;</span>
 							</span>
 							<div class="input-group">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									<span class="input-group-text small" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
 								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control data-entry-input reqdClr" value="">
 							</div>
@@ -2534,7 +2534,7 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6 px-0">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
@@ -2552,7 +2552,7 @@ limitations under the License.
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
 						</div>
-						<div class="col-12 col-md-6 px0">
+						<div class="col-12 col-md-6 px-0">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
 							<input type="text" name="end_date" id="end_date" class="form-control data-entry-input">
 						</div>
