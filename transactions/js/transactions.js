@@ -1081,7 +1081,7 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		minWidth: 300,
+		minWidth: 450,
 		minHeight: 200,
 		draggable:true,
 		buttons: {
