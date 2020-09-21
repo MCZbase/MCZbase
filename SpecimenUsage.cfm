@@ -360,7 +360,7 @@
 		<cfif search_type EQ "projects" OR search_type EQ "both">
 			<cfset pr = "project_id=#valuelist(projects.project_id)#">
 		</cfif>
-		<cfif search_type EQ "projects" OR search_type EQ "both">
+		<cfif search_type EQ "publications" OR search_type EQ "both">
 			<cfset pb = "publication_id=#valuelist(publication.publication_id)#">
 		</cfif>
 		<cfif search_type EQ "both">
