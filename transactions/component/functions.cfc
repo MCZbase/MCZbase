@@ -2420,12 +2420,15 @@ limitations under the License.
 					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
 				<form id="project_picker_form">
 					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
 					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
-					<input type="text" name="pick_project_name" id="pick_project_name" class="form-control data-entry-input mb-2 reqdClr" >
+					<input type="text" name="pick_project_name" id="pick_project_name" class="data-entry-input mb-2 reqdClr" >
 					<label for="project_trans_remarks">Project-Transaction Remarks</label>
-					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="form-control data-entry-input mb-2" >
+					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="data-entry-input mb-2" >
 					<script>
 						$(document).ready( makeProjectPicker('pick_project_name','pick_project_id') );
 						function saveProjectLink() {
@@ -2467,6 +2470,9 @@ limitations under the License.
 					</script>
 					<button type="button" class="btn btn-xs btn-primary" onClick="saveProjectLink();">Save</button>
 				</form>
+						</div>
+					</div>
+				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
