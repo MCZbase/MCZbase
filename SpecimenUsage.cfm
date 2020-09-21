@@ -356,7 +356,7 @@
 				publication.publication_id
 		</cfquery>
 		<cfif go EQ "no">
-			<cfset emptyQueryMessage = emptyQueryMessage = "You did not specify any search terms to find projects.">
+			<cfset emptyQueryMessage = emptyQueryMessage = "You did not specify any search terms to find publications.">
 		</cfif>
 	</cfif>
 <div class="projPubSearchResults">
