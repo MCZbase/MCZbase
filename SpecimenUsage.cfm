@@ -46,9 +46,9 @@
 					<input name="year" id="year" type="text">
 					<fieldset style="margin-left: 0; width: 415px;">
 						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
-						<label for="searchPubs">Search Publications Only</label>&nbsp;
+						<label for="searchPubs">Search Publications Only</label>
 						<input type="radio" id="searchProj" name="search_type" value="projects" style="float: left; width: 15px;">
-						<label for="searchProj">Search Projects Only</label>&nbsp;
+						<label for="searchProj">Search Projects Only</label>
 						<input type="radio" id="searchBoth" name="search_type" value="both" style="float: left; width: 15px;">
 						<label for="searchBoth">Search Both</label>
 					</fieldset>
