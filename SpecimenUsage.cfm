@@ -166,7 +166,7 @@
 					</cfif>
 					<cfif isdefined("descr_len") AND len(descr_len) gt 0>
 						<cfset go="yes">
-						AND project.project_description is not null and length(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#descr_len#">
+						AND project.project_description is not null and length(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#descr_len#">
 					</cfif>
 					<cfif isdefined("author") AND len(author) gt 0>
 						<cfset go="yes">
@@ -311,7 +311,7 @@
 		</cfif>
 		<cfif isdefined("author") AND len(#author#) gt 0>
 			<cfset go="yes">
-				AND UPPER(searchAuth.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="%#ucase(author)#%">
+				AND UPPER(searchAuth.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(author)#%">
 		</cfif>
 		<cfif isdefined("year") AND isnumeric(year)>
 			<cfset go="yes">
