@@ -2524,7 +2524,7 @@ limitations under the License.
 								<div class="input-group-prepend">
 									<span class="input-group-text small" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control data-entry-input reqdClr" value="">
+								<input type="text" name="newAgent_name" id="newAgent_name" required class="data-entry-input reqdClr" value="">
 							</div>
 							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value=""
 								onchange=" updateAgentLink($('##newAgent_name_id').val(),'newAgentViewLink'); ">
@@ -2534,13 +2534,14 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="form-row">
+					</div>
+					<div class="form-row">
 						<div class="col-12 px-0">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
 							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
-							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr form-control data-entry-input" required>
+							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr data-entry-select" required>
 								<option value=""></option>
 								<cfloop query="ctProjAgRole">
 								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
@@ -2551,11 +2552,11 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12 px-0">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
-							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
+							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="data-entry-input">
 						</div>
 						<div class="col-12 px-0">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
-							<input type="text" name="end_date" id="end_date" class="form-control data-entry-input">
+							<input type="text" name="end_date" id="end_date" class="data-entry-input">
 						</div>
 					</div>
 					<div class="form-row">
