@@ -44,6 +44,14 @@
 					<input name="author" id="author" type="text">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
+					<fieldset style="margin-left: 0; width: 415px;">
+						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
+						<label for="searchPubs">Search Publications Only</label>
+						<input type="radio" id="searchProj" name="search_type" value="projects" style="float: left; width: 15px;">
+						<label for="searchProj">Search Projects Only</label>
+						<input type="radio" id="searchBoth" name="search_type" value="both" style="float: left; width: 15px;">
+						<label for="searchBoth">Search Both</label>
+					</fieldset>
 
 					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
@@ -124,9 +132,16 @@
 <cfif action is "search">
 <cfoutput>
 	<cfset title = "Usage Search Results">
+	<cfset emptyPubQueryMessage = "">
+	<cfset emptyProjQueryMessage = "">
 
-	<cfset sel = "
-				SELECT
+	<cfif not isdefined("search_type")>
+		<cfset search_type = "publications">
+	</cfif>
+	<cfif search_type EQ "projects" OR search_type EQ "both">
+	<cfset go="no"><!--- allows addition of a where 1=2 clause if no search term is set, forcing query to have parameters --->
+	<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT distinct
 					project.project_id,
 					project.project_name,
 					project.start_date,
@@ -135,112 +150,97 @@
 					project_agent_role,
 					agent_position,
 					ACKNOWLEDGEMENT,
-					s_name.agent_name sponsor_name">
-		<cfset frm="
+					s_name.agent_name sponsor_name
 				FROM
-					project,
-					project_agent,
-					agent_name,
-					project_sponsor,
-					agent_name s_name">
-		<cfset whr="
+					project
+					left join project_agent on project.project_id = project_agent.project_id
+					left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
+					left join project_sponsor on project.project_id = project_sponsor.project_id
+					left join agent_name s_name on project_sponsor.agent_name_id = s_name.agent_name_id
 				WHERE
-					project.project_id = project_agent.project_id (+) AND
-					project.project_id = project_sponsor.project_id (+) AND
-					project_sponsor.agent_name_id = s_name.agent_name_id (+) AND
-					project_agent.agent_name_id = agent_name.agent_name_id (+)">
-		<cfset go="no">
-		<cfif isdefined("p_title") AND len(p_title) gt 0>
-			<cfset title = "#p_title#">
-			<cfset go="yes">
-			<cfset whr = "#whr# AND upper(regexp_replace(project.project_name,'<[^>]*>')) like '%#ucase(escapeQuotes(p_title))#%'">
-		</cfif>
-		<cfif isdefined("descr_len") AND len(descr_len) gt 0>
-			<cfset go="yes">
-			<cfset whr = "#whr# AND project.project_description is not null and length(project.project_description) >= #descr_len#">
-		</cfif>
-
-		<cfif isdefined("author") AND len(author) gt 0>
-			<cfset go="yes">
-			<cfset whr = "#whr# AND project.project_id IN
-				( select project_id FROM project_agent
-					WHERE agent_name_id IN
-						( select agent_name_id FROM agent_name WHERE
-						upper(agent_name) like '%#escapeQuotes(ucase(author))#%' ))">
-
-		</cfif>
-		<cfif isdefined("project_type") AND len(project_type) gt 0>
-			<cfset go="yes">
-			<cfif project_type is "loan">
-				<cfset whr = "#whr# AND
-					project.project_id in (
-						select project_id from project_trans,loan_item
-						where project_trans.transaction_id=loan_item.transaction_id)">
-			<cfelseif project_type is "accn">
-				<cfset whr = "#whr# AND
-					project.project_id in (
-						select project_id from project_trans,cataloged_item
-						where project_trans.transaction_id=cataloged_item.accn_id)">
-			<cfelseif project_type is "both">
-				<cfset whr = "#whr# AND
-					project.project_id in (
-						select project_id from project_trans,loan_item
-						where project_trans.transaction_id=loan_item.transaction_id)
-					and project.project_id in (
-						select project_id from project_trans,cataloged_item
-						where project_trans.transaction_id=cataloged_item.accn_id)">
-			<cfelseif project_type is "neither">
-				<cfset whr = "#whr# AND
-					project.project_id not in (
-						select project_id from project_trans,loan_item
-						where project_trans.transaction_id=loan_item.transaction_id)
-					and project.project_id not in (
-						select project_id from project_trans,cataloged_item
-						where project_trans.transaction_id=cataloged_item.accn_id)">
-			<cfelseif project_type is "loan_no_pub">
-				<cfset whr = "#whr# AND
-					project.project_id in (
-						select project_id from project_trans,loan_item
-						where project_trans.transaction_id=loan_item.transaction_id) and
-					project.project_id not in (
-						select project_id from project_publication
-						)">
-			</cfif>
-		</cfif>
-		<cfif isdefined("sponsor") AND len(#sponsor#) gt 0>
-			<cfset go="yes">
-			<cfset whr = "#whr# AND project.project_id IN
-				( select project_id FROM project_sponsor
-					WHERE agent_name_id IN
-						( select agent_name_id FROM agent_name WHERE
-						upper(agent_name) like '%#ucase(sponsor)#%' ))">
-
-		</cfif>
-		<cfif isdefined("year") AND isnumeric(#year#)>
-			<cfset go="yes">
-			<cfset whr = "#whr# AND (
-				#year# between to_number(to_char(start_date,'YYYY')) AND to_number(to_char(end_date,'YYYY'))
-				)">
-		</cfif>
-		<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
-			<cfset whr = "#whr# AND project.project_id in
-				(select project_id from project_publication where publication_id=#publication_id#)">
-			<cfset go="yes">
-		</cfif>
-		<cfif isdefined("project_id") AND len(#project_id#) gt 0>
-			<cfset whr = "#whr# AND project.project_id = #project_id#">
-			<cfset go="yes">
-		</cfif>
-		<cfif go is "no">
-			<cfset whr = "#whr# and 1=2">
-		</cfif>
-		<cfset sql = "#sel# #frm# #whr# ORDER BY project_name">
-		<cfset checkSql(sql)>
-		<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			#preservesinglequotes(sql)#
+					project.project_id is not null
+					<cfif isdefined("p_title") AND len(p_title) gt 0>
+						<cfset title = "#p_title#">
+						<cfset go="yes">
+						AND upper(regexp_replace(project.project_name,'<[^>]*>')) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(p_title))#%">
+					</cfif>
+					<cfif isdefined("descr_len") AND len(descr_len) gt 0>
+						<cfset go="yes">
+						AND project.project_description is not null and length(project.project_description) >= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#descr_len#">
+					</cfif>
+					<cfif isdefined("author") AND len(author) gt 0>
+						<cfset go="yes">
+						AND project.project_id IN
+							( select project_id FROM project_agent
+								WHERE agent_name_id IN
+								( select agent_name_id FROM agent_name WHERE
+								upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapeQuotes(ucase(author))#%"> ))
+					</cfif>
+					<cfif isdefined("project_type") AND len(project_type) gt 0>
+						<cfset go="yes">
+						<cfif project_type is "loan">
+							AND project.project_id in (
+							select project_id from project_trans,loan_item
+							where project_trans.transaction_id=loan_item.transaction_id)
+						<cfelseif project_type is "accn">
+							AND project.project_id in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "both">
+							AND project.project_id in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id)
+							AND project.project_id in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "neither">
+							AND project.project_id not in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id)
+							AND project.project_id not in (
+								select project_id from project_trans,cataloged_item
+								where project_trans.transaction_id=cataloged_item.accn_id)
+						<cfelseif project_type is "loan_no_pub">
+							AND project.project_id in (
+								select project_id from project_trans,loan_item
+								where project_trans.transaction_id=loan_item.transaction_id) 
+							AND project.project_id not in (
+								select project_id from project_publication)
+						</cfif>
+					</cfif>
+					<cfif isdefined("sponsor") AND len(#sponsor#) gt 0>
+						<cfset go="yes">
+						AND project.project_id IN
+						( select project_id FROM project_sponsor
+							WHERE agent_name_id IN
+							( select agent_name_id FROM agent_name WHERE
+							upper(agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(sponsor)#%"> ))
+					</cfif>
+					<cfif isdefined("year") AND isnumeric(#year#)>
+						<cfset go="yes">
+							AND (
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#year#"> between to_number(to_char(start_date,'YYYY')) AND to_number(to_char(end_date,'YYYY'))  
+							)
+					</cfif>
+					<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
+						<cfset go="yes">
+						AND project.project_id in
+							(select project_id from project_publication where publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">)
+					</cfif>
+					<cfif isdefined("project_id") AND len(#project_id#) gt 0>
+						<cfset go="yes">
+						AND project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+					</cfif>
+					<cfif go is "no">
+						AND 1=2
+					</cfif>
+				ORDER BY project_name
 		</cfquery>
+		<cfif go EQ "no">
+			<cfset emptyProjQueryMessage = "You did not specify any search terms to find projects.">
+		</cfif>
 		<cfquery name="projNames" dbtype="query">
-			SELECT
+			SELECT distinct
 				project_id,
 				project_name,
 				start_date,
@@ -255,121 +255,98 @@
 			ORDER BY
 				project_name
 		</cfquery>
-
-
-
-
+	</cfif>
+	<cfif search_type EQ "publications" OR search_type EQ "both">
 		<cfset i=1>
-	<cfset go="no">
-	<cfset basSQL = "SELECT
-			publication.publication_title,
-			publication.publication_id,
-			publication.publication_type,
-			publication.doi,
-			formatted_publication.formatted_publication,
-			count(distinct(citation.collection_object_id)) numCits">
-	<cfset basFrom = "
-		FROM
-			publication,
-			publication_author_name,
-			project_publication,
-			agent_name pubAuth,
-			agent_name searchAuth,
-			formatted_publication,
-			citation">
-	<cfset basWhere = "
+		<cfset go="no">
+		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT 
+				publication.publication_title,
+				publication.publication_id,
+				publication.publication_type,
+				publication.doi,
+				formatted_publication.formatted_publication,
+				count(distinct(citation.collection_object_id)) numCits
+			FROM
+				publication
+				left join publication_author_name on publication.publication_id = publication_author_name.publication_id
+				left join project_publication on publication.publication_id = project_publication.publication_id 
+				left join agent_name pubAuth on publication_author_name.agent_name_id = pubAuth.agent_name_id 
+				left join agent_name searchAuth on pubAuth.agent_id = searchAuth.agent_id
+				left join formatted_publication on formatted_publication.publication_id = publication.publication_id
+				left join citation on publication.publication_id = citation.publication_id
+				<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
+					left join cataloged_item on citation.collection_object_id = cataloged_item.collection_object_id
+				</cfif>
+				<cfif isdefined("current_Sci_Name") AND len(#current_Sci_Name#) gt 0>
+					left join citation CURRENT_NAME_CITATION on publication.publication_id = CURRENT_NAME_CITATION.publication_id
+					left join cataloged_item ci_current on CURRENT_NAME_CITATION.collection_object_id = ci_current.collection_object_id
+					left join identification catItemTaxa on ci_current.collection_object_id = catItemTaxa.collection_object_id
+				</cfif>
+				<cfif isdefined("cited_Sci_Name") AND len(#cited_Sci_Name#) gt 0>
+					left join citation CITED_NAME_CITATION on publication.publication_id = CITED_NAME_CITATION.publication_id
+					left join taxonomy CitTaxa on CITED_NAME_CITATION.cited_taxon_name_id = CitTaxa.taxon_name_id
+				</cfif>
+				<cfif isdefined("journal") AND len(journal) gt 0>
+					left join publication_attributes jname on publication.publication_id=jname.publication_id 
+				</cfif>
 		WHERE
-		publication.publication_id = project_publication.publication_id (+) and
-		publication.publication_id = citation.publication_id (+)
-		AND publication.publication_id = publication_author_name.publication_id (+)
-		AND publication_author_name.agent_name_id = pubAuth.agent_name_id (+)
-		AND pubAuth.agent_id = searchAuth.agent_id (+)
-		AND formatted_publication.publication_id = publication.publication_id
-		AND formatted_publication.format_style = 'long'">
-
-	<cfif isdefined("p_title") AND len(#p_title#) gt 0>
-		<cfset basWhere = "#basWhere# AND UPPER(regexp_replace(publication.publication_title,'<[^>]*>')) LIKE '%#ucase(escapeQuotes(p_title))#%'">
-		<cfset go="yes">
-	</cfif>
-	<cfif isdefined("publication_type") AND len(#publication_type#) gt 0>
-		<cfset basWhere = "#basWhere# AND publication.publication_type = '#publication_type#'">
-		<cfset go="yes">
-	</cfif>
-	<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
-		<cfset basWhere = "#basWhere# AND publication.publication_id=#publication_id#">
-		<cfset go="yes">
-	</cfif>
-	<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
-		<cfset go="yes">
-		<cfset basFrom = "#basFrom#,cataloged_item">
-		<cfif #basFrom# does not contain "citation">
-			<cfset basFrom = "#basFrom#,citation">
+				publication.publication_id is not null
+				AND formatted_publication.format_style = 'long'
+		<cfif isdefined("p_title") AND len(#p_title#) gt 0>
+			<cfset go="yes">
+				AND UPPER(regexp_replace(publication.publication_title,'<[^>]*>')) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(p_title))#%">
 		</cfif>
-		<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id
-			AND citation.collection_object_id = cataloged_item.collection_object_id AND
-			cataloged_item.collection_id = #collection_id#">
-	</cfif>
-	<cfif isdefined("author") AND len(#author#) gt 0>
-		<cfset go="yes">
-		<cfset author = #replace(author,"'","''","all")#>
-		<cfset basWhere = "#basWhere# AND UPPER(searchAuth.agent_name) LIKE '%#ucase(author)#%'">
-	</cfif>
-	<cfif isdefined("year") AND isnumeric(year)>
-		<cfset go="yes">
-		<cfset basWhere = "#basWhere# AND publication.PUBLISHED_YEAR = #year#">
-	</cfif>
-	<cfif isdefined("journal") AND len(journal) gt 0>
-		<cfset go="yes">
-		<cfset basFrom = "#basFrom# ,publication_attributes jname">
-		<cfset basWhere = "#basWhere# AND publication.publication_id=jname.publication_id and
-			(jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name') and
-			upper(jname.pub_att_value) like '%#ucase(escapeQuotes(journal))#%'">
-	</cfif>
-	<cfif isdefined("onlyCitePubs") AND len(onlyCitePubs) gt 0>
-		<cfset go="yes">
-		<cfif onlyCitePubs is "0">
-			<cfif #basFrom# does not contain "citation">
-				<cfset basFrom = "#basFrom#,citation">
-			</cfif>
-			<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id (+)
-					and citation.collection_object_id is null">
-		<cfelse>
-			<cfif #basFrom# does not contain "citation">
-				<cfset basFrom = "#basFrom#,citation">
-			</cfif>
-			<cfset basWhere = "#basWhere# AND publication.publication_id = citation.publication_id">
+		<cfif isdefined("publication_type") AND len(#publication_type#) gt 0>
+			<cfset go="yes">
+				AND publication.publication_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">
 		</cfif>
-
-	</cfif>
-	<cfif isdefined("is_peer_reviewed_fg") AND is_peer_reviewed_fg is 1>
-		<cfset go="yes">
-			<cfset basWhere = "#basWhere# AND publication.is_peer_reviewed_fg=1">
-	</cfif>
-	<cfif isdefined("current_Sci_Name") AND len(#current_Sci_Name#) gt 0>
-		<cfset go="yes">
-		<cfset basFrom = "#basFrom# ,
-			citation CURRENT_NAME_CITATION,
-			cataloged_item ci_current,
-			identification catItemTaxa">
-		<cfset basWhere = "#basWhere# AND publication.publication_id = CURRENT_NAME_CITATION.publication_id (+)
-			AND CURRENT_NAME_CITATION.collection_object_id = ci_current.collection_object_id (+)
-			AND ci_current.collection_object_id = catItemTaxa.collection_object_id
-			AND catItemTaxa.accepted_id_fg = 1
-			AND upper(catItemTaxa.scientific_name) LIKE '%#ucase(current_Sci_Name)#%'">
-	</cfif>
-	<cfif isdefined("cited_Sci_Name") AND len(#cited_Sci_Name#) gt 0>
-		<cfset go="yes">
-		<cfset basFrom = "#basFrom# ,
-			citation CITED_NAME_CITATION, taxonomy CitTaxa">
-			<cfset basWhere = "#basWhere# AND publication.publication_id = CITED_NAME_CITATION.publication_id (+)
-				AND CITED_NAME_CITATION.cited_taxon_name_id = CitTaxa.taxon_name_id (+)
-				AND upper(CitTaxa.scientific_name) LIKE '%#ucase(cited_Sci_Name)#%'">
-	</cfif>
-	<cfif go is "no">
-		<cfset basWhere = "#basWhere# AND 1=2">
-	</cfif>
-	<cfset basSql = "#basSQL# #basFrom# #basWhere#
-			group by
+		<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
+			<cfset go="yes">
+				AND publication.publication_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+		</cfif>
+		<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
+			<cfset go="yes">
+				AND publication.publication_id = citation.publication_id cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+		</cfif>
+		<cfif isdefined("author") AND len(#author#) gt 0>
+			<cfset go="yes">
+				AND UPPER(searchAuth.agent_name) LIKE <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="%#ucase(author)#%">
+		</cfif>
+		<cfif isdefined("year") AND isnumeric(year)>
+			<cfset go="yes">
+				AND publication.PUBLISHED_YEAR = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#year#">
+		</cfif>
+		<cfif isdefined("journal") AND len(journal) gt 0>
+			<cfset go="yes">
+				AND (jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name') 
+				AND upper(jname.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(journal))#%">
+		</cfif>
+		<cfif isdefined("onlyCitePubs") AND len(onlyCitePubs) gt 0>
+			<cfset go="yes">
+			<cfif onlyCitePubs is "0">
+				AND citation.collection_object_id is null
+			<cfelse>
+				AND citation.publication_id is not null
+			</cfif>
+		</cfif>
+		<cfif isdefined("is_peer_reviewed_fg") AND is_peer_reviewed_fg is 1>
+			<cfset go="yes">
+				AND publication.is_peer_reviewed_fg=1
+		</cfif>
+		<cfif isdefined("current_Sci_Name") AND len(#current_Sci_Name#) gt 0>
+			<cfset go="yes">
+				AND catItemTaxa.accepted_id_fg = 1
+				AND upper(catItemTaxa.scientific_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(current_Sci_Name)#%">
+		</cfif>
+		<cfif isdefined("cited_Sci_Name") AND len(#cited_Sci_Name#) gt 0>
+			<cfset go="yes">
+				AND upper(CitTaxa.scientific_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(cited_Sci_Name)#%">
+		</cfif>
+			<cfif go is "no">
+				AND 1=2
+			</cfif>
+			GROUP BY
 				publication.publication_title,
 				publication.publication_id,
 				publication.publication_type,
@@ -377,25 +354,34 @@
 				formatted_publication.formatted_publication
 			ORDER BY
 				formatted_publication.formatted_publication,
-				publication.publication_id">
-	<!---<cfset checkSql(basSQL)>--->
-
-	<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		#preservesinglequotes(basSQL)#
-	</cfquery>
+				publication.publication_id
+		</cfquery>
+		<cfif go EQ "no">
+			<cfset emptyPubQueryMessage = "You did not specify any search terms to find publications.">
+		</cfif>
+	</cfif>
 <div class="projPubSearchResults">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
+		<cfset pr ="project_id=">
+		<cfset pb ="publication_id=">
+		<cfif search_type EQ "projects" OR search_type EQ "both">
+			<cfset pr = "project_id=#valuelist(projects.project_id)#">
+		</cfif>
+		<cfif search_type EQ "publications" OR search_type EQ "both">
+			<cfset pb = "publication_id=#valuelist(publication.publication_id)#">
+		</cfif>
+		<a href="/Reports/SpecUsageReport.cfm?#pr#&#pb#">Create Report Data</a>
 	</cfif>
-<cfset i=1>
+	<cfset i=1>
 	<table>
     <tr>
+		<cfif search_type EQ "projects" OR search_type EQ "both">
       <td class="main">
 		<h3>
 			Projects
 			<cfif projNames.recordcount is 0>
 				<div class="notFound">
-					No projects matched your criteria.
+					No projects matched your criteria.  #emptyProjQueryMessage#
 				</div>
 			<cfelse>
 				(#projNames.recordcount# result(s))
@@ -411,7 +397,7 @@
 				FROM
 					projects
 				WHERE
-					project_id = #project_id#
+					project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 				GROUP BY
 					agent_name,
 					project_agent_role
@@ -422,12 +408,11 @@
 				SELECT
 					ACKNOWLEDGEMENT,
 					sponsor_name
-
 				FROM
 					projects
 				WHERE
-					project_id = #project_id# and
-					sponsor_name is not null
+					project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+					AND sponsor_name is not null
 				GROUP BY
 					ACKNOWLEDGEMENT,
 					sponsor_name
@@ -455,13 +440,15 @@
 			<cfset i=i+1>
 		</cfloop>
 	</td>
+		</cfif>
+		<cfif search_type EQ "publications" OR search_type EQ "both">
     <td class="main">
 	<h2 class="wikilink">
 		Publications
           <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit Publication')" class="likeLink" alt="[ help ]"></cfif>
 		<cfif publication.recordcount is 0>
 			<div class="notFound">
-				No publications matched your criteria.
+				No publications matched your criteria.  #emptyPubQueryMessage#
 			</div>
 		<cfelseif publication.recordcount is 1>
             <span class="pr_count">(#publication.recordcount# result)</span>
@@ -524,7 +511,7 @@
 					where
 						media.media_id=media_relations.media_id and
 						media_relationship like '% publication' and
-						related_primary_key=#publication_id#
+						related_primary_key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				</cfquery>
 				<cfif len(pubmedia.media_id) gt 0>
 					<div class="thumbs">
@@ -539,7 +526,7 @@
 									from
 										media_labels
 									where
-										media_id=#media_id#
+										media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 								</cfquery>
 								<cfquery name="desc" dbtype="query">
 									select label_value from labels where media_label='description'
@@ -559,8 +546,6 @@
 							</cfloop>
 							<div class="thumb_spcr">&nbsp;</div>
 						</div>
-
-
 			<!---
 
 					<li><a href="/MediaSearch.cfm?action=search&media_id=#valuelist(pubmedia.media_id)#" target="_blank">Media</a></li>
@@ -571,7 +556,9 @@
 		</div>
 		<cfset i=#i#+1>
 	</cfloop>
-</td></tr></table>
+</td>
+		</cfif>
+</tr></table>
 </div>
 </cfoutput>
 </cfif>
