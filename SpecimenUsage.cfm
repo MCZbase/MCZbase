@@ -42,16 +42,16 @@
 					<input name="p_title" id="p_title" type="text">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
 					<input name="author" id="author" type="text">
-					<label for="year"><span id="project_publication_year">Year</span></label>
+					<label for="year"><span id="project_publication_year">Year</span</label>
 					<input name="year" id="year" type="text">
-					<span>
-						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked">
-						<label for="searchPubs">Pubs</label>&nbsp;
-						<input type="radio" id="searchProj" name="search_type" value="projects">
-						<label for="searchProj">Projects</label>&nbsp;
-						<input type="radio" id="searchBoth" name="search_type" value="both">
-						<label for="searchBoth">Both</label>
-					</span>
+					<fieldset style="margin-left: 0; width: 415px;">
+						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
+						<label for="searchPubs">Search Publications Only</label>&nbsp;
+						<input type="radio" id="searchProj" name="search_type" value="projects" style="float: left; width: 15px;">
+						<label for="searchProj">Search Projects Only</label>&nbsp;
+						<input type="radio" id="searchBoth" name="search_type" value="both" style="float: left; width: 15px;">
+						<label for="searchBoth">Search Both</label>
+					</fieldset>
 
 					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
