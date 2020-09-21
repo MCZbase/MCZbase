@@ -9,7 +9,7 @@
 		$("##dialog-shipment").dialog({
 			autoOpen: false,
 			modal: true,
-			width: 650,
+			minWidth: 300,
 			buttons: {
 				"Save": function() {  saveShipment(#transaction_id#); } ,
 				Cancel: function() { $(this).dialog( "close" ); }
