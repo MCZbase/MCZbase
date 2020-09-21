@@ -2501,6 +2501,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="container-fluid">
 					<div class="row">
+						<div class="col-12">
 						<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
 						<form id="create_project" class="row col-12" >
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
@@ -2606,6 +2607,7 @@ limitations under the License.
 						};
 					</script>
 				</form>
+						</div>
 					</div>
 				</div>
 			</cfoutput>
