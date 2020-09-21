@@ -354,9 +354,21 @@
 	</cfif>
 <div class="projPubSearchResults">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
+		<cfset pr ="">
+		<cfset pb ="">
+		<cfset sep = "">
+		<cfif search_type EQ "projects" OR search_type EQ "both">
+			<cfset pr = "project_id=#valuelist(projects.project_id)#">
+		</cfif>
+		<cfif search_type EQ "projects" OR search_type EQ "both">
+			<cfset pb = "publication_id=#valuelist(publication.publication_id)#">
+		</cfif>
+		<cfif search_type EQ "both">
+			<cfset sep = "&">
+		</cfif>
+		<a href="/Reports/SpecUsageReport.cfm?#pr##sep##pb#">Create Report Data</a>
 	</cfif>
-<cfset i=1>
+	<cfset i=1>
 	<table>
     <tr>
 		<cfif search_type EQ "projects" OR search_type EQ "both">
