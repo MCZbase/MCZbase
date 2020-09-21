@@ -44,6 +44,14 @@
 					<input name="author" id="author" type="text">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text">
+					<span>
+						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked">
+						<label for="searchPubs">Pubs</label>&nbsp;
+						<input type="radio" id="searchProj" name="search_type" value="projects">
+						<label for="searchProj">Projects</label>&nbsp;
+						<input type="radio" id="searchBoth" name="search_type" value="both">
+						<label for="searchBoth">Both</label>
+					</span>
 
 					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
@@ -125,6 +133,10 @@
 <cfoutput>
 	<cfset title = "Usage Search Results">
 
+	<cfif not isdefined("search_type")>
+		<cfset search_type = "publications">
+	</cfif>
+	<cfif search_type EQ "projects" OR search_type EQ "both">
 	<cfset go="no"><!--- allows addition of a where 1=2 clause if no search term is set, forcing query to have parameters --->
 	<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -238,7 +250,8 @@
 			ORDER BY
 				project_name
 		</cfquery>
-
+	</cfif>
+	<cfif search_type EQ "publications" OR search_type EQ "both">
 		<cfset i=1>
 		<cfset go="no">
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -345,6 +358,7 @@
 <cfset i=1>
 	<table>
     <tr>
+		<cfif search_type EQ "projects" OR search_type EQ "both">
       <td class="main">
 		<h3>
 			Projects
@@ -409,6 +423,8 @@
 			<cfset i=i+1>
 		</cfloop>
 	</td>
+		</cfif>
+		<cfif search_type EQ "publications" OR search_type EQ "both">
     <td class="main">
 	<h2 class="wikilink">
 		Publications
@@ -523,7 +539,9 @@
 		</div>
 		<cfset i=#i#+1>
 	</cfloop>
-</td></tr></table>
+</td>
+		</cfif>
+</tr></table>
 </div>
 </cfoutput>
 </cfif>
