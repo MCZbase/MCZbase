@@ -54,7 +54,7 @@ limitations under the License.
 					</div>
 				</div>
 				<div class='form-row'>
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-12 col-md-6 col-xl-4 pb-2'>
 						<label for='mimetype'>MIME Type</label>
 						<select name='mimetype' id='mimetype' class='w-75'>
 							<option value=''></option>
@@ -65,7 +65,7 @@ limitations under the License.
 		<cfset result = result & "
 						</select>
 			 		</div>
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-12 col-md-6 col-xl-4 pb-2'>
 			 			<label for='mediatype'>Media Type</label>
 						<select name='mediatype' id='mediatype' class='w-75'>
 							<option value=''></option>
@@ -77,7 +77,7 @@ limitations under the License.
 						</select>
 			 		</div>
 			
-					<div class='col-12 col-md-4 pb-2'>
+					<div class='col-12 col-md-12 col-xl-4 pt-4'>
 						<span class=''>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
