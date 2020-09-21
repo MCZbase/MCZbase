@@ -1321,7 +1321,7 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 			zindex: 2000,
 			height: h,
 			width: w,
-			minWidth: 400,
+			minWidth: 300,
 			minHeight: 450,
 			draggable:true,
 			buttons: {
