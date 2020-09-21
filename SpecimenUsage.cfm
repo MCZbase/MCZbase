@@ -302,7 +302,7 @@
 		</cfif>
 		<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
 			<cfset go="yes">
-				AND publication.publication_id = citation.publication_id cataloged_item.collection_id = <cfqueryparam cfsqltype=CF_SQL_DECIMAL"" value="#collection_id#">
+				AND publication.publication_id = citation.publication_id cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfif>
 		<cfif isdefined("author") AND len(#author#) gt 0>
 			<cfset go="yes">
