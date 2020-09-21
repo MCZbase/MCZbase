@@ -154,7 +154,7 @@
 					left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
 					left join project_agent on project.project_id = project_agent.project_id
 					left join project_sponsor on project.project_id = project_sponsor.project_id
-					left join agent_name s_name project_sponsor.agent_name_id = s_name.agent_name_id
+					left join agent_name s_name on project_sponsor.agent_name_id = s_name.agent_name_id
 				WHERE
 					project.project_id is not null
 					<cfif isdefined("p_title") AND len(p_title) gt 0>
