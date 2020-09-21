@@ -985,7 +985,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			stack: true,
 			height: "auto",
 			width: "auto",
-			minWidth: '200',
+			minWidth: 200,
 			minHeight: 300,
 			draggable:true,
 			buttons: {
@@ -1251,7 +1251,7 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: 300,
+		minWidth: '90%',
 		minHeight: 450,
 		draggable:true,
 		buttons: {
