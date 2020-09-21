@@ -139,7 +139,7 @@
 	<cfif search_type EQ "projects" OR search_type EQ "both">
 	<cfset go="no"><!--- allows addition of a where 1=2 clause if no search term is set, forcing query to have parameters --->
 	<cfquery name="projects" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT
+				SELECT distinct
 					project.project_id,
 					project.project_name,
 					project.start_date,
@@ -235,7 +235,7 @@
 				ORDER BY project_name
 		</cfquery>
 		<cfquery name="projNames" dbtype="query">
-			SELECT
+			SELECT distinct
 				project_id,
 				project_name,
 				start_date,
@@ -354,19 +354,15 @@
 	</cfif>
 <div class="projPubSearchResults">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-		<cfset pr ="">
-		<cfset pb ="">
-		<cfset sep = "">
+		<cfset pr ="project_id=">
+		<cfset pb ="publication_id=">
 		<cfif search_type EQ "projects" OR search_type EQ "both">
 			<cfset pr = "project_id=#valuelist(projects.project_id)#">
 		</cfif>
 		<cfif search_type EQ "publications" OR search_type EQ "both">
 			<cfset pb = "publication_id=#valuelist(publication.publication_id)#">
 		</cfif>
-		<cfif search_type EQ "both">
-			<cfset sep = "&">
-		</cfif>
-		<a href="/Reports/SpecUsageReport.cfm?#pr##sep##pb#">Create Report Data</a>
+		<a href="/Reports/SpecUsageReport.cfm?#pr#&#pb#">Create Report Data</a>
 	</cfif>
 	<cfset i=1>
 	<table>
