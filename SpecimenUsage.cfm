@@ -150,7 +150,7 @@
 					ACKNOWLEDGEMENT,
 					s_name.agent_name sponsor_name
 				FROM
-					project,
+					project
 					left join agent_name on project_agent.agent_name_id = agent_name.agent_name_id
 					left join project_agent on project.project_id = project_agent.project_id
 					left join project_sponsor on project.project_id = project_sponsor.project_id
