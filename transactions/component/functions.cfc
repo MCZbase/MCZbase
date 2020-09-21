@@ -2502,7 +2502,7 @@ limitations under the License.
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-						<label for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</label>
+						<h1 class="h4" for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</h1>
 						<form id="create_project">
 					<input type="hidden" name="transaction_id" value="#transaction_id#">
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
@@ -2541,43 +2541,43 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12 col-md-6">
+					<div class="form-row">
+						<div class="col-12 col-md-6 px-0">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
 						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-6 px0">
 							<label for="end_date" class="data-entry-label">Project End Date</label>
 							<input type="text" name="end_date" id="end_date" class="form-control data-entry-input">
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
+					<div class="form-row">
+						<div class="col-12 px-0">
 							<label for="project_name" class="data-entry-label">Project Title</label>
 							<textarea name="project_name" id="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
+					<div class="form-row">
+						<div class="col-12 px-0">
 							<label for="project_description" class="data-entry-label">Project Description</label>
 							<textarea name="project_description" id="project_description" class="form-control autogrow"
 								id="project_description" cols="50" rows="2"></textarea>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
+					<div class="form-row">
+						<div class="col-12 px-0">
 							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
 							<textarea name="project_remarks" id="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
+					<div class="form-row">
+						<div class="col-12 px-0">
 							<label for="project_trans_remarks" class="data-entry-label">Project-Transaction Remarks</label>
 							<textarea name="project_trans_remarks" id="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-12">
+					<div class="form-row">
+						<div class="col-12 px-0">
 						<div class="form-group mt-2">
 							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
