@@ -351,6 +351,7 @@
 				formatted_publication.formatted_publication,
 				publication.publication_id
 	</cfquery>
+	</cfif>
 <div class="projPubSearchResults">
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 		<a href="/Reports/SpecUsageReport.cfm?project_id=#valuelist(projects.project_id)#&publication_id=#valuelist(publication.publication_id)#">Create Report Data</a>
