@@ -2515,7 +2515,7 @@ limitations under the License.
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
 					<div class="form-row">
-						<div class="col-12 col-md-6 px-0">
+						<div class="col-12 col-xl-5 px-0">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
 								<span id="newAgentViewLink" class="px-2">&nbsp;</span>
@@ -2534,7 +2534,8 @@ limitations under the License.
 								});
 							</script>
 						</div>
-						<div class="col-12 col-md-6 px-0">
+						<div class="form-row">
+						<div class="col-12 col-xl-6 px-0">
 							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select project_agent_role from ctproject_agent_role order by project_agent_role
 							</cfquery>
