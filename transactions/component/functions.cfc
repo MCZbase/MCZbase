@@ -2508,6 +2508,7 @@ limitations under the License.
 					<input type="hidden" name="method" value="createProjectLinkToTrans">
 					<input type="hidden" name="returnformat" value="json">
 					<input type="hidden" name="queryformat" value="column">
+					<div class="row">
 						<div class="col-12 col-md-6">
 							<span class="my-1 data-entry-label">
 								<label for="newAgent_name">Project Agent Name</label>
@@ -2540,7 +2541,7 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row ">
+					<div class="row">
 						<div class="col-12 col-md-6">
 							<label for="start_date" class="data-entry-label">Project Start Date</label>
 							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="form-control data-entry-input">
@@ -2576,9 +2577,11 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-12 mt-2">
+						<div class="col-12">
+						<div class="form-group mt-2">
 							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
+						</div>
 						</div>
 					</div>
 					<script>
