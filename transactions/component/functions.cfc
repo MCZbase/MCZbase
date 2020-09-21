@@ -2574,7 +2574,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row col-12">
-						<div class="form-group col-12">
+						<div class="form-group col-12 mt-2">
 							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
 								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
 						</div>
