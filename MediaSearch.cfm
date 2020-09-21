@@ -41,7 +41,11 @@
 <cfif #action# is "nothing">
 	<cfoutput>
     <cfquery name="ctmedia_relationship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-		select media_relationship from ctmedia_relationship order by media_relationship
+		select media_relationship from ctmedia_relationship 
+		<cfif oneOfUs EQ 0>
+			where media_relationship not like 'document%' and media_relationship not like '%permit'
+		</cfif>
+		order by media_relationship
 	</cfquery>
 	<cfquery name="ctmedia_label" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 		select media_label from ctmedia_label 
