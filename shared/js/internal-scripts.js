@@ -166,7 +166,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 				if (jQuery.type(okcallback)==='function') {
 					if ($('#newMedia')[0].checkValidity()) {
 						$.ajax({
-							url: 'media.cfm',
+							url: '/media/component/functions.cfc',
 							type: 'post',
 		  					returnformat: 'plain',
 							data: $('#newMedia').serialize(),

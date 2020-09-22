@@ -305,8 +305,7 @@ limitations under the License.
 			<h1 class="h3">Create Media</h1>
 			<div class="col-12 border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
-				<input type="hidden" name="action" value="saveNew">
-				<input type="hidden" name="headless" value="true">
+				<input type="hidden" name="method" value="createMedia">
 				<input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
 				<input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
 				<div class="form-row">
