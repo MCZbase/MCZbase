@@ -843,13 +843,13 @@ limitations under the License.
 					</section>
 					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan">
 						<div class="col-12 py-2">
-							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0"
+							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0"
+							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
-							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0"
+							<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
-							<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0"
+							<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 								onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
 						</div>
 						<div class="col-12 pt-2 pb-3">
