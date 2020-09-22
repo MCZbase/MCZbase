@@ -1229,13 +1229,16 @@ limitations under the License.
 			order by ct.specific_type
 		</cfquery>
 		<cfoutput>
-			<h3>Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h3>
-			<form id="findPermitForm" onsubmit="searchforpermits(event);" class="container">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+			<h1 class="h3">Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h1>
+			<form id="findPermitForm" onsubmit="searchforpermits(event);">
 				<input type="hidden" name="method" value="findPermitShipSearchResults">
 				<input type="hidden" name="returnformat" value="plain">
 				<input type="hidden" name="shipment_id" value="#shipment_id#">
 				<input type="hidden" name="shipment_label" value="#shipment_label#">
-				<div class="row">
+				<div class="form-row">
 					<div class="col-12 col-md-3">
 						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
 						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
@@ -1253,7 +1256,7 @@ limitations under the License.
 						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
 					</div>
 				</div>
-				<div class="row">
+				<div class="form-row">
 					<div class="col-12 col-md-3">
 						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
 						<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
@@ -1276,7 +1279,7 @@ limitations under the License.
 						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
 					</div>
 				</div>
-				<div class="row">
+				<div class="form-row">
 					<div class="col-12 col-md-6">
 						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
 						<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
@@ -1291,7 +1294,7 @@ limitations under the License.
 						<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
 					</div>
 				</div>
-				<div class="row">
+				<div class="form-row">
 					<div class="col-12 col-md-6">
 						<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
 						<script>
@@ -1330,6 +1333,9 @@ limitations under the License.
 				};
 			</script>
 			<div id="permitSearchResults"></div>
+					</div>
+				</div>
+			</div>
 		</cfoutput>
 	<cfcatch>
 		<cfoutput>
