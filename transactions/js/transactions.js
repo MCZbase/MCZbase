@@ -1081,7 +1081,7 @@ function openTransProjectLinkDialog(transaction_id, dialogId, projectsDivId) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		minWidth: 450,
+		minWidth: 320,
 		minHeight: 200,
 		draggable:true,
 		buttons: {
@@ -1321,7 +1321,7 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 			zindex: 2000,
 			height: h,
 			width: w,
-			minWidth: 400,
+			minWidth: 320,
 			minHeight: 450,
 			draggable:true,
 			buttons: {
