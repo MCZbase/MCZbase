@@ -113,7 +113,7 @@
 	<!--- wrap everything up in a string --->
 
 		<cfset SqlString = "#basSelect# #basFrom# #basWhere# #basQual# #basGroup#">
-
+		<cfset checkSql(SqlString)>	
 
 		<cfif len(#basQual#) is 0 AND basFrom does not contain "binary_object">
 			<CFSETTING ENABLECFOUTPUTONLY=0>
