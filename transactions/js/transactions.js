@@ -547,7 +547,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
 	// full width at less than medium screens
-	if (w>375 && w<=1333) { 
+	if (w>414 && w<=1333) { 
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
@@ -1235,7 +1235,7 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
 	// full width at less than medium screens
-	if (w>413 && w<=1333) { 
+	if (w>414 && w<=1333) { 
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
@@ -1304,7 +1304,7 @@ function openlinkpermitshipdialog(dialogid, shipment_id, shipment_label, okcallb
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
 	// full width at less than medium screens
-	if (w>768 && w<=1333) { 
+	if (w>414 && w<=1333) { 
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
