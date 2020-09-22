@@ -91,7 +91,7 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 374,
+		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
@@ -158,7 +158,7 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 		zindex: 2000,
 		height: h,
 		width: w,
-		minWidth: 376,
+		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
 		buttons: {

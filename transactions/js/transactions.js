@@ -563,7 +563,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: 300,
+		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
