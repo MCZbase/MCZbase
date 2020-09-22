@@ -1144,7 +1144,7 @@ function openTransProjectCreateDialog(transaction_id, dialogId, projectsDivId) {
 		dialogClass: 'dialog_fixed,ui-widget-header',
 		modal: true,
 		stack: true,
-		minWidth: 380,
+		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
@@ -1251,7 +1251,7 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: '90%',
+		minWidth: 320,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
