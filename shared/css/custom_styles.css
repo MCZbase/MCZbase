@@ -195,7 +195,7 @@ BELOW: Small Form button (bootstrap override)
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
-	border-color: #aaa;
+	border: 1px solid hsl(0, 0%, 62%);
 }
 .btn-outline-success {
 	color: #28a745;
