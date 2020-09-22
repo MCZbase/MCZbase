@@ -311,10 +311,10 @@ limitations under the License.
 							</tbody>
 						</table>
 						<div class='form-row'>
-							<div class='col-2'>
+							<div class='col-12 col-md-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
-							<div id='addPermit_#shipment_id#' class='col-10'>
+							<div id='addPermit_#shipment_id#' class='col-12 col-md-10'>
 								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>

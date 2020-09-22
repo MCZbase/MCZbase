@@ -547,7 +547,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	if (h>775) { h=775; } // cap height at 775
 	var w = $(window).width();
 	// full width at less than medium screens
-	if (w>768 && w<=1333) { 
+	if (w>375 && w<=1333) { 
 		// 90% width up to extra large screens
 		w = Math.floor(w *.9);
 	} else if (w>1333) { 
@@ -563,7 +563,7 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		stack: true,
 		height: h,
 		width: w,
-		minWidth: 'auto',
+		minWidth: 300,
 		minHeight: 450,
 		draggable:true,
 		buttons: {
