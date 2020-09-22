@@ -356,7 +356,7 @@ a.qutBtn {
 <cfoutput>
 
 <p><a href="Encumbrances.cfm?action=listEncumbrances&encumbrance_id=#encumbrance_id#">Back to Encumbrance</a></p>
-Edit Encumbrance:
+Edit Encumbrance:  [encumbrance_id = #encumbrance_id#]
 <cfquery name="encDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		 * 
