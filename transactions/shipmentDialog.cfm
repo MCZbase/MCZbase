@@ -10,16 +10,11 @@
 	$( document ).ready(function() {
 		console.log("initializing dialog-shipment");
 		$("##dialog-shipment").dialog({
-			autoOpen: false,
-			modal: true,
 			var h = $(window).height();
 			var w = $(window).width();
 			w = Math.floor(w *.9);
-			var thedialog = $("#"+dialogid).html(content)
 			.dialog({
-				title: title,
 				autoOpen: false,
-				dialogClass: 'dialog_fixed,ui-widget-header',
 				modal: true, 
 				stack: true, 
 				zindex: 2000,
