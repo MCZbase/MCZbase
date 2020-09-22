@@ -11,17 +11,17 @@
  * @param args, if opening a new window the additional arguments to pass to window.open().
  */
 function windowOpener(url, name, args) {
-   popupWins = [];
-   if ( typeof( popupWins[name] ) != "object" ){
-         popupWins[name] = window.open(url,name,args);
-   } else {
-      if (!popupWins[name].closed){
-         popupWins[name].location.href = url;
-      } else {
-         popupWins[name] = window.open(url, name,args);
-      }
-   }
-   popupWins[name].focus();
+	popupWins = [];
+	if ( typeof( popupWins[name] ) != "object" ){
+		popupWins[name] = window.open(url,name,args);
+	} else {
+		if (!popupWins[name].closed){
+			popupWins[name].location.href = url;
+		} else {
+			popupWins[name] = window.open(url, name,args);
+		}
+	}
+	popupWins[name].focus();
 }
 /**
  * Obtain the (internal) MCZbase documentation given a wiki page and heading.
@@ -31,15 +31,15 @@ function windowOpener(url, name, args) {
  *
  */
 function getMCZDocs(url,anc) {
-   var url;
-   var anc;
-   var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
-   var extension = "";
-   var fullURL = baseUrl + url + extension;
-      if (anc != null) {
-         fullURL += "#" + anc;
-      }
-   siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
+	var url;
+	var anc;
+	var baseUrl = "https://code.mcz.harvard.edu/wiki/index.php/";
+	var extension = "";
+	var fullURL = baseUrl + url + extension;
+	if (anc != null) {
+		fullURL += "#" + anc;
+	}
+	siteHelpWin=windowOpener(fullURL,"HelpWin","width=1024,height=640, resizable,scrollbars,location,toolbar");
 }
 
 // Check the validity of a form for submission return true if valid, false if not, and if 
@@ -143,7 +143,7 @@ function openlinkmediadialog(dialogid, related_value, related_id, relationship, 
  */
 function opencreatemediadialog(dialogid, related_value, related_id, relationship, okcallback) { 
 	var title = "Add new Media record to " + related_value;
-   console.log("TODO: Redesign opencreatemediadialog()");
+	console.log("TODO: Redesign opencreatemediadialog()");
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
 	var w = $(window).width();
@@ -232,3 +232,123 @@ function opencreatemediadialog(dialogid, related_value, related_id, relationship
 		}
   });
 }
+
+/** Add a set of fields for entering a media relationship to a form, the fields
+  * comprise inputs for relationship__{n}, related_value__{n}, and related_id__{n}
+  * in a div with id relationshipDiv__{n}, the div is attached to an element in the
+  * dom with id relationships.
+  *
+  * @param n the serial integer that identifies the set of relationship fields.
+  * @depricated
+  */
+function addRelation (n) {
+	addRelationTo(n,"relationships");
+}
+
+/** Add a set of fields for entering a media relationship to a form, the fields
+  * comprise inputs for relationship__{n}, related_value__{n}, and related_id__{n}
+  * in a div with id relationshipDiv__{n}, the div is attached to a specified element
+  * in the dom
+  *
+  * @param n the serial integer that identifies the set of relationship fields.
+  * @param targetId the id of the element in the dom to which to attach the created div, 
+  *   not including a leading # selector.
+  */
+function addRelationTo (n,targetId) {
+	var pDiv=document.getElementById(targetId);
+	var nDiv = document.createElement('div');
+	nDiv.id='relationshipDiv__' + n;
+	pDiv.appendChild(nDiv);
+	var n1=n-1;
+	var selName='relationship__' + n1;
+	var nSel = document.getElementById(selName).cloneNode(true);
+	nSel.name="relationship__" + n;
+	nSel.id="relationship__" + n;
+	nSel.value='';
+	nDiv.appendChild(nSel);
+
+	c = document.createElement("textNode");
+	c.innerHTML=":&nbsp;";
+	nDiv.appendChild(c);
+
+	var n1=n-1;
+	var inpName='related_value__' + n1;
+	var nInp = document.getElementById(inpName).cloneNode(true);
+	nInp.name="related_value__" + n;
+	nInp.id="related_value__" + n;
+	nInp.value='';
+	nDiv.appendChild(nInp);
+
+	var hName='related_id__' + n1;
+	var nHid = document.getElementById(hName).cloneNode(true);
+	nHid.name="related_id__" + n;
+	nHid.id="related_id__" + n;
+	nDiv.appendChild(nHid);
+
+	var mS = document.getElementById('addRelationship');
+	pDiv.removeChild(mS);
+	var np1=n+1;
+	var oc="addRelation(" + np1 + ")";
+	mS.setAttribute("onclick",oc);
+	pDiv.appendChild(mS);
+
+	var cc=document.getElementById('number_of_relations');
+	cc.value=parseInt(cc.value)+1;
+}
+
+/** Add a set of fields for entering a media label to a form, the fields
+  * comprise inputs for label__{n} and label_value__{n}, 
+  * in a div with id labelDiv__{n} the div is attached to the element in 
+  * the dom with an id of labels.
+  *
+  * @param n the serial integer that identifies the set of label fields.
+  * @depricated
+  */
+function addLabel (n) {
+	addLabelTo(n,"labels");   
+}
+
+/** Add a set of fields for entering a media label to a form, the fields
+  * comprise inputs for label__{n} and label_value__{n}, 
+  * in a div with id labelDiv__{n} the div is attached to the element in 
+  * the dom with the specified id.
+  *
+  * @param n the serial integer that identifies the set of label fields.
+  * @param targetId the id of the element in the dom to which to attach the created div, 
+  *   not including a leading # selector.
+  */
+function addLabelTo (n,targetId) {
+	var pDiv=document.getElementById(targetId);
+	var nDiv = document.createElement('div');
+	nDiv.id='labelsDiv__' + n;
+	pDiv.appendChild(nDiv);
+	var n1=n-1;
+	var selName='label__' + n1;
+	var nSel = document.getElementById(selName).cloneNode(true);
+	nSel.name="label__" + n;
+	nSel.id="label__" + n;
+	nSel.value='';
+	nDiv.appendChild(nSel);
+
+	c = document.createElement("textNode");
+	c.innerHTML=":&nbsp;";
+	nDiv.appendChild(c);
+
+	var inpName='label_value__' + n1;
+	var nInp = document.getElementById(inpName).cloneNode(true);
+	nInp.name="label_value__" + n;
+	nInp.id="label_value__" + n;
+	nInp.value='';
+	nDiv.appendChild(nInp);
+
+	var mS = document.getElementById('addLabel');
+	pDiv.removeChild(mS);
+	var np1=n+1;
+	var oc="addLabel(" + np1 + ")";
+	mS.setAttribute("onclick",oc);
+	pDiv.appendChild(mS);
+
+	var cc=document.getElementById('number_of_labels');
+	cc.value=parseInt(cc.value)+1;
+}
+
