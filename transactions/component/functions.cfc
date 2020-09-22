@@ -311,10 +311,10 @@ limitations under the License.
 							</tbody>
 						</table>
 						<div class='form-row'>
-							<div class='col-2'>
+							<div class='col-12 col-md-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
-							<div id='addPermit_#shipment_id#' class='col-10'>
+							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-10'>
 								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>
@@ -1022,156 +1022,161 @@ limitations under the License.
 					order by ct.specific_type
 			</cfquery>
 			<cfoutput>
-				<h3>Search for permits.</h3>
-   			<form id="findPermitSearchForm" name="findPermit">
-					<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
-							<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<h1 class="h3">Search for permits.</h1>
+						<form id="findPermitSearchForm" name="findPermit">
+							<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
+									<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="issuedToAgent"class="data-entry-label mb-0">Issued To</label>
+									<input type="text" name="issuedToAgent" id="issuedToAgent" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="issued_date" class="data-entry-label mb-0">Issued Date</label>
+									<input type="text" name="issued_date" id="issued_date" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="renewed_date" class="data-entry-label mb-0">Renewed Date</label>
+									<input type="text" name="renewed_date" id="renewed_date" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="exp_date" class="data-entry-label mb-0">Expiration Date</label>
+									<input type="text" name="exp_date" id="exp_date" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="permit_num_search" class="data-entry-label">Permit Number</label>
+									<input type="text" name="permit_num" id="permit_num_search" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
+									<select name="permit_Type" id="permit_type" class="data-entry-select w-75">
+										<option value=""></option>
+										<cfloop query="ctPermitType">
+											<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-6">
+									<label for="permit_remarks" class="data-entry-label mb-0">Remarks</label>
+									<input type="text" name="permit_remarks" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
+									<select name="specific_type" class="data-entry-select w-75">
+										<option value=""></option>
+										<cfloop query="ctSpecificPermitType">
+											<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-6">
+									<label for="permit_title" class="data-entry-label mb-0">Permit Title</label>
+									<input type="text" name="permit_title" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<button type="submit" aria-label="Search for Permits" class="btn btn-xs btn-primary">Search<span class="fa fa-search pl-1"></span></button>
+								</div>
+							</div>
+						</form>
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+							<h4>Results: </h4>
+							<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
 						</div>
-						<div class="col-12 col-md-6">
-							<label for="issuedToAgent"class="data-entry-label mb-0">Issued To</label>
-							<input type="text" name="issuedToAgent" id="issuedToAgent" class="data-entry-input">
+						<div class="row mt-0">
+							<div id="permitPickSearchText"></div>
+							<div id="permitPickResultsGrid" class="jqxGrid"></div>
+							<div id="enableselection"></div>
 						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="issued_date" class="data-entry-label mb-0">Issued Date</label>
-							<input type="text" name="issued_date" id="issued_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="renewed_date" class="data-entry-label mb-0">Renewed Date</label>
-							<input type="text" name="renewed_date" id="renewed_date" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="exp_date" class="data-entry-label mb-0">Expiration Date</label>
-							<input type="text" name="exp_date" id="exp_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_num_search" class="data-entry-label">Permit Number</label>
-							<input type="text" name="permit_num" id="permit_num_search" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
-							<select name="permit_Type" id="permit_type" class="data-entry-select w-75">
-								<option value=""></option>
-								<cfloop query="ctPermitType">
-									<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_remarks" class="data-entry-label mb-0">Remarks</label>
-							<input type="text" name="permit_remarks" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
-							<select name="specific_type" class="data-entry-select w-75">
-								<option value=""></option>
-								<cfloop query="ctSpecificPermitType">
-									<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
-								</cfloop>
-							</select>
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_title" class="data-entry-label mb-0">Permit Title</label>
-							<input type="text" name="permit_title" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<button type="submit" aria-label="Search for Permits" class="btn btn-xs btn-primary">Search<span class="fa fa-search pl-1"></span></button>
-						</div>
-					</div>
-				</form>
+						<script>
+						$("##findPermitSearchForm").bind("submit", function(evt){
+							evt.preventDefault();
+								$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
+								$("##permitPickResultCount").html("");
+								$("##permitPickResultLink").html("");
+								$("##permitPickSearchText").jqxGrid("showloadelement");
 
-				<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-					<h4>Results: </h4>
-					<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
+							   var permitSearch = {
+									datatype: "json",
+									datafields: [
+										{ name: "permit_id", type: "string" },
+								{ name: "permit_num", type: "string" }, 
+								{ name: "permit_type", type: "string" }, 
+								{ name: "specific_type", type: "string" }, 
+								{ name: "permit_title", type: "string" }, 
+								{ name: "issued_date", type: "string" }, 
+								{ name: "renewed_date", type: "string" },
+								{ name: "exp_date", type: "string" },
+								{ name: "permit_remarks", type: "string" },
+								{ name: "IssuedByAgent", type: "string" },
+								{ name: "IssuedToAgent", type: "string" }
+									],
+									root: "permitRecord",
+									id: "permit_id",
+									url: "/transactions/component/functions.cfc?" + $("##findPermitSearchForm").serialize()
+								};
+
+								var dataAdapter = new $.jqx.dataAdapter(permitSearch);
+
+								var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
+									var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+									return result;
+								};
+
+								$("##permitPickResultsGrid").jqxGrid({
+									width: "100%",
+									autoheight: "true",
+									source: dataAdapter,
+									filterable: true,
+									sortable: true,
+									pageable: true,
+									editable: false,
+									pagesize: "50",
+									pagesizeoptions: ["50","100"],
+									showaggregates: false,
+									columnsresize: true,
+									autoshowfiltericon: true,
+									autoshowcolumnsmenubutton: false,
+									columnsreorder: true,
+									groupable: false,
+									selectionmode: "none",
+									altrows: true,
+									showtoolbar: false,
+									columns: [
+										{text: "Select", datafield: "permit_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
+										{text: "permit_num", datafield: "permit_num", width: 100, hideable: true, hidden: false }, 
+										{text: "permit_type", datafield: "permit_type", width: 100, hideable: true, hidden: false }, 
+										{text: "specific_type", datafield: "specific_type", width: 100, hideable: true, hidden: false }, 
+										{text: "permit_title", datafield: "permit_title", width: 100, hideable: true, hidden: false }, 
+										{text: "issued_date", datafield: "issued_date", width: 100, hideable: true, hidden: false }, 
+										{text: "renewed_date", datafield: "renewed_date", width: 100, hideable: true, hidden: false },
+										{text: "exp_date", datafield: "exp_date", width: 100, hideable: true, hidden: false },
+										{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
+										{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
+										{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
+								]
+								});
+							});
+						</script>
+					</div>
 				</div>
-				<div class="row mt-0">
-					<div id="permitPickSearchText"></div>
-					<div id="permitPickResultsGrid" class="jqxGrid"></div>
-					<div id="enableselection"></div>
-				</div>
-				<script>
-   				$("##findPermitSearchForm").bind("submit", function(evt){
-      				evt.preventDefault();
-						$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
-						$("##permitPickResultCount").html("");
-						$("##permitPickResultLink").html("");
-						$("##permitPickSearchText").jqxGrid("showloadelement");
-
-					   var permitSearch = {
-							datatype: "json",
-							datafields: [
-								{ name: "permit_id", type: "string" },
-                        { name: "permit_num", type: "string" }, 
-                        { name: "permit_type", type: "string" }, 
-                        { name: "specific_type", type: "string" }, 
-                        { name: "permit_title", type: "string" }, 
-                        { name: "issued_date", type: "string" }, 
-                        { name: "renewed_date", type: "string" },
-                        { name: "exp_date", type: "string" },
-                        { name: "permit_remarks", type: "string" },
-                        { name: "IssuedByAgent", type: "string" },
-                        { name: "IssuedToAgent", type: "string" }
-							],
-							root: "permitRecord",
-							id: "permit_id",
-							url: "/transactions/component/functions.cfc?" + $("##findPermitSearchForm").serialize()
-						};
-
-						var dataAdapter = new $.jqx.dataAdapter(permitSearch);
-
-						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
-							return result;
-						};
-
-						$("##permitPickResultsGrid").jqxGrid({
-							width: "100%",
-							autoheight: "true",
-							source: dataAdapter,
-							filterable: true,
-							sortable: true,
-							pageable: true,
-							editable: false,
-							pagesize: "50",
-							pagesizeoptions: ["50","100"],
-							showaggregates: false,
-							columnsresize: true,
-							autoshowfiltericon: true,
-							autoshowcolumnsmenubutton: false,
-							columnsreorder: true,
-							groupable: false,
-							selectionmode: "none",
-							altrows: true,
-							showtoolbar: false,
-							columns: [
-								{text: "Select", datafield: "permit_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
-								{text: "permit_num", datafield: "permit_num", width: 100, hideable: true, hidden: false }, 
-								{text: "permit_type", datafield: "permit_type", width: 100, hideable: true, hidden: false }, 
-								{text: "specific_type", datafield: "specific_type", width: 100, hideable: true, hidden: false }, 
-								{text: "permit_title", datafield: "permit_title", width: 100, hideable: true, hidden: false }, 
-								{text: "issued_date", datafield: "issued_date", width: 100, hideable: true, hidden: false }, 
-								{text: "renewed_date", datafield: "renewed_date", width: 100, hideable: true, hidden: false },
-								{text: "exp_date", datafield: "exp_date", width: 100, hideable: true, hidden: false },
-								{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
-								{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
-								{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
-         				]
-						});
-					});
-				</script>
+			</div>
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
@@ -1770,7 +1775,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="">
+					<ul class="py-3">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
