@@ -1083,7 +1083,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border py-3 rounded">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
