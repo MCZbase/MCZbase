@@ -1775,7 +1775,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="py-3">
+					<ul class="">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
