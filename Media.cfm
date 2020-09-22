@@ -51,10 +51,8 @@ limitations under the License.
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
-	<cfset isClicky = "likeLink">
 <cfelse>
 	<cfset oneOfUs = 0>
-	<cfset isClicky = "">
 </cfif>
 
 <!----------------------------------------------------------------------------------------->
