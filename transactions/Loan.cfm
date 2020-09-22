@@ -873,7 +873,7 @@ limitations under the License.
 								<cfif getDispositions.RecordCount EQ 0 >
 									<h4>There are no attached collection objects.</h4>
 								<cfelse>
-									<table class="table table-sm">
+									<table class="table table-responsive">
 										<thead class="thead-light">
 											<tr>
 												<th>Parts</th>
