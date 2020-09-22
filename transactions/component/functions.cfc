@@ -290,7 +290,7 @@ limitations under the License.
 					</script>
 						
 					<div class='shipments my-2'>
-						<table class='table table-responsive mb-0'>
+						<table class='table table-responsive d-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>
 								<tr>
@@ -301,7 +301,7 @@ limitations under the License.
 								</tr>
 							</tbody>
 						</table>
-						<table class='table table-responsive'>
+						<table class='table table-responsive d-table'>
 							<thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
 							<tbody>
 								<tr>
@@ -2188,7 +2188,7 @@ limitations under the License.
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
 				<div class="form-row my-1">
-					<div class="col-12 table-responsive mt-1">
+					<div class="col-12 table-responsive d-table mt-1">
 						<table id="transactionAgentsTable" class="table table-sm mb-0">
 							<thead class="thead-light">
 								<tr>
