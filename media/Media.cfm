@@ -140,6 +140,7 @@ limitations under the License.
 <cfif action is "edit">
 <cfset title="Edit Media">
 
+<cfoutput>
 <div class="container-fluid">
 	<div class="row mb-4 mx-0">
 		<div class="col-12 px-0">
