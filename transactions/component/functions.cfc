@@ -1247,11 +1247,11 @@ limitations under the License.
 						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
 						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-6 col-md-3">
 						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
 						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
 					</div>
-					<div class="col-12 col-md-3">
+					<div class="col-6 col-md-3">
 						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
 						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
 					</div>
