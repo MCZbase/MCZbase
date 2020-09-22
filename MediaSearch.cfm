@@ -291,6 +291,11 @@
 				<cfset number_of_relations=1>
 			</cfif>
 		</cfif>
+	   <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+			<cfif isdefined("unlinked") and unlinked EQ "true">
+				<cfset number_of_relations = 0 >
+      	</cfif>
+      </cfif>
 		<cfif not isdefined("number_of_labels")>
 			<cfif (isdefined("label") and len(label) gt 0) or (isdefined("label__1") and len(label__1) gt 0)>
 				<cfset number_of_labels=1>
@@ -341,11 +346,6 @@
 				<cfif isdefined("media_id") and len(media_id) gt 0>
 					AND media.media_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#" list="yes">)
 				</cfif>
-	        	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-				   <cfif isdefined("unlinked") and unlinked EQ "true">
-				       <cfset number_of_relations = 0 >
-                </cfif>
-             </cfif>
 				<cfif number_of_relations EQ 0>
            		<cfset n = 0>
 					AND media_relations0.media_id is null
