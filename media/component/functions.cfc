@@ -34,6 +34,7 @@ Backing methods for managing media
 	<cfargument name="media_uri" type="string" required="yes">
 	<cfargument name="media_type" type="string" required="yes">
 	<cfargument name="mime_type" type="string" required="yes">
+	<cfargument name="description" type="string" required="yes">
 	<cfargument name="preview_uri" type="string" required="no">
 	<cfargument name="media_license_id" type="string" required="no">
 	<cfargument name="number_of_relations" type="string" required="no">
@@ -66,6 +67,17 @@ Backing methods for managing media
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
 							</cfif>
 						)
+				</cfquery>
+				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into media_labels (
+						media_id,
+						media_label,
+						label_value
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+						'description',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+					)
 				</cfquery>
 				<cfloop from="1" to="#number_of_relations#" index="n">
 					<cfset thisRelationship = #evaluate("relationship__" & n)#>
