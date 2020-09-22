@@ -3,13 +3,15 @@
 </cfquery>
 <cfoutput>
 <!----  Shipment Popup Dialog autoOpen is false --->
+	
 <script>
+	////shipment dialog needs to have a minimum of 320px and then be 90% of ipad and up
 	$( document ).ready(function() {
 		console.log("initializing dialog-shipment");
 		$("##dialog-shipment").dialog({
 			autoOpen: false,
 			modal: true,
-			minWidth: 320,
+			minWidth: auto,
 			buttons: {
 				"Save": function() {  saveShipment(#transaction_id#); } ,
 				Cancel: function() { $(this).dialog( "close" ); }
