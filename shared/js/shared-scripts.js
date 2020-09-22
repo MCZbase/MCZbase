@@ -106,7 +106,7 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
     zindex: 2000,
     height: dialogHeight,
     width: dialogWidth,
-    minWidth: '90%',
+    minWidth: 375,
     minHeight: 450,
     draggable:true,
     buttons: {
