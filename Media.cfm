@@ -707,4 +707,4 @@ limitations under the License.
 
 </cfif>
                         </div>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
