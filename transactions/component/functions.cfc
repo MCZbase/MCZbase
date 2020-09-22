@@ -314,7 +314,7 @@ limitations under the License.
 							<div class='col-12 col-md-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
-							<div id='addPermit_#shipment_id#' class='col-12 col-md-10'>
+							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-10'>
 								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>
@@ -1775,7 +1775,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="">
+					<ul class="py-3">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
