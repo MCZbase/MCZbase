@@ -5,13 +5,29 @@
 <!----  Shipment Popup Dialog autoOpen is false --->
 	
 <script>
-	////shipment dialog needs to have a minimum of 320px and then be 90% of ipad and up
+	////shipment dialog needs to have a minimum of 320px and then be 90% of ipad and up 
+	//when set to percentage, it becomes 300px;
 	$( document ).ready(function() {
 		console.log("initializing dialog-shipment");
 		$("##dialog-shipment").dialog({
 			autoOpen: false,
 			modal: true,
-			minWidth: '90%',
+			var h = $(window).height();
+			var w = $(window).width();
+			w = Math.floor(w *.9);
+			var thedialog = $("#"+dialogid).html(content)
+			.dialog({
+				title: title,
+				autoOpen: false,
+				dialogClass: 'dialog_fixed,ui-widget-header',
+				modal: true, 
+				stack: true, 
+				zindex: 2000,
+				height: h,
+				width: w,
+				minWidth: 320,
+				minHeight: 450,
+				draggable:true,
 			buttons: {
 				"Save": function() {  saveShipment(#transaction_id#); } ,
 				Cancel: function() { $(this).dialog( "close" ); }
