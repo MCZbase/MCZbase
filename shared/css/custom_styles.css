@@ -412,6 +412,12 @@ BELOW: SPECIMEN DETAIL STYLES
 	position: absolute;
 	margin-left: -500px;
 }
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: .25em .5rem;
+}
 .no-card {
 	border: none;
 	border-radius: 0;
