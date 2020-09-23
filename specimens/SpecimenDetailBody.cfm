@@ -572,8 +572,8 @@ limitations under the License.
 	</div>
 <!------------------------------------ locality -------------------------------------------> 
 	<div class="card">
-		<div class="card-header">
-			<h3 class="h4">Locality</h3>
+		<div class="card-header float-left">
+			<h3 class="h4 float-left">Locality</h3>
 			<button type="button" id="edit-locality" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -647,9 +647,9 @@ limitations under the License.
 	</div>
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
-		<div class="card-header">
-			<h3 class="h4">Collecting Event</h3>
-			<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+		<div class="card-header float-left">
+			<h3 class="h4 float-left">Collecting Event</h3>
+			<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body">
@@ -725,9 +725,9 @@ limitations under the License.
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
 		<div class="card" style="column-fill:auto">
-			<div class="card-header">
-				<h3 class="h4">Citations</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<div class="card-header float-left">
+				<h3 class="h4 float-left">Citations</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group">
 				<cfloop query="citations">
@@ -756,8 +756,7 @@ limitations under the License.
 				</cfloop>
 				<cfif publicationMedia.recordcount gt 0>
 					<cfloop query="publicationMedia">
-						<li class="list-group-item"> 
-
+						<li class="list-group-item">
 							<!---<cfset puri=getMediaPreview(preview_uri,media_type)>--->
 							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
@@ -775,9 +774,9 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" style="float: left;margin: 0 8px 8px 0"> 
+							<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> 
 							<!--- <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumbSmall"></a>---> 
-							<span style="font-size: .9em;line-height: .95em;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
+							<span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
 					</cfloop>
 				</cfif>
 			</ul>
@@ -810,9 +809,9 @@ limitations under the License.
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
 		<div class="card">
-			<div class="card-header">
-				<h3 class="h4">Other IDs</h4>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<div class="card-header float-left">
+				<h3 class="h4 float-left">Other IDs</h4>
+				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body">
 				<ul class="list-group">
@@ -852,9 +851,9 @@ limitations under the License.
 			<div class="card">
 				<div class="card-header">
 					<h3 class="h4">Transactions</h3>
-					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
-				<ul class="list-group list-group-flush" style="padding-left: 5px;">
+				<ul class="list-group list-group-flush pl-2" style="padding-left: 5px;">
 					<li class="list-group-item">Accession:
 						<cfif oneOfUs is 1>
 							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
@@ -978,13 +977,11 @@ limitations under the License.
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
 		<div class="card">
-			<div class="card-header">
-				<h3 class="h4">Relationship</h3>
-				<button type="button" 
-					class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" 
-					onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<div class="card-header float-left">
+				<h3 class="h4 float-left">Relationship</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group list-group-flush" style="padding-left: 5px;">
+			<ul class="list-group list-group-flush pl-2">
 				<li class="list-group-item">
 					<cfloop query="relns">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
@@ -1002,9 +999,9 @@ limitations under the License.
 <!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
-			<div class="card-header">
-				<h3 class="h4">Attributes</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<div class="card-header float-left">
+				<h3 class="h4 float-left">Attributes</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body">
 				<cfquery name="sex" dbtype="query">
@@ -1050,7 +1047,7 @@ limitations under the License.
 							len(efn.attribute_units) gt 0  OR
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
-							<p style="margin-top: 1em;">Standard Measurements</p>
+							<p class="pt-2">Standard Measurements</p>
 							<table class="table table-striped table-bordered table-hovered responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
@@ -1115,10 +1112,10 @@ limitations under the License.
 		</div>
 	</cfif>
 <!------------------------------------ parts ---------------------------------------------->
-	<div class="card p-0">
-		<div class="card-header pt-1 pl-4">
-				<h3 class="h4">Parts</h3>
-				<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+	<div class="card">
+		<div class="card-header float-left">
+				<h3 class="h4 float-left">Parts</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body p-0">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1209,7 +1206,7 @@ limitations under the License.
 		
   
   
-			<table class="table table-striped table-bordered table-hovered table-responsive-md table-responsive-sm mb-0">
+			<table class="table table-striped table-bordered table-hovered table-responsive table-responsive mb-0">
 					<cfloop query="rparts">
 				<thead role="rowgroup">
 				  <tr role="row">
@@ -1388,9 +1385,9 @@ limitations under the License.
 
 			<!---"thumbs"--->
 			<div class="card  card-primary bg-light text-left">
-				<div class="card-header">
-					<h3 class="h4">Media</h3>
-					<button type="button" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<div class="card-header float-left">
+					<h3 class="h4 float-left">Media</h3>
+					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group" style="display: inline;">
 					<cfloop query="media">
@@ -1435,7 +1432,7 @@ limitations under the License.
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header float-left">
 					<h3 class="h4">Metadata</h4>
 				</div>
 				<div class="card-body">
