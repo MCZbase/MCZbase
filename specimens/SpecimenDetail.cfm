@@ -176,9 +176,9 @@ limitations under the License.
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-			<h2 class="d-inline-block mb-1 mt-0 h3 text-secondary font-weight-bold">#collection#&nbsp;#cat_num#</h2>
+			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold">#collection#&nbsp;#cat_num#</h2>
 				<div class="mb-0 font-weight-normal"> 
-					<a class="text-dark font-italic font-weight-bolder h2" href="##">#scientific_name#</a>&nbsp; #author_text#
+					<a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 			<div class="mb-1 text-muted w-75">#partString#</div>
 			<div class="mb-1 mt-1">#collectors#</div>
@@ -208,14 +208,14 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<h5 class="mb-0 h3">#spec_locality#</h5>
+			<h5 class="mb-0 h4">#spec_locality#</h5>
 			<cfif len(verbatim_date) gt 0>
 				<div class="mb-2 text-muted mt-2">#verbatim_date#</div>  
 			<cfelse>
 				<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
 			</cfif>
 			<p class="my-1">#higher_geog#</p>
-			<a href="##" class="fs-13 mt-0 d-block">Berkeley Mapper</a> 
+			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
 	<img class="flex-auto d-none d-md-block py-2" src="/shared/images/locality.jpg" alt="map" width="150" height="150"> 
 	</div>
