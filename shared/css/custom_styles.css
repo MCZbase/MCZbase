@@ -1110,9 +1110,10 @@ table#pairs {
 table#pairs, th, td {
 	border: 1px solid #cdcdcd;
 }
-table#pairs th, table#pairs td {
-	padding: 10px;
-	text-align: left;
+.table td, .table th {
+    padding: .25em .5rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
 }
 .sortable {
 	margin: 2px;
