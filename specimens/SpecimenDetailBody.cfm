@@ -1048,7 +1048,7 @@ limitations under the License.
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
 							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped table-bordered table-hovered responsive">
+							<table class="table table-striped table-responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
 									<td><font size="-1">tail length</font></td>
@@ -1117,7 +1117,7 @@ limitations under the License.
 				<h3 class="h4 float-left">Parts</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<div class="card-body float-left">
+			<div class="card-body float-left p-0">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
@@ -1206,7 +1206,7 @@ limitations under the License.
 		
   
   
-			<table class="table table-striped table-hovered table-responsive mb-0">
+			<table class="table table-striped table-responsive mb-0">
 					<cfloop query="rparts">
 				<thead role="rowgroup">
 				  <tr role="row">
