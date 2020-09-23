@@ -572,7 +572,7 @@ limitations under the License.
 	</div>
 <!------------------------------------ locality -------------------------------------------> 
 	<div class="card">
-		<div class="card-header float-left">
+		<div class="card-header float-left w-100">
 			<h3 class="h4 float-left">Locality</h3>
 			<button type="button" id="edit-locality" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 		</div>
@@ -647,7 +647,7 @@ limitations under the License.
 	</div>
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
-		<div class="card-header float-left">
+		<div class="card-header float-left w-100">
 			<h3 class="h4 float-left">Collecting Event</h3>
 			<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
@@ -724,8 +724,8 @@ limitations under the License.
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
-		<div class="card" style="column-fill:auto">
-			<div class="card-header float-left">
+		<div class="card">
+			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Citations</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
@@ -808,7 +808,7 @@ limitations under the License.
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card">
+		<div class="card float-left-100">
 			<div class="card-header float-left">
 				<h3 class="h4 float-left">Other IDs</h4>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -849,8 +849,8 @@ limitations under the License.
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="card">
-				<div class="card-header">
-					<h3 class="h4">Transactions</h3>
+				<div class="card-header float-left w-100">
+					<h3 class="h4 float-left">Transactions</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group list-group-flush pl-2" style="padding-left: 5px;">
