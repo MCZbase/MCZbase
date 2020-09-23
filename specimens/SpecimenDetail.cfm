@@ -194,6 +194,7 @@ limitations under the License.
 
 			</cfif>
 			 </div>
+				</div>
 	
 	<div class="col-12 col-md-6">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
