@@ -48,9 +48,6 @@ limitations under the License.
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
 </cfquery>
 
-<!------------------------------------------------>
-<cfif action is "nothing">
-</cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="edit">
@@ -350,7 +347,114 @@ limitations under the License.
 			</div>
 		</cfoutput>
 	</cfcase>
+	<!---------------------------------------------------------------------------------------------------->
+	<cfcase value="saveNew">
+		<!--- See also function createMedia in /media/component/functions.cfc, which can back an ajax call to create a new media record. --->
+		<cftransaction>
+			<cftry>
+				<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select sq_media_id.nextval nv from dual
+				</cfquery>
+				<cfset media_id=mid.nv>
+				<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into media (
+							media_id,
+							media_uri,
+							mime_type,
+							media_type,
+							preview_uri
+						 	<cfif len(media_license_id) gt 0>
+								,media_license_id
+							</cfif>
+						) values (
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
+							<cfif len(media_license_id) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
+							</cfif>
+						)
+				</cfquery>
+				<cfquery name="makeDescriptionRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					insert into media_labels (
+						media_id,
+						media_label,
+						label_value
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+						'description',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+					)
+				</cfquery>
+				<cfloop from="1" to="#number_of_relations#" index="n">
+					<cfset thisRelationship = #evaluate("relationship__" & n)#>
+					<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+					<cfset thisTableName=ListLast(thisRelationship," ")>
+					<cfif len(#thisRelationship#) gt 0 and len(#thisRelatedId#) gt 0>
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into media_relations (
+								media_id,
+								media_relationship,
+								related_primary_key
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">
+							)
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cfloop from="1" to="#number_of_labels#" index="n">
+					<cfset thisLabel = #evaluate("label__" & n)#>
+					<cfset thisLabelValue = #evaluate("label_value__" & n)#>
+					<cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
+						<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into media_labels (
+								media_id,
+								media_label,
+								label_value
+							) values (
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">
+							)
+						</cfquery>
+					</cfif>
+				</cfloop>
+				<cfset error=false>
+			<cfcatch>
+				<cftransaction action="rollback">
+				<cfset error=true>
+				<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+				<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+				<cfheader statusCode="500" statusText="#message#">
+				<cfoutput>
+					<div class="container">
+						<div class="row">
+							<div class="alert alert-danger" role="alert">
+								<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+								<cfif cfcatch.detail contains "ORA-00001: unique constraint (MCZBASE.U_MEDIA_URI)" >
+									<h2>A media record for that resource already exists in MCZbase.</h2>
+								<cfelse>
+									<h2>Internal Server Error.</h2>
+								</cfif>
+								<p>#message#</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</div>
+						</div>
+					</div>
+				</cfoutput>
+			</cfcatch>
+			</cftry>
+		</cftransaction>
+			<cfif error EQ false>
+			<cfoutput>
+				<cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
+			</cfoutput>
+		</cfif>
+	</cfcase>
 </cfswitch>
-<!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
