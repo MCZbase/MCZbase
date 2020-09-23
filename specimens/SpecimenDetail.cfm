@@ -137,7 +137,7 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center mt-8 w-100 d-block float-right">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center mt-5 w-100 d-block float-right">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
 		<cfset typeName = '<br><span class="font-weight-bold bg-white py-1 px-2 border-dk-gray mt-2 p-1 w-100 d-block ml-auto">#twotypes#  </span>'>
@@ -147,19 +147,19 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-	<div class="px-3">
+<main class="container-fluid">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
-			<div class="row mb-4 primaryType" >
+			<section class="row mb-4 primaryType" >
 		</cfif>
 		<cfif toptypestatuskind eq 'Secondary' >
-			<div class="row mb-4 secondaryType">
+			<section class="row mb-4 secondaryType">
 		</cfif>
 	<cfelse>
-		<div class="row mb-4 defaultType">
+		<section class="row mb-4 defaultType">
 	</cfif>
 
-	<div class="col-md-6">
+	<div class="col-12 col-md-6">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow h-md-250 border-0 bg-transparent">
@@ -171,16 +171,16 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
 			</cfif>
 	<div class="card-body d-flex flex-column align-items-start">
-			<div style="font-size:1em">
+			<div class="small">
 <!---				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-			<h2 class="d-inline-block mb-1 mt-0 h3 font-weight-bold">#collection#&nbsp;#cat_num#</h2>
+			<h2 class="d-inline-block mb-1 mt-0 h3 text-secondary font-weight-bold">#collection#&nbsp;#cat_num#</h2>
 				<div class="mb-0 font-weight-normal"> 
 					<a class="text-dark font-italic font-weight-bolder h2" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
-			<div class="mb-1 text-muted" style="max-width: 400px;">#partString#</div>
+			<div class="mb-1 text-muted w-75">#partString#</div>
 			<div class="mb-1 mt-1">#collectors#</div>
 	</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
@@ -194,32 +194,33 @@ limitations under the License.
 
 			</cfif>
 			 </div>
-		</div>
-<div class="col-md-6">
-<cfif isDefined("cited_as") and len(cited_as) gt 0>
-	<cfif toptypestatuskind eq 'Primary' >
-		 <div class="card flex-md-row box-shadow h-md-250 no-card">
-	</cfif>
-	<cfif toptypestatuskind eq 'Secondary' >
-		 <div class="card flex-md-row box-shadow h-md-250 no-card">
-	</cfif>
-<cfelse>
-		<div class="card flex-md-row box-shadow h-md-250 no-card">
-</cfif>
-	<div class="card-body d-flex flex-column align-items-start">
-		<h5 class="mb-0 h3">#spec_locality#</h5>
-		<cfif len(verbatim_date) gt 0>
-			<div class="mb-2 text-muted mt-2">#verbatim_date#</div>  
-		<cfelse>
-			<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
+				</div>
+	
+	<div class="col-12 col-md-6">
+	<cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<cfif toptypestatuskind eq 'Primary' >
+			 <div class="card flex-md-row box-shadow h-md-250 no-card">
 		</cfif>
-		<p class="card-text mb-1 mt-1 fs-16">#higher_geog#</p>
-		<a href="##" class="fs-13 mt-0 d-block">Berkeley Mapper</a> 
+		<cfif toptypestatuskind eq 'Secondary' >
+			 <div class="card flex-md-row box-shadow h-md-250 no-card">
+		</cfif>
+	<cfelse>
+			<div class="card flex-md-row box-shadow h-md-250 no-card">
+	</cfif>
+		<div class="card-body d-flex flex-column align-items-start">
+			<h5 class="mb-0 h3">#spec_locality#</h5>
+			<cfif len(verbatim_date) gt 0>
+				<div class="mb-2 text-muted mt-2">#verbatim_date#</div>  
+			<cfelse>
+				<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
+			</cfif>
+			<p class="card-text mb-1 mt-1 fs-16">#higher_geog#</p>
+			<a href="##" class="fs-13 mt-0 d-block">Berkeley Mapper</a> 
+		</div>
+	<img class="card-img-right flex-auto d-none d-md-block z-depth-2 p-3" src="/shared/images/locality.jpg" alt="map" width="150" height="150"> 
 	</div>
-<img class="card-img-right flex-auto d-none d-md-block z-depth-2 p-3" src="/shared/images/locality.jpg" alt="map" width="150" height="150"> 
-</div>
-		</div>
-		</div>
+	</section>
+</main>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">
