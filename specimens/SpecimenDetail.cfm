@@ -207,7 +207,7 @@ limitations under the License.
 	<cfelse>
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
-		<div class="card-body mt-2 d-flex flex-column align-items-start">
+		<div class="card-body mt-3 d-flex flex-column align-items-start">
 			<h5 class="mb-0 h4">#spec_locality#</h5>
 			<cfif len(verbatim_date) gt 0>
 				<div class="mb-2 text-muted small mt-2">#verbatim_date#</div>  
