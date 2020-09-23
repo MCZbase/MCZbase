@@ -648,8 +648,8 @@ limitations under the License.
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
 		<div class="card-header">
-			<h3 class="h4 float-left">Collecting Event</h3>
-			<button type="button" class="mt-1 btn btn-xs align-content-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<h3 class="h4 float-left w-100">Collecting Event</h3>
+			<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body">
