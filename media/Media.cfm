@@ -202,7 +202,7 @@ limitations under the License.
               </cfloop>
             </select>
             :&nbsp;
-            <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#stripQuotes(label_value)#">
+            <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#">
           </div>
           <cfset i=i+1>
         </cfloop>
