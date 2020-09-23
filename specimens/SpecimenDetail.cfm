@@ -170,7 +170,7 @@ limitations under the License.
 			<cfelse>
 					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
 			</cfif>
-	<div class="card-body mt-3 d-flex flex-column align-items-start">
+	<div class="card-body mt-2 d-flex flex-column align-items-start">
 			<div class="small">
 <!---				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
@@ -214,7 +214,7 @@ limitations under the License.
 			<cfelse>
 				<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
 			</cfif>
-			<p class="my-1">#higher_geog#</p>
+			<p class="my-1 small">#higher_geog#</p>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
 	<img class="flex-auto d-none d-md-block py-2" src="/shared/images/locality.jpg" alt="map" width="150" height="150"> 
