@@ -959,14 +959,15 @@ table.inputTable tr {
 	outline: 0;
 	border-bottom: 1px solid #3e657D;
 }
-.tab-ISSUE:  669  Purpose: Universal styles DESC: Style Specimen Details page.header > .nav-tabs > li > a.active {
+.header > .nav-tabs > li > a.active {
 	background-color: #f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline:0;
 }
 .tab-card-header > .nav-tabs > li > a:hover {
 	color: #3E657D;
-	background-color: #f8f9fa;
+	background-color: #f5f5f5;
+	border-color:#f5f5f5;
 	outline:0;
 }
 .tab-card-header > .nav-tabs > li > a:focus {
