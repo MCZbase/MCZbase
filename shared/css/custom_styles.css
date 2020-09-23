@@ -412,28 +412,26 @@ BELOW: SPECIMEN DETAIL STYLES
 	position: absolute;
 	margin-left: -500px;
 }
-.card-body {
-    -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: .25em .5rem;
-}
+
 .no-card {
 	border: none;
 	border-radius: 0;
 }
-.card-columns .card {
-	margin-bottom: 1em;
-}
 .card-columns {
 	column-count: 2;
-	column-gap: 1rem;
+	column-gap: .75rem;
 	orphans: 1;
 	widows: 1;
 	column-span: all;
 }
 .card-columns .card {
-	margin-bottom: 1em;
+	margin-bottom: .5em;
+}
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: .25em .5rem;
 }
 .list-group-item {
 	padding: 0.5rem 1rem;
@@ -1586,10 +1584,12 @@ and also iPads specifically.
 @media(min-width:576px) {
 	.card-columns {
 		column-count: 2;
-		column-gap: 1.25rem;
+		column-gap: .75rem;
 		orphans: 1;
 		widows: 1;
 		column-span: all;
+		margin-right: 4px;
+    	margin-left: 4px;
 	}
 	.card-body h5 {
 		margin-top: -0.25em;
