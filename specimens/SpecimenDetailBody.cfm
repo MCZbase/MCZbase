@@ -1113,11 +1113,11 @@ limitations under the License.
 	</cfif>
 <!------------------------------------ parts ---------------------------------------------->
 	<div class="card">
-		<div class="card-header float-left">
+		<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Parts</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<div class="card-body p-0">
+			<div class="card-body float-left">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
@@ -1206,7 +1206,7 @@ limitations under the License.
 		
   
   
-			<table class="table table-striped table-bordered table-hovered table-responsive table-responsive mb-0">
+			<table class="table table-striped table-hovered table-responsive mb-0">
 					<cfloop query="rparts">
 				<thead role="rowgroup">
 				  <tr role="row">
