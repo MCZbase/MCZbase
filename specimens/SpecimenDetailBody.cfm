@@ -574,7 +574,7 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 float-left">Locality</h3>
-			<button type="button" id="edit-locality" class="popperbtn detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" id="edit-locality" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
