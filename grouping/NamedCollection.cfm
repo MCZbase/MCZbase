@@ -473,14 +473,14 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
-						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
+						<section aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" 
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >
 									</div>
 								</div>
@@ -508,9 +508,9 @@ limitations under the License.
 										</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text small bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
 										<script>
@@ -578,9 +578,9 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</div>
+						</section>
 						<!--- region --->
-						<div role="region" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
+						<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
 							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
@@ -626,13 +626,13 @@ limitations under the License.
 										<div id="addResultDiv">&nbsp;</div>
 										<input type="button" id="addbutton"
 												value="Add" title="Add" aria-label="Add"
-												class="btn btn-xs btn-primary mt-1"
+												class="btn btn-xs btn-secondary"
 												onClick=" addCollectionObjects(); " 
 												>
 									</div>
 								</div>
 							</form>
-						</div>
+						</section>
 					</div>
 					<!--- col ---> 
 				</div>
@@ -708,7 +708,7 @@ limitations under the License.
 										<cfloop query="undCollUse">
 											<li>
 												<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
-												<button class="btn-xs btn-secondary mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
+												<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
 											</li>
 										</cfloop>
 									</ul>
