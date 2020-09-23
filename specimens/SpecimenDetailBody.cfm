@@ -813,7 +813,7 @@ limitations under the License.
 				<h3 class="h4 float-left">Other IDs</h4>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<div class="card-body">
+			<div class="card-body float-left">
 				<ul class="list-group">
 					<cfloop query="oid">
 						<li class="list-group-item">#other_id_type#:
