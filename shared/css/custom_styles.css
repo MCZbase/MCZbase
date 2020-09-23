@@ -433,6 +433,16 @@ BELOW: SPECIMEN DETAIL STYLES
     min-height: 1px;
     padding: .25em .5rem;
 }
+.card-header {
+	padding: .25rem .75rem;
+}
+.no-card {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+.card {
+	background-color: transparent;
+}
 .list-group-item {
 	padding: 0.5rem 1rem;
 }
@@ -440,17 +450,6 @@ li.pid {
 	color: #666;
 	list-style: circle;
 	padding-bottom: 0;
-}
-/*.card-header {
-	background-color: #DEEBEC;
-	padding: .1rem 1.25rem;
-}*/
-.no-card {
-	background-color: transparent;
-	border: 1px solid transparent;
-}
-.card {
-	background-color: transparent;
 }
 li.list-group-item.thethumbs {
 	width: 120px;
