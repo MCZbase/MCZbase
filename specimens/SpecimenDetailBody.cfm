@@ -647,9 +647,9 @@ limitations under the License.
 	</div>
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
-		<div class="card-header float-left w-100">
+		<div class="card-header">
 			<h3 class="h4 float-left">Collecting Event</h3>
-			<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" class="mt-1 btn btn-xs align-content-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body">
@@ -1432,10 +1432,10 @@ limitations under the License.
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
 			<div class="card">
-				<div class="card-header float-left">
-					<h3 class="h4">Metadata</h4>
+				<div class="card-header float-left w-100">
+					<h3 class="h4 flloat-left">Metadata</h4>
 				</div>
-				<div class="card-body">
+				<div class="card-body float-left">
 					<ul>
 						<cfif len(#one.coll_object_remarks#) gt 0>
 							<li>Remarks: #one.coll_object_remarks# </li>
