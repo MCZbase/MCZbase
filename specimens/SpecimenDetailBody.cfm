@@ -422,15 +422,15 @@ limitations under the License.
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
 	<div class="card">
-		<div class="card-header">
-			<h3 class="h4"> Identifications</h3> 
+		<div class="card-header float-left w-100">
+			<h3 class="h4 float-left">Identifications</h3> 
   <div class="dialog" title="Edit Identification (id: #identification_id#)">
    <div id="identificationNewForm">Stuff here...</div>
   </div>
   <script type="text/javascript">
 	  $( document ).ready(loadIdentifications(#identification_id#));
   </script>
-			 <button type="button" class="detail-edit-cell float-right py-0 px-2 fs-14 border rounded" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+			 <button type="button" class="mt-1 btn btn-xs float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body">
 				<cfloop query="identification">
@@ -452,7 +452,7 @@ limitations under the License.
 				<cfif accepted_id_fg is 1>
 				
 					<ul class="list-group border-green rounded p-3 h4 font-weight-normal">
-						<span class="d-inline-block mb-1 h5 text-success"> Current Identification</span>
+						<span class="d-inline-block mb-1 h5 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h3 font-weight-normal d-inline-block"> 
 									<a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a> 
