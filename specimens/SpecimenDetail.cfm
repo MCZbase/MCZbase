@@ -170,7 +170,7 @@ limitations under the License.
 			<cfelse>
 					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
 			</cfif>
-	<div class="card-body d-flex flex-column align-items-start">
+	<div class="card-body mt-3 d-flex flex-column align-items-start">
 			<div class="small">
 <!---				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
@@ -207,7 +207,7 @@ limitations under the License.
 	<cfelse>
 			<div class="card flex-md-row box-shadow h-md-250 no-card">
 	</cfif>
-		<div class="card-body d-flex flex-column align-items-start">
+		<div class="card-body mt-3 d-flex flex-column align-items-start">
 			<h5 class="mb-0 h3">#spec_locality#</h5>
 			<cfif len(verbatim_date) gt 0>
 				<div class="mb-2 text-muted mt-2">#verbatim_date#</div>  
