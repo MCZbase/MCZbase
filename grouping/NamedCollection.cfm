@@ -684,7 +684,7 @@ limitations under the License.
 							});
 						}
 					</script>
-					<div class="row mx-0">
+					<div class="row">
 						<div class="col-12 mb-5">
 							<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 								<cfif undCollUse_result.recordcount EQ 0>
@@ -692,7 +692,7 @@ limitations under the License.
 									<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 										<input type="hidden" name="action" value="delete">
 										<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-										<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+										<button class="btn btn-xs btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
 										<script>
 											$(document).ready(function() {
 												$('##deleteButton').bind('click', function(evt){
