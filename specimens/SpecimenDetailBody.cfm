@@ -808,8 +808,8 @@ limitations under the License.
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card float-left w-100">
-			<div class="card-header float-left">
+		<div class="card">
+			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Other IDs</h4>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
