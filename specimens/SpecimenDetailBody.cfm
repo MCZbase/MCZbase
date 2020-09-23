@@ -978,7 +978,7 @@ limitations under the License.
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 float-left">Relationship</h3>
+				<h3 class="h4 my-1 float-left">Relationship</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group list-group-flush float-left pl-2">
@@ -1000,7 +1000,7 @@ limitations under the License.
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 float-left">Attributes</h3>
+				<h3 class="h4 my-1 float-left">Attributes</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
@@ -1114,7 +1114,7 @@ limitations under the License.
 <!------------------------------------ parts ---------------------------------------------->
 	<div class="card">
 		<div class="card-header float-left w-100">
-				<h3 class="h4 float-left">Parts</h3>
+				<h3 class="h4 my-1 float-left">Parts</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left p-0">
