@@ -376,8 +376,8 @@
 		preferred_agent_name
 		where
 		media_relations.created_by_agent_id = preferred_agent_name.agent_id and
-		media_id=#media_id# <!--->and
-		media_relationship <> 'ledger entry for cataloged_item'--->
+		media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+		<!--->and media_relationship <> 'ledger entry for cataloged_item'--->
 	</cfquery>
 	<cfset result = querynew("media_relations_id,media_relationship,created_agent_name,related_primary_key,summary,link")>
 	<cfset i=1>
@@ -397,13 +397,15 @@
 					geog_auth_rec
 				where
 					locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
-					locality.locality_id=#related_primary_key#
+					locality.locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&locality_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "agent">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select agent_name data from preferred_agent_name where agent_id=#related_primary_key#
+				select agent_name data 
+				from preferred_agent_name 
+				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
 		<cfelseif table_name is "collecting_event">
@@ -417,7 +419,7 @@
 				where
 					collecting_event.locality_id=locality.locality_id and
 					locality.geog_auth_rec_id=geog_auth_rec.geog_auth_rec_id and
-					collecting_event.collecting_event_id=#related_primary_key#
+					collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/showLocality.cfm?action=srch&collecting_event_id=#related_primary_key#", i)>
@@ -432,7 +434,7 @@
 				where
 					collection.collection_id=trans.collection_id and
 					trans.transaction_id=accn.transaction_id and
-					accn.transaction_id=#related_primary_key#
+					accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/editAccn.cfm?Action=edit&transaction_id=#related_primary_key#", i)>
@@ -447,7 +449,7 @@
 				where
 					collection.collection_id=trans.collection_id and
 					trans.transaction_id=deaccession.transaction_id and
-					deaccession.transaction_id=#related_primary_key#
+					deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
     		        <cfset temp = QuerySetCell(result, "link", "/Deaccession.cfm?action=editDeacc&transaction_id=#related_primary_key#", i)>
@@ -507,34 +509,38 @@
                 cataloged_item.collection_object_id=identification.collection_object_id and
                 accepted_id_fg=1 and
                 cataloged_item.collection_id=collection.collection_id and
-                cataloged_item.collection_object_id=#related_primary_key#
+                cataloged_item.collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/SpecimenResults.cfm?collection_object_id=#related_primary_key#", i)>
 		<cfelseif table_name is "media">
 			<cfquery name="d" datasource="uam_god">
-				select media_uri data from media where media_id=#related_primary_key#
+				select media_uri data 
+				from media 
+				where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/media/#related_primary_key#", i)>
 		<cfelseif table_name is "publication">
 			<cfquery name="d" datasource="uam_god">
-				select formatted_publication data from formatted_publication where format_style='long' and
-				publication_id=#related_primary_key#
+				select formatted_publication data 
+				from formatted_publication 
+				where format_style='long' and
+				publication_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/SpecimenUsage.cfm?publication_id=#related_primary_key#", i)>
 		<cfelseif #table_name# is "project">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select project_name data from
-				project where project_id=#related_primary_key#
+				project where project_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/ProjectDetail.cfm?project_id=#related_primary_key#", i)>
 		<cfelseif table_name is "taxonomy">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select display_name data,scientific_name from
-				taxonomy where taxon_name_id=#related_primary_key#
+				taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_primary_key#">
 			</cfquery>
 			<cfset temp = QuerySetCell(result, "summary", "#d.data#", i)>
             <cfset temp = QuerySetCell(result, "link", "/name/#d.scientific_name#", i)>
