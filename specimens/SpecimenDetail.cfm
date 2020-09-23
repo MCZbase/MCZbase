@@ -137,7 +137,7 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center mt-8 w-100 d-block float-right">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center mt-5 w-100 d-block float-right">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
 		<cfset typeName = '<br><span class="font-weight-bold bg-white py-1 px-2 border-dk-gray mt-2 p-1 w-100 d-block ml-auto">#twotypes#  </span>'>
