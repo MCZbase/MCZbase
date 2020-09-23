@@ -44,6 +44,9 @@ limitations under the License.
 <cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	select mime_type from ctmime_type order by mime_type
 </cfquery>
+<cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select media_license_id,display media_license from ctmedia_license order by media_license_id
+</cfquery>
 
 <!------------------------------------------------>
 <cfif action is "nothing">
