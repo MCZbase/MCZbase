@@ -1206,7 +1206,7 @@ limitations under the License.
 		
   
   
-			<table class="table table-striped table-responsive mb-0">
+			<table class="table table-striped table-responsive border-0 mb-0">
 					<cfloop query="rparts">
 				<thead role="rowgroup">
 				  <tr role="row">
