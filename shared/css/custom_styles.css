@@ -417,17 +417,17 @@ BELOW: SPECIMEN DETAIL STYLES
 	border-radius: 0;
 }
 .card-columns .card {
-	margin-bottom: 1.25em;
+	margin-bottom: 1em;
 }
 .card-columns {
 	column-count: 2;
-	column-gap: 1.25rem;
+	column-gap: 1rem;
 	orphans: 1;
 	widows: 1;
 	column-span: all;
 }
 .card-columns .card {
-	margin-bottom: 1.25em;
+	margin-bottom: 1em;
 }
 .list-group-item {
 	padding: 0.5rem 1rem;
