@@ -423,14 +423,14 @@ limitations under the License.
 			</cfquery>
 	<div class="card">
 		<div class="card-header float-left w-100">
-			<h3 class="h4 float-left">Identifications</h3> 
+			<h3 class="h4 my-1 float-left">Identifications</h3> 
   <div class="dialog" title="Edit Identification (id: #identification_id#)">
    <div id="identificationNewForm">Stuff here...</div>
   </div>
   <script type="text/javascript">
 	  $( document ).ready(loadIdentifications(#identification_id#));
   </script>
-			 <button type="button" class="mt-1 btn btn-xs float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+			 <button type="button" class="mt-1 btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body">
 				<cfloop query="identification">
@@ -529,7 +529,7 @@ limitations under the License.
 							#thisSciName#
 						</cfif>
 					<cfif oneOfUs is 1 and stored_as_fg is 1>
-						<span style="background-color: ##cccccc; float: right;border-radius: 2px; padding: 2px;">STORED AS</span>
+						<span style="float-right rounded p-1 bg-light">STORED AS</span>
 					</cfif>
 					<cfif not isdefined("metaDesc")>
 						<cfset metaDesc="">
@@ -573,8 +573,8 @@ limitations under the License.
 <!------------------------------------ locality -------------------------------------------> 
 	<div class="card">
 		<div class="card-header float-left w-100">
-			<h3 class="h4 float-left">Locality</h3>
-			<button type="button" id="edit-locality" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<h3 class="h4 my-1 float-left">Locality</h3>
+			<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 		</div>
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
@@ -648,7 +648,7 @@ limitations under the License.
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
 		<div class="card-header float-left w-100">
-			<h3 class="h4 float-left">Collecting Event</h3>
+			<h3 class="h4 my-1 float-left">Collecting Event</h3>
 			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
@@ -726,10 +726,10 @@ limitations under the License.
 	<cfif len(citations.cited_name) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 float-left">Citations</h3>
+				<h3 class="h4 my-1 float-left">Citations</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group float-left">
+			<ul class="list-group px-2 float-left">
 				<cfloop query="citations">
 					<li class="list-group-item"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
@@ -810,7 +810,7 @@ limitations under the License.
 	<cfif len(oid.other_id_type) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 float-left">Other IDs</h4>
+				<h3 class="h4 my-1 float-left">Other IDs</h4>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
@@ -850,7 +850,7 @@ limitations under the License.
 	<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="card">
 				<div class="card-header float-left w-100">
-					<h3 class="h4 float-left">Transactions</h3>
+					<h3 class="h4 my-1 float-left">Transactions</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group list-group-flush pl-2 float-left">
@@ -944,7 +944,7 @@ limitations under the License.
 			</cfloop>
 			<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 				<li class="list-group-item">
-					<h6>Loan History:</h6>
+					<h5>Loan History:</h5>
 					<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
