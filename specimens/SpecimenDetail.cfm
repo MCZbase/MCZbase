@@ -147,7 +147,7 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<main class="container px-3">
+<main class="container-fluid">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			<section class="row mb-4 primaryType" >
@@ -171,7 +171,7 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
 			</cfif>
 	<div class="card-body d-flex flex-column align-items-start">
-			<div style="font-size:1em">
+			<div class="small">
 <!---				<cfif len(session.CustomOtherIdentifier) gt 0>
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
@@ -180,7 +180,7 @@ limitations under the License.
 				<div class="mb-0 font-weight-normal"> 
 					<a class="text-dark font-italic font-weight-bolder h2" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
-			<div class="mb-1 text-muted" style="max-width: 400px;">#partString#</div>
+			<div class="mb-1 text-muted w-75">#partString#</div>
 			<div class="mb-1 mt-1">#collectors#</div>
 	</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
