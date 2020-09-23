@@ -1385,7 +1385,7 @@ textarea {
 	height: calc(.875em + .8rem + 1px);
 	border: 1px solid #ced4da;
 	font-size: .875em;
-	line-height: .875em;
+	line-height: 1.5em;
 	border-radius: .2rem;
 	padding: .2em .5rem;
 	display: block;
