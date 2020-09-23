@@ -649,7 +649,7 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 float-left">Collecting Event</h3>
-			<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body">
@@ -727,7 +727,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Citations</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group float-left">
 				<cfloop query="citations">
@@ -811,7 +811,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Other IDs</h4>
-				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<ul class="list-group">
@@ -851,7 +851,7 @@ limitations under the License.
 			<div class="card">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 float-left">Transactions</h3>
-					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group list-group-flush pl-2 float-left">
 					<li class="list-group-item">Accession:
@@ -979,7 +979,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Relationship</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<ul class="list-group list-group-flush float-left pl-2">
 				<li class="list-group-item">
@@ -1001,7 +1001,7 @@ limitations under the License.
 		<div class="card">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Attributes</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<cfquery name="sex" dbtype="query">
@@ -1115,7 +1115,7 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Parts</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left p-0">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1387,7 +1387,7 @@ limitations under the License.
 			<div class="card  card-primary bg-light text-left">
 				<div class="card-header float-left">
 					<h3 class="h4 float-left">Media</h3>
-					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<ul class="list-group" style="display: inline;">
 					<cfloop query="media">
