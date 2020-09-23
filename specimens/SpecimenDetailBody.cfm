@@ -729,7 +729,7 @@ limitations under the License.
 				<h3 class="h4 float-left">Citations</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group">
+			<ul class="list-group float-left">
 				<cfloop query="citations">
 					<li class="list-group-item"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
@@ -808,7 +808,7 @@ limitations under the License.
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card float-left-100">
+		<div class="card float-left w-100">
 			<div class="card-header float-left">
 				<h3 class="h4 float-left">Other IDs</h4>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -853,7 +853,7 @@ limitations under the License.
 					<h3 class="h4 float-left">Transactions</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
-				<ul class="list-group list-group-flush pl-2" style="padding-left: 5px;">
+				<ul class="list-group list-group-flush pl-2 float-left">
 					<li class="list-group-item">Accession:
 						<cfif oneOfUs is 1>
 							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
@@ -977,11 +977,11 @@ limitations under the License.
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
 		<div class="card">
-			<div class="card-header float-left">
+			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Relationship</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group list-group-flush pl-2">
+			<ul class="list-group list-group-flush float-left pl-2">
 				<li class="list-group-item">
 					<cfloop query="relns">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
