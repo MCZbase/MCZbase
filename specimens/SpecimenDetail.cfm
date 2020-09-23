@@ -181,7 +181,7 @@ limitations under the License.
 					<a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 			<div class="mb-1 text-muted w-75">#partString#</div>
-			<div class="mb-1 mt-1">#collectors#</div>
+			<div class="mb-1 mt-1 small">#collectors#</div>
 	</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
