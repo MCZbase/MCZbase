@@ -444,7 +444,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	background-color: transparent;
 }
 .list-group-item {
-	padding: 0.5rem 1rem;
+	padding: 0.25rem 1rem;
 }
 li.pid {
 	color: #666;
@@ -1584,7 +1584,7 @@ and also iPads specifically.
 @media(min-width:576px) {
 	.card-columns {
 		column-count: 2;
-		column-gap: .25rem;
+		column-gap: .35rem;
 		orphans: 1;
 		widows: 1;
 		column-span: all;
