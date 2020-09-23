@@ -999,14 +999,14 @@ limitations under the License.
 <!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
-			<div class="card-header float-left">
+			<div class="card-header float-left w-100">
 				<h3 class="h4 float-left">Attributes</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<div class="card-body">
+			<div class="card-body float-left">
 				<cfquery name="sex" dbtype="query">
 					select * from attribute where attribute_type = 'sex'
-			</cfquery>
+				</cfquery>
 				<ul class="list-group">
 					<cfloop query="sex">
 						<li class="list-group-item"> sex: #attribute_value#,
