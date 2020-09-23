@@ -326,11 +326,21 @@ limitations under the License.
     </cfif>
     <cfif isdefined("relationship") and len(relationship) gt 0>
       <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	  select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
+			select media_relationship from ctmedia_relationship where media_relationship= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relationship#">
       </cfquery>
       <cfif s.recordCount eq 1 >
          <script language="javascript" type="text/javascript">
-
+         <script language="javascript" type="text/javascript">
+            $("##relationship__1").val('#relationship#');
+            $("##related_value__1").val('#related_value#');
+            $("##related_id__1").val('#related_id#');
+         </script>
+      <cfelse>
+          <script language="javascript" type="text/javascript">
+				$("##relationshiperror").html('<h2>Error: Unknown media relationship type "#relationship#"</h2>');
+         </script>
+      </cfif>
+    </cfif>
 
 					</div>
 				</div>
