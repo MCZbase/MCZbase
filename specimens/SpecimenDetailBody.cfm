@@ -272,6 +272,7 @@ limitations under the License.
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
+<div class="container-fluid">
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
@@ -1496,3 +1497,4 @@ limitations under the License.
 </cfif>
 </div>
 </cfoutput>
+</div>
