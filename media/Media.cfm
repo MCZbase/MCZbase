@@ -159,9 +159,9 @@ limitations under the License.
 								<div class="form-row mt-2">
 									<div class="col-12">
 										 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
-							<div id="relationships">
-								<cfset i=1>
-								<cfif relns.recordcount is 0>
+									<div id="relationships">
+										<cfset i=1>
+									<cfif relns.recordcount is 0>
 								  <!--- seed --->
 									<div id="seedMedia" style="display:none">
 									<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
@@ -175,32 +175,33 @@ limitations under the License.
 									<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-5 px-0 float-left bg-success">
 									<input type="hidden" name="related_id__0" id="related_id__0">
 								  </div>
-								</cfif>
+									</cfif>
 									<cfloop query="relns">
-								  <cfset d=media_relationship>
-								  <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-								<div class="input-group form-row mb-1">
+								  	<cfset d=media_relationship>
+								  	<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+									<div class="input-group form-row mb-1">
 									<div class="col-12">
-									<div class="input-group-prepend">
-										<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
-										<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
-											<option value="delete">delete</option>
-											<cfloop query="ctmedia_relationship">
-									  		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-											</cfloop>
-								  		</select>
-										<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
-										<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-									</div>
+										<div class="input-group-prepend">
+											<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
+											<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
+												<option value="delete">delete</option>
+												<cfloop query="ctmedia_relationship">
+												<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+												</cfloop>
+											</select>
+											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+											<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+										</div>
 								  	<cfset i=i+1>
 									</div>
-								</div>
-								</cfloop>
+									</div>
+									</cfloop>
 									<div class="col-12">
 										<span class="infoLink small" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 									</div>
-							</div>
-									</div></div>
+									</div>
+									</div>
+								</div>
 								<div class="form-row mt-2">
 									<div class="col-12">	
 									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
@@ -244,7 +245,9 @@ limitations under the License.
 											</div>
 								</cfloop>
 								<div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
-										</div></div>
+								</div>
+								</div>
+								</div>
 								<div class="form-row mt-1">
 									<div class="col-12">
 										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
