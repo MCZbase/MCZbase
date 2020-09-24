@@ -272,7 +272,7 @@ limitations under the License.
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
-<div class="container-fluid">
+<section class="container-fluid">
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
@@ -396,7 +396,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="row">
-		<div class="col-12 col-md-3 mb-3">
+		<div class="col-12 col-md-3 mb-3 pr-0">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		        <div class="card">
@@ -500,7 +500,7 @@ limitations under the License.
 
     </div>
 </div></div>
-		<div class="col-12 col-md-9">
+		<div class="col-12 col-md-9 pl-1">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
@@ -1497,4 +1497,4 @@ limitations under the License.
 </cfif>
 </div>
 </cfoutput>
-</div>
+</section>
