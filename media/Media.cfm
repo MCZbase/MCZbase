@@ -160,6 +160,10 @@ limitations under the License.
 			</div>
 		</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+	
+			
+
+		
       <div id="relationships" class="dotted-border">
         <cfset i=1>
         <cfif relns.recordcount is 0>
@@ -167,18 +171,17 @@ limitations under the License.
           <div id="seedMedia" style="display:none">
             <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
             <cfset d="">
-            <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
+            <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-5 float-left px-0">
               <option value="delete">delete</option>
               <cfloop query="ctmedia_relationship">
                 <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
               </cfloop>
             </select>
-            :&nbsp;
-            <input type="text" name="related_value__0" id="related_value__0" size="80">
+            <input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-5 px-0 float-left">
             <input type="hidden" name="related_id__0" id="related_id__0">
           </div>
         </cfif>
-        <cfloop query="relns">
+<!---        <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
           <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
@@ -187,15 +190,43 @@ limitations under the License.
               <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
             </cfloop>
           </select>
-          :&nbsp;
-          <input type="text" name="related_value__#i#" id="related_value__#i#" size="90" value="#summary#" class="data-entry-input">
+          <input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input">
           <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
           <cfset i=i+1>
           <br>
         </cfloop>
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
-      <br>
+      <br>--->
+			
+			
+<cfloop query="relns">
+<cfset d=media_relationship>			
+<div class="input-group mb-3">
+<div class="input-group-prepend">
+<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
+<select class="dropdown-menu" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
+<option value="delete">delete</option>
+<cfloop query="ctmedia_relationship">
+<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+</cfloop>
+</select>
+</div>
+<input type="text" class="form-control data-entry-input" aria-label="Text input with dropdown button">
+<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+<cfset i=i+1>
+</div>
+</cfloop>
+	<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>		
+			
+			
+			
+			
+			
+			
+			
+			
       <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
         <cfset i=1>
