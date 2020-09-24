@@ -250,8 +250,8 @@ limitations under the License.
 									</div>
 								<div class="form-row mt-1">
 									<div class="col-12">
-									<input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
-								</div>
+										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
+									</div>
 								</div>
 							</form>
 					</div>
