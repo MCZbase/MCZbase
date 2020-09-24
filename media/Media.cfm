@@ -162,7 +162,7 @@ limitations under the License.
 			<div class="col-12">
 
 		
-      <div id="relationships" class="dotted-border">
+      <div id="relationships" class="">
         <cfset i=1>
         <cfif relns.recordcount is 0>
           <!--- seed --->
