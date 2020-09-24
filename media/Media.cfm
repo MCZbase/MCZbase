@@ -198,11 +198,13 @@ limitations under the License.
         </cfloop>
     
 			  </div>
-        <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
-      <br>
-			
-			</div>
-				</div>
+		<div class="col-12">
+        <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
+		</div>
+ 		</div>
+		</div>
+				
+				
 <!---<cfloop query="relns">
 <cfset d=media_relationship>			
 <div class="input-group mb-3">
