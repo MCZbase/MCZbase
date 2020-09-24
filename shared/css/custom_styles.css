@@ -1308,7 +1308,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	font-size: .875em;
 	line-height: 1em;
 	padding: .25em .5em;
-	height: calc(1em + .375rem + .5em);
+	height: calc(1em + .35rem + .5em);
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
