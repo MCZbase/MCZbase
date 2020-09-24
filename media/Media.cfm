@@ -204,12 +204,13 @@ limitations under the License.
 <cfset d=media_relationship>			
 <div class="input-group mb-3">
 <div class="input-group-prepend">
-<button class="btn btn-xs btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+<label class="input-group-text" for="relationship__#i#">Dropdown</button>
 <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-<div class="dropdown-menu" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
-<span value="delete">delete</span>
+<select class="data-entry-select custom-select" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
+	<option selected>Choose...</option>
+<option value="delete">delete</option>
 <cfloop query="ctmedia_relationship">
-<a class="d-block col-3" <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</a>
+<option  <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 </cfloop>
 </div>
 </div>
