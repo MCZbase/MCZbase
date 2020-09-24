@@ -127,21 +127,21 @@ limitations under the License.
       			</select>
 			</div>
 		</div>
-		<div class="form-row">
-			<div class="col-8">
+		<div class="form-row mt-1">
+			<div class="col-6">
 				<label for="media_license_id" class="data-entry-label">License</label>
-				<select name="media_license_id" id="media_license_id">
+				<select name="media_license_id" id="media_license_id" class="data-entry-select">
 					<option value="">NONE</option>
 					<cfloop query="ctmedia_license">
 				  	<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-4"><span class="infoLink" onclick="popupDefine();">Define</span></div>
+			<div class="col-6"><span class="infoLink" onclick="popupDefine();">Define</span></div>
 		</div>
-		<div class="form-row">
+		<div class="form-row mt-1">
 			<div class="col-12">
-				<label for="mask_media_fg">Media Record Visibility</label>
+				<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 				<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 				  <cfif #media.mask_media_fg# eq 1 >
 					  <option value="0">Public</option>
@@ -153,7 +153,11 @@ limitations under the License.
 				</select>
 			</div>
 		</div>
-		<div class="bg-gradient-info col-12 col-md-6"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
+		<div class="form-row mt-1">
+			<div class="bg-info col-12">
+				<p><strong>Alternative text for vision impared users:</strong> #media.alttag#</p>
+			</div>
+		</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="dotted-border">
         <cfset i=1>
