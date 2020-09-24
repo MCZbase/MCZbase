@@ -207,7 +207,7 @@ limitations under the License.
 			
 		<div class="form-row mt-1">
 			<div class="col-12">	
-      		<label for="labels" class="input-group-text pt-0 pb-1 small">Media Labels</label> 
+      		<label for="labels" class="data-entry-label">Media Labels</label> 
 				<p class="col-12 small text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels">
         <cfset i=1>
