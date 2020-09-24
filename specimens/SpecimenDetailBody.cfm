@@ -395,18 +395,19 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="form-row">
-		<div class="col-12 col-md-3 mb-3"><div class="bs-example">
+		<div class="col-12 col-md-3 mb-3">
+		<div class="bs-example">
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
-                <h2 class="">
-                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
-                </h2>
+                <h3 class="h4">
+                    <button type="button" class="btn btn-link" style="height:1.5em;" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
+                </h3>
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-						<div class="card">
+		<div class="card">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-1 float-left">Locality</h3>
 			<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -419,8 +420,6 @@ limitations under the License.
 			select higher_geog from geog_auth_rec where
 			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-
-		
 		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_id 
