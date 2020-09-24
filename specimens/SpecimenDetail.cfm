@@ -147,7 +147,7 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<main class="container-fluid">
+<section role="region" class="container-fluid">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			<section class="row mb-2 primaryType" >
@@ -220,7 +220,7 @@ limitations under the License.
 	<img class="flex-auto d-none d-md-block py-2" src="/shared/images/locality.jpg" alt="map" width="125" height="125"> 
 	</div>
 	</section>
-</main>
+</section>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">

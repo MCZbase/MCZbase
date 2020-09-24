@@ -394,7 +394,7 @@ limitations under the License.
 	<input type="hidden" name="Srch" value="Part">
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
-	<div class="form-row">
+	<div class="row">
 		<div class="col-12 col-md-3 mb-3">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
@@ -406,7 +406,7 @@ limitations under the License.
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank">Learn more.</a></p>
+                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5">Learn more.</a></p>
                 </div>
             </div>
         </div>
@@ -491,7 +491,7 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>
-						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank">Learn more.</a></p>
+						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5">Learn more.</a></p>
                 </div>
             </div>
         </div>
