@@ -200,7 +200,7 @@ limitations under the License.
 										<span class="infoLink small" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 									</div>
 							</div>
-								</div>
+									</div></div>
 								<div class="form-row mt-2">
 									<div class="col-12">	
 									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
