@@ -179,6 +179,7 @@ limitations under the License.
             <input type="hidden" name="related_id__0" id="related_id__0">
           </div>
         </cfif>
+		  <br clear="all">
         <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
