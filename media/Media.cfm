@@ -79,9 +79,9 @@ limitations under the License.
 				<div class="row mb-4">
 					<div class="col-12">
 
-						<h1 class="h2">Edit Media      <img src="/images/info_i.gif" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h1>
+						<h1 class="h2">Edit Media <i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>  </h1>
 	  
-						<a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#">Detail Page</a>
+						<a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a>
 
     <form name="editMedia" method="post" action="media.cfm">
       <input type="hidden" name="action" value="saveEdit">
@@ -93,13 +93,18 @@ limitations under the License.
       <cfif #media.media_uri# contains #application.serverRootUrl#>
         <span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
       </cfif>
-      <label for="preview_uri">Preview URI
-        <cfif len(media.preview_uri) gt 0>
-          (<a href="#media.preview_uri#" target="_blank">open</a>)
-        </cfif>
-      </label>
-      <input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#">
-      <!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
+		<div class="form-row">
+			<div class="col-12">
+      			<label for="preview_uri" class="data-entry-label">Preview URI
+        			<cfif len(media.preview_uri) gt 0>
+          				(<a href="#media.preview_uri#" class="infoLink" target="_blank">open</a>)
+        			</cfif>
+      			</label>
+      			<input type="text" name="preview_uri" id="preview_uri" size="90" value="#media.preview_uri#" class="data-entry-input">
+				<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
+			</div>
+		</div>
+      
       <label for="mime_type">MIME Type</label>
       <select name="mime_type" id="mime_type">
         <cfloop query="ctmime_type">
