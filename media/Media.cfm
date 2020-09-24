@@ -88,11 +88,16 @@ limitations under the License.
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
       <input type="hidden" id="media_id" name="media_id" value="#media_id#">
-      <label for="media_uri">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
-      <input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#">
-      <cfif #media.media_uri# contains #application.serverRootUrl#>
-        <span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
-      </cfif>
+		
+		<div class="form-row">
+			<div class="col-12">
+				<label for="media_uri" class="data-input-label">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
+      			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
+      				<cfif #media.media_uri# contains #application.serverRootUrl#>
+        				<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
+      				</cfif>
+			</div>
+		</div>
 		<div class="form-row">
 			<div class="col-12">
       			<label for="preview_uri" class="data-entry-label">Preview URI
