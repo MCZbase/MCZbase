@@ -154,8 +154,9 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row mt-1">
-			<div class="bg-info col-12">
-				<p><strong>Alternative text for vision impared users:</strong> #media.alttag#</p>
+			<div class="bg-info col-12 my-2">
+				<h3 class="text-white" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
+				<p class="text-white">#media.alttag#</p>
 			</div>
 		</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
