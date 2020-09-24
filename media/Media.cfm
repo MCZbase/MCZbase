@@ -203,8 +203,8 @@ limitations under the License.
 								</div>
 								<div class="form-row mt-1">
 									<div class="col-12">	
-									<label for="labels" class="data-entry-label">Media Labels</label> 
-										<p class="col-12 small text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+									<label for="labels" class="data-entry-label">Media Labels  <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
+										<p class="col-12 small text-secondary"></p>
 								<div id="labels">
 								<cfset i=1>
 								<cfif labels.recordcount is 0>
