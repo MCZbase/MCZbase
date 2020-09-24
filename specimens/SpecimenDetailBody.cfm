@@ -399,7 +399,7 @@ limitations under the License.
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
-                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">Location Data &amp; Map</button>									
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
                 </h2>
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
@@ -414,7 +414,7 @@ limitations under the License.
                     <button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
                 </h2>
             </div>
-            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
                     <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank">Learn more.</a></p>
                 </div>
