@@ -425,7 +425,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	column-span: all;
 }*/
 .card-columns .card {
-	margin-bottom: .5em;
+	margin-bottom: 0em;
 }
 .card-body {
     -ms-flex: 1 1 auto;
