@@ -244,14 +244,18 @@ limitations under the License.
 			  		</div>
             <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
           </div>
+			  </div>
           <cfset i=i+1>
         </cfloop>
-				</div></div>
+			</div>
+		</div>
         <div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
       
-		<div class="col-12"><input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"></div>
+		<div class="col-12">
+			<input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
+		</div>
 
-						</form>
+		</form>
 					</div>
 				</div>
 			</div>
