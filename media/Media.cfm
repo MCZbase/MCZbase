@@ -207,7 +207,7 @@ limitations under the License.
 			
 		<div class="form-row mt-1">
 			<div class="col-12">	
-      		<label for="labels" class="data-entry-label">Media Labels</label> 
+      		<label for="labels" class="input-group-text pt-0 pb-1 small">Media Labels</label> 
 				<p class="col-12 small text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels">
         <cfset i=1>
@@ -235,6 +235,7 @@ limitations under the License.
 			 <div class="input-group form-row mb-1">
 				<div class="col-12">
 					<div class="input-group-prepend">
+						<label class="input-group-text pt-0 pb-1 small" for="label__#i#">Media Label</label>
 						<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-4">
 						  <option value="delete">delete</option>
 						  <cfloop query="ctmedia_label">
@@ -242,19 +243,21 @@ limitations under the License.
 						  </cfloop>
 						</select>
 			  		</div>
-            <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
-          </div>
+            		<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
+          		</div>
 			  </div>
           <cfset i=i+1>
-        </cfloop>
+			  </div>
 			</div>
-		</div>
+        </cfloop>
+
         <div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
       
 		<div class="col-12">
 			<input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
 		</div>
-
+			</div>
+			</div>
 		</form>
 					</div>
 				</div>
