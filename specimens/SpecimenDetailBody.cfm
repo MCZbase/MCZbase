@@ -399,7 +399,7 @@ limitations under the License.
 		<div class="col-12 col-md-3 mb-2 pr-0">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
-		        <div class="card">
+		        <div class="card bg-light">
             <div class="card-header" id="headingTwo">
                 <h3 class="h4 my-1">
                     <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
@@ -429,7 +429,7 @@ limitations under the License.
                 </div>
             </div>
         </div>
-        <div class="card">
+        <div class="card bg-light">
             <div class="card-header" id="headingOne">
                 <h3 class="h4 my-1">
                     <button type="button" class="btn btn-link btn-xs border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
@@ -1438,7 +1438,7 @@ limitations under the License.
 			</cfif>
 
 			<!---"thumbs"--->
-			<div class="card  card-primary bg-light text-left">
+			<div class="card text-left">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-1 float-left">Media</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
