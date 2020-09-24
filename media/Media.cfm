@@ -156,7 +156,7 @@ limitations under the License.
 										<p class="text-white">#media.alttag#</p>
 									</div>
 								</div>
-								<div class="form-row mt-1">
+								<div class="form-row mt-2">
 									<div class="col-12">
 										 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 							<div id="relationships">
@@ -184,27 +184,26 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
 										<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
-									<option value="delete">delete</option>
-									<cfloop query="ctmedia_relationship">
-									  <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-									</cfloop>
-								  </select>
+											<option value="delete">delete</option>
+											<cfloop query="ctmedia_relationship">
+									  		<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+											</cfloop>
+								  		</select>
 										<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
 										<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 									</div>
-								  <cfset i=i+1>
-											</div>
-										</div>
+								  	<cfset i=i+1>
+									</div>
+								</div>
 								</cfloop>
 									<div class="col-12">
 										<span class="infoLink small" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 									</div>
 							</div>
 								</div>
-								<div class="form-row mt-1">
+								<div class="form-row mt-2">
 									<div class="col-12">	
-									<label for="labels" class="data-entry-label">Media Labels  <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
-										<p class="col-12 small text-secondary"></p>
+									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
 								<div id="labels">
 								<cfset i=1>
 								<cfif labels.recordcount is 0>
@@ -226,8 +225,7 @@ limitations under the License.
 								</cfif>
 								<cfloop query="labels">
 								  <cfset d=media_label>
-								  <div id="labelsDiv__#i#">
-
+								  	<div id="labelsDiv__#i#">
 										<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
 												<div class="col-12">
@@ -239,11 +237,11 @@ limitations under the License.
 														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 													  </cfloop>
 													</select>
+												<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 												</div>
-											<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
-											</div>
-										<cfset i=i+1>
-									  </div>
+												<cfset i=i+1>
+												</div>
+									
 									</div>
 								</cfloop>
 								<div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
