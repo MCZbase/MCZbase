@@ -244,7 +244,6 @@ limitations under the License.
 						</select>
 			  		</div>
             		<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
-          		</div>
 			  </div>
           <cfset i=i+1>
 			  </div>
