@@ -401,7 +401,7 @@ limitations under the License.
     <div class="accordion" id="accordionExample">
 		        <div class="card">
             <div class="card-header" id="headingTwo">
-                <h3 class="h4">
+                <h3 class="h4 my-1">
                     <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
                 </h3>
             </div>
@@ -431,7 +431,7 @@ limitations under the License.
         </div>
         <div class="card">
             <div class="card-header" id="headingOne">
-                <h3 class="h4">
+                <h3 class="h4 my-1">
                     <button type="button" class="btn btn-link btn-xs border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
                 </h3>
             </div>
@@ -1395,7 +1395,7 @@ limitations under the License.
 				AND MCZBASE.is_media_encumbered(media.media_id) < 1
 			ORDER BY media.media_type
 		</cfquery>
-		<cfif media.recordcount gt 0>
+		<cfif media.recordcount lt 0>
 			<cfquery name="wrlCount" dbtype="query">
 				SELECT * FROM media WHERE mime_type = 'model/vrml'
 			</cfquery>
