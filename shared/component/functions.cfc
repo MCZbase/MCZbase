@@ -382,7 +382,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12 pb-2">
 						<label for="relationships" class="mt-2">Media Relationships</label>
-						<div id="relationships" class="border p-2 rounded dotted-box">
+						<div id="relationships" class="border p-2 rounded dotted-border">
 							<div id="relationshiperror"></div>
 								<select name="relationship__1" id="relationship__1" size="1" class="col-6 col-md-3" onchange="pickedRelationship(this.id)">
 									<option value="">None/Unpick</option>'>
@@ -401,7 +401,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12">
 						<label for="labels" class="mt-2">Media Labels</label>
-						<div id="labels" class="border p-2 rounded dotted-box">
+						<div id="labels" class="border p-2 rounded dotted-border">
 							<div id="labelsDiv__1">
 								<select name="label__1" id="label__1" size="1" class="col-6 col-md-3">
 									<option value=""></option>'>

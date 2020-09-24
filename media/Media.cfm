@@ -154,30 +154,34 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row mt-1">
-			<div class="bg-info col-12 my-2 p-3">
+			<div class="bg-info rounded col-12 my-2 px-3 py-1">
 				<h3 class="text-white h4" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
 				<p class="text-white">#media.alttag#</p>
 			</div>
 		</div>
-      <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
-      <div id="relationships" class="dotted-border">
-        <cfset i=1>
-        <cfif relns.recordcount is 0>
-          <!--- seed --->
-          <div id="seedMedia" style="display:none">
-            <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
-            <cfset d="">
-            <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
-              <option value="delete">delete</option>
-              <cfloop query="ctmedia_relationship">
-                <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-              </cfloop>
-            </select>
-            :&nbsp;
-            <input type="text" name="related_value__0" id="related_value__0" size="80">
-            <input type="hidden" name="related_id__0" id="related_id__0">
-          </div>
-        </cfif>
+		<div class="form-row mt-1">
+			<div class="col-12 col-md-6 dotted-border">
+      			<label for="relationships" class="data-entry-label">Media Relationships | <span class="infoLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+			  <div id="relationships">
+				<cfset i=1>
+				<cfif relns.recordcount is 0>
+				  <!--- seed --->
+				  <div id="seedMedia" style="display:none">
+					<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
+					<cfset d="">
+					<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
+					  <option value="delete">delete</option>
+					  <cfloop query="ctmedia_relationship">
+						<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+					  </cfloop>
+					</select>
+					:&nbsp;
+					<input type="text" name="related_value__0" id="related_value__0" size="80" class="data-entry-input">
+					<input type="hidden" name="related_id__0" id="related_id__0">
+				  </div>
+				</cfif>
+			</div>
+		</div>
         <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
