@@ -161,7 +161,8 @@ limitations under the License.
 		</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 	
-			
+		<div class="form-row mt-1">
+			<div class="col-12">
 
 		
       <div id="relationships" class="dotted-border">
@@ -203,7 +204,8 @@ limitations under the License.
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
       <br>
 			
-			
+			</div>
+				</div>
 <!---<cfloop query="relns">
 <cfset d=media_relationship>			
 <div class="input-group mb-3">
