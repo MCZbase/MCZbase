@@ -185,9 +185,9 @@ limitations under the License.
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 			
 		<div class="input-group mb-3">
-			<div class="input-group-prepend form-row">
+			<div class="input-group-prepend form-row mb-1">
 			<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
-          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-5">
+          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
             <option value="delete">delete</option>
             <cfloop query="ctmedia_relationship">
               <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
