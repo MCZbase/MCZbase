@@ -156,17 +156,15 @@ limitations under the License.
 				<p class="text-white">#media.alttag#</p>
 			</div>
 		</div>
-      <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
-	
+
 		<div class="form-row mt-1">
 			<div class="col-12">
-
-		
-      <div id="relationships" class="">
+				 <label for="relationships" class="data-entry-label">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
+	<div id="relationships">
         <cfset i=1>
         <cfif relns.recordcount is 0>
           <!--- seed --->
-          <div id="seedMedia" style="display:none">
+         	<div id="seedMedia" style="display:none">
             <input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
             <cfset d="">
             <select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-5 float-left px-0">
@@ -179,11 +177,9 @@ limitations under the License.
             <input type="hidden" name="related_id__0" id="related_id__0">
           </div>
         </cfif>
-		  <br clear="all">
-        <cfloop query="relns">
+        	<cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-			
 		<div class="input-group form-row mb-1">
 			<div class="col-12">
 			<div class="input-group-prepend">
@@ -201,42 +197,11 @@ limitations under the License.
 			   		</div>
 			  	</div>
         </cfloop>
-
-				<div class="col-12">
-				<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
-				</div>
-			
-				</div>
-				
-				
-<!---<cfloop query="relns">
-<cfset d=media_relationship>			
-<div class="input-group mb-3">
-<div class="input-group-prepend">
-<label class="input-group-text" for="relationship__#i#">Dropdown</button>
-<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-<select class="data-entry-select custom-select" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
-	<option selected>Choose...</option>
-<option value="delete">delete</option>
-<cfloop query="ctmedia_relationship">
-<option  <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
-</cfloop>
-</div>
-</div>
-<input type="text" class="form-control data-entry-input" aria-label="Text input with dropdown button">
-<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-<cfset i=i+1>
-</div>
-</cfloop>
-	<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>		
-			--->
-			
-			
-			
-			
-			
-			
-			
+			<div class="col-12">
+				<span class="infoLink small" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
+			</div>
+	</div>
+			</div>
       <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
         <cfset i=1>
