@@ -198,8 +198,8 @@ limitations under the License.
 									</div>
 									</div>
 									</div>
-										</div>
 									</cfloop>
+								
 									</div>
 									</div>
 								</div>
@@ -243,7 +243,7 @@ limitations under the License.
 												</div>
 												<cfset i=i+1>
 											<div class="col-12 col-md-11">
-												<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
+											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
 											</div>
 													</div>
 												</div>
