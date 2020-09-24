@@ -203,9 +203,7 @@ limitations under the License.
 	</div>
 			</div>
 			
-			
-			
-		<div class="form-row mt-1">
+	
 			<div class="col-12">	
       		<label for="labels" class="data-entry-label">Media Labels</label> 
 				<p class="col-12 small text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
@@ -254,7 +252,7 @@ limitations under the License.
       
 		<div class="col-12">
 			<input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'">
-		</div>
+	
 			</div>
 			</div>
 		</form>
