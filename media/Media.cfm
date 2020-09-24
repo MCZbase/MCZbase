@@ -209,7 +209,7 @@ limitations under the License.
 <div class="dropdown-menu" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
 <span value="delete">delete</span>
 <cfloop query="ctmedia_relationship">
-<span <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</span>
+<span class="d-block col-3" <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</span>
 </cfloop>
 </div>
 </div>
