@@ -166,9 +166,6 @@ limitations under the License.
 									<div id="seedMedia" style="display:none">
 									<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 									<cfset d="">
-											<div class="input-group form-row mb-1">
-									<div class="col-12">
-										<div class="input-group-prepend">
 									<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-5 float-left px-0">
 									  <option value="delete">delete</option>
 									  <cfloop query="ctmedia_relationship">
@@ -216,9 +213,6 @@ limitations under the License.
 									<div id="labelsDiv__0">
 									  <input type="hidden" id="media_label_id__0" name="media_label_id__0" size="90" class="data-entry-input">
 									  <cfset d="">
-									<div class="input-group form-row mb-1">
-									<div class="col-12">
-									<div class="input-group-prepend">
 										<label class="input-group-text pt-0 pb-1 small" for="label__#i#">Media Label</label>
 									  <select name="label__0" id="label__0" size="1" class="data-entry-select custom-select col-4">
 										<option value="delete">delete</option>
@@ -229,7 +223,6 @@ limitations under the License.
 									  <input type="text" name="label_value__0" id="label_value__0" size="90" class="data-entry-input col-6">
 									</div>
 								  </div>
-									  </div>
 								</cfif>
 								<cfloop query="labels">
 								  <cfset d=media_label>
@@ -252,7 +245,8 @@ limitations under the License.
 												</div>
 											</div>
 								</cfloop>
-								<div class="col-12 col-md-11"><span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
+								<div class="col-12 col-md-11">
+									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
 								</div>
 								</div>
 								</div>
