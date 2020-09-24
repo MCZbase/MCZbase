@@ -91,7 +91,7 @@ limitations under the License.
 		
 		<div class="form-row mt-1">
 			<div class="col-12">
-				<label for="media_uri" class="data-entry-label">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
+				<label for="media_uri" class="data-entry-label">Media URI (<a href="#media.media_uri#" class="infoLink" target="_blank">open</a>)</label>
       			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
       				<cfif #media.media_uri# contains #application.serverRootUrl#>
         				<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
@@ -129,7 +129,7 @@ limitations under the License.
 		</div>
 		<div class="form-row mt-1">
 			<div class="col-12 col-md-6">
-				<label for="media_license_id" class="data-entry-label">License <span class="infoLink small" onclick="popupDefine();">Define</span></label>
+				<label for="media_license_id" class="data-entry-label">License (<span class="infoLink" onclick="popupDefine();">Define</span>)</label>
 				<select name="media_license_id" id="media_license_id" class="data-entry-select">
 					<option value="">NONE</option>
 					<cfloop query="ctmedia_license">
@@ -137,8 +137,6 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-		</div>
-		<div class="form-row mt-1">
 			<div class="col-12 col-md-6">
 				<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 				<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
