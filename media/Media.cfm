@@ -181,7 +181,7 @@ limitations under the License.
             <input type="hidden" name="related_id__0" id="related_id__0">
           </div>
         </cfif>
-<!---        <cfloop query="relns">
+        <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
           <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
@@ -197,10 +197,10 @@ limitations under the License.
         </cfloop>
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>
-      <br>--->
+      <br>
 			
 			
-<cfloop query="relns">
+<!---<cfloop query="relns">
 <cfset d=media_relationship>			
 <div class="input-group mb-3">
 <div class="input-group-prepend">
@@ -220,7 +220,7 @@ limitations under the License.
 </div>
 </cfloop>
 	<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> </div>		
-			
+			--->
 			
 			
 			
