@@ -401,19 +401,19 @@ limitations under the License.
 		        <div class="card">
             <div class="card-header" id="headingTwo">
                 <h3 class="h4">
-                    <button type="button" class="btn btn-link btn-xs collapsed border-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
+                    <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
                 </h3>
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5">Learn more.</a></p>
+                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5 box-shadow-0 text-right">Learn more.</a></p>
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h3 class="h4">
-                    <button type="button" class="btn btn-link btn-xs border-0" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
+                    <button type="button" class="btn btn-link btn-xs border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
                 </h3>
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
@@ -491,7 +491,7 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>
-						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0">Learn more.</a></p>
+						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 text-right">Learn more.</a></p>
                 </div>
             </div>
         </div>
