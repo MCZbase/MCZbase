@@ -405,7 +405,82 @@ limitations under the License.
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank">Learn more.</a></p>
+                    <p><iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+						<div class="card">
+		<div class="card-header float-left w-100">
+			<h3 class="h4 my-1 float-left">Locality</h3>
+			<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+		</div>
+		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select  spec_locality, geog_auth_rec_id from locality
+			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select higher_geog from geog_auth_rec where
+			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+
+		
+		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_id 
+					FROM 
+						media_relations 
+					WHERE 
+						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MEDIA_RELATIONSHIP like '% locality'
+		</cfquery>
+		<cfif len(one.spec_locality) gt 0>
+		<cfif localityMedia.recordcount gt 0>
+			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
+		</cfif>
+		</cfif>
+		<div class="card-body">
+			<ul class="list-unstyled row px-3 py-1 mb-0">
+				<cfif len(one.continent_ocean) gt 0>
+					<li class="list-group-item col-6"><em>Continent Ocean:</em></li>
+					<li class="list-group-item col-6">#one.continent_ocean#</li>
+				</cfif>
+				<cfif len(one.sea) gt 0>
+					<li class="list-group-item col-6"><em>Sea:</em></li>
+					<li class="list-group-item col-6">#one.sea#</li>
+				</cfif>
+				<cfif len(one.country) gt 0>
+					<li class="list-group-item col-6"><em>Country:</em></li>
+					<li class="list-group-item col-6">#one.country#</li>
+				</cfif>
+				<cfif len(one.state_prov) gt 0>
+					<li class="list-group-item col-6"><em>State:</em></li>
+					<li class="list-group-item col-6">#one.state_prov#</li>
+				</cfif>
+				<cfif len(one.feature) gt 0>
+					<li class="list-group-item col-6"><em>Feature:</em></li>
+					<li class="list-group-item col-6">#one.feature#</li>
+				</cfif>
+				<cfif len(one.county) gt 0>
+					<li class="list-group-item col-6"><em>County:</em></li>
+					<li class="list-group-item col-6">#one.county#</li>
+				</cfif>
+				<cfif len(one.island_group) gt 0>
+					<li class="list-group-item col-6"><em>Island Group:</em></li>
+					<li class="list-group-item col-6">#one.island_group#</li>
+				</cfif>
+				<cfif len(one.island) gt 0>
+					<li class="list-group-item col-6"><em>Island:</em></li>
+					<li class="list-group-item col-6">#one.island#</li>
+				</cfif>
+				<cfif len(one.quad) gt 0>
+					<li class="list-group-item col-6"><em>Quad:</em></li>
+					<li class="list-group-item col-6">#one.quad#</li>
+				</cfif>
+				<cfif len(one.spec_locality) gt 0>
+					<li class="list-group-item col-6"><em>Specific Locality:</em></li>
+					<li class="list-group-item col-6 last">#one.spec_locality#</li>
+				</cfif>
+			</ul>
+		</div>
+	</div>
+						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank">Learn more.</a></p>
                 </div>
             </div>
         </div>
@@ -602,80 +677,7 @@ limitations under the License.
 	</div>											
 	</div>
 <!------------------------------------ locality -------------------------------------------> 
-	<div class="card">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-1 float-left">Locality</h3>
-			<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-		</div>
-		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select  spec_locality, geog_auth_rec_id from locality
-			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select higher_geog from geog_auth_rec where
-			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-
-		
-		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_id 
-					FROM 
-						media_relations 
-					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MEDIA_RELATIONSHIP like '% locality'
-		</cfquery>
-		<cfif len(one.spec_locality) gt 0>
-		<cfif localityMedia.recordcount gt 0>
-			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-		</cfif>
-		</cfif>
-		<div class="card-body">
-			<ul class="list-unstyled row px-3 py-1 mb-0">
-				<cfif len(one.continent_ocean) gt 0>
-					<li class="list-group-item col-6"><em>Continent Ocean:</em></li>
-					<li class="list-group-item col-6">#one.continent_ocean#</li>
-				</cfif>
-				<cfif len(one.sea) gt 0>
-					<li class="list-group-item col-6"><em>Sea:</em></li>
-					<li class="list-group-item col-6">#one.sea#</li>
-				</cfif>
-				<cfif len(one.country) gt 0>
-					<li class="list-group-item col-6"><em>Country:</em></li>
-					<li class="list-group-item col-6">#one.country#</li>
-				</cfif>
-				<cfif len(one.state_prov) gt 0>
-					<li class="list-group-item col-6"><em>State:</em></li>
-					<li class="list-group-item col-6">#one.state_prov#</li>
-				</cfif>
-				<cfif len(one.feature) gt 0>
-					<li class="list-group-item col-6"><em>Feature:</em></li>
-					<li class="list-group-item col-6">#one.feature#</li>
-				</cfif>
-				<cfif len(one.county) gt 0>
-					<li class="list-group-item col-6"><em>County:</em></li>
-					<li class="list-group-item col-6">#one.county#</li>
-				</cfif>
-				<cfif len(one.island_group) gt 0>
-					<li class="list-group-item col-6"><em>Island Group:</em></li>
-					<li class="list-group-item col-6">#one.island_group#</li>
-				</cfif>
-				<cfif len(one.island) gt 0>
-					<li class="list-group-item col-6"><em>Island:</em></li>
-					<li class="list-group-item col-6">#one.island#</li>
-				</cfif>
-				<cfif len(one.quad) gt 0>
-					<li class="list-group-item col-6"><em>Quad:</em></li>
-					<li class="list-group-item col-6">#one.quad#</li>
-				</cfif>
-				<cfif len(one.spec_locality) gt 0>
-					<li class="list-group-item col-6"><em>Specific Locality:</em></li>
-					<li class="list-group-item col-6 last">#one.spec_locality#</li>
-				</cfif>
-			</ul>
-		</div>
-	</div>
+	
 <!------------------------------------ collecting event ----------------------------------->
 	<div class="card">
 		<div class="card-header float-left w-100">
