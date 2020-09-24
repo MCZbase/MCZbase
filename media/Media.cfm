@@ -208,8 +208,8 @@ limitations under the License.
 		<div class="form-row mt-1">
 			<div class="col-12">	
       		<label for="labels" class="data-entry-label">Media Labels</label> 
-				<p class="col-12 small">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
-      <div id="labels" class="graydot">
+				<p class="col-12 small text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+      <div id="labels">
         <cfset i=1>
         <cfif labels.recordcount is 0>
           <!--- seed --->
@@ -244,13 +244,9 @@ limitations under the License.
           <cfset i=i+1>
         </cfloop>
 				</div></div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
-      <br>
-      <input type="submit" 
-				value="Save Edits" 
-				class="insBtn"
-				onmouseover="this.className='insBtn btnhov'" 
-				onmouseout="this.className='insBtn'">
+        <div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
+      
+		<div class="col-12"><input type="submit" value="Save Edits"	class="btn btn-" onmouseover="this.className='insBtn btnhov'" onmouseout="this.className='insBtn'"></div>
 
 						</form>
 					</div>
