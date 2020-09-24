@@ -225,7 +225,7 @@ limitations under the License.
 								</cfif>
 								<cfloop query="labels">
 								  <cfset d=media_label>
-								  	<div id="labelsDiv__#i#">
+								  	<div id="labelsDiv__#i#">		</div>
 										<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
 												<div class="col-12">
@@ -241,11 +241,10 @@ limitations under the License.
 												</div>
 												<cfset i=i+1>
 												</div>
-									
-									</div>
+											</div>
 								</cfloop>
 								<div class="col-12"><span class="infoLink small" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
-									</div>
+										</div></div>
 								<div class="form-row mt-1">
 									<div class="col-12">
 										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
