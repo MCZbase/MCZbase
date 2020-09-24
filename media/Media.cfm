@@ -75,7 +75,7 @@ limitations under the License.
 		</cfquery>
 		<cfset relns=getMediaRelations(#media_id#)>
 		<cfoutput>
-			<div class="container-fluid">
+			<div class="container">
 				<div class="row mb-4">
 					<div class="col-12">
 
@@ -130,7 +130,7 @@ limitations under the License.
               <option value="1">Hidden</option>
           </cfif>
       </select>
-		<div style="background-color: AliceBlue;"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
+		<div class="bg-gradient-info col-12 col-md-6"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="dotted-border">
         <cfset i=1>
