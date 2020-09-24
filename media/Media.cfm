@@ -184,7 +184,11 @@ limitations under the License.
         <cfloop query="relns">
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select">
+			
+		<div class="input-group mb-3">
+			<div class="input-group-prepend">
+			<label class="input-group-text small" for="relationship__#i#">Options</label>
+          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select">
             <option value="delete">delete</option>
             <cfloop query="ctmedia_relationship">
               <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
