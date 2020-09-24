@@ -248,9 +248,9 @@ limitations under the License.
 								</div>
 								</div>
 								</div>
-								<div class="form-row mt-1">
+								<div class="form-row mt-2 mb-3">
 									<div class="col-12">
-										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
+										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary text-right">
 									</div>
 								</div>
 							</form>
