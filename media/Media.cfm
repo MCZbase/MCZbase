@@ -166,6 +166,9 @@ limitations under the License.
 									<div id="seedMedia" style="display:none">
 									<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 									<cfset d="">
+											<div class="input-group form-row mb-1">
+									<div class="col-12">
+										<div class="input-group-prepend">
 									<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-5 float-left px-0">
 									  <option value="delete">delete</option>
 									  <cfloop query="ctmedia_relationship">
