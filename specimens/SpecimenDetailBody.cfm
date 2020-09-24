@@ -394,7 +394,7 @@ limitations under the License.
 	<input type="hidden" name="Srch" value="Part">
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
-	<div class="col-12 col-3"><div class="bs-example">
+	<div class="col-12 col-md-3"><div class="bs-example">
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -423,7 +423,7 @@ limitations under the License.
 
     </div>
 </div></div>
-	<div class="col-12 col-9">
+	<div class="col-12 col-md-9">
 	<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
