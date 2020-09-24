@@ -195,15 +195,16 @@ limitations under the License.
           </select>
           <input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
           <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+			    </div>
           <cfset i=i+1>
+			   		</div>
         </cfloop>
-    
-			  </div>
-		<div class="col-12">
-        <span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
-		</div>
- 		</div>
-		</div>
+
+				<div class="col-12">
+				<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
+				</div>
+				</div>
+	
 				
 				
 <!---<cfloop query="relns">
