@@ -395,17 +395,17 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="form-row">
-		<div class="col-12 col-md-3"><div class="bs-example">
+		<div class="col-12 col-md-3 mb-3"><div class="bs-example">
     <div class="accordion" id="accordionExample">
         <div class="card">
             <div class="card-header" id="headingOne">
-                <h2 class="mb-0">
+                <h2 class="">
                     <button type="button" class="btn btn-link" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
                 </h2>
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 						<div class="card">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-1 float-left">Locality</h3>
