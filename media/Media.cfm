@@ -250,7 +250,7 @@ limitations under the License.
 								</div>
 								<div class="form-row mt-2 mb-3">
 									<div class="col-12">
-										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary text-right">
+										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary h5 box-shadow-0 d-block text-right my-1">
 									</div>
 								</div>
 							</form>
