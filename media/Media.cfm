@@ -204,14 +204,14 @@ limitations under the License.
 <cfset d=media_relationship>			
 <div class="input-group mb-3">
 <div class="input-group-prepend">
-<button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
+<button class="btn btn-xs btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</button>
 <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-<select class="dropdown-menu" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
-<option value="delete">delete</option>
+<div class="dropdown-menu" name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)">
+<span value="delete">delete</span>
 <cfloop query="ctmedia_relationship">
-<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
+<span <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</span>
 </cfloop>
-</select>
+</div>
 </div>
 <input type="text" class="form-control data-entry-input" aria-label="Text input with dropdown button">
 <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
