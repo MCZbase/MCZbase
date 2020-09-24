@@ -400,13 +400,13 @@ limitations under the License.
     <div class="accordion" id="accordionExample">
 		        <div class="card">
             <div class="card-header" id="headingTwo">
-                <h2 class="mb-0">
-                    <button type="button" class="btn btn-link btn-xs collapsed" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
-                </h2>
+                <h3 class="h4">
+                    <button type="button" class="btn btn-link btn-xs collapsed border-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
+                </h3>
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank">Learn more.</a></p>
+                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="auto"> <a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank">Learn more.</a></p>
                 </div>
             </div>
         </div>
