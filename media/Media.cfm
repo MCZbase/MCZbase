@@ -202,7 +202,14 @@ limitations under the License.
 			</div>
 	</div>
 			</div>
-      <label for="labels">Media Labels</label> <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+			
+			
+			
+				<div class="form-row mt-1">
+			<div class="col-12">	
+			
+      <label for="labels" class="data-entry-label">Media Labels</label> 
+				<p class="col-12">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot">
         <cfset i=1>
         <cfif labels.recordcount is 0>
@@ -237,6 +244,7 @@ limitations under the License.
           </div>
           <cfset i=i+1>
         </cfloop>
+				</div></div>
         <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
       <br>
       <input type="submit" 
