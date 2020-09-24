@@ -184,8 +184,9 @@ limitations under the License.
           <cfset d=media_relationship>
           <input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 			
-		<div class="input-group mb-3">
-			<div class="input-group-prepend form-row mb-1">
+		<div class="input-group form-row mb-1">
+			<div class="col-12">
+			<div class="input-group-prepend">
 			<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
           <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
             <option value="delete">delete</option>
@@ -204,7 +205,7 @@ limitations under the License.
 				<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 				</div>
 				</div>
-	
+				</div>
 				
 				
 <!---<cfloop query="relns">
