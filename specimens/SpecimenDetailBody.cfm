@@ -491,7 +491,7 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>
-						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5">Learn more.</a></p>
+						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0">Learn more.</a></p>
                 </div>
             </div>
         </div>
