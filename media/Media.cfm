@@ -199,12 +199,13 @@ limitations under the License.
 			    </div>
           <cfset i=i+1>
 			   		</div>
+			  	</div>
         </cfloop>
 
 				<div class="col-12">
 				<span class="infoLink" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 				</div>
-				</div>
+			
 				</div>
 				
 				
