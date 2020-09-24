@@ -89,16 +89,16 @@ limitations under the License.
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
       <input type="hidden" id="media_id" name="media_id" value="#media_id#">
 		
-		<div class="form-row">
+		<div class="form-row mt-1">
 			<div class="col-12">
-				<label for="media_uri" class="data-input-label">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
+				<label for="media_uri" class="data-entry-label">Media URI (<a href="#media.media_uri#" target="_blank">open</a>)</label>
       			<input type="text" name="media_uri" id="media_uri" size="90" value="#media.media_uri#" class="data-entry-input">
       				<cfif #media.media_uri# contains #application.serverRootUrl#>
         				<span class="infoLink" onclick="generateMD5()">Generate Checksum</span>
       				</cfif>
 			</div>
 		</div>
-		<div class="form-row">
+		<div class="form-row mt-1">
 			<div class="col-12">
       			<label for="preview_uri" class="data-entry-label">Preview URI
         			<cfif len(media.preview_uri) gt 0>
@@ -109,37 +109,50 @@ limitations under the License.
 				<!--- <span class="infoLink" onclick="clickUploadPreview()">Load...</span> --->
 			</div>
 		</div>
-      
-      <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type">
-        <cfloop query="ctmime_type">
-          <option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
-        </cfloop>
-      </select>
-      <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type">
-        <cfloop query="ctmedia_type">
-          <option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
-        </cfloop>
-      </select>
-      <label for="media_license_id">License</label>
-      <select name="media_license_id" id="media_license_id">
-        <option value="">NONE</option>
-        <cfloop query="ctmedia_license">
-          <option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
-        </cfloop>
-      </select>
-      <span class="infoLink" onclick="popupDefine();">Define</span>
-      <label for="mask_media_fg">Media Record Visibility</label>
-      <select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
-          <cfif #media.mask_media_fg# eq 1 >
-              <option value="0">Public</option>
-              <option value="1" selected="selected">Hidden</option>
-          <cfelse>
-              <option value="0" selected="selected">Public</option>
-              <option value="1">Hidden</option>
-          </cfif>
-      </select>
+		<div class="form-row mt-1">
+			<div class="col-12 col-md-6">
+      			<label for="mime_type" class="data-entry-label">MIME Type</label>
+				<select name="mime_type" id="mime_type" class="data-entry-select">
+        			<cfloop query="ctmime_type">
+          				<option <cfif #media.mime_type# is #ctmime_type.mime_type#> selected="selected"</cfif> value="#mime_type#">#mime_type#</option>
+        			</cfloop>
+      			</select>
+			</div>
+			<div class="col-12 col-md-6">
+      			<label for="media_type" class="data-entry-label">Media Type</label>
+      			<select name="media_type" id="media_type" class="data-entry-select">
+        		<cfloop query="ctmedia_type">
+          			<option <cfif #media.media_type# is #ctmedia_type.media_type#> selected="selected"</cfif> value="#media_type#">#media_type#</option>
+        		</cfloop>
+      			</select>
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="col-8">
+				<label for="media_license_id" class="data-entry-label">License</label>
+				<select name="media_license_id" id="media_license_id">
+					<option value="">NONE</option>
+					<cfloop query="ctmedia_license">
+				  	<option <cfif media.media_license_id is ctmedia_license.media_license_id> selected="selected"</cfif> value="#ctmedia_license.media_license_id#">#ctmedia_license.media_license#</option>
+					</cfloop>
+				</select>
+			</div>
+			<div class="col-4"><span class="infoLink" onclick="popupDefine();">Define</span></div>
+		</div>
+		<div class="form-row">
+			<div class="col-12">
+				<label for="mask_media_fg">Media Record Visibility</label>
+				<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
+				  <cfif #media.mask_media_fg# eq 1 >
+					  <option value="0">Public</option>
+					  <option value="1" selected="selected">Hidden</option>
+				  <cfelse>
+					  <option value="0" selected="selected">Public</option>
+					  <option value="1">Hidden</option>
+				  </cfif>
+				</select>
+			</div>
+		</div>
 		<div class="bg-gradient-info col-12 col-md-6"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="dotted-border">
