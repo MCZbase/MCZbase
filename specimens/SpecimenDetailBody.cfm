@@ -402,7 +402,7 @@ limitations under the License.
                     <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">Location Data &amp; Map</button>									
                 </h2>
             </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
                     <p><iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank">Learn more.</a></p>
                 </div>
@@ -411,7 +411,7 @@ limitations under the License.
         <div class="card">
             <div class="card-header" id="headingTwo">
                 <h2 class="mb-0">
-                    <button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo">Occurance Image</button>
+                    <button type="button" class="btn btn-link collapsed" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
                 </h2>
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
