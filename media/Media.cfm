@@ -186,13 +186,13 @@ limitations under the License.
 		<div class="input-group mb-3">
 			<div class="input-group-prepend">
 			<label class="input-group-text small" for="relationship__#i#">Options</label>
-          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select">
+          <select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-5">
             <option value="delete">delete</option>
             <cfloop query="ctmedia_relationship">
               <option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
             </cfloop>
           </select>
-          <input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input">
+          <input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
           <input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
           <cfset i=i+1>
         </cfloop>
