@@ -128,8 +128,8 @@ limitations under the License.
 			</div>
 		</div>
 		<div class="form-row mt-1">
-			<div class="col-6">
-				<label for="media_license_id" class="data-entry-label">License</label>
+			<div class="col-12 col-md-6">
+				<label for="media_license_id" class="data-entry-label">License <span class="infoLink small" onclick="popupDefine();">Define</span></label>
 				<select name="media_license_id" id="media_license_id" class="data-entry-select">
 					<option value="">NONE</option>
 					<cfloop query="ctmedia_license">
@@ -137,10 +137,9 @@ limitations under the License.
 					</cfloop>
 				</select>
 			</div>
-			<div class="col-6"><span class="infoLink" onclick="popupDefine();">Define</span></div>
 		</div>
 		<div class="form-row mt-1">
-			<div class="col-12">
+			<div class="col-12 col-md-6">
 				<label for="mask_media_fg" class="data-entry-label">Media Record Visibility</label>
 				<select name="mask_media_fg" value="mask_media_fg" class="data-entry-select">
 				  <cfif #media.mask_media_fg# eq 1 >
@@ -316,14 +315,14 @@ limitations under the License.
         </cfloop>
       </select>
       <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
-        <label for="media_license_id">License</label>
+        <label for="media_license_id">License  <a class="infoLink" onClick="popupDefine()">Define Licenses</a></label>
         <select name="media_license_id" id="media_license_id" style="width:300px;">
           <option value="">Research copyright &amp; then choose...</option>
           <cfloop query="ctmedia_license">
             <option value="#media_license_id#">#media_license#</option>
           </cfloop>
         </select>
-        <a class="infoLink" onClick="popupDefine()">Define Licenses</a><br/>
+       <br/>
         <ul class="lisc">
             <p>Notes:</p>
           <li>media should not be uploaded until copyright is assessed and, if relevant, permission is granted (<a href="https://code.mcz.harvard.edu/wiki/index.php/Non-MCZ_Digital_Media_Licenses/Assignment" target="_blank">more info</a>)</li>
