@@ -194,7 +194,7 @@ limitations under the License.
 									</cfloop>
 											</div>
 									<div class="col-12 col-md-11">
-										<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
+										<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span> 
 									</div>
 									</div>
 								</div>
@@ -242,7 +242,7 @@ limitations under the License.
 								</cfloop>
 								</div>
 								<div class="col-12 col-md-11">
-									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> 
+									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label (+)</span> 
 								</div>
 								</div>
 			</div>
