@@ -2073,6 +2073,7 @@ limitations under the License.
 	
 			<cfoutput>
 				<h2 class="h2">Print Loan Paperwork</h2> 
+				<p>Links to available reports:</p>
 				<ul>
 					<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
 					sort={a field name that is in the select portion of the query specified in the custom tag}, or
