@@ -180,20 +180,18 @@ limitations under the License.
 								  	<cfset d=media_relationship>
 								  	<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 									<div class="input-group form-row mb-1">
-									<div class="col-12">
-										<div class="input-group-prepend">
-											<label class="input-group-text pt-0 pb-1 small" for="relationship__#i#">Media Relationship</label>
-											<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
+										<div class="input-group-prepend col-12">
+											<label class="input-group-text pt-0 pb-1 small col-2" for="relationship__#i#">Relationship</label>
+											<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-5">
 												<option value="delete">delete</option>
 												<cfloop query="ctmedia_relationship">
 												<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 												</cfloop>
 											</select>
-											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7">
+											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-5">
 											<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 										  	<cfset i=i+1>
 										</div>
-									</div>	
 									</div>
 									</cfloop>
 											</div>
@@ -229,7 +227,7 @@ limitations under the License.
 								  	<div id="labelsDiv__#i#">		
 										<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
-												<div class="input-group-prepend col-12">
+												<div class="input-group-prepend col-12 px-0">
 													<label class="input-group-text pt-0 pb-1 small col-2" for="label__#i#">Media Label</label>
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-5">
 													  <option value="delete">delete</option>
