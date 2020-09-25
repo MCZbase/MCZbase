@@ -250,6 +250,7 @@ limitations under the License.
 									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> 
 								</div>
 								</div>
+			</div>
 							
 								<div class="form-row mt-2 mb-4">
 									<div class="col-12">
