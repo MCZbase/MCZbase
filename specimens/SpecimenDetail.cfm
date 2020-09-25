@@ -137,13 +137,13 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white mt-0 mt-md-3 w-100 d-block ml-2">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white mt-0 mt-md-3 w-100 d-block ml-auto ml-md-2">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white mt-0 mt-md-3 w-100 d-block ml-2">#twotypes#  </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white mt-0 mt-md-3 w-100 d-block ml-auto ml-md-2">#twotypes#  </span>'>
 	<cfelse>
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white mt-0 mt-md-3 w-100 d-block ml-2"> </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-1 border-white my-0 my-md-3 w-100 d-block ml-auto ml-md-2"> </span>'>
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
