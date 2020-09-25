@@ -205,19 +205,22 @@ limitations under the License.
 								<cfset i=1>
 								<cfif labels.recordcount is 0>
 								  <!--- seed --->
-								  <div id="seedLabel" style="display:none;">
-									<div id="labelsDiv__0">
-									  <input type="hidden" id="media_label_id__0" name="media_label_id__0">
-									  <cfset d="">
-										<label for="label__#i#">Media Label</label>
-									  <select name="label__0" id="label__0" size="1">
-										<option value="delete">delete</option>
-										<cfloop query="ctmedia_label">
-										  <option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
-										</cfloop>
-									  </select>
-									  <input type="text" name="label_value__0" id="label_value__0">
-									</div>
+								<div id="seedLabel" style="display:none;">
+									<div id="labelsDiv__0">	
+										<input type="hidden" id="media_label_id__0" name="media_label_id__0" value="#media_label_id#" class="data-entry-input">
+											<div class="input-group form-row mb-1">
+												<div class="input-group-prepend col-12">
+													<label class="input-group-text pt-0 pb-1 small col-2" for="label__0">Media Label</label>
+													<select name="label__0" id="label__0" size="1" class="data-entry-select custom-select col-4">
+													  <option value="delete">delete</option>
+													  <cfloop query="ctmedia_label">
+														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
+													  </cfloop>
+													</select>
+												<input type="text" name="label_value__0" id="label_value__0" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
+												<cfset i=i+1>
+												</div>
+											</div>
 								  </div>
 								<!--- end seed data --->
 								</cfif>
