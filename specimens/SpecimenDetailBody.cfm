@@ -581,7 +581,7 @@ limitations under the License.
 					
 				<cfif accepted_id_fg is 1>
 				
-					<ul class="list-group border-green rounded p-3 h4 font-weight-normal">
+					<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
 						<span class="d-inline-block mb-1 h5 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h3 font-weight-normal d-inline-block"> 

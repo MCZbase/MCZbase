@@ -445,7 +445,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	font-size: .9em;
 }
 .list-group-item {
-	padding: 0.25rem 1rem;
+	padding: 0.25rem .5rem;
 }
 li.pid {
 	color: #666;
