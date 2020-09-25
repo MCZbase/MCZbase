@@ -712,45 +712,45 @@ limitations under the License.
 		<div class="card-body float-left">
 			<ul class="list-unstyled row px-3 py-1 mb-0">
 				<cfif len(colls.collectors) gt 0>
-					<li class="list-group-item col-6"><em>Collectors:</em></li>
-					<li class="list-group-item col-6">#colls.collectors#</li>
+					<li class="list-group-item col-5 px-0"><em>Collectors:</em></li>
+					<li class="list-group-item col-7 px-0">#colls.collectors#</li>
 				</cfif>
 				<cfif len(one.verbatim_locality) gt 0>
-					<li class="list-group-item col-6"><em>Verbatim Locality:</em></li>
-					<li class="list-group-item col-6">#one.verbatim_locality#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatim_locality#</li>
 				</cfif>
 				<cfif len(one.collecting_source) gt 0>
-					<li class="list-group-item col-6"><em>Collecting Source:</em></li>
-					<li class="list-group-item col-6">#one.collecting_source#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
 				</cfif>
 				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 				<cfif len(one.began_date) gt 0>
-					<li class="list-group-item col-6"><em>Began Date:</em></li>
-					<li class="list-group-item col-6">#one.began_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Began Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.began_date#</li>
 				</cfif>
 				<cfif len(one.ended_date) gt 0>
-					<li class="list-group-item col-6"><em>Ended Date:</em></li>
-					<li class="list-group-item col-6">#one.ended_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Ended Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.ended_date#</li>
 				</cfif>
 				<cfif len(one.verbatim_date) gt 0>
-					<li class="list-group-item col-6"><em>Verbatim Date:</em></li>
-					<li class="list-group-item col-6">#one.verbatim_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
 				</cfif>
 				<cfif len(one.verbatimcoordinates) gt 0>
-					<li class="list-group-item col-6"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-6">#one.verbatimcoordinatesp#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatimcoordinatesp#</li>
 				</cfif>
 				<cfif len(one.collecting_method) gt 0>
-					<li class="list-group-item col-6"><em>Collecting Method:</em></li>
-					<li class="list-group-item col-6">#one.collecting_method#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
 				</cfif>
 				<cfif len(one.coll_event_remarks) gt 0>
-					<li class="list-group-item col-6"><em>Collecting Event Remarks:</em></li>
-					<li class="list-group-item col-6">#one.coll_event_remarks#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
+					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
 				</cfif>
 				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-6"><em>Habitat Description:</em></li>
-					<li class="list-group-item col-6">#one.habitat_desc#</li>
+					<li class="list-group-item col-5 px-0"><em>Habitat Description:</em></li>
+					<li class="list-group-item col-7 px-0">#one.habitat_desc#</li>
 				</cfif>
 				<cfif len(one.collecting_event_id) gt 0>
 				<!---<li class="list-group-item col-6"><em>Collecting Event ID:</em></li>
