@@ -396,7 +396,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="row">
-		<div class="col-12 col-md-3 mb-2 pr-0">
+		<div class="col-12 col-md-3 mb-2 px-1 px-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		        <div class="card bg-light">
@@ -518,7 +518,7 @@ limitations under the License.
 
     </div>
 </div></div>
-		<div class="col-12 col-md-9 pl-1">
+		<div class="col-12 col-md-9 px-1 px-md-2">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
@@ -781,7 +781,8 @@ limitations under the License.
 				<h3 class="h4 my-1 float-left">Citations</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group px-2 float-left">
+			<div class="card-body float-left">
+				<ul class="list-group px-2 float-left">
 				<cfloop query="citations">
 					<li class="list-group-item"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
@@ -832,6 +833,7 @@ limitations under the License.
 					</cfloop>
 				</cfif>
 			</ul>
+			</div>
 		</div>
 	</cfif>
 <!------------------------------------ other identifiers ---------------------------------->
@@ -905,7 +907,8 @@ limitations under the License.
 					<h3 class="h4 my-1 float-left">Transactions</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
-				<ul class="list-group list-group-flush pl-2">
+				<div class="card-body float-left">
+					<ul class="list-group list-group-flush pl-2">
 					<li class="list-group-item">Accession:
 						<cfif oneOfUs is 1>
 							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
@@ -1024,8 +1027,9 @@ limitations under the License.
 			</cfif>
 		</cfif>
 	</ul>
-</div>
-</cfif>
+				</div>
+			</div>
+	</cfif>
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
 		<div class="card">
@@ -1033,7 +1037,8 @@ limitations under the License.
 				<h3 class="h4 my-1 float-left">Relationship</h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
-			<ul class="list-group list-group-flush float-left pl-2">
+			<div class="card-body float-left">
+				<ul class="list-group list-group-flush float-left pl-2">
 				<li class="list-group-item">
 					<cfloop query="relns">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
@@ -1046,6 +1051,7 @@ limitations under the License.
 					</cfif>
 				</li>
 			</ul>
+			</div>
 		</div>
 	</cfif>
 <!------------------------------------ attributes ----------------------------------------->
