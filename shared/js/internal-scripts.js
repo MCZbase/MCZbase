@@ -267,6 +267,10 @@ function addRelationTo (n,targetId) {
 	nSel.value='';
 	nDiv.appendChild(nSel);
 
+	c = document.createElement("textNode");
+	c.innerHTML=":&nbsp;";
+	nDiv.appendChild(c);
+
 	var n1=n-1;
 	var inpName='related_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
@@ -325,6 +329,10 @@ function addLabelTo (n,targetId) {
 	nSel.id="label__" + n;
 	nSel.value='';
 	nDiv.appendChild(nSel);
+
+	c = document.createElement("textNode");
+	c.innerHTML=":&nbsp;";
+	nDiv.appendChild(c);
 
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
