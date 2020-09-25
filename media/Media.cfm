@@ -226,7 +226,7 @@ limitations under the License.
 								  	<div id="labelsDiv__#i#">		
 										<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
-												<div class="input-group-prepend col-12 px-0">
+												<div class="input-group-prepend col-12">
 													<label class="input-group-text pt-0 pb-1 small col-2" for="label__#i#">Media Label</label>
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-4">
 													  <option value="delete">delete</option>
