@@ -385,12 +385,14 @@ BELOW: SPECIMEN DETAIL STYLES
 	background: linear-gradient(to bottom, rgba(6, 109, 171, 0.4) 0%, rgba(138, 187, 215, 0.13) 100%, rgba(197, 222, 234, 0) 100%); /*W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6e066dab', endColorstr='#00c5deea', GradientType=0); /*IE6-9 */
 	border: 1px solid #3580ad;
+		border: 1px solid #aaa;
 	
 }
 .ptype {
 	font-weight: bold;
 	background-color: white;
 	border: 1px solid #ccc;
+		border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1em;
 	width: auto;
@@ -403,6 +405,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	background-color: #fff;
 	color: black;
 	border: 1px solid #ccc;
+		border: 1px solid #aaa;
 	padding: 5px;
 	margin-top: 1em;
 	width: auto;
