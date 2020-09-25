@@ -166,13 +166,13 @@ limitations under the License.
 									<div id="seedMedia" style="display:none">
 									<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 									<cfset d="">
-									<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select col-5 float-left px-0">
+									<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
 									  <option value="delete">delete</option>
 									  <cfloop query="ctmedia_relationship">
 										<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 									  </cfloop>
 									</select>
-									<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-5 px-0 float-left bg-success">
+									<input type="text" name="related_value__0" id="related_value__0">
 									<input type="hidden" name="related_id__0" id="related_id__0">
 								  </div>
 									</cfif>
@@ -209,16 +209,16 @@ limitations under the License.
 								  <!--- seed --->
 								  <div id="seedLabel" style="display:none;">
 									<div id="labelsDiv__0">
-									  <input type="hidden" id="media_label_id__0" name="media_label_id__0" size="90" class="data-entry-input">
+									  <input type="hidden" id="media_label_id__0" name="media_label_id__0">
 									  <cfset d="">
-										<label class="input-group-text pt-0 pb-1 small" for="label__#i#">Media Label</label>
-									  <select name="label__0" id="label__0" size="1" class="data-entry-select custom-select col-4">
+										<label for="label__#i#">Media Label</label>
+									  <select name="label__0" id="label__0" size="1">
 										<option value="delete">delete</option>
 										<cfloop query="ctmedia_label">
 										  <option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 										</cfloop>
 									  </select>
-									  <input type="text" name="label_value__0" id="label_value__0" size="90" class="data-entry-input col-6">
+									  <input type="text" name="label_value__0" id="label_value__0">
 									</div>
 								  </div>
 								</cfif>
