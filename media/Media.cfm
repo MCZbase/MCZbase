@@ -195,14 +195,11 @@ limitations under the License.
 										</div>
 									</div>	
 									</div>
-										
-								
 									</cfloop>
 											</div>
 									<div class="col-12 col-md-11">
 										<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship</span> 
 									</div>
-								
 									</div>
 								</div>
 								<div class="form-row mt-2">
@@ -242,17 +239,18 @@ limitations under the License.
 													  </cfloop>
 													</select>
 												<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-7">
-												</div>
 												<cfset i=i+1>
 													</div>
 												</div>
 											</div>
+									  	</div>
 								</cfloop>
+								</div>
 								<div class="col-12 col-md-11">
-									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> </div>
+									<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabel(#i#)">Add Label</span> 
 								</div>
 								</div>
-								</div>
+							
 								<div class="form-row mt-2 mb-4">
 									<div class="col-12">
 										<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
