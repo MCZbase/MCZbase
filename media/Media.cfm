@@ -226,7 +226,7 @@ limitations under the License.
 									
 									
 									
-								<!---  <div id="seedLabel" style="display:none;">
+								  <div id="seedLabel" style="display:none;">
 									<div id="labelsDiv__0">
 									  <input type="hidden" id="media_label_id__0" name="media_label_id__0">
 									  <cfset d="">
@@ -239,8 +239,8 @@ limitations under the License.
 									  </select>
 									  <input type="text" name="label_value__0" id="label_value__0">
 									</div>
-								  </div>--->
-								<!--- end seed data --->
+								  </div>
+							
 								</cfif>
 								<cfloop query="labels">
 								  <cfset d=media_label>
