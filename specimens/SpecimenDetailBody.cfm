@@ -473,44 +473,44 @@ limitations under the License.
 		<div class="card-body">
 			<ul class="list-unstyled row px-3 py-1 mb-0">
 				<cfif len(one.continent_ocean) gt 0>
-					<li class="list-group-item col-6"><em>Continent Ocean:</em></li>
-					<li class="list-group-item col-6">#one.continent_ocean#</li>
+					<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+					<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
 				</cfif>
 				<cfif len(one.sea) gt 0>
-					<li class="list-group-item col-6"><em>Sea:</em></li>
-					<li class="list-group-item col-6">#one.sea#</li>
+					<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+					<li class="list-group-item col-7 px-0">#one.sea#</li>
 				</cfif>
 				<cfif len(one.country) gt 0>
-					<li class="list-group-item col-6"><em>Country:</em></li>
-					<li class="list-group-item col-6">#one.country#</li>
+					<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+					<li class="list-group-item col-7 px-0">#one.country#</li>
 				</cfif>
 				<cfif len(one.state_prov) gt 0>
-					<li class="list-group-item col-6"><em>State:</em></li>
-					<li class="list-group-item col-6">#one.state_prov#</li>
+					<li class="list-group-item col-5 px-0"><em>State:</em></li>
+					<li class="list-group-item col-7 px-0">#one.state_prov#</li>
 				</cfif>
 				<cfif len(one.feature) gt 0>
-					<li class="list-group-item col-6"><em>Feature:</em></li>
-					<li class="list-group-item col-6">#one.feature#</li>
+					<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+					<li class="list-group-item col-7 px-0">#one.feature#</li>
 				</cfif>
 				<cfif len(one.county) gt 0>
-					<li class="list-group-item col-6"><em>County:</em></li>
-					<li class="list-group-item col-6">#one.county#</li>
+					<li class="list-group-item col-5 px-0"><em>County:</em></li>
+					<li class="list-group-item col-7 px-0">#one.county#</li>
 				</cfif>
 				<cfif len(one.island_group) gt 0>
-					<li class="list-group-item col-6"><em>Island Group:</em></li>
-					<li class="list-group-item col-6">#one.island_group#</li>
+					<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+					<li class="list-group-item col-7 px-0">#one.island_group#</li>
 				</cfif>
 				<cfif len(one.island) gt 0>
-					<li class="list-group-item col-6"><em>Island:</em></li>
-					<li class="list-group-item col-6">#one.island#</li>
+					<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+					<li class="list-group-item col-7 px-0">#one.island#</li>
 				</cfif>
 				<cfif len(one.quad) gt 0>
-					<li class="list-group-item col-6"><em>Quad:</em></li>
-					<li class="list-group-item col-6">#one.quad#</li>
+					<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+					<li class="list-group-item col-7 px-0">#one.quad#</li>
 				</cfif>
 				<cfif len(one.spec_locality) gt 0>
-					<li class="list-group-item col-6"><em>Specific Locality:</em></li>
-					<li class="list-group-item col-6 last">#one.spec_locality#</li>
+					<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
+					<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
 				</cfif>
 			</ul>
 		</div>
