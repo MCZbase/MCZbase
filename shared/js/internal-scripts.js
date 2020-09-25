@@ -323,17 +323,12 @@ function addLabelTo (n,targetId) {
 	nDiv.id='labelsDiv__' + n;
 	pDiv.appendChild(nDiv);
 	var n1=n-1;
-	c = document.createElement("textNode");
-	c.innerHTML="<div class='input-group form-row mb-1'><div class='input-group-prepend col-12 px-0'><label class='input-group-text pt-0 pb-1 small col-2' for='label__" + n"'>'Media Label</div>";
-	nDiv.appendChild(c);
 	var selName='label__' + n1;
 	var nSel = document.getElementById(selName).cloneNode(true);
 	nSel.name="label__" + n;
 	nSel.id="label__" + n;
 	nSel.value='';
 	nDiv.appendChild(nSel);
-
-
 
 	var inpName='label_value__' + n1;
 	var nInp = document.getElementById(inpName).cloneNode(true);
