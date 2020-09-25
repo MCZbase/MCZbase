@@ -189,11 +189,12 @@ limitations under the License.
 												<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 												</cfloop>
 											</select>
-											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7">
 											<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 										</div>
-								  	<cfset i=i+1>
+								
 									</div>
+										  	<cfset i=i+1>
 									</div>
 									</cfloop>
 									<div class="col-12 col-md-11">
@@ -238,7 +239,7 @@ limitations under the License.
 														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 													  </cfloop>
 													</select>
-												<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
+												<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-7">
 												</div>
 												<cfset i=i+1>
 													</div>
