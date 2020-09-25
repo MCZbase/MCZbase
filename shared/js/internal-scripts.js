@@ -268,7 +268,7 @@ function addRelationTo (n,targetId) {
 	nDiv.appendChild(nSel);
 
 	c = document.createElement("textNode");
-	c.innerHTML=":&nbsp;";
+	c.innerHTML="&nbsp;:&nbsp;";
 	nDiv.appendChild(c);
 
 	var n1=n-1;
@@ -331,7 +331,7 @@ function addLabelTo (n,targetId) {
 	nDiv.appendChild(nSel);
 
 	c = document.createElement("textNode");
-	c.innerHTML=":&nbsp;";
+	c.innerHTML="&nbsp;:&nbsp;";
 	nDiv.appendChild(c);
 
 	var inpName='label_value__' + n1;
