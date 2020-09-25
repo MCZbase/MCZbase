@@ -392,7 +392,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 						
-								<input type="text" name="related_value__1" id="related_value__1" class="col-8" readonly>
+								<input type="text" name="related_value__1" id="related_value__1" class="col-9" readonly>
 								<input type="hidden" name="related_id__1" id="related_id__1">
 								<button type="button" class="btn-xs btn-primary mt-1" id="addRelationship" onclick="addRelation(2);" aria-label="Add a relationship">Add Relationship</button>
 							</div>
@@ -411,7 +411,7 @@ limitations under the License.
 									<cfset result = result & '
 								</select>
 				
-								<input type="text" name="label_value__1" id="label_value__1" class="col-8">
+								<input type="text" name="label_value__1" id="label_value__1" class="col-9">
 								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
