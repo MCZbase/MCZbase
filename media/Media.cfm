@@ -191,10 +191,11 @@ limitations under the License.
 											</select>
 											<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-7">
 											<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+										  	<cfset i=i+1>
 										</div>
 								
 									</div>
-										  	<cfset i=i+1>
+										
 									</div>
 									</cfloop>
 									<div class="col-12 col-md-11">
