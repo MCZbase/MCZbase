@@ -222,6 +222,7 @@ limitations under the License.
 												</div>
 											</div>
 								  </div>
+									</div>
 								<!--- end seed data --->
 								</cfif>
 								<cfloop query="labels">
