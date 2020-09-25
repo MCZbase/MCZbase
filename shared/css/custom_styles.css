@@ -1587,7 +1587,7 @@ and also iPads specifically.
 		orphans: 1;
 		widows: 1;
 		column-span: all;
-		margin-right: 4px;
+		margin-right: 0px;
     	margin-left: 4px;
 	}
 	.card-body h5 {
