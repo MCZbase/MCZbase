@@ -229,18 +229,16 @@ limitations under the License.
 								  	<div id="labelsDiv__#i#">		
 										<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
-												<div class="col-12">
-												<div class="input-group-prepend">
-													<label class="input-group-text pt-0 pb-1 small" for="label__#i#">Media Label</label>
-													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-4">
+												<div class="input-group-prepend col-12">
+													<label class="input-group-text pt-0 pb-1 small col-2" for="label__#i#">Media Label</label>
+													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-5">
 													  <option value="delete">delete</option>
 													  <cfloop query="ctmedia_label">
 														<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 													  </cfloop>
 													</select>
-												<input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="#encodeForHTML(label_value)#" class="data-entry-input col-7">
+												<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-5">
 												<cfset i=i+1>
-													</div>
 												</div>
 											</div>
 									  	</div>
