@@ -206,7 +206,7 @@ limitations under the License.
 								<cfif labels.recordcount is 0>
 								  <!--- seed --->
 									
-									<div id="seedLabel" style="display:none;">
+<!---									<div id="seedLabel" style="display:none;">
 										<div id="labelsDiv__0">	
 										<input type="hidden" id="media_label_id__0" name="media_label_id__0" value="#media_label_id#" class="data-entry-input">
 											<div class="input-group form-row mb-1">
@@ -222,7 +222,7 @@ limitations under the License.
 												</div>
 											</div>
 								  		</div>
-									</div>
+									</div>--->
 									
 									
 									
