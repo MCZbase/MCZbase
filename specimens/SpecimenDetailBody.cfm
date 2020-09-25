@@ -549,15 +549,15 @@ limitations under the License.
 	<div class="card">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-1 float-left">Identifications</h3> 
-  <div class="dialog" title="Edit Identification (id: #identification_id#)">
-   <div id="identificationNewForm">Stuff here...</div>
-  </div>
-  <script type="text/javascript">
-	  $( document ).ready(loadIdentifications(#identification_id#));
-  </script>
+  				<div class="dialog" title="Edit Identification (id: #identification_id#)">
+  					<div id="identificationNewForm">Stuff here...</div>
+  				</div>
+				  <script type="text/javascript">
+					  $( document ).ready(loadIdentifications(#identification_id#));
+				  </script>
 			 <button type="button" class="mt-1 btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
-		<div class="card-body">
+		<div class="card-body float-left">
 				<cfloop query="identification">
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
@@ -704,7 +704,7 @@ limitations under the License.
 			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
-		<div class="card-body">
+		<div class="card-body float-left">
 			<ul class="list-unstyled row px-3 py-1 mb-0">
 				<cfif len(colls.collectors) gt 0>
 					<li class="list-group-item col-6"><em>Collectors:</em></li>
