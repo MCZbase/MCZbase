@@ -401,7 +401,7 @@ limitations under the License.
 				<div class="form-row">
 					<div class="col-12 col-md-12">
 						<label for="labels" class="mt-2">Media Labels</label>
-						<div id="labels" class="p-2 rounded dotted-box">
+						<div id="labels" class="p-2 rounded dotted-border">
 							<div id="labelsDiv__1">
 								<select name="label__1" id="label__1" size="1" class="col-3 float-left">
 									<option value="">None/Unpick</option>'>
