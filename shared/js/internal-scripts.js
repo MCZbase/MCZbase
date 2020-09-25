@@ -331,7 +331,7 @@ function addLabelTo (n,targetId) {
 	nDiv.appendChild(nSel);
 
 	c = document.createElement("textNode");
-	c.innerHTML=":&nbsp;";
+	c.innerHTML="Hello";
 	nDiv.appendChild(c);
 
 	var inpName='label_value__' + n1;
