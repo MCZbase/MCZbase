@@ -347,7 +347,7 @@ function addLabelTo (n,targetId,buttonId) {
 	//pDiv.removeChild(mS);
 	mS.remove();
 	var np1=n+1;
-	var oc="addLabelTo(" + np1 + ",'"+targetId+"'.'"+buttonId+"')";
+	var oc="addLabelTo(" + np1 + ",\"" +targetId + "\".\"" +buttonId+ "\");";
 	mS.setAttribute("onclick",oc);
 	pDiv.appendChild(mS);
 
