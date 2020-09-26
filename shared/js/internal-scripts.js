@@ -305,7 +305,7 @@ function addRelationTo (n,targetId) {
   * @depricated
   */
 function addLabel (n) {
-	addLabelTo(n,"labels");   
+	addLabelTo(n,"labels","addLabel");   
 }
 
 /** Add a set of fields for entering a media label to a form, the fields
@@ -316,8 +316,10 @@ function addLabel (n) {
   * @param n the serial integer that identifies the set of label fields.
   * @param targetId the id of the element in the dom to which to attach the created div, 
   *   not including a leading # selector.
+  * @param buttonId the id of the add label button in the dom which is linked to this function 
+  *   not including a leading # selector.
   */
-function addLabelTo (n,targetId) {
+function addLabelTo (n,targetId,buttonId) {
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
 	nDiv.id='labelsDiv__' + n;
@@ -341,10 +343,11 @@ function addLabelTo (n,targetId) {
 	nInp.value='';
 	nDiv.appendChild(nInp);
 
-	var mS = document.getElementById('addLabel');
-	pDiv.removeChild(mS);
+	var mS = document.getElementById(buttonId);
+	//pDiv.removeChild(mS);
+	ms.remove();
 	var np1=n+1;
-	var oc="addLabel(" + np1 + ")";
+	var oc="addLabelTo(" + np1 + ",'"+targetId+"'.'"+buttonId+"')";
 	mS.setAttribute("onclick",oc);
 	pDiv.appendChild(mS);
 
