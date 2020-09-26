@@ -282,7 +282,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------------------------->
 	<cfcase value="new">
 		<cfoutput>
-			<div class="container-fluid">
+			<div class="container">
 				<div class="row">
 					<div class="col-12">
 				
@@ -352,9 +352,9 @@ limitations under the License.
       <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p><label for="labels">Media Labels <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
       <div id="labels" class="graydot" style="padding: .5em .25em;">
       <cfset i=1>
-      <cfloop>
-        <div id="labelsDiv__#i#">
-          <select name="label__#i#" id="label__#i#" size="1">
+      	<cfloop>
+ 		       <div id="labelsDiv__#i#">
+      	    <select name="label__#i#" id="label__#i#" size="1">
             <option value="delete">Select label...</option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
@@ -362,19 +362,18 @@ limitations under the License.
           </select>
           :&nbsp;
           <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
-	 </div>
-	 <cfset i=i+1>
-	</cfloop>
-          <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
+			 </div>
+			 <cfset i=i+1>
+			</cfloop>
+        	<span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
       </div>
         
-       </div>
-      
       <input type="submit" 
 				value="Create Media" 
 				class="insBtn"
 				onmouseover="this.className='insBtn btnhov'" 
 				onmouseout="this.className='insBtn'">
+
     </form>
     <cfif isdefined("collection_object_id") and len(collection_object_id) gt 0>
        <cfquery name="s"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -403,7 +402,8 @@ limitations under the License.
          </script>
       </cfif>
     </cfif>
-		  </div>
+
+					</div>
 				</div>
 			</div>
 		</cfoutput>
