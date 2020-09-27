@@ -412,7 +412,7 @@ limitations under the License.
 								</select>
 				
 								<input type="text" name="label_value__1" id="label_value__1" class="col-9 float-left">
-								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabel(2);" aria-label="Add a media label">Add Label</button>
+								<button type="button" class="btn-xs btn-primary mt-1" id="addLabel" onclick="addLabelTo(2,'labels','addLabel');" aria-label="Add a media label">Add Label</button>
 							</div>
 					</div>
 				</div>

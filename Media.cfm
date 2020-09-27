@@ -208,7 +208,7 @@ limitations under the License.
           </select>:&nbsp;
           <input type="text" name="label_value__1" id="label_value__1" size="70">
         </div>
-        <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
+        <span class="infoLink" id="addLabel" onclick="addLabelTo(2,'labels','addLabel')">Add Label</span> </div>
          </div>
       <input type="submit"
 				value="Search"

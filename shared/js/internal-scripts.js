@@ -296,17 +296,6 @@ function addRelationTo (n,targetId) {
 	cc.value=parseInt(cc.value)+1;
 }
 
-/** Add a set of fields for entering a media label to a form, the fields
-  * comprise inputs for label__{n} and label_value__{n}, 
-  * in a div with id labelDiv__{n} the div is attached to the element in 
-  * the dom with an id of labels.
-  *
-  * @param n the serial integer that identifies the set of label fields.
-  * @depricated
-  */
-function addLabel (n) {
-	addLabelTo(n,"labels","addLabel");   
-}
 
 /** Add a set of fields for entering a media label to a form, the fields
   * comprise inputs for label__{n} and label_value__{n}, 
@@ -320,6 +309,7 @@ function addLabel (n) {
   *   not including a leading # selector.
   */
 function addLabelTo (n,targetId,buttonId) {
+	// Note: addLabel() conflcits with a name in an included library.
 	var pDiv=document.getElementById(targetId);
 	var nDiv = document.createElement('div');
 	nDiv.id='labelsDiv__' + n;
