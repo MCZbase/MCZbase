@@ -174,28 +174,26 @@ limitations under the License.
 											</div>
 											<!--- end seed data --->
 										</cfif>
+										<div class="form-row mx-0 mb-1">
 										<cfloop query="relns">
 											<cfset d=media_relationship>
+											<div id="relsDiv__#i#" class="col-12 form-row mx-0">
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-											<div class="form-row mx-0 mb-1">
-													<label class="pt-0 pb-1 sr-only" for="relationship__#i#">Relationship</label>
-													<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
+												<label class="sr-only" for="relationship__#i#">Relationship</label>
+												<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
 														<option value="delete">delete</option>
 														<cfloop query="ctmedia_relationship">
 															<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 														</cfloop>
 													</select>
-													<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
-													<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-													<cfset i=i+1>
+												<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+												<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
 											</div>
+												<cfset i=i+1>
 										</cfloop>
+											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+										</div>
 									</div>
-
-									<div class="col-12 col-md-11">
-										<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span> 
-									</div>
-
 								</div>
 							</div>
 							<div class="form-row mt-2">
@@ -234,8 +232,9 @@ limitations under the License.
 															</cfloop>
 													</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
-													<cfset i=i+1>
 											</div>
+													<cfset i=i+1>
+											
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 col-12 col-md-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
