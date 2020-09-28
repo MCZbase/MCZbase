@@ -243,8 +243,9 @@ limitations under the License.
 									<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
 								</div>
 							</div>
+								</div>
 						</form>
-					</div>
+			</div>
 				</div>
 			</div>
 		</cfoutput>
