@@ -147,9 +147,9 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-1">
-								<div class="bg-info rounded col-12 my-2 px-3 py-1">
-									<h3 class="text-white h4" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
-									<p class="text-white">#media.alttag#</p>
+								<div class="bg-light rounded bordercol-12 my-2 px-3 py-1">
+									<h3 class="h5" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
+									<p class="small">#media.alttag#</p>
 								</div>
 							</div>
 
