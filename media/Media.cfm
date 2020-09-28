@@ -235,21 +235,18 @@ limitations under the License.
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 col-12 col-md-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
-									</div>
-					
-						
-							<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
+									</div>				
+					<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 							<div class="form-row mt-2 mb-4">
 								<div class="col-12">
 									<!---  TODO: Change to ajax save of form. ---->
 									<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
 								</div>
 							</div>
-
 						</form>
 					</div>
 				</div>
-			</div>
+			</div></div>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------------------------->
