@@ -1,21 +1,22 @@
 <cfinclude template="includes/_header.cfm">
+<cfoutput>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function() {
-		$("#parent_install_date").datepicker();
-		$("#checked_date").datepicker();
-		$("#check_date").datepicker();
+		$("##parent_install_date").datepicker();
+		$("##checked_date").datepicker();
+		$("##check_date").datepicker();
 	});
 	function toggleFluid(oo){
 		if (oo==1){
-			$("#fluidDiv").show();
-			$("#fluidCtl").html('<span class="likeLink" onclick="toggleFluid(0)">Is Not Fluid</span>');
+			$("##fluidDiv").show();
+			$("##fluidCtl").html('<span class="likeLink" onclick="toggleFluid(0)">Is Not Fluid</span>');
 		} else {
-			$("#fluidDiv").hide();
-			$("#fluidCtl").html('<span class="likeLink" onclick="toggleFluid(1)">Is Fluid</span>');
-			$("#checked_date").val('');
-			$("#fluid_type").val('');
-			$("#concentration").val('');
-			$("#fluid_remarks").val('');
+			$("##fluidDiv").hide();
+			$("##fluidCtl").html('<span class="likeLink" onclick="toggleFluid(1)">Is Fluid</span>');
+			$("##checked_date").val('');
+			$("##fluid_type").val('');
+			$("##concentration").val('');
+			$("##fluid_remarks").val('');
 		}
 	}
 
@@ -63,11 +64,12 @@
 		}
 	}
 </script>
+</cfoutput>
 <cfif action is "update">
 	<cfif len(newParentBarcode) gt 0>
 		<cfquery name="isGoodParent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select container_id from  container where
-			barcode = '#newParentBarcode#'
+			barcode = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newParentBarcode#">
 		</cfquery>
 		<cfif isGoodParent.recordcount is 1>
 			<cfset newParentId = isGoodParent.container_id>
@@ -117,7 +119,7 @@
 				#preservesinglequotes(sql)#
 			</cfquery>
 			<cfquery name="isFluid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT * FROM fluid_container_history WHERE container_id = #container_id#
+				SELECT * FROM fluid_container_history WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 			</cfquery>
 			<!---<cfif isFluid.recordcount gt 0 AND len(isFluid.container_id) gt 0>
 				<cfquery name="updateFluidContainer" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -185,7 +187,7 @@
 			fluid_container_history
 		WHERE
 			container.container_id = fluid_container_history.container_id (+) AND
-			container.container_id = #container_id#
+			container.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 	</cfquery>
 	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct(institution_acronym) institution_acronym from collection order by institution_acronym
@@ -244,7 +246,7 @@
 								coll_obj_cont_hist.collection_object_id = specimen_part.collection_object_id AND
 								specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 								cataloged_item.collection_id = collection.collection_id and
-								coll_obj_cont_hist.container_id = #container_id#
+								coll_obj_cont_hist.container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 						</cfquery>
 						<input type="text" name="container_type" id="container_type" value="collection object" readonly />
 						<cfif #findItem.recordcount# is 1>
@@ -450,11 +452,13 @@
 	</table>
 
 <cfquery name="checked" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from container_check,
-	preferred_agent_name
-	 where
-	 checked_agent_id = agent_id and
-	 container_id=#container_id# order by check_date
+	select * 
+	from container_check,
+		preferred_agent_name
+	where
+		checked_agent_id = agent_id and
+	 	container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#"> 
+	order by check_date
 </cfquery>
 <cfif checked.recordcount is 0>
 	No checked history.
@@ -488,10 +492,10 @@
 				CHECKED_AGENT_ID,
 				CHECK_REMARK
 			) values (
-				#container_id#,
-				to_date('#dateformat(check_date,"yyyy-mm-dd")#'),
-				#checked_agent_id#,
-				'#check_remark#'
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">,
+				to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#dateformat(check_date,"yyyy-mm-dd")#">),
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#checked_agent_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#check_remark#">
 			)
 		</cfquery>
 		<cflocation url="editContainer.cfm?container_id=#container_id#" addtoken="false">
@@ -501,27 +505,35 @@
 <!-------------------------------------------------------------->
 <cfif Action is "delete">
 	<cfquery name="isUsed" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from container where parent_container_id=#container_id#
+		select * 
+		from container 
+		where 
+			parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 	</cfquery>
 	<cfif isUsed.recordcount gt 0>
-    <div align="center"><font color="#FF0000" size="+6">That container is used!
-      You can't delete it! <br>
-      This is a really bad place to play around if you don't know what you're
+	<cfoutput>
+    <div align="center"><font color="##FF0000" size="+6">That container is in use!
+      You can not delete it! <br>
+      This is a really bad place to play around if you do not know what you are
       doing!</font> </div>
     <cfabort>
 	<cfelseif isUsed.recordcount is 0>
 	<cftransaction>
 		<cfquery name="deleContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container_history WHERE container_id = #container_id#
+			DELETE FROM container_history 
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 		</cfquery>
 		<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container WHERE container_id = #container_id#
+			DELETE FROM container 
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 		</cfquery>
 		<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container_check WHERE container_id = #container_id#
+			DELETE FROM container_check 
+			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 		</cfquery>
 	</cftransaction>
-	<div align="center"><font color="#0066FF" size="+6">You've deleted this container!</font> </div>
+	<div align="center"><font color="##0066FF" size="+6">You've deleted this container!</font> </div>
+	</cfoutput>
 	</cfif>
 </cfif>
 <!----------------------------->
@@ -540,7 +552,7 @@
 			</cfquery>
 			<cfif len(new_parent_barcode) gt 0>
 				<cfquery name="gpid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select container_id from container where barcode='#new_parent_barcode#'
+					select container_id from container where barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#new_parent_barcode#">
 				</cfquery>
 
 				<cfif len(gpid.container_id) is 0>
