@@ -221,11 +221,11 @@ limitations under the License.
 											</div>
 											<!--- end labels seed --->
 										</cfif>
+										<div class="form-row">
 										<cfloop query="labels">
 											<cfset d=media_label>
 											<div id="labelsDiv__#i#">		
 												<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
-												<div class="form-row mx-0 mb-1">
 													<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
 															<option value="delete">delete</option>
@@ -235,14 +235,10 @@ limitations under the License.
 													</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 													<cfset i=i+1>
-																<div class="col-12 col-md-11">
-											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-										</div>
-												</div>
 											</div>
 										</cfloop>
-
-								
+											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+										</div>
 									</div>
 								</div>
 							</div>
