@@ -177,7 +177,7 @@ limitations under the License.
 										<cfloop query="relns">
 											<cfset d=media_relationship>
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-											<div class="input-group form-row mx-0 mb-1">
+											<div class="form-row mx-0 mb-1">
 													<label class="pt-0 pb-1 sr-only" for="relationship__#i#">Relationship</label>
 													<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
 														<option value="delete">delete</option>
@@ -235,13 +235,14 @@ limitations under the License.
 													</select>
 													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 													<cfset i=i+1>
+																<div class="col-12 col-md-11">
+											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+										</div>
 												</div>
 											</div>
 										</cfloop>
 
-										<div class="col-12 col-md-11">
-											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
-										</div>
+								
 									</div>
 								</div>
 							</div>
