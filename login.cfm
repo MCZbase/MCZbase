@@ -70,7 +70,7 @@
 				PW_CHANGE_DATE,
 				last_login
 			) VALUES (
-				#nextUserID.nextid#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextUserID.nextid#">,
 			   <cfqueryparam value='#username#' cfsqltype="CF_SQL_VARCHAR">,
 				<cfqueryparam value='#hash(password)#' cfsqltype="CF_SQL_VARCHAR">,
 				sysdate,
