@@ -149,13 +149,12 @@ limitations under the License.
 								</div>
 							</div>
 							<div class="form-row mt-1">
-								<div class="bg-info rounded col-12 my-2 px-3 py-1">
-									<h3 class="text-white h4" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
-									<p class="text-white">#media.alttag#</p>
+								<div class="bg-light rounded border col-12 my-2 px-3 py-1">
+									<h3 class="h5" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
+									<p class="small">#media.alttag#</p>
 								</div>
 							</div>
-
-							<div class="form-row mt-2 border rounded">
+							<div class="form-row mt-2">
 								<div class="col-12">
 									 <label for="relationships" class="data-entry-label">Media Relationships | <span class="text-secondary" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
 									<div id="relationships">
@@ -165,43 +164,38 @@ limitations under the License.
 											<div id="seedMedia" style="display:none">
 												<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 												<cfset d="">
-												<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
+												<select name="relationship__0" id="relationship__0" class="data-entry-select col-6" size="1"  onchange="pickedRelationship(this.id)">
 													<option value="delete">delete</option>
 													<cfloop query="ctmedia_relationship">
 														<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 													</cfloop>
 												</select>
-												<input type="text" name="related_value__0" id="related_value__0">
+												<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 												<input type="hidden" name="related_id__0" id="related_id__0">
 											</div>
 											<!--- end seed data --->
 										</cfif>
+										
 										<cfloop query="relns">
 											<cfset d=media_relationship>
+										<div class="form-row col-12 px-0 mx-0">
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
-											<div class="input-group form-row mb-1">
-												<div class="input-group-prepend col-12">
-													<label class="input-group-text pt-0 pb-1 small col-2" for="relationship__#i#">Relationship</label>
-													<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-4">
+												<label class="sr-only" for="relationship__#i#">Relationship</label>
+												<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
 														<option value="delete">delete</option>
 														<cfloop query="ctmedia_relationship">
 															<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 														</cfloop>
 													</select>
-													<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
-													<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-													<cfset i=i+1>
-												</div>
-											</div>
+												<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
+												<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
+												<cfset i=i+1>
+										</div>
 										</cfloop>
-									</div>
-
-									<div class="col-12 col-md-11">
-										<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span> 
-									</div>
-
-								</div>
-							</div>
+											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
+										</div>
+									</div>	
+			</div>
 							<div class="form-row mt-2">
 								<div class="col-12">	
 									<label for="labels" class="data-entry-label">Media Labels  | <span class="text-secondary">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</span></label> 
@@ -210,56 +204,52 @@ limitations under the License.
 										<cfif labels.recordcount is 0>
 											<!--- seed --->
 											<div id="seedLabel" style="display:none;">
-												<div id="labelsDiv__0">
+												<div id="labelsDiv__0" class="form-row mx-0 col-12">
 													<input type="hidden" id="media_label_id__0" name="media_label_id__0">
 													<cfset d="">
-													<label for="label__#i#">Media Label</label>
-													<select name="label__0" id="label__0" size="1">
+													<label for="label__#i#" class='sr-only'>Media Label</label>
+													<select name="label__0" id="label__0" size="1" class="col-6 data-entry-select">
 														<option value="delete">delete</option>
 														<cfloop query="ctmedia_label">
 															<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 														</cfloop>
 													</select>
-													<input type="text" name="label_value__0" id="label_value__0">
+													<input type="text" name="label_value__0" id="label_value__0" class="col-6 data-entry-input">
 												</div>
 											</div>
 											<!--- end labels seed --->
 										</cfif>
+										<div class="form-row">
 										<cfloop query="labels">
 											<cfset d=media_label>
-											<div id="labelsDiv__#i#">		
+											<div id="labelsDiv__#i#" class="col-12 form-row mx-0">		
 												<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
-												<div class="input-group form-row mb-1">
-													<div class="input-group-prepend col-12">
-														<label class="input-group-text pt-0 pb-1 small col-2" for="label__#i#">Media Label</label>
-														<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-4">
+													<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
+													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
 															<option value="delete">delete</option>
 															<cfloop query="ctmedia_label">
 																<option <cfif #d# is #media_label#> selected="selected" </cfif>value="#media_label#">#media_label#</option>
 															</cfloop>
-														</select>
-														<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
-														<cfset i=i+1>
-													</div>
-												</div>
+													</select>
+													<input type="text" name="label_value__#i#" id="label_value__#i#" value="#encodeForHTML(label_value)#" class="data-entry-input col-6">
 											</div>
+													<cfset i=i+1>
+											
 										</cfloop>
-
-										<div class="col-12 col-md-11">
-											<span class="infoLink h5 box-shadow-0 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
+											<span class="infoLink h5 box-shadow-0 col-12 col-md-2 offset-md-10 d-block text-right my-1" id="addLabel" onclick="addLabelTo(#i#,'labels','addLabel');">Add Label (+)</span> 
 										</div>
-									</div>
+									</div>	
+									
 								</div>
-							</div>
-						
-							<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
+								</div>
+					<!---  TODO: Make for main form only, set relations/labels as separate ajax calls ---->
 							<div class="form-row mt-2 mb-4">
 								<div class="col-12">
 									<!---  TODO: Change to ajax save of form. ---->
 									<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
 								</div>
 							</div>
-
+								
 						</form>
 					</div>
 				</div>
