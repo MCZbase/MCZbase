@@ -224,7 +224,7 @@ limitations under the License.
 										<div class="form-row">
 										<cfloop query="labels">
 											<cfset d=media_label>
-											<div id="labelsDiv__#i#">		
+											<div id="labelsDiv__#i#" class="col-12">		
 												<input type="hidden" id="media_label_id__#i#" name="media_label_id__#i#" value="#media_label_id#" class="data-entry-input">
 													<label class="pt-0 pb-1 sr-only" for="label__#i#">Media Label</label>
 													<select name="label__#i#" id="label__#i#" size="1" class="data-entry-select custom-select col-6">
