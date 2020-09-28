@@ -510,29 +510,32 @@
 		where 
 			parent_container_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
 	</cfquery>
-	<cfif isUsed.recordcount gt 0>
 	<cfoutput>
-    <div align="center"><font color="##FF0000" size="+6">That container is in use!
-      You can not delete it! <br>
-      This is a really bad place to play around if you do not know what you are
-      doing!</font> </div>
-    <cfabort>
-	<cfelseif isUsed.recordcount is 0>
-	<cftransaction>
-		<cfquery name="deleContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container_history 
-			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-		</cfquery>
-		<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container 
-			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-		</cfquery>
-		<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM container_check 
-			WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
-		</cfquery>
-	</cftransaction>
-	<div align="center"><font color="##0066FF" size="+6">You've deleted this container!</font> </div>
+		<cfif isUsed.recordcount gt 0>
+   		<div align="center"><font color="##FF0000" size="+6">That container is in use!
+	      You can not delete it! <br>
+   	   This is a really bad place to play around if you do not know what you are
+	      doing!</font> 
+			</div>
+   	 	<cfabort>
+		<cfelseif isUsed.recordcount is 0>
+		<cftransaction>
+			<cfquery name="deleContHist" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				DELETE FROM container_history 
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+			</cfquery>
+			<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				DELETE FROM container 
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+			</cfquery>
+			<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				DELETE FROM container_check 
+				WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#container_id#">
+			</cfquery>
+		</cftransaction>
+		<div align="center">
+			<font color="##0066FF" size="+6">You've deleted this container!</font>
+		</div>
 	</cfoutput>
 	</cfif>
 </cfif>
