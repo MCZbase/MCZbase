@@ -223,12 +223,10 @@
 						<option value="">All</option>
 					</cfif>
 					<cfloop query="ctInst">
-						<cfif not (#oneOfUs# EQ 0 and #ctInst.collection_id# EQ 10)>
 						<option <cfif #thisCollId# is #ctInst.collection_id#>
 					 		selected </cfif>
 							value="#ctInst.collection_id#">
 							#ctInst.collection#</option>
-						</cfif>
 					</cfloop>
 				</select>
 			</td>
