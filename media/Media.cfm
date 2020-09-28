@@ -83,6 +83,7 @@ limitations under the License.
 						<h1 class="h2">Edit Media <i class="fas fa-info-circle" onClick="getMCZDocs('Edit/Delete_Media')" aria-label="help link"></i>  </h1>
 						<a href="/TAG.cfm?media_id=#media_id#">edit #tag.c# TAGs</a> ~ <a href="/showTAG.cfm?media_id=#media_id#">View #tag.c# TAGs</a> ~ <a href="/MediaSearch.cfm?action=search&media_id=#media_id#" class="btn btn-xs btn-info">Detail Page</a>
 					<form name="editMedia" method="post" action="media.cfm">
+						<div class="border px-3 pb-2">
 							<input type="hidden" name="action" value="saveEdit">
 							<input type="hidden" id="number_of_relations" name="number_of_relations" value="#relns.recordcount#">
 							<input type="hidden" id="number_of_labels" name="number_of_labels" value="#labels.recordcount#">
@@ -148,8 +149,8 @@ limitations under the License.
 									</select>
 								</div>
 							</div>
-							<div class="form-row mt-1">
-								<div class="bg-light rounded border col-12 my-2 px-3 py-1">
+							<div class="form-row mx-0 mt-1">
+								<div class="bg-light rounded border col-12 mt-2 px-3 py-1">
 									<h3 class="h5" title="alternative text for vision impaired users">Alternative text for vision impared users:</h3>
 									<p class="small">#media.alttag#</p>
 								</div>
@@ -249,7 +250,7 @@ limitations under the License.
 									<input type="submit" value="Save Edits"	class="btn btn-xs btn-primary">
 								</div>
 							</div>
-								
+							</div>
 						</form>
 					</div>
 				</div>
