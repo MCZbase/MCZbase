@@ -176,7 +176,7 @@ limitations under the License.
 										
 										<cfloop query="relns">
 											<cfset d=media_relationship>
-										<div class="form-row col-12 px-0 mx-0 mb-1">
+										<div class="form-row col-12 px-0 mx-0">
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 												<label class="sr-only" for="relationship__#i#">Relationship</label>
 												<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
