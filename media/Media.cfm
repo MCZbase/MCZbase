@@ -174,7 +174,7 @@ limitations under the License.
 											</div>
 											<!--- end seed data --->
 										</cfif>
-										<div class="form-row mx-0 mb-1">
+										<div class="form-row col-12 mx-0 mb-1">
 										<cfloop query="relns">
 											<cfset d=media_relationship>
 									
@@ -188,7 +188,6 @@ limitations under the License.
 													</select>
 												<input type="text" name="related_value__#i#" id="related_value__#i#" value="#summary#" class="data-entry-input col-6">
 												<input type="hidden" name="related_id__#i#" id="related_id__#i#" value="#related_primary_key#">
-									
 												<cfset i=i+1>
 										</cfloop>
 											<span class="infoLink h5 box-shadow-0 d-block col-12 col-md-2 offset-md-10 text-right my-1" id="addRelationship" onclick="addRelation(#i#)">Add Relationship (+)</span>
