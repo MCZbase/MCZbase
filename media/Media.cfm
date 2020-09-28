@@ -163,13 +163,13 @@ limitations under the License.
 											<div id="seedMedia" style="display:none">
 												<input type="hidden" id="media_relations_id__0" name="media_relations_id__0">
 												<cfset d="">
-												<select name="relationship__0" id="relationship__0" size="1"  onchange="pickedRelationship(this.id)">
+												<select name="relationship__0" id="relationship__0" class="data-entry-select col-6" size="1"  onchange="pickedRelationship(this.id)">
 													<option value="delete">delete</option>
 													<cfloop query="ctmedia_relationship">
 														<option <cfif #d# is #media_relationship#> selected="selected" </cfif>value="#media_relationship#">#media_relationship#</option>
 													</cfloop>
 												</select>
-												<input type="text" name="related_value__0" id="related_value__0">
+												<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
 												<input type="hidden" name="related_id__0" id="related_id__0">
 											</div>
 											<!--- end seed data --->
@@ -177,7 +177,7 @@ limitations under the License.
 										<div class="form-row mx-0 mb-1">
 										<cfloop query="relns">
 											<cfset d=media_relationship>
-											<div id="relsDiv__#i#" class="col-12 form-row mx-0">
+											<div id="relsDiv__" class="col-12 form-row mx-0">
 											<input type="hidden" id="media_relations_id__#i#" name="media_relations_id__#i#" value="#media_relations_id#">
 												<label class="sr-only" for="relationship__#i#">Relationship</label>
 												<select name="relationship__#i#" id="relationship__#i#" size="1"  onchange="pickedRelationship(this.id)" class="data-entry-select custom-select col-6">
