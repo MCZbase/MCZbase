@@ -2189,8 +2189,8 @@ limitations under the License.
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
 				<div class="form-row my-1">
-					<div class="col-12 table-responsive d-table mt-1">
-						<table id="transactionAgentsTable" title="Agent Names" class="table table-sm mb-0">
+					<div class="col-12 mt-1">
+						<table id="transactionAgentsTable" aria-label="Agent Names" class="table table-responsive d-table mb-0">
 							<thead class="thead-light">
 								<tr>
 									<th colspan="2"> 
