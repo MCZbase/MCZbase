@@ -903,7 +903,7 @@ limitations under the License.
 					</section>
 					<section name="mediaSection" class="row border rounded bg-light my-2">
 						<div class="col-12">
-							<h3>
+							<h3 tabindex="0">
 								Media documenting this Loan: <br/>
 								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
 							</h3>
@@ -949,7 +949,7 @@ limitations under the License.
 						</div> 
 					</section>
 					<section name="countriesOfOriginSection" class="row border rounded my-2">
-						<div class="col-12 pb-3">
+						<div class="col-12 pb-3" tabindex="0">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(*) as ct, sovereign_nation 
@@ -977,7 +977,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section name="shipmentSection" class="row border rounded my-2">
-						<div class="col-12 pb-3">
+						<div class="col-12 pb-3" tabindex="0">
 							<h3>Shipment Information:</h3>
 							<script>
 								function opendialog(page,id,title) {
@@ -1023,7 +1023,7 @@ limitations under the License.
 					<cfinclude template="/transactions/shipmentDialog.cfm">
 					
 					<div class="row px-0">
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded" tabindex="0">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
 							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1083,7 +1083,7 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded" tabindex="0">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
