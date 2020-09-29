@@ -2206,7 +2206,7 @@ limitations under the License.
 							</thead>
 							<tbody>
 								<tr>
-									<td colspan="5">
+									<td colspan="5" tabindex="0">
 										<cfif okToPrint >
 											<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 										<cfelse>
