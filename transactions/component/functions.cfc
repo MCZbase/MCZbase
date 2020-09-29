@@ -289,7 +289,7 @@ limitations under the License.
 						} 
 					</script>
 						
-					<div class='shipments my-2'>
+					<div class='shipments my-2' tabindex="0">
 						<table class='table table-responsive d-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>

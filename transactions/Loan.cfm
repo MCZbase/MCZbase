@@ -1083,8 +1083,8 @@ limitations under the License.
 						</section>
 					
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded" tabindex="0">
-							<h3>
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded">
+							<h3  tabindex="0">
 								Permissions and Rights Documents: 
 								<br/>
 								<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
