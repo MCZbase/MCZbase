@@ -267,7 +267,7 @@ limitations under the License.
 						<cfset orSep = "">
 						AND (
 						<cfloop list="#keyword#" index="i" delimiters=",;: ">
-							#orSep# upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
+							<cfif length(#orSep#) GT 0>#orSep#</cfif> upper(keywords) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(i))#%">
 							<cfif kwType is "any">
 								<cfset orSep = "OR">
 							<cfelse>
