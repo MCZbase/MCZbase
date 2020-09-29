@@ -676,7 +676,7 @@ limitations under the License.
 										</select>
 									</span>
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3" tabindex="0">
 									<span class="data-entry-label">Date Closed:</span>
 									<div class="col-12 bg-light border">
 										<cfif loanDetails.loan_status EQ 'closed' and len(loanDetails.closed_date) GT 0>
@@ -691,7 +691,7 @@ limitations under the License.
 									<input type="text" id="return_due_date" name="return_due_date" class="data-entry-input"
 										value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 								</div>
-								<div class="col-12 col-md-3">
+								<div class="col-12 col-md-3"  tabindex="0">
 									<label for="entered_by" class="data-entry-label">Entered By</label>
 									<div class="col-12 bg-light border">
 										<span id="entered_by">#loanDetails.enteredby#</span>
