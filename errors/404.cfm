@@ -17,7 +17,9 @@
 		<cfset cTemp=cgi.script_name>
 	</cfif>
 	<cfquery name="redir" datasource="cf_dbuser">
-		select new_path from redirect where upper(old_path)='#ucase(cTemp)#'
+		select new_path 
+		from redirect 
+		where upper(old_path)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(cTemp)#">
 	</cfquery>
 	<cfif redir.recordcount is 1>
 		<cfheader statuscode="301" statustext="Moved permanently">
@@ -76,7 +78,9 @@
 		<cfset isGuid=true>
 		<cfif session.dbuser is not "pub_usr_all_all">
 			<cfquery name="yourcollid" datasource="cf_dbuser">
-				select collection from cf_collection where DBUSERNAME='#session.dbuser#'
+				select collection 
+				from cf_collection 
+				where DBUSERNAME=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.dbuser#">
 			</cfquery>
 			<p>
 				<cfif len(session.roles) gt 0 and session.roles is not "public">
