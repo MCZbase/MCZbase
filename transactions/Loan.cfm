@@ -1132,7 +1132,7 @@ limitations under the License.
 							</cfquery>
 							<cfset uriList = ''>
 							<div id="transPermitMediaListDiv">
-							<ul class="">
+							<ul class="" tabindex-"0">
 								<cfloop query="getPermitMedia">
 									<cfif media_id is ''>
 										<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>

@@ -157,7 +157,7 @@ limitations under the License.
 				</cfquery>
 	
 				<div class="col-12">
-					<span id="subloan_list">
+					<span id="subloan_list" tabindex="0">
 						<cfif childLoans.RecordCount GT 0>
 							<a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
 						<cfelse>
@@ -319,10 +319,10 @@ limitations under the License.
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>
 						</div>
-						<div class='shippermitstyle'>
+						<div class='shippermitstyle' tabindex="0">
 							<h4 class='font-weight-bold mb-0'>Permits:</h4>
 							<div class='permitship pb-2'>
-								<span id='permits_ship_#shipment_id#'>
+								<span id='permits_ship_#shipment_id#' tabindex="0">
 									<cfloop query="shippermit">
 										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media.media_id, media_uri, preview_uri, media_type,
