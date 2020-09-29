@@ -44,7 +44,7 @@
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id (+) AND
 			coll_obj_cont_hist.container_id=p.container_id and
 			p.parent_container_id=p1.container_id and
-		  	p1.barcode='#barcode#'
+		  	p1.barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
 	</cfquery>
 	<cfif d.recordcount is not 1>
 		<cfset rc=d.recordcount>
