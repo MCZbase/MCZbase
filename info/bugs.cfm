@@ -115,7 +115,9 @@
 <cfset user_id=0>
 <cfif isdefined("session.username") and len(#session.username#) gt 0>
 	<cfquery name="isUser"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT user_id FROM cf_users WHERE username = '#session.username#'
+		SELECT user_id 
+		FROM cf_users 
+		WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfset user_id = #isUser.user_id#>
 </cfif>
@@ -182,16 +184,17 @@
 			user_email,
 			submission_date)
 		VALUES (
-			#bugID.id#,
-			#user_id#,
-			'#reported_name#',
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bugID.id#">,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_id#">,
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#reported_name#">,
 			'',
-			'#complaint#',
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#complaint#">,
 			'',
-			#user_priority#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_priority#">,
 			'',
-			'#user_email#',
-			'#thisDate#')
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#user_email#">,
+			<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#thisDate#">
+		)
 	</cfquery>
         <cfset sentok="true">
         <cftry>
@@ -278,7 +281,7 @@ Complaint: #complaint#
 <!------------------------------------------------------------>
 <cfif #action# is "read">
 
-
+	<cfoutput>
 	<form name="filter" method="post" action="bugs.cfm">
 		<input type="hidden" name="action" value="read">
 		<table>
@@ -321,21 +324,21 @@ Complaint: #complaint#
 					<select name="user_priority" size="1">
 					<option value=""></option>
 					<option value="0"
-						style="background-color:#00FF00"
-						onClick="document.filter.user_priority.style.backgroundColor='#00FF00';">Low priority</option>
+						style="background-color:##00FF00"
+						onClick="document.filter.user_priority.style.backgroundColor='##00FF00';">Low priority</option>
 					<option value="1"
-						style="background-color:#99CCFF"
-						onClick="document.filter.user_priority.style.backgroundColor='#99CCFF';">Just a suggestion</option>
+						style="background-color:##99CCFF"
+						onClick="document.filter.user_priority.style.backgroundColor='##99CCFF';">Just a suggestion</option>
 					<option value="2"
-						style="background-color:#FFFF33"
-						onClick="document.filter.user_priority.style.backgroundColor='#FFFF33';">It would make my life easier</option>
+						style="background-color:##FFFF33"
+						onClick="document.filter.user_priority.style.backgroundColor='##FFFF33';">It would make my life easier</option>
 					<option value="3"
-						style="background-color:#FF6600"
-						onClick="document.filter.user_priority.style.backgroundColor='#FF6600';">I can't do what I need to without it</option>
-					<option value="4" style="background-color:#FF0000"
-						onClick="document.filter.user_priority.style.backgroundColor='#FF0000';">Urgent: High Priority</option>
-					<option value="5" style="background-color: #000000; color:#FFFFFF"
-						onClick="document.filter.user_priority.style.backgroundColor='#000000';document.filter.user_priority.style.color='#FFFFFF';">
+						style="background-color:##FF6600"
+						onClick="document.filter.user_priority.style.backgroundColor='##FF6600';">I can't do what I need to without it</option>
+					<option value="4" style="background-color:##FF0000"
+						onClick="document.filter.user_priority.style.backgroundColor='##FF0000';">Urgent: High Priority</option>
+					<option value="5" style="background-color: ##000000; color:##FFFFFF"
+						onClick="document.filter.user_priority.style.backgroundColor='##000000';document.filter.user_priority.style.color='##FFFFFF';">
 						Data are missrepresented</option>
 				</select>
 				</td>
@@ -346,32 +349,32 @@ Complaint: #complaint#
 					<select name="admin_priority" size="1">
 					<option value=""></option>
 					<option value="0"
-						style="background-color:#00FF00"
-						onClick="document.filter.admin_priority.style.backgroundColor='#00FF00';">Low priority</option>
+						style="background-color:##00FF00"
+						onClick="document.filter.admin_priority.style.backgroundColor='##00FF00';">Low priority</option>
 					<option value="1"
-						style="background-color:#99CCFF"
-						onClick="document.filter.admin_priority.style.backgroundColor='#99CCFF';">Just a suggestion</option>
+						style="background-color:##99CCFF"
+						onClick="document.filter.admin_priority.style.backgroundColor='##99CCFF';">Just a suggestion</option>
 					<option value="2"
-						style="background-color:#FFFF33"
-						onClick="document.filter.admin_priority.style.backgroundColor='#FFFF33';">It would make my life easier</option>
+						style="background-color:##FFFF33"
+						onClick="document.filter.admin_priority.style.backgroundColor='##FFFF33';">It would make my life easier</option>
 					<option value="3"
-						style="background-color:#FF6600"
-						onClick="document.filter.admin_priority.style.backgroundColor='#FF6600';">Urgent High Priority</option>
-					<option value="4" style="background-color:#FF0000"
-						onClick="document.filter.admin_priority.style.backgroundColor='#FF0000';">Something is broken</option>
-					<option value="5" style="background-color: #000000; color:#FFFFFF"
-						onClick="document.filter.admin_priority.style.backgroundColor='#000000';document.filter.admin_priority.style.color='#FFFFFF';">
+						style="background-color:##FF6600"
+						onClick="document.filter.admin_priority.style.backgroundColor='##FF6600';">Urgent High Priority</option>
+					<option value="4" style="background-color:##FF0000"
+						onClick="document.filter.admin_priority.style.backgroundColor='##FF0000';">Something is broken</option>
+					<option value="5" style="background-color: ##000000; color:##FFFFFF"
+						onClick="document.filter.admin_priority.style.backgroundColor='##000000';document.filter.admin_priority.style.color='##FFFFFF';">
 					  	Data are missrepresented</option>
 				</select>
 				</td>
 			</tr>
 			<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 			<tr>
-				<td align="right"><font color="#FF0000">username</font>: </td>
+				<td align="right"><font color="##FF0000">username</font>: </td>
 				<td><input type="text" name="cf_username" size="60"></td>
 			</tr>
 			<tr>
-				<td align="right"><font color="#FF0000">email</font>:</td>
+				<td align="right"><font color="##FF0000">email</font>:</td>
 				<td><input type="text" name="user_email" size="60"></td>
 			</tr>
 			</cfif>
@@ -392,73 +395,71 @@ Complaint: #complaint#
 		</table>
 
 	</form>
+	</cfoutput>
 
-	<cfset sql = "select
-					 BUG_ID,
-					 cf_bugs.USER_ID,
-					 REPORTED_NAME,
-					 FORM_NAME,
-					 COMPLAINT,
-					 SUGGESTED_SOLUTION,
-					 ADMIN_SOLUTION,
-					 USER_PRIORITY,
-					 ADMIN_PRIORITY,
-					 USER_REMARKS,
-					 ADMIN_REMARKS,
-					 SOLVED_FG,
-					 USER_EMAIL,
-					 SUBMISSION_DATE,
-					 username
-				from
-					cf_bugs,
-					cf_users
-				where
-					cf_bugs.user_id = cf_users.user_id (+) AND
-					bug_id > 0">
-		<cfif isdefined("FORM_NAME") and len(#FORM_NAME#) gt 0>
-			<cfset sql = "#sql# AND upper(FORM_NAME) LIKE '%#ucase(trim(FORM_NAME))#%'">
-		</cfif>
-		<cfif isdefined("reported_name") and len(#reported_name#) gt 0>
-			<cfset sql = "#sql# AND upper(reported_name) LIKE '%#ucase(trim(reported_name))#%'">
-		</cfif>
-		<cfif isdefined("complaint") and len(#complaint#) gt 0>
-			<cfset sql = "#sql# AND upper(complaint) LIKE '%#ucase(trim(complaint))#%'">
-		</cfif>
-		<cfif isdefined("suggested_solution") and len(#suggested_solution#) gt 0>
-			<cfset sql = "#sql# AND upper(suggested_solution) LIKE '%#ucase(trim(suggested_solution))#%'">
-		</cfif>
-		<cfif isdefined("admin_solution") and len(#admin_solution#) gt 0>
-			<cfset sql = "#sql# AND upper(admin_solution) LIKE '%#ucase(trim(admin_solution))#%'">
-		</cfif>
-		<cfif isdefined("user_remarks") and len(#user_remarks#) gt 0>
-			<cfset sql = "#sql# AND upper(user_remarks) LIKE '%#ucase(trim(user_remarks))#%'">
-		</cfif>
-		<cfif isdefined("user_priority") and len(#user_priority#) gt 0>
-			<cfset sql = "#sql# AND user_priority = #user_priority#">
-		</cfif>
-		<cfif isdefined("admin_priority") and len(#admin_priority#) gt 0>
-			<cfset sql = "#sql# AND admin_priority = #admin_priority#">
-		</cfif>
-		<cfif isdefined("cf_username") and len(#cf_username#) gt 0>
-			<cfset sql = "#sql# AND upper(username) LIKE '%#ucase(trim(cf_username))#%'">
-		</cfif>
-		<cfif isdefined("email") and len(#email#) gt 0>
-			<cfset sql = "#sql# AND upper(email) LIKE '%#ucase(trim(email))#%'">
-		</cfif>
-		<cfif isdefined("resolved") and len(#resolved#) gt 0>
-			<cfset sql = "#sql# AND solved_fg =1">
-		<cfelse>
-			<cfset sql = "#sql# AND (solved_fg <> 1 OR solved_fg is null)">
-		</cfif>
-		<cfif isdefined("bug_id") and len(#bug_id#) gt 0>
-			<cfset sql = "#sql# AND bug_id = #bug_id#">
-		</cfif>
-
-	<cfset sql = "#sql# order by submission_date DESC">
-
-		<cfquery name="getBug"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			 #preservesinglequotes(sql)#
-		</cfquery>
+	<cfquery name="getBug"datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select
+			BUG_ID,
+			cf_bugs.USER_ID,
+			REPORTED_NAME,
+			FORM_NAME,
+			COMPLAINT,
+			SUGGESTED_SOLUTION,
+			ADMIN_SOLUTION,
+			USER_PRIORITY,
+			ADMIN_PRIORITY,
+			USER_REMARKS,
+			ADMIN_REMARKS,
+			SOLVED_FG,
+			USER_EMAIL,
+			SUBMISSION_DATE,
+			username
+		from
+			cf_bugs,
+			cf_users
+		where
+			cf_bugs.user_id = cf_users.user_id (+) AND
+			bug_id > 0
+			<cfif isdefined("FORM_NAME") and len(#FORM_NAME#) gt 0>
+				AND upper(FORM_NAME) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(FORM_NAME))#%">
+			</cfif>
+			<cfif isdefined("reported_name") and len(#reported_name#) gt 0>
+				AND upper(reported_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(reported_name))#%'>
+			</cfif>
+			<cfif isdefined("complaint") and len(#complaint#) gt 0>
+				AND upper(complaint) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(complaint))#%">
+			</cfif>
+			<cfif isdefined("suggested_solution") and len(#suggested_solution#) gt 0>
+				AND upper(suggested_solution) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(suggested_solution))#%">
+			</cfif>
+			<cfif isdefined("admin_solution") and len(#admin_solution#) gt 0>
+				AND upper(admin_solution) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(admin_solution))#%">
+			</cfif>
+			<cfif isdefined("user_remarks") and len(#user_remarks#) gt 0>
+				AND upper(user_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(user_remarks))#%">
+			</cfif>
+			<cfif isdefined("user_priority") and len(#user_priority#) gt 0>
+				AND user_priority = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#user_priority#">
+			</cfif>
+			<cfif isdefined("admin_priority") and len(#admin_priority#) gt 0>
+				AND admin_priority = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#admin_priority#">
+			</cfif>
+			<cfif isdefined("cf_username") and len(#cf_username#) gt 0>
+				AND upper(username) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(cf_username))#%">
+			</cfif>
+			<cfif isdefined("email") and len(#email#) gt 0>
+				AND upper(email) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(email))#%">
+			</cfif>
+			<cfif isdefined("resolved") and len(#resolved#) gt 0>
+				AND solved_fg =1
+			<cfelse>
+				AND (solved_fg <> 1 OR solved_fg is null)
+			</cfif>
+			<cfif isdefined("bug_id") and len(#bug_id#) gt 0>
+				AND bug_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bug_id#">
+			</cfif>
+		order by submission_date DESC">
+	</cfquery>
 
 	<cfoutput query="getBug">
 			<cfif currentrow MOD 2>
@@ -540,30 +541,29 @@ Complaint: #complaint#
 		</cfoutput>
 
 </cfif>
-<!------------------------------------------------------------>
-
 
 <!------------------------------------------------------------>
 <cfif #action# is "saveAdmin">
 	<cfquery name="upAd" datasource="cf_dbuser">
 		UPDATE cf_bugs SET
-			admin_remarks = '#admin_remarks#',
-			admin_priority = #admin_priority#,
-			admin_solution = '#admin_solution#',
-			solved_fg=#solved_fg#
+			admin_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#admin_remarks#">,
+			admin_priority = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#admin_priority#">,
+			admin_solution = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#admin_solution#">,
+			solved_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#solved_fg#">
 		WHERE
-			bug_id = #bug_id#
-	</cfquery>
-	<cflocation url="bugs.cfm?action=read">
-</cfif>
-<!------------------------------------------------------------>
-<cfif #action# is "killit">
-	<cfquery name="upAd" datasource="cf_dbuser">
-		DELETE FROM cf_bugs WHERE bug_id=#bug_id#
+			bug_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bug_id#">
 	</cfquery>
 	<cflocation url="bugs.cfm?action=read">
 </cfif>
 
+<!------------------------------------------------------------>
+<cfif #action# is "killit">
+	<cfquery name="upAd" datasource="cf_dbuser">
+		DELETE FROM cf_bugs 
+		WHERE bug_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#bug_id#">
+	</cfquery>
+	<cflocation url="bugs.cfm?action=read">
+</cfif>
 
 
 <cfinclude template="/includes/_footer.cfm">
