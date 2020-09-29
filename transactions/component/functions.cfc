@@ -2208,9 +2208,9 @@ limitations under the License.
 								<tr>
 									<td colspan="5">
 										<cfif okToPrint >
-											<span id="printStatus" class="text-success small px-1">OK to print</span>
+											<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 										<cfelse>
-											<span class="text-danger small px-1">#okToPrintMessage#</span>
+											<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 										</cfif>
 									</td>
 								</tr>
@@ -2249,7 +2249,7 @@ limitations under the License.
 											</span>
 										</td>
 										<td>
-											<select name="trans_agent_role_#i#" id="trans_agent_role_#i#" class="data-entry-select">
+											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
 													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
 														<cfset sel = 'selected="selected"'>
