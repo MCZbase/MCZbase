@@ -20,11 +20,17 @@
 <cfif #action# is "nothing">
 	<!--- Obtain a list of reports that contain the limit_preserve_method marker --->
 	<cfquery name="preservationRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select report_name from cf_report_sql where sql_text like '%-- ##limit_preserve_method##%'
+		select report_name 
+		from cf_report_sql 
+		where 
+			sql_text like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%-- ##limit_preserve_method##%">
 	</cfquery>
 	<cfif isdefined("report") and len(#report#) gt 0>
 		<cfquery name="id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select report_id from cf_report_sql where upper(report_name)='#ucase(report)#'
+			select report_id 
+			from cf_report_sql 
+			where 
+				upper(report_name)=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(report)#">
 		</cfquery>
 		<cfif id.recordcount is 1 and id.report_id gt 0>
 			<cflocation url='report_printer.cfm?action=print&report_id=#id.report_id#&collection_object_id=#collection_object_id#&container_id=#container_id#&transaction_id=#transaction_id#&sort=#sort#'>
@@ -37,11 +43,17 @@
 	<a href="reporter.cfm" target="_blank">Manage Reports</a><br/>
 	<!-- Obtain the list of reports -->
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	   select * from cf_report_sql where report_name not like 'mcz_%' order by report_name
+	   select * 
+		from cf_report_sql 
+		where report_name not like 'mcz_%' 
+		order by report_name
 	</cfquery>
 	<!-- Obtain a list of collection codes for which this user has expressed a preference for seeing label reports for -->
 	<cfquery name="usersColls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select reportprefs from CF_USERS where username='#session.username#'
+			select reportprefs 
+			from CF_USERS 
+			where 
+				username=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfset collList = []>
 	<cfloop query="usersColls">
@@ -140,10 +152,13 @@
         	      <cfif isdefined("collection_object_id") and len(#collection_object_id#) gt 0>
         		<label for="preserve_limit">Limit to Preservation Type:</label>                 
 		        <cfquery name="partsList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                		select count(*) as ct, preserve_method from specimen_part
-		                   left join cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
-                		   where cataloged_item.collection_object_id in ( #collection_object_id# )
-                      		   group by preserve_method
+						select count(*) as ct, preserve_method 
+							from specimen_part
+							left join cataloged_item on derived_from_cat_item = cataloged_item.collection_object_id
+							where 
+								cataloged_item.collection_object_id in
+								( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes"> )
+							group by preserve_method
 		        </cfquery>
                         <select name="preserve_limit" id="preserve_limit">
                            <option value="">All</option>
@@ -169,7 +184,10 @@
 <!------------------------------------------------------>
 <cfif #action# is "print">
 	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	    select * from cf_report_sql where report_id=#report_id#
+		select * 
+		from cf_report_sql 
+		where 
+			report_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#report_id#">
 	</cfquery>
 	<cfif len(e.sql_text) gt 0>
                 <!--- The query to obtain the report data is in cf_report_sql.sql_text --->
