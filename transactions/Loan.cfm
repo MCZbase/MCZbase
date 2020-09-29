@@ -841,7 +841,7 @@ limitations under the License.
 							</script>
 						</form>
 					</section>
-					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan">
+					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan" tabindex="0">
 						<div class="col-12 py-2">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
@@ -901,9 +901,9 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section name="mediaSection" class="row border rounded bg-light my-2">
+					<section name="mediaSection" class="row border rounded bg-light my-2" tabindex="0">
 						<div class="col-12">
-							<h3 tabindex="0">
+							<h3>
 								Media documenting this Loan: <br/>
 								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
 							</h3>
@@ -976,8 +976,8 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section name="shipmentSection" class="row border rounded my-2">
-						<div class="col-12 pb-3" tabindex="0">
+					<section name="shipmentSection" class="row border rounded my-2" tabindex="0">
+						<div class="col-12 pb-3">
 							<h3>Shipment Information:</h3>
 							<script>
 								function opendialog(page,id,title) {
@@ -1152,9 +1152,9 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row border rounded bg-light mt-2 mb-4">
+					<section title="Projects" class="row border rounded bg-light mt-2 mb-4" tabindex="0">
 						<div class="col-12 pb-2 px-0">
-							<h3 class="px-3" tabindex="0">
+							<h3 class="px-3">
 								Projects associated with this loan: 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
