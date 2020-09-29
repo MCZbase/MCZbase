@@ -2190,7 +2190,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="form-row my-1">
 					<div class="col-12 table-responsive d-table mt-1">
-						<table id="transactionAgentsTable" class="table table-sm mb-0">
+						<table id="transactionAgentsTable" title="Agent Names" class="table table-sm mb-0">
 							<thead class="thead-light">
 								<tr>
 									<th colspan="2"> 
