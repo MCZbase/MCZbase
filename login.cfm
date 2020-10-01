@@ -10,14 +10,14 @@
 <!------------------------------------------------------------>
 <cfif  action is "newUser">
 	<cfquery name="uUser" datasource="cf_dbuser">
-		select * from cf_users where username = '#username#'
+		select * from cf_users where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 	</cfquery>
 	<cfset err="">
 	<cfif len(password) is 0>
 		<cfset err="Your password must be at least one character long.">
 	</cfif>
 	<cfquery name="dbausr" datasource="uam_god">
-		select username from dba_users where upper(username) = '#ucase(username)#'
+		select username from dba_users where upper(username) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(username)#">
 	</cfquery>
 	<cfif len(dbausr.username) gt 0>
 		<cfset err="That username is not available.">
@@ -44,9 +44,9 @@
 				PW_CHANGE_DATE,
 				last_login
 			) VALUES (
-				#nextUserID.nextid#,
-				'#username#',
-				'#hash(password)#',
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextUserID.nextid#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(password)#">,
 				sysdate,
 				sysdate
 			)
@@ -106,7 +106,7 @@
 					cf_users
 				WHERE
 					cf_users.user_id = cf_user_data.user_id (+) AND
-					username = '#session.username#'
+					username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 			</cfquery>
 			<cfset pwtime =  round(now() - getUserData.pw_change_date)>
 			<cfset pwage = Application.max_pw_age - pwtime>
