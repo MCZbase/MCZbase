@@ -43,7 +43,7 @@
 </head>
 <body>
 <noscript>
-    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of Arctos, or
+    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
 
@@ -67,6 +67,9 @@
                  <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
                  <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
                  <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
+                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+                    <li><a target="_top" href="/Taxa.cfm">Taxonomy (new)</a></li>
+                 </cfif>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
              </ul>
@@ -179,11 +182,11 @@
                 <cfif listfind(formList,"/Loan.cfm")>
                 <li><a target="_top" href="##">Transactions</a>
                       <ul>
+                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
                         <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
                         <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
                         <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
-                       <!--- <li><a target="_top" href="/Loan.cfm?Action=newLoan&scope=Gift">Create Gift</a></li>--->
-                        <li><a target="_top" href="/Loan.cfm?Action=search">Find Loans</a></li>
+                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
                         <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
                         <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
                         <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
@@ -222,7 +225,7 @@
                     </li>
               </cfif>
                 </ul>
-          <li><a target="_top" href="##">Manage Arctos</a>
+          <li><a target="_top" href="##">Manage MCZbase</a>
             <ul>
               <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
                 <li> <a target="_top" href="##">Developer Widgets</a>
@@ -240,7 +243,7 @@
                     <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
                     <li><a target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a></li>
                     <li><a target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a></li>
-                    <li><a target="_top" href="/AdminUsers.cfm">Arctos Users</a></li>
+                    <li><a target="_top" href="/AdminUsers.cfm">MCZbase Users</a></li>
                     <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
                     <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
                     <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>

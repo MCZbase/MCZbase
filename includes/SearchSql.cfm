@@ -826,7 +826,7 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 			INNER JOIN agent_name accn_agency ON
 				(trans_agent.AGENT_ID = accn_agency.agent_id)">
 	</cfif>
-	<cfset basQual = " #basQual# AND trans_agent.TRANS_AGENT_ROLE='associated with agency' and
+	<cfset basQual = " #basQual# AND trans_agent.TRANS_AGENT_ROLE='stewardship from agency' and
 			upper(accn_agency.agent_name) LIKE '%#ucase(accn_agency)#%'">
 </cfif>
 <cfif isdefined("custom_id_prefix") and len(custom_id_prefix) gt 0>
@@ -1610,6 +1610,19 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(permit_trans.permit_id = permit.permit_id)">
 	</cfif>
 	<cfset basQual = " #basQual# AND permit_num='#permit_num#'">
+</cfif>
+
+<cfif isdefined("underscore_coll_id") AND len(underscore_coll_id) gt 0>
+	<cfset mapurl = "#mapurl#&underscore_coll_id=#underscore_coll_id#">
+	<cfif basJoin does not contain " underscore_relation ">
+		<cfset basJoin = " #basJoin# LEFT JOIN underscore_relation ON
+		(cataloged_item.collection_object_id = underscore_relation.collection_object_id)">
+	</cfif>
+	<cfif left(underscore_coll_id,1) EQ '!' >
+		<cfset basQual = " #basQual# AND underscore_relation.underscore_collection_id<>'#replace(underscore_coll_id,'!','')#'">
+	<cfelse>
+		<cfset basQual = " #basQual# AND underscore_relation.underscore_collection_id='#underscore_coll_id#'">
+	</cfif>
 </cfif>
 
 <cfif isdefined("collecting_source") AND len(collecting_source) gt 0>

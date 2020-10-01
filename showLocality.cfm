@@ -113,25 +113,9 @@
 				verbatim_date,
 				collecting_source,
 				collecting_method,
-                                collcountlocality
+  				collcountlocality
 			from localityResults
-			group by
-				collecting_event_id,
-				higher_geog,
-				geog_auth_rec_id,
-				spec_locality,
-				geolAtts,
-				LatitudeString,
-				LongitudeString,
-				nogeorefbecause,
-				locality_id,
-				verbatim_locality,
-				began_date,
-				ended_date,
-				verbatim_date,
-				collecting_source,
-				collecting_method,
-                                collcountlocality
+			order by higher_geog, spec_locality
 		</cfquery>
 		<a href="showLocality.cfm">Search Again</a>
 		<table border id="t" class="sortable">

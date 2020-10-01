@@ -79,6 +79,7 @@
 		type_status,
 		citation_remarks,
 		publication_title,
+		doi,
 		cited_taxon_name_id,
 		concatSingleOtherId(cataloged_item.collection_object_id,'#session.CustomOtherIdentifier#') AS CustomID
 	FROM
@@ -101,6 +102,9 @@
 </cfquery>
 
     <h3 class="wikilink">Citations for <i>#getCited.publication_title#</i></h3>
+	<cfif len(getCited.doi) GT 0>
+	doi: <a target="_blank" href="https://doi.org/#getCited.DOI#">#getCited.DOI#</a><br><br>
+	</cfif>
 <a href="Publication.cfm?publication_id=#publication_id#">Edit Publication</a>
 <table class="pubtable" border="0" style="border: none;font-size: 15px;">
     <tr>

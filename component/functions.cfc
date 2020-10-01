@@ -44,7 +44,7 @@
 			specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id (+) AND
 			coll_obj_cont_hist.container_id=p.container_id and
 			p.parent_container_id=p1.container_id and
-		  	p1.barcode='#barcode#'
+		  	p1.barcode=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#barcode#">
 	</cfquery>
 	<cfif d.recordcount is not 1>
 		<cfset rc=d.recordcount>
@@ -1474,6 +1474,7 @@
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="create_from_address_id" type="string" required="yes">
    <cfargument name="address_type" type="string" required="no">
+   <cfset result="">
    <cfif not isdefined("address_type") or len(#address_type#) gt 0>
       <cfset address_type = "temporary">
    </cfif>
@@ -1617,7 +1618,7 @@
     <cftry>
         <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select agent_name from preferred_agent_name 
-            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
         </cfquery>
         <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select sq_addr_id.nextval as id from dual
@@ -1640,7 +1641,7 @@
                                 ,valid_addr_fg
                                 ,addr_remarks
                         ) VALUES (
-                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_NUMBER'>
+                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#STREET_ADDR1#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#STREET_ADDR2#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#institution#' cfsqltype='CF_SQL_VARCHAR'>
@@ -1650,15 +1651,15 @@
                                 ,<cfqueryparam value='#ZIP#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#COUNTRY_CDE#' cfsqltype='CF_SQL_VARCHAR'>
                                 ,<cfqueryparam value='#MAIL_STOP#' cfsqltype='CF_SQL_VARCHAR'>
-                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#addr_type#' cfsqltype='CF_SQL_VARCHAR'>
-                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_NUMBER'>
+                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_DECIMAL'>
                                 ,<cfqueryparam value='#addr_remarks#' cfsqltype='CF_SQL_VARCHAR'>
                         )
         </cfquery>
         <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
             select formatted_addr from addr 
-            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_NUMBER">
+            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
         </cfquery>
 		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
 		<cfset t = queryaddrow(q,1)>
@@ -1692,6 +1693,7 @@
                media.media_uri,
                media.mime_type,
                media.media_type as media_type,
+  					mczbase.get_media_descriptor(media.media_id) as media_descriptor,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
                nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
            from
@@ -1700,16 +1702,21 @@
                media_relationship like '% #transaction_type#' 
                and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
    </cfquery>
-   <cfif query.recordcount gt 0>
-       <cfset result=result & "<ul>">
-       <cfloop query="query">
-          <cfset puri=getMediaPreview(preview_uri,media_type) >
-		<cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-       </cfloop>
-       <cfset result= result & "</ul>">
-   <cfelse>
-       <cfset result=result & "<ul><li>None</li></ul>">
-   </cfif>
+	<cfif query.recordcount gt 0>
+		<cfset result=result & "<ul>">
+		<cfloop query="query">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+		</cfloop>
+		<cfset result= result & "</ul>">
+	<cfelse>
+		<cfset result=result & "<ul><li>None</li></ul>">
+	</cfif>
    <cfreturn result>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
@@ -3375,7 +3382,7 @@
 	    permit_remarks,
             (select count(*) from permit_shipment
 		where permit_shipment.permit_id = permit.permit_id
-		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#shipment_id#'>
+		and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#shipment_id#'>
 	    ) as linkcount
     from 
 	    permit 
@@ -3667,7 +3674,7 @@
 	    permit_remarks,
             (select count(*) from permit_trans 
 		where permit_trans.permit_id = permit.permit_id
-		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_NUMBER' value='#transaction_id#'>
+		and permit_trans.transaction_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#transaction_id#'>
 	    ) as linkcount
     from 
 	    permit 
@@ -3854,8 +3861,24 @@
 
    <cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
    <cfloop query="query">
-       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
-
+   	<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select media.media_id, media_uri, preview_uri, media_type, 
+  				 mczbase.get_media_descriptor(media.media_id) as media_descriptor
+		from media_relations left join media on media_relations.media_id = media.media_id
+		where media_relations.media_relationship = 'shows permit' 
+			and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+	</cfquery>
+	<cfset mediaLink = "&##8855;">
+	<cfloop query="mediaQuery">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = mediaQuery.media_descriptor>
+			</cfif>
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+	</cfloop>
+       <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
        <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
@@ -3999,6 +4022,7 @@
    <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
                MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+  					MCZBASE.get_media_descriptor(media.media_id) as media_descriptor,
                label_value
          from media_relations left join media on media_relations.media_id = media.media_id
                left join media_labels on media.media_id = media_labels.media_id
@@ -4011,16 +4035,21 @@
        <cfset result=result & "<ul>">
        <cfloop query="query">
           <cfset puri=getMediaPreview(preview_uri,media_type) >
-          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+          <cfset result = result & "<li><a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <input class='delBtn' onClick='  confirmAction(""Remove this media from this permit (#relation#)?"", ""Confirm Unlink Media"", function() { deleteMediaFromPermit(#media_id#,#permit_id#,""#relation#""); } ); event.prefentDefault(); ' value='Remove' style='width: 5em; text-align: center;' onmouseover=""this.className='delBtn btnhov'"" onmouseout=""this.className='delBtn'"" > </li>" >
 
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
    <cfset result=result & "<span>">
    <cfif query.recordcount EQ 0 or relation IS 'document for permit'>
-      <cfset result = result & "<input type='button' 
-onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #permitInfo.IssuedByAgent# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
-      <cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #permitInfo.IssuedByAgent# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
+	<cfset result = result & "<input type='button' 
+		onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);"" value='Create Media' class='lnkBtn'>&nbsp;" >
+	<cfset result = result & "<span id='addPermit_#permit_id#'><input type='button' value='Link Media' class='lnkBtn' onClick=""openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); "" ></span>">
    </cfif>
    <cfset result=result & "</span>">
    <cfset result=result & "<div id='addMediaDlg_#permit_id#_#rel#'></div>" >
@@ -4132,7 +4161,7 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
                    <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#">,
                 </cfif>
                 <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
-                   <cfqueryparam cfsqltype="CF_SQL_NUMBER" value="#insured_for_insured_value#" null="yes">,
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#insured_for_insured_value#" null="yes">,
                 </cfif>
                 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
                 <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
@@ -4197,7 +4226,24 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
    <cfif query.recordcount gt 0>
        <cfset result="<ul>">
        <cfloop query="query">
-          <cfset result = result & "<li>#permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</li>">
+   	    <cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		    select media.media_id, media_uri, preview_uri, media_type,
+  					mczbase.get_media_descriptor(media.media_id) as media_descriptor
+    		from media_relations left join media on media_relations.media_id = media.media_id
+	    	where media_relations.media_relationship = 'shows permit' 
+		    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#query.permit_id#>
+    	</cfquery>
+	    <cfset mediaLink = "&##8855;">
+    	<cfloop query="mediaQuery">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = mediaQuery.media_descriptor>
+			</cfif>
+	    	<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+    	</cfloop>
+          <cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
        </cfloop>
        <cfset result= result & "</ul>">
    </cfif>
@@ -4410,7 +4456,24 @@ onClick=""opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rig
             <cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
                  <cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
                  <cfloop query="shippermit">
-                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li>#permit_type# #permit_Num#</li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
+   	    		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			    select media.media_id, media_uri, preview_uri, media_type,
+  						mczbase.get_media_descriptor(media.media_id) as media_descriptor
+    				from media_relations left join media on media_relations.media_id = media.media_id
+			    	where media_relations.media_relationship = 'shows permit' 
+			    	and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+		    	</cfquery>
+	    		<cfset mediaLink = "&##8855;">
+		    	<cfloop query="mediaQuery">
+					<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<cfif puri EQ "/images/noThumb.jpg">
+						<cfset altText = "Red X in a red square, with text, no preview image available">
+					<cfelse>
+						<cfset altText = mediaQuery.media_descriptor>
+					</cfif>
+	    			<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='15' alt='#altText#'></a>" >
+		    	</cfloop>
+                    <cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
                     <cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
                        <cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
@@ -5238,6 +5301,7 @@ Annotation to report problematic data concerning #annotated.guid#
    <cfquery name="ctmedia_license" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select media_license_id,display media_license from ctmedia_license order by media_license_id
    </cfquery>
+
    <!---  TODO: Changed from post to media.cfm to ajax save operation.  --->
    <cfset result = result & '
       <div>
@@ -5524,5 +5588,514 @@ Annotation to report problematic data concerning #annotated.guid#
         <cfreturn rankCount>
 </cffunction>
 
+<!-------------------------------------------->
+<!--- obtain QC report concerning Event terms on a record from flat --->
+<cffunction name="getEventQCReportFlat" access="remote">
+	<cfargument name="collection_object_id" type="string" required="yes">
+
+	<cfset result=structNew()> <!--- overall result to return --->
+	<cfset r=structNew()><!--- temporary result for an individual test, create new after each test --->
+	<cfset preamendment=structNew()><!--- pre-amendment phase measures and validations --->
+	<cfset amendment=structNew()><!--- amendment phase --->
+	<cfset postamendment=structNew()><!--- post-amendment phase measures and validations --->
+	<cftry>
+		<cfquery name="flatrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select guid, basisofrecord, 
+                began_date, ended_date, verbatim_date, day, month, year, dayofyear, 
+                '' as endDayOfYear,
+                scientific_name, made_date 
+            from DIGIR_QUERY.digir_filtered_flat
+            where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		</cfquery>
+		<cfif flatrow.recordcount is 1>
+			<cfset result.status="success">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.guid=flatrow.guid>
+			<cfset result.error="">
+
+
+			<!--- store local copies of query results to use in pre-amendment phase  --->
+			<cfif flatrow.began_date EQ flatrow.ended_date>
+				<cfset eventDate = flatrow.began_date>
+			<cfelse>
+				<cfset eventDate = flatrow.began_date & "/" & flatrow.ended_date>
+			</cfif>
+
+			<cfset dateIdentified = flatrow.made_date>
+			<cfset verbatimEventDate = flatrow.verbatim_date>
+			<cfset startDayOfYear = ToString(flatrow.dayofyear) >
+			<cfset endDayOfYear= flatrow.endDayOfYear >
+			<cfset year=ToString(flatrow.year) >
+			<cfset month=ToString(flatrow.month) >
+			<cfset day=ToString(flatrow.day) >
+
+			<cfobject type="Java" class="org.filteredpush.qc.date.DwCEventTG2DQ" name="eventDateQC"> 
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Mechanism" name="Mechanism"> 
+			<cfobject type="Java" class="org.datakurator.ffdq.annotations.Provides" name="Provides"> 
+			<!--- Obtain mechanism from annotation on class --->
+			<cfset result.mechanism = eventDateQC.getClass().getAnnotation(Mechanism.getClass()).label() >
+
+			<!--- pre-amendment phase --->
+
+			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<!--- TODO: Provide metadata from annotations --->
+			<!--- 
+			eventDateQC.getClass().getMethod('measureEventdatePrecisioninseconds',String.class).getAnnotation(Provides.getClass()).label();
+
+			<cfset methodArray = eventDateQC.getClass().getMethods() >
+
+			<cfloop from="0" to="#arraylen(methodArray)#" index="i">
+				<cfset method = methodArray[i]>
+				<cfset provides = method.getAnnotation(.getClass()).label() >
+
+			</cfloop>
+
+			--->
+
+			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset r.label = "dwc:eventDate precision in seconds" >
+			<cfset r.type = "MEASURE" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " day" & s &")" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
+			<cfset preamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset r.label = "dwc:dateIdentified in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset r.label = "dwc:dateIdentified in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset r.label = "dwc:day in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
+			<cfset r.label = "dwc:day in range for month and year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset r.label = "dwc:endDayOfYear in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms contain some value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms are consistent" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
+			<cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
+			<cfset r.label = "dwc:eventDate contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
+			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset r.label = "dwc:eventDate is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
+			<cfset dqResponse = eventDateQC.validationEventdateOutofrange(eventDate) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset r.label = "dwc:month is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset preamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+
+			<!--- amendment phase --->
+
+			<!---  @Provides("39bb2280-1215-447b-9221-fd13bc990641") --->
+			<cfset dqResponse= eventDateQC.amendmentDateidentifiedStandardized(dateIdentified) >
+			<cfset r.label = "standardize dwc:dateIdentified" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset dateIdentified = dqResponse.getValue().getObject().get("dwc:dateIdentified") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["39bb2280-1215-447b-9221-fd13bc990641"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("b129fa4d-b25b-43f7-9645-5ed4d44b357b") --->
+			<cfset dqResponse = eventDateQC.amendmentDayStandardized(day) >
+			<cfset r.label = "standardize dwc:day" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset day = dqResponse.getValue().getObject().get("dwc:day") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["b129fa4d-b25b-43f7-9645-5ed4d44b357b"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("2e371d57-1eb3-4fe3-8a61-dff43ced50cf") --->
+			<cfset dqResponse = eventDateQC.amendmentMonthStandardized(month) >
+			<cfset r.label = "standardize dwc:month" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset month = dqResponse.getValue().getObject().get("dwc:month") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["2e371d57-1eb3-4fe3-8a61-dff43ced50cf"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("6d0a0c10-5e4a-4759-b448-88932f399812") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromVerbatim(eventDate, verbatimEventDate) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:verbatimEventDate " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["6d0a0c10-5e4a-4759-b448-88932f399812"] = r >
+			<cfset r=structNew()>
+    
+			<!--- @Provides("3892f432-ddd0-4a0a-b713-f2e2ecbd879d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearmonthday(eventDate, year, month, day) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:month, and dwc:day " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["3892f432-ddd0-4a0a-b713-f2e2ecbd879d"] = r >
+			<cfset r=structNew()>
+
+			<!---  @Provides("eb0a44fa-241c-4d64-98df-ad4aa837307b") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateFromYearstartdayofyearenddayofyear(eventDate, startDayOfYear, year, endDayOfYear) >
+			<cfset r.label = "fill in dwc:eventDate from dwc:year, dwc:startDayOfYear and dwc:endDayOfYear" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["eb0a44fa-241c-4d64-98df-ad4aa837307b"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("718dfc3c-cb52-4fca-b8e2-0e722f375da7") --->
+			<cfset dqResponse = eventDateQC.amendmentEventdateStandardized(eventDate) >
+			<cfset r.label = "standardize dwc:eventDate " >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "CHANGED">
+				<cfset eventDate = dqResponse.getValue().getObject().get("dwc:eventDate") >
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["718dfc3c-cb52-4fca-b8e2-0e722f375da7"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("710fe118-17e1-440f-b428-88ba3f547d6d") --->
+			<cfset dqResponse = eventDateQC.amendmentEventFromEventdate(eventDate, startDayOfYear,year,month,day,endDayOfYear) >
+			<cfset r.label = "fill in other Event terms from dwc:eventDate" >
+			<cfset r.type = "AMENDMENT" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status EQ "FILLED_IN">
+				<!--- conditionally change terms for which values are proposed --->
+				<cfif dqResponse.getValue().getObject().get("dwc:month") NEQ '' ><cfset month = dqResponse.getValue().getObject().get("dwc:month") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:day") NEQ '' ><cfset day = dqResponse.getValue().getObject().get("dwc:day") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:year") NEQ '' ><cfset year = dqResponse.getValue().getObject().get("dwc:year") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:startDayOfYear") NEQ '' ><cfset startDayOfYear = dqResponse.getValue().getObject().get("dwc:startDayOfYear") ></cfif>
+				<cfif dqResponse.getValue().getObject().get("dwc:endDayOfYear") NEQ '' ><cfset endDayOfYear = dqResponse.getValue().getObject().get("dwc:endDayOfYear") ></cfif>
+				<cfset r.value = dqResponse.getValue().getObject().toString() >
+			<cfelse>
+				<cfset r.value = "">
+			</cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset amendment["710fe118-17e1-440f-b428-88ba3f547d6d"] = r >
+			<cfset r=structNew()>
+
+
+			<!--- post-amendment phase --->
+
+			<!--- @Provides("56b6c695-adf1-418e-95d2-da04cad7be53") --->
+			<cfset dqResponse = eventDateQC.measureEventdatePrecisioninseconds(eventDate) >
+			<cfset r.label = "dwc:eventDate precision in seconds" >
+			<cfset r.type = "MEASURE" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT">
+				<cfset r.value = dqResponse.getValue().getObject() >
+				<cfset days = Round(r.value / 60 / 60 / 24)>
+				<cfif days EQ 1><cfset s=""><cfelse><cfset s="s"></cfif>
+				<cfset r.comment = dqResponse.getComment() & " (" & days & " day" & s &")" >
+			<cfelse>
+				<cfset r.value = "">
+				<cfset r.comment = dqResponse.getComment()  >
+			</cfif>
+			<cfset postamendment["56b6c695-adf1-418e-95d2-da04cad7be53"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("66269bdd-9271-4e76-b25c-7ab81eebe1d8") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedNotstandard(dateIdentified) >
+			<cfset r.label = "dwc:dateIdentified in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["66269bdd-9271-4e76-b25c-7ab81eebe1d8"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("dc8aae4b-134f-4d75-8a71-c4186239178e") --->
+			<cfset dqResponse = eventDateQC.validationDateidentifiedOutofrange(dateIdentified, eventDate)>
+			<cfset r.label = "dwc:dateIdentified in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["dc8aae4b-134f-4d75-8a71-c4186239178e"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("47ff73ba-0028-4f79-9ce1-ee7008d66498") --->
+			<cfset dqResponse =  eventDateQC.validationDayNotstandard(day) >
+			<cfset r.label = "dwc:day in standard format" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["47ff73ba-0028-4f79-9ce1-ee7008d66498"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f") --->
+			<cfset dqResponse = eventDateQC.validationDayOutofrange(year, month, day) > 
+			<cfset r.label = "dwc:day in range for month and year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("9a39d88c-7eee-46df-b32a-c109f9f81fb8") --->
+			<cfset dqResponse =eventDateQC.validationEnddayofyearOutofrange(year, endDayOfYear) >
+			<cfset r.label = "dwc:endDayOfYear in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["9a39d88c-7eee-46df-b32a-c109f9f81fb8"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("41267642-60ff-4116-90eb-499fee2cd83f") --->
+			<cfset dqResponse = eventDateQC.validationEventEmpty(startDayOfYear,eventDate,year,verbatimEventDate,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms contain some value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["41267642-60ff-4116-90eb-499fee2cd83f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("5618f083-d55a-4ac2-92b5-b9fb227b832f")  --->
+			<cfset dqResponse = eventDateQC.validationEventInconsistent(startDayOfYear,eventDate,year,month,day,endDayOfYear) >
+			<cfset r.label = "dwc:Event terms are consistent" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["5618f083-d55a-4ac2-92b5-b9fb227b832f"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("f51e15a6-a67d-4729-9c28-3766299d2985") --->
+			<cfset dqResponse = eventDateQC.validationEventdateEmpty(eventDate) >
+			<cfset r.label = "dwc:eventDate contains a value" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["f51e15a6-a67d-4729-9c28-3766299d2985"] = r >
+			<cfset r=structNew()>
+			
+			<!---  @Provides("4f2bf8fd-fc5c-493f-a44c-e7b16153c803") --->
+			<cfset dqResponse = eventDateQC.validationEventdateNotstandard(eventDate) >
+			<cfset r.label = "dwc:eventDate is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["4f2bf8fd-fc5c-493f-a44c-e7b16153c803"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("3cff4dc4-72e9-4abe-9bf3-8a30f1618432") --->
+			<cfset dqResponse = eventDateQC.validationEventdateOutofrange(eventDate) >
+			<cfset r.label = "dwc:eventDate is in range" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["3cff4dc4-72e9-4abe-9bf3-8a30f1618432"] = r >
+			<cfset r=structNew()>
+			
+			<!--- @Provides("01c6dafa-0886-4b7e-9881-2c3018c98bdc") --->
+			<cfset dqResponse = eventDateQC.validationMonthNotstandard(month) >
+			<cfset r.label = "dwc:month is in standard form" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["01c6dafa-0886-4b7e-9881-2c3018c98bdc"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("85803c7e-2a5a-42e1-b8d3-299a44cafc46") --->
+			<cfset dqResponse = eventDateQC.validationStartdayofyearOutofrange(startDayOfYear,year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["85803c7e-2a5a-42e1-b8d3-299a44cafc46"] = r >
+			<cfset r=structNew()>
+
+			<!--- @Provides("c09ecbf9-34e3-4f3e-b74a-8796af15e59f") --->
+			<cfset dqResponse = eventDateQC.validationYearEmpty(year) >
+			<cfset r.label = "dwc:startDayOfYear is in range for year" >
+			<cfset r.type = "VALIDATION" >
+			<cfset r.status = dqResponse.getResultState().getLabel() >
+			<cfif r.status eq "HAS_RESULT"><cfset r.value = dqResponse.getValue().getObject() ><cfelse><cfset r.value = ""></cfif>
+			<cfset r.comment = dqResponse.getComment() >
+			<cfset postamendment["c09ecbf9-34e3-4f3e-b74a-8796af15e59f"] = r >
+			<cfset r=structNew()>
+
+			<!--- Add results from phases to result to return --->
+
+			<cfset result["preamendment"] = preamendment >
+      
+			<cfset result["amendment"] = amendment >
+
+			<cfset result["postamendment"] = postamendment >
+
+		<cfelse>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset result.error="record not found">
+		</cfif>
+    <cfcatch>
+			<cfset result.status="fail">
+			<cfset result.collection_object_id=collection_object_id>
+			<cfset line = cfcatch.tagcontext[1].line>
+			<cfset result.error=cfcatch.message & '; ' & cfcatch.detail & ' [line:' & line & ']' >
+    </cfcatch>
+	</cftry>
+    <cfreturn serializeJSON(result) >
+</cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 </cfcomponent>

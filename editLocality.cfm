@@ -1,8 +1,15 @@
 :<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cfoutput>
+	<cfhtmlhead text='<script src="https://maps.googleapis.com/maps/api/js?key=#application.gmap_api_key#&libraries=geometry" type="text/javascript"></script>'>
+</cfoutput>
+<cfoutput>
         <script>
-                function useGL(glat,glon,gerr){
+                function useGL(glat,glon,gerr,gpoly){
+						if (gpoly=='')
+							{var gpoly_wkt='';}
+						else
+							{var gpoly_wkt='POLYGON ((' + gpoly.replace(/,$/,'') + '))';}
                         $("##MAX_ERROR_DISTANCE").val(gerr);
                         $("##MAX_ERROR_UNITS").val('m');
                         $("##DATUM").val('WGS84');
@@ -12,6 +19,7 @@
                         $("##LAT_LONG_REF_SOURCE").val('GEOLocate');
                         $("##dec_lat").val(glat);
                         $("##dec_long").val(glon);
+						$("##errorPoly").val(gpoly_wkt);
                         closeGeoLocate();
                 }
         </script>
@@ -37,6 +45,7 @@
 	    } else {
 		window.attachEvent("onmessage", getGeolocate);
 	    }
+		mapsYo();
 	});
 	function geolocate() {
                 var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
@@ -71,7 +80,7 @@
                 $("##popDiv").append(theFrame);
         }
         function getGeolocate(evt) {
-            if (evt.origin.includes("://mczbase") && evt.data == "") { 
+            if (evt.origin.includes("://mczbase") && evt.data == "") {
                console.log(evt); // Chrome seems to include an extra invocation of getGeolocate from mczbase.
             } else {
                if (evt.origin !== "#Application.protocol#://www.geo-locate.org") {
@@ -84,7 +93,12 @@
                         var glat=breakdown[0];
                         var glon=breakdown[1];
                         var gerr=breakdown[2];
-                        useGL(glat,glon,gerr)
+						console.log(breakdown[3]);
+						if (breakdown[3]== "Unavailable")
+							{var gpoly='';}
+						else
+							{var gpoly=breakdown[3].replace(/([^,]*),([^,]*)[,]{0,1}/g,'$2 $1,');}
+                        useGL(glat,glon,gerr,gpoly)
                    } else {
                         alert( "MCZbase error: Unable to parse geolocate data. data length=" +  breakdown.length);
                         closeGeoLocate('ERROR - breakdown length');
@@ -195,6 +209,106 @@
 			}
 		}
 	}
+
+		function mapsYo(){
+			$("input[id^='coordinates_']").each(function(e){
+				var locid=this.id.split('_')[1];
+				var coords=this.value;
+				var bounds = new google.maps.LatLngBounds();
+				var polygonArray = [];
+				var ptsArray=[];
+				var lat=coords.split(',')[0];
+				var lng=coords.split(',')[1];
+				var errorm=$("#error_" + locid).val();
+				var mapOptions = {
+					zoom: 1,
+				    center: new google.maps.LatLng(lat, lng),
+				    mapTypeId: google.maps.MapTypeId.ROADMAP,
+				    panControl: false,
+				    scaleControl: true,
+					fullscreenControl: true,
+					zoomControl: true
+				};
+				var map = new google.maps.Map(document.getElementById("mapdiv_" + locid), mapOptions);
+
+				var center=new google.maps.LatLng(lat,lng);
+				var marker = new google.maps.Marker({
+					position: center,
+					map: map,
+					zIndex: 10
+				});
+				bounds.extend(center);
+				if (parseInt(errorm)>0){
+					var circleoptn = {
+						strokeColor: '#FF0000',
+						strokeOpacity: 0.8,
+						strokeWeight: 2,
+						fillColor: '#FF0000',
+						fillOpacity: 0.15,
+						map: map,
+						center: center,
+						radius: parseInt(errorm),
+						zIndex:-99
+					};
+					crcl = new google.maps.Circle(circleoptn);
+					bounds.union(crcl.getBounds());
+				}
+				// WKT can be big and slow, so async fetch
+				$.get( "/component/utilities.cfc?returnformat=plain&method=getGeogWKT&locality_id=" + locid, function( wkt ) {
+  					  if (wkt.length>0){
+						var regex = /\(([^()]+)\)/g;
+						var Rings = [];
+						var results;
+						while( results = regex.exec(wkt) ) {
+						    Rings.push( results[1] );
+						}
+						for(var i=0;i<Rings.length;i++){
+							// for every polygon in the WKT, create an array
+							var lary=[];
+							var da=Rings[i].split(",");
+							for(var j=0;j<da.length;j++){
+								// push the coordinate pairs to the array as LatLngs
+								var xy = da[j].trim().split(" ");
+								var pt=new google.maps.LatLng(xy[1],xy[0]);
+								lary.push(pt);
+								//console.log(lary);
+								bounds.extend(pt);
+							}
+							// now push the single-polygon array to the array of arrays (of polygons)
+							ptsArray.push(lary);
+						}
+						var poly = new google.maps.Polygon({
+						    paths: ptsArray,
+						    strokeColor: '#1E90FF',
+						    strokeOpacity: 0.8,
+						    strokeWeight: 2,
+						    fillColor: '#1E90FF',
+						    fillOpacity: 0.35
+						});
+						poly.setMap(map);
+						polygonArray.push(poly);
+						// END this block build WKT
+  					  	} else {
+  					  		$("#mapdiv_" + locid).addClass('noWKT');
+  					  	}
+  					  	if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
+					       var extendPoint1 = new google.maps.LatLng(bounds.getNorthEast().lat() + 0.05, bounds.getNorthEast().lng() + 0.05);
+					       var extendPoint2 = new google.maps.LatLng(bounds.getNorthEast().lat() - 0.05, bounds.getNorthEast().lng() - 0.05);
+					       bounds.extend(extendPoint1);
+					       bounds.extend(extendPoint2);
+					    }
+						map.fitBounds(bounds);
+			        	for(var a=0; a<polygonArray.length; a++){
+			        		if  (! google.maps.geometry.poly.containsLocation(center, polygonArray[a]) ) {
+			        			$("#mapdiv_" + locid).addClass('uglyGeoSPatData');
+				        	} else {
+				    			$("#mapdiv_" + locid).addClass('niceGeoSPatData');
+			        		}
+			        	}
+					});
+					map.fitBounds(bounds);
+			});
+		}
 </script>
 
 <!--- Provide a probably sane value for sovereign_nation if none is currently provided. --->
@@ -252,10 +366,13 @@
 			collection.collection
   	</cfquery>
 	<cfquery name="getLL" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from
+        select LAT_LONG_ID,LOCALITY_ID,LAT_DEG,DEC_LAT_MIN,LAT_MIN,LAT_SEC,LAT_DIR,LONG_DEG,DEC_LONG_MIN,LONG_MIN,LONG_SEC,LONG_DIR,trim(DEC_LAT) DEC_LAT,trim(DEC_LONG) DEC_LONG,DATUM,to_meters(max_error_distance, max_error_units) COORDINATEUNCERTAINTYINMETERS,UTM_ZONE,UTM_EW,UTM_NS,ORIG_LAT_LONG_UNITS,DETERMINED_BY_AGENT_ID,DETERMINED_DATE,LAT_LONG_REF_SOURCE,LAT_LONG_REMARKS,MAX_ERROR_DISTANCE,MAX_ERROR_UNITS,NEAREST_NAMED_PLACE,LAT_LONG_FOR_NNP_FG,FIELD_VERIFIED_FG,ACCEPTED_LAT_LONG_FG,EXTENT,GPSACCURACY,GEOREFMETHOD,VERIFICATIONSTATUS,SPATIALFIT,GEOLOCATE_UNCERTAINTYPOLYGON,GEOLOCATE_SCORE,GEOLOCATE_PRECISION,GEOLOCATE_NUMRESULTS,GEOLOCATE_PARSEPATTERN,VERIFIED_BY_AGENT_ID,ERROR_POLYGON,db.agent_name as "determiner",vb.agent_name as "verifiedby"
+		 from
 			lat_long,
-			preferred_agent_name
-		where determined_by_agent_id = agent_id
+			preferred_agent_name db,
+			preferred_agent_name vb
+		where determined_by_agent_id = db.agent_id
+		and verified_by_agent_id = vb.agent_id(+)
         and locality_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		order by ACCEPTED_LAT_LONG_FG DESC, lat_long_id
      </cfquery>
@@ -295,45 +412,50 @@
   	<table>
   		<tr>
 			<td>
- 					<ul class="headercol1" style="padding-left:0;margin-left:0;">
- 					<li>
- 				<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
-  				<cfif #whatSpecs.recordcount# is 0>
-  					<font color="##FF0000">This Locality (#locDet.locality_id#)
-					contains no specimens. Please delete it if you don't have plans for it!</font>
-  				<cfelseif #whatSpecs.recordcount# is 1>
-					<font color="##FF0000">This Locality (#locDet.locality_id#)
+				<div style="position: relative;">
+					<div style="width: 60em;postion: relative;">
+					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
+						<li>
+					<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
+						<cfif #whatSpecs.recordcount# is 0>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
+							contains no specimens. Please delete it if you don't have plans for it!</font>
+						<cfelseif #whatSpecs.recordcount# is 1>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
-					contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
-					<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
-				<cfelse>
-					<font color="##FF0000">This Locality (#locDet.locality_id#)
+							contains #whatSpecs.numOfSpecs# #whatSpecs.collection#
+							<a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>.</font>
+						<cfelse>
+							<font color="##FF0000">This Locality (#locDet.locality_id#)
 
-					contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
-					<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
-						<cfloop query="whatSpecs">
-							<li><font color="##FF0000">#numOfSpecs# #collection#</font></li>
-						</cfloop>
+							contains the following <a href="SpecimenResults.cfm?locality_id=#locality_id#">specimens</a>:</font>
+							<ul class="geol_hier" style="padding-bottom: 0em;margin-bottom:0;">
+								<cfloop query="whatSpecs">
+									<li style="margin-left: 1.5em;"><font color="##FF0000">#numOfSpecs# #collection#</font></li>
+								</cfloop>
+							</ul>
+
+						</cfif>
+						</h3>
+						</li>
 					</ul>
-  				</cfif>
-                    </h3>
-					</li>
-						</ul>
-					<ul class="headercol3">
-				    <li>
-				      <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
-				        <cfset iu="http://maps.google.com/maps/api/staticmap?key=#application.gmap_api_key#&center=#getAccLL.dec_lat#,#getAccLL.dec_long#">
-				        <cfset iu=iu & "&markers=color:red|size:tiny|#getAccLL.dec_lat#,#getAccLL.dec_long#&sensor=false&size=100x100&zoom=2">
-				        <cfset iu=iu & "&maptype=roadmap">
-				        <a href="http://maps.google.com/maps?q=#getAccLL.dec_lat#,#getAccLL.dec_long#" target="_blank"> <img src="#iu#" alt="Google Map"> </a>
-				      </cfif>
-				    </li>
-				</ul>
+
+					   <div style="top: 0;right:10px;position:absolute;height: 288px;width: 288px;">
+						  <cfif len(getAccLL.dec_lat) gt 0 and len(getAccLL.dec_long) gt 0 and (getAccLL.dec_lat is not 0 and getAccLL.dec_long is not 0)>
+							<cfset coordinates="#getAccLL.dec_lat#,#getAccLL.dec_long#">
+							<input type="hidden" id="coordinates_#getAccLL.locality_id#" value="#coordinates#">
+							<input type="hidden" id="error_#getAccLL.locality_id#" value="#getAccLL.COORDINATEUNCERTAINTYINMETERS#">
+							<div id="mapdiv_#getAccLL.locality_id#" class="smallmap"></div>
+							<!---span class="infoLink mapdialog">map key/tools</div--->
+							</cfif>
+							</div>
+						</div>
+				</div>
 			</td>
 		</tr>
 	</cfoutput>
 	<cfoutput query="locDet">
-		<form name="geog" action="editLocality.cfm" method="post">
+		<form name="geog" action="editLocality.cfm" method="get">
 			<input type="hidden" name="action" value="changeGeog">
             <input type="hidden" name="geog_auth_rec_id">
             <input type="hidden" name="locality_id" value="#locality_id#">
@@ -345,7 +467,7 @@
 						name="higher_geog"
 						id="higher_geog"
 						value="#higher_geog#"
-						size="131"
+						size="90"
 						class="readClr"
 						readonly="yes" >
 				</td>
@@ -376,8 +498,8 @@
             <input type="hidden" name="action" value="saveLocalityEdit">
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
-			<hr />
-            <table>
+			<br><br>
+            <table style="margin-top: 3em;">
 			<tr>
 				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
 			</tr>
@@ -648,7 +770,7 @@
 					<label for="determined_by#i#">
 						<a href="javascript:void(0);" onClick="getDocs('lat_long','determiner')">Determiner</a>
 					</label>
-					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#agent_name#" size="40"
+					<input type="text" name="determined_by" id="determined_by#i#" class="reqdClr" value="#determiner#" size="40"
 						onchange="getAgent('determined_by_agent_id','determined_by','latLong#i#',this.value); return false;"
 		 				onKeyPress="return noenter(event);">
 		 			<input type="hidden" name="determined_by_agent_id" value="#determined_by_agent_id#">
@@ -730,7 +852,16 @@
 					<label for="VerificationStatus#i#">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus#i#" size="1" class="reqdClr"
+						onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
+									{document.getElementById('verified_by#i#').style.display = 'block';
+									document.getElementById('verified_byLBL#i#').style.display = 'block';
+									document.getElementById('verified_by#i#').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by#i#').value = '';
+									document.getElementById('verified_by#i#').style.display = 'none';
+									document.getElementById('verified_byLBL#i#').style.display = 'none';
+									document.getElementById('verified_by#i#').className = '';}">
 					   	<cfset thisVerificationStatus = #VerificationStatus#>
 					   		<cfloop query="ctVerificationStatus">
 								<option
@@ -739,7 +870,18 @@
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by#i#" id="verified_byLBL#i#" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">style="display:block"<cfelse>style="display:none"</cfif>>
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by#i#" value="#verifiedby#" size="40" <cfif #VerificationStatus# EQ "verified by MCZ collection" or #VerificationStatus# EQ "rejected by MCZ collection">class="reqdClr" style="display:block"<cfelse>style="display:none"</cfif>
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','latLong#i#',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id" value="#verified_by_agent_id#">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS#i#">
 						Remarks
 					</label>
@@ -747,7 +889,7 @@
 						name="LAT_LONG_REMARKS"
 						id="LAT_LONG_REMARKS#i#"
 						value="#encodeForHTML(LAT_LONG_REMARKS)#"
-						size="60">
+						size="120">
 				</td>
 			</tr>
 			<tr>
@@ -880,8 +1022,14 @@
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="4">
+					<label for = "errorPoly#i#">Error Polygon<label>
+					<input type="text" name="errorPoly" value="#ERROR_POLYGON#" id = "ERROR_POLYGON#i#" size="120" readonly>
+				</td>
+			</tr>
               <tr>
-                <td colspan="4">
+                <td colspan=<cfif #accepted_lat_long_fg# is 1>"2"<cfelse>"4"</cfif>>
 				<input type="button" value="Save Changes" class="savBtn"
   						 onmouseover="this.className='savBtn btnhov'"
 						 onmouseout="this.className='savBtn'"
@@ -890,6 +1038,26 @@
   						 onmouseover="this.className='delBtn btnhov'"
 						 onmouseout="this.className='delBtn'" onClick="latLong#i#.Action.value='deleteLatLong';confirmDelete('latLong#i#');">
 				</td>
+				<cfif #accepted_lat_long_fg# is 1>
+				<td colspan="2">
+				<input type="button" value="Copy Polygon from LocID:" class="savBtn"
+  						 onmouseover="this.className='savBtn btnhov'"
+						 onmouseout="this.className='savBtn'"
+						 onClick="latLong#i#.Action.value='copypolygon';
+						 	if(latLong#i#.copyPolyFrom.value.length==0){
+						 		alert('You need to enter a Locality ID');}
+						 	else if(latLong#i#.errorPoly.value.length>0)
+						 		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');
+						 		if (r==true)
+						 			{submit();}
+						 		else
+						 			{return false;}
+
+						 		}
+						 	else {submit()};">
+				<input type="text" name="copyPolyFrom" value="" size="10">
+				</td>
+				</cfif>
               </tr>
             </table>
           </form>
@@ -1064,13 +1232,33 @@
 					<label for="VerificationStatus">
 						Verification Status
 					</label>
-					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr">
+					<select name="VerificationStatus" id="VerificationStatus" size="1" class="reqdClr"
+							onchange="if (this.value=='verified by MCZ collection' || this.value=='rejected by MCZ collection')
+									{document.getElementById('verified_by').style.display = 'block';
+									document.getElementById('verified_byLBL').style.display = 'block';
+									document.getElementById('verified_by').className = 'reqdClr';}
+									else
+									{document.getElementById('verified_by').value = '';
+									document.getElementById('verified_by').style.display = 'none';
+									document.getElementById('verified_byLBL').style.display = 'none';
+									document.getElementById('verified_by').className = '';}">
 					   		<cfloop query="ctVerificationStatus">
 								<option value="#VerificationStatus#">#VerificationStatus#</option>
 							</cfloop>
 					   </select>
 				</td>
-				<td colspan="3">
+				<td colspan=2>
+					<label for="verified_by" id="verified_byLBL" style="display:none">
+						Verified by
+					</label>
+					<input type="text" name="verified_by" id="verified_by" size="40" style="display:none"
+						onchange="if (this.value.length > 0){getAgent('verified_by_agent_id','verified_by','newlatLong',this.value); return false;}"
+		 				onKeyPress="return noenter(event);">
+		 			<input type="hidden" name="verified_by_agent_id">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">
 					<label for="LAT_LONG_REMARKS">
 						Remarks
 					</label>
@@ -1207,6 +1395,12 @@
 					</table>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="4">
+					<label for = "errorPoly">Error Polygon<label>
+					<input type="text" name="errorPoly" id = "errorPoly" size="120" readonly>
+				</td>
+			</tr>
               <tr>
           <td colspan="4">
 				  <!---  <input type="button" value="Georeference with GeoLocate" class="insBtn"
@@ -1324,7 +1518,8 @@
         media.media_uri,
         media.mime_type,
         media.media_type,
-        media.preview_uri
+        media.preview_uri,
+		 mczbase.get_media_descriptor(media.media_id) as media_descriptor 
      from
          media,
          media_relations,
@@ -1372,6 +1567,7 @@
 				<!---div class="thumbs"--->
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
+						<cfset altText = media.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
 		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select
@@ -1382,6 +1578,7 @@
 							where
 								media_id=#media_id#
 						</cfquery>
+						
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
@@ -1390,7 +1587,7 @@
 							<cfset alt=desc.label_value>
 						</cfif>
 		               <div class="one_thumb">
-			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
@@ -1729,7 +1926,9 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS
+							,VERIFIED_BY_AGENT_ID
+							,ERROR_POLYGON)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -1800,17 +1999,17 @@
 								,NULL
 							</cfif>
 							<cfif len(#UTM_EW#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_EW#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_EW#">
 							<cfelse>
 								,NULL
 							</cfif>
 							<cfif len(#UTM_NS#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#UTM_NS#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#UTM_NS#">
 							<cfelse>
 								,NULL
 							</cfif>
 							,'#ORIG_LAT_LONG_UNITS#'
-						    ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#DETERMINED_BY_AGENT_ID#">
+						    ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#DETERMINED_BY_AGENT_ID#">
 							,'#dateformat(DETERMINED_DATE,"yyyy-mm-dd")#'
 						    ,<cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#LAT_LONG_REF_SOURCE#">
 							<cfif len(#LAT_LONG_REMARKS#) gt 0>
@@ -1819,7 +2018,7 @@
 								,NULL
 							</cfif>
 							<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
-						        ,<cfqueryparam CFSQLTYPE="CF_SQL_NUMBER" value="#MAX_ERROR_DISTANCE#">
+						        ,<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#MAX_ERROR_DISTANCE#">
 							<cfelse>
 								,NULL
 							</cfif>
@@ -1855,7 +2054,17 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#ERROR_POLYGON#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -1898,7 +2107,9 @@
 							,EXTENT
 							,GPSACCURACY
 							,GEOREFMETHOD
-							,VERIFICATIONSTATUS)
+							,VERIFICATIONSTATUS,
+							,VERIFIED_BY_AGENT_ID
+							,ERROR_POLYGON)
 						VALUES (
 							sq_lat_long_id.nextval,
 							#lid#
@@ -2024,7 +2235,17 @@
 								,NULL
 							</cfif>
 							,'#GEOREFMETHOD#'
-							,'#VERIFICATIONSTATUS#')
+							,'#VERIFICATIONSTATUS#'
+							<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#VERIFIED_BY_AGENT_ID#">
+							<cfelse>
+								,NULL
+							</cfif>
+							<cfif len(#ERROR_POLYGON#) gt 0>
+								, <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#ERROR_POLYGON#">
+							<cfelse>
+								,NULL
+							</cfif>)
 					</cfquery>
 				</cfloop>
 			</cfif>
@@ -2058,6 +2279,11 @@
 		,determined_by_agent_id = #determined_by_agent_id#
 		,georefMethod='#georefMethod#'
 		,VerificationStatus='#VerificationStatus#'">
+		<cfif len(#VERIFIED_BY_AGENT_ID#) gt 0 and len(#VERIFIED_BY#) GT 0>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = #VERIFIED_BY_AGENT_ID#">
+		  <cfelse>
+			<cfset sql = "#sql#,VERIFIED_BY_AGENT_ID = NULL">
+		</cfif>
 		<cfif len(#MAX_ERROR_DISTANCE#) gt 0>
 			<cfset sql = "#sql#,MAX_ERROR_DISTANCE = #MAX_ERROR_DISTANCE#">
 		  <cfelse>
@@ -2169,9 +2395,11 @@
 			<cfabort>
 		</cfif>
 		<cfset sql = "#sql#	where lat_long_id=#lat_long_id#">
+<cftransaction>
 <cfquery name="upLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
+</cftransaction>
 <!---/cftransaction--->
 <cfquery name="getAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select lat_long_id from lat_long where locality_id=#locality_id#
@@ -2203,6 +2431,9 @@
 		UPDATE lat_long SET accepted_lat_long_fg = 0 where
 		locality_id=#locality_id#
 	</cfquery>
+	<cfquery name="getLATLONGID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select sq_lat_long_id.nextval latlongid from dual
+	</cfquery>
 	<cfset sql = "
 	INSERT INTO lat_long (
 		LAT_LONG_ID
@@ -2216,6 +2447,12 @@
 		,verificationstatus
 		,DATUM
 		">
+		<cfif len(#verified_by_agent_id#) gt 0>
+			<cfset sql = "#sql#,verified_by_agent_id">
+		</cfif>
+		<cfif len(#gpsaccuracy#) gt 0>
+			<cfset sql = "#sql#,gpsaccuracy">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql = "#sql#,extent">
 		</cfif>
@@ -2267,10 +2504,11 @@
 			</div>
 			<cfabort>
 		</cfif>
+
 		<cfset sql="#sql#
 		)
 	VALUES (
-		sq_lat_long_id.nextval,
+		#getLATLONGID.latlongid#,
 		#LOCALITY_ID#
 		,#ACCEPTED_LAT_LONG_FG#
 		,'#stripQuotes(lat_long_ref_source)#'
@@ -2280,6 +2518,9 @@
 		,'#georefmethod#'
 		,'#verificationstatus#'
 		,'#DATUM#'">
+		<cfif len(#verified_by_agent_id#) gt 0 and len(#verified_by# GT 0)>
+			<cfset sql = "#sql#,#verified_by_agent_id#">
+		</cfif>
 		<cfif len(#extent#) gt 0>
 			<cfset sql="#sql#,'#extent#'">
 		</cfif>
@@ -2324,9 +2565,16 @@
 			 	,#UTM_NS#">
 		</cfif>
 		<cfset sql="#sql# )">
+<cftransaction>
 	<cfquery name="newLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
 	</cfquery>
+	<cfif len(#errorPoly#) gt 0>
+	<cfquery name="addPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update lat_long set error_polygon = <cfqueryparam cfsqltype="cf_sql_clob" value="#errorPoly#"> where lat_long_id = #getLATLONGID.latlongid#
+	</cfquery>
+	</cfif>
+</cftransaction>
 	<cfquery name="getAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select lat_long_id from lat_long where locality_id=#locality_id#
 		and accepted_lat_long_fg = 1
@@ -2368,3 +2616,22 @@
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
+<cfif #Action# is "copypolygon">
+	<cfoutput>
+		<cfquery name="getPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select error_polygon from lat_long where locality_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#copyPolyFrom#"> and accepted_lat_long_fg = 1
+		</cfquery>
+		<cftransaction>
+			<cfquery name="disableLLTrig" datasource="uam_god">
+				alter trigger TR_LATLONG_ACCEPTED_BIUPA disable
+			</cfquery>
+			<cfquery name="copyPoly" datasource="uam_god">
+				update lat_long set error_polygon = <cfqueryparam CFSQLTYPE="CF_SQL_CLOB" value="#getPoly.ERROR_POLYGON#"> WHERE LAT_LONG_ID = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#LAT_LONG_ID#">
+			</cfquery>
+			<cfquery name="disableLLTrig" datasource="uam_god">
+				alter trigger TR_LATLONG_ACCEPTED_BIUPA enable
+			</cfquery>
+		</cftransaction>
+	<cflocation url="editLocality.cfm?locality_id=#locality_id#" addtoken="no">
+	</cfoutput>
+</cfif>

@@ -126,34 +126,94 @@
 	<cfargument name="agent_id" type="any" required="yes">
 	<cfset status="">
 	<cfset msg="">
-	<cfif isnumeric(agent_id) and agent_id gt -1>
+	<!--- Validate GUID --->
+	<cfquery name="guids" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select agentguid, agentguid_guid_type from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
+	</cfquery>
+
+	<cftry>
+		<cfloop query="guids">
+			<cfif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) GT 0>
+				<cfquery name="ctguid_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select guid_type, applies_to, pattern_regex  
+					from ctguid_type 
+					where guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids.agentguid_guid_type#">
+					and applies_to like '%agent.agentguid%'
+				</cfquery>
+				<cfif ctguid_type.RecordCount EQ 0>
+					<!--- Error, guid type not recognized, or not applicable to agent.agentguid --->
+					<cfthrow type="Application" message="agent guid_type not recognized" detail="The provided agentguid_guid_type was not recognized.">
+				<cfelseif ctguid_type.RecordCount EQ 1>
+					<!--- appropriate guid_type, check pattern --->
+					<cfif REFind(ctguid_type.pattern_regex,guids.agentguid) EQ 0>
+						<!--- Error, guid doesn't match pattern for specified type --->
+						<cfthrow type="Application" message="agent guid doesn't match pattern" detail="The provided agentguid does not match the expected pattern for the given agentguid_guid_type.">
+					<cfelse>
+						<cfset msg=listappend(msg,'agentguid passed tests')>
+					</cfif>
+				<cfelse>
+					<!---  Unexpected state, should be just one match (guid_types get applied to more than one table or field by both being listed in the applies_to field. --->
+					<cfthrow type="Application" message="more than one record found for guid_type" detail="Unexpected error. More than one match found in ctguid_type for agentguid_guid_type.">
+				</cfif>
+			<cfelseif len(guids.agentguid) GT 0 AND len(guids.agentguid_guid_type) EQ 0>
+				<cfthrow type="Application" message="no type given for agentguid" detail="agentguid provided without a value in agentguid_guid_type.">
+			</cfif>
+		</cfloop>
+	<cfcatch>
+		<cfset status="FAIL">
+		<cfset msg='Failed: create/update agent, guid type error.  <br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
+	</cfcatch>
+	</cftry>
+	
+	<!--- Update or Insert agent --->
+	<cfif len(status) EQ 0 AND isnumeric(agent_id) AND agent_id gt -1>
 		<cftry>
 			<cfset msg="">
 			<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select * from ds_temp_agent where key=#key#
+				select * from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 			</cfquery>
 			<cftransaction>
 				<cfset thisName=trim(d.preferred_name)>
 				<cfset nametype='aka'>
+				<cfset existsName = TRUE>
 				<cftry>
-					<cfquery name="u" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						insert into agent_name (
-							agent_name_id,
-							AGENT_ID,
-							AGENT_NAME_TYPE,
-							AGENT_NAME
-						) values (
-							sq_agent_name_id.nextval,
-							#agent_id#,
-							'#nametype#',
-							'#thisName#'
-						)
+					<cfquery name="akaExistCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select count(*) as ct from agent_name where 
+						agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						and agent_name_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">
+						and agent_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 					</cfquery>
-					<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
+					<cfloop query="akaExistCheck">
+						<cfif akaExistCheck.ct EQ 0>
+							<cfset existsName = FALSE>
+						</cfif>
+					</cfloop>
 				<cfcatch>
-					<cfset msg=listappend(msg,'Failed: add #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					<cfset msg=listappend(msg,'Failed: Error looking for existing #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
 				</cfcatch>
 				</cftry>
+				<cfif NOT existsName>
+					<cftry>
+						<cfquery name="u" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							insert into agent_name (
+								agent_name_id,
+								AGENT_ID,
+								AGENT_NAME_TYPE,
+								AGENT_NAME
+							) values (
+								sq_agent_name_id.nextval,
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
+							)
+						</cfquery>
+						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
+					<cfcatch>
+						<cfset msg=listappend(msg,'Failed: add #thisName# (#nametype#)<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					</cfcatch>
+					</cftry>
+				</cfif>
 				<cfif len(d.other_name_1) gt 0>
 					<cfset thisName=trim(d.other_name_1)>
 					<cfset nametype=d.other_name_type_1>
@@ -166,9 +226,9 @@
 								AGENT_NAME
 							) values (
 								sq_agent_name_id.nextval,
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -190,9 +250,9 @@
 								AGENT_NAME
 							) values (
 								sq_agent_name_id.nextval,
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -213,9 +273,9 @@
 								AGENT_NAME_TYPE,
 								AGENT_NAME
 							) values (
-								#agent_id#,
-								'#nametype#',
-								'#thisName#'
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nametype#">,
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisName#">
 							)
 						</cfquery>
 						<cfset msg=listappend(msg,'Added #thisName# (#nametype#)')>
@@ -232,11 +292,25 @@
 								null,'#trim(d.agent_remark)#',
 								'#trim(d.agent_remark)#','#trim(d.agent_remark)#',
 								agent_remarks || '; #trim(d.agent_remark)#')
-								where agent_id=#agent_id#
+								where agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 						</cfquery>
 						<cfset msg=listappend(msg,'Added remark')>
 					<cfcatch>
 						<cfset msg=listappend(msg,'Failed: add remark<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
+					</cfcatch>
+					</cftry>
+				</cfif>
+				<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+					<cftry>
+						<cfquery name="updateguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							update agent 
+							set agentguid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid_guid_type#">,
+								agentguid = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid#">
+							where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
+						</cfquery>
+						<cfset msg=listappend(msg,'Added agent guid')>
+					<cfcatch>
+						<cfset msg=listappend(msg,'Failed: add agent guid<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>')>
 					</cfcatch>
 					</cftry>
 				</cfif>
@@ -246,14 +320,14 @@
 			<cfset msg=listchangedelims(msg,"<br>")>
 		<cfcatch>
 			<cfset status="FAIL">
-			<cfset msg='Failed: update agent<br><span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
+			<cfset msg='Failed: update agent<br><span class="cfcatch">#cfcatch.message# #replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]ORA-00001: ","","all")#</span>'>
 		</cfcatch>
 		</cftry>
-	<cfelseif agent_id is -1>
+	<cfelseif agent_id is -1 AND len(status) EQ 0 >
 		<cftry>
 			<cftransaction>
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from ds_temp_agent where key=#key#
+					select * from ds_temp_agent where key=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#key#">
 				</cfquery>
 				<cfquery name="agentID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select sq_agent_id.nextval nextAgentId from dual
@@ -267,11 +341,19 @@
 						agent_type,
 						preferred_agent_name_id,
 						AGENT_REMARKS
+						<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+							,agentguid_guid_type
+							,agentguid
+						</cfif>
 					) VALUES (
-						#agentID.nextAgentId#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
 						'person',
-						#agentNameID.nextAgentNameId#,
-						'#trim(d.agent_remark)#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentNameID.nextAgentNameId#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#trim(d.agent_remark)#'>
+						<cfif len(d.agentguid_guid_type) GT 0 and len(d.agentguid) GT 0>
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid_guid_type#">
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.agentguid#">
+						</cfif>
 						)
 				</cfquery>		
 				<cfquery name="insPerson" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -285,14 +367,14 @@
 						BIRTH_DATE,
 						DEATH_DATE
 					) VALUES (
-						#agentID.nextAgentId#
-						,'#trim(d.prefix)#'
-						,'#trim(d.LAST_NAME)#'
-						,'#trim(d.FIRST_NAME)#'
-						,'#trim(d.MIDDLE_NAME)#'
-						,'#trim(d.SUFFIX)#'
-						,'#trim(d.birth_date)#'
-						,'#trim(d.death_date)#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.prefix)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.LAST_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.FIRST_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.MIDDLE_NAME)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.SUFFIX)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.birth_date)#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.death_date)#">
 					)
 				</cfquery>
 				<cfquery name="insName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -303,10 +385,10 @@
 						agent_name,
 						donor_card_present_fg
 					) VALUES (
-						#agentNameID.nextAgentNameId#,
-						#agentID.nextAgentId#,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentNameID.nextAgentNameId#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
 						'preferred',
-						'#trim(d.preferred_name)#',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.preferred_name)#">,
 						0
 					)
 				</cfquery>
@@ -321,9 +403,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_1#',
-							'#trim(d.other_name_1)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_1#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_1)#">,
 							0
 						)
 					</cfquery>
@@ -338,9 +420,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_2#',
-							'#trim(d.other_name_2)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_2#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_2)#">,
 							0
 						)
 					</cfquery>
@@ -355,9 +437,9 @@
 							donor_card_present_fg
 						) VALUES (
 							sq_agent_name_id.nextval,
-							#agentID.nextAgentId#,
-							'#d.other_name_type_3#',
-							'#trim(d.other_name_3)#',
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agentID.nextAgentId#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#d.other_name_type_3#">,
+							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(d.other_name_3)#">,
 							0
 						)
 					</cfquery>
@@ -369,7 +451,7 @@
 		<cfcatch>
 			<cfset status="FAIL">
 			<cfset agent_id="">
-			<cfset msg='Failed: Create agent<span class="cfcatch">#replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]","","all")#</span>'>
+			<cfset msg='Failed: Create agent<span class="cfcatch">#cfcatch.message# #replace(cfcatch.detail,"[Macromedia][Oracle JDBC Driver][Oracle]","","all")#</span>'>
 		</cfcatch>
 		</cftry>
 	</cfif>

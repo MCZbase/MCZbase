@@ -422,6 +422,9 @@ function pickedRelationship (id){
 		getPermit(dispInputName,idInputName,formName);
 	} else if (relatedTable=='loan'){
 		getLoan(dispInputName,idInputName,formName);
+	//  } else if (relatedTable=='borrow'){
+		// TODO: Implement a borrow picker
+		// getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 	} else if (relatedTable=='delete'){
@@ -660,7 +663,10 @@ function addLink (n) {
 
 function addAgent (n) {
 	var lid = jQuery('#authTab tr:last').attr("id");
-	var lastID=lid.replace('authortr','');
+	var lastID='';
+	if (typeof lid !== 'undefined') {
+	   lastID = lid.replace('authortr','');
+	}
 	if(lastID==''){
 		lastID=0;
 	}
@@ -807,3 +813,4 @@ function deleteLink(r){
 	jQuery('#linkRow' + r + ' td:nth-child(1)').addClass('red').text('deleted').append(newElem);
 	jQuery('#linkRow' + r + ' td:nth-child(2)').addClass('red').text('');
 }
+

@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-   
+
 <cfset title="Bulkload Specimens">
 <cfif #action# is "nothing">
  <div class="basic_box">
@@ -7,7 +7,7 @@
            <h2 class="wikilink">Load your .csv file.</h2>
         <p>Upload a comma-delimited text file (csv).</p>
         <p>If your text file does not load, you can build templates that will load using the <a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>.</p>
-   
+
         <br><br>
 <cfform name="oids" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="Action" value="getFile">
@@ -39,7 +39,7 @@
 	<cfloop from="1" to ="#ArrayLen(arrResult)#" index="o">
 		<cfset colVals="">
 			<cfloop from="1"  to ="#ArrayLen(arrResult[o])#" index="i">
-				<cfset thisBit=arrResult[o][i]>
+				<cfset thisBit=trim(arrResult[o][i])>
 				<cfif #o# is 1>
 					<cfset colNames="#colNames#,#thisBit#">
 				<cfelse>
@@ -69,11 +69,11 @@
     <h3>Success!</h3>
     <p>You successfully loaded #c.cnt# records into the <em><strong>staging</strong></em> table.
 	They have not been checked or processed yet. You aren't done here!</p>
-	
+
 	<ul class="geol_hier">
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=checkStaged" target="_self">Check and load these records</a>.
-			This is a slow process, but completing it will allow you to re-load your data as necessary.
+			This is a slow process, but completing it will allow you to fix problems in the data in your csv file and re-load your data as necessary.
 			Email a DBA if you wish to check your records at this stage but the process times out. We can schedule
 			the process, allowing it to take as long as necessary to complete, and notify you when it's done.
 			This method is strongly preferred.
@@ -115,6 +115,7 @@
 	Your records have been checked and are now in table Bulkloader and flagged as
 		loaded='BULKLOADED RECORD'. A data administrator can un-flag
 		and load them.
+		You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 </cfoutput>
 </cfif>
 <!------------------------------------------->
@@ -135,6 +136,7 @@
 			<br>
 			Click <a href="bulkloader.txt" target="_blank">here</a>
 			to retrieve all data including error messages. Fix them up and reload them.
+			This method is strongly preferred.
 			<p>
 			Click <a href="bulkloaderLoader.cfm?action=loadAnyway">here</a> to load them to the
 			bulkloader anyway. Use Arctos to fix them up and load them.
@@ -159,9 +161,10 @@
 			Your records have been checked and are now in table Bulkloader and flagged as
 			loaded='BULKLOADED RECORD'. A data administrator can un-flag
 			and load them.
+			You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 		</cftransaction>
 	</cfif>
 </cfoutput>
 </cfif>
-    
+
 <cfinclude template="/includes/_footer.cfm">

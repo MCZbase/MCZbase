@@ -302,15 +302,18 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		cited_taxa.taxon_name_id as cited_name_id,
 		formatted_publication.formatted_publication,
 		formatted_publication.publication_id,
-                cited_taxa.taxon_status as cited_name_status
+		publication.doi,
+        cited_taxa.taxon_status as cited_name_status
 	from
 		citation,
 		taxonomy cited_taxa,
-		formatted_publication
+		formatted_publication,
+		publication
 	where
 		citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
 		citation.publication_id = formatted_publication.publication_id AND
 		format_style='short' and
+		citation.publication_id = publication.publication_id and
 		citation.collection_object_id = #collection_object_id#
 	order by
 		substr(formatted_publication, - 4)
@@ -450,7 +453,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfif>
 									Identified by #agent_name#
 									<cfif len(made_date) gt 0>
-										on #dateformat(made_date,"yyyy-mm-dd")#
+										<cfif len(made_date) gt 8> on <cfelse> in </cfif>#made_date#
 									</cfif>
 									<br>Nature of ID: #nature_of_id#
 									<cfif len(identification_remarks) gt 0>
@@ -493,7 +496,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									</cfif>
 								</cfif>
 								<div class="detailCellSmall">
+									<cfif len(#DOI#) GT 0>
+									doi: <a target="_blank" href='https://doi.org/#DOI#'>#DOI#</a><br>
+									</cfif>
+									<cfif len(#CITATION_REMARKS#) GT 0>
 									#CITATION_REMARKS#<BR>
+									</cfif>
 								</div>
 							</span>
 						</div>
@@ -502,9 +510,14 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					</cfloop>
 					<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select
-									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+									mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type,
+									mczbase.get_media_descriptor(m.media_id) as media_descriptor 
 								from
-									media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+									media_relations mr, 
+									media_labels ml, 
+									media m, 
+									citation c, 
+									formatted_publication fp
 								where
 									mr.media_id = ml.media_id and
 									mr.media_id = m.media_id and
@@ -513,13 +526,14 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									RELATED_PRIMARY_KEY = c.publication_id and
 									c.publication_id = fp.publication_id and
 									fp.format_style='short' and
-									c.collection_object_id = #collection_object_id#
+									c.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								order by substr(formatted_publication, -4)
 							</cfquery>
 									<cfif publicationMedia.recordcount gt 0>
 								            <span class="detailData">
 													<div class="thumb_spcr">&nbsp;</div>
 													<cfloop query="publicationMedia">
+														<cfset altText = publicationMedia.media_descriptor>
 														<cfset puri=getMediaPreview(preview_uri,media_type)>
 										            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 															select
@@ -528,21 +542,21 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 															from
 																media_labels
 															where
-																media_id=#media_id#
+																media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 														</cfquery>
 														<cfquery name="desc" dbtype="query">
 															select label_value from labels where media_label='description'
 														</cfquery>
-														<cfset alt="Media Preview Image">
+														<cfset mediadescription="Media Preview Image">
 														<cfif desc.recordcount is 1>
-															<cfset alt=desc.label_value>
+															<cfset mediadescription=desc.label_value>
 														</cfif>
 										               <div class="one_thumb_small">
-											               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumbSmall"></a>
+											               <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumbSmall"></a>
 										                   	<div class="detailCellSmall">
 																#media_type# (#mime_type#)
 											                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
-																<br>#alt#
+																<br>#mediadescription#
 															</div>
 														</div>
 													</cfloop>
@@ -619,7 +633,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						from
 							media_relations
 						where
-							RELATED_PRIMARY_KEY=#one.locality_id# and
+							RELATED_PRIMARY_KEY= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.locality_id#"> and
 							MEDIA_RELATIONSHIP like '% locality'
 					</cfquery>
 					<cfif len(one.spec_locality) gt 0>
@@ -639,7 +653,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						from
 							media_relations
 						where
-							RELATED_PRIMARY_KEY=#one.collecting_event_id# and
+							RELATED_PRIMARY_KEY=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> and
 							MEDIA_RELATIONSHIP like '% collecting_event'
 					</cfquery>
 					<cfif one.verbatim_locality is not one.spec_locality>
@@ -843,6 +857,30 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<td id="SDCellRight">#coll_event_remarks#</td>
 					</tr>
 					</cfif>
+					<cfquery name="collEventNumbers"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select
+							coll_event_number, number_series, 
+							case 
+								when collector_agent_id is null then '[No Agent]'
+								else MCZBASE.get_agentnameoftype(collector_agent_id, 'preferred') 
+							end
+							as collector_agent_name
+						from
+							coll_event_number
+							left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
+						where
+							collecting_event_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collecting_event_id#"> 
+					</cfquery>
+					<cfif collEventNumbers.recordcount gt 0>
+					<tr class="detailData">
+						<td id="SDCellLeft" class="innerDetailLabel" nowrap>Collecting Event/Field Number:</td>
+						<td id="SDCellRight"><ul>
+							<cfloop query="collEventNumbers">
+								<li>#coll_event_number# (#number_series# of #collector_agent_name#)</li>
+							</cfloop>
+						</ul></td>
+					</tr>
+					</cfif>
 				</table>
 			</div>
 
@@ -879,6 +917,35 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</div>
 					</cfloop>
 				</div>
+			</cfif>
+<!------------------------------------ collections ---------------------------------------------->
+			<cfif oneofus is 1>
+				<cfquery name="collectionsQuery"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="collectionsQuery_result">
+					select distinct collection_name 
+					from underscore_relation
+						left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
+					where
+						underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+				</cfquery>
+				<cfif collectionsQuery.recordcount GT 0>
+					<div class="detailCell">
+						<div class="detailLabel">Included in these Collections
+							<!---  TODO: Implement edit 
+							<cfif oneOfUs is 1>
+								<span class="detailEditCell" onclick="window.parent.loadEditApp('editColls');">Edit</span>
+							</cfif>
+							--->
+						</div>
+						<div class="detailBlock">
+							<ul>
+								<cfloop query="collectionsQuery">
+									<!--- TODO: Link to search --->
+									<li>#collection_name#</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</cfif>
 			</cfif>
 <!------------------------------------ relationships ---------------------------------------------->
 			<cfif len(relns.biol_indiv_relationship) gt 0 >
@@ -1102,7 +1169,27 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 								<tr>
 									<td class="inside">#part_name#</td>
 									<td class="inside">#part_condition#</td>
-									<td class="inside">#part_disposition#</td>
+									<td class="inside">#part_disposition#
+										<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<!--- look up whether this part is in an open loan --->
+											<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+												from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+													left join loan on loan_item.transaction_id = loan.transaction_id
+												where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mPart.part_id#">
+													and loan_status <> 'closed'
+											</cfquery>
+											<cfloop query="partonloan">
+												<cfif partonloan.loan_status EQ 'open' and mPart.part_disposition EQ 'on loan'>
+													<!--- normal case --->
+													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+												<cfelse>
+													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+												</cfif>
+											</cfloop>
+										</cfif>
+									</td>
 									<td class="inside">#lot_count#</td>
 									<cfif oneOfus is 1>
 										<td class="inside">#label#</td>
@@ -1161,7 +1248,27 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<tr>
 										<td class="inside_sub"><span>#part_name# subsample</span></td>
 										<td class="inside_sub">#part_condition#</td>
-										<td class="inside_sub">#part_disposition#</td>
+										<td class="inside_sub">#part_disposition#
+											<cfif loanList.recordcount GT 0 AND isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<!--- look up whether this part is in an open loan --->
+												<cfquery name="partonloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select loan_number, loan_type, loan_status, loan.transaction_id, item_descr, loan_item_remarks
+													from specimen_part left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+														left join loan on loan_item.transaction_id = loan.transaction_id
+													where specimen_part.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#sPart.part_id#">
+														and loan_status <> 'closed'
+												</cfquery>
+												<cfloop query="partonloan">
+													<cfif partonloan.loan_status EQ 'open' and sPart.part_disposition EQ 'on loan'>
+														<!--- normal case --->
+														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+													<cfelse>
+														<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
+														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+													</cfif>
+												</cfloop>
+											</cfif>
+										</td>
 										<td class="inside_sub">#lot_count#</td>
 										<cfif oneOfus is 1>
 											<td class="inside_sub">#label#</td>
@@ -1296,7 +1403,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									<cfif len(determined_date) gt 0>
 										<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 									</cfif>
-									<cfif len(determination_method) gt 0>,
+									<cfif len(determination_method) gt 0>
 										<cfset determination = '#determination#, #determination_method#'>
 									</cfif>
 									<div class="detailBlock">
@@ -1378,61 +1485,63 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</cfif>
 					</cfif>
 				</div>
-                                    </div>
-<!------------------------------------ accession ---------------------------------------------->
-			<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			    select
-			        media.media_id,
-			        media.media_uri,
-			        media.mime_type,
-			        media.media_type,
-			        media.preview_uri,
-			        label_value descr
-			     from
-			        media,
-					media_relations,
-					(select media_id,label_value from media_labels where media_label='description') media_labels
-			     where
-			        media.media_id=media_relations.media_id and
-			        media.media_id=media_labels.media_id (+) and
-					media_relations.media_relationship like '% accn' and
-					media_relations.related_primary_key=#one.accn_id#
-			</cfquery>
-			<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="detailCell">
-				<div class="detailLabel">Accession
-					<cfif oneOfUs is 1>
-						<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
-					</cfif>
-				</div>
-				<div class="detailBlock">
-					<span class="detailData">
-						<cfif oneOfUs is 1>
-							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
-						<cfelse>
-							#accession#
-						</cfif>
-						<cfif accnMedia.recordcount gt 0>
-							<div class="thumbs">
-								<div class="thumb_spcr">&nbsp;</div>
-								<cfloop query="accnMedia">
-									<div class="one_thumb">
-						            	<a href="#media_uri#" target="_blank">
-							               <img src="#getMediaPreview(preview_uri,media_type)#" alt="#descr#" class="theThumb">
-										</a>
-					                   	<p>
-											#media_type# (#mime_type#)
-						                   	<br><a href="/media/#media_id#" target="_blank">Media Details</a>
-											<br>#descr#
-										</p>
-									</div>
-								</cfloop>
-								<div class="thumb_spcr">&nbsp;</div>
-							</div>
-						</cfif>
-					</span>
-				</div>
 			</div>
+<!------------------------------------ accession ---------------------------------------------->
+			<cfif oneOfUs is 1 and vpdaccn is 1>
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select
+						media.media_id,
+						media.media_uri,
+						media.mime_type,
+						media.media_type,
+						media.preview_uri,
+						label_value descr,
+						mczbase.get_media_descriptor(media.media_id) as media_descriptor
+					from
+						media,
+						media_relations,
+						(select media_id,label_value from media_labels where media_label='description') media_labels
+					where
+						media.media_id=media_relations.media_id and
+						media.media_id=media_labels.media_id (+) and
+						media_relations.media_relationship like '% accn' and
+						media_relations.related_primary_key= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+				</cfquery>
+				<div class="detailCell">
+					<div class="detailLabel">Accession
+						<cfif oneOfUs is 1>
+							<span class="detailEditCell" onclick="window.parent.loadEditApp('addAccn');">Edit</span>
+						</cfif>
+					</div>
+					<div class="detailBlock">
+						<span class="detailData">
+							<cfif oneOfUs is 1>
+								<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+							<cfelse>
+								#accession#
+							</cfif>
+							<cfif accnMedia.recordcount gt 0>
+								<div class="thumbs">
+									<div class="thumb_spcr">&nbsp;</div>
+									<cfloop query="accnMedia">
+										<cfset altText = accnMedia.media_descriptor>
+										<div class="one_thumb">
+											<a href="#media_uri#" target="_blank">
+												<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+											</a>
+											<p>
+												#media_type# (#mime_type#)
+												<br><a href="/media/#media_id#" target="_blank">Media Details</a>
+												<br>#descr#
+											</p>
+										</div>
+									</cfloop>
+									<div class="thumb_spcr">&nbsp;</div>
+								</div>
+							</cfif>
+						</span>
+					</div>
+				</div>
 			</cfif>
 <!------------------------------------ usage ---------------------------------------------->
 		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
@@ -1461,7 +1570,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel">Loan History:</span>
-									<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+									<a href="/Transactions.cfm?action=findLoans&execute=true&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 										target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<cfloop query="loanList">
@@ -1489,55 +1598,65 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		</cfif>
 <!------------------------------------ Media ---------------------------------------------->
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select distinct
-        media.media_id,
-        media.media_uri,
-        media.mime_type,
-        media.media_type,
-        media.preview_uri
-     from
-        media,
+	select distinct
+		media.media_id,
+		media.media_uri,
+		media.mime_type,
+		media.media_type,
+		media.preview_uri,
+		mczbase.get_media_descriptor(media.media_id) as media_descriptor
+	from
+		media,
 		tag
-     where
-         media.media_id=tag.media_id and
-		tag.collection_object_id = #collection_object_id#
+	where
+		media.media_id=tag.media_id and
+		tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfif mediaTag.recordcount gt 0>
 	 <div class="detailCell">
 		<div class="detailLabel">Tagged in Media
 		</div>
 		<div class="detailBlock">
+         <cfset mediaStartTime = #Now()#> 
 			<cfloop query="mediaTag">
-				<cfset puri=getMediaPreview(preview_uri,media_type)>
-				 <span class="detailData">
-					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
-		        </span>
+				<cfset altText = mediaTag.media_descriptor>
+         	<cfset mediaLoopTime = #Now()#> 
+				<cfif DateDiff('s',mediaStartTime,mediaLoopTime) GT 10>
+					<!--- Lookups of mediaPreview on slow remote server can exceed the timeout for cfoutput, if responses are slow, fallback to noThumb before timing out page --->
+					<cfset puri='/images/noThumb.jpg'>
+				<cfelse>
+					<cfset puri=getMediaPreview(preview_uri,media_type)>
+				</cfif>
+				<span class="detailData">
+					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#" alt="#altText#"></a>
+				</span>
 			</cfloop>
 		</div>
 	</div>
 </cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select distinct
-        media.media_id,
-        media.media_uri,
-        media.mime_type,
-        media.media_type,
-        media.preview_uri,
-		media_relations.media_relationship
-     from
-         media,
-         media_relations,
-         media_labels
-     where
-         media.media_id=media_relations.media_id and
-         media.media_id=media_labels.media_id (+) and
-         media_relations.media_relationship like '%cataloged_item' and
-         media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-         AND MCZBASE.is_media_encumbered(media.media_id) < 1
+	select distinct
+		media.media_id,
+		media.media_uri,
+		media.mime_type,
+		media.media_type,
+		media.preview_uri,
+		media_relations.media_relationship,
+		mczbase.get_media_descriptor(media.media_id) as media_descriptor
+	from
+		media,
+		media_relations,
+		media_labels
+	where
+		media.media_id=media_relations.media_id and
+		media.media_id=media_labels.media_id (+) and
+		media_relations.media_relationship like '%cataloged_item' and
+		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+		AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
 <cfif media.recordcount gt 0>
-    <div class="detailCell">
+	<div class="detailCell">
 		<div class="detailLabel">Media
 		<cfquery name="wrlCount" dbtype="query">
 			select * from media where mime_type = 'model/vrml'
@@ -1579,23 +1698,23 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 				<!---div class="thumbs"--->
 					<div class="thumb_spcr">&nbsp;</div>
 					<cfloop query="media">
+						<cfset altText = media.media_descriptor>
 						<cfset puri=getMediaPreview(preview_uri,media_type)>
-		            	<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select
 								media_label,
 								label_value
 							from
 								media_labels
 							where
-								media_id=#media_id#
-
+								media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 						</cfquery>
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
-						<cfset alt="Media Preview Image">
+						<cfset description="Media Preview Image">
 						<cfif desc.recordcount is 1>
-							<cfset alt=desc.label_value>
+							<cfset description=desc.label_value>
 						</cfif>
 						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
                         	<cfset one_thumb = "<div class='one_thumb_box'>">
@@ -1607,11 +1726,11 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						    <cfset aForDetHref = "/media/#media_id#">
 						</cfif>
 		              		#one_thumb#
-			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumb"></a>
+			               <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 		                   	<p>
 								#media_type# (#mime_type#)
 			                   	<br><a href="#aForDetHref#" target="_blank">Media Details</a>
-								<br>#alt#
+								<br>#description#
 							</p>
 						</div>
 					</cfloop>
@@ -1654,6 +1773,12 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 </table>
 <cfif oneOfUs is 1>
 </form>
+</cfif>
+<cfif isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_AGENT_RANKING")>
+	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
+	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
+	<input type="button" value="QC" class="savBtn" onClick="loadEventQC(#collection_object_id#, 'EventDQDiv');">
+	<div id="EventDQDiv"></div>
 </cfif>
 </cfoutput>
 <cf_customizeIFrame>

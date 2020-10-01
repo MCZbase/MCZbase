@@ -84,7 +84,7 @@
 	<cfset project_id = -1>
 </cfif>
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role)  from cttrans_agent_role  where trans_agent_role != 'borrow overseen by' and trans_agent_role != 'lending institution' order by trans_agent_role
+	select distinct(trans_agent_role)  from cttrans_agent_role  where trans_agent_role not in ('borrow overseen by', 'lending institution', 'recipient institution', 'entered by') order by trans_agent_role
 </cfquery>
 <cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection,collection_id from collection order by collection
@@ -102,6 +102,7 @@
 <cfif action is "edit">
     <div style="width: 75em; margin: 0 auto;padding: 2em 0 4em 0;">
 	<cfoutput>
+	<cftry>
 		<script>
 			jQuery(document).ready(function() {
 				getMedia('accn','#transaction_id#','accnMediaDiv','6','1');
@@ -140,6 +141,7 @@
 		<cfquery name="accnData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				trans.transaction_id,
+				trans.transaction_type,
 				accn_number,
 			 	accn_status,
 				accn_type,
@@ -150,10 +152,8 @@
 				trans_date,
 				collection,
 				trans.collection_id,
-				CORRESP_FG,
 				concattransagent(trans.transaction_id,'entered by') enteredby,
-				estimated_count,
-				is_public_fg
+				estimated_count
 			FROM
 				trans,
 				accn,
@@ -163,6 +163,12 @@
 				trans.collection_id=collection.collection_id and
 				trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
+		<cfif accnData.RecordCount EQ 0 > 
+			<cfthrow message = "No such Accession.">
+		</cfif>
+		<cfif accnData.RecordCount GT 0 AND accnData.transaction_type NEQ 'accn'> 
+			<cfthrow message = "Request to edit an Accession, but the provided transaction_id was for a different transaction type.">
+		</cfif>
 		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				trans_agent_id,
@@ -312,23 +318,9 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="3">
+						<td colspan="6">
 							<em>Entered by</em>
 							<strong>#accnData.enteredby#</strong> <em>on</em> <strong>#dateformat(accnData.trans_date,'yyyy-mm-dd')#</strong>
-						</td>
-						<td colspan="2">
-							<label for="">Has Correspondence?</label>
-							<select name="CORRESP_FG" size="1" id="CORRESP_FG">
-								<option <cfif #accnData.CORRESP_FG# is "1">selected</cfif> value="1">Yes</option>
-								<option <cfif #accnData.CORRESP_FG# is "0">selected</cfif> value="0">No</option>
-							</select>
-						</td>
-						<td>
-							<label for="">Public?</label>
-							<select name="is_public_fg" size="1" id="is_public_fg">
-								<option <cfif #accnData.is_public_fg# is "1">selected</cfif> value="1">public</option>
-								<option <cfif #accnData.is_public_fg# is "0">selected</cfif> value="0">private</option>
-							</select>
 						</td>
 
 					</tr>
@@ -377,6 +369,15 @@
 			</table>
 		</td><td valign="middle">
 		</td></tr></table>
+
+<div class="shippingBlock"> 
+   		<label for="redir">Print...</label>
+		<select name="redir" id="redir" size="1" onchange="if(this.value.length>0){window.open(this.value,'_blank')};">
+   			<option value=""></option>
+			<option value="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header">Header Copy for MCZ Files</option>
+        </select>
+</div>
+
 
 <div class="shippingBlock"> 
 
@@ -663,6 +664,11 @@ $( document ).ready(loadShipments(#transaction_id#));
         </cfloop>
 	</table>
 </div>
+	<cfcatch>
+		<h2>Error: #cfcatch.message#</h2>
+		<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+	</cfcatch>
+	</cftry>
 	</cfoutput>
 </div>
 </cfif>
@@ -710,6 +716,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -723,6 +730,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -736,6 +744,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 							<cfloop query="cttrans_agent_role">
 								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
+							<option value="entered by">entered by</option>
 						</select>
 					</td>
 					<td colspan="2">
@@ -1117,8 +1126,6 @@ $( document ).ready(loadShipments(#transaction_id#));
 					<cfelse>
 						,TRANS_REMARKS = NULL
 					</cfif>
-					,CORRESP_FG=#CORRESP_FG#,
-					is_public_fg=#is_public_fg#
 				WHERE transaction_id = #transaction_id#
 			</cfquery>
 			<cfquery name="wutsThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

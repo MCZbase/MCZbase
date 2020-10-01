@@ -407,3 +407,76 @@ select
 	  deacc_item.transaction_id = #transaction_id#
 	  ORDER BY cat_num
 </cfquery>
+<!---  getAccMCZ - information for accession invoice headers.   --->
+<cfquery name="caller.getAccMCZ" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT distinct
+		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
+		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,
+
+		-- inside
+		concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+		concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
+		concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
+		concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
+		concattransagent(trans.transaction_id, 'entered by')   enteredByName,
+		concattransagent(trans.transaction_id, 'received by')   recAgentName,
+		MCZBASE.get_eaddresses(trans.transaction_id,'in-house contact') inHouseContactPhEmail,
+		MCZBASE.get_eaddresses(trans.transaction_id,'additional in-house contact') addInHouseContactPhEmail,
+		
+		-- outside
+		concattransagent(trans.transaction_id, 'received from')   recFromAgentName,
+		concattransagent(trans.transaction_id, 'outside authorized by') outsideAuthAgentName,
+		concattransagent(trans.transaction_id, 'outside contact')   outsideContactName,
+		concattransagent(trans.transaction_id, 'additional outside contact')   additionalContactNames,
+		MCZBASE.get_eaddresses(trans.transaction_id,'outside contact') outsideContactPhEmail,
+		get_address(outside_trans_agent.agent_id) outside_address,
+		'' as outside_contact_title,		
+
+		-- Stewardship
+		concattransagent(trans.transaction_id, 'stewardship from agency')   agencyName,
+		
+		replace(nature_of_material,'&','&amp;') nature_of_material,
+		replace(trans_remarks,'&','&amp;') trans_remarks,
+		accn_type,
+		'specimens' as  object_specimen,
+		accn_number,
+		accn_status,
+		estimated_count,
+		'' as value,
+
+		-- shipments (note, one row per shipment)
+		MCZBASE.count_shipments_for_trans(trans.transaction_id) as shipment_count,
+		shipment.shipment_id,
+		replace(to_char(shipped_date,'dd-Month-yyyy'),' ','') as shipped_date,
+		shipped_carrier_method,
+		shipment.no_of_packages as no_of_packages,
+		ship_to_addr.formatted_addr  shipped_to_address   ,
+		ship_from_addr.formatted_addr  shipped_from_address  ,
+		replace(MCZBASE.get_agentnameoftype(shipment.PACKED_BY_AGENT_ID, 'preferred'),'[Error]','') as processed_by_name,
+		sponsor_name.agent_name project_sponsor_name,
+		acknowledgement,
+		collection.collection,
+		shipment.print_flag,
+		shipment.carriers_tracking_number, 
+		replace(replace(MCZBASE.get_permits_for_shipment(shipment.shipment_id),'|','<BR>'),'&','&amp;') as shipping_permits,
+
+		-- media and permits on the accession
+		replace(MCZBASE.get_media_for_trans(trans.transaction_id,'documents accn'),'&','&amp;') as media,
+		replace(MCZBASE.get_permits_for_trans(trans.transaction_id),'&','&amp;') as permits
+	FROM
+		accn 
+		left join trans on accn.transaction_id = trans.transaction_id
+		left join trans_agent outside_trans_agent on trans.transaction_id = outside_trans_agent.transaction_id
+		left join shipment on accn.transaction_id = shipment.transaction_id
+		left join collection on trans.collection_id = collection.collection_id
+		left join addr ship_to_addr on shipment.SHIPPED_TO_ADDR_ID = ship_to_addr.addr_id
+		left join addr ship_from_addr on shipment.SHIPPED_FROM_ADDR_ID	= ship_from_addr.addr_id
+		left join project_trans on trans.transaction_id = project_trans.transaction_id
+		left join project_sponsor on project_trans.project_id = project_sponsor.project_id
+		left join agent_name sponsor_name on project_sponsor.agent_name_id = sponsor_name.agent_name_id
+	WHERE
+		outside_trans_agent.trans_agent_role='received from' and
+		accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+	ORDER BY 
+		shipment.print_flag desc, shipment.shipment_id asc
+</cfquery>

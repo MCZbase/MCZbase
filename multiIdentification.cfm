@@ -318,7 +318,7 @@
 				sq_identification_id.nextval,
 				#i#
 				<cfif len(#MADE_DATE#) gt 0>
-					,'#dateformat(MADE_DATE,"yyyy-mm-dd")#'
+					,'#MADE_DATE#'
 				</cfif>
 				,'#NATURE_OF_ID#'
 				 ,1
@@ -392,7 +392,7 @@
 	<cflocation url="multiIdentification.cfm?collection_object_id=#collection_object_id#" addtoken="no">
 
 </cfoutput>
-    
+
 </cfif>
 <!----------------------------------------------------------------------------------->
 <cfinclude template="includes/_footer.cfm">

@@ -1,15 +1,18 @@
+<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
+<cfoutput>
 <script language="javascript" type="text/javascript">
-	jQuery(document).ready(function() {
-		jQuery("#start_date").datepicker();
-		jQuery("#began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
-			buttonImageOnly: true });
-		jQuery("#ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
-			buttonImage: "images/cal_icon.png",
-			buttonImageOnly: true });
-          jQuery(".ui-datepicker-trigger").css("margin-bottom","-7px");	
+	$(document).ready(function() {
+		$("##start_date").datepicker({ dateFormat: "yy-mm-dd"});  
+		$("##end_date").datepicker({ dateFormat: "yy-mm-dd"});
+		//$("##began_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		//	buttonImage: "images/cal_icon.png",
+		//	buttonImageOnly: true });
+		//$("##ended_date").datepicker({dateFormat: "yy-mm-dd",showOn: "button",
+		//	buttonImage: "images/cal_icon.png",
+		//	buttonImageOnly: true });
+      $(".ui-datepicker-trigger").css("margin-bottom","-7px");	
 	});
 	function addProjTaxon() {
 		if (document.getElementById('newTaxId').value.length == 0){
@@ -20,7 +23,9 @@
 		}
 	}
 </script>
-           <div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+</cfoutput>
+<div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/SpecimenUsage.cfm">
@@ -51,9 +56,9 @@
 			</tr>
 		</table>
 			<label for="start_date">Start&nbsp;Date</label>
-				<input type="text" name="start_date" id="start_date">
+				<input type="text" name="start_date" id="start_date" placeholder="yyyy-mm-dd">
 				<label for="end_date">End&nbsp;Date</label>
-				<input type="text" name="end_date" id="end_date">
+				<input type="text" name="end_date" id="end_date" placeholder="yyyy-mm-dd">
 				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
 				<label for="project_remarks">Remarks</label>
@@ -180,7 +185,8 @@
 				loan.transaction_id,
 				nature_of_material,
 				trans.trans_remarks,
-				loan_description
+				loan_description,
+				project_trans.project_trans_remarks
 			from 
 				project_trans, 
 				loan, 
@@ -282,9 +288,9 @@
 				</tr>
 			</table>
 				<label for="start_date">Start&nbsp;Date</label>
-				<input type="text" name="start_date" id="start_date" value="#dateformat(proj.start_date,"yyyy-mm-dd")#">
+				<input type="text" name="start_date" id="start_date" value="#dateformat(proj.start_date,"yyyy-mm-dd")#" placeholder="yyyy-mm-dd">
 				<label for="end_date">End&nbsp;Date</label>
-				<input type="text" name="end_date" id="end_date" value="#dateformat(proj.end_date,"yyyy-mm-dd")#">
+				<input type="text" name="end_date" id="end_date" value="#dateformat(proj.end_date,"yyyy-mm-dd")#" placeholder="yyyy-mm-dd">
 				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="80" rows="6">#proj.project_description#</textarea>
 				<label for="project_remarks">Remarks</label>
@@ -489,7 +495,72 @@
 			</p>
 			<p>
 				<strong>Project Loans</strong>
-				<a href="/Loan.cfm?project_id=#getDetails.project_id#&Action=addItems">[ Add Loan ] </a>
+
+				<form name="addLoan" method="post" action="Project.cfm">
+					<div style="width: 100%; border: 1px gray; border-style: solid; padding: 3px;">
+						<input type="hidden" name="action" id="addLoanAction" value="addLoan">
+						<input type="hidden" name="project_id" value="#getDetails.project_id#">
+						<input type="hidden" name="transaction_id" id="transaction_id" value="">
+						<label for="loan_number">Pick loan by loan number</label>
+						<input type="text" name="loan_number" id="loan_number" value="" placeholder="yyyy-n-Coll" size="40" style="width: 90%">
+						<div style="width: 50em; positiuon: absolute;"></div>
+						<label for="project_loan_remarks">Remarks</label>
+						<input type="text" name="project_loan_remarks" id="project_loan_remarks" value="" size="30">
+						<input type="submit" id="addLoanButton" value="Add Loan" class="savBtn" disabled>
+						<script>
+							function makeLoanPicker(nameControl,idControl,submitControl) {
+								$('##'+nameControl).autocomplete({
+									source: function (request, response) {
+										$.ajax({
+											url: "/transactions/component/functions.cfc",
+											data: { term: request.term, method: 'getLoanAutocomplete' },
+											dataType: 'json',
+											success : function (data) { response(data); },
+											error : function (jqXHR, textStatus, error) {
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												console.log(error);
+												messageDialog('Error:' + message ,'Error: ' + error);
+											}
+										})
+									},
+									focus: function (event, ui) {
+										$('##'+nameControl).val(result.item.meta);
+										return false;
+									},
+									select: function (event, result) {
+										$('##'+nameControl).val(result.item.meta);
+										if (idControl) {
+											// if idControl is non null, non-empty, non-false
+											$('##'+idControl).val(result.item.id);
+										}
+										if (submitControl) {
+											// if submitControl is non null, non-empty, non-false
+											$('##'+submitControl).prop('disabled',false);
+										}
+										return false;
+									},
+									minLength: 3
+								});
+								//.autocomplete("instance")._renderItem = function(ul,item) {
+								//	// override to display meta "collection name * (description)" instead of value in picklist.
+								//	return $("<li>").append("<div style='width: 30em;'>" + item.value + " (" + item.meta + ")</div>").appendTo(ul);
+								//};
+							};
+
+							$(document).ready(function () {
+								makeLoanPicker("loan_number","transaction_id","addLoanButton");
+							});
+						</script>
+					</div>				
+				</form>
+
 				<cfset i=1>
 				<cfloop query="getLoans">
 		 			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -499,8 +570,9 @@
 						<a href="Project.cfm?Action=delTrans&transaction_id=#transaction_id#&project_id=#getDetails.project_id#">
 							[ Remove ]
 						</a>
+						<cfif len(project_trans_remarks) GT 0><cfset pr_t_remarks = "[#project_trans_remarks#]"><cfelse><cfset pr_t_remarks = ""></cfif>
 						<div>
-							#nature_of_material# - #LOAN_DESCRIPTION#
+							#nature_of_material# - #LOAN_DESCRIPTION# #pr_t_remarks#
 						</div>
 					</div>
 					<cfset i=i+1>
@@ -550,7 +622,7 @@
 				</cfloop>
 			</p>	
 		</cfoutput>
-                
+
 </cfif>
 <!------------------------------------------------------------------------------------------->
 <cfif action is "removeTaxonomy">
@@ -568,14 +640,35 @@
 	<cfoutput>
 		<cfquery name="addtaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into project_taxonomy (
-			    project_id,
-			    taxon_name_id
+				 project_id,
+				 taxon_name_id
 			) values (
-				#project_id#,
-				#newTaxId#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newTaxId#">
 			)
 		</cfquery>
 	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###taxonomy" addtoken="false">
+	</cfoutput>
+</cfif>				
+<!------------------------------------------------------------------------------------------->
+<cfif action is "addLoan">
+	<cfoutput>
+		<cfquery name="addloan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into project_trans (
+				 project_id,
+				 transaction_id
+				 <cfif isDefined("project_loan_remarks") AND len(project_loan_remarks) GT 0>
+					, project_trans_remarks
+				</cfif>
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				<cfif isDefined("project_loan_remarks") AND len(project_loan_remarks) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_loan_remarks#">
+				</cfif>
+			)
+		</cfquery>
+	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
 	</cfoutput>
 </cfif>				
 <!------------------------------------------------------------------------------------------->
@@ -583,7 +676,7 @@
 	<cfoutput>
 		<cfquery name="deleteSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			delete from project_sponsor
-			where PROJECT_SPONSOR_ID=#PROJECT_SPONSOR_ID#
+			where PROJECT_SPONSOR_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PROJECT_SPONSOR_ID#">
 		</cfquery>
 	<cflocation url="Project.cfm?Action=editProject&project_id=#project_id###sponsor" addtoken="false">
 	</cfoutput>
@@ -594,9 +687,9 @@
 		<cfquery name="updateSponsor" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update project_sponsor
 			set 
-			agent_name_id=#agent_name_id#,
-			ACKNOWLEDGEMENT='#ACKNOWLEDGEMENT#'
-			where PROJECT_SPONSOR_ID=#PROJECT_SPONSOR_ID#
+			agent_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">,
+			ACKNOWLEDGEMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ACKNOWLEDGEMENT#">
+			where PROJECT_SPONSOR_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#PROJECT_SPONSOR_ID#">
 		</cfquery>
 	<cflocation url="Project.cfm?action=editProject&project_id=#project_id###sponsor" addtoken="no">
 	</cfoutput>
@@ -734,11 +827,14 @@ VALUES (
 <!------------------------------------------------------------------------------------------->
 <cfif #Action# is "addTrans">
  <cfoutput>
- 
-<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
- 	INSERT INTO project_trans (project_id, transaction_id) values (#project_id#, #transaction_id#)
-
-  </cfquery>
+	<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+ 		INSERT INTO project_trans 
+			(project_id, transaction_id) 
+		values (
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">, 
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		)
+  	</cfquery>
    <cflocation url="Project.cfm?Action=editProject&project_id=#project_id###trans" addtoken="false">
  </cfoutput>
 </cfif>

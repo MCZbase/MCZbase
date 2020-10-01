@@ -33,7 +33,7 @@
 			LEFT OUTER JOIN coll_object_remark ON (specimen_part.collection_object_id = coll_object_remark.collection_object_id)
 		WHERE
 			cataloged_item.collection_object_id = #collection_object_id#
-		ORDER BY sampled_from_obj_id DESC,part_name ASC
+		ORDER BY sampled_from_obj_id DESC,part_name ASC, preserve_method
 	</cfquery>
 	<cfquery name="ctDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select coll_obj_disposition from ctcoll_obj_disp order by coll_obj_disposition

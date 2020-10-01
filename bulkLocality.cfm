@@ -60,6 +60,7 @@
 	<cfif isdefined("filterFamily")>
 		<input type="hidden" name="filterFamily" value="#filterFamily#">
 	</cfif>
+	<cfset showSpecimenCounts = false>
 	<cfinclude template="/includes/frmFindLocation_guts.cfm">
 </form>
 </cfoutput>

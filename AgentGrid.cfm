@@ -75,8 +75,8 @@
 	<cfset sql = "#sql# AND agent_name.agent_id = #agent_id#">
 </cfif>
 <cfif isdefined("address") AND len(#address#) gt 0>
-	<cfset sql = "#sql# AND agent_id IN (
-			select agent_id from addr where upper(formatted_addr) like '%#ucase(address)#%')">
+	<cfset sql = "#sql# AND agent.agent_id IN (
+			select agent_id from addr where upper(formatted_addr) like UPPER('%#address#%'))">
 </cfif>
 
 <cfset sql = "#sql# GROUP BY  preferred_agent_name.agent_id,

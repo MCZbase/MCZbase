@@ -16,6 +16,7 @@
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 	<input type="hidden" name="formName" value="#formName#">
 	<input type="hidden" name="collIdFld" value="#collIdFld#">
+	<cfset showSpecimenCounts = false>
  	<cfinclude template="/includes/frmFindLocation_guts.cfm">
 </form>
 </cfoutput>
@@ -135,7 +136,7 @@
 			
 			<td colspan="2">
 				<font size="-1">
-					#VerbatimLatitude# / #verbatimLongitude# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
+					#LatitudeString# / #LongitudeString# &plusmn; #max_error_distance# #max_error_units# <em><strong>Ref:</strong></em> #lat_long_ref_source#
 				</font>
 			</td>
 		</tr>

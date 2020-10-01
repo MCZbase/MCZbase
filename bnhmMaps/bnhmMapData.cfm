@@ -120,6 +120,9 @@
 		<cfset basJoin = "">
 	</cfif>
 	<cfinclude template="/includes/SearchSql.cfm">
+	<cfif basQual EQ "  AND flat.collection_cde not in ('HerpOBS')" or basQual EQ "  AND filtered_flat.collection_cde not in ('HerpOBS')">
+		<cfset basQual = "AND 1<>1">
+	</cfif>
 	<cfset SqlString = "#basSelect# #basFrom# #basJoin# #basWhere# #basQual#">
 	<cfset checkSQL(SqlString)>
 	<cfquery name="getMapData" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

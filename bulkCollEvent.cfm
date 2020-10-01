@@ -12,6 +12,7 @@
 <form name="getCol" method="post" action="bulkCollEvent.cfm">
 	<input type="hidden" name="Action" value="findCollEvent">
 	<input type="hidden" name="collection_object_id" value="#collection_object_id#">
+	<cfset showSpecimenCounts = false>
 	<cfinclude template="/includes/frmFindLocation_guts.cfm">	   
 </form>
 </cfoutput>

@@ -27,7 +27,7 @@
 </cfquery>
 <!--- Obtain list of transaction agent roles, excluding those not relevant to deaccession editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
+	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
@@ -376,9 +376,11 @@
 <cfif action is "editDeacc">
 	<cfset title="Edit Deaccession">
 	<cfoutput>
-	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cftry>
+	<cfquery name="deaccDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deaccDetailsResult" >
 		select
             trans.transaction_id,
+			trans.transaction_type,
 			trans.trans_date,
 			deaccession.deacc_number,
 			deaccession.deacc_type,
@@ -401,6 +403,12 @@
 			trans.collection_id=collection.collection_id and
 			trans.transaction_id = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
+	<cfif deaccDetails.RecordCount EQ 0 > 
+		<cfthrow message = "No such Deaccession.">
+	</cfif>
+	<cfif deaccDetails.RecordCount GT 0 AND deaccDetails.transaction_type NEQ 'deaccession'> 
+		<cfthrow message = "Request to edit a deaccession, but the provided transaction_id was for a different transaction type.">
+	</cfif>
 	<cfquery name="deaccAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
 			trans_agent_id,
@@ -714,7 +722,7 @@
         }
     };
 
-    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deacccession"));
+    $( document ).ready(loadTransactionFormMedia(#transaction_id#,"deaccession"));
     </script>
 </div><!---  End of Media block ---> 
 
@@ -957,6 +965,11 @@ $( document ).ready(loadShipments(#transaction_id#));
 </div> <!---  End of permit block --->
 
 
+<cfcatch>
+	<h2>Error: #cfcatch.message#</h2>
+	<cfif cfcatch.detail NEQ ''>#cfcatch.detail#</cfif>
+</cfcatch>
+</cftry>
 </cfoutput>
 <script>
 	dCount();
@@ -1580,7 +1593,7 @@ $( document ).ready(loadShipments(#transaction_id#));
       <cfset variables.encoding="UTF-8">
       <cfscript>
 			variables.joFileWriter = createObject('Component', '/component.FileWriter').init(variables.fileName, variables.encoding, 32768);
-			d='deacc_number,item_count,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,trans_remarks,ent_agent,Project';
+			d='deacc_number,auth_agent,inHouse_agent,addInhouse_agent,Recipient,recip_inst,foruseby_agent,addOutside_agent,deacc_type,deacc_status,Transaction_Date,deacc_reason,nature_of_material,trans_remarks,ent_agent';
 		 	variables.joFileWriter.writeLine(d);
 	</cfscript>
     </cfif>
@@ -1699,22 +1712,24 @@ $( document ).ready(loadShipments(#transaction_id#));
         </div>
       <cfif csv is true>
         <cfset d='"#escapeDoubleQuotes(collection)# #escapeDoubleQuotes(deacc_number)#"'>
-        <cfset d=d &',"#c.c#"'>
+ <!---       <cfset d=d &',"#c.c#"'>--->
+	
         <cfset d=d &',"#escapeDoubleQuotes(auth_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(inHouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addInhouse_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(rec_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(foruseby_agent)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(recip_inst)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(addOutside_agent)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_type)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(deacc_status)#"'>
         <cfset d=d &',"#dateformat(trans_date,"yyyy-mm-dd")#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>
+       <!--- <cfset d=d &',"#escapeDoubleQuotes(return_due_date)#"'>--->
         <cfset d=d &',"#escapeDoubleQuotes(deacc_reason)#"'>
+		<cfset d=d &',"#escapeDoubleQuotes(nature_of_material)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(trans_remarks)#"'>
         <cfset d=d &',"#escapeDoubleQuotes(ent_agent)#"'>
-        <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>
+    <!---    <cfset d=d &',"#escapeDoubleQuotes(valuelist(p.project_name))#"'>--->
         <cfscript>
 				variables.joFileWriter.writeLine(d);
 			</cfscript>

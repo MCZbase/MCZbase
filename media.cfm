@@ -66,8 +66,21 @@
 	</cfquery>
     <!--- relations --->
     <cfloop from="1" to="#number_of_relations#" index="n">
-      <cfset thisRelationship = #evaluate("relationship__" & n)#>
-      <cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfset failure=0>
+      <cftry>
+      	<cfset thisRelationship = #evaluate("relationship__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cftry>
+      	<cfset thisRelatedId = #evaluate("related_id__" & n)#>
+      <cfcatch>
+        <cfset failure=1>
+      </cfcatch>
+      </cftry>
+      <cfif thisRelatedId EQ '' AND thisRelationship NEQ "delete"><cfset failure=1></cfif>
+      <cfif failure EQ 0>
       <cfif isdefined("media_relations_id__#n#")>
         <cfset thisRelationID=#evaluate("media_relations_id__" & n)#>
         <cfelse>
@@ -96,8 +109,9 @@
 						related_primary_key=#thisRelatedId#
 					where media_relations_id=#thisRelationID#
 				</cfquery>
-        </cfif>
-      </cfif>
+        </cfif><!--- delete or update relation --->
+      </cfif><!--- relation exists ---> 
+      </cfif><!--- Failure check --->
     </cfloop>
     <cfloop from="1" to="#number_of_labels#" index="n">
       <cfset thisLabel = #evaluate("label__" & n)#>
@@ -132,7 +146,7 @@
       </cfif>
     </cfloop>
     <cfif isdefined("headless") and headless EQ 'true'>
-        <h2>Changes to Media Record Saved</h2>
+        <h2>Changes to Media Record Saved <img src="/images/info_i.gif" border="0" onClick="getMCZDocs('Edit/Delete_Media')" class="likeLink" alt="[ help ]"></h2>
     <cfelse>
         <cflocation url="media.cfm?action=edit&media_id=#media_id#" addtoken="false">
     </cfif>
@@ -141,7 +155,10 @@
 <!----------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
   <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from media where media_id=#media_id#
+		select MEDIA_ID, MEDIA_URI, MIME_TYPE, MEDIA_TYPE, PREVIEW_URI, MEDIA_LICENSE_ID, MASK_MEDIA_FG,
+		mczbase.get_media_descriptor(media_id) as alttag 
+		from media 
+		where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
   <cfset relns=getMediaRelations(#media_id#)>
   <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -155,7 +172,7 @@
 			preferred_agent_name
 		where
 			media_labels.assigned_by_agent_id=preferred_agent_name.agent_id (+) and
-			media_id=#media_id#
+			media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 	</cfquery>
   <cfquery name="tag"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select count(*) c from tag where media_id=#media_id#
@@ -212,6 +229,7 @@
               <option value="1">Hidden</option>
           </cfif>
       </select>
+		<div style="background-color: AliceBlue;"><strong>Alternative text for vision impared users:</strong> #media.alttag#</div>
       <label for="relationships">Media Relationships | <span class="likeLink" onclick="manyCatItemToMedia('#media_id#')">Add multiple "shows cataloged_item" records</span></label>
       <div id="relationships" class="graydot">
         <cfset i=1>
@@ -362,22 +380,27 @@
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
       <label for="labels" style="margin-top:.5em;">Media Labels</label>
-      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
-      <div id="labels" class="graydot">
-        <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;">
-            <option value=""></option>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p><label for="labels">Media Labels <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
+      <div id="labels" class="graydot" style="padding: .5em .25em;">
+      <cfset i=1>
+      <cfloop>
+        <div id="labelsDiv__#i#">
+          <select name="label__#i#" id="label__#i#" size="1">
+            <option value="delete">Select label...</option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="70">&nbsp;
-            <br><span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span>
+          <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
+	 </div>
+	 <cfset i=i+1>
+	</cfloop>
+          <span class="infoLink" id="addLabel" onclick="addLabel(#i#)">Add Label</span>
       </div>
         
        </div>
-        </div>
+      
       <input type="submit" 
 				value="Create Media" 
 				class="insBtn"

@@ -548,7 +548,12 @@ If your item needs to be sorted in a special way, then do that here. --->
 					<option value="/tools/bulkPart.cfm">
 						Parts (Modify)
 					</option>
-                    <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+						<option value="/grouping/addToNamedCollection.cfm">
+							Add To Named Group
+						</option>
+					</cfif>
+               <option value="/Reports/report_printer.cfm?collection_object_id=#collObjIdList#">
 						Print Any Report
 					</option>
 				</select>
@@ -588,9 +593,13 @@ If your item needs to be sorted in a special way, then do that here. --->
 		} else {
 			i='#collObjIdList#';
 		}
-		u += sep + 'collection_object_id=' + i;
-		u += '&table_name=' + t;
-		u += '&sort=' + s;
+		if (f=='/grouping/addToNamedCollection.cfm') {
+			// leave off list of collection object ids.
+		} else { 
+			u += sep + 'collection_object_id=' + i;
+			u += '&table_name=' + t;
+			u += '&sort=' + s;
+		}
 		var reportWin=window.open(u);
 	}
 

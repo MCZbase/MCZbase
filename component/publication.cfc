@@ -7,7 +7,7 @@
 	</cfquery>
   <cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
-			last_name,
+			nvl(last_name,agent_name) as last_name,
 			author_position
 		from
 			publication_author_name,
@@ -15,7 +15,7 @@
 			person
 		where
 			publication_author_name.agent_name_id=agent_name.agent_name_id and
-			agent_name.agent_id=person.person_id and
+			agent_name.agent_id=person.person_id(+) and
 			publication_author_name.publication_id=#publication_id# and
             publication_author_name.author_role ='author'
 		order by
@@ -32,9 +32,9 @@
   </cfif>
   <cfif a.recordcount is 1>
     <cfset as=a.last_name>
-    <cfelseif a.recordcount is 2>
+  <cfelseif a.recordcount is 2>
     <cfset as=a.last_name[1] & ' and ' & a.last_name[2]>
-    <cfelse>
+  <cfelse>
     <cfset as=a.last_name[1] & ' et al.'>
   </cfif>
   <cfset r=as & ' ' & p.published_year>

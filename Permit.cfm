@@ -144,7 +144,7 @@ where
 	permit.contact_agent_id = Contact.agent_id (+)">
 
 <cfif len(#IssuedByAgent#) gt 0>
-	<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#ucase(IssuedByAgent)#%'">
+	<cfset sql = "#sql# AND upper(issuedBy.agent_name) like '%#escapequotes(ucase(IssuedByAgent))#%'">
 </cfif>
 <cfif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
 	<cfset sql = "#sql# AND ISSUED_BY_AGENT_ID = #ISSUED_BY_AGENT_ID#">
@@ -157,7 +157,7 @@ where
 </cfif>
 
 <cfif len(#IssuedToAgent#) gt 0>
-	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#ucase(IssuedToAgent)#%'">
+	<cfset sql = "#sql# AND upper(issuedTo.agent_name) like '%#escapequotes(ucase(IssuedToAgent))#%'">
 </cfif>
 <cfif len(#issued_date#) gt 0>
     <cfif len(#issued_date#) EQ 4>

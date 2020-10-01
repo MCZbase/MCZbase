@@ -51,6 +51,7 @@
     <input type="text" name="label_suffix" id="label_suffix">
     <label for="container_type">Container Type</label>
     <select name="container_type" size="1" id="container_type">
+			<option value=""></option>
         <cfloop query="ctContainer_Type">
           <option value="#ctContainer_Type.Container_Type#">#ctContainer_Type.Container_Type#</option>
         </cfloop>

@@ -582,7 +582,11 @@ Some Totally Random String Data .....
 											<cfif len(collecting_source) gt 0>
 												<cfset thisCollSrc=collecting_source>
 											<cfelse>
-												<cfset thisCollSrc="wild caught">
+												<cfif collection_cde is "VP" OR collection_cde is "IP" >
+													<cfset thisCollSrc="rock/outcrop">
+												<cfelse>
+													<cfset thisCollSrc="wild caught">
+												</cfif>
 											</cfif>
 											<select name="collecting_source"
 												size="1"

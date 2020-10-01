@@ -207,50 +207,50 @@
 	</cfif>
 	<table class="ssrch">
 		<tr>
-			<td colspan="2" class="secHead">
+			<td colspan="4" class="secHead">
 				<span class="secLabel">Identifiers</span>
 				<span class="secControl" id="c_identifiers"	onclick="showHide('identifiers',1)">Show More Options</span>
 				<span class="secControl" id="c_identifiers_cust">Customize</span>
 			</td>
 		</tr>
 		<tr>
-			<td class="lbl">
+			<td class="lbl" valign="top">
 				<span id="collection">Institutional Catalog</span>:
 			</td>
-			<td class="srch">
-               <p class="topspace">&nbsp;</p>
+			<td class="srch" valign="top">
 				<select name="collection_id" id="collection_id" size="1">
-				    <cfif len(#session.exclusive_collection_id#) is 0>
+			   	<cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
 					</cfif>
 					<cfloop query="ctInst">
-						<cfif not (#oneOfUs# EQ 0 and #ctInst.collection_id# EQ 10)>
 						<option <cfif #thisCollId# is #ctInst.collection_id#>
 					 		selected </cfif>
 							value="#ctInst.collection_id#">
-							<cfif #ctInst.collection_id# EQ 8>Invertebrate Zoology (incl. Marine Invertebrates)
-							<CFELSE>#ctInst.collection#</cfif></option>
-						</cfif>
+							#ctInst.collection#</option>
 					</cfloop>
 				</select>
+			</td>
+			<td class="lbl" valign="top" style="width: 5em;">
 				<span id="cat_num">Number:</span>
+			</td>
+			<td class="srch" valign="top">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
-					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft"></textarea>
+					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
-					<input type="text" name="listcatnum" id="listcatnum" size="21" value="">
+					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
 			</td>
 		</tr>
 		<tr>
-			<td><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
-			<td><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
+			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
-	<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
+		<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
-			<td class="lbl">
+			<td colspan="2" class="lbl">
 				<span id="custom_identifier">#replace(session.CustomOtherIdentifier," ","&nbsp;","all")#:</span>
 			</td>
-			<td class="srch">
+			<td colspan="2" class="srch">
 				<label for="CustomOidOper">Display Value</label>
 				<select name="CustomOidOper" id="CustomOidOper" size="1">
 					<option value="IS">is</option>
@@ -260,12 +260,12 @@
 				</select>&nbsp;<input type="text" name="CustomIdentifierValue" id="CustomIdentifierValue" size="50">
 			</td>
 		</tr>
+		<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
 		<tr>
-		<td class="lbl">
-			<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
-				&nbsp;
-		</td>
-			<td class="srch">
+			<td class="lbl" colspan="2">
+					&nbsp;
+			</td>
+			<td class="srch" colspan="2">
 				<table>
 					<tr>
 						<td>
@@ -283,10 +283,10 @@
 					</tr>
 				</table>
 			</td>
-			</cfif>
 		</tr>
-	</cfif>
-</table>
+		</cfif>
+		</cfif>
+	</table>
 <div id="e_identifiers">
 
     <table id="t_identifiers" class="ssrch">
@@ -1328,6 +1328,12 @@
          <cfquery name="ctFlags" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          	select flags from ctflags
          </cfquery>
+         <cfif listcontainsnocase(session.roles,"manage_specimens")>
+	         <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   	      	select underscore_collection_id, collection_name from underscore_collection 
+					order by collection_name
+         	</cfquery>
+			</cfif>
          <table id="t_identifiers" class="ssrch">
          	<tr>
          		<td class="lbl">
@@ -1376,7 +1382,24 @@
          			<span class="infoLink" onclick="getHelp('get_permit_number');">Pick</span>
          		</td>
          	</tr>
-
+         	<cfif listcontainsnocase(session.roles,"manage_specimens")>
+	         	<tr>
+   	      		<td class="lbl">
+      	   			<span id="named_group_label">Named Group:</span>
+         			</td>
+						<td class="srch">
+      	   			<select name="underscore_coll_id" id="underscore_coll_id" size="1">
+	         				<option value=""></option>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "#namedCollections.underscore_collection_id#">#namedCollections.collection_name#</option>
+         					 </cfloop>
+   	      				<cfloop query="namedCollections">
+      	   					<option value = "!#namedCollections.underscore_collection_id#">!#namedCollections.collection_name#</option>
+         					 </cfloop>
+           				</select>
+         			</td>
+         		</tr>
+				</cfif>
          	<tr>
          		<td class="lbl">
          			<span id="disposition">Part Disposition:</span>
