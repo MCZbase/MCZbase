@@ -883,7 +883,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		<div class="detailBlock">
 		<span class="detailData form-row col-12 mx-0 px-0"> 
 		<!---div class="thumbs"--->
-		<div class="thumb_spcr">&nbsp;</div>
+	
 		<cfloop query="media">
 			<cfset altText = media.media_descriptor>
 			<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -904,11 +904,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-				<cfset one_thumb = "<div class='col-3 px-1'>">
+				<cfset one_thumb = "<div class='col-3 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
-				<cfset one_thumb = "<div class='col-3 px-1'>">
+				<cfset one_thumb = "<div class='col-3 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
@@ -919,7 +919,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<span class="smaller">#description#</span> </p>
 			</div>
 		</cfloop>
-		<div class="thumb_spcr">&nbsp;</div>
 		<!--/div---> 
 		</span> </div>
 	<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
