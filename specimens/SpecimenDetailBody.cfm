@@ -707,7 +707,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           </div>
 
           <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
+         
           </div>
           <!-- end media_thumbs -->
         </cfoutput>
