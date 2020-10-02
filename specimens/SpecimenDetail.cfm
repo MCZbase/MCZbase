@@ -180,9 +180,14 @@ limitations under the License.
 				<div class="mb-0 font-weight-normal"> 
 					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
-		<div class="mb-1 text-muted small w-75"><span class="h6">Part(s):</span> #partString#</div>
+		
 			<div class="mb-1 mt-1 small">#collectors#</div>
 	</div>
+	
+			 </div>
+				</div>
+<div class="col-12 col-md-4">
+		<div class="mb-1 text-muted small w-75"><span class="h6">Part(s):</span> #partString#</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-auto">#typeName#</p>
@@ -193,9 +198,9 @@ limitations under the License.
 			<cfelse>
 
 			</cfif>
-			 </div>
-				</div>
-					<div class="col-12 col-md-4">Parts</div>
+					
+					
+</div>
 	<div class="col-12 col-md-4">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
