@@ -630,7 +630,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	        agent_remarks as geography,
 	        '' as geology,
 	        '' as coll,
-	        agent_name as specimendetailurl,
 	        media_relationship,
 	        2 as sortorder
 	   from media_relations
