@@ -460,7 +460,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '#media_id#'>
+
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
