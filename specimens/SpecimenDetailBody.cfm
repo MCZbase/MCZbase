@@ -693,9 +693,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
    	    </cfquery>
       <cfoutput>
         <a name="otherimages"></a>
-        <div class="media_thumbs">
-    		
-			<div class="multizoom1 thumbs">
+
       </cfoutput>
       <cfset counter=0>
       <cfloop query="relm">
@@ -704,11 +702,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       <!--- if any related images, show their thumbnails --->
       <cfif relm.recordcount gt 1>
         <cfoutput>
-          </div>
 
-          <!-- end multizooom thumbs -->
-         
-          </div>
           <!-- end media_thumbs -->
         </cfoutput>
         <cfelse>
