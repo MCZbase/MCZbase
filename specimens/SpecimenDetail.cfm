@@ -176,7 +176,7 @@ limitations under the License.
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog ##</span> #collection#&nbsp;#cat_num#</h2>
+			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h2>
 				<div class="mb-0 font-weight-normal"> 
 					<a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
