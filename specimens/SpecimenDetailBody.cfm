@@ -423,7 +423,6 @@ limitations under the License.
             where
                         media.media_id=tag.media_id and
                         tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 </cfquery>
 <cfset media_id = '1333'>
 <cfif NOT isDefined("media_id")>
@@ -561,6 +560,8 @@ limitations under the License.
       <cfset scaledwidth = Round(#m.width# * #scalefactor#) >
       <cfset mdstop =  Round(#m.maxheightinset# * #scalefactor#)>
       <cfset origheight = Round(#m.maxheightinset#)>
+
+
       <cfset im_hw = 'style=" height:#scaledheight#px; width:#PVWIDTH#px;"'>
     </cfif>
     <cfif len(guidOfRelatedSpecimen)>
@@ -599,7 +600,7 @@ limitations under the License.
       		</div>
        <cfelse>
         <div class="targetarea media_image">
-            <img id="multizoom1" src='#m.media_uri#'>
+            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
@@ -610,7 +611,7 @@ limitations under the License.
      
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
- </cfoutput>
+      <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select collection_object_id as pk, guid,
@@ -624,6 +625,19 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
+	   union
+	   select agent.agent_id as pk, '' as guid,
+	        '' as typestatus, agent_name as name,
+	        agent_remarks as geography,
+	        '' as geology,
+	        '' as coll,
+	        agent_name as specimendetailurl,
+	        media_relationship,
+	        2 as sortorder
+	   from media_relations
+	      left join agent on related_primary_key = agent.agent_id
+	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
+	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
@@ -640,13 +654,26 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
     </cfif>
     <cfloop query='ff'>
-
+<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
+        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
+      <cfelse>--->
            <cfif ff.media_relationship eq "shows cataloged_item">
               <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
            <cfelse>
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
-
+<!---      </cfif>--->
+      <cfoutput>
+<!---        <div class ="media_id">
+        <div class="backlink">#backlink#</div>
+         <h3><i>#ff.name#</i></h3>
+   			<p>#ff.geography# #geology#</p>
+        	<p>#ff.coll# </p>
+        	<cfif len(trim(#ff.typestatus#))>
+          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
+        </cfif>
+        </div>--->
+      </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
@@ -668,198 +695,105 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
-	
-			</cfoutput>
+			<div class="multizoom1 thumbs">
+      </cfoutput>
+      <cfset counter=0>
+      <cfloop query="relm">
+        <cfif len(trim(relm.height)) && len(trim(relm.width)) >
+           <cfset counter++ >
+           <cfset scalefactor = PVWIDTH/#relm.width#>
+           <cfif scalefactor GT 1 >
+             <cfset scalefactor = 1>
+           </cfif>
+           <cfset scaledheight = 0 + Round(#relm.height# * #scalefactor#) >
+           <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >
 
+           <!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
+           <cfset labellist="<ul>">
+           <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
+           <!---<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">--->
+           <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
+           <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                       select media_label, label_value
+                       from media_labels
+   					where media_label in ('aspect', 'spectrometer', 'spectrometer reading location', 'light source', 'height', 'width')and media_id=#relm.media_id#
+
+                   </cfquery>
+           <cfloop query="labels">
+             <cfset labellist = "#labellist#<li>#media_label#: #label_value#</li>">
+           </cfloop>
+           <cfquery name="relations"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                       select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
+                       from media_relations
+   					where media_id=#relm.media_id#
+                 and media_relationship in ('shows cataloged_item')
+                   </cfquery>
+           <cfloop query="relations">
+             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user"))>
+               <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
+             </cfif>
+           </cfloop>
+           <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+                       select keywords
+                       from media_keywords
+   					where media_id=#relm.media_id#
+                   </cfquery>
+           <cfset kwlist="">
+           <cfloop query="keywords">
+             <cfset kwlist = "#kwlist# #keywords#">
+           </cfloop>
+           <cfif len(trim(kwlist)) >
+             <cfset labellist = "#labellist#<li>keywords: #kwlist#</li>">
+           </cfif>
+           <cfset labellist="#labellist#</ul>">
+           <!--- Define the metadata block that gets changed when an image is selected from the set --->
+           <cfset datatitle="
+   			<h4><a href='media/#relm.media_id#'>Media Record (metadata)</a> <span> <!---(metadata for image #counter# of #relm.recordcount#)---></a></h4>">
+           <cfset data_content= "#labellist#">
+           <!--- one height doesn't work yet --->
+           <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#' >Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
+           <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
+		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#">#counter#</a></cfoutput>
+        </cfif> <!--- end are relm.height and relm.width non null --->
+      </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
+      <!--- if any related images, show their thumbnails --->
+      <cfif relm.recordcount gt 1>
+        <cfoutput>
+          </div>
+
+          <!-- end multizooom thumbs -->
+          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
+          </div>
+          <!-- end media_thumbs -->
+        </cfoutput>
+        <cfelse>
+        <cfoutput>
+          </div>
+
+          <!-- end multizooom thumbs -->
+          <p class="tipbox instruction2">There is only one image of this specimen.</p>
+          </div>
+
+          </div>
+         
+
+          <!-- end media_thumbs -->
+        </cfoutput>
+      </cfif> <!--- end display of thumbnails of related images --->
     </cfloop>  
-
+			   <!--- end loop through ff for related cataloged items --->
+    <cfoutput>
+      </div>
+      <!-- end mediacontain -->
+    </cfoutput>
+  </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
+</cfif>
 
-			   </div>
 
                 </div>
             </div>
-			   
-<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select distinct
-                        media.media_id,
-                        media.media_uri,
-                        media.mime_type,
-                        media.media_type,
-                        media.preview_uri,
-                        mczbase.get_media_descriptor(media.media_id) as media_descriptor
-            from
-                        media,
-                        tag
-            where
-                        media.media_id=tag.media_id and
-                        tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-</cfquery>
-<cfif mediaTag.recordcount gt 0>
-            <div class="detailCell">
-                        <div class="detailLabel">Tagged in Media
-                        </div>
-                        <div class="detailBlock">
-         <cfset mediaStartTime = #Now()#> 
-                                    <cfloop query="mediaTag">
-                                                <cfset altText = mediaTag.media_descriptor>
-             <cfset mediaLoopTime = #Now()#> 
-                                                <cfif DateDiff('s',mediaStartTime,mediaLoopTime) GT 10>
-                                                            <!--- Lookups of mediaPreview on slow remote server can exceed the timeout for cfoutput, if responses are slow, fallback to noThumb before timing out page --->
-                                                            <cfset puri='/images/noThumb.jpg'>
-                                                <cfelse>
-                                                            <cfset puri=getMediaPreview(preview_uri,media_type)>
-                                                </cfif>
-                                                <span class="detailData">
-                                                            <a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#" alt="#altText#"></a>
-                                                </span>
-                                    </cfloop>
-                        </div>
-            </div>
-</cfif>
-<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select distinct
-                        media.media_id,
-                        media.media_uri,
-                        media.mime_type,
-                        media.media_type,
-                        media.preview_uri,
-                        media_relations.media_relationship,
-                        mczbase.get_media_descriptor(media.media_id) as media_descriptor
-            from
-                        media,
-                        media_relations,
-                        media_labels
-            where
-                        media.media_id=media_relations.media_id and
-                        media.media_id=media_labels.media_id (+) and
-                        media_relations.media_relationship like '%cataloged_item' and
-                        media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-                        AND MCZBASE.is_media_encumbered(media.media_id) < 1
-            order by media.media_type
-</cfquery>
-<cfif media.recordcount gt 0>
-            <div class="detailCell">
-                        <div class="detailLabel">Media
-                        <cfquery name="wrlCount" dbtype="query">
-                                    select * from media where mime_type = 'model/vrml'
-                        </cfquery>
-                        <cfif wrlCount.recordcount gt 0>
-                                    <br><span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-                        </cfif>
-                        <cfquery name="pdfCount" dbtype="query">
-                                    select * from media where mime_type = 'application/pdf'
-                        </cfquery>
-                        <cfif pdfCount.recordcount gt 0>
-                                    <br><span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
-                        </cfif>
-                                               <cfif oneOfUs is 1>
-                                                <cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                                            SELECT count(*) c
-                                                            FROM
-                                                                        ctattribute_type
-                                                            where attribute_type='image confirmed' and
-                                                            collection_cde='#one.collection_cde#'
-                                                </cfquery>
-                                                <span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>
-                                                <cfquery name="isConf"  dbtype="query">
-                                                            SELECT count(*) c
-                                                            FROM
-                                                                        attribute
-                                                            where attribute_type='image confirmed'
-                                                </cfquery>
-                                                <CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-                                                            <span class="infoLink"
-                                                                        id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'>
-                                                                        Confirm Image IDs
-                                                            </span>
-                                                </CFIF>
-                                    </cfif>
-                        </div>
-                        <div class="detailBlock">
-            <span class="detailData">
-                                                <!---div class="thumbs"--->
-                                                            <div class="thumb_spcr">&nbsp;</div>
-                                                            <cfloop query="media">
-                                                                        <cfset altText = media.media_descriptor>
-                                                                        <cfset puri=getMediaPreview(preview_uri,media_type)>
-                                    <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                                                                    select
-                                                                                                media_label,
-                                                                                                label_value
-                                                                                    from
-                                                                                                media_labels
-                                                                                    where
-                                                                                                media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-                                                                        </cfquery>
-                                                                        <cfquery name="desc" dbtype="query">
-                                                                                    select label_value from labels where media_label='description'
-                                                                        </cfquery>
-                                                                        <cfset description="Media Preview Image">
-                                                                        <cfif desc.recordcount is 1>
-                                                                                    <cfset description=desc.label_value>
-                                                                        </cfif>
-                                                                        <cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-                           <cfset one_thumb = "<div class='one_thumb_box'>">
-                                                                                    <cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-                                                                                    <cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-                                                                        <cfelse>
-                           <cfset one_thumb = "<div class='one_thumb'>">
-                                                                            <cfset aForImHref = media_uri>
-                                                                            <cfset aForDetHref = "/media/#media_id#">
-                                                                        </cfif>
-                                                              #one_thumb#
-                                                   <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
-                                                  <p>
-                                                                                                #media_type# (#mime_type#)
-                                                              <br><a href="#aForDetHref#" target="_blank">Media Details</a>
-                                                                                                <br>#description#
-                                                                                    </p>
-                                                                        </div>
-                                                            </cfloop>
-                                                            <div class="thumb_spcr">&nbsp;</div>
-                                                <!--/div--->
-                    </span>
-                        </div>
-                        <cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                    select p.barcode from
-                                    container c,
-                                    container p,
-                                    coll_obj_cont_hist,
-                                    specimen_part,
-                                    cataloged_item
-                                    where
-                                    cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-                                    specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-                                    coll_obj_cont_hist.container_id=c.container_id and
-                                    c.parent_container_id=p.container_id and
-                                    cataloged_item.collection_object_id=#collection_object_id#
-                        </cfquery>
-                        <!---cfloop query="barcode">
-                                    <cfquery name="ocr" datasource="taccocr">
-                                                select label from output where barcode = '#barcode#'
-                                    </cfquery>
-                                    <cfif ocr.recordcount is 1>
-                                                <div class="detailLabel">
-                                                            OCR for #barcode#
-                                                </div>
-                                                <div class="detailBlock">
-                                    <span class="detailData">
-                                                                        #replace(ocr.label,chr(10),'<br>','all')#
-                                            </span>
-                                                </div>
-                                    </cfif>
-                        </cfloop--->
-            </div>
-</cfif>
-<cfif oneOfUs is 1>
-</form>
-</cfif>
-
-																			</cfoutput>			   
-			   
         </div>
-			   <!---locality accordion tab--->
         <div class="card bg-light">
             <div class="card-header" id="headingOne">
                 <h3 class="h4 my-1">
