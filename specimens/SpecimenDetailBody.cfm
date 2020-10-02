@@ -698,11 +698,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
 
     </cfloop>  
-			   <!--- end loop through ff for related cataloged items --->
-    <cfoutput>
-      </div>
-      <!-- end mediacontain -->
-    </cfoutput>
+		  </div>
   </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
