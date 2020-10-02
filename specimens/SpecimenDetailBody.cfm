@@ -402,6 +402,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
                 <h3 class="h4 my-1">
+					<h3 class="h4 my-1 float-left collapsed"  data-toggle="collapse" data-target="##collapseTwo">Media</h3>
                     <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Images</button>
                 </h3>
             </div>
