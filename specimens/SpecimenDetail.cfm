@@ -181,7 +181,7 @@ limitations under the License.
 					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 		
-			<div class="mb-1 mt-1 small">#collectors#</div>
+		<div class="mb-1 mt-1 small"><span class="h6">Collector(s):</span> #collectors#</div>
 	</div>
 	
 			 </div>
@@ -198,7 +198,7 @@ limitations under the License.
 			<cfelse>
 
 			</cfif>
-				<p class="mt-3 small"><span class="h6">Part(s):</span> #partString#</p>	
+				
 					
 </div>
 	<div class="col-12 col-md-4">
