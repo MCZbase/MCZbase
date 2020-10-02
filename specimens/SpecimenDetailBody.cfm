@@ -399,7 +399,7 @@ limitations under the License.
 		<div class="col-12 col-md-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
-		        <div class="card bg-light">
+		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
                 <h3 class="h4 my-1">
                     <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Images</button>
@@ -426,10 +426,10 @@ limitations under the License.
 		<cfif mediaTag.recordcount gt 0>
 			<div class="detailLabel">Tagged in Media </div>
 			<cfloop query="mediaTag">
-				<!---<cfset puri=getMediaPreview(preview_uri,media_type)>
+				<cfset puri=getMediaPreview(preview_uri,media_type)>
 			<span class="detailData">
 				<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
-			</span>--->
+			</span>
 			</cfloop>
 		</cfif>
 		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -539,30 +539,7 @@ limitations under the License.
 			</div>
 		</cfif>
 	</cfif>
-          <!---          <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%">
-						<div class="media_thumbs">
-    		<h4 class="h5">Other images related to <a href="/guid/MCZ:Herp:A-15810">MCZ:Herp:A-15810</a></h4>
-			
-			<div class="multizoom1 thumbs form-row">
-				<div class="col-4">
-      		<a href="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" data-dims="500, 479" class="col-4 px-0" data-large="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" data-title="<h3 class='img_ct'>Image 1 of 3</h3><div class='full'><a href='http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg'>Full Image </a></div><div class='full'><a href='http://www.mcz.harvard.edu/collectionsoperations/permissions_copyright.html' class='full'>MCZ Permissions &amp; Copyright</a></div> 
-   			<h4><a href='media/1335'>Media Record (metadata)</a> <span> <!---(metadata for image 1 of 3)---></a></h4> <ul><li>media: image (image/jpeg)</li><li>credit: Museum of Comparative Zoology, Harvard University</li><li>height: 958</li><li>width: 1000</li><li>shows cataloged_item: Herpetology A-15810</li><li>created by agent: Jon Woodward</li><li>keywords:  Herpetology A-15810; MCZ:Herp:A-15810; field number=ZA15810; Ooeidozyga floresiana; Rana Mese, 1200 meters, Flores.; 21/6/1927-21/6/1927; Rana Mese: Flores: Dutch E Indies [VERBATIM ELEVATION:1200m]; Indoaustralia, Indonesia, Nusa Tenggara Timur, Nusa Tenggara; 04 dec 2008; Cat Num: A-15810</li></ul>"><img src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/thumbnails/A15810_O_floresiana_P_v.jpg" alt="Media of type image, MCZ:Herp:A-15810 Identified as Ooeidozyga floresiana type status Paratype of Ooeidozyga floresiana| Additional Material of Ooeidozyga floresiana." class="w-100">1</a> 
-				</div>
-			<div class="col-4">
-			<a href="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_hl.jpg" class="col-4 px-0" data-dims="500, 571" data-large="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_hl.jpg" data-title="<h3 class='img_ct'>Image 2 of 3</h3><div class='full'><a href='http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_hl.jpg'>Full Image </a></div><div class='full'><a href='http://www.mcz.harvard.edu/collectionsoperations/permissions_copyright.html' class='full'>MCZ Permissions &amp; Copyright</a></div> 
-   			<h4><a href='media/1334'>Media Record (metadata)</a> <span> <!---(metadata for image 2 of 3)---></a></h4> <ul><li>media: image (image/jpeg)</li><li>credit: Museum of Comparative Zoology, Harvard University</li><li>height: 1141</li><li>width: 1000</li><li>shows cataloged_item: Herpetology A-15810</li><li>created by agent: Jon Woodward</li><li>keywords:  Herpetology A-15810; MCZ:Herp:A-15810; field number=ZA15810; Ooeidozyga floresiana; Rana Mese, 1200 meters, Flores.; 21/6/1927-21/6/1927; Rana Mese: Flores: Dutch E Indies [VERBATIM ELEVATION:1200m]; Indoaustralia, Indonesia, Nusa Tenggara Timur, Nusa Tenggara; 04 dec 2008; Cat Num: A-15810</li></ul>"><img src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/thumbnails/A15810_O_floresiana_P_hl.jpg" alt="Media of type image, MCZ:Herp:A-15810 Identified as Ooeidozyga floresiana type status Paratype of Ooeidozyga floresiana| Additional Material of Ooeidozyga floresiana." class="w-100">2</a> 
-				</div>
-				<div class="col-4">
-			<a href="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_d.jpg" class="col-4 px-0" data-dims="500, 475" data-large="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_d.jpg" data-title="<h3 class='img_ct'>Image 3 of 3</h3><div class='full'><a href='http://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_d.jpg'>Full Image </a></div><div class='full'><a href='http://www.mcz.harvard.edu/collectionsoperations/permissions_copyright.html' class='full'>MCZ Permissions &amp; Copyright</a></div> 
-   			<h4><a href='media/1333'>Media Record (metadata)</a> <span> <!---(metadata for image 3 of 3)---></a></h4> <ul><li>media: image (image/jpeg)</li><li>credit: Museum of Comparative Zoology, Harvard University</li><li>height: 950</li><li>width: 1000</li><li>shows cataloged_item: Herpetology A-15810</li><li>created by agent: Jon Woodward</li><li>keywords:  Herpetology A-15810; MCZ:Herp:A-15810; field number=ZA15810; Ooeidozyga floresiana; Rana Mese, 1200 meters, Flores.; 21/6/1927-21/6/1927; Rana Mese: Flores: Dutch E Indies [VERBATIM ELEVATION:1200m]; Indoaustralia, Indonesia, Nusa Tenggara Timur, Nusa Tenggara; 04 dec 2008; Cat Num: A-15810</li></ul>"><img src="http://mczbase.mcz.harvard.edu/specimen_images/herpetology/thumbnails/A15810_O_floresiana_P_d.jpg" alt="Media of type image, MCZ:Herp:A-15810 Identified as Ooeidozyga floresiana type status Paratype of Ooeidozyga floresiana| Additional Material of Ooeidozyga floresiana." class="w-100">3</a> 
-				</div>	
-				
-          </div>
 
-          <!-- end multizooom thumbs -->
-          <p class="small">Click to select from the 3 images of this specimen.</p>
-          </div>
-						<a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
                 </div>
             </div>
         </div>
