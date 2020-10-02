@@ -625,7 +625,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
 	   union
-	   select  '' as guid,
+	   select collection_object_id as pk, '' as guid,
 	        '' as typestatus, 
 	        '' as geology,
 	        '' as coll,
