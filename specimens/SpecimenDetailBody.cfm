@@ -904,11 +904,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-				<cfset one_thumb = "<div class='one_thumb_box'>">
+				<cfset one_thumb = "<div class='col-12'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
-				<cfset one_thumb = "<div class='one_thumb'>">
+				<cfset one_thumb = "<div class='col-4'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
