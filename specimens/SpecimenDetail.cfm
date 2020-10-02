@@ -180,7 +180,7 @@ limitations under the License.
 				<div class="mb-0 font-weight-normal"> 
 					<a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
-			<div class="mb-1 text-muted small w-75">#partString#</div>
+		<div class="mb-1 text-muted small w-75"><span class="h6">Part(s):</span> #partString#</div>
 			<div class="mb-1 mt-1 small">#collectors#</div>
 	</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
