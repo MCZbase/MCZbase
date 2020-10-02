@@ -193,7 +193,7 @@ limitations under the License.
 						<p class="card-text mb-auto w-75">#typeName#</p>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text mb-auto w-75">#typeName#</p>
+						<p class="card-text mb-auto w-auto">#typeName#</p>
 				</cfif>
 			<cfelse>
 
