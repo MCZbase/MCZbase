@@ -401,10 +401,10 @@ limitations under the License.
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
-                <h3 class="h4 my-1">
+             
 					<h3 class="h4 my-1 float-left collapsed btn-link"  data-toggle="collapse" data-target="##collapseTwo">Media</h3>
                   
-                </h3>
+            
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
