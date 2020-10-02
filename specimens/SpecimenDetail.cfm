@@ -159,7 +159,7 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 
-	<div class="col-12 col-md-4">
+	<div class="col-12 col-md-6">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow h-md-250 border-0 bg-transparent">
@@ -168,18 +168,21 @@ limitations under the License.
 					<div class="card flex-md-row  box-shadow h-md-250 no-card bg-transparent">
 				 </cfif>
 			<cfelse>
-		<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
+					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
-		<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h2>
-		<div class="mb-0 font-weight-normal"> 
-			<span class="h6">Scientific Names</span> <a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
-		</div>
-	</div>
-	<div class="col-12 col-4">
+			<div class="small">
+<!---				<cfif len(session.CustomOtherIdentifier) gt 0>
+					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
+				</cfif>--->
+			</div>
+			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h2>
+				<div class="mb-0 font-weight-normal"> 
+					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
+				</div>
 		<div class="mb-1 text-muted small w-75"><span class="h6">Part(s):</span> #partString#</div>
-		<div class="mb-1 mt-1 small">#collectors#</div>
-
+			<div class="mb-1 mt-1 small">#collectors#</div>
+	</div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-auto">#typeName#</p>
@@ -188,10 +191,10 @@ limitations under the License.
 						<p class="card-text mb-auto">#typeName#</p>
 				</cfif>
 			<cfelse>
-			</cfif>		
-		</div>
-	</div>
-</div>
+
+			</cfif>
+			 </div>
+				</div>
 	
 	<div class="col-12 col-md-6">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
