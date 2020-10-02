@@ -642,28 +642,28 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</cfquery>
     <cfif ff.recordcount EQ 0>
       <!--- Gracefully fail if not associated with a specimen --->
- <!---     <cfoutput>
+      <cfoutput>
         <div class ="media_id">
         <div class="backlink"><div>
             <h3>Image is not associated with specimens.</h3>
-         <br/><br/>--->
+         <br/><br/>
           <!--- end media_id --->
- <!---       </div>--->
+        </div>
         <!--- end layoutbox --->
-<!---        </div>
+        </div>
       </cfoutput>
-    </cfif>--->
+    </cfif>
     <cfloop query='ff'>
 <!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
         <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
       <cfelse>--->
-        <!---   <cfif ff.media_relationship eq "shows cataloged_item">
+           <cfif ff.media_relationship eq "shows cataloged_item">
               <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
            <cfelse>
               <cfset backlink="#ff.specimendetailurl#">
-           </cfif>--->
+           </cfif>
 <!---      </cfif>--->
-  <!---    <cfoutput>--->
+      <cfoutput>
 <!---        <div class ="media_id">
         <div class="backlink">#backlink#</div>
          <h3><i>#ff.name#</i></h3>
@@ -673,9 +673,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           <p class="tclass"><span class="type">#ff.typestatus#</span></p>
         </cfif>
         </div>--->
- <!---     </cfoutput>--->
+      </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
-   <!---  <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+      <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
                get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
 			   media.mime_type, media.media_type,
@@ -690,8 +690,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
-   	    </cfquery> ---><!------>
-<!---      <cfoutput>
+   	    </cfquery>
+      <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
@@ -706,13 +706,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
              <cfset scalefactor = 1>
            </cfif>
            <cfset scaledheight = 0 + Round(#relm.height# * #scalefactor#) >
-           <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >--->
+           <cfset scaledwidth = Round(#relm.width# * #scalefactor#) >
 
            <!--- Obtain list of attributes and add to data-title of anchor to display metadata for each image as it is selected.  --->
-         <!---  <cfset labellist="<ul>">
-           <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">--->
+           <cfset labellist="<ul>">
+           <cfset labellist = "#labellist#<li>media: #media_type# (#mime_type#)</li>">
            <!---<cfset labellist = "#labellist#<li>license: <a href='#license_uri#'>#license#</a></li>">--->
-          <!--- <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
+           <cfset labellist = "#labellist#<li>credit: #credit#</li>" >
            <cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                        select media_label, label_value
                        from media_labels
@@ -744,43 +744,43 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
            <cfif len(trim(kwlist)) >
              <cfset labellist = "#labellist#<li>keywords: #kwlist#</li>">
            </cfif>
-           <cfset labellist="#labellist#</ul>">--->
+           <cfset labellist="#labellist#</ul>">
            <!--- Define the metadata block that gets changed when an image is selected from the set --->
-    <!---       <cfset datatitle="
+           <cfset datatitle="
    			<h4><a href='media/#relm.media_id#'>Media Record (metadata)</a> <span> <!---(metadata for image #counter# of #relm.recordcount#)---></a></h4>">
-           <cfset data_content= "#labellist#">--->
+           <cfset data_content= "#labellist#">
            <!--- one height doesn't work yet --->
-          <!--- <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#' >Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
+           <cfset datalinks="<h3 class='img_ct'>Image #counter# of #relm.recordcount#</h3><div class='full'><a href='#relm.media_uri#' >Full Image </a></div><div class='full'><a href='#license_uri#' class='full'>#license#</a></div>">
            <cfoutput><a href="#relm.media_uri#" data-dims="#scaledwidth#, #scaledheight#" data-large="#relm.media_uri#"
 		     data-title="#datalinks# #datatitle# #data_content#"><img src="#relm.preview_uri#">#counter#</a></cfoutput>
-        </cfif> ---><!--- end are relm.height and relm.width non null --->
-<!---      </cfloop>---> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
+        </cfif> <!--- end are relm.height and relm.width non null --->
+      </cfloop> <!--- end loop through relm to show any images for media relations of current related cataloged_item --->
       <!--- if any related images, show their thumbnails --->
-<!---      <cfif relm.recordcount gt 1>
+      <cfif relm.recordcount gt 1>
         <cfoutput>
-          </div>--->
+          </div>
 
           <!-- end multizooom thumbs -->
-<!---          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
-          </div>--->
+          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
+          </div>
           <!-- end media_thumbs -->
-<!---        </cfoutput>
+        </cfoutput>
         <cfelse>
         <cfoutput>
-          </div>--->
+          </div>
           <!-- end multizooom thumbs -->
-    <!---      </div>
-			   </div>--->
+          </div>
+			   </div>
           <!-- end media_thumbs -->
-     <!---   </cfoutput>
-      </cfif>---> <!--- end display of thumbnails of related images --->
+        </cfoutput>
+      </cfif> <!--- end display of thumbnails of related images --->
     </cfloop>  
 			   <!--- end loop through ff for related cataloged items --->
-<!---    <cfoutput>
-      </div>--->
+    <cfoutput>
+      </div>
       <!-- end mediacontain -->
-<!---    </cfoutput>
-  </cfloop>--->
+    </cfoutput>
+  </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
 <!---END Code from MEDIA SET code--->
