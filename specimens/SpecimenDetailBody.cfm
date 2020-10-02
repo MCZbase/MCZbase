@@ -608,7 +608,6 @@ limitations under the License.
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-        <p class="tipbox instruction1">Mouse over image to see zoom window, scroll wheel zooms in and out. <a href="##otherimages">Select other images of same specimen below</a>.</p>
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
       <cfoutput> </cfoutput> </cfoutput>
@@ -625,20 +624,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
-	   union
-	   select agent.agent_id as pk, '' as guid,
-	        '' as typestatus, agent_name as name,
-	        agent_remarks as geography,
-	        '' as geology,
-	        '' as coll,
-	        agent_name as specimendetailurl,
-	        media_relationship,
-	        2 as sortorder
-	   from media_relations
-	      left join agent on related_primary_key = agent.agent_id
-	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
-	   ) ffquery order by sortorder
+	 order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
       <!--- Gracefully fail if not associated with a specimen --->
@@ -686,7 +672,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+        where (media_relationship = 'shows cataloged_item')
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
@@ -726,13 +712,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                        select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
                        from media_relations
    					where media_id=#relm.media_id#
-                 and media_relationship in ('created by agent', 'shows cataloged_item')
+                 and media_relationship in ('shows cataloged_item')
                    </cfquery>
-           <cfloop query="relations">
+<!---           <cfloop query="relations">
              <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
                <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
              </cfif>
-           </cfloop>
+           </cfloop>--->
            <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                        select keywords
                        from media_keywords
