@@ -683,27 +683,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
+	
 
 
-          <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">Click to select from the #relm.RecordCount# images of this specimen.</p>
-          </div>
-          <!-- end media_thumbs -->
-        </cfoutput>
-        <cfelse>
-        <cfoutput>
-          </div>
-
-          <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">There is only one image of this specimen.</p>
-          </div>
-
-          </div>
-         
-
-          <!-- end media_thumbs -->
-        </cfoutput>
-      </cfif> <!--- end display of thumbnails of related images --->
     </cfloop>  
 			   <!--- end loop through ff for related cataloged items --->
     <cfoutput>
