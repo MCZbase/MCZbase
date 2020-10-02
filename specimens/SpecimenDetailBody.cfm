@@ -808,22 +808,22 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfif>
 			<cfif oneOfUs is 1>
 				<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                                            SELECT count(*) c
-                                                            FROM
-                                                                        ctattribute_type
-                                                            where attribute_type='image confirmed' and
-                                                            collection_cde='#one.collection_cde#'
-                                                </cfquery>
+						SELECT count(*) c
+						FROM
+						  ctattribute_type
+						where attribute_type='image confirmed' and
+						collection_cde='#one.collection_cde#'
+                </cfquery>
 				<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>
 				<cfquery name="isConf"  dbtype="query">
-                                                            SELECT count(*) c
-                                                            FROM
-                                                                        attribute
-                                                            where attribute_type='image confirmed'
-                                                </cfquery>
+                          SELECT count(*) c
+                          FROM
+                          attribute
+                          where attribute_type='image confirmed'
+                 </cfquery>
 				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
 					<span class="infoLink"
-                                                                        id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
+                     id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
 				</CFIF>
 			</cfif>
 		</div>
@@ -835,17 +835,17 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<cfset altText = media.media_descriptor>
 			<cfset puri=getMediaPreview(preview_uri,media_type)>
 			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                                                                    select
-                                                                                                media_label,
-                                                                                                label_value
-                                                                                    from
-                                                                                                media_labels
-                                                                                    where
-                                                                                                media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-                                                                        </cfquery>
+               select
+                  media_label,
+                  label_value
+               from
+                  media_labels
+               where
+               	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+            </cfquery>
 			<cfquery name="desc" dbtype="query">
-                                                                                    select label_value from labels where media_label='description'
-                                                                        </cfquery>
+                select label_value from labels where media_label='description'
+            </cfquery>
 			<cfset description="Media Preview Image">
 			<cfif desc.recordcount is 1>
 				<cfset description=desc.label_value>
