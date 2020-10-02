@@ -570,14 +570,10 @@ limitations under the License.
     <cfset guidOfRelatedSpecimen="">
     <cfset relatedItemEndA="">
     <cfloop query="mcrguid" endrow="1">
-      <!--- Get the guid and formulated it as a hyperlink for the first related cataloged_item.   --->
-      <!--- If the media object shows no cataloged_item, then the link isn't added  --->
-      <!--- If the media object shows more than one cataloged item, then the link here is only to the first one.  --->
       <cfset relatedItemA="<a href='/guid/#relatedGuid#'>">
       <cfset guidOfRelatedSpecimen="#relatedGuid#">
       <cfset relatedItemEndA="</a>">
     </cfloop>
-
     <!---  Determine scaling information for the set of images from the selected image --->
     <cfset im_hw='style="width:#PVWIDTH#px; "'>
     <cfset mdstop=#m.maxheightinset# * 0.5>
@@ -586,8 +582,6 @@ limitations under the License.
     <cfif len(trim(m.height)) && len(trim(m.width)) >
       <cfset scalefactor = PVWIDTH/#m.width#>
       <cfif scalefactor GT 1 >
-        <!--- Some images (e.g. label crops) are smaller than PVWidth, and this works poorly with
-		        other large images in the same set, so force the maximum scale factor to 1. --->
         <cfset scalefactor = 1>
       </cfif>
       <cfset scaledheight = Round(#m.height# * #scalefactor#)  >
@@ -607,26 +601,10 @@ limitations under the License.
     <cfoutput>
       <div id="mediacontain">
 
-      <!--	<p>height:#m.height# scaled to #scaledheight#</p>
-			<p>width:#m.width# scaled to #PVWIDTH#</p>
-			<p>scalefactor: #scalefactor#</p>
-			<p>maxheightinset: #m.maxheightinset#</p>
-			<p>mdstop: #mdstop# (cell height reserved for the tallest image in the set)</p>
-            <p>scaled height #scaledheight#</p>
-            <p>scaledwidth #scaledwidth#</p>  -->
-
-<!---      <cfif len(relatedItemA) gt 0>
-        <div class="backlink">Go to specimen record #relatedItemA##relatedItem##relatedItemEndA# </div>#relatedItemA#<img src='images/linkOut.gif' alt='specimen link'/>#relatedItemEndA#
-      </cfif>
-      <cfif len(relatedItemA) eq 0>
-        <div class='topDescriptor'>Internal Media</div>
-      </cfif>--->
       <div class="media_head">
         <h3 class="h5">Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
       </div>
       <div class="layoutbox">
-      <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
-      <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
 
        <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
             <div class="media_image targetarea">
@@ -637,11 +615,7 @@ limitations under the License.
             <img id="multizoom1" src='#m.media_uri#' width='100%'>
         </div>
     </cfif>
-      <!---  Enclosing div reserves a place for metadata about the currently selected image --->
-      <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
-
-      <!--- tip  (added to each replaced multizoomdescription) --->
-    <div class="image_box">
+     <div class="image_box">
      
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
@@ -688,25 +662,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
     </cfif>
     <cfloop query='ff'>
-<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
-      <cfelse>--->
            <cfif ff.media_relationship eq "shows cataloged_item">
               <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
            <cfelse>
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
-<!---      </cfif>--->
       <cfoutput>
-<!---        <div class ="media_id">
-        <div class="backlink">#backlink#</div>
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>--->
+
       </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
