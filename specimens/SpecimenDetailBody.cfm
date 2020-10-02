@@ -684,15 +684,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <div class="media_thumbs">
     		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
 	
-
+			</cfoutput>
 
     </cfloop>  
-			   <!--- end loop through ff for related cataloged items --->
-    <cfoutput>
-      </div>
-      <!-- end mediacontain -->
-    </cfoutput>
-  </cfloop>
+
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
 			   </div>
