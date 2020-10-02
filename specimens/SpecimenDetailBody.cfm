@@ -622,7 +622,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			1 as sortorder
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
-	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
+	   where media_id = #m.media_id# and media_relationship = 'shows cataloged_item'
 	   union
 	   select '' as guid,
 	        '' as typestatus, 
