@@ -208,13 +208,13 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<h5 class="mb-0 h4">#spec_locality#</h5>
+			<h5 class="mb-0 h4"><span class="h6">Specific Locality </span> #spec_locality#</h5>
 			<cfif len(verbatim_date) gt 0>
 				<div class="mb-2 text-muted small mt-2"><span class="h6">Verbatim Date:</span> #verbatim_date#</div>  
 			<cfelse>
 				<div class="mb-2 text-muted mt-2"><span class="h6">Collection Date:</span> #began_date# - #ended_date#</div>
 			</cfif>
-				<p class="my-1 small"><span class="h6">Higher Geography</span> #higher_geog#</p>
+				<p class="my-1 small"><span class="h6">Higher Geography:</span> #higher_geog#</p>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
  
