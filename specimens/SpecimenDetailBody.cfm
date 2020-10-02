@@ -408,7 +408,7 @@ limitations under the License.
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
-
+<!---START Code from MEDIA SET code--->
 					<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -783,7 +783,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
   </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
-
+<!---END Code from MEDIA SET code--->
+			   
+			   
+<!---START Code from specimen details code--->
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -938,7 +941,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
-			   
+<!---END Code from specimen details code--->			   
 			   
 			   
                 </div>
