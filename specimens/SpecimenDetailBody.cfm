@@ -606,14 +606,14 @@ limitations under the License.
       <!---  div multizoomdescription is the bit to hold the medatadata that will be replaced by multizoom.js when a different image is picked --->
 
       <!--- tip  (added to each replaced multizoomdescription) --->
-    <div class="image_box">
+<!---    <div class="image_box">
      
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
-    </div>
+    </div>--->
       <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
-	   select collection_object_id as pk, guid,
+	   select m.media_id as pk, guid,
             typestatus, SCIENTIFIC_NAME name,
 decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'',': '|| country) || decode(state_prov, null, '',': '|| state_prov) || decode(county, null, '',': '|| county)||decode(spec_locality, null,'',': '|| spec_locality) as geography,
 			trim(MCZBASE.GET_CHRONOSTRATIGRAPHY(locality_id) || ' ' || MCZBASE.GET_LITHOSTRATIGRAPHY(locality_id)) as geology,
