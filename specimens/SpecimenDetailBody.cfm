@@ -591,8 +591,7 @@ limitations under the License.
 	<input type="button" value="QC" class="savBtn" onClick="loadEventQC(#collection_object_id#, 'EventDQDiv');">
 	<div id="EventDQDiv"></div>
 </cfif>
-</cfoutput>
-<cf_customizeIFrame>
+
 
                 </div>
             </div>
