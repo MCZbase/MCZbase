@@ -625,19 +625,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
-	   union
-	   select agent.agent_id as pk, '' as guid,
-	        '' as typestatus, agent_name as name,
-	        agent_remarks as geography,
-	        '' as geology,
-	        '' as coll,
-	        agent_name as specimendetailurl,
-	        media_relationship,
-	        2 as sortorder
-	   from media_relations
-	      left join agent on related_primary_key = agent.agent_id
-	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
@@ -794,6 +781,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                 </div>
             </div>
         </div>
+			   <!---locality accordion tab--->
         <div class="card bg-light">
             <div class="card-header" id="headingOne">
                 <h3 class="h4 my-1">
