@@ -595,12 +595,12 @@ limitations under the License.
       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
 
        <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
-            <div class="media_image targetarea" style="height:#mdstop#;min-height: 470px;width:#PVWIDTH#px;">
-      			<img id="multizoom1" src='#m.media_uri#' width="#PVWIDTH#px">
+            <div class="media_image targetarea">
+      			<img id="multizoom1" src='#m.media_uri#' width="100%">
       		</div>
        <cfelse>
-        <div class="targetarea media_image" style="height:#mdstop#px; width:#PVWIDTH#px;">
-            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
+        <div class="targetarea media_image">
+            <img id="multizoom1" src='#m.media_uri#' width='100%'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
