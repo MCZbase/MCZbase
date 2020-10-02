@@ -409,6 +409,22 @@ limitations under the License.
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
 
+					<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select distinct
+                        media.media_id,
+                        media.media_uri,
+                        media.mime_type,
+                        media.media_type,
+                        media.preview_uri,
+                        mczbase.get_media_descriptor(media.media_id) as media_descriptor
+            from
+                        media,
+                        tag
+            where
+                        media.media_id=tag.media_id and
+                        tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+</cfquery>
+
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -425,7 +441,7 @@ limitations under the License.
     select get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
 		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
 		   media.media_type
-    from MEDIA where media_id=#media_id#
+    from MEDIA where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 </cfquery>
   <cfloop query="checkmedia" endrow="1">
     <cfif not checkmedia.media_type eq "image">
