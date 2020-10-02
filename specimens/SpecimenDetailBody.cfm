@@ -728,11 +728,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
    					where media_id=#relm.media_id#
                  and media_relationship in ('shows cataloged_item')
                    </cfquery>
-           <cfloop query="relations">
+<!---           <cfloop query="relations">
              <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
                <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
              </cfif>
-           </cfloop>
+           </cfloop>--->
            <cfquery name="keywords"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                        select keywords
                        from media_keywords
