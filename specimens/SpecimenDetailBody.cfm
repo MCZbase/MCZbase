@@ -596,7 +596,7 @@ limitations under the License.
     <div class="image_box">
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
-  
+		   </cfoutput><cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select collection_object_id as pk, guid,
@@ -671,7 +671,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
     </cfloop>  
 		  </div>
   </cfloop>
-			   </div>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
 
