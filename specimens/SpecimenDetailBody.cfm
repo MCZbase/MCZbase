@@ -626,7 +626,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
 	   union
 	   select agent.agent_id as pk, '' as guid,
-	        '' as typestatus, agent_name as name,
+	        '' as typestatus, 
 	        agent_remarks as geography,
 	        '' as geology,
 	        '' as coll,
@@ -891,7 +891,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				SELECT
 					identification.scientific_name,
 					identification.collection_object_id,
-					concatidagent(identification.identification_id) agent_name,
 					made_date,
 					nature_of_id,
 					identification_remarks,
