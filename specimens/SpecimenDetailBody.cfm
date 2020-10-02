@@ -694,7 +694,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       <cfoutput>
         <a name="otherimages"></a>
        
-			
+		  </div>
       </cfoutput>
 
     </cfloop>  
