@@ -402,7 +402,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3>
+					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media <span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span></h3>
                   
             
             </div>
@@ -410,7 +410,7 @@ limitations under the License.
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
 <!---START Code from MEDIA SET code--->
-					<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
                         media.media_uri,
