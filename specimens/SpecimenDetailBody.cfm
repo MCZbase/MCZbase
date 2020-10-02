@@ -588,19 +588,19 @@ limitations under the License.
         <div class='topDescriptor'>Internal Media</div>
       </cfif>--->
       <div class="media_head">
-        <h3>Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
+        <h3 class="h5">Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
       </div>
       <div class="layoutbox">
       <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
 
        <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
-            <div class="media_image targetarea" style="height:#mdstop#;min-height: 470px;width:#PVWIDTH#px;">
-      			<img id="multizoom1" src='#m.media_uri#' width="#PVWIDTH#px">
+            <div class="media_image targetarea">
+      			<img id="multizoom1" src='#m.media_uri#' width="100%">
       		</div>
        <cfelse>
-        <div class="targetarea media_image" style="height:#mdstop#px; width:#PVWIDTH#px;">
-            <img id="multizoom1" border="0" src='#m.media_uri#' #im_hw#>
+        <div class="targetarea media_image">
+            <img id="multizoom1" src='#m.media_uri#'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
