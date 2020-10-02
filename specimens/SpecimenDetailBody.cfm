@@ -814,7 +814,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						where attribute_type='image confirmed' and
 						collection_cde='#one.collection_cde#'
                 </cfquery>
-				<a class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</a>
+				<a class="detailEditCell" href="##" onclick="window.parent.loadEditApp('MediaSearch');">Edit</a>
 				<cfquery name="isConf"  dbtype="query">
                           SELECT count(*) c
                           FROM
