@@ -784,7 +784,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			   <!--- end loop through ff for related cataloged items --->
     <cfoutput>
       </div>
-      </div>
+
       <!-- end mediacontain -->
     </cfoutput>
   </cfloop>
