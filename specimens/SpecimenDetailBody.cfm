@@ -912,10 +912,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
-			#one_thumb# <a href="#aForImHref#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+			#one_thumb# <a href="#aForImHref#" target="_blank">
+					<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-				#description# </p>
+				<span class="smaller">#description#</span> </p>
 			</div>
 		</cfloop>
 		<div class="thumb_spcr">&nbsp;</div>
