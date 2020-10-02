@@ -187,7 +187,7 @@ limitations under the License.
 			 </div>
 				</div>
 <div class="col-12 col-md-4">
-		<div class="mb-1 text-muted small w-75"><span class="h6">Part(s):</span> </div>
+		<div class="mb-1 text-muted small"> </div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-auto w-75">#typeName#</p>
@@ -198,7 +198,7 @@ limitations under the License.
 			<cfelse>
 
 			</cfif>
-				<p class="mt-3">#partString#</p>	
+				<p class="mt-3"><span class="h6">Part(s):</span> #partString#</p>	
 					
 </div>
 	<div class="col-12 col-md-4">
