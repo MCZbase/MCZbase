@@ -463,7 +463,7 @@ limitations under the License.
 
 <cfif isDefined("media_id")>
 
-#media.media_id#
+
 	<cfset checkSql(media_id)>
   <cfset PVWIDTH=500>
   <!--- Fixed width for the scaled display of the media object on this page. --->
@@ -477,6 +477,7 @@ limitations under the License.
 		   media.media_type
     from MEDIA where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 </cfquery>
+	  <h3>#media_id#</h3>
   <cfloop query="checkmedia" endrow="1">
     <cfif not checkmedia.media_type eq "image">
       <!--- Redirect --->
