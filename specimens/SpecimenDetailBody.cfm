@@ -729,7 +729,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                  and media_relationship in ('created by agent', 'shows cataloged_item')
                    </cfquery>
            <cfloop query="relations">
-             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
+             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user")>
                <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
              </cfif>
            </cfloop>
