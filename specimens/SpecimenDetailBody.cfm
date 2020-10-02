@@ -896,9 +896,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </div>
         <div class="card bg-light">
             <div class="card-header" id="headingOne">
-                <h3 class="h4 my-1">
-                    <button type="button" class="btn btn-link btn-xs border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</button>									
-                </h3>
+				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
             </div>
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
