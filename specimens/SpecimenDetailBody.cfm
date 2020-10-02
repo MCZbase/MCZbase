@@ -402,7 +402,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-					<h3 class="h4 my-1 float-left collapsed btn-link"  data-toggle="collapse" data-target="##collapseTwo">Media</h3>
+					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3>
                   
             
             </div>
