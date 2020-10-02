@@ -573,20 +573,6 @@ limitations under the License.
     <cfoutput>
       <div id="mediacontain">
 
-      <!--	<p>height:#m.height# scaled to #scaledheight#</p>
-			<p>width:#m.width# scaled to #PVWIDTH#</p>
-			<p>scalefactor: #scalefactor#</p>
-			<p>maxheightinset: #m.maxheightinset#</p>
-			<p>mdstop: #mdstop# (cell height reserved for the tallest image in the set)</p>
-            <p>scaled height #scaledheight#</p>
-            <p>scaledwidth #scaledwidth#</p>  -->
-
-<!---      <cfif len(relatedItemA) gt 0>
-        <div class="backlink">Go to specimen record #relatedItemA##relatedItem##relatedItemEndA# </div>#relatedItemA#<img src='images/linkOut.gif' alt='specimen link'/>#relatedItemEndA#
-      </cfif>
-      <cfif len(relatedItemA) eq 0>
-        <div class='topDescriptor'>Internal Media</div>
-      </cfif>--->
       <div class="media_head">
         <h3 class="h5">Selected image related to #relatedItemA##relatedItem##relatedItemEndA#</h3>
       </div>
@@ -608,10 +594,9 @@ limitations under the License.
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-     
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
-      <cfoutput> </cfoutput> </cfoutput>
+  
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	 select * from (
 	   select collection_object_id as pk, guid,
@@ -654,26 +639,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
     </cfif>
     <cfloop query='ff'>
-<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
-      <cfelse>--->
+
            <cfif ff.media_relationship eq "shows cataloged_item">
               <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
            <cfelse>
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
-<!---      </cfif>--->
-      <cfoutput>
-<!---        <div class ="media_id">
-        <div class="backlink">#backlink#</div>
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>--->
-      </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
@@ -692,7 +663,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
    	    </cfquery>
       <cfoutput>
-        <a name="otherimages"></a>
+  
        
 		  </div>
       </cfoutput>
@@ -700,6 +671,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
     </cfloop>  
 		  </div>
   </cfloop>
+			   </div>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
 
