@@ -408,7 +408,7 @@ limitations under the License.
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
-
+<cfset media_id = '#media_id#'>
 					<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -424,7 +424,7 @@ limitations under the License.
                         media.media_id=tag.media_id and
                         tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
-<cfset media_id = '#media_id#'>
+
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
