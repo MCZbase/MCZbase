@@ -766,19 +766,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           </div>
           <!-- end media_thumbs -->
         </cfoutput>
-        <cfelse>
-        <cfoutput>
-          </div>
-
-          <!-- end multizooom thumbs -->
-          <p class="tipbox instruction2">There is only one image of this specimen.</p>
-          </div>
-
-          </div>
-         
-
-          <!-- end media_thumbs -->
-        </cfoutput>
+       
       </cfif> <!--- end display of thumbnails of related images --->
     </cfloop>  
 			   <!--- end loop through ff for related cataloged items --->
