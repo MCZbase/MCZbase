@@ -881,7 +881,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfif>
 		</div>
 		<div class="detailBlock">
-		<span class="detailData"> 
+		<span class="detailData form-row col-12"> 
 		<!---div class="thumbs"--->
 		<div class="thumb_spcr">&nbsp;</div>
 		<cfloop query="media">
