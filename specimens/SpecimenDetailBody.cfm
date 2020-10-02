@@ -408,6 +408,7 @@ limitations under the License.
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
+
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct
 		media.media_id,
@@ -580,16 +581,9 @@ limitations under the License.
 		</cfloop--->
 	</div>
 </cfif>
-	</td><!--- end right half of table --->
-</table>
+
 <cfif oneOfUs is 1>
 </form>
-</cfif>
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_AGENT_RANKING")>
-	<!---  For a small set of collections operations users, include the TDWG BDQ TG2 test integration --->
-	<script type='text/javascript' language="javascript" src='/includes/bdq_quality_control.js'></script>
-	<input type="button" value="QC" class="savBtn" onClick="loadEventQC(#collection_object_id#, 'EventDQDiv');">
-	<div id="EventDQDiv"></div>
 </cfif>
 
 
