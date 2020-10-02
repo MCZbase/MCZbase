@@ -198,7 +198,7 @@ limitations under the License.
 			<cfelse>
 
 			</cfif>
-				<p class="mt-3"><span class="h6">Part(s):</span> #partString#</p>	
+				<p class="mt-3 small"><span class="h6">Part(s):</span> #partString#</p>	
 					
 </div>
 	<div class="col-12 col-md-4">
