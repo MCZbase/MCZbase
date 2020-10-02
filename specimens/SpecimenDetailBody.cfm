@@ -1096,7 +1096,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							</cfif>
 							<span>, #nature_of_id#</span> </p>
 						<cfif len(identification_remarks) gt 0>
-							<p><span class="h5">Remarks:</span> #identification_remarks#</p>
+							<p class="small"><span class="h5">Remarks:</span> #identification_remarks#</p>
 						</cfif>
 					</ul>
 				<cfelse>
