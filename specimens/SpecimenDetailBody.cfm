@@ -459,7 +459,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-
+#media.media_id#
 
 <cfif NOT isDefined("media_id")>
   <cfoutput>
