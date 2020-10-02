@@ -686,7 +686,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+        where (media_relationship = 'shows cataloged_item')
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
@@ -882,8 +882,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </div>
 
 
-    </div>
-</div></div>
+    	</div>
+	</div>
+</div>
+			   
+	<!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-md-9 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
