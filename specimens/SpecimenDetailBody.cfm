@@ -627,7 +627,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   union
 	   select agent.agent_id as pk, '' as guid,
 	        '' as typestatus, 
-	        agent_remarks as geography,
 	        '' as geology,
 	        '' as coll,
 	        media_relationship,
