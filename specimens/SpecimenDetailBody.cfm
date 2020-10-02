@@ -424,7 +424,7 @@ limitations under the License.
                         media.media_id=tag.media_id and
                         tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
-<cfset media_id = '1333'>
+<cfset media_id = #media.media_id#>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
