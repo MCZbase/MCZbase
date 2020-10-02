@@ -703,7 +703,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           <!-- end media_thumbs -->
         </cfoutput>
     
-		  </div>
+		  </div></div>
       <!--- end display of thumbnails of related images --->
     </cfloop>  
 			   <!--- end loop through ff for related cataloged items --->
