@@ -402,12 +402,144 @@ limitations under the License.
 		        <div class="card bg-light">
             <div class="card-header" id="headingTwo">
                 <h3 class="h4 my-1">
-                    <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Occurance Image</button>
+                    <button type="button" class="btn btn-link btn-xs collapsed border-0 box-shadow-0" data-toggle="collapse" data-target="##collapseTwo">Images</button>
                 </h3>
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
-                    <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%">
+					<!------------------------------------ media ---------------------------------------------->
+	<cfif len(citations.cited_name) gt 0>
+		<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT distinct
+			media.media_id,
+			media.media_uri,
+			media.mime_type,
+			media.media_type,
+			media.preview_uri 
+		FROM 
+			media,
+			tag 
+		WHERE 
+			media.media_id=tag.media_id and 
+			tag.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfif mediaTag.recordcount gt 0>
+			<div class="detailLabel">Tagged in Media </div>
+			<cfloop query="mediaTag">
+				<!---<cfset puri=getMediaPreview(preview_uri,media_type)>
+			<span class="detailData">
+				<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
+			</span>--->
+			</cfloop>
+		</cfif>
+		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT distinct
+				media.media_id,
+				media.media_uri,
+				media.mime_type,
+				media.media_type,
+				media.preview_uri,
+				media_relations.media_relationship 
+			FROM 
+				media,
+				media_relations,
+				media_labels 
+			WHERE 
+				media.media_id=media_relations.media_id and 
+				media.media_id=media_labels.media_id (+) and 
+				media_relations.media_relationship like '%cataloged_item' and 
+				media.media_type <> 'image' and
+				media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > 
+				AND MCZBASE.is_media_encumbered(media.media_id) < 1
+																  
+			ORDER BY media.media_type
+		</cfquery>
+		<cfif media.recordcount gt 0>
+			<cfquery name="wrlCount" dbtype="query">
+				SELECT * FROM media WHERE mime_type = 'model/vrml'
+			</cfquery>
+			<cfif wrlCount.recordcount gt 0>
+				<br>
+				<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+			</cfif>
+			<cfquery name="pdfCount" dbtype="query">
+				SELECT * FROM media WHERE mime_type = 'application/pdf'
+			</cfquery>
+			<cfif pdfCount.recordcount gt 0>
+				<br>
+				<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
+			</cfif>
+			<cfif oneOfUs is 1>
+			<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				SELECT 
+					count(*) c 
+				FROM 
+					ctattribute_type 
+				WHERE 
+					attribute_type='image confirmed' and
+					collection_cde= <cfqueryparam value='#one.collection_cde#' cfsqltype="CF_SQL_VARCHAR">
+			</cfquery>
+				<!---   <span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
+			<cfquery name="isConf"  dbtype="query">
+				SELECT 
+					count(*) c 
+				FROM 
+					attribute 
+				WHERE 
+					attribute_type='image confirmed'
+			</cfquery>
+				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+					<span class="infoLink"
+					id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
+				</CFIF>
+			</cfif>
+
+			<!---"thumbs"--->
+			<div class="card text-left">
+				<div class="card-header float-left w-100">
+					<h3 class="h4 my-1 float-left">Media</h3>
+					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				</div>
+				<ul class="list-group" style="display: inline;">
+					<cfloop query="media">
+						<!---<cfset puri=getMediaPreview(preview_uri,media_type)>--->
+						<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							SELECT 
+								media_label,
+								label_value 
+							FROM 
+								media_labels 
+							WHERE 
+								media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+						<cfquery name="desc" dbtype="query">
+							SELECT label_value FROM labels WHERE media_label='description'
+						</cfquery>
+						<cfset alt="Media Preview Image">
+						<cfif desc.recordcount is 1>
+							<cfset alt=desc.label_value>
+						</cfif>
+						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+							<cfset one_thumb = "<div class='one_thumb_box'>">
+							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#">
+							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+							<cfelse>
+							<cfset one_thumb = "<div class='one_thumb'>">
+							<cfset aForImHref = media_uri>
+							<cfset aForDetHref = "/media/#media_id#">
+						</cfif>
+					<li class="list-group-item thethumbs"> <a href="#media.media_uri#"><img src="#media.preview_uri#" width="100" height="68" class="float-left ml-0"></a> #one_thumb#
+							<p> #media_type# (#mime_type#)<br>
+								<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+								#alt# 
+							</p>
+						</li>
+					</cfloop>
+				</ul>
+			</div>
+		</cfif>
+	</cfif>
+          <!---          <p><img src="https://mczbase.mcz.harvard.edu/specimen_images/herpetology/large/A15810_O_floresiana_P_v.jpg" width="100%">
 						<div class="media_thumbs">
     		<h4 class="h5">Other images related to <a href="/guid/MCZ:Herp:A-15810">MCZ:Herp:A-15810</a></h4>
 			
@@ -430,7 +562,7 @@ limitations under the License.
           <!-- end multizooom thumbs -->
           <p class="small">Click to select from the 3 images of this specimen.</p>
           </div>
-						<a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
+						<a href="https://mczbase.mcz.harvard.edu/MediaSet.cfm?media_id=1335" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
                 </div>
             </div>
         </div>
@@ -700,69 +832,6 @@ limitations under the License.
 										
 	</div>											
 	</div>
-<!------------------------------------ locality -------------------------------------------> 
-	
-<!------------------------------------ collecting event ----------------------------------->
-	<div class="card">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-1 float-left">Collecting Event</h3>
-			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			
-		</div>
-		<div class="card-body float-left">
-			<ul class="list-unstyled row px-3 py-1 mb-0">
-				<cfif len(colls.collectors) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collectors:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#colls.collectors#</li>
-				</cfif>
-				<cfif len(one.verbatim_locality) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Locality:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_locality#</li>
-				</cfif>
-				<cfif len(one.collecting_source) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Source:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_source#</li>
-				</cfif>
-				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-				<cfif len(one.began_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Began Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.began_date#</li>
-				</cfif>
-				<cfif len(one.ended_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Ended Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.ended_date#</li>
-				</cfif>
-				<cfif len(one.verbatim_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_date#</li>
-				</cfif>
-				<cfif len(one.verbatimcoordinates) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatimcoordinatesp#</li>
-				</cfif>
-				<cfif len(one.collecting_method) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Method:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_method#</li>
-				</cfif>
-				<cfif len(one.coll_event_remarks) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Event Remarks:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.coll_event_remarks#</li>
-				</cfif>
-				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
-				</cfif>
-				<cfif len(one.collecting_event_id) gt 0>
-				<!---<li class="list-group-item col-6"><em>Collecting Event ID:</em></li>
-				<li class="list-group-item col-6">#one.collecting_event_id#</li>--->
-				</cfif>
-				<cfif len(one.habitat) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
-				</cfif>
-			</ul>
-		</div>
-	</div>
 <!------------------------------------ citations ------------------------------------------>
 	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -841,6 +910,70 @@ limitations under the License.
 			</div>
 		</div>
 	</cfif>
+<!------------------------------------ locality -------------------------------------------> 
+	
+<!------------------------------------ collecting event ----------------------------------->
+	<div class="card">
+		<div class="card-header float-left w-100">
+			<h3 class="h4 my-1 float-left">Collecting Event</h3>
+			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			
+		</div>
+		<div class="card-body float-left">
+			<ul class="list-unstyled row px-3 py-1 mb-0">
+				<cfif len(colls.collectors) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Collectors:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#colls.collectors#</li>
+				</cfif>
+				<cfif len(one.verbatim_locality) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Locality:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_locality#</li>
+				</cfif>
+				<cfif len(one.collecting_source) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Source:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_source#</li>
+				</cfif>
+				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+				<cfif len(one.began_date) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Began Date:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.began_date#</li>
+				</cfif>
+				<cfif len(one.ended_date) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Ended Date:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.ended_date#</li>
+				</cfif>
+				<cfif len(one.verbatim_date) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Date:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_date#</li>
+				</cfif>
+				<cfif len(one.verbatimcoordinates) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Coordinates:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatimcoordinatesp#</li>
+				</cfif>
+				<cfif len(one.collecting_method) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Method:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_method#</li>
+				</cfif>
+				<cfif len(one.coll_event_remarks) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Event Remarks:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.coll_event_remarks#</li>
+				</cfif>
+				<cfif len(one.habitat_desc) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
+				</cfif>
+				<cfif len(one.collecting_event_id) gt 0>
+				<!---<li class="list-group-item col-6"><em>Collecting Event ID:</em></li>
+				<li class="list-group-item col-6">#one.collecting_event_id#</li>--->
+				</cfif>
+				<cfif len(one.habitat) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
+				</cfif>
+			</ul>
+		</div>
+	</div>
+
 <!------------------------------------ other identifiers ---------------------------------->
 	<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
@@ -1361,138 +1494,7 @@ limitations under the License.
 		</cfif>
 		</div>
 	</div>
-<!------------------------------------ media ---------------------------------------------->
-	<cfif len(citations.cited_name) gt 0>
-		<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT distinct
-			media.media_id,
-			media.media_uri,
-			media.mime_type,
-			media.media_type,
-			media.preview_uri 
-		FROM 
-			media,
-			tag 
-		WHERE 
-			media.media_id=tag.media_id and 
-			tag.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-		<cfif mediaTag.recordcount gt 0>
-			<div class="detailLabel">Tagged in Media </div>
-			<cfloop query="mediaTag">
-				<!---<cfset puri=getMediaPreview(preview_uri,media_type)>
-			<span class="detailData">
-				<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
-			</span>--->
-			</cfloop>
-		</cfif>
-		<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT distinct
-				media.media_id,
-				media.media_uri,
-				media.mime_type,
-				media.media_type,
-				media.preview_uri,
-				media_relations.media_relationship 
-			FROM 
-				media,
-				media_relations,
-				media_labels 
-			WHERE 
-				media.media_id=media_relations.media_id and 
-				media.media_id=media_labels.media_id (+) and 
-				media_relations.media_relationship like '%cataloged_item' and 
-				media.media_type <> 'image' and
-				media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" > 
-				AND MCZBASE.is_media_encumbered(media.media_id) < 1
-																  
-			ORDER BY media.media_type
-		</cfquery>
-		<cfif media.recordcount gt 0>
-			<cfquery name="wrlCount" dbtype="query">
-				SELECT * FROM media WHERE mime_type = 'model/vrml'
-			</cfquery>
-			<cfif wrlCount.recordcount gt 0>
-				<br>
-				<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-			</cfif>
-			<cfquery name="pdfCount" dbtype="query">
-				SELECT * FROM media WHERE mime_type = 'application/pdf'
-			</cfquery>
-			<cfif pdfCount.recordcount gt 0>
-				<br>
-				<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
-			</cfif>
-			<cfif oneOfUs is 1>
-			<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				SELECT 
-					count(*) c 
-				FROM 
-					ctattribute_type 
-				WHERE 
-					attribute_type='image confirmed' and
-					collection_cde= <cfqueryparam value='#one.collection_cde#' cfsqltype="CF_SQL_VARCHAR">
-			</cfquery>
-				<!---   <span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
-			<cfquery name="isConf"  dbtype="query">
-				SELECT 
-					count(*) c 
-				FROM 
-					attribute 
-				WHERE 
-					attribute_type='image confirmed'
-			</cfquery>
-				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-					<span class="infoLink"
-					id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
-				</CFIF>
-			</cfif>
 
-			<!---"thumbs"--->
-			<div class="card text-left">
-				<div class="card-header float-left w-100">
-					<h3 class="h4 my-1 float-left">Media</h3>
-					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-				</div>
-				<ul class="list-group" style="display: inline;">
-					<cfloop query="media">
-						<!---<cfset puri=getMediaPreview(preview_uri,media_type)>--->
-						<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							SELECT 
-								media_label,
-								label_value 
-							FROM 
-								media_labels 
-							WHERE 
-								media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-						<cfquery name="desc" dbtype="query">
-							SELECT label_value FROM labels WHERE media_label='description'
-						</cfquery>
-						<cfset alt="Media Preview Image">
-						<cfif desc.recordcount is 1>
-							<cfset alt=desc.label_value>
-						</cfif>
-						<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-							<cfset one_thumb = "<div class='one_thumb_box'>">
-							<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#">
-							<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-							<cfelse>
-							<cfset one_thumb = "<div class='one_thumb'>">
-							<cfset aForImHref = media_uri>
-							<cfset aForDetHref = "/media/#media_id#">
-						</cfif>
-					<li class="list-group-item thethumbs"> <a href="#media.media_uri#"><img src="#media.preview_uri#" width="100" height="68" class="float-left ml-0"></a> #one_thumb#
-							<p> #media_type# (#mime_type#)<br>
-								<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-								#alt# 
-							</p>
-						</li>
-					</cfloop>
-				</ul>
-			</div>
-		</cfif>
-	</cfif>
 <!------------------------------------ metadata ------------------------------------------->
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>

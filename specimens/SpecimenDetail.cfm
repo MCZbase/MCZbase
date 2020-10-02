@@ -217,7 +217,7 @@ limitations under the License.
 			<p class="my-1 small">#higher_geog#</p>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
-	<img class="flex-auto d-none d-md-block py-2" src="/shared/images/locality.jpg" alt="map" width="125" height="125"> 
+ 
 	</div>
 	</section>
 </section>
