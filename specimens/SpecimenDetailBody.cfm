@@ -694,7 +694,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
-    		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
+    		
 			<div class="multizoom1 thumbs">
       </cfoutput>
       <cfset counter=0>
