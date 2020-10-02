@@ -776,7 +776,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
   </cfloop>
   <!--- on m, loop to get single media record with given media_id  --->
 </cfif>
-
+			   </div>
 
                 </div>
             </div>
