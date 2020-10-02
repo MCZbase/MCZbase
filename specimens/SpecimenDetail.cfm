@@ -214,7 +214,7 @@ limitations under the License.
 			<cfelse>
 				<div class="mb-2 text-muted mt-2"><span class="h6">Collection Date:</span> #began_date# - #ended_date#</div>
 			</cfif>
-			<p class="my-1 small">#higher_geog#</p>
+				<p class="my-1 small"><span class="h6">Higher Geography</span> #higher_geog#</p>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
  
