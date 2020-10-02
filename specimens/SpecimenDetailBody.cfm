@@ -461,7 +461,7 @@ limitations under the License.
 </cfquery>
 
 <cfset media.media_id = #media_id#>
-<cfif NOT isDefined("media_id")>
+<cfif NOT isDefined('media_id')>
   <cfoutput>
     <h2>No Media Object Specified</h2>
   </cfoutput>
