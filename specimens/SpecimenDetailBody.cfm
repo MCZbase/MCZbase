@@ -717,8 +717,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                        select media_label, label_value
                        from media_labels
    					where media_label in ('aspect', 'spectrometer', 'spectrometer reading location', 'light source', 'height', 'width')and media_id=#relm.media_id#
-
-                   </cfquery>
+			</cfquery>
            <cfloop query="labels">
              <cfset labellist = "#labellist#<li>#media_label#: #label_value#</li>">
            </cfloop>
@@ -769,14 +768,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <cfelse>
         <cfoutput>
           </div>
-
           <!-- end multizooom thumbs -->
-         
           </div>
-
-          </div>
-         
-
+			   </div>
           <!-- end media_thumbs -->
         </cfoutput>
       </cfif> <!--- end display of thumbnails of related images --->
