@@ -456,7 +456,7 @@ limitations under the License.
             from media_relations startm
             left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 			left join media findm on mr.media_id = findm.media_id
-          where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
+          where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows locality')
 		    and startm.media_id = #media_id#
 		    and findm.media_type = 'image'
       </cfquery>
@@ -519,7 +519,6 @@ limitations under the License.
 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
               MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
  		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
 		   , 'Unrelated image') mrstr
     from MEDIA
@@ -635,9 +634,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	        media_relationship,
 	        2 as sortorder
 	   from media_relations
-	      left join agent on related_primary_key = agent.agent_id
-	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
+	   where  media_id = #m.media_id#
 	   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
@@ -686,7 +683,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         from media_relations
              left join media on media_relations.media_id = media.media_id
 			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item' or media_relationship = 'shows agent')
+        where (media_relationship = 'shows cataloged_item')
 		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
                    AND MCZBASE.is_media_encumbered(media.media_id)  < 1
         order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
@@ -726,7 +723,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                        select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
                        from media_relations
    					where media_id=#relm.media_id#
-                 and media_relationship in ('created by agent', 'shows cataloged_item')
+                 and media_relationship in ('shows cataloged_item')
                    </cfquery>
            <cfloop query="relations">
              <cfif not (not listcontainsnocase(session.roles,"coldfusion_user") and #mr_label# eq "created by agent")>
