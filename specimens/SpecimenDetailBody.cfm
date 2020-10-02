@@ -561,8 +561,6 @@ limitations under the License.
       <cfset scaledwidth = Round(#m.width# * #scalefactor#) >
       <cfset mdstop =  Round(#m.maxheightinset# * #scalefactor#)>
       <cfset origheight = Round(#m.maxheightinset#)>
-
-
       <cfset im_hw = 'style=" height:#scaledheight#px; width:#PVWIDTH#px;"'>
     </cfif>
     <cfif len(guidOfRelatedSpecimen)>
@@ -642,26 +640,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
       </cfoutput>
     </cfif>
     <cfloop query='ff'>
-<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
-      <cfelse>--->
+
            <cfif ff.media_relationship eq "shows cataloged_item">
               <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
            <cfelse>
               <cfset backlink="#ff.specimendetailurl#">
            </cfif>
-<!---      </cfif>--->
-      <cfoutput>
-<!---        <div class ="media_id">
-        <div class="backlink">#backlink#</div>
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>--->
-      </cfoutput>
+
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
       <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media.media_id, preview_uri, media.media_uri,
@@ -867,13 +852,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                         </cfloop--->
             </div>
 </cfif>
-            </td><!--- end right half of table --->
-</table>
 <cfif oneOfUs is 1>
 </form>
 </cfif>
 
-			   
+																			</cfoutput>			   
 			   
         </div>
 			   <!---locality accordion tab--->
