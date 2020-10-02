@@ -410,22 +410,57 @@ limitations under the License.
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
 <!---START Code from MEDIA SET code--->
+					
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select distinct
-                        media.media_id,
-                        media.media_uri,
-                        media.mime_type,
-                        media.media_type,
-                        media.preview_uri,
-                        mczbase.get_media_descriptor(media.media_id) as media_descriptor
-            from
-                        media,
-                        tag
-            where
-                        media.media_id=tag.media_id and
-                        tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+    select distinct
+        media.media_id,
+        media.media_uri,
+        media.mime_type,
+        media.media_type,
+        media.preview_uri
+     from
+        media,
+		tag
+     where
+         media.media_id=tag.media_id and
+		tag.collection_object_id = #collection_object_id#
 </cfquery>
-<cfset media_id = '1333'>
+<cfif mediaTag.recordcount gt 0>
+	 <div class="detailCell">
+		<div class="detailLabel">Tagged in Media
+		</div>
+		<div class="detailBlock">
+			<cfloop query="mediaTag">
+				<cfset puri=getMediaPreview(preview_uri,media_type)>
+				 <span class="detailData">
+					<a href="/showTAG.cfm?media_id=#media_id#" target="_blank"><img src="#puri#"></a>
+		        </span>
+			</cfloop>
+		</div>
+	</div>
+</cfif>
+<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct
+        media.media_id,
+        media.media_uri,
+        media.mime_type,
+        media.media_type,
+        media.preview_uri,
+		media_relations.media_relationship
+     from
+         media,
+         media_relations,
+         media_labels
+     where
+         media.media_id=media_relations.media_id and
+         media.media_id=media_labels.media_id (+) and
+         media_relations.media_relationship like '%cataloged_item' and
+         media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+         AND MCZBASE.is_media_encumbered(media.media_id) < 1
+	order by media.media_type
+</cfquery>
+
+<cfset media_id = '#media_id#'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
