@@ -1094,7 +1094,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<cfif len(made_date) gt 0>
 								on <span class="h5">Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
 							</cfif>
-							<span class="h5">Nature of ID</span>, #nature_of_id#</span> </p>
+							<span class="h5">Nature of ID:</span> #nature_of_id#</span> </p>
 						<cfif len(identification_remarks) gt 0>
 							<p class="small"><span class="h5">Remarks:</span> #identification_remarks#</p>
 						</cfif>
