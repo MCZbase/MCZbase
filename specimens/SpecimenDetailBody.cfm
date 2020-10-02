@@ -423,6 +423,7 @@ limitations under the License.
             where
                         media.media_id=tag.media_id and
                         tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+						AND MCZBASE.is_media_encumbered(media.media_id) < 1
 </cfquery>
 <cfset media_id = '1333'>
 <cfif NOT isDefined("media_id")>
