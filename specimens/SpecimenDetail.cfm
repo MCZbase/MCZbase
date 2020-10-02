@@ -159,7 +159,7 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 
-	<div class="col-12 col-md-6">
+	<div class="col-12 col-md-4">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow h-md-250 border-0 bg-transparent">
@@ -195,8 +195,8 @@ limitations under the License.
 			</cfif>
 			 </div>
 				</div>
-	
-	<div class="col-12 col-md-6">
+					<div class="col-12 col-md-4">Parts</div>
+	<div class="col-12 col-md-4">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
