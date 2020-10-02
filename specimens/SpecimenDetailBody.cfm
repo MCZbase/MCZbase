@@ -402,7 +402,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3>
+					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="mt-1 btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadIdentifications(62896);">Edit</button>
                   
             
             </div>
@@ -814,7 +814,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						where attribute_type='image confirmed' and
 						collection_cde='#one.collection_cde#'
                 </cfquery>
-				<a class="detailEditCell" href="##" onclick="window.parent.loadEditApp('MediaSearch');">Edit</a>
+				<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>
 				<cfquery name="isConf"  dbtype="query">
                           SELECT count(*) c
                           FROM
