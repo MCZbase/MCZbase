@@ -881,7 +881,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfif>
 		</div>
 		<div class="detailBlock">
-		<span class="detailData form-row col-12"> 
+		<span class="detailData form-row col-12 mx-0 px-0"> 
 		<!---div class="thumbs"--->
 		<div class="thumb_spcr">&nbsp;</div>
 		<cfloop query="media">
@@ -904,11 +904,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-				<cfset one_thumb = "<div class='col-4'>">
+				<cfset one_thumb = "<div class='col-3 px-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
-				<cfset one_thumb = "<div class='col-4'>">
+				<cfset one_thumb = "<div class='col-3 px-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
