@@ -650,7 +650,74 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
           <!--- end media_id --->
         </div>
         <!--- end layoutbox --->
-			<!---START Code from specimen details code--->
+        </div>
+      </cfoutput>
+    </cfif>
+    <cfloop query='ff'>
+<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
+        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
+      <cfelse>--->
+           <cfif ff.media_relationship eq "shows cataloged_item">
+              <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
+           <cfelse>
+              <cfset backlink="#ff.specimendetailurl#">
+           </cfif>
+<!---      </cfif>--->
+      <cfoutput>
+<!---        <div class ="media_id">
+        <div class="backlink">#backlink#</div>
+         <h3><i>#ff.name#</i></h3>
+   			<p>#ff.geography# #geology#</p>
+        	<p>#ff.coll# </p>
+        	<cfif len(trim(#ff.typestatus#))>
+          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
+        </cfif>
+        </div>--->
+      </cfoutput>
+      <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
+      <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select media.media_id, preview_uri, media.media_uri,
+               get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+			   media.mime_type, media.media_type,
+			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+                           ctmedia_license.uri as license_uri,
+                           mczbase.get_media_credit(media.media_id) as credit,
+            		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+        from media_relations
+             left join media on media_relations.media_id = media.media_id
+			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+        where (media_relationship = 'shows cataloged_item')
+		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+                   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+        order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
+   	    </cfquery>
+      <cfoutput>
+        <a name="otherimages"></a>
+        <div class="media_thumbs">
+    		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
+		
+
+          <!-- end multizooom thumbs -->
+   
+          </div>
+          <!-- end media_thumbs -->
+        </cfoutput>
+    
+		  </div>
+      <!--- end display of thumbnails of related images --->
+    </cfloop>  
+			   <!--- end loop through ff for related cataloged items --->
+    <cfoutput>
+      </div>
+      <!-- end mediacontain -->
+    </cfoutput>
+  </cfloop>
+  <!--- on m, loop to get single media record with given media_id  --->
+</cfif>
+<!---END Code from MEDIA SET code--->
+			   
+			   
+<!---START Code from specimen details code--->
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -805,75 +872,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
-<!---END Code from specimen details code--->
-        </div>
-      </cfoutput>
-    </cfif>
-    <cfloop query='ff'>
-<!---      <cfif ff.media_relationship eq "shows agent" and  listcontainsnocase(session.roles,"coldfusion_user")>
-        <cfset backlink="<a href='http://mczbase-test.rc.fas.harvard.edu/agents.cfm?agent_id=#ff.pk#'>#ff.name#</a> &mdash; agent record data">
-      <cfelse>--->
-           <cfif ff.media_relationship eq "shows cataloged_item">
-              <cfset backlink="#ff.specimendetailurl# &mdash; specimen record data:">
-           <cfelse>
-              <cfset backlink="#ff.specimendetailurl#">
-           </cfif>
-<!---      </cfif>--->
-      <cfoutput>
-<!---        <div class ="media_id">
-        <div class="backlink">#backlink#</div>
-         <h3><i>#ff.name#</i></h3>
-   			<p>#ff.geography# #geology#</p>
-        	<p>#ff.coll# </p>
-        	<cfif len(trim(#ff.typestatus#))>
-          <p class="tclass"><span class="type">#ff.typestatus#</span></p>
-        </cfif>
-        </div>--->
-      </cfoutput>
-      <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
-      <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media.media_id, preview_uri, media.media_uri,
-               get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-			   media.mime_type, media.media_type,
-			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-                           ctmedia_license.uri as license_uri,
-                           mczbase.get_media_credit(media.media_id) as credit,
-            		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-        from media_relations
-             left join media on media_relations.media_id = media.media_id
-			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item')
-		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-                   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-        order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
-   	    </cfquery>
-      <cfoutput>
-        <a name="otherimages"></a>
-        <div class="media_thumbs">
-    		<h4>Other images related to #relatedItemA##relatedItem##relatedItemEndA#</h4>
-		
-
-          <!-- end multizooom thumbs -->
-   
-          </div>
-          <!-- end media_thumbs -->
-        </cfoutput>
-    
-		  </div>
-      <!--- end display of thumbnails of related images --->
-    </cfloop>  
-			   <!--- end loop through ff for related cataloged items --->
-    <cfoutput>
-      </div>
-      <!-- end mediacontain -->
-    </cfoutput>
-  </cfloop>
-  <!--- on m, loop to get single media record with given media_id  --->
-</cfif>
-<!---END Code from MEDIA SET code--->
-			   
-			   
-			   
+<!---END Code from specimen details code--->			   
 			   
 			   
                 </div>
