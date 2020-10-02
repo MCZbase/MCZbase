@@ -784,8 +784,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			   <!--- end loop through ff for related cataloged items --->
     <cfoutput>
       </div>
-      </div>
-			   </div>
       <!-- end mediacontain -->
     </cfoutput>
   </cfloop>
@@ -793,9 +791,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </cfif>
 
 
-                </div>
-            </div>
-        </div>
         <div class="card bg-light">
             <div class="card-header" id="headingOne">
                 <h3 class="h4 my-1">
@@ -883,9 +878,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </div>
 
 
-    	</div>
-	</div>
-</div>
+
 			   
 	<!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-md-9 px-1 pr-md-2 pl-md-0">
