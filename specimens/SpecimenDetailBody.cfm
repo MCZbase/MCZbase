@@ -726,10 +726,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                        select media_relationship as mr_label, MCZBASE.MEDIA_RELATION_SUMMARY(media_relations_id) as mr_value
                        from media_relations
    					where media_id=#relm.media_id#
-                 and media_relationship in ('created by agent', 'shows cataloged_item')
+                 and media_relationship in ('shows cataloged_item')
                    </cfquery>
            <cfloop query="relations">
-             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user")>
+             <cfif not (not listcontainsnocase(session.roles,"coldfusion_user"))>
                <cfset labellist = "#labellist#<li>#mr_label#: #mr_value#</li>">
              </cfif>
            </cfloop>
