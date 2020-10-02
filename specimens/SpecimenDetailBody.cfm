@@ -461,11 +461,9 @@ limitations under the License.
 </cfquery>
 #media.media_id#
 
-<cfif NOT isDefined("media_id")>
-  <cfoutput>
-    <h2>No Media Object Specified</h2>
-  </cfoutput>
-  <cfelse>
+<cfif isDefined("media_id")>
+
+
 	<cfset checkSql(media_id)>
   <cfset PVWIDTH=500>
   <!--- Fixed width for the scaled display of the media object on this page. --->
