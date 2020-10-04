@@ -20,7 +20,9 @@
 	<cfif isdefined("coll_obj_disposition") AND coll_obj_disposition is not "in collection">
 		<!--- see if it's a subsample --->
 		<cfquery name="isSSP" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select SAMPLED_FROM_OBJ_ID from specimen_part where collection_object_id = #partID#
+			select SAMPLED_FROM_OBJ_ID from 
+			specimen_part 
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 		</cfquery>
 		<cfif #isSSP.SAMPLED_FROM_OBJ_ID# gt 0>
 					You cannot remove this item from a loan while it's disposition is "on loan." 
@@ -94,8 +96,9 @@
 		</cfif>
 	</cfif>
 	<cfquery name="deleDeaccItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM deacc_item where collection_object_id = #partID#
-		and transaction_id = #transaction_id#
+		DELETE FROM deacc_item 
+		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+		and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 		<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
 	</cfoutput>
@@ -106,31 +109,40 @@
 	<cfoutput>
 <cftransaction>
 	<cfquery name="deleDeacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM deacc_item WHERE collection_object_id = #partID#
-		and transaction_id=#transaction_id#
+		DELETE FROM deacc_item 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+		and transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
 	<cfquery name="delePart" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM specimen_part WHERE collection_object_id = #partID#
+		DELETE FROM specimen_part 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
 	<cfquery name="delePartCollObj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM coll_object WHERE collection_object_id = #partID#
+		DELETE FROM coll_object 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
 	<cfquery name="delePartRemark" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM coll_object_remark WHERE collection_object_id = #partID#
+		DELETE FROM coll_object_remark 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
+
 	<cfquery name="getContID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select container_id from coll_obj_cont_hist where
-		collection_object_id = #partID#
+		select container_id 
+		from coll_obj_cont_hist 
+		where
+		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
-	
 	<cfquery name="deleCollCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM coll_obj_cont_hist WHERE collection_object_id = #partID#
+		DELETE FROM coll_obj_cont_hist 
+		WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 	</cfquery>
 	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM container_history WHERE container_id = #getContID.container_id#
+		DELETE FROM container_history 
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContID.container_id#">
 	</cfquery>
 	<cfquery name="deleCont" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM container WHERE container_id = #getContID.container_id#
+		DELETE FROM container 
+		WHERE container_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getContID.container_id#">
 	</cfquery>
 </cftransaction>
 	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
@@ -142,12 +154,15 @@
 <cfif #Action# is "BulkUpdateDisp">
 	<cfoutput>
 		<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection_object_id FROM deacc_item where transaction_id=#transaction_id#
+			select collection_object_id 
+			FROM deacc_item 
+			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfloop query="getCollObjId">
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = '#coll_obj_disposition#'
-			where collection_object_id = #collection_object_id#
+				UPDATE coll_object 
+				SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 		</cfloop>
 	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
@@ -158,12 +173,15 @@
 <cfif #Action# is "BulkUpdatePres">
 	<cfoutput>
 		<cfquery name="getCollObjId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select collection_object_id FROM deacc_item where transaction_id=#transaction_id#
+			select collection_object_id 
+			FROM deacc_item 
+			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 		<cfloop query="getCollObjId">
 			<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE specimen_part SET preserve_method  = '#part_preserve_method#'
-			where collection_object_id = #collection_object_id#
+			UPDATE specimen_part 
+			SET preserve_method  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_preserve_method#">
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 			</cfquery>
 		</cfloop>
 	<cflocation url="a_deaccItemReview.cfm?transaction_id=#transaction_id#">
@@ -175,20 +193,22 @@
 	<cfoutput>
 	<cftransaction>
 		<cfquery name="upDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE coll_object SET coll_obj_disposition = '#coll_obj_disposition#'
-			where collection_object_id = #partID#
+			UPDATE coll_object 
+			SET coll_obj_disposition = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#">
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
 		</cfquery>
 		<cfquery name="upItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE deacc_item SET
-				 transaction_id=#transaction_id#
+				 transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				<cfif len(#deacc_item_remarks#) gt 0>
-					,deacc_item_remarks = '#deacc_item_remarks#'
+					,deacc_item_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_item_remarks#">
 				<cfelse>
 					,deacc_item_remarks = null
 				</cfif>
 			WHERE
-				collection_object_id = #partID# AND
-				transaction_id=#transaction_id#
+				collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#partID#">
+				AND
+				transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
 	</cftransaction>
 	<cfif isdefined("spRedirAction") and len(#spRedirAction#) gt 0>
