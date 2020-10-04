@@ -424,7 +424,7 @@ Complaint: #complaint#
 				AND upper(FORM_NAME) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(FORM_NAME))#%">
 			</cfif>
 			<cfif isdefined("reported_name") and len(#reported_name#) gt 0>
-				AND upper(reported_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(reported_name))#%'>
+				AND upper(reported_name) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(reported_name))#%">
 			</cfif>
 			<cfif isdefined("complaint") and len(#complaint#) gt 0>
 				AND upper(complaint) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(trim(complaint))#%">
