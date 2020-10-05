@@ -1135,8 +1135,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 					</ul>
 				<cfelse>
-					<h4 class="text-muted">Former Identifications</h4>
-					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-12 col-md-6">
+						<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-12 col-md-6">
+						<span class="d-inline-block mb-1 h4 text-success">Former Identification</span>
 						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
