@@ -176,12 +176,12 @@ limitations under the License.
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-			<h1 class="font-weight-bold h6"><span class="small text-dark">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h1>
-			<div class="mb-1"> 
-				<span class="text-dark">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
-			</div>
+			<h1><span class="">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h1>
+			<h2> 
+				<span class="">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
+			</h2>
 		
-		<div class="mb-1"><span class="text-dark">Collector(s):</span><span class="h4"> #collectors# </span></div>
+		<h2><span class="">Collector(s):</span><span class="h4"> #collectors# </span></h2>
 		<div class="mb-1 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
@@ -210,8 +210,8 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<div class="mb-0 h4 font-weight-bold"><span class="font-weight-normal">Specific Locality: </span> #spec_locality#</div>
-			<div class="my-1 h4"><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</div>
+			<h2><span class="font-weight-normal">Specific Locality: </span> #spec_locality#</h2>
+			<h2><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</h2>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
  
