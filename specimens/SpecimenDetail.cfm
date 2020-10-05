@@ -173,18 +173,7 @@ limitations under the License.
 		<h1 class="my-0">
 			<span class="h4 font-weight-normal">MCZ Catalog Number: </span>
 			<span class="h4"> #collection#&nbsp;#cat_num#</span>
-					<div class="mb-0 text-muted small">
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-			<cfelse>
-			<!--- No special color background for non-type specimens -- default background is gray --->
-			</cfif>
-		</div>
+					
 		</h1>
 		<h2 class="my-0"> 
 			<span class="h4 font-weight-normal">Scientific Names:</span>
@@ -214,10 +203,20 @@ limitations under the License.
 			<h2 class="my-0">
 				<span class="h4 font-weight-normal">Specific Locality: </span>
 				<span class="h4">#spec_locality#</span>
-			</h2>
-			<h2 class="my-0">
 				<span class="h4 font-weight-normal">Higher Geography:</span>
 				<span class="h4">#higher_geog#</span>
+				<div class="mb-0 text-muted small">
+			<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif toptypestatuskind eq 'Primary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+				<cfif toptypestatuskind eq 'Secondary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+			<cfelse>
+			<!--- No special color background for non-type specimens -- default background is gray --->
+			</cfif>
+		</div>
 			</h2>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
