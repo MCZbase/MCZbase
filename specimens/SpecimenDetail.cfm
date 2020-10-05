@@ -209,8 +209,8 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<div class="mb-0 h4"><span class="h6">Specific Locality: </span> #spec_locality#</div>
-			<div class="my-1 h4"><span class="h6">Higher Geography:</span> #higher_geog#</div>
+			<div class="mb-0 h4 font-weight-bold"><span class="font-weight-normal">Specific Locality: </span> #spec_locality#</div>
+			<div class="my-1 h4 font-weight-bold"><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</div>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
  
