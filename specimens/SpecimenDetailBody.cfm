@@ -1716,6 +1716,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 					coll_obj_cont_hist.container_id=oc.container_id and
 					oc.parent_container_id=pc.container_id (+) and
+					ROWNUM <= 5 and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
