@@ -468,14 +468,7 @@ limitations under the License.
 
   <!--- Check to see if height/width are known for this imageset --->
 =
-  <cfloop query="checkmedia" endrow="1">
-    <cfif not checkmedia.media_type eq "image">
-      <!--- Redirect --->
-      <cflocation url='/media/#media_id#' addToken="no">
-    </cfif>
-    <cfif len(checkmedia.width) >
-      <!--- >or #IsNull(checkmedia.width)# or #IsNull(checkmedia.maxheightinset)# --->
-      <!---  If height and width aren't known, find and store them --->
+
       <cfquery name="mediatocheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		  select findm.media_id, findm.media_uri
             from media_relations startm
@@ -485,9 +478,7 @@ limitations under the License.
 		    and startm.media_id = #media_id#
 		    and findm.media_type = 'image'
       </cfquery>
-      <cfset checkcounter = 0>
-    </cfif>
-  </cfloop>
+ 
 
   <!--- Find the requested media object --->
   <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
