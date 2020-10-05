@@ -255,7 +255,7 @@ limitations under the License.
 	</cftry>
 	</cfthread>
 	<cfthread action="join" name="findMediaSearchResultsThread" />
-	<cfreturn getAddressPickerThread.output>
+	<cfreturn findMediaSearchResultsThread.output>
 </cffunction>
 
 <!------------------------------------->
