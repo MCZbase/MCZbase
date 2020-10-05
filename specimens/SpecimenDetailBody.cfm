@@ -1673,14 +1673,16 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</cfif>
 <!------------------------------------ parts ---------------------------------------------->
-	    <div class="accordion" id="accordionExample">
+	    <div class="accordion" id="accordionForParts">
 			<div class="card">
-		<div class="card-header float-left w-100" id="headingOne">
+				<div class="card-header float-left w-100" id="headingPart">
 				<h3 class="h4 my-1 float-left">Parts</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);" data-toggle="collapse" data-target="##collapseOne">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);" data-toggle="collapse" data-target="##collapseParts">Edit</button>
 			</div>
-			<div class="card-body float-left p-0">
-			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+
+				<div class="card-body float-left p-0">
+				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="#accordionForParts">
+					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
 					Case
@@ -1719,7 +1721,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					oc.parent_container_id=pc.container_id (+) and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
-			<cfquery name="parts" dbtype="query">
+					<cfquery name="parts" dbtype="query">
 				select
 						part_id,
 						label,
@@ -1743,7 +1745,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				order by
 						part_name
 			</cfquery>
-			<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select p.barcode from
 				container c,
 				container p,
@@ -1757,10 +1759,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				c.parent_container_id=p.container_id and
 				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			</cfquery>
-			<cfquery name="mPart" dbtype="query">
+					<cfquery name="mPart" dbtype="query">
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
-		<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 			<cfif oneOfUs is 1>
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
@@ -1775,6 +1777,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						<th scope="col" role="columnheader"><span class="innerDetailLabel">Container Name</span></th>
 					</cfif>
 					  <th scope="col" role="columnheader"><span class="innerDetailLabel">Remarks</span></th>
+					    <th scope="col" role="columnheader"><span class="innerDetailLabel">Attributes</span></th>
 				</tr>
 				</thead>
 				<tbody role="rowgroup">
@@ -1861,8 +1864,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
   
 			
 		</cfif>
+				</div>
+				</div>
+			</div>
 		</div>
-	</div>
 
 <!------------------------------------ metadata ------------------------------------------->
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
