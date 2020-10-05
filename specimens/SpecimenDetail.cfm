@@ -137,20 +137,20 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 py-1 px-2 text-center mt-0 mt-md-3 w-100 d-block float-right">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 py-1 px-2 text-center mt-0 mt-md-3 w-100 d-block float-right">#twotypes#  </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5">#twotypes#  </span>'>
 	<cfelse>
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 py-1 px-2 text-center mt-0 mt-md-3 w-100 d-block float-right"> </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5"> </span>'>
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<section role="region" class="container-fluid">
+<div role="region" class="container-fluid mb-2">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
-			<section class="row mb-2 primaryType" >
+			<section class="row mx-0 mb-2 primaryType" >
 		</cfif>
 		<cfif toptypestatuskind eq 'Secondary' >
 			<section class="row mb-2 secondaryType">
@@ -158,7 +158,7 @@ limitations under the License.
 	<cfelse>
 		<section class="row mb-2 defaultType">
 	</cfif>
-	<div class="col-12 col-md-5">
+	<div class="col-12 col-md-6 float-left">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -170,25 +170,40 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
-		<h1 class="my-0">
-			<span class="h4 font-weight-normal">MCZ Catalog Number: </span>
-			<span class="h4"> #collection#&nbsp;#cat_num#</span>
-					
+		<h1 class="my-0 form-row">
+			<span class="h5 font-weight-normal mr-2">MCZ Catalog Number: </span>
+			<span class="h5"> #collection#&nbsp;#cat_num#</span>
+			<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif toptypestatuskind eq 'Primary' >
+						<span class="h5 mt-1 card-text mb-0">#typeName#</span>
+				</cfif>
+				<cfif toptypestatuskind eq 'Secondary' >
+						<span class="h5 mt-1 card-text mb-0">#typeName#</span>
+				</cfif>
+			<cfelse>
+			<!--- No special color background for non-type specimens -- default background is gray --->
+			</cfif>	
 		</h1>
-		<h2 class="my-0"> 
-			<span class="h4 font-weight-normal">Scientific Names:</span>
-			<span class="h4"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
+		<h2 class="my-0 form-row" style="line-height: 1em"> 
+			<span class="h5 font-weight-normal mr-2">Scientific Names: &nbsp;</span>
+			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>#author_text#</span>
 		</h2>
-		<h2 class="my-0">
-			<span class="h4 font-weight-normal">Collector(s):</span>
-			<span class="h4"> #collectors# </span>	
+		<h2 class="my-0 form-row">
+			<span class="h5 font-weight-normal mr-2">Collector(s): </span>
+			<span class="h5"> &nbsp; #collectors# </span>	
 		</h2>
-
+		<h2 class="my-0 form-row">
+			<cfif len(verbatim_date) gt 0>
+				<span class="h5 font-weight-normal mr-2">Verbatim date:</span><span class="h5">#verbatim_date#</span> 
+			<cfelse>
+				<span class="h5 font-weight-normal">Began/Ended Date:</span><span class="h5">&nbsp;#began_date# - #ended_date#</span>
+			</cfif>
+		</h2>
 	</div>
-</div>
-</div>
+	</div>
+				</div>
 
-<div class="col-12 col-md-7">
+<div class="col-12 col-md-6 float-left">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
@@ -199,30 +214,22 @@ limitations under the License.
 	<cfelse>
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
-		<div class="card-body d-flex flex-column align-items-start">
-			<h2 class="my-0">
-				<span class="h4 font-weight-normal">Specific Locality: </span>
-				<span class="h4">#spec_locality#</span>
-				<span class="h4 font-weight-normal">Higher Geography:</span>
-				<span class="h4">#higher_geog#</span>
+		<div class="card-body mt-1 d-flex flex-column align-items-start">
+			<h2 class="my-0 form-row">
+				<span class="h5 font-weight-normal mr-2">Specific Locality: </span>
+				<span class="h5">#spec_locality#</span>
 			</h2>
-			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-		</div>
-		<div class="mb-0 text-muted small">
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-			<cfelse>
-			<!--- No special color background for non-type specimens -- default background is gray --->
-			</cfif>
+			<h2 class="my-0 form-row">
+				<span class="h5 font-weight-normal mr-2">Higher Geography:</span>
+				<span class="h5">#higher_geog#</span>
+			</h2>
+			<div class="form-row">
+				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
+			</div>	
 		</div>
 	</div>
-	</section>
-
+</section>
+			</div>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">
