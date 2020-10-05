@@ -1849,7 +1849,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</tr>	
 					</cfloop>
 						<cfelse>	
-								<cfloop query="rparts" from="1" to="3" index="index">
+								<cfloop query="rparts" from="4" to="20" index="index">
 					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
