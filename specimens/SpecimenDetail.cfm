@@ -217,7 +217,7 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-1 d-flex flex-column align-items-start">
-			<h2 class="my-0 form-row">
+			<h2 class="my-0 form-row d-inline">
 				<span class="h5 font-weight-normal d-inline mr-2 mb-0">Specific Locality: </span>
 				<span class="h5">#spec_locality#</span>
 			</h2>
