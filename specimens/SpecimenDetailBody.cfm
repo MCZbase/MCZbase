@@ -1677,10 +1677,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	    <div class="accordion" id="accordionForParts">
 			<div class="card">
 				<div class="card-header float-left w-100" id="headingPart">
-				<h3 class="h4 my-1 float-left">Parts</h3><a class="btn-link" data-toggle="collapse" data-target="##collapseParts">See Parts</a>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-
+					<h3 class="h4 my-1 float-left">Parts</h3><a class="btn-link" data-toggle="collapse" data-target="##collapseParts">See Parts</a>
+					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				</div>
 				<div class="card-body float-left p-0">
 				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
 					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1764,11 +1763,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-			<cfif oneOfUs is 1>
+					<cfif oneOfUs is 1>
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
-			 <table class="table table-striped table-responsive border-0 mb-0">
-				   <thead role="rowgroup">
+			 	<table class="table table-striped table-responsive border-0 mb-0">
+				<thead role="rowgroup">
 				  <tr role="row">
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
@@ -1851,20 +1850,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfloop>
 					</tr>	
 					</cfloop>
-					
-							
-			</tbody>
-						
+				 </div>	
+				</tbody>		
 			</table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-  
-  
-			
-		</cfif>
+       		
+					</cfif>
 				</div>
 				</div>
 			</div>
