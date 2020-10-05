@@ -199,7 +199,7 @@ limitations under the License.
 	<cfelse>
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
-		<div class="card-body d-flex flex-column align-items-start">
+		<div class="card-body mt-1 d-flex flex-column align-items-start">
 			<h2 class="my-0 form-row">
 				<span class="h5 font-weight-normal">Specific Locality: &nbsp;</span>
 				<span class="h5"> &nbsp; #spec_locality#</span>
@@ -208,6 +208,7 @@ limitations under the License.
 				<span class="h5 font-weight-normal">Higher Geography:</span>
 				<span class="h5"> &nbsp;#higher_geog#</span>
 			</h2>
+			<div class="form-row">
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 					<div class="mb-0 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
@@ -221,6 +222,7 @@ limitations under the License.
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>
 		</div>
+				</div>
 		</div>
 
 	</div>
