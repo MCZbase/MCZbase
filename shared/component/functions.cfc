@@ -157,7 +157,7 @@ limitations under the License.
 	<cfargument name="media_uri" type="string" required="no">
 	<cfargument name="media_description" type="string" required="no">
 	<cfargument name="unlinked" type="string" required="no">
-	<cfset result = "">
+	<cfthread name="findMediaSearchResultsThread">
 	<cftry>
 	 <cfquery name="matchMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select distinct media.media_id, media_uri uri, preview_uri, mime_type, media_type, 
@@ -189,61 +189,73 @@ limitations under the License.
 			</cfif>
 	 </cfquery>
 
-	 <cfset i=1>
-	 <cfif matchMedia.recordcount eq 0>
-		 <cfset result = "<h2 class='h3'>No matching media records found</h2>">
-	 <cfelse>
-	 <cfloop query="matchMedia">
-		<cfset result = result & "<div">
-			<cfif (i MOD 2) EQ 0> 
-				<cfset result = result & "class='evenRow'"> 
-			<cfelse> 
-				<cfset result = result & "class='oddRow'"> 
-			</cfif>
-		<cfset result = result & "
-		<form id='pickForm#target_id#_#i#'>
-			<input type='hidden' value='#target_relation#' name='target_relation'>
-			<input type='hidden' name='target_id' value='#target_id#'>
-			<input type='hidden' name='media_id' value='#media_id#'>
-			<input type='hidden' name='Action' value='addThisOne'>
-			<div><a href='#uri#'>#uri#</a></div><div>#description# #mime_type# #media_type#</div><div><a href='/media/#media_id#' target='_blank'>Media Details</a></div>
-		<div id='pickResponse#target_id#_#i#'>
-			<input type='button' class='btn-xs btn-secondary'
-				onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
-		</div>
-		<hr class="bg-dark">
-		</form>
-		<script language='javascript' type='text/javascript'>
-		$('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
-		function linkmedia(media_id, target_id, target_relation, div_id) { 
-			jQuery.ajax({
-				url: '/shared/component/functions.cfc',
-				type: 'post',
-				data: {
-					method: 'linkMediaRecord',
-					returnformat: 'plain',
-					target_relation: target_relation,
-					target_id: target_id,
-					media_id: media_id
-				},
-				success: function (data) {
-					$('##'+div_id).html(data);
-				},
-				error: function (jqXHR, textStatus) {
-					$('##'+div_id).html('Error:' + textStatus);
-				}
-			});
-		};
-		</script>
-		</div>">
-		<cfset i=i+1>
-	</cfloop>
-	</cfif>
+	<cfoutput>
+		<cfset i=1>
+		<cfif matchMedia.recordcount eq 0>
+			<h2 class='h3'>No matching media records found</h2>
+		<cfelse>
+			<cfloop query="matchMedia">
+				<cfset dbit = "<div">
+					<cfif (i MOD 2) EQ 0> 
+						<cfset dbit = dbit & "class='evenRow'"> 
+					<cfelse> 
+						<cfset dbit = dbit & "class='oddRow'"> 
+					</cfif>
+					<cfset dbit = dbit & ">">
+					#dbit#
+					<form id='pickForm#target_id#_#i#'>
+						<input type='hidden' value='#target_relation#' name='target_relation'>
+						<input type='hidden' name='target_id' value='#target_id#'>
+						<input type='hidden' name='media_id' value='#media_id#'>
+						<input type='hidden' name='Action' value='addThisOne'>
+						<div>
+							<a href='#uri#'>#uri#</a>
+						</div>
+						<div>#description# #mime_type# #media_type#</div>
+						<div>
+							<a href='/media/#media_id#' target='_blank'>Media Details</a>
+						</div>
+						<div id='pickResponse#target_id#_#i#'>
+							<input type='button' class='btn-xs btn-secondary'
+								onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
+						</div>
+						<hr class='bg-dark'>
+					</form>
+					<script language='javascript' type='text/javascript'>
+						$('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
+						function linkmedia(media_id, target_id, target_relation, div_id) { 
+							jQuery.ajax({
+								url: '/shared/component/functions.cfc',
+								type: 'post',
+								data: {
+									method: 'linkMediaRecord',
+									returnformat: 'plain',
+									target_relation: target_relation,
+									target_id: target_id,
+									media_id: media_id
+								},
+								success: function (data) {
+									$('##'+div_id).html(data);
+								},
+								error: function (jqXHR, textStatus) {
+									$('##'+div_id).html('Error:' + textStatus);
+								}
+							});
+						};
+					</script>
+				</div>
+				<cfset i=i+1>
+			</cfloop>
+		</cfif>
+	</cfoutput>
 	<cfcatch>
-		<cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " & cfcatch.detail >
+		<cfset err = "Error: " & cfcatch.type & " " & cfcatch.message & " " & cfcatch.detail >
+		<cfoutput>#err#</cfoutput>
 	</cfcatch>
 	</cftry>
-	<cfreturn result>
+	</cfthread>
+	<cfthread action="join" name="findMediaSearchResultsThread" />
+	<cfreturn findMediaSearchResultsThread.output>
 </cffunction>
 
 <!------------------------------------->
