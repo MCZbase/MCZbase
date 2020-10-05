@@ -410,8 +410,18 @@ limitations under the License.
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
 <!---START Code from MEDIA SET code--->
-					
-<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquerey name='mediaQ' datasource='user_login' username='#session.dbuser#' password='#decrypt(session.epw,cfid)#'>
+	select 
+		m.media_id 
+	from 
+		cataloged_item ci, 
+		media m 
+	where 
+		ci.collection_object_id = m.related_primary_key 
+	and 
+		ci.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">	
+	</cfquery>
+<!---<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
         media.media_uri,
@@ -438,7 +448,7 @@ limitations under the License.
 			</cfloop>
 		</div>
 	</div>
-</cfif>
+</cfif>--->
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
