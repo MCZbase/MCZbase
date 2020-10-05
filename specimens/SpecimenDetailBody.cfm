@@ -1681,8 +1681,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 
-				<div class="card-body float-left p-0" style="min-height: 200px;">
-				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
+				<div class="card-body float-left p-0">
+				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts"  style="min-height: 200px;">
 					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
