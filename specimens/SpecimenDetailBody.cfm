@@ -1790,7 +1790,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<td class="inside" role="cell">#label#</td>
 						</cfif>
 						<td class="inside" role="cell">#part_remarks#</td>
-					<cfquery name="patt" dbtype="query">
+		<!---			<cfquery name="patt" dbtype="query">
 						SELECT
 							attribute_type,
 							attribute_value,
@@ -1845,7 +1845,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<td>#label#</td>
 							</cfif>
 							<td role="cell">#part_remarks#</td>
-					</cfloop>
+					</cfloop>--->
 					</tr>	
 					</cfloop>
 						<cfelse>	
