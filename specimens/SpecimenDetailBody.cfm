@@ -644,7 +644,7 @@ limitations under the License.
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-     
+     #one.collection_object_id#
         <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
       <cfoutput> </cfoutput> </cfoutput>
