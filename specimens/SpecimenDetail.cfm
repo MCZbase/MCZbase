@@ -185,9 +185,9 @@ limitations under the License.
 		</h2>
 		<h2 class="my-0 form-row">
 				<cfif len(verbatim_date) gt 0>
-				<div class="mb-2 text-muted small mt-2">#verbatim_date#</div>  
+					<span class="h5">verbatim_date#</span> 
 			<cfelse>
-				<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
+				<span class="h5">#began_date# - #ended_date#</span>
 			</cfif>
 		</h2>
 		<div class="my-1 form-row small">
