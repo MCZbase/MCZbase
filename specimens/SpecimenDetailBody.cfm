@@ -459,8 +459,6 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-
-
 <cfif isDefined("catalog_object_id")>
   <cfoutput>
 	<cfset checkSql(media_id)>
@@ -1892,4 +1890,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </cfif>
 </div>
 </cfoutput>
+						</output>
+						</cfif>
 </section>
+					
+					
+					
+					
