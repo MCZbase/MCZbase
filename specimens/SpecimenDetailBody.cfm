@@ -396,7 +396,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="row">
-		<div class="col-12 col-md-3 mb-2 col-0">
+		<div class="col-12 col-md-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
