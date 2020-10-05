@@ -439,6 +439,7 @@ limitations under the License.
 		</div>
 	</div>
 </cfif>
+	<cfset media_id = ''>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id as media_id,
