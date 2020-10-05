@@ -222,7 +222,7 @@ limitations under the License.
 				<span class="h5">#spec_locality#</span>
 			</h2>
 			<h2 class="my-0 form-row d-inline">
-				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Higher Geography:</span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-0">Higher Geography:</span>
 				<span class="h5" style="line-height:1em;">#higher_geog#</span>
 			</h2>
 			<div class="form-row">
