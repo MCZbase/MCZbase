@@ -381,6 +381,12 @@ function pickedRelationship (id){
 	} else if (relatedTable=='agent'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeAgentPicker(dispInputName, idInputName);
+	} else if (relatedTable=='loan'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeLoanPicker(dispInputName, idInputName);
+	} else if (relatedTable=='permit'){
+		$('#'+dispInputName).attr("readonly", false);
+		makePermitPicker(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
@@ -397,10 +403,6 @@ function pickedRelationship (id){
 		getAccn(dispInputName,idInputName,formName);
 	} else if (relatedTable=='deaccession'){
 		getDeaccession(dispInputName,idInputName,formName);
-	} else if (relatedTable=='permit'){
-		getPermit(dispInputName,idInputName,formName);
-	} else if (relatedTable=='loan'){
-		getLoan(dispInputName,idInputName,formName);
 	//  } else if (relatedTable=='borrow'){
 		// TODO: Implement a borrow picker
 		// getBorrow(dispInputName,idInputName,formName);
