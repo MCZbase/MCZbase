@@ -1775,8 +1775,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
                <table class="table table-striped table-responsive border-0 mb-0">
-					<cfloop query="rparts">
-				<thead role="rowgroup">
+				   <thead role="rowgroup">
 				  <tr role="row">
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
@@ -1789,6 +1788,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</tr>
 				</thead>
 				<tbody role="rowgroup">
+					<cfloop query="rparts">
+				
 					<tr role="row">
 					
 						<td class="inside" role="cell">#part_name#</td>
@@ -1800,7 +1801,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 						<td class="inside" role="cell">#part_remarks#</td>
 			
-<!---					<cfquery name="patt" dbtype="query">
+				<cfquery name="patt" dbtype="query">
 						SELECT
 							attribute_type,
 							attribute_value,
@@ -1820,8 +1821,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							determined_date,
 							attribute_remark,
 							agent_name
-					</cfquery>--->
-<!---					<cfif patt.recordcount gt 0>
+					</cfquery>
+					<cfif patt.recordcount gt 0>
 					
 							<td colspan="6">
 								<cfloop query="patt">
@@ -1841,8 +1842,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</div>
 								</cfloop>
 							</td>
-					</cfif>--->
-				<!---	<cfquery name="sPart" dbtype="query">
+					</cfif>
+					<cfquery name="sPart" dbtype="query">
 								select * from parts 
 								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
 							</cfquery>
@@ -1856,8 +1857,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<td>#label#</td>
 							</cfif>
 							<td role="cell">#part_remarks#</td>
-					
-					</cfloop>--->
+					</cfloop>
 			
 			</tr>		
 			</tbody>
