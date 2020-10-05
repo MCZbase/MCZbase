@@ -176,16 +176,16 @@ limitations under the License.
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-		<h1 class="my-1"><span class="h4 font-weight-normal">MCZ Catalog Number: </span><span class="h4"> #collection#&nbsp;#cat_num#</span></h1>
-		<h2 class="my-1"> 
+		<h1 class="my-0"><span class="h4 font-weight-normal">MCZ Catalog Number: </span><span class="h4"> #collection#&nbsp;#cat_num#</span></h1>
+		<h2 class="my-0"> 
 			<span class="h4 font-weight-normal">Scientific Names:</span>
-			<span class="h4"> <a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
+			<span class="h4"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
 		</h2>
-		<h2 class="my-1">
+		<h2 class="my-0">
 			<span class="h4 font-weight-normal">Collector(s):</span>
 			<span class="h4"> #collectors# </span>	
 		</h2>
-		<div class="mb-1 text-muted small">
+		<div class="mb-0 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text">#typeName#</p>
@@ -213,14 +213,19 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<h2><span class="font-weight-normal">Specific Locality: </span> #spec_locality#</h2>
-			<h2><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</h2>
+			<h2 class="my-0">
+				<span class="h4 font-weight-normal">Specific Locality: </span>
+				<span class="h4">#spec_locality#</span>
+			</h2>
+			<h2 class="my-0">
+				<span class="h4 font-weight-normal">Higher Geography:</span>
+				<span class="h4">#higher_geog#</span>
+			</h2>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
- 
 	</div>
 	</section>
-</section>
+
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">
