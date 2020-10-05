@@ -201,7 +201,7 @@ limitations under the License.
 		</h2>
 	</div>
 	</div>
-
+				</div>
 
 <div class="col-12 col-md-6 float-left">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
