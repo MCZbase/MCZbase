@@ -184,8 +184,8 @@ limitations under the License.
 			<span class="h5"> &nbsp; #collectors# </span>	
 		</h2>
 		<h2 class="my-0 form-row">
-				<cfif len(verbatim_date) gt 0>
-					<span class="h5">verbatim_date#</span> 
+			<cfif len(verbatim_date) gt 0>
+					<span class="h5">#verbatim_date#</span> 
 			<cfelse>
 				<span class="h5">#began_date# - #ended_date#</span>
 			</cfif>
