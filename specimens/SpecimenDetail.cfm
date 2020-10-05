@@ -177,10 +177,14 @@ limitations under the License.
 				</cfif>--->
 			</div>
 		<h1 class="my-1"><span class="h4 font-weight-normal">MCZ Catalog Number: </span><span class="h4"> #collection#&nbsp;#cat_num#</span></h1>
-			<h2> 
-				<span class="h4 font-weight-normal">Scientific Names:</span><span class="h4"> <a class="font-italic" href="##">#scientific_name#</a>&nbsp; #author_text#			</h2>
-		
-		<h2 class="my-1"><span class="">Collector(s):</span><span class=""> #collectors# </span></h2>
+		<h2 class="my-1"> 
+			<span class="h4 font-weight-normal">Scientific Names:</span>
+			<span class="h4"> <a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
+		</h2>
+		<h2 class="my-1">
+			<span class="h4 font-weight-normal">Collector(s):</span>
+			<span class="h4"> #collectors# </span>	
+		</h2>
 		<div class="mb-1 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
@@ -190,7 +194,7 @@ limitations under the License.
 						<p class="card-text">#typeName#</p>
 				</cfif>
 			<cfelse>
-
+			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>
 		</div>
 	</div>
