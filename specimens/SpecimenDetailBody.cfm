@@ -460,7 +460,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '150303'>
+<cfset media_id = '77177'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -1060,7 +1060,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			 <button type="button" class="mt-1 btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body float-left">
-				<cfloop query="identification">
+			<cfloop query="identification">
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
 						taxonomy.taxon_name_id,
@@ -1119,7 +1119,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								GROUP BY 
 									common_name order by common_name
 							</cfquery>
-							<div class="h5 text-muted pl-3">#valuelist(cName.common_name,"; ")# </div>
+							<div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 							<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 						</cfloop>
 						<cfif len(formatted_publication) gt 0>
