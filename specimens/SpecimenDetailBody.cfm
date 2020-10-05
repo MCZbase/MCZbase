@@ -423,7 +423,7 @@ limitations under the License.
 		tag
      where
          media.media_id=tag.media_id and
-		tag.collection_object_id = #collection_object_id#
+		tag.collection_object_id = #one.collection_object_id#
 </cfquery>
 <cfif mediaTag.recordcount gt 0>
 	 <div class="detailCell">
