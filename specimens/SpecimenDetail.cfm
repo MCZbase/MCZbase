@@ -184,9 +184,9 @@ limitations under the License.
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>	
 		</h1>
-		<h2 class="my-0 form-row" style="line-height: 1em"> 
-			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Scientific Names:</span>
-			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>#author_text#</span>
+		<h2 class="my-0 form-row"> 
+			<span class="h5 font-weight-normal mr-2 mb-0">Scientific Names:</span>
+			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp;#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
 			<span class="h5 font-weight-normal mr-2">Collector(s):</span>
@@ -218,12 +218,12 @@ limitations under the License.
 	</cfif>
 		<div class="card-body mt-1 d-flex flex-column align-items-start">
 			<h2 class="my-0 form-row">
-				<span class="h5 font-weight-normal d-inline mr-2 mb-0 mb-md-2">Specific Locality: </span>
+				<span class="h5 font-weight-normal d-inline mr-2 mb-0">Specific Locality: </span>
 				<span class="h5">#spec_locality#</span>
 			</h2>
 			<h2 class="my-0 form-row d-inline">
 				<span class="h5 font-weight-normal mr-2 mb-0">Higher Geography:</span>
-				<span class="h5" style="line-height:1em;">#higher_geog#</span>
+				<span class="h5">#higher_geog#</span>
 			</h2>
 			<div class="form-row my-2">
 				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
