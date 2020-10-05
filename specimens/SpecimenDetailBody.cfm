@@ -1780,7 +1780,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<tbody role="rowgroup">
                 <div class="card-body">
 				<cfif rparts.RecordCount lt 3>
-					<cfloop query="rparts">		
+					<cfloop query="rparts" from="1" to="3" index="index">
 					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
@@ -1849,7 +1849,74 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</tr>	
 					</cfloop>
 						<cfelse>	
-					INFORMATION AVAILABLE
+								<cfloop query="rparts" from="1" to="3" index="index">
+					<tr role="row">	
+						<td class="inside" role="cell">#part_name#</td>
+						<td class="inside" role="cell">#part_condition#</td>
+						<td class="inside" role="cell">#part_disposition#</td>
+						<td class="inside" role="cell">#lot_count#</td>
+						<cfif oneOfus is 1>
+							<td class="inside" role="cell">#label#</td>
+						</cfif>
+						<td class="inside" role="cell">#part_remarks#</td>
+					<cfquery name="patt" dbtype="query">
+						SELECT
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+						FROM
+							rparts
+						WHERE
+							attribute_type is not null and
+							part_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_VARCHAR">
+						GROUP BY
+							attribute_type,
+							attribute_value,
+							attribute_units,
+							determined_date,
+							attribute_remark,
+							agent_name
+					</cfquery>
+					<cfif patt.recordcount gt 0>
+					<td colspan="6">
+								<cfloop query="patt">
+									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
+										<cfif len(attribute_units) gt 0>
+											#attribute_units# &nbsp;&nbsp;&nbsp;&nbsp;
+										</cfif>
+										<cfif len(determined_date) gt 0>
+											determined date=#dateformat(determined_date,"yyyy-mm-dd")# &nbsp;&nbsp;&nbsp;&nbsp;
+										</cfif>
+										<cfif len(agent_name) gt 0>
+											determined by=#agent_name# &nbsp;&nbsp;&nbsp;&nbsp;
+										</cfif>
+										<cfif len(attribute_remark) gt 0>
+											remark=#attribute_remark# &nbsp;&nbsp;&nbsp;&nbsp;
+										</cfif>
+									</div>
+								</cfloop>
+							</td>
+					</cfif>
+					<cfquery name="sPart" dbtype="query">
+								select * from parts 
+								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
+					<cfloop query="sPart">
+						
+							<td role="cell"><span>#part_name# subsample</span></td>
+							<td role="cell">#part_condition#</td>
+							<td role="cell">#part_disposition#</td>
+							<td role="cell">#lot_count#</td>
+							<cfif oneOfus is 1>
+								<td>#label#</td>
+							</cfif>
+							<td role="cell">#part_remarks#</td>
+					</cfloop>
+					</tr>	
+					</cfloop>
 					</cfif>
 							
 			</tbody>
