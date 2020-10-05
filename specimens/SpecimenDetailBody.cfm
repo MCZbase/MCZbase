@@ -459,8 +459,10 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-
-<cfset media_id = '1333'>
+	<cfset media_id = ''>
+<cfquery name="mediaid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select m.media_id as #media_id# from cataloged_item ci, media m where ci.collection_object_id = m.related_primary_key and ci.collection_object_id = 1333</query>
+<cfset media_id = #media_id#>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
