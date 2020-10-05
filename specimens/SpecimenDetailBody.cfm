@@ -1681,7 +1681,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</div>
 
 				<div class="card-body float-left p-0">
-				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="#accordionForParts">
+				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
 					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
