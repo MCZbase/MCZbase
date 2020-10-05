@@ -150,13 +150,13 @@ limitations under the License.
 <section role="region" class="container-fluid mb-2">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
-			<section class="form-row mb-2 primaryType" >
+			<section class="row mx-0 mb-2 primaryType" >
 		</cfif>
 		<cfif toptypestatuskind eq 'Secondary' >
-			<section class="form-row mb-2 secondaryType">
+			<section class="row mb-2 secondaryType">
 		</cfif>
 	<cfelse>
-		<section class="form-row mb-2 defaultType">
+		<section class="row mb-2 defaultType">
 	</cfif>
 	<div class="col-12 col-md-6">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
