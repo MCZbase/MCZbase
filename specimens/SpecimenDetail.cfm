@@ -181,7 +181,7 @@ limitations under the License.
 		</h2>
 		<h2 class="my-0 form-row" style="line-height: 1em;">
 			<span class="h5 font-weight-normal">Collector(s): </span>
-			<span class="h5"> #collectors# </span>	
+			<span class="h5"> &nbsp; #collectors# </span>	
 		</h2>
 
 	</div>
@@ -202,11 +202,11 @@ limitations under the License.
 		<div class="card-body d-flex flex-column align-items-start">
 			<h2 class="my-0 form-row">
 				<span class="h5 font-weight-normal">Specific Locality: &nbsp;</span>
-				<span class="h5">#spec_locality#</span>
+				<span class="h5"> &nbsp; #spec_locality#</span>
 			</h2>
 			<h2 class="my-0 form-row">
 				<span class="h5 font-weight-normal">Higher Geography:</span>
-				<span class="h5">#higher_geog#</span>
+				<span class="h5"> &nbsp;#higher_geog#</span>
 			</h2>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 					<div class="mb-0 text-muted small">
