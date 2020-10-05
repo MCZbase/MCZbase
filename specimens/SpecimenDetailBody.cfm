@@ -472,7 +472,7 @@ limitations under the License.
 	<cfoutput>
 #collection_object_id#
 	
-		#media_id#</cfoutput>
+		#MCZbase.media.media_id#</cfoutput>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
