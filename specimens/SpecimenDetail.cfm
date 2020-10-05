@@ -176,12 +176,12 @@ limitations under the License.
 					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
 				</cfif>--->
 			</div>
-			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h2>
-				<div class="mb-0 font-weight-normal"> 
-					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
+			<h1 class="text-secondary font-weight-bold"><span class="small text-dark">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h1>
+				<div class="mb-1"> 
+					<span class="text-dark">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 		
-		<div class="mb-1 mt-1 small"><span class="h6 font-weight-bold">Collector(s):</span> #collectors#</div>
+		<div class="small h6"><span class="text-dark">Collector(s):</span> #collectors#</div>
 				<div class="mb-1 text-muted small"> </div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
@@ -194,11 +194,10 @@ limitations under the License.
 
 			</cfif>
 	</div>
-	
-			 </div>
-				</div>
+</div>
+</div>
 
-	<div class="col-12 col-md-6">
+<div class="col-12 col-md-6">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
@@ -210,12 +209,7 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
-			<h5 class="mb-0 h4"><span class="h6">Specific Locality: </span> #spec_locality#</h5>
-			<cfif len(verbatim_date) gt 0>
-				<div class="mb-2 text-muted small mt-2"><span class="h6">Verbatim Date:</span> #verbatim_date#</div>  
-			<cfelse>
-				<div class="mb-2 text-muted mt-2"><span class="h6">Collection Date:</span> #began_date# - #ended_date#</div>
-			</cfif>
+			<div class="mb-0 h4"><span class="h6">Specific Locality: </span> #spec_locality#</h5>
 				<p class="my-1 small"><span class="h6">Higher Geography:</span> #higher_geog#</p>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
