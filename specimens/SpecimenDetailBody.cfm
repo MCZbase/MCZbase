@@ -1673,10 +1673,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</cfif>
 <!------------------------------------ parts ---------------------------------------------->
-	<div class="card">
-		<div class="card-header float-left w-100">
+	    <div class="accordion" id="accordionExample">
+			<div class="card">
+		<div class="card-header float-left w-100" id="headingOne">
 				<h3 class="h4 my-1 float-left">Parts</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);" data-toggle="collapse" data-target="##collapseOne">Edit</button>
 			</div>
 			<div class="card-body float-left p-0">
 			<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1716,7 +1717,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 					coll_obj_cont_hist.container_id=oc.container_id and
 					oc.parent_container_id=pc.container_id (+) and
-					ROWNUM <= 5 and
 					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 			</cfquery>
 			<cfquery name="parts" dbtype="query">
@@ -1764,18 +1764,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<cfif oneOfUs is 1>
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
-			
-		<div class="bs-example">
-    <div class="accordion" id="accordionExample">
-        <div class="card">
-            <div class="card-header" id="headingOne">
-                <h2 class="mb-0">
-                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="##collapseOne">Part Accordion Tab</button>									
-                </h2>
-            </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
-                <div class="card-body">
-               <table class="table table-striped table-responsive border-0 mb-0">
+			 <table class="table table-striped table-responsive border-0 mb-0">
 				   <thead role="rowgroup">
 				  <tr role="row">
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
@@ -1789,10 +1778,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</tr>
 				</thead>
 				<tbody role="rowgroup">
-					<cfloop query="rparts">
-				
-					<tr role="row">
-					
+                <div class="card-body">
+				<cfif rparts.RecordCount lt 5>
+					<cfloop query="rparts">		
+					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
 						<td class="inside" role="cell">#part_disposition#</td>
@@ -1801,8 +1790,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<td class="inside" role="cell">#label#</td>
 						</cfif>
 						<td class="inside" role="cell">#part_remarks#</td>
-			
-				<cfquery name="patt" dbtype="query">
+					<cfquery name="patt" dbtype="query">
 						SELECT
 							attribute_type,
 							attribute_value,
@@ -1824,8 +1812,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							agent_name
 					</cfquery>
 					<cfif patt.recordcount gt 0>
-					
-							<td colspan="6">
+					<td colspan="6">
 								<cfloop query="patt">
 									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
 										<cfif len(attribute_units) gt 0>
@@ -1859,10 +1846,14 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							</cfif>
 							<td role="cell">#part_remarks#</td>
 					</cfloop>
-			
-			</tr>		
+					</tr>	
+					</cfloop>
+						<cfelse>	
+					INFORMATION AVAILABLE
+					</cfif>
+							
 			</tbody>
-							</cfloop>
+						
 			</table>
                 </div>
             </div>
