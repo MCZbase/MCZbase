@@ -68,16 +68,16 @@ h2, .h2 {
 	font-size: 1.5em;
 }
 h3, .h3 {
-	font-size: 1.25rem
+	font-size: 1.25rem;
 }
 h4, .h4 {
-	font-size: 1rem
+	font-size: 1rem;
 }
 h5, .h5 {
-	font-size: .875rem
+	font-size: .875rem;
 }
 h6, .h6 {
-	font-size: .75rem
+	font-size: .75rem;
 }
 .btn-link, .helpText, .fas-info {
 	color: #036ee0 !important;

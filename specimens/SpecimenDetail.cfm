@@ -181,7 +181,7 @@ limitations under the License.
 					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 		
-		<div class="mb-1 mt-1 small"><span class="h6">Collector(s):</span> #collectors#</div>
+		<div class="mb-1 mt-1 small"><span class="h6 font-weight-bold">Collector(s):</span> #collectors#</div>
 				<div class="mb-1 text-muted small"> </div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
