@@ -86,10 +86,7 @@ limitations under the License.
 <!--- Successfully found a specimen, set the pageTitle and call the header to reflect this, then show the details ---> 
 <cfset pageTitle = "MCZbase Specimen Details #guid#">
 <cfinclude template="/shared/_header.cfm">
-	<cfoutput>
-#collection_object_id#
-	
-		#media_id#</cfoutput>
+
 <cfquery name="detail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT DISTINCT
 		#session.flatTableName#.collection,
