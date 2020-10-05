@@ -217,7 +217,7 @@ limitations under the License.
 						</div>
 						<div id='pickResponse#target_id#_#i#'>
 							<input type='button' class='btn-xs btn-secondary'
-								onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
+								onclick='linkmedia(#media_id#,#target_id#,"#target_relation#","pickResponse#target_id#_#i#");' value='Add this media'>
 						</div>
 						<hr class='bg-dark'>
 					</form>
