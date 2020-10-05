@@ -176,10 +176,10 @@ limitations under the License.
 					<div class="mb-0 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-						<p class="card-text">#typeName#</p>
+						<p class="card-text mb-0">#typeName#</p>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text">#typeName#</p>
+						<p class="card-text mb-0">#typeName#</p>
 				</cfif>
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
