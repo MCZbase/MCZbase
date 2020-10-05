@@ -2676,6 +2676,9 @@ limitations under the License.
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
 			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
 		</cfif>
+		<cfif deleteResult.recordcount GT 1>
+			<cfthrow message="More than one (#deleteResult.recordcount#) record marked for deletion.  Delete rolled back.">
+		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >

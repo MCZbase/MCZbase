@@ -127,7 +127,7 @@ limitations under the License.
 			};
 		</script>
 		<div id='newMediaDlg1_#target_id#'></div>
-		<div id='mediaSearchResults'></div>
+		<div id='mediaSearchResults' class='container-fluid mt-1'></div>
 		" >
 	<cfcatch> 
 		<cfset result = "Error: " & cfcatch.type & " " & cfcatch.message & " " & cfcatch.detail >
@@ -191,7 +191,7 @@ limitations under the License.
 
 	 <cfset i=1>
 	 <cfif matchMedia.recordcount eq 0>
-		 <cfset result = "No matching media records found">
+		 <cfset result = "<h2 class='h3'>No matching media records found</h2>">
 	 <cfelse>
 	 <cfloop query="matchMedia">
 		<cfset result = result & "<div">
@@ -211,7 +211,7 @@ limitations under the License.
 			<input type='button' class='btn-xs btn-secondary'
 				onclick='linkmedia(#media_id#,#target_id#,""#target_relation#"",""pickResponse#target_id#_#i#"");' value='Add this media'>
 		</div>
-		<hr>
+		<hr class="bg-dark">
 		</form>
 		<script language='javascript' type='text/javascript'>
 		$('##pickForm#target_id#_#i#').removeClass('ui-widget-content');
