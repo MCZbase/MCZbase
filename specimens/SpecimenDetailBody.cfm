@@ -459,7 +459,17 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-
+<cfquery name="mediaNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select distinct
+        media.media_id
+     from
+         media_relations
+     where
+         media_relations.media_relationship like '%cataloged_item' and
+         media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+         AND MCZBASE.is_media_encumbered(media.media_id) < 1
+	order by media.media_type
+</cfquery>
 	<cfoutput>
 #collection_object_id#
 	
