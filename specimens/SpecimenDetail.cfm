@@ -159,16 +159,16 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 
-	<div class="col-12 col-md-4">
+	<div class="col-12 col-md-6">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-					<div class="card flex-md-row box-shadow h-md-250 border-0 bg-transparent">
+					<div class="card flex-md-row box-shadow border-0 bg-transparent">
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-					<div class="card flex-md-row  box-shadow h-md-250 no-card bg-transparent">
+					<div class="card flex-md-row  box-shadow no-card bg-transparent">
 				 </cfif>
 			<cfelse>
-					<div class="card flex-md-row box-shadow h-md-250 no-card bg-transparent">
+					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
 			<div class="small">
@@ -178,16 +178,11 @@ limitations under the License.
 			</div>
 			<h2 class="d-inline-block mb-1 mt-0 h4 text-secondary font-weight-bold"><span class="h6">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h2>
 				<div class="mb-0 font-weight-normal"> 
-					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h3" href="##">#scientific_name#</a>&nbsp; #author_text#
+					<span class="h6">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
 				</div>
 		
 		<div class="mb-1 mt-1 small"><span class="h6">Collector(s):</span> #collectors#</div>
-	</div>
-	
-			 </div>
-				</div>
-<div class="col-12 col-md-3">
-		<div class="mb-1 text-muted small"> </div>
+				<div class="mb-1 text-muted small"> </div>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-auto">#typeName#</p>
@@ -198,10 +193,12 @@ limitations under the License.
 			<cfelse>
 
 			</cfif>
-				
-					
-</div>
-	<div class="col-12 col-md-5">
+	</div>
+	
+			 </div>
+				</div>
+
+	<div class="col-12 col-md-6">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
