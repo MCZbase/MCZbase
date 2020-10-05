@@ -412,7 +412,10 @@ BELOW: SPECIMEN DETAIL STYLES
 	position: absolute;
 	margin-left: -500px;
 }
-
+.card {
+	background-color: transparent;
+	font-size: .90em;
+}
 .no-card {
 	border: none;
 	border-radius: 0;
@@ -440,10 +443,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	background-color: transparent;
 	border: 1px solid transparent;
 }
-.card {
-	background-color: transparent;
-	font-size: .90em;
-}
+
 .list-group-item {
 	padding: 0.25rem .5rem;
 }
