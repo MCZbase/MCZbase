@@ -375,7 +375,7 @@ function pickedRelationship (id){
 	hid.value='';
 	var inp=document.getElementById(dispInputName);
 	inp.value='';
-	console.log(relatedTable):
+	console.log(relatedTable);
 	if (relatedTable=='') {
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
