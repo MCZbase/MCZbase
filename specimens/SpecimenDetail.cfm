@@ -147,7 +147,7 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<section role="region" class="container-fluid">
+<section role="region" class="container-fluid mb-2">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			<section class="row mb-2 primaryType" >
