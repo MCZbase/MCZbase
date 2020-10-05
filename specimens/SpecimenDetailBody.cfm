@@ -1764,10 +1764,17 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
 			
-		
-  
-  
-			<table class="table table-striped table-responsive border-0 mb-0">
+		<div class="bs-example">
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">Part Accordion Tab</button>									
+                </h2>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+               <table class="table table-striped table-responsive border-0 mb-0">
 					<cfloop query="rparts">
 				<thead role="rowgroup">
 				  <tr role="row">
@@ -1856,6 +1863,14 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</tbody>
 							</cfloop>
 			</table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  
+			
 		</cfif>
 		</div>
 	</div>
