@@ -345,3 +345,68 @@ function addLabelTo (n,targetId,buttonId) {
 	cc.value=parseInt(cc.value)+1;
 }
 
+
+/** Given the id for a relationship select, set up associated related_id and related_value inputs
+  * as pickers for the specified relationship.   Assumes a select element with the id provided in 
+  * the id parameter, who's name ends with __{n}, where n is 0 or a positive integer, and corresponding
+  * text and hidden imputs with ids related_id__{n} and related_value__{n}.
+  *
+  <pre>
+		<select name="relationship__0" id="relationship__0" class="data-entry-select col-6" size="1"  onchange="pickedRelationship(this.id)">
+			...
+		</select>
+		<input type="text" name="related_value__0" id="related_value__0" class="data-entry-input col-6">
+		<input type="hidden" name="related_id__0" id="related_id__0">
+  </pre>
+  *
+  * @param id the id of a select element in the dom that is a media relationship type select where the id ends with __ and 
+  * an integer > -1, does not include a leading # selector.  
+  */
+function pickedRelationship (id){
+	var relationship=document.getElementById(id).value;
+	var formName=document.getElementById(id).form.getAttribute('name');
+	var ddPos = id.lastIndexOf('__');
+	var elementNumber=id.substring(ddPos+2,id.length);
+	var relatedTableAry=relationship.split(" ");
+	var relatedTable=relatedTableAry[relatedTableAry.length-1];
+	var idInputName = 'related_id__' + elementNumber;
+	var dispInputName = 'related_value__' + elementNumber;
+	var hid=document.getElementById(idInputName);
+	hid.value='';
+	var inp=document.getElementById(dispInputName);
+	inp.value='';
+	if (relatedTable=='') {
+		// do nothing, cleanup already happened
+	} else if (relatedTable=='agent'){
+		makeAgentPicker(dispInputName, idInputName) { 
+	} else if (relatedTable=='locality'){
+		LocalityPick(idInputName,dispInputName,formName);
+	} else if (relatedTable=='collecting_event'){
+		findCollEvent(idInputName,formName,dispInputName);
+	} else if (relatedTable=='cataloged_item'){
+		findCatalogedItem(idInputName,dispInputName,formName);
+	} else if (relatedTable=='project'){
+		getProject(idInputName,dispInputName,formName);
+	} else if (relatedTable=='taxonomy'){
+		taxaPick(idInputName,dispInputName,formName);
+	} else if (relatedTable=='publication'){
+		getPublication(dispInputName,idInputName,'',formName);
+	} else if (relatedTable=='accn'){
+		getAccn(dispInputName,idInputName,formName);
+	} else if (relatedTable=='deaccession'){
+		getDeaccession(dispInputName,idInputName,formName);
+	} else if (relatedTable=='permit'){
+		getPermit(dispInputName,idInputName,formName);
+	} else if (relatedTable=='loan'){
+		getLoan(dispInputName,idInputName,formName);
+	//  } else if (relatedTable=='borrow'){
+		// TODO: Implement a borrow picker
+		// getBorrow(dispInputName,idInputName,formName);
+	} else if (relatedTable=='media'){
+		findMedia(dispInputName,idInputName);
+	} else if (relatedTable=='delete'){
+		document.getElementById(dispInputName).value='Marked for deletion.....';
+	} else {
+		messageDialog('Handling of relationships to ' + relatedTable + ' not yet implemented.',"Error picking relationship type.");
+	}
+}
