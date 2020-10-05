@@ -460,7 +460,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '150303'>
+<cfset media_id = '77177'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -1060,7 +1060,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			 <button type="button" class="mt-1 btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body float-left">
-				<cfloop query="identification">
+			<cfloop query="identification">
 				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
 						taxonomy.taxon_name_id,
@@ -1078,8 +1078,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					
 				<cfif accepted_id_fg is 1>
 				
-					<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-						<span class="d-inline-block mb-1 h5 text-success">Current Identification</span>
+					<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-6">
+						<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h4 font-weight-normal d-inline-block"> 
 									<a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a> 
@@ -1119,7 +1119,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								GROUP BY 
 									common_name order by common_name
 							</cfquery>
-							<div class="h5 text-muted pl-3">#valuelist(cName.common_name,"; ")# </div>
+							<div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
 							<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 						</cfloop>
 						<cfif len(formatted_publication) gt 0>
@@ -1135,11 +1135,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 					</ul>
 				<cfelse>
-					<ul class="list-group pt-2 pb-0 px-3 text-dark">
+					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-7">
+						<h4 class="text-muted">Former Identifications</h4>
 						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
-							<span class="font-weight-light font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
+							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 							<cfif len(getTaxa.author_text) gt 0>
 								<span class="color-black">Determination: #getTaxa.author_text#</span>
 								</p>
@@ -1163,7 +1164,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfif>
 					<cfloop query="getTaxa">
 <!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-						<p style="font-size:.8em;color:gray;"> #full_taxon_name# </p>
+						<p class="small text-muted"> #full_taxon_name# </p>
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
