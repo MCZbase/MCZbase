@@ -137,13 +137,13 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5">#twotypes#  </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5">#twotypes#  </span>'>
 	<cfelse>
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5"> </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white pb-1 px-2 text-center ml-5"> </span>'>
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
@@ -173,12 +173,12 @@ limitations under the License.
 		<h1 class="my-0 form-row">
 			<span class="h5 font-weight-normal">MCZ Catalog Number: &nbsp; </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
-							<cfif isDefined("cited_as") and len(cited_as) gt 0>
+			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-						<span class="h5 card-text mb-0">#typeName#</span>
+						<span class="h5 mt-1 card-text mb-0">#typeName#</span>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-						<span class="h5 card-text mb-0">#typeName#</span>
+						<span class="h5 mt-1 card-text mb-0">#typeName#</span>
 				</cfif>
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
