@@ -171,17 +171,17 @@ limitations under the License.
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
 		<h1 class="my-0">
-			<span class="h4 font-weight-normal">MCZ Catalog Number: </span>
-			<span class="h4"> #collection#&nbsp;#cat_num#</span>
+			<span class="h5 font-weight-normal">MCZ Catalog Number: </span>
+			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 					
 		</h1>
 		<h2 class="my-0"> 
-			<span class="h4 font-weight-normal">Scientific Names:</span>
-			<span class="h4"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
+			<span class="h5 font-weight-normal">Scientific Names:</span>
+			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
 		</h2>
 		<h2 class="my-0">
-			<span class="h4 font-weight-normal">Collector(s):</span>
-			<span class="h4"> #collectors# </span>	
+			<span class="h5 font-weight-normal">Collector(s):</span>
+			<span class="h5"> #collectors# </span>	
 		</h2>
 
 	</div>
@@ -201,14 +201,13 @@ limitations under the License.
 	</cfif>
 		<div class="card-body d-flex flex-column align-items-start">
 			<h2 class="my-0">
-				<span class="h4 font-weight-normal">Specific Locality: </span>
-				<span class="h4">#spec_locality#</span>
-				<span class="h4 font-weight-normal">Higher Geography:</span>
-				<span class="h4">#higher_geog#</span>
+				<span class="h5 font-weight-normal">Specific Locality: </span>
+				<span class="h5">#spec_locality#</span>
+				<span class="h5 font-weight-normal">Higher Geography:</span>
+				<span class="h5">#higher_geog#</span>
 			</h2>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-		</div>
-		<div class="mb-0 text-muted small">
+					<div class="mb-0 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-0">#typeName#</p>
@@ -220,6 +219,8 @@ limitations under the License.
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>
 		</div>
+		</div>
+
 	</div>
 	</section>
 
