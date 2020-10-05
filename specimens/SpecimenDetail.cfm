@@ -186,7 +186,7 @@ limitations under the License.
 		</h1>
 		<h2 class="my-0 form-row"> 
 			<span class="h5 font-weight-normal mr-2 mb-0">Scientific Names:</span>
-			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp;#author_text#</span>
+			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
 			<span class="h5 font-weight-normal mr-2">Collector(s):</span>
