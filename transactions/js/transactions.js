@@ -1483,3 +1483,38 @@ function deleteMediaFromPermit(mediaId,permitId,relationType) {
 		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
 	});
 }
+
+
+/** Make a paired hidden id and text name control into an autocomplete loan picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected permit_id (without a leading # selector).
+ */
+function makeLoanPicker(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/transactions/component/functions.cfc",
+				data: { term: request.term, method: 'getLoanAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
