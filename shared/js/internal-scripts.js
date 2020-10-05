@@ -379,7 +379,7 @@ function pickedRelationship (id){
 	if (relatedTable=='') {
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
-		$('#'+dispInputName)..attr("readonly", false);
+		$('#'+dispInputName).attr("readonly", false);
 		makeAgentPicker(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
