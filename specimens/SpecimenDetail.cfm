@@ -216,11 +216,11 @@ limitations under the License.
 	</cfif>
 		<div class="card-body mt-1 d-flex flex-column align-items-start">
 			<h2 class="my-0 form-row">
-				<span class="h5 font-weight-normal mr-2">Specific Locality: </span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Specific Locality: </span>
 				<span class="h5">#spec_locality#</span>
 			</h2>
 			<h2 class="my-0 form-row">
-				<span class="h5 font-weight-normal mr-2">Higher Geography:</span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Higher Geography:</span>
 				<span class="h5">#higher_geog#</span>
 			</h2>
 			<div class="form-row">
