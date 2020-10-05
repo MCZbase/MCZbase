@@ -886,11 +886,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-				<cfset one_thumb = "<div class='col-6 col-md-6 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-12 col-md-6 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
-				<cfset one_thumb = "<div class='col-6 col-md-6 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-12 col-md-6 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
@@ -1078,7 +1078,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					
 				<cfif accepted_id_fg is 1>
 				
-					<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-12 col-md-6">
+					<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-6">
 						<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h4 font-weight-normal d-inline-block"> 
@@ -1135,9 +1135,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 					</ul>
 				<cfelse>
-						<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-12 col-md-6">
-						<span class="d-inline-block mb-1 h4 text-success">Former Identification</span>
-						<li class="pid ml-4">
+					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-7">
+						<h4 class="text-muted">Former Identifications</h4>
+						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
 							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
@@ -1677,9 +1677,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	    <div class="accordion" id="accordionForParts">
 			<div class="card">
 				<div class="card-header float-left w-100" id="headingPart">
-					<h3 class="h4 my-1 float-left">Parts</h3><a class="btn-link my-1 w-25 mx-5" data-toggle="collapse" data-target="##collapseParts">See Parts</a>
-					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-				</div>
+				<h3 class="h4 my-1 float-left">Parts</h3><a class="btn-link" data-toggle="collapse" data-target="##collapseParts">See Parts</a>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			</div>
+
 				<div class="card-body float-left p-0">
 				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
 					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1763,11 +1764,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-					<cfif oneOfUs is 1>
+			<cfif oneOfUs is 1>
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
-			 	<table class="table table-striped table-responsive border-0 mb-0">
-				<thead role="rowgroup">
+			 <table class="table table-striped table-responsive border-0 mb-0">
+				   <thead role="rowgroup">
 				  <tr role="row">
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
@@ -1850,11 +1851,20 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfloop>
 					</tr>	
 					</cfloop>
-				 </div>	
-				</tbody>		
+					
+							
+			</tbody>
+						
 			</table>
-       		
-					</cfif>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+  
+			
+		</cfif>
 				</div>
 				</div>
 			</div>
