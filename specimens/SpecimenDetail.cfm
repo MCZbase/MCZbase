@@ -185,12 +185,10 @@ limitations under the License.
 		</h2>
 		<h2 class="my-0 form-row">
 			<cfif len(verbatim_date) gt 0>
-					<span class="h5">#verbatim_date#</span> 
+				<span class="h5">Verbatim date:</span>	<span class="h5">&nbsp;#verbatim_date#</span> 
 			<cfelse>
-				<span class="h5">#began_date# - #ended_date#</span>
+				<span class="h5">Began/Ended Date:</span>	<span class="h5">&nbsp;#began_date# - #ended_date#</span>
 			</cfif>
-		</h2>
-		<div class="my-1 form-row small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text mb-0">#typeName#</p>
@@ -201,7 +199,19 @@ limitations under the License.
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>
-		</div>
+		</h2>
+	<!---<!--	<div class="my-1 form-row small">
+			<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif toptypestatuskind eq 'Primary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+				<cfif toptypestatuskind eq 'Secondary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+			<cfelse>
+			<!--- No special color background for non-type specimens -- default background is gray --->
+			</cfif>
+		</div>-->--->
 	</div>
 </div>
 </div>
