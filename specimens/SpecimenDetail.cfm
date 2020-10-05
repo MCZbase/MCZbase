@@ -183,7 +183,25 @@ limitations under the License.
 			<span class="h5 font-weight-normal">Collector(s): </span>
 			<span class="h5"> &nbsp; #collectors# </span>	
 		</h2>
-
+		<h2 class="my-0 form-row">
+				<cfif len(verbatim_date) gt 0>
+				<div class="mb-2 text-muted small mt-2">#verbatim_date#</div>  
+			<cfelse>
+				<div class="mb-2 text-muted mt-2">#began_date# - #ended_date#</div>
+			</cfif>
+		</h2>
+		<div class="my-1 form-row small">
+			<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif toptypestatuskind eq 'Primary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+				<cfif toptypestatuskind eq 'Secondary' >
+						<p class="card-text mb-0">#typeName#</p>
+				</cfif>
+			<cfelse>
+			<!--- No special color background for non-type specimens -- default background is gray --->
+			</cfif>
+		</div>
 	</div>
 </div>
 </div>
@@ -209,20 +227,10 @@ limitations under the License.
 				<span class="h5"> &nbsp;#higher_geog#</span>
 			</h2>
 			<div class="form-row">
-			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-					<div class="mb-0 text-muted small">
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text mb-0">#typeName#</p>
-				</cfif>
-			<cfelse>
-			<!--- No special color background for non-type specimens -- default background is gray --->
-			</cfif>
-		</div>
-				</div>
+				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
+			</div>
+
+				
 		</div>
 
 	</div>
