@@ -170,7 +170,7 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
-		<h1 class="my-0">
+		<h1 class="my-0 form-row">
 			<span class="h5 font-weight-normal">MCZ Catalog Number: &nbsp; </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 					
@@ -198,8 +198,8 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body d-flex flex-column align-items-start">
-			<h2 class="my-0">
-				<span class="h5 font-weight-normal">Specific Locality: </span>
+			<h2 class="my-0 form-row">
+				<span class="h5 font-weight-normal">Specific Locality: &nbsp;</span>
 				<span class="h5">#spec_locality#</span>
 				<span class="h5 font-weight-normal">Higher Geography:</span>
 				<span class="h5">#higher_geog#</span>
