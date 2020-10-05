@@ -177,22 +177,23 @@ limitations under the License.
 				</cfif>--->
 			</div>
 			<h1 class="font-weight-bold h6"><span class="small text-dark">MCZ Catalog Number: </span> #collection#&nbsp;#cat_num#</h1>
-				<div class="mb-1"> 
-					<span class="text-dark">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
-				</div>
+			<div class="mb-1"> 
+				<span class="text-dark">Scientific Names:</span> <a class="text-dark font-italic font-weight-bolder h4" href="##">#scientific_name#</a>&nbsp; #author_text#
+			</div>
 		
-		<div class="small h6"><span class="text-dark">Collector(s):</span> #collectors#</div>
-				<div class="mb-1 text-muted small"> </div>
+		<div class="mb-1"><span class="text-dark">Collector(s):</span><span class="h4"> #collectors# </span></div>
+		<div class="mb-1 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-						<p class="card-text mb-auto">#typeName#</p>
+						<p class="card-text">#typeName#</p>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-						<p class="card-text mb-auto">#typeName#</p>
+						<p class="card-text">#typeName#</p>
 				</cfif>
 			<cfelse>
 
 			</cfif>
+		</div>
 	</div>
 </div>
 </div>
