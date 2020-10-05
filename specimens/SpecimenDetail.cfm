@@ -158,7 +158,6 @@ limitations under the License.
 	<cfelse>
 		<section class="row mb-2 defaultType">
 	</cfif>
-
 	<div class="col-12 col-md-5">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
@@ -171,21 +170,10 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
-			<div class="small">
-<!---				<cfif len(session.CustomOtherIdentifier) gt 0>
-					<span class="d-inline-block"> #session.CustomOtherIdentifier#: #CustomID#</span>
-				</cfif>--->
-			</div>
-		<h1 class="my-0"><span class="h4 font-weight-normal">MCZ Catalog Number: </span><span class="h4"> #collection#&nbsp;#cat_num#</span></h1>
-		<h2 class="my-0"> 
-			<span class="h4 font-weight-normal">Scientific Names:</span>
-			<span class="h4"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
-		</h2>
-		<h2 class="my-0">
-			<span class="h4 font-weight-normal">Collector(s):</span>
-			<span class="h4"> #collectors# </span>	
-		</h2>
-		<div class="mb-0 text-muted small">
+		<h1 class="my-0">
+			<span class="h4 font-weight-normal">MCZ Catalog Number: </span>
+			<span class="h4"> #collection#&nbsp;#cat_num#</span>
+					<div class="mb-0 text-muted small">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<p class="card-text">#typeName#</p>
@@ -197,6 +185,16 @@ limitations under the License.
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>
 		</div>
+		</h1>
+		<h2 class="my-0"> 
+			<span class="h4 font-weight-normal">Scientific Names:</span>
+			<span class="h4"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#	
+		</h2>
+		<h2 class="my-0">
+			<span class="h4 font-weight-normal">Collector(s):</span>
+			<span class="h4"> #collectors# </span>	
+		</h2>
+
 	</div>
 </div>
 </div>
