@@ -177,7 +177,9 @@ limitations under the License.
 		</h1>
 		<h2 class="my-0 form-row" style="line-height: 1em"> 
 			<span class="h5 font-weight-normal">Scientific Names: &nbsp;</span>
-			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#
+			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#</span>
+		</h2>
+		<h2 class="my-0 form-row" style="line-height: 1em;">
 			<span class="h5 font-weight-normal">Collector(s): </span>
 			<span class="h5"> #collectors# </span>	
 		</h2>
@@ -201,6 +203,8 @@ limitations under the License.
 			<h2 class="my-0 form-row">
 				<span class="h5 font-weight-normal">Specific Locality: &nbsp;</span>
 				<span class="h5">#spec_locality#</span>
+			</h2>
+			<h2 class="my-0 form-row">
 				<span class="h5 font-weight-normal">Higher Geography:</span>
 				<span class="h5">#higher_geog#</span>
 			</h2>
