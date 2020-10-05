@@ -394,7 +394,6 @@ limitations under the License.
 	<input type="hidden" name="action" value="nothing">
 	<input type="hidden" name="Srch" value="Part">
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-		
 </cfif>
 	<div class="row">
 		<div class="col-12 col-md-3 mb-2 px-1 pr-md-0 pl-md-2">
@@ -460,11 +459,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-	<cfset media_id = ''>
-<cfquery name="mediaid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	
-	select m.media_id as #media_id# from cataloged_item ci, media m where ci.collection_object_id = m.related_primary_key and ci.collection_object_id = #one.collection_object_id#</query>
-<cfset media_id = #mediaid.media_id#>
+<cfset media_id = '1333'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -1201,7 +1196,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 										
 	</div>											
 	</div>
-								</output>
 <!------------------------------------ citations ------------------------------------------>
 	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
