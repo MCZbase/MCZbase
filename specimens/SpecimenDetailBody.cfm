@@ -467,7 +467,7 @@ limitations under the License.
      where
          media_relations.media_relationship like '%cataloged_item' and
          media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-         AND MCZBASE.is_media_encumbered(media.media_id) < 1
+         AND MCZBASE.is_media_encumbered(media_relations.media_id) < 1
 </cfquery>
 	<cfoutput>
 #collection_object_id#
