@@ -1078,7 +1078,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					
 				<cfif accepted_id_fg is 1>
 				
-					<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
+					<ul class="list-group border-green rounded p-2 h4 font-weight-normal float-left col-6">
 						<span class="d-inline-block mb-1 h5 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 								<span class="font-italic h4 font-weight-normal d-inline-block"> 
@@ -1135,7 +1135,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 					</ul>
 				<cfelse>
-					<ul class="list-group pt-2 pb-0 px-3 text-dark">
+					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-6">
 						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
