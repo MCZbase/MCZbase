@@ -201,7 +201,7 @@ limitations under the License.
 		</h2>
 	</div>
 	</div>
-</div>
+
 
 <div class="col-12 col-md-6">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
@@ -229,7 +229,7 @@ limitations under the License.
 		</div>
 	</div>
 </section>
-
+			</div>
 
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 <script language="javascript" type="text/javascript">
