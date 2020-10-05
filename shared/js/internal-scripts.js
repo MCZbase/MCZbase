@@ -378,7 +378,7 @@ function pickedRelationship (id){
 	if (relatedTable=='') {
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
-		makeAgentPicker(dispInputName, idInputName) { 
+		makeAgentPicker(dispInputName, idInputName);
 	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
