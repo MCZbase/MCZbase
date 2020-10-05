@@ -147,7 +147,7 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<section role="region" class="container-fluid smaller">
+<section role="region" class="container-fluid">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			<section class="row mb-2 primaryType" >
@@ -159,7 +159,7 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 
-	<div class="col-12 col-md-6">
+	<div class="col-12 col-md-5">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -197,7 +197,7 @@ limitations under the License.
 </div>
 </div>
 
-<div class="col-12 col-md-6">
+<div class="col-12 col-md-7">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
@@ -210,7 +210,7 @@ limitations under the License.
 	</cfif>
 		<div class="card-body mt-3 d-flex flex-column align-items-start">
 			<div class="mb-0 h4 font-weight-bold"><span class="font-weight-normal">Specific Locality: </span> #spec_locality#</div>
-			<div class="my-1 h4 font-weight-bold"><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</div>
+			<div class="my-1 h4"><span class="font-weight-normal">Higher Geography:</span> #higher_geog#</div>
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>
  
