@@ -171,14 +171,14 @@ limitations under the License.
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
 		<h1 class="my-0">
-			<span class="h5 font-weight-normal">MCZ Catalog Number: </span>
+			<span class="h5 font-weight-normal">MCZ Catalog Number: &nbsp; </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 					
 		</h1>
-		<h2 class="my-0" style="line-height: 1em"> 
-			<span class="h5 font-weight-normal">Scientific Names:</span>
+		<h2 class="my-0 form-row" style="line-height: 1em"> 
+			<span class="h5 font-weight-normal">Scientific Names: &nbsp;</span>
 			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#
-			<span class="h5 font-weight-normal">Collector(s):</span>
+			<span class="h5 font-weight-normal">Collector(s): </span>
 			<span class="h5"> #collectors# </span>	
 		</h2>
 
