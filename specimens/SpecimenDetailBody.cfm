@@ -441,7 +441,7 @@ limitations under the License.
 </cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
-        media.media_id,
+        media.media_id as media_id,
         media.media_uri,
         media.mime_type,
         media.media_type,
@@ -455,12 +455,12 @@ limitations under the License.
          media.media_id=media_relations.media_id and
          media.media_id=media_labels.media_id (+) and
          media_relations.media_relationship like '%cataloged_item' and
-         media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+         media_relations.related_primary_key = <cfqueryparam value=#one.collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '1333'>
+<cfset media_id = '#media_id#'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
