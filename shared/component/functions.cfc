@@ -50,11 +50,11 @@ limitations under the License.
 				<div class='form-row'>
 					<div class='col-12 col-md-8 pb-2'>
 						<label for='media_uri' class='data-entry-label'>Media URI (any part of media URI)</label>
-			 			<input type='text' name='media_uri' id='media_uri' value=''>
+			 			<input type='text' name='media_uri' id='media_uri' value='' class='data-entry-input'>
 					</div>
 					<div class='col-12 col-md-4 pb-2'>
 						<label for='media_description' class='data-entry-label'>Description</label>
-			 			<input type='text' name='media_description' id='media_description' value=''>
+			 			<input type='text' name='media_description' id='media_description' value='' class='data-entry-input'>
 					</div>
 				</div>
 				<div class='form-row'>
@@ -184,8 +184,8 @@ limitations under the License.
 				and media_relations.media_id is null
 			</cfif>
 			<cfif isdefined("media_description") and len(media_description) GT 0>
-				and media_label.media_label = 'description'
-				and media_label.label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_description#%">
+				and media_labels.media_label = 'description'
+				and media_labels.label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_description#%">
 			</cfif>
 	 </cfquery>
 
