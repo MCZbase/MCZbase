@@ -465,20 +465,15 @@ limitations under the License.
   <!--- Fixed width for the scaled display of the media object on this page. --->
 
   <!--- Fixed width for the scaled display of the media object on this page. --->
-  <cfset metaLeftOffset = PVWIDTH +20 >
+
   <!--- Check to see if height/width are known for this imageset --->
-  <cfquery name="checkmedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-		   MCZBASE.GET_MAXHEIGHTMEDIASET(media_id) maxheightinset,
-		   media.media_type
-    from MEDIA where media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-</cfquery>
+=
   <cfloop query="checkmedia" endrow="1">
     <cfif not checkmedia.media_type eq "image">
       <!--- Redirect --->
       <cflocation url='/media/#media_id#' addToken="no">
     </cfif>
-    <cfif not len(checkmedia.height) >
+    <cfif len(checkmedia.width) >
       <!--- >or #IsNull(checkmedia.width)# or #IsNull(checkmedia.maxheightinset)# --->
       <!---  If height and width aren't known, find and store them --->
       <cfquery name="mediatocheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -491,52 +486,6 @@ limitations under the License.
 		    and findm.media_type = 'image'
       </cfquery>
       <cfset checkcounter = 0>
-      <cfloop query="mediatocheck" >
-        <cfset checkcounter = checkcounter + 1>
-        <cfif checkcounter eq 1>
-           <cfoutput>You are the first to view one or more images on this page.  The application is checking the images so there may be a brief delay before they are displayed.</cfoutput>
-        </cfif>
-        <cftry>
-	  <cfif left(mediatocheck.media_uri,14) EQ 'http://mczbase' AND Application.protocol EQ 'https'>
-               <cfset checkmediauri = Replace(mediatocheck.media_uri,'http:','https:',"one")>
-          <cfelse>
-               <cfset checkmediauri = mediatocheck.media_uri>
-          </cfif>
-          <cfimage action="INFO" source="#checkmediauri#" structname="img">
-          <cfcatch>
- 		<cfoutput>Error checking image #mediatocheck.media_uri#</cfoutput>
-          </cfcatch>
-        </cftry>
-        <cfif isDefined("debug")>
-           <cfoutput>
-             <p>Finding h,w #img.height#,#img.width# for #mediatocheck.media_uri#</p>
-           </cfoutput>
-        </cfif>
-        <cftry>
-          <cfquery name="addh" datasource="uam_god" timeout="2">
-			   insert into media_labels (media_id, media_label, label_value, assigned_by_agent_id) values (#mediatocheck.media_id#, 'height', #img.height#, 0)
-			</cfquery>
-          <cfcatch>
-          </cfcatch>
-        </cftry>
-        <cftry>
-          <cfquery name="addw" datasource="uam_god" timeout="2">
-			   insert into media_labels (media_id, media_label, label_value, assigned_by_agent_id) values (#mediatocheck.media_id#, 'width', #img.width#, 0)
-			</cfquery>
-          <cfcatch>
-          </cfcatch>
-        </cftry>
-        <cftry>
-            <cfhttp url="#mediatocheck.media_uri#" method="get" getAsBinary="yes" result="filetohash">
-            <cfset md5hash=Hash(filetohash.filecontent,"MD5")>
-            <cfquery name="makeMD5hash" datasource="uam_god" >
-                    insert into media_labels (media_id, MEDIA_LABEL, ASSIGNED_BY_AGENT_ID, LABEL_VALUE)
-                       values ( #mediatocheck.media_id#, 'md5hash', 0, '#md5Hash#')
-            </cfquery>
-          <cfcatch>
-          </cfcatch>
-        </cftry>
-      </cfloop>
     </cfif>
   </cfloop>
 
