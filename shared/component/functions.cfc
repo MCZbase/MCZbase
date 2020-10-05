@@ -40,7 +40,7 @@ limitations under the License.
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
-		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3'>Search for media. Any part of media uri accepted.</h1>
+		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3'>Search for media.</h1>
 		<form id='findMediaForm' onsubmit='return searchformedia(event);' >
 			<input type='hidden' name='method' value='findMediaSearchResults'>
 			<input type='hidden' name='returnformat' value='plain'>
@@ -48,9 +48,13 @@ limitations under the License.
 			<input type='hidden' name='target_relation' value='#target_relation#'>
 		
 				<div class='form-row'>
-					<div class='col-12 col-md-12 pb-2'>
-						<label for='media_uri'>Media URI</label>
-			 			<input type='text' name='media_uri' id='media_uri' value='' class='w-75'>
+					<div class='col-12 col-md-8 pb-2'>
+						<label for='media_uri' class='data-entry-label'>Media URI (any part of media URI)</label>
+			 			<input type='text' name='media_uri' id='media_uri' value=''>
+					</div>
+					<div class='col-12 col-md-4 pb-2'>
+						<label for='media_description' class='data-entry-label'>Description</label>
+			 			<input type='text' name='media_description' id='media_description' value=''>
 					</div>
 				</div>
 				<div class='form-row'>
@@ -151,6 +155,7 @@ limitations under the License.
 	<cfargument name="mediatype" type="string" required="no">
 	<cfargument name="mimetype" type="string" required="no">
 	<cfargument name="media_uri" type="string" required="no">
+	<cfargument name="media_description" type="string" required="no">
 	<cfargument name="unlinked" type="string" required="no">
 	<cfset result = "">
 	<cftry>
@@ -160,6 +165,9 @@ limitations under the License.
 		from media
 			<cfif isdefined("unlinked") and unlinked EQ "true">
 				left join media_relations on media.media_id = media_relations.media_id
+			</cfif>
+			<cfif isdefined("media_description") and len(media_description) GT 0>
+				left join media_labels on media.media_id = media_labels.media_id
 			</cfif>
 		where
 			media.media_id is not null
@@ -174,6 +182,10 @@ limitations under the License.
 			</cfif>
 			<cfif isdefined("unlinked") and unlinked EQ "true">
 				and media_relations.media_id is null
+			</cfif>
+			<cfif isdefined("media_description") and len(media_description) GT 0>
+				and media_label.media_label = 'description'
+				and media_label.label_value like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#media_description#%">
 			</cfif>
 	 </cfquery>
 
