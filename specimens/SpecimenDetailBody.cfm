@@ -419,9 +419,9 @@ limitations under the License.
 	where 
 		ci.collection_object_id = m.related_primary_key 
 	and 
-		ci.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">	
+		ci.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">	
 	</cfquery>
-<!---<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
         media.media_uri,
@@ -448,7 +448,7 @@ limitations under the License.
 			</cfloop>
 		</div>
 	</div>
-</cfif>--->
+</cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
