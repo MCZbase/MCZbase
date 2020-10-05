@@ -1769,10 +1769,10 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         <div class="card">
             <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
-                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#collapseOne">Part Accordion Tab</button>									
+                    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="##collapseOne">Part Accordion Tab</button>									
                 </h2>
             </div>
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
                 <div class="card-body">
                <table class="table table-striped table-responsive border-0 mb-0">
 					<cfloop query="rparts">
