@@ -1135,12 +1135,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif>
 					</ul>
 				<cfelse>
-					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-6">
+					<ul class="list-group pt-2 pb-0 px-3 text-dark float-left col-7">
 						<h4 class="text-muted">Former Identifications</h4>
 						<li class="pid">
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 							<p>
-							<span class="font-weight-light font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
+							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 							<cfif len(getTaxa.author_text) gt 0>
 								<span class="color-black">Determination: #getTaxa.author_text#</span>
 								</p>
@@ -1164,7 +1164,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfif>
 					<cfloop query="getTaxa">
 <!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-						<p style="font-size:.8em;color:gray;"> #full_taxon_name# </p>
+						<p class="small text-muted"> #full_taxon_name# </p>
 						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
