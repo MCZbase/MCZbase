@@ -375,11 +375,13 @@ function pickedRelationship (id){
 	hid.value='';
 	var inp=document.getElementById(dispInputName);
 	inp.value='';
+	console.log(relatedTable):
 	if (relatedTable=='') {
 		// do nothing, cleanup already happened
 	} else if (relatedTable=='agent'){
+		$('#'+dispInputName)..attr("readonly", false);
 		makeAgentPicker(dispInputName, idInputName);
-	} else if (relatedTable=='locality'){
+/*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
 		findCollEvent(idInputName,formName,dispInputName);
@@ -404,8 +406,10 @@ function pickedRelationship (id){
 		// getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
+*/
 	} else if (relatedTable=='delete'){
-		document.getElementById(dispInputName).value='Marked for deletion.....';
+		$('#'+dispInputName).attr("readonly", true);
+		$('#'+dispInputName).value='Marked for deletion.....';
 	} else {
 		messageDialog('Handling of relationships to ' + relatedTable + ' not yet implemented.',"Error picking relationship type.");
 	}
