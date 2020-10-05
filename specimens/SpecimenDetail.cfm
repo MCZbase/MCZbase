@@ -173,7 +173,16 @@ limitations under the License.
 		<h1 class="my-0 form-row">
 			<span class="h5 font-weight-normal">MCZ Catalog Number: &nbsp; </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
-					
+							<cfif isDefined("cited_as") and len(cited_as) gt 0>
+				<cfif toptypestatuskind eq 'Primary' >
+						<span class="h5 card-text mb-0">#typeName#</span>
+				</cfif>
+				<cfif toptypestatuskind eq 'Secondary' >
+						<span class="h5 card-text mb-0">#typeName#</span>
+				</cfif>
+			<cfelse>
+			<!--- No special color background for non-type specimens -- default background is gray --->
+			</cfif>	
 		</h1>
 		<h2 class="my-0 form-row" style="line-height: 1em"> 
 			<span class="h5 font-weight-normal">Scientific Names: &nbsp;</span>
@@ -189,16 +198,7 @@ limitations under the License.
 			<cfelse>
 				<span class="h5 font-weight-normal">Began/Ended Date:</span><span class="h5">&nbsp;#began_date# - #ended_date#</span>
 			</cfif>
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
-				<cfif toptypestatuskind eq 'Primary' >
-						<span class="h5 card-text mb-0">#typeName#</span>
-				</cfif>
-				<cfif toptypestatuskind eq 'Secondary' >
-						<span class="h5 card-text mb-0">#typeName#</span>
-				</cfif>
-			<cfelse>
-			<!--- No special color background for non-type specimens -- default background is gray --->
-			</cfif>
+
 		</h2>
 	</div>
 </div>
