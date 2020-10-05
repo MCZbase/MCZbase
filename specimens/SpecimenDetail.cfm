@@ -185,7 +185,7 @@ limitations under the License.
 			</cfif>	
 		</h1>
 		<h2 class="my-0 form-row" style="line-height: 1em"> 
-			<span class="h5 font-weight-normal mr-2">Scientific Names: &nbsp;</span>
+			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Scientific Names: &nbsp;</span>
 			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
@@ -194,9 +194,11 @@ limitations under the License.
 		</h2>
 		<h2 class="my-0 form-row">
 			<cfif len(verbatim_date) gt 0>
-				<span class="h5 font-weight-normal mr-2">Verbatim date:</span><span class="h5">#verbatim_date#</span> 
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Verbatim date:</span>
+				<span class="h5">#verbatim_date#</span> 
 			<cfelse>
-				<span class="h5 font-weight-normal">Began/Ended Date:</span><span class="h5">&nbsp;#began_date# - #ended_date#</span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Began/Ended Date:</span>
+				<span class="h5">&nbsp;#began_date# - #ended_date#</span>
 			</cfif>
 		</h2>
 	</div>
@@ -216,11 +218,11 @@ limitations under the License.
 	</cfif>
 		<div class="card-body mt-1 d-flex flex-column align-items-start">
 			<h2 class="my-0 form-row">
-				<span class="h5 font-weight-normal mr-2">Specific Locality: </span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Specific Locality: </span>
 				<span class="h5">#spec_locality#</span>
 			</h2>
 			<h2 class="my-0 form-row">
-				<span class="h5 font-weight-normal mr-2">Higher Geography:</span>
+				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Higher Geography:</span>
 				<span class="h5">#higher_geog#</span>
 			</h2>
 			<div class="form-row">
