@@ -1779,7 +1779,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</thead>
 				<tbody role="rowgroup">
                 <div class="card-body">
-				<cfif rparts.RecordCount lt 5>
+				<cfif rparts.RecordCount lt 3>
 					<cfloop query="rparts">		
 					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
