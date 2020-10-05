@@ -188,7 +188,7 @@ limitations under the License.
 			<span class="h5 font-weight-normal">Scientific Names: &nbsp;</span>
 			<span class="h5"><a class="font-italic text-dark" href="##">#scientific_name#</a>&nbsp; #author_text#</span>
 		</h2>
-		<h2 class="my-0 form-row" style="line-height: 1em;">
+		<h2 class="my-0 form-row">
 			<span class="h5 font-weight-normal">Collector(s): </span>
 			<span class="h5"> &nbsp; #collectors# </span>	
 		</h2>
@@ -198,10 +198,9 @@ limitations under the License.
 			<cfelse>
 				<span class="h5 font-weight-normal">Began/Ended Date:</span><span class="h5">&nbsp;#began_date# - #ended_date#</span>
 			</cfif>
-
 		</h2>
 	</div>
-</div>
+	</div>
 </div>
 
 <div class="col-12 col-md-6">
