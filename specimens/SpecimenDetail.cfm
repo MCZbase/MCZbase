@@ -150,7 +150,7 @@ limitations under the License.
 <div role="region" class="container-fluid mb-2">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
-			<section class="row mx-0 mb-2 primaryType" >
+			<section class="row mb-2 primaryType" >
 		</cfif>
 		<cfif toptypestatuskind eq 'Secondary' >
 			<section class="row mb-2 secondaryType">
