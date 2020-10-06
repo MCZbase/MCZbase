@@ -1465,7 +1465,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
 							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped table-responsive">
+							<table class="table table-striped mb-0 table-responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
 									<td><font size="-1">tail length</font></td>
