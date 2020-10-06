@@ -1583,7 +1583,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<div class="card-body float-left">
-					<ul class="list-group list-group-flush pl-2">
+					<ul class="list-group list-group-flush pl-0">
 					<li class="list-group-item">Accession:
 						<cfif oneOfUs is 1>
 							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
