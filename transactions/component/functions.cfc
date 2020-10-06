@@ -838,7 +838,8 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.permit_id#">
 			<cfif len(search.issued_date) gt 0><cfset i_date= ", " & search.issued_date><cfelse><cfset i_date=""></cfif>
-			<cfset row["value"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
+			<cfset row["value"] = "#search.permit_num# #search.permit_title#" >
+			<cfset row["meta"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

@@ -27,7 +27,10 @@ function makePermitPicker(valueControl, idControl) {
 			$('#'+idControl).val(result.item.id);
 		},
 		minLength: 3
-	});
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
 };
 /** Make a text permit_title control into an autocomplete 
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
