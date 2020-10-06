@@ -1784,7 +1784,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<tbody role="rowgroup">
                 <div class="card-body">
 					<cfset i=1>
-					<cfloop query="rparts" from="1" to="3" index="i">		
+					<cfloop query="rparts">		
 					<tr role="row"  style="min-height: 200px;">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
