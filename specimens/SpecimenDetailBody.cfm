@@ -1787,7 +1787,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 						<table class="table d-table table-responsive table-striped">
 							<tr>
-								<th class="inside"><span class="innerDetailLabel pl-2">Part Name</span></th>
+								<th class="inside"><span class="innerDetailLabel pl-1">Part Name</span></th>
 								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
 								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
 								<th class="inside"><span class="innerDetailLabel">##</span></th>
@@ -1799,7 +1799,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<cfset i=1>
 							<cfloop query="mPart">
 							<tr>
-									<td class="inside">#part_name#</td>
+									<td class="inside pl-1">#part_name#</td>
 									<td class="inside">#part_condition#</td>
 									<td class="inside">#part_disposition#</td>
 									<td class="inside">#lot_count#</td>
