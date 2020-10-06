@@ -387,6 +387,15 @@ function pickedRelationship (id){
 	} else if (relatedTable=='permit'){
 		$('#'+dispInputName).attr("readonly", false);
 		makePermitPicker(dispInputName, idInputName);
+	} else if (relatedTable=='accn'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeAccessionAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='deaccession'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeDeaccessionAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='borrow'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeBorrowAutocompleteMeta(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
@@ -399,13 +408,6 @@ function pickedRelationship (id){
 		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
 		getPublication(dispInputName,idInputName,'',formName);
-	} else if (relatedTable=='accn'){
-		getAccn(dispInputName,idInputName,formName);
-	} else if (relatedTable=='deaccession'){
-		getDeaccession(dispInputName,idInputName,formName);
-	//  } else if (relatedTable=='borrow'){
-		// TODO: Implement a borrow picker
-		// getBorrow(dispInputName,idInputName,formName);
 	} else if (relatedTable=='media'){
 		findMedia(dispInputName,idInputName);
 */
