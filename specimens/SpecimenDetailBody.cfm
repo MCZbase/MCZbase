@@ -666,8 +666,7 @@ limitations under the License.
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-     #one.collection_object_id#
-        <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
+          <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
       <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -853,7 +852,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </cfquery>
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
-		<div class="detailLabel">Media
+		<div class="detailLabel"><p>Media related to the cataloged item</p>
 			<cfquery name="wrlCount" dbtype="query">
                                     select * from media where mime_type = 'model/vrml'
                         </cfquery>
@@ -913,37 +912,42 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-				<cfset one_thumb = "<div class='col-12 col-md-6 pl-0 pr-1'>">
+							<!---for media images--->
+				<cfset one_thumb = "<div class='col-6 col-md-6 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
-				<cfset one_thumb = "<div class='col-12 col-md-6 pl-0 pr-1'>">
+					<!---for DRS from library--->
+				<cfset one_thumb = "<div class='col-6 col-md-6 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
-			#one_thumb# <a href="#aForImHref#" target="_blank">
-					<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+			#one_thumb# 
+			<a href="#aForImHref#" target="_blank">
+				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 				<span class="smaller">#description#</span> </p>
 			</div>
 		</cfloop>
 		<!--/div---> 
-		</span> </div>
+		</span> 
+	</div>
 	<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                    select p.barcode from
-                                    container c,
-                                    container p,
-                                    coll_obj_cont_hist,
-                                    specimen_part,
-                                    cataloged_item
-                                    where
-                                    cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-                                    specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-                                    coll_obj_cont_hist.container_id=c.container_id and
-                                    c.parent_container_id=p.container_id and
-                                    cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-                        </cfquery>
+				select p.barcode from
+				container c,
+				container p,
+				coll_obj_cont_hist,
+				specimen_part,
+				cataloged_item
+				where
+				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
+				coll_obj_cont_hist.container_id=c.container_id and
+				c.parent_container_id=p.container_id and
+				cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+	</cfquery>
 
 	</div>
 </cfif>
