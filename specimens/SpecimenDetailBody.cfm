@@ -1533,7 +1533,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							
 		</div><!--- end of two column section --->
 						
-	<div class="one_column">
+	<div class="one-column">
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
