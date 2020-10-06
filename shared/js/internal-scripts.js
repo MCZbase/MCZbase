@@ -402,12 +402,13 @@ function pickedRelationship (id){
 	} else if (relatedTable=='publication'){
 		$('#'+dispInputName).attr("readonly", false);
 		makePublicationAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='cataloged_item'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeCatalogedItemAutocompleteMeta(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
 		findCollEvent(idInputName,formName,dispInputName);
-	} else if (relatedTable=='cataloged_item'){
-		findCatalogedItem(idInputName,dispInputName,formName);
 	} else if (relatedTable=='project'){
 		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='taxonomy'){
