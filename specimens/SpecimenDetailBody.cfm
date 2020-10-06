@@ -666,8 +666,7 @@ limitations under the License.
 
       <!--- tip  (added to each replaced multizoomdescription) --->
     <div class="image_box">
-     #one.collection_object_id#
-        <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
+          <div id="multizoomdescription" class="media_meta"> <a href="/media/#m.media_id#">Media Record</a> </div>
     </div>
       <cfoutput> </cfoutput> </cfoutput>
     <cfquery name="ff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -853,7 +852,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </cfquery>
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
-		<div class="detailLabel">Media related to the cataloged item.
+		<div class="detailLabel"><p>Media related to the cataloged item</p>
 			<cfquery name="wrlCount" dbtype="query">
                                     select * from media where mime_type = 'model/vrml'
                         </cfquery>
