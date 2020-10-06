@@ -1682,7 +1682,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</div>
 
 				<div class="card-body float-left p-0">
-				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts"  style="min-height: 200px;">
+				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
 					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					specimen_part.collection_object_id part_id,
@@ -1783,8 +1783,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</thead>
 				<tbody role="rowgroup">
                 <div class="card-body">
-					<cfloop query="rparts">		
-					<tr role="row">	
+					<cfloop query="rparts" from="1" to="3" index="0">		
+					<tr role="row"  style="min-height: 200px;">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
 						<td class="inside" role="cell">#part_disposition#</td>
