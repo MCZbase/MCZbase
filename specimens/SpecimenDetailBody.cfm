@@ -535,7 +535,14 @@ limitations under the License.
         </cftry>
         <cftry>
           <cfquery name="addw" datasource="uam_god" timeout="2">
-			   insert into media_labels (media_id, media_label, label_value, assigned_by_agent_id) values (#mediatocheck.media_id#, 'width', #img.width#, 0)
+			   insert into media_labels 
+					(media_id, media_label, label_value, assigned_by_agent_id) 
+					values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediatocheck.media_id#">,
+						'width',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#img.width#">,
+						0
+					)
 			</cfquery>
           <cfcatch>
           </cfcatch>
@@ -1846,7 +1853,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</tr>									<!---/cfloop--->
 								</cfif>
 								<cfquery name="sPart" dbtype="query">
-									select * from parts where sampled_from_obj_id=#part_id#
+									select * from parts 
+									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
