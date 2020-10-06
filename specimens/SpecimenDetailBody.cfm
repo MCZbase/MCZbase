@@ -1554,7 +1554,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="card">
+			<div class="card mb-2">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-1 float-left">Transactions</h3>
 					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
