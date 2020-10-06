@@ -436,6 +436,9 @@ BELOW: SPECIMEN DETAIL STYLES
     min-height: 1px;
     padding: .25em .5rem;
 }
+.card-body ul li {
+	padding-left: .5em;
+}
 .card-header {
 	padding: .25rem .75rem;
 }
