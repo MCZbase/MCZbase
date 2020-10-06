@@ -1593,6 +1593,14 @@ and also iPads specifically.
 		margin-right: 0px;
     	margin-left: 4px;
 	}
+	.one-column {
+		column-count: 1;
+		column-gap: 0;
+		widows:1;
+		orphans:1;
+		column-span:all;
+		margin-left:4px;
+	}
 	.card-body h5 {
 		margin-top: -0.25em;
 	}
