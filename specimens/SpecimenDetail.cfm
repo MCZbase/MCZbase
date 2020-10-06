@@ -189,7 +189,7 @@ limitations under the License.
 			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
-			<span class="h5 font-weight-normal mr-2">Collector(s):</span>
+			<span class="h5 font-weight-normal mr-2 mb-0">Collector(s):</span>
 			<span class="h5">#collectors#</span>	
 		</h2>
 		<h2 class="my-0 form-row">
