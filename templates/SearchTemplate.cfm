@@ -115,7 +115,7 @@ $(document).ready(function() {
 			},
 			root: 'transRecord',
 			id: 'collection_object_id',
-			url: '/specimens/component/records_search.cfc?method=getDataTable&searchText=' + searchParam,
+			url: '/specimens/component/search.cfc?method=getDataTable&searchText=' + searchParam,
 			async: false
 		};
 
