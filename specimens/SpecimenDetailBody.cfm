@@ -2029,6 +2029,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</tr>
 								</cfloop>
 							</cfloop>
+					</table>
 						</div>
 					</div>
 				</div>
