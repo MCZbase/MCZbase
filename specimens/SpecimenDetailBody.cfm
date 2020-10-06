@@ -1465,7 +1465,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
 							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped table-responsive">
+							<table class="table table-striped mb-0 table-responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
 									<td><font size="-1">tail length</font></td>
@@ -1785,7 +1785,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 
 				<div class="card-body float-left p-0">
 				<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-						<table class="table d-table table-responsive table-striped">
+						<table class="table d-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel pl-md-1">Part Name</span></th>
 								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
@@ -1834,18 +1834,18 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
 												<div class="detailCellSmall pl-2">
-													<strong>#attribute_type#</strong>=<strong>#attribute_value#</strong>
+													#attribute_type#=#attribute_value#
 													<cfif len(attribute_units) gt 0>
-													 	<strong>#attribute_units#</strong>
+													 #attribute_units#
 													</cfif>
 													<cfif len(determined_date) gt 0>
-													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#</strong>
+													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
 													</cfif>
 													<cfif len(agent_name) gt 0>
-													 	determined by=<strong>#agent_name#</strong>
+													 	determined by=#agent_name#
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
-													 	remark=<strong>#attribute_remark#</strong>
+													 	remark=#attribute_remark#
 													</cfif>
 												</div>
 											</cfloop>

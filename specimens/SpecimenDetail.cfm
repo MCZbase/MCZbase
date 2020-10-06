@@ -137,13 +137,13 @@ limitations under the License.
 	<cfset typeName = typestatuswords>
 	<cfif toptypestatuskind eq 'Primary' > 
 		<cfset twotypes = '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5">#twotypes# </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-xl-5">#twotypes# </span>'>
 	<cfelseif toptypestatuskind eq 'Secondary' >
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5">#twotypes#  </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-xl-5">#twotypes#  </span>'>
 	<cfelse>
 		<cfset  twotypes= '#replace(typestatusplain,"|","<br>","all")#'>
-		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-5"> </span>'>
+		<cfset typeName = '<span class="font-weight-bold bg-white py-1 px-2 text-center ml-xl-5"> </span>'>
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
@@ -170,26 +170,27 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
-		<h1 class="mt-0 mb-0 pb-md-3 form-row">
+		<h1 class="mt-0 mb-0 form-row">
 			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
-			<cfif isDefined("cited_as") and len(cited_as) gt 0>
+		</h1>
+		<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-						<span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text">#typeName#</span>
+					<h2><span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text">#typeName#</span></h2>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary'>
-						<span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text">#typeName#</span>
+					<h2><span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text">#typeName#</span></h2>
 				</cfif>
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>	
-		</h1>
+		</h2>
 		<h2 class="my-0 form-row"> 
 			<span class="h5 font-weight-normal mr-2 mb-0">Scientific Names:</span>
 			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
-			<span class="h5 font-weight-normal mr-2">Collector(s):</span>
+			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):</span>
 			<span class="h5">#collectors#</span>	
 		</h2>
 		<h2 class="my-0 form-row">
