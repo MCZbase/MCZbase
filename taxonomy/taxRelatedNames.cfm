@@ -1,6 +1,8 @@
 <cfoutput>
 		<cfquery name="t" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select * from taxonomy where taxon_name_id=#taxon_name_id#
+			select * 
+			from taxonomy 
+			where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif len(t.species) gt 0 and len(t.genus) gt 0>
 			<cfif len(t.subspecies) gt 0>
@@ -18,10 +20,10 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and 
-					 species = '#t.species#' and 
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
+					 species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.species#"> and 
 					 subspecies is not null and
-					 scientific_name != '#t.scientific_name#'
+					 scientific_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.scientific_name#">
 				order by
 					scientific_name
 			</cfquery>
@@ -40,8 +42,8 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and 
-					 species != '#t.species#' and
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
+					 species != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.species#"> and
 					 subspecies is null
 				order by
 					scientific_name
@@ -62,7 +64,7 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and
 					 species is not null and
 					 subspecies is null
 				order by

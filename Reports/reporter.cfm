@@ -5,7 +5,7 @@
 <cfif #action# is "delete">
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         delete from cf_report_sql
-        where report_id= <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
+        where report_id= <cfqueryparam VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm">
 </cfif>
@@ -21,29 +21,33 @@
 	</cfif>
     <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
         update cf_report_sql set
-        report_name = <CFQUERYPARAM VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        report_template  = <CFQUERYPARAM VALUE="#report_template#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        sql_text = <CFQUERYPARAM VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
-        description = <CFQUERYPARAM VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        pre_function = <CFQUERYPARAM VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
-        report_format = <CFQUERYPARAM VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
-        where report_id = <CFQUERYPARAM VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
+        report_name = <cfqueryparam VALUE="#report_name#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        report_template  = <cfqueryparam VALUE="#report_template#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        sql_text = <cfqueryparam VALUE="#sql_text#" CFSQLTYPE="CF_SQL_CLOB"> ,
+        description = <cfqueryparam VALUE="#description#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        pre_function = <cfqueryparam VALUE="#pre_function#" CFSQLTYPE="CF_SQL_VARCHAR"> ,
+        report_format = <cfqueryparam VALUE="#report_format#" CFSQLTYPE="CF_SQL_VARCHAR">
+        where report_id = <cfqueryparam VALUE="#report_id#" CFSQLTYPE="CF_SQL_DECIMAL">
     </cfquery>
     <cflocation url="reporter.cfm?action=edit&report_id=#report_id#">
 </cfif>
 <!--------------------------------------------------------------------------------------->
 <cfif #action# is "edit">
-    <cfif not isdefined("report_id")>
-	    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	        select report_id from cf_report_sql where report_name='#report_name#'
-	    </cfquery>
-        <cflocation url="reporter.cfm?action=edit&report_id=#e.report_id#">
-    </cfif>
+	<cfif not isdefined("report_id")>
+		<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select report_id 
+			from cf_report_sql 
+			where report_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_name#">
+		</cfquery>
+		<cflocation url="reporter.cfm?action=edit&report_id=#e.report_id#">
+	</cfif>
 
-    <cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-        select * from cf_report_sql where report_id='#report_id#'
-    </cfquery>
-    <cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
+	<cfquery name="e" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * 
+		from cf_report_sql 
+		where report_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#report_id#">
+	</cfquery>
+	<cfdirectory action="list" directory="#Application.webDirectory#/Reports/templates" filter="*.cfr" name="reportList">
 
     <form method="get" action="reporter.cfm" enctype="text/plain">
         <input type="hidden" name="action" value="saveEdit">
@@ -107,8 +111,8 @@
             report_template,
             sql_text)
         values (
-            'New_Report_#tc#',
-            '#report_template#',
+            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="New_Report_#tc#">,
+            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#report_template#">,
             'select 1 from dual')
     </cfquery>
     <cflocation url="reporter.cfm?action=edit&report_name=New_Report_#tc#">
@@ -126,10 +130,10 @@
             description,
             sql_text)
         values (
-            substring('Clone_Of_#e.report_name#_#tc#',38),
-            '#e.report_template#',
-            <CFQUERYPARAM VALUE="#e.description#" CFSQLTYPE="CF_SQL_CLOB">,
-            <CFQUERYPARAM VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
+            substring(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="Clone_Of_#e.report_name#_#tc#">,38),
+            <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#e.report_template#">,
+            <cfqueryparam VALUE="#e.description#" CFSQLTYPE="CF_SQL_CLOB">,
+            <cfqueryparam VALUE="#e.sql_text#" CFSQLTYPE="CF_SQL_CLOB"> )
     </cfquery>
     <cflocation url="reporter.cfm">
 </cfif>
@@ -196,7 +200,9 @@
         </tr>
     <cfloop query="reportList">
 		<cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	        select * from cf_report_sql where report_template='#name#'
+			select * 
+			from cf_report_sql 
+			where report_template = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#name#">
 	    </cfquery>
         <cfif h.recordcount is 0>
             <cfquery name="h" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
