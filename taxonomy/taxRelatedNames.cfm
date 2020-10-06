@@ -1,6 +1,8 @@
 <cfoutput>
 		<cfquery name="t" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-			select * from taxonomy where taxon_name_id=#taxon_name_id#
+			select * 
+			from taxonomy 
+			where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif len(t.species) gt 0 and len(t.genus) gt 0>
 			<cfif len(t.subspecies) gt 0>
