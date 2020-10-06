@@ -1787,7 +1787,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 						<table class="table d-table table-responsive table-striped">
 							<tr>
-								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
+								<th class="inside"><span class="innerDetailLabel pl-2">Part Name</span></th>
 								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
 								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
 								<th class="inside"><span class="innerDetailLabel">##</span></th>
