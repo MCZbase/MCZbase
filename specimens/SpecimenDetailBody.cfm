@@ -1834,18 +1834,18 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
 												<div class="detailCellSmall pl-2">
-													<strong>#attribute_type#</strong>=<strong>#attribute_value#</strong>
+													#attribute_type#=#attribute_value#
 													<cfif len(attribute_units) gt 0>
-													 	<strong>#attribute_units#</strong>
+													 #attribute_units#
 													</cfif>
 													<cfif len(determined_date) gt 0>
-													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#</strong>
+													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
 													</cfif>
 													<cfif len(agent_name) gt 0>
-													 	determined by=<strong>#agent_name#</strong>
+													 	determined by=#agent_name#
 													</cfif>
 													<cfif len(attribute_remark) gt 0>
-													 	remark=<strong>#attribute_remark#</strong>
+													 	remark=#attribute_remark#
 													</cfif>
 												</div>
 											</cfloop>
