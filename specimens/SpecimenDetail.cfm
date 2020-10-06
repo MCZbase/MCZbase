@@ -173,7 +173,7 @@ limitations under the License.
 		<h1 class="mt-0 mb-0 form-row">
 			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span></h1>
-		<h2 class="my-0 form-row"><cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<h2 class="mt-0 pb-2 form-row"><cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 						<span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text">#typeName#</span>
 				</cfif>
