@@ -1531,7 +1531,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</cfif>
 							
-		</div>
+		</div><!--- end of two column section --->
+						
+	<div class="one_column">
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
@@ -1899,7 +1901,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</cfif>
 	</div>
 	</div>
-	</div>
+				</div></div>
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
