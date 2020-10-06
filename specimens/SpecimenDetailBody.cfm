@@ -1687,7 +1687,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header float-left w-100" id="headingPart">
-				<h3 class="h4 my-1 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts</a></h3>
+				<h3 class="h4 my-1 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  (3 </a></h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 
@@ -1774,9 +1774,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				select * from parts where sampled_from_obj_id is null order by part_name
 			</cfquery>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-			<cfif oneOfUs is 1>
-				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
-			</cfif>
 			 <table class="table table-striped table-responsive border-0 mb-0">
 				 <thead role="rowgroup">
 				  <tr role="row">
@@ -1793,7 +1790,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</thead>
 				<tbody role="rowgroup">
                 <div class="card-body">
-					<cfset i=1>
 					<cfloop query="rparts">		
 					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
@@ -1860,9 +1856,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							</cfif>
 							<td role="cell">#part_remarks#</td>
 					</cfloop>
-					</tr>
-						<cfset i=#i#+1>
-					</cfloop>	
+					
+					</cfloop>
+						</tr>
 				</div>
 				</tbody>		
 			</table>
