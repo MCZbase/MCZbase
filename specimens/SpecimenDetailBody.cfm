@@ -1124,11 +1124,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfloop>
 						<cfif len(formatted_publication) gt 0>
 							sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
-						</cfif>
-								<p class="small"><span class="h5">Determiner:</span> #agent_name#</p>
+						</cfif><div class="form-row mx-0">
+								<div class="small"><span class="h5">Determiner:</span> #agent_name#</span>
 							<cfif len(made_date) gt 0>
-								<p class="small"><span class="h5">On Date:</span> #dateformat(made_date,"yyyy-mm-dd")#</p>
-							</cfif>
+								<span class="h5">On Date:</span> #dateformat(made_date,"yyyy-mm-dd")#</div>
+								</cfif></div>
 							<p class="small"><span class="h5">Nature of ID:</span> #nature_of_id#</span> </p>
 						<cfif len(identification_remarks) gt 0>
 							<p class="small"><span class="h5">Remarks:</span> #identification_remarks#</p>
