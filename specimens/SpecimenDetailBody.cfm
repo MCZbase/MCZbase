@@ -2030,6 +2030,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								</cfloop>
 							</cfloop>
 							</cfif>
+					</div>
+				</div>
+				
 </cfoutput>
 </section>
 <!------------------------------------ metadata ------------------------------------------->
