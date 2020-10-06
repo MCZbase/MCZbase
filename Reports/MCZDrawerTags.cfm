@@ -1,221 +1,5 @@
 <cfinclude template="/includes/_pickHeader.cfm">
 <!------------------------------------------------------------------->
-<cfif #Action# is "nothing">
-<cfdocument
-	format="pdf"
-	pagetype="letter"
-	margintop=".25"
-	marginbottom=".25"
-	marginleft=".25"
-	marginright=".25"
-	orientation="portrait"
-	fontembed="yes"
-	filename="#Application.webDirectory#/temp/LoanInvoice.pdf"
-	overwrite="true">
-<link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
-
-
-<cf_getLoanFormInfo>
-
-<cfoutput>
-	<cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select shipped_date from shipment where transaction_id=#transactioN_id#
-	</cfquery>
-	<cfquery name="shipTo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select formatted_addr from addr, shipment
-		where addr.addr_id = shipment.shipped_to_addr_id AND
-		shipment.transaction_id=#transaction_id#
-	</cfquery>
-	<cfquery name="procBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select agent_name from preferred_agent_name, shipment
-		where preferred_agent_name.agent_id = shipment.packed_by_agent_id AND
-		shipment.transaction_id=#transaction_id#
-	</cfquery>
-<div align="center">
-<table width="800" height="1030">
-	<tr>
-    	<td valign="top">
-			<!---<div align="right">
-				<font size="1" face="Arial, Helvetica, sans-serif">
-					<b>Loan ## #getLoan.loan_number#</b>
-				</font>
-			</div>--->
-			<div align="center" style="font-weight:bold;">
-		        <font size="3">SPECIMEN&nbsp;&nbsp;INVOICE</font>
-			  <font size="4">
-			 <br />Museum of Vertebrate Zoology
-                          <br />University of California, Berkeley
-                          </font>
-                          <font size="3">
-                        <br>#dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			This document acknowledges the loan of specimens from the MVZ to:
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table width="100%">
-				<tr>
-					<td align="left" width="60%">
-						<blockquote>
-							#replace(getLoan.outside_address,"#chr(10)#","<br>","all")#
-						</blockquote>
-					</td>
-					<td align="right" valign="top">
-						<table border="1" cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-						   		<td>
-						   			Loan #getLoan.loan_number# approved by:
-								   <br>&nbsp;
-								   <br>&nbsp;
-								   <hr>
-								   #getLoan.authAgentName#<!---, #getLoan.contact_title# --->
-								 </td>
-							</tr>
-						 </table>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<b style="font-style:italic">Loan Type:</b> #getLoan.loan_type#
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<b>Nature of Material:</b>
-			<!--- format for PDF --->
-			<cfset nom = replace(getLoan.nature_of_material,"#chr(10)#","<br>","all")>
-			<cfset nom = replace(nom,"<i>","","all")>
-			<cfset nom = replace(nom,"</i>","","all")>
-  					#nom#
-		</td>
-	</tr>
-	<cfif len(#getLoan.loan_description#) gt 0>
-		<tr>
-			<td>
-				<b>Description:</b>
- 				&nbsp;#replace(getLoan.loan_description,"#chr(10)#","<br>","all")#
-			</td>
-		</tr>
-	</cfif>
-	<cfif len(#getLoan.loan_instructions#) gt 0>
-		<tr>
-			<td>
-				 <b>Instructions:</b>
-  				&nbsp;#getLoan.loan_instructions#
-			</td>
-		</tr>
-	</cfif>
-	<cfif len(#getLoan.trans_remarks#) gt 0>
-		<tr>
-			<td>
-				<b>Remarks:</b>
- 				&nbsp;#getLoan.trans_remarks#
-			</td>
-		</tr>
-	</cfif>
-	<tr>
-		<td>
-			UPON RECEIPT, SIGN AND RETURN ONE COPY TO:
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table>
-				<tr>
-					<td>
-						<blockquote> <font size="2">#replace(getLoan.inside_address,"#chr(10)#","<br>","all")#
-						<br />Email: #getLoan.inside_email_address#</font>
-						  </blockquote>
-					</td>
-					<td align="right" width="300" valign="top">
-						<div align="left" style="font-weight:bold; font-size:smaller;">
-							Expected return date: #dateformat(getLoan.return_due_date,"dd mmmm yyyy")#
-						</div>
-                 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<td colspan="2">
-									<div style="border:1px solid black;">
-										<font size="2">Signature of recipient, date:</font>
-										<br>&nbsp;
-										<br>&nbsp;
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									#getLoan.recAgentName#
-								</td>
-								<td>
-									Date
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<div style="padding-left:30px;
-				padding-right:30px;
-				font-size:12px;
-				font-family:Verdana, Arial, Helvetica, sans-serif;
-				border-bottom:1px solid black; border-top:1px solid black; text-align:justify;">
-				<hr>
-                <font size="1" face="Verdana, Arial, Helvetica, sans-serif">M<font face="Arial">aterial
-                loaned from the MVZ should be acknowledged by
-                MVZ catalog number in subsequent publications, reports, presentations
-                or GenBank submissions. A copy of reprints should be provided
-                to the MVZ. Please remember that you may
-                use these materials only for the study outlined in your original proposal.
-                You must obtain written permission from the MVZ Curator
-                for any use outside of the scope of your proposal, including the
-                transfer of MVZ material to a third party. Thank you for your
-                cooperation.</font></font>
-                <hr>
-			</div>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			 <table width="100%">
-			 	<tr>
-					<td align="left">
-						<font size="1">Printed #dateformat(now(),"dd mmmm yyyy")#</font>
-					</td>
-					<td>
-					  <div align="right">
-						<font size="1" face="Arial, Helvetica, sans-serif">Loan processed
-						by #procBy.agent_name#</font>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-</div>
-
-</cfoutput>
-</cfdocument>
-<cfoutput >
-	<cflocation url="/temp/LoanInvoice.pdf">
-</cfoutput>
-</cfif>
-<!------------------------------------------------------------------->
-
-
-
-
 
 <cfif #Action# is "itemLabels">
 <!---
@@ -245,7 +29,7 @@ Parameters:
    <cfset displayFormat = "#format#">
 </cfif>
 Current format: #displayFormat#<br/>
-<form action='MVZLoanInvoice.cfm' method="POST">
+<form action='MCZDrawerTags.cfm' method="POST">
 	<input type='hidden' name='action' value='itemLabels'>
 	<input type='hidden' name='transaction_id' value='#transaction_id#'>
 Change to: <select name="format">
@@ -293,7 +77,7 @@ Change to: <select name="format">
             left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
       where identification.accepted_id_fg = 1 AND
             coll_obj_cont_hist.current_container_fg = 1 AND
-            loan_item.transaction_id = #transaction_id#
+            loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
         ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
      </cfquery>
 
@@ -450,7 +234,7 @@ Change to: <select name="format">
                 left join MCZBASE.container c5 on c4.parent_container_id = c5.container_id
           where identification.accepted_id_fg = 1 AND
                 coll_obj_cont_hist.current_container_fg = 1 AND
-    	    loan_item.transaction_id = #transaction_id#
+    	    		 loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
     	ORDER BY c5.barcode, c4.barcode, c3.barcode, decode(LENGTH(TRIM(TRANSLATE(c2.label, '0123456789',' '))),null,to_number(c2.label),c2.label), c1.barcode, cat_num
     </cfquery>
     <cfelse>
@@ -512,7 +296,7 @@ Change to: <select name="format">
     		trans_agent.trans_agent_role = 'received by' and
     		trans_agent.agent_id = preferred_agent_name.agent_id AND
                 coll_obj_cont_hist.current_container_fg = 1 and
-    	        loan_item.transaction_id = #transaction_id#
+    	        loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
     	ORDER BY cat_num
     </cfquery>
     </cfif>
@@ -905,7 +689,7 @@ Change to: <select name="format">
 </cfif>  <!-- End Action -->
 
 
-
+<!---
 
 <!------------------------------------------------------------------->
 <cfif #Action# is "shippingLabel">
@@ -923,31 +707,32 @@ Based on:
 	other actions in this page
 --->
 
-<cfparam name="shipped_to_addr" default = "">
-<cfparam name="shipped_to_addr_id" default = "">
-<cfparam name="shipped_from_addr" default = "">
-<cfparam name="shipped_from_addr_id" default = "">
-<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from shipment where transaction_id = #transaction_id#
-</cfquery>
-<!--- Test to see if there are shipping addresses. --->
-<cfif ship.recordcount gt 0>
-	<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select formatted_addr from addr where
-		addr_id = #ship.shipped_to_addr_id#
+	<cfparam name="shipped_to_addr" default = "">
+	<cfparam name="shipped_to_addr_id" default = "">
+	<cfparam name="shipped_from_addr" default = "">
+	<cfparam name="shipped_from_addr_id" default = "">
+	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select * 
+		from shipment 
+		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	</cfquery>
+	<!--- Test to see if there are shipping addresses. --->
+	<cfif ship.recordcount gt 0>
+		<cfquery name="shipped_to_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select formatted_addr from addr where
+			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_to_addr_id#">
+		</cfquery>
 		<cfset shipped_to_addr = "#shipped_to_addr_id.formatted_addr#">
-	<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select formatted_addr from addr where
-		addr_id = #ship.shipped_from_addr_id#
-	</cfquery>
+		<cfquery name="shipped_from_addr_id" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select formatted_addr from addr where
+			addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ship.shipped_from_addr_id#">
+		</cfquery>
 		<cfset shipped_from_addr = "#shipped_from_addr_id.formatted_addr#">
-<cfoutput>
-<p>
-	<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
-</p>
-</cfoutput>
-
+		<cfoutput>
+			<p>
+				<a href="/temp/loaninvoice_#cfid#_#cftoken#.pdf" target="_blank">Get the PDF</a>
+			</p>
+		</cfoutput>
 
 <!--- Define formatting params --->
 <cfset fromToClass = "times9b">
@@ -1032,7 +817,7 @@ Splitting pages up is tricky. There is no automatic wrap function, and the data 
 <p></p>
 Number of rows to print per page:
 <p></p>
-<form name="a" method="post" action="MVZLoanInvoice.cfm">
+<form name="a" method="post" action="MCZDrawerTags.cfm">
 	<input type="hidden" name="action" value="itemList" />
 	<input type="hidden" name="transaction_id" value="#transaction_id#" />
 	Rows: <input type="text" name="numRowsFPage" value="15" />
@@ -1064,8 +849,7 @@ Number of rows to print per page:
 
 <cfoutput>
 <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-
-select
+	select
 		cat_num,
 		cataloged_item.collection_object_id,
 		collection.collection,
@@ -1141,7 +925,7 @@ select
 		locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id AND
 		locality.locality_id = accepted_lat_long.locality_id (+) AND
 		cataloged_item.collection_id = collection.collection_id AND
-	  loan_item.transaction_id = #transaction_id#
+	  loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	  ORDER BY cat_num
 </cfquery>
 <cfquery name="one" dbtype="query">
@@ -1278,7 +1062,9 @@ select
 	<font size="+2"> Museum of Vertebrate Zoology <br>
     University of California, Berkeley</font></font></b> <br>
         <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                select shipped_date from shipment where transaction_id=#transactioN_id#
+                select shipped_date 
+					from shipment 
+					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transactioN_id#">
         </cfquery>
    <b> #dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
    <br>
@@ -1316,16 +1102,12 @@ select
 
 	<cfloop query="one">
 	<cfquery name="items" dbtype="query">
-		select * from more where collection_object_id = #collection_object_id#
+		select * 
+		from more 
+		where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
 	<cfset numItemsForThisSpec = #items.recordcount#>
 	<cfset isMore = "">
-
-
-
-
-
-
 
 
 	<tr	#iif(i MOD 2,DE("style='background-color:E5E5E5'"),DE("style='background-color:FFFFFF'"))#	>
@@ -1504,8 +1286,7 @@ select
 
 <link rel="stylesheet" type="text/css" href="/includes/_cfdocstyle.css">
 <cfquery name="getItems" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-
-select
+	select
 		cat_num,
 		collection,
 		part_name,
@@ -1527,7 +1308,7 @@ select
 		specimen_part.derived_from_cat_item = cataloged_item.collection_object_id AND
 		cataloged_item.collection_id = collection.collection_id AND
 		specimen_part.collection_object_id = coll_object.collection_object_id AND
-		loan_item.transaction_id = #transaction_id#
+		loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 	ORDER BY cat_num
 </cfquery>
 <!--- get number of pages we'll have --->
@@ -1559,7 +1340,9 @@ select
    <font size="+2"> Museum of Vertebrate Zoology <br>
     University of California, Berkeley</font></font></b> <br>
         <cfquery name="shipDate" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                select shipped_date from shipment where transaction_id=#transactioN_id#
+                select shipped_date 
+					from shipment 
+					where transaction_id = #transactioN_id#<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=">
         </cfquery>
    <b> #dateformat(shipDate.shipped_date,"dd mmmm yyyy")#</b>
    <br>
@@ -1625,5 +1408,10 @@ select
 </table>
 </cfdocument>
 </cfoutput>
+
 </cfif>
+
+--->
+
+
 <cfinclude template="/includes/_pickFooter.cfm">
