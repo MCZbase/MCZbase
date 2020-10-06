@@ -923,29 +923,32 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
-			#one_thumb# <a href="#aForImHref#" target="_blank">
-					<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb"></a>
+			#one_thumb# 
+			<a href="#aForImHref#" target="_blank">
+				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 				<span class="smaller">#description#</span> </p>
 			</div>
 		</cfloop>
 		<!--/div---> 
-		</span> </div>
+		</span> 
+	</div>
 	<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                                    select p.barcode from
-                                    container c,
-                                    container p,
-                                    coll_obj_cont_hist,
-                                    specimen_part,
-                                    cataloged_item
-                                    where
-                                    cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-                                    specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-                                    coll_obj_cont_hist.container_id=c.container_id and
-                                    c.parent_container_id=p.container_id and
-                                    cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-                        </cfquery>
+				select p.barcode from
+				container c,
+				container p,
+				coll_obj_cont_hist,
+				specimen_part,
+				cataloged_item
+				where
+				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
+				coll_obj_cont_hist.container_id=c.container_id and
+				c.parent_container_id=p.container_id and
+				cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+	</cfquery>
 
 	</div>
 </cfif>
