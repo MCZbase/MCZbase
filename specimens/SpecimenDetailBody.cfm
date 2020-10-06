@@ -1127,7 +1127,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						</cfif><div class="form-row mx-0">
 								<div class="small"><span class="h5">Determiner:</span> #agent_name#</span>
 							<cfif len(made_date) gt 0>
-								<span class="h5">On Date:</span> #dateformat(made_date,"yyyy-mm-dd")#</div>
+								<span class="h5 mr-2">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#</div>
 								</cfif></div>
 							<p class="small"><span class="h5">Nature of ID:</span> #nature_of_id#</span> </p>
 						<cfif len(identification_remarks) gt 0>
@@ -1389,7 +1389,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</div>
 		
-		</div>
+	
 <!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
@@ -1530,6 +1530,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</div>
 		</div>
 	</cfif>
+							
+		</div>
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
