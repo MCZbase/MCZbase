@@ -1885,7 +1885,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<h3 class="h4 my-1 float-left">Metadata</h4>
 				</div>
 				<div class="card-body float-left">
-					<ul>
+					<ul  class="pl-0 pt-1">
 						<cfif len(#one.coll_object_remarks#) gt 0>
 							<li>Remarks: #one.coll_object_remarks# </li>
 						</cfif>
