@@ -1935,6 +1935,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+	<cfoutput>
 <div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header float-left w-100" id="headingPart">
