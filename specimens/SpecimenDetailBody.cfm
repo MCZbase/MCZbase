@@ -2032,6 +2032,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							</cfif>
 					</div>
 				</div>
+				</div
+	</div>
 				
 </cfoutput>
 </section>
