@@ -3885,8 +3885,8 @@ limitations under the License.
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.transaction_id#">
-			<cfset row["value"] = "#search.accn_number#" >
-			<cfset row["meta"] = "#search.accn_number# (#search.accn_status# #search.trans_date# #search.rec_agent#)" >
+			<cfset row["value"] = "#search.deacc_number#" >
+			<cfset row["meta"] = "#search.deacc_number# (#search.deacc_status# #search.trans_date# #search.deacc_reason#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
