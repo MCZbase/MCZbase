@@ -1109,7 +1109,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<span class="font-italic h4 font-weight-normal d-inline-block"> 
 									<a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a> 
 								<cfif len(getTaxa.author_text) gt 0>
-									#getTaxa.author_text# 
+									<span class="sm-caps">#getTaxa.author_text#</span> 
 								</cfif>
 								</span>
 							<cfelse>
@@ -1120,7 +1120,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<span class="font-italic h3 font-weight-normal d-inline-block"> 
 									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
 									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-										<cfset i=#i#+1><a href="##">#thisSciName#</a> #getTaxa.author_text# 
+										<cfset i=#i#+1><a href="##">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> 
 								</span>
 							</cfloop>
 						</cfif>
@@ -1167,7 +1167,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<p>
 							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 							<cfif len(getTaxa.author_text) gt 0>
-								<span class="color-black">Determination: #getTaxa.author_text#</span>
+								<span class="color-black sm-caps">#getTaxa.author_text#</span>
 								</p>
 							</cfif>
 						<cfelse>
