@@ -1840,8 +1840,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</div>
 								</cfloop>
 							</td>
-					</cfif>
-					<cfquery name="sPart" dbtype="query">
+						<cfquery name="sPart" dbtype="query">
 								select * from parts 
 								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
@@ -1858,6 +1857,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfloop>
 					
 					</cfloop>
+					</cfif>
+					
 						</tr>
 				</div>
 				</tbody>		
