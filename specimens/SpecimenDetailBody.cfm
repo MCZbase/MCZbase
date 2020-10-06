@@ -1868,6 +1868,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
     		</div>
 	</div>--->
 							<!------------------------------------ parts ---------------------------------------------->
+															<cfoutput>
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
@@ -1934,15 +1936,14 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-								<cfoutput>
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+
 
 <div class="accordion" id="accordionForParts">
-			<div class="card mb-2">
+			<div class="card mb-0">
 				<div class="card-header float-left w-100" id="headingPart">
 				<h3 class="h4 my-1 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  </a></h3>
 				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
+				</div>
 
 				<div class="card-body float-left p-0">
 				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
@@ -2007,7 +2008,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 													<cfif len(attribute_remark) gt 0>
 													 	remark=<strong>#attribute_remark#</strong>
 													</cfif>
-
 												</div>
 											</cfloop>
 										</td>
@@ -2029,16 +2029,14 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</tr>
 								</cfloop>
 							</cfloop>
-					</table>
+							</table>
 						</div>
 					</div>
 				</div>
-							</cfif>
-			
-
-				
+			</div>
+	</section>
+</cfif>				
 </cfoutput>
-</section>
 <!------------------------------------ metadata ------------------------------------------->
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
