@@ -556,7 +556,7 @@ $(document).ready(function() {
 			},
 			root: 'specimenRecord',
 			id: 'collection_object_id',
-			url: '/specimens/component/records_search.cfc?method=getDataTable&searchText=' + searchParam,
+			url: '/specimens/component/search.cfc?method=getDataTable&searchText=' + searchParam,
 			async: false
 			};
 
