@@ -1958,7 +1958,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
 							<cfloop query="mPart">
-								<tr>
+							<tr>
 									<td class="inside">#part_name#</td>
 									<td class="inside">#part_condition#</td>
 									<td class="inside">#part_disposition#</td>
@@ -2029,11 +2029,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</tr>
 								</cfloop>
 							</cfloop>
-							</cfif>
+						</div>
 					</div>
 				</div>
-				</div
-	</div>
+							</cfif>
+			
+
 				
 </cfoutput>
 </section>
