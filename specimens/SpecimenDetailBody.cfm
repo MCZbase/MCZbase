@@ -852,7 +852,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </cfquery>
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
-		<div class="detailLabel"><p>Media related to the cataloged item</p>
+		<div class="detailLabel"><p>Additional Media</p>
 			<cfquery name="wrlCount" dbtype="query">
                                     select * from media where mime_type = 'model/vrml'
                         </cfquery>
