@@ -396,6 +396,9 @@ function pickedRelationship (id){
 	} else if (relatedTable=='borrow'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeBorrowAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='media'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeMediaAutocompleteMeta(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
@@ -408,8 +411,6 @@ function pickedRelationship (id){
 		taxaPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='publication'){
 		getPublication(dispInputName,idInputName,'',formName);
-	} else if (relatedTable=='media'){
-		findMedia(dispInputName,idInputName);
 */
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
@@ -418,3 +419,40 @@ function pickedRelationship (id){
 		messageDialog('Handling of relationships to ' + relatedTable + ' not yet implemented.',"Error picking relationship type.");
 	}
 }
+
+
+/** Make a paired hidden id and text name control into an autocomplete media picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected media_id (without a leading # selector).
+ */
+function makeAccessionAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/media/component/functions.cfc",
+				data: { term: request.term, method: 'getMediaAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
