@@ -161,13 +161,13 @@ limitations under the License.
 	<div class="col-12 col-md-5 float-left">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-					<div class="card flex-md-row pb-md-3 box-shadow border-0 bg-transparent">
+					<div class="card flex-md-row box-shadow border-0 bg-transparent">
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-					<div class="card flex-md-row pb-md-3 box-shadow no-card bg-transparent">
+					<div class="card flex-md-row box-shadow no-card bg-transparent">
 				 </cfif>
 			<cfelse>
-					<div class="card flex-md-row pb-md-3 box-shadow no-card bg-transparent">
+					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body mt-1 d-flex flex-column align-items-start">
 		<h1 class="mt-0 mb-0 form-row">
@@ -175,10 +175,10 @@ limitations under the License.
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-						<span class="h5 d-block mt-1 mb-3 mb-md-0 mb-md-0 card-text mb-0">#typeName#</span>
+						<span class="h5 d-block mt-1 mb-3 pb-md-3 mb-md-0 mb-md-0 card-text mb-0">#typeName#</span>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-						<span class="h5 d-block mt-1 mb-3 mt-md-1 mb-md-0 card-text mb-0">#typeName#</span>
+						<span class="h5 d-block mt-1 mb-3 pb-md-3 mt-md-1 mb-md-0 card-text mb-0">#typeName#</span>
 				</cfif>
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
