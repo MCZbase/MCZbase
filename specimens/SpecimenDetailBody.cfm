@@ -423,7 +423,7 @@ limitations under the License.
 		tag
      where
          media.media_id=tag.media_id and
-		tag.collection_object_id = #one.collection_object_id#
+		tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 </cfquery>
 <cfif mediaTag.recordcount gt 0>
 	 <div class="detailCell">
@@ -493,7 +493,7 @@ limitations under the License.
             left join media_relations mr on startm.related_primary_key = mr.related_primary_key
 			left join media findm on mr.media_id = findm.media_id
           where (mr.media_relationship = 'shows cataloged_item' or mr.media_relationship = 'shows agent' or mr.media_relationship = 'shows locality')
-		    and startm.media_id = #media_id#
+		    and startm.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		    and findm.media_type = 'image'
       </cfquery>
       <cfset checkcounter = 0>
@@ -520,7 +520,15 @@ limitations under the License.
         </cfif>
         <cftry>
           <cfquery name="addh" datasource="uam_god" timeout="2">
-			   insert into media_labels (media_id, media_label, label_value, assigned_by_agent_id) values (#mediatocheck.media_id#, 'height', #img.height#, 0)
+			   insert into media_labels 
+					(media_id, media_label, label_value, assigned_by_agent_id) 
+					values 
+					(
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediatocheck.media_id#">, 
+						'height', 
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#img.height#">,
+						0
+					)
 			</cfquery>
           <cfcatch>
           </cfcatch>
@@ -536,8 +544,14 @@ limitations under the License.
             <cfhttp url="#mediatocheck.media_uri#" method="get" getAsBinary="yes" result="filetohash">
             <cfset md5hash=Hash(filetohash.filecontent,"MD5")>
             <cfquery name="makeMD5hash" datasource="uam_god" >
-                    insert into media_labels (media_id, MEDIA_LABEL, ASSIGNED_BY_AGENT_ID, LABEL_VALUE)
-                       values ( #mediatocheck.media_id#, 'md5hash', 0, '#md5Hash#')
+                    insert into media_labels 
+							(media_id, MEDIA_LABEL, ASSIGNED_BY_AGENT_ID, LABEL_VALUE)
+                     values ( 
+								<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mediatocheck.media_id#">, 
+								'md5hash', 
+								0, 
+								<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#md5Hash#">
+							)
             </cfquery>
           <cfcatch>
           </cfcatch>
@@ -566,7 +580,8 @@ limitations under the License.
     <cfquery name="mcrguid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		select 'MCZ:'||collection_cde||':'||cat_num as relatedGuid from media_relations
         left join cataloged_item on related_primary_key = collection_object_id
-        where media_id = #media_id# and media_relationship = 'shows cataloged_item'
+        where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#"> 
+			and media_relationship = 'shows cataloged_item'
 	</cfquery>
     <cfset relatedItemA="">
     <cfset guidOfRelatedSpecimen="">
@@ -660,7 +675,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			1 as sortorder
        from media_relations
 	       left join #session.flatTableName# on related_primary_key = collection_object_id
-	   where media_id = #m.media_id# and ( media_relationship = 'shows cataloged_item')
+	   where 
+			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#">
+			and ( media_relationship = 'shows cataloged_item')
 	   union
 	   select agent.agent_id as pk, '' as guid,
 	        '' as typestatus, agent_name as name,
@@ -673,7 +690,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	   from media_relations
 	      left join agent on related_primary_key = agent.agent_id
 	      left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
-	   where  media_id = #m.media_id# and ( media_relationship = 'shows agent')
+	   where  
+			media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#">
+			and ( media_relationship = 'shows agent')
 	   ) ffquery order by sortorder
 	</cfquery>
     <cfif ff.recordcount EQ 0>
@@ -711,22 +730,23 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
         </div>--->
       </cfoutput>
       <!--- Obtain the list of related media objects, construct a list of thumbnails, each with associated metadata that are switched out by mulitzoom --->
-      <cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select media.media_id, preview_uri, media.media_uri,
-               get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
-			   media.mime_type, media.media_type,
-			   CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
-                           ctmedia_license.uri as license_uri,
-                           mczbase.get_media_credit(media.media_id) as credit,
-            		   MCZBASE.is_media_encumbered(media.media_id) as hideMedia
-        from media_relations
-             left join media on media_relations.media_id = media.media_id
-			 left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
-        where (media_relationship = 'shows cataloged_item')
-		   AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
-                   AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-        order by (case media.media_id when #m.media_id# then 0 else 1 end) , to_number(get_medialabel(media.media_id,'height')) desc
-   	    </cfquery>
+		<cfquery name="relm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select media.media_id, preview_uri, media.media_uri,
+				get_medialabel(media.media_id,'height') height, get_medialabel(media.media_id,'width') width,
+				media.mime_type, media.media_type,
+				CASE WHEN MCZBASE.is_mcz_media(media.media_id) = 1 THEN ctmedia_license.display ELSE MCZBASE.get_media_dcrights(media.media_id) END as license,
+				ctmedia_license.uri as license_uri,
+				mczbase.get_media_credit(media.media_id) as credit,
+				MCZBASE.is_media_encumbered(media.media_id) as hideMedia
+			from media_relations
+				left join media on media_relations.media_id = media.media_id
+				left join ctmedia_license on media.media_license_id = ctmedia_license.media_license_id
+			where (media_relationship = 'shows cataloged_item')
+				AND related_primary_key = <cfqueryparam value=#ff.pk# CFSQLType="CF_SQL_DECIMAL" >
+				AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+			order by ( case media.media_id when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> then 0 else 1 end ),
+				to_number(get_medialabel(media.media_id,'height')) desc
+		</cfquery>
       <cfoutput>
         <a name="otherimages"></a>
         <div class="media_thumbs">
@@ -915,7 +935,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                                     specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
                                     coll_obj_cont_hist.container_id=c.container_id and
                                     c.parent_container_id=p.container_id and
-                                    cataloged_item.collection_object_id=#collection_object_id#
+                                    cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
                         </cfquery>
 
 	</div>
@@ -1720,7 +1740,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
 		coll_obj_cont_hist.container_id=oc.container_id and
 		oc.parent_container_id=pc.container_id (+) and
-		specimen_part.derived_from_cat_item=#one.collection_object_id#
+		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 </cfquery>
 <cfquery name="parts" dbtype="query">
         select
@@ -1793,7 +1813,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 										rparts
 									where
 										attribute_type is not null and
-										part_id=#part_id#
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 									group by
 										attribute_type,
 										attribute_value,
