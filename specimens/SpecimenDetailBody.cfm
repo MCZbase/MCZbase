@@ -1789,6 +1789,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								</cfif>
 								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
 							</tr>
+							<cfset i=1>
 							<cfloop query="mPart">
 							<tr>
 									<td class="inside">#part_name#</td>
