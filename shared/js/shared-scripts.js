@@ -581,7 +581,7 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
-				url: "/publication/component/functions.cfc",
+				url: "/publications/component/search.cfc",
 				data: { term: request.term, method: 'getPublicationAutocompleteMeta' },
 				dataType: 'json',
 				success : function (data) { response(data); },
