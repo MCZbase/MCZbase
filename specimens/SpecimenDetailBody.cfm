@@ -1800,7 +1800,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<td class="inside" role="cell">#label#</td>
 						</cfif>
 						<td class="inside" role="cell">#part_remarks#</td>
-					<cfquery name="patt" dbtype="query">
+	<!---				<cfquery name="patt" dbtype="query">
 						SELECT
 							attribute_type,
 							attribute_value,
@@ -1820,8 +1820,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							determined_date,
 							attribute_remark,
 							agent_name
-					</cfquery>
-					<cfif patt.recordcount gt 0>
+					</cfquery>--->
+<!---					<cfif patt.recordcount gt 0>
 							<td>
 								<cfloop query="patt">
 									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
@@ -1840,7 +1840,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 									</div>
 								</cfloop>
 							</td>
-						<cfquery name="sPart" dbtype="query">
+					</cfif>--->
+					<!---<cfquery name="sPart" dbtype="query">
 								select * from parts 
 								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
 					</cfquery>
@@ -1854,11 +1855,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								<td>#label#</td>
 							</cfif>
 							<td role="cell">#part_remarks#</td>
-					</cfloop>
+					</cfloop>--->
 					
 					</cfloop>
-					</cfif>
-					
 						</tr>
 				</div>
 				</tbody>		
