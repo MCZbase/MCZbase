@@ -1386,6 +1386,146 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</div>
 		</div>
 	</cfif>
+<!------------------------------------ attributes ----------------------------------------->
+	<cfif len(attribute.attribute_type) gt 0>
+		<div class="card">
+			<div class="card-header float-left w-100">
+				<h3 class="h4 my-1 float-left">Attributes</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			</div>
+			<div class="card-body float-left">
+				<cfquery name="sex" dbtype="query">
+					select * from attribute where attribute_type = 'sex'
+				</cfquery>
+				<ul class="list-group">
+					<cfloop query="sex">
+						<li class="list-group-item"> sex: #attribute_value#,
+							<cfif len(attributeDeterminer) gt 0>
+								<cfset determination = "#attributeDeterminer#">
+								<cfif len(determined_date) gt 0>
+									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<cfset determination = '#determination#, #determination_method#'>
+								</cfif>
+								#determination#
+							</cfif>
+							<cfif len(attribute_remark) gt 0>
+								, Remark: #attribute_remark#
+							</cfif>
+						</li>
+					</cfloop>
+					<cfif one.collection_cde is "Mamm">
+						<cfquery name="total_length" dbtype="query">
+							select * from attribute where attribute_type = 'total length'
+						</cfquery>
+						<cfquery name="tail_length" dbtype="query">
+							select * from attribute where attribute_type = 'tail length'
+						</cfquery>
+						<cfquery name="hf" dbtype="query">
+							select * from attribute where attribute_type = 'hind foot with claw'
+						</cfquery>
+						<cfquery name="efn" dbtype="query">
+							select * from attribute where attribute_type = 'ear from notch'
+						</cfquery>
+						<cfquery name="weight" dbtype="query">
+							select * from attribute where attribute_type = 'weight'
+						</cfquery>
+						<cfif len(total_length.attribute_units) gt 0 OR
+							len(tail_length.attribute_units) gt 0 OR
+							len(hf.attribute_units) gt 0  OR
+							len(efn.attribute_units) gt 0  OR
+							len(weight.attribute_units) gt 0>
+							<!---semi-standard measurements --->
+							<p class="pt-2">Standard Measurements</p>
+							<table class="table table-striped table-responsive">
+								<tr>
+									<td><font size="-1">total length</font></td>
+									<td><font size="-1">tail length</font></td>
+									<td><font size="-1">hind foot</font></td>
+									<td><font size="-1">efn</font></td>
+									<td><font size="-1">weight</font></td>
+								</tr>
+								<tr>
+									<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+									<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+									<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+									<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+									<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+								</tr>
+							</table>
+							<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+								<cfset determination = "#attributeDeterminer#">
+								<cfif len(determined_date) gt 0>
+									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<cfset determination = '#determination#, #determination_method#'>
+								</cfif>
+								#determination#
+							</cfif>
+						</cfif>
+						<cfquery name="theRest" dbtype="query">
+							select * from attribute 
+							where attribute_type NOT IN (
+								'weight','sex','total length','tail length','hind foot with claw','ear from notch'
+							)
+						</cfquery>
+					<cfelse>
+						<!--- not Mamm --->
+						<cfquery name="theRest" dbtype="query">
+							select * from attribute where attribute_type NOT IN ('sex')
+						</cfquery>
+					</cfif>
+					<cfloop query="theRest">
+						<li class="list-group-item">#attribute_type#: #attribute_value#
+							<cfif len(attribute_units) gt 0>
+								, #attribute_units#
+							</cfif>
+							<cfif len(attributeDeterminer) gt 0>
+								<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+								<cfif len(determined_date) gt 0>
+									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+								</cfif>
+								<cfif len(determination_method) gt 0>
+									<cfset determination = '#determination#, #determination_method#'>
+								</cfif>
+								#determination#
+							</cfif>
+							<cfif len(attribute_remark) gt 0>
+								, Remark: #attribute_remark#
+							</cfif>
+						</li>
+					</cfloop>
+				</ul>
+			</div>
+		</div>
+	</cfif>
+
+<!------------------------------------ relationships  ------------------------------------->
+	<cfif len(relns.biol_indiv_relationship) gt 0 >
+		<div class="card">
+			<div class="card-header float-left w-100">
+				<h3 class="h4 my-1 float-left">Relationship</h3>
+				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			</div>
+			<div class="card-body float-left">
+				<ul class="list-group list-group-flush float-left pl-2">
+				<li class="list-group-item">
+					<cfloop query="relns">
+						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+							(Remark: #biol_indiv_relation_remarks#)
+						</cfif>
+					</cfloop>
+					<cfif len(relns.biol_indiv_relationship) gt 0>
+						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+					</cfif>
+				</li>
+			</ul>
+			</div>
+		</div>
+	</cfif>
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
@@ -1534,147 +1674,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</div>
 			</div>
 	</cfif>
-<!------------------------------------ relationships  ------------------------------------->
-	<cfif len(relns.biol_indiv_relationship) gt 0 >
-		<div class="card">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Relationship</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<ul class="list-group list-group-flush float-left pl-2">
-				<li class="list-group-item">
-					<cfloop query="relns">
-						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
-						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-							(Remark: #biol_indiv_relation_remarks#)
-						</cfif>
-					</cfloop>
-					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
-					</cfif>
-				</li>
-			</ul>
-			</div>
-		</div>
-	</cfif>
-<!------------------------------------ attributes ----------------------------------------->
-	<cfif len(attribute.attribute_type) gt 0>
-		<div class="card">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Attributes</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<cfquery name="sex" dbtype="query">
-					select * from attribute where attribute_type = 'sex'
-				</cfquery>
-				<ul class="list-group">
-					<cfloop query="sex">
-						<li class="list-group-item"> sex: #attribute_value#,
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination = "#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
-								</cfif>
-								#determination#
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								, Remark: #attribute_remark#
-							</cfif>
-						</li>
-					</cfloop>
-					<cfif one.collection_cde is "Mamm">
-						<cfquery name="total_length" dbtype="query">
-							select * from attribute where attribute_type = 'total length'
-						</cfquery>
-						<cfquery name="tail_length" dbtype="query">
-							select * from attribute where attribute_type = 'tail length'
-						</cfquery>
-						<cfquery name="hf" dbtype="query">
-							select * from attribute where attribute_type = 'hind foot with claw'
-						</cfquery>
-						<cfquery name="efn" dbtype="query">
-							select * from attribute where attribute_type = 'ear from notch'
-						</cfquery>
-						<cfquery name="weight" dbtype="query">
-							select * from attribute where attribute_type = 'weight'
-						</cfquery>
-						<cfif len(total_length.attribute_units) gt 0 OR
-							len(tail_length.attribute_units) gt 0 OR
-							len(hf.attribute_units) gt 0  OR
-							len(efn.attribute_units) gt 0  OR
-							len(weight.attribute_units) gt 0>
-							<!---semi-standard measurements --->
-							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped table-responsive">
-								<tr>
-									<td><font size="-1">total length</font></td>
-									<td><font size="-1">tail length</font></td>
-									<td><font size="-1">hind foot</font></td>
-									<td><font size="-1">efn</font></td>
-									<td><font size="-1">weight</font></td>
-								</tr>
-								<tr>
-									<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-									<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-									<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-									<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-									<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
-								</tr>
-							</table>
-							<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-								<cfset determination = "#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
-								</cfif>
-								#determination#
-							</cfif>
-						</cfif>
-						<cfquery name="theRest" dbtype="query">
-							select * from attribute 
-							where attribute_type NOT IN (
-								'weight','sex','total length','tail length','hind foot with claw','ear from notch'
-							)
-						</cfquery>
-					<cfelse>
-						<!--- not Mamm --->
-						<cfquery name="theRest" dbtype="query">
-							select * from attribute where attribute_type NOT IN ('sex')
-						</cfquery>
-					</cfif>
-					<cfloop query="theRest">
-						<li class="list-group-item">#attribute_type#: #attribute_value#
-							<cfif len(attribute_units) gt 0>
-								, #attribute_units#
-							</cfif>
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
-								</cfif>
-								#determination#
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								, Remark: #attribute_remark#
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
-			</div>
-		</div>
-	</cfif>
+
 <!------------------------------------ parts ---------------------------------------------->
-	    <div class="accordion" id="accordionForParts">
+	<div class="accordion" id="accordionForParts">
 			<div class="card">
 				<div class="card-header float-left w-100" id="headingPart">
 				<h3 class="h4 my-1 float-left">Parts</h3><a class="btn-link" data-toggle="collapse" data-target="##collapseParts">See Parts</a>
@@ -1768,7 +1770,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				<!---  <span class="detailEditCell" onclick="window.parent.loadEditApp('editParts');">Edit</span>--->
 			</cfif>
 			 <table class="table table-striped table-responsive border-0 mb-0">
-				   <thead role="rowgroup">
+				 <thead role="rowgroup">
 				  <tr role="row">
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
 					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
@@ -1785,7 +1787,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                 <div class="card-body">
 					<cfset i=1>
 					<cfloop query="rparts">		
-					<tr role="row"  style="min-height: 200px;">	
+					<tr role="row">	
 						<td class="inside" role="cell">#part_name#</td>
 						<td class="inside" role="cell">#part_condition#</td>
 						<td class="inside" role="cell">#part_disposition#</td>
@@ -1816,7 +1818,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							agent_name
 					</cfquery>
 					<cfif patt.recordcount gt 0>
-					<td colspan="6">
+							<td>
 								<cfloop query="patt">
 									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
 										<cfif len(attribute_units) gt 0>
@@ -1838,7 +1840,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<cfquery name="sPart" dbtype="query">
 								select * from parts 
 								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
+					</cfquery>
 					<cfloop query="sPart">
 						
 							<td role="cell"><span>#part_name# subsample</span></td>
@@ -1852,27 +1854,16 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfloop>
 					</tr>
 						<cfset i=#i#+1>
-					
-					</cfloop>
-					
-							
-			</tbody>
-						
+					</cfloop>	
+				</div>
+				</tbody>		
 			</table>
-                </div>
+					</cfif>
             </div>
         </div>
-    </div>
-</div>
+    		</div>
+	</div>
   
-  
-			
-		</cfif>
-				</div>
-				</div>
-			</div>
-		</div>
-
 <!------------------------------------ metadata ------------------------------------------->
 	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
