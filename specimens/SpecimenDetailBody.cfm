@@ -1799,7 +1799,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<cfset i=1>
 							<cfloop query="mPart">
 							<tr>
-									<td class="inside pl-1">#part_name#</td>
+									<td class="inside pl-3">#part_name#</td>
 									<td class="inside">#part_condition#</td>
 									<td class="inside">#part_disposition#</td>
 									<td class="inside">#lot_count#</td>
