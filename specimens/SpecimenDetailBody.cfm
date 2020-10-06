@@ -928,7 +928,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-				<span class="smaller">#description#</span> </p>
+				<span class="">#description#</span> </p>
 			</div>
 		</cfloop>
 		<!--/div---> 
