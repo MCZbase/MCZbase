@@ -1075,9 +1075,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
 						AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-					
-				<cfif accepted_id_fg is 1>
-				
+				<cfif accepted_id_fg is 1>	
 					<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
 						<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
 						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
@@ -1192,11 +1190,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfif>
 				</cfif>
 						</li>
-					</ul>
-											
-			</cfloop>
-										
-	</div>											
+					</ul>						
+			</cfloop>									
+		</div>											
 	</div>
 <!------------------------------------ citations ------------------------------------------>
 	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1683,192 +1679,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</div>
 	</cfif>
 
-<!------------------------------------ parts ---------------------------------------------->
-<!---	<div class="accordion" id="accordionForParts">
-			<div class="card mb-2">
-				<div class="card-header float-left w-100" id="headingPart">
-				<h3 class="h4 my-1 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  </a></h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
 
-				<div class="card-body float-left p-0">
-				<div id="collapseParts" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForParts">
-					<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select
-					specimen_part.collection_object_id part_id,
-					Case
-						when <cfqueryparam value="#oneOfus#" cfsqltype="CF_SQL_DECIMAL"> = 1
-						then pc.label
-						else null
-					End label,
-					nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-					sampled_from_obj_id,
-					coll_object.COLL_OBJ_DISPOSITION part_disposition,
-					coll_object.CONDITION part_condition,
-					nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
-					coll_object_remarks part_remarks,
-					attribute_type,
-					attribute_value,
-					attribute_units,
-					determined_date,
-					attribute_remark,
-					agent_name
-				from
-					specimen_part,
-					coll_object,
-					coll_object_remark,
-					coll_obj_cont_hist,
-					container oc,
-					container pc,
-					specimen_part_attribute,
-					preferred_agent_name
-				where
-					specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
-					specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-					specimen_part.collection_object_id=coll_object.collection_object_id and
-					coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
-					coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
-					coll_obj_cont_hist.container_id=oc.container_id and
-					oc.parent_container_id=pc.container_id (+) and
-					specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
-			</cfquery>
-					<cfquery name="parts" dbtype="query">
-				select
-						part_id,
-						label,
-						part_name,
-						sampled_from_obj_id,
-						part_disposition,
-						part_condition,
-						lot_count,
-						part_remarks
-				from
-						rparts
-				group by
-						part_id,
-						label,
-						part_name,
-						sampled_from_obj_id,
-						part_disposition,
-						part_condition,
-						lot_count,
-						part_remarks
-				order by
-						part_name
-			</cfquery>
-					<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select p.barcode from
-				container c,
-				container p,
-				coll_obj_cont_hist,
-				specimen_part,
-				cataloged_item
-				where
-				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-				coll_obj_cont_hist.container_id=c.container_id and
-				c.parent_container_id=p.container_id and
-				cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-			</cfquery>
-					<cfquery name="mPart" dbtype="query">
-				select * from parts where sampled_from_obj_id is null order by part_name
-			</cfquery>
-					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-			 <table class="table table-striped table-responsive border-0 mb-0">
-				 <thead role="rowgroup">
-				  <tr role="row">
-					<th scope="col" role="columnheader"><span class="innerDetailLabel">Part Name</span></th>
-					<th scope="col" role="columnheader"><span class="innerDetailLabel">Condition</span></th>
-					<th scope="col" role="columnheader"><span class="innerDetailLabel">Disposition</span></th>
-					<th scope="col" role="columnheader"><span class="innerDetailLabel">##</span></th>
-					<cfif oneOfus is "1">
-						<th scope="col" role="columnheader"><span class="innerDetailLabel">Container Name</span></th>
-					</cfif>
-					  <th scope="col" role="columnheader"><span class="innerDetailLabel">Remarks</span></th>
-					    <th scope="col" role="columnheader"><span class="innerDetailLabel">Attributes</span></th>
-				</tr>
-				</thead>
-				<tbody role="rowgroup">
-                <div class="card-body">
-					<cfloop query="rparts">		
-					<tr role="row">	
-						<td class="inside" role="cell">#part_name#</td>
-						<td class="inside" role="cell">#part_condition#</td>
-						<td class="inside" role="cell">#part_disposition#</td>
-						<td class="inside" role="cell">#lot_count#</td>
-						<cfif oneOfus is 1>
-							<td class="inside" role="cell">#label#</td>
-						</cfif>
-						<td class="inside" role="cell">#part_remarks#</td>
-	<!---				<cfquery name="patt" dbtype="query">
-						SELECT
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-						FROM
-							rparts
-						WHERE
-							attribute_type is not null and
-							part_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_VARCHAR">
-						GROUP BY
-							attribute_type,
-							attribute_value,
-							attribute_units,
-							determined_date,
-							attribute_remark,
-							agent_name
-					</cfquery>--->
-<!---					<cfif patt.recordcount gt 0>
-							<td>
-								<cfloop query="patt">
-									<div style="font-size: 12px;font-weight: 400;"> #attribute_type#=#attribute_value# &nbsp;&nbsp;&nbsp;&nbsp;
-										<cfif len(attribute_units) gt 0>
-											#attribute_units# &nbsp;&nbsp;&nbsp;&nbsp;
-										</cfif>
-										<cfif len(determined_date) gt 0>
-											determined date=#dateformat(determined_date,"yyyy-mm-dd")# &nbsp;&nbsp;&nbsp;&nbsp;
-										</cfif>
-										<cfif len(agent_name) gt 0>
-											determined by=#agent_name# &nbsp;&nbsp;&nbsp;&nbsp;
-										</cfif>
-										<cfif len(attribute_remark) gt 0>
-											remark=#attribute_remark# &nbsp;&nbsp;&nbsp;&nbsp;
-										</cfif>
-									</div>
-								</cfloop>
-							</td>
-					</cfif>--->
-					<!---<cfquery name="sPart" dbtype="query">
-								select * from parts 
-								where sampled_from_obj_id = <cfqueryparam value="#part_id#" cfsqltype="CF_SQL_DECIMAL">
-					</cfquery>
-					<cfloop query="sPart">
-						
-							<td role="cell"><span>#part_name# subsample</span></td>
-							<td role="cell">#part_condition#</td>
-							<td role="cell">#part_disposition#</td>
-							<td role="cell">#lot_count#</td>
-							<cfif oneOfus is 1>
-								<td>#label#</td>
-							</cfif>
-							<td role="cell">#part_remarks#</td>
-					</cfloop>--->
-					
-					</cfloop>
-						</tr>
-				</div>
-				</tbody>		
-			</table>
-					</cfif>
-            </div>
-        </div>
-    		</div>
-	</div>--->
-							<!------------------------------------ parts ---------------------------------------------->
-															<cfoutput>
+<!------------------------------------ parts ---------------------------------------------->
+<cfoutput>
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -1936,8 +1749,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-
-
 <div class="accordion" id="accordionForParts">
 			<div class="card mb-0">
 				<div class="card-header float-left w-100" id="headingPart">
@@ -2034,11 +1845,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</div>
 				</div>
 			</div>
-	</section>
+
 </cfif>				
 </cfoutput>
 <!------------------------------------ metadata ------------------------------------------->
-	<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
 			<div class="card mb-5">
 				<div class="card-header float-left w-100">
@@ -2066,7 +1877,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</cfif>
 	</div>
 	</div>
-				</div></div>
+
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
