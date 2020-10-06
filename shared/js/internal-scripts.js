@@ -399,6 +399,9 @@ function pickedRelationship (id){
 	} else if (relatedTable=='media'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeMediaAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='publication'){
+		$('#'+dispInputName).attr("readonly", false);
+		makePublicationAutocompleteMeta(dispInputName, idInputName);
 /*	} else if (relatedTable=='locality'){
 		LocalityPick(idInputName,dispInputName,formName);
 	} else if (relatedTable=='collecting_event'){
@@ -409,8 +412,6 @@ function pickedRelationship (id){
 		getProject(idInputName,dispInputName,formName);
 	} else if (relatedTable=='taxonomy'){
 		taxaPick(idInputName,dispInputName,formName);
-	} else if (relatedTable=='publication'){
-		getPublication(dispInputName,idInputName,'',formName);
 */
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
@@ -426,7 +427,7 @@ function pickedRelationship (id){
  *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
  *  @param idControl the id for a hidden input that is to hold the selected media_id (without a leading # selector).
  */
-function makeAccessionAutocompleteMeta(valueControl, idControl) { 
+function makeMediaAutocompleteMeta(valueControl, idControl) { 
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
