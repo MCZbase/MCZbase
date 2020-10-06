@@ -1851,7 +1851,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							<td role="cell">#part_remarks#</td>
 					</cfloop>
 					</tr>
-						<cfset i = #i# +1>
+						<cfset i=#i#+1>
 					
 					</cfloop>
 					
