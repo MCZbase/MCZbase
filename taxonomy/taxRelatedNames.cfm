@@ -18,10 +18,10 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and 
-					 species = '#t.species#' and 
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
+					 species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.species#"> and 
 					 subspecies is not null and
-					 scientific_name != '#t.scientific_name#'
+					 scientific_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.scientific_name#">
 				order by
 					scientific_name
 			</cfquery>
@@ -40,8 +40,8 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and 
-					 species != '#t.species#' and
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
+					 species != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.species#"> and
 					 subspecies is null
 				order by
 					scientific_name
@@ -62,7 +62,7 @@
 				from 
 					taxonomy 
 				where
-					 genus = '#t.genus#' and
+					 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and
 					 species is not null and
 					 subspecies is null
 				order by
