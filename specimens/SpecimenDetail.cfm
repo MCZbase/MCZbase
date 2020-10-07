@@ -170,9 +170,8 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body">
-		<h1 class="mt-0 mb-0 float-left">
-			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
-			<span class="h5"> #collection#&nbsp;#cat_num#</span>
+		<h1 class="h3 mt-0 mb-0 float-left">
+				 #collection#&nbsp;#cat_num#
 		</h1>
 		<div class="w-auto float-right">
 		<cfif isDefined("cited_as") and len(cited_as) gt 0>
