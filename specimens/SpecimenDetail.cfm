@@ -174,6 +174,7 @@ limitations under the License.
 			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 		</h1>
+		<div class="h4 float-right">
 		<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<h2 class="h4 mt-0">#typeName#</h2>
@@ -184,6 +185,7 @@ limitations under the License.
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>	
+			</div>
 		<h2 class="my-0 form-row"> 
 			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></span>
 		</h2>
