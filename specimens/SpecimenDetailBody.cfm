@@ -1287,17 +1287,16 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</div>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
-		<div class="bs-example">
-    <div class="accordion" id="accordionExample">
+<div class="accordion" id="accordionExample4">
     <div class="card bg-light">
-            <div class="card-header" id="headingOne">
+		<div class="card-header" id="headingOne">
 				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
 					<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
-                <div class="card-body">
+  		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
+       <div class="card-body">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-		<div class="card">
+		
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -1320,7 +1319,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
 		</cfif>
 		</cfif>
-		<div class="card-body">
 			<ul class="list-unstyled row px-3 py-1 mb-0">
 				<cfif len(one.continent_ocean) gt 0>
 					<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
@@ -1406,11 +1404,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</ul>
 		</div>
 	</div>
-						<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
-                </div>
-            </div>
-        </div>
-		</div></div>
+				<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a>
+ 	</div>
+</div>
 <!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
