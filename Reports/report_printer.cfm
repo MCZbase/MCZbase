@@ -14,7 +14,7 @@
 <cfif not isdefined("show_all")>
     <cfset show_all = "false" >
 </cfif>
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <cfinclude template="/Reports/functions/label_functions.cfm">
 
 <cfif #action# is "nothing">
@@ -288,4 +288,4 @@
         overwrite="true"></cfreport>
 </cfif>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
