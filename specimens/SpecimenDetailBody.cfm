@@ -1287,7 +1287,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</div>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
-	
+		<div class="bs-example">
+    <div class="accordion" id="accordionExample">
     <div class="card bg-light">
             <div class="card-header" id="headingOne">
 				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
@@ -1409,7 +1410,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
                 </div>
             </div>
         </div>
-	
+		</div></div>
 <!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
