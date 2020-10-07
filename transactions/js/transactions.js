@@ -1497,7 +1497,7 @@ function makeLoanPicker(valueControl, idControl) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
-				url: "/transactions/component/functions.cfc",
+				url: "/transactions/component/search.cfc",
 				data: { term: request.term, method: 'getLoanAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
@@ -1533,7 +1533,7 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
-				url: "/transactions/component/functions.cfc",
+				url: "/transactions/component/search.cfc",
 				data: { term: request.term, method: 'getAccessionAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
@@ -1569,7 +1569,7 @@ function makeDeaccessionAutocompleteMeta(valueControl, idControl) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
-				url: "/transactions/component/functions.cfc",
+				url: "/transactions/component/search.cfc",
 				data: { term: request.term, method: 'getDeaccessionAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
@@ -1605,7 +1605,7 @@ function makeBorrowAutocompleteMeta(valueControl, idControl) {
 	$('#'+valueControl).autocomplete({
 		source: function (request, response) { 
 			$.ajax({
-				url: "/transactions/component/functions.cfc",
+				url: "/transactions/component/search.cfc",
 				data: { term: request.term, method: 'getBorrowAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
