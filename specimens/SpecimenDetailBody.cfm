@@ -968,8 +968,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </div>
 			   
 	<!----------------------------- two right columns ---------------------------------->
-	<div class="col-12 col-md-6 col-xl-6 px-1 pr-md-2 pl-md-0">
- 
+		<div class="col-12 col-md-8 col-xl-9 px-1 pr-md-2 pl-md-0">
+		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
@@ -1395,7 +1395,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
 				</cfif>
 				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Habitat Description:</em></li>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
 					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
 				</cfif>
 				<cfif len(one.habitat) gt 0>
@@ -1553,7 +1553,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							
 		</div><!--- end of two column section --->
 						
-	<div class="col-12 col-md-3 col-xl-3">
+	<div class="one-column">
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
