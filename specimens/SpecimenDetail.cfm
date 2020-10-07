@@ -192,7 +192,7 @@ limitations under the License.
 		<h2 class="my-0 form-row">
 			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
 		</h2>
-		<h2 class="my-0 form-row">#higher_geog# #spec_locality#</h2>
+		<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
 		<div class="h5 form-row my-2">
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
 		</div>	
