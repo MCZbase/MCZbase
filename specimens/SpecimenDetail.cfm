@@ -194,7 +194,7 @@ limitations under the License.
 				<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
 			</div>
 			<div class="col-12 col-md-12">
-				<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
+				<span class="h5 my-0 mx-3">#higher_geog# #spec_locality#</span>
 			</div>
 		</div>
 	</div>
