@@ -186,9 +186,9 @@ limitations under the License.
 				</cfif>	
 			</div>
 		</div>
-			<div class="form-row mx-0">
-				<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
-			</div>
+		<h2 class="form-row mx-0 mt-0 px-1">
+			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
+		</h2>
 	</div>
 <!---		<h2 class="my-0 form-row h4 float-left"> 
 			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
