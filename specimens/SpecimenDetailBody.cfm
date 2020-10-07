@@ -1404,7 +1404,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</ul>
 		</div>
 	
-				<p><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
+				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
 			
 			</div>
  	</div>
