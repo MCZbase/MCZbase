@@ -158,7 +158,7 @@ limitations under the License.
 	<cfelse>
 		<section class="row mb-2 defaultType">
 	</cfif>
-	<div class="col-12  float-left">
+	<div class="col-12">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -169,7 +169,7 @@ limitations under the License.
 			<cfelse>
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
-	<div class="card-body mt-1 d-flex flex-column align-items-start">
+	<div class="card-body">
 		<h1 class="mt-0 mb-0 float-left">
 			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
