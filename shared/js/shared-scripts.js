@@ -716,3 +716,39 @@ function makeCollectingEventAutocompleteMeta(valueControl, idControl) {
 	};
 };
 
+/** Make a paired hidden id and text name control into an autocomplete scientific name picker
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeScientificNameAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getScientificNameAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+

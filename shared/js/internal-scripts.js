@@ -411,11 +411,12 @@ function pickedRelationship (id){
 	} else if (relatedTable=='collecting_event'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeCollectingEventAutocompleteMeta(dispInputName, idInputName);
+	} else if (relatedTable=='taxonomy'){
+		$('#'+dispInputName).attr("readonly", false);
+		makeScientificNameAutocompleteMeta(dispInputName, idInputName);
 /*
 	} else if (relatedTable=='project'){
 		getProject(idInputName,dispInputName,formName);
-	} else if (relatedTable=='taxonomy'){
-		taxaPick(idInputName,dispInputName,formName);
 */
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
