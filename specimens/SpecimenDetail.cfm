@@ -193,8 +193,8 @@ limitations under the License.
 			<div class="col-12 col-md-6">
 				<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2 mx-2">Collector(s):  #collectors#</span>
 			</div>
-			<div class="col-12 col-md-12">
-				<span class="h5 mb-2 mx-1">#higher_geog# #spec_locality#</span>
+			<div class="col-12 col-md-12 mb-2">
+				<span class="h6 mx-1">#higher_geog# #spec_locality#</span>
 			</div>
 		</div>
 	</div>
