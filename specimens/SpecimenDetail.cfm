@@ -161,13 +161,13 @@ limitations under the License.
 	<div class="col-12">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-					<div class="card flex-md-row box-shadow border-0 bg-transparent">
+					<div class="card box-shadow border-0 bg-transparent">
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary' >
-					<div class="card flex-md-row box-shadow no-card bg-transparent">
+					<div class="card box-shadow no-card bg-transparent">
 				 </cfif>
 			<cfelse>
-					<div class="card flex-md-row box-shadow no-card bg-transparent">
+					<div class="card box-shadow no-card bg-transparent">
 			</cfif>
 
 
