@@ -414,10 +414,9 @@ function pickedRelationship (id){
 	} else if (relatedTable=='taxonomy'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeScientificNameAutocompleteMeta(dispInputName, idInputName);
-/*
 	} else if (relatedTable=='project'){
-		getProject(idInputName,dispInputName,formName);
-*/
+		$('#'+dispInputName).attr("readonly", false);
+		makeProjectAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='delete'){
 		$('#'+dispInputName).attr("readonly", true);
 		$('#'+dispInputName).value='Marked for deletion.....';
