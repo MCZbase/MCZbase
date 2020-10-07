@@ -191,7 +191,10 @@ limitations under the License.
 				<h2 class="mt-0 px-1"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></h2>
 			</div>
 			<div class="col-12 col-md-6">
-			<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
+				<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
+			</div>
+			<div class="col-12 col-md-12">
+				<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
 			</div>
 		</div>
 	</div>
