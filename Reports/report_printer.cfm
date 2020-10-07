@@ -18,7 +18,7 @@
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/Reports/functions/label_functions.cfm">
 
-<cfif #action# is "nothing">
+<cfif NOT isdefined("action") OR len(#action#) EQ 0 OR #action# is "nothing">
 	<!--- Obtain a list of reports that contain the limit_preserve_method marker --->
 	<cfquery name="preservationRewrite" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select report_name 
