@@ -185,16 +185,17 @@ limitations under the License.
 				<!--- No special color background for non-type specimens -- default background is gray --->
 				</cfif>	
 			</div>
-		</div>
+	
 		
 			<div class="col-12 col-md-6">
 				<h2 class="mt-0 px-1"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></h2>
 			</div>
-		
+			<div class="col-12 col-md-6">
+			<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
+			</div>
+		</div>
 	</div>
-<!---		<h2 class="my-0 form-row h4 float-left"> 
-			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
-		</h2>
+<!---	
 		<h2 class="my-0 form-row right">
 			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
 		</h2>
