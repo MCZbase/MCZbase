@@ -1288,7 +1288,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</div>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
 <div class="accordion" id="accordionExample4">
-    <div class="card bg-light">
+    <div class="card float-left bg-light">
 		<div class="card-header" id="headingOne">
 				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
 					<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1404,7 +1404,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</ul>
 		</div>
 	</div>
-				<a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a>
+				<p><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
  	</div>
 </div>
 <!------------------------------------ attributes ----------------------------------------->
