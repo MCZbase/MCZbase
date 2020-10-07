@@ -221,6 +221,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				f.collecting_event_id, 
 				f.began_date, f.ended_date,
 				f.collecting_source, f.collecting_method,
+				f.verbatim_locality,
 				f.spec_locality
 			FROM 
 				#session.flatTableName# f
@@ -237,9 +238,9 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
-			<cfset row["id"] = "#search.collection_object_id#">
-			<cfset row["value"] = "#search.guid#" >
-			<cfset row["meta"] = "#search.guid# (#search.scientific_name# #search.spec_locality#)" >
+			<cfset row["id"] = "#search.collecting_event_id#">
+			<cfset row["value"] = "#search.spec_locality# #search.began_date#-#search.ended_date#" >
+			<cfset row["meta"] = "#search.spec_locality# #search.began_date#-#search.ended_date# #search.collecting_source# #search.collecting_method# (#search.collecting_event_id# #search.#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>

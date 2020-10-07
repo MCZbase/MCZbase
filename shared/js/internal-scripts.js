@@ -407,7 +407,7 @@ function pickedRelationship (id){
 		makeCatalogedItemAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='locality'){
 		$('#'+dispInputName).attr("readonly", false);
-		makeCollectingEventAutocompleteMeta(dispInputName, idInputName);
+		makeLocalityAutocompleteMeta(dispInputName, idInputName);
 	} else if (relatedTable=='collecting_event'){
 		$('#'+dispInputName).attr("readonly", false);
 		makeCollectingEventAutocompleteMeta(dispInputName, idInputName);
