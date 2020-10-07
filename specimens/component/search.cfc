@@ -221,7 +221,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 				f.collecting_event_id, 
 				f.began_date, f.ended_date,
 				f.collecting_source, f.collecting_method,
-				f.verbatim_locality,
+				f.verbatimlocality,
 				f.spec_locality
 			FROM 
 				#session.flatTableName# f
