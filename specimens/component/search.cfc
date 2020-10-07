@@ -239,8 +239,8 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 		<cfloop query="search">
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.collecting_event_id#">
-			<cfset row["value"] = "#search.spec_locality# #search.began_date#-#search.ended_date# (#search.collecting_event_id#)" >
-			<cfset row["meta"] = "#search.spec_locality# #search.began_date#-#search.ended_date# #search.collecting_source# #search.collecting_method# (#search.collecting_event_id#)" >
+			<cfset row["value"] = "#search.spec_locality# #search.began_date#/#search.ended_date# (#search.collecting_event_id#)" >
+			<cfset row["meta"] = "#search.spec_locality# #search.began_date#/#search.ended_date# #search.collecting_source# #search.collecting_method# (#search.collecting_event_id#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
