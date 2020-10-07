@@ -190,11 +190,11 @@ limitations under the License.
 			<div class="col-12 col-md-6">
 				<h2 class="mt-0 px-0"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></h2>
 			</div>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 mt-2">
 				<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2 mx-2">Collector(s):  #collectors#</span>
 			</div>
 			<div class="col-12 col-md-12 mb-2">
-				<span class="h6 mx-1">#higher_geog# #spec_locality#</span>
+				<span class="h6 mx-0">#higher_geog# #spec_locality#</span>
 			</div>
 		</div>
 	</div>
