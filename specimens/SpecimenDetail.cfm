@@ -173,7 +173,7 @@ limitations under the License.
 
 		<div class="form-row mx-0">
 			<h1 class="col-12 col-md-6 h4"> #collection#&nbsp;#cat_num#</h1>
-			<div class="col-12 col-md-6">
+			<div class="col-12 col-md-6 mt-1">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<h2 class="h4">#typeName#</h2>
