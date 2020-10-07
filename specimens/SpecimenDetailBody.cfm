@@ -1288,8 +1288,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</div>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
 <div class="accordion" id="accordionExample4">
-    <div class="card float-left bg-light">
-		<div class="card-header" id="headingOne">
+    <div class="card bg-light">
+		<div class="card-headerfloat-left w-100" id="headingOne">
 				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
 					<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
