@@ -176,10 +176,10 @@ limitations under the License.
 			<div class="col-12 col-md-6">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-					<h2 class="h4 mt-0">#typeName#</h2>
+					<h2 class="h4">#typeName#</h2>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary'>
-					<h2 class="h4 mt-0">#typeName#</h2>
+					<h2 class="h4">#typeName#</h2>
 				</cfif>
 				<cfelse>
 				<!--- No special color background for non-type specimens -- default background is gray --->
