@@ -170,25 +170,24 @@ limitations under the License.
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
 	<div class="card-body">
-		<h1 class="h4 mt-0 mb-0 float-left">
-				 #collection#&nbsp;#cat_num#
-					<div class="w-auto float-right">
-		<cfif isDefined("cited_as") and len(cited_as) gt 0>
+		<div class="form-row mx-0">
+			<h1 class="h4 mt-0 mb-0 float-left"> #collection#&nbsp;#cat_num#</h1>
+			<div class="w-auto float-right">
+				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<h2 class="h4 mt-0">#typeName#</h2>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary'>
 					<h2 class="h4 mt-0">#typeName#</h2>
 				</cfif>
-			<cfelse>
-			<!--- No special color background for non-type specimens -- default background is gray --->
-		</cfif>	
+				<cfelse>
+				<!--- No special color background for non-type specimens -- default background is gray --->
+				</cfif>	
+			</div>
 		</div>
-		</h1>
 
 		<h2 class="my-0 form-row h4 float-left"> 
 			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
-			
 		</h2>
 		<h2 class="my-0 form-row right">
 			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
