@@ -3769,7 +3769,7 @@ limitations under the License.
 				concattransagent(trans.transaction_id,'received from') rec_agent
 			from 
 				accn left join trans on accn.transaction_id = trans.transaction_id
-			where upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			where upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			order by accn_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -3823,8 +3823,8 @@ limitations under the License.
 				concattransagent(trans.transaction_id,'received from') rec_agent
 			from 
 				borrow left join trans on borrow.transaction_id = trans.transaction_id
-			where upper(borrow_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-				OR upper(lenders_trans_num_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			where upper(borrow_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				OR upper(lenders_trans_num_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			order by borrow_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -3877,7 +3877,7 @@ limitations under the License.
 				deacc_reason
 			from 
 				deaccession left join trans on deaccession.transaction_id = trans.transaction_id
-			where upper(deacc_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			where upper(deacc_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
 			order by deacc_number
 		</cfquery>
 		<cfset rows = search_result.recordcount>
