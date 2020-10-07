@@ -102,7 +102,7 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-<cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
 				f.collection_object_id, f.guid,
@@ -110,13 +110,13 @@ Function getCatalogedItemAutocompleteMeta.  Search for specimens with a substrin
 			FROM 
 				#session.flatTableName# f
 			WHERE
-				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.guid like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 				OR
-				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.scientific_name like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 				OR
-				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -160,7 +160,7 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-<cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
 				f.locality_id
@@ -169,9 +169,9 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 			FROM 
 				#session.flatTableName# f
 			WHERE
-				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -215,7 +215,7 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 	<cfargument name="term" type="string" required="yes">
 	<cfset data = ArrayNew(1)>
 	<cftry>
-<cfset rows = 0>
+		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
 				f.collecting_event_id, 
@@ -225,15 +225,15 @@ Function getCollectingEventAutocompleteMeta.  Search for collecting events, retu
 			FROM 
 				#session.flatTableName# f
 			WHERE
-				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.spec_locality like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 				OR
-				f.collecting_source like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.collecting_source like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 				OR
-				f.collecting_method like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.collecting_method like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 				OR
-				f.began_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#name#%">
+				f.began_date like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#term#%">
 		</cfquery>
-	<cfset rows = search_result.recordcount>
+		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
