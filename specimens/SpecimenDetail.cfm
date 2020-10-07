@@ -174,7 +174,7 @@ limitations under the License.
 			<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">MCZ Catalog Number: </span>
 			<span class="h5"> #collection#&nbsp;#cat_num#</span>
 		</h1>
-		<div class="h4 float-right">
+		<div class="w-auto float-right">
 		<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<h2 class="h4 mt-0">#typeName#</h2>
@@ -184,14 +184,18 @@ limitations under the License.
 				</cfif>
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
-			</cfif>	
-			</div>
-		<h2 class="my-0 form-row"> 
-			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></span>
+		</cfif>	
+		</div>
+		<h2 class="my-0 form-row h4"> 
+			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row">
 			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
 		</h2>
+		<h2 class="my-0 form-row">#higher_geog# #spec_locality#</h2>
+		<div class="h5 form-row my-2">
+			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
+		</div>	
 <!---		<h2 class="my-0 form-row">
 			<cfif len(verbatim_date) gt 0>
 				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Verbatim date:</span>
@@ -201,10 +205,6 @@ limitations under the License.
 				<span class="h5">#began_date# - #ended_date#</span>
 			</cfif>
 		</h2>--->
-		<h2 class="my-0 form-row">#higher_geog# #spec_locality#</h2>
-						<div class="form-row my-2">
-				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-			</div>	
 	</div>
 	</div>
 
