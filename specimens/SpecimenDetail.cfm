@@ -158,7 +158,7 @@ limitations under the License.
 	<cfelse>
 		<section class="row mb-2 defaultType">
 	</cfif>
-	<div class="col-12 col-md-5 float-left">
+	<div class="col-12  float-left">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -184,16 +184,13 @@ limitations under the License.
 			<cfelse>
 			<!--- No special color background for non-type specimens -- default background is gray --->
 			</cfif>	
-		</h2>
 		<h2 class="my-0 form-row"> 
-			<span class="h5 font-weight-normal mr-2 mb-0">Scientific Names:</span>
 			<span class="h5"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span></span>
 		</h2>
 		<h2 class="my-0 form-row">
-			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):</span>
-			<span class="h5">#collectors#</span>	
+			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
 		</h2>
-		<h2 class="my-0 form-row">
+<!---		<h2 class="my-0 form-row">
 			<cfif len(verbatim_date) gt 0>
 				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Verbatim date:</span>
 				<span class="h5">#verbatim_date#</span> 
@@ -201,12 +198,16 @@ limitations under the License.
 				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Began/Ended Date:</span>
 				<span class="h5">#began_date# - #ended_date#</span>
 			</cfif>
-		</h2>
+		</h2>--->
+		<h2 class="my-0 form-row">#higher_geog# #spec_locality#</h2>
+						<div class="form-row my-2">
+				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
+			</div>	
 	</div>
 	</div>
-				</div>
 
-<div class="col-12 col-md-7 float-left">
+
+<!---<div class="col-12 col-md-7 float-left">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			 <div class="card flex-md-row box-shadow no-card">
@@ -218,20 +219,14 @@ limitations under the License.
 			<div class="card flex-md-row box-shadow no-card">
 	</cfif>
 		<div class="card-body mt-1 d-flex flex-column align-items-start">
+
 			<h2 class="my-0 form-row d-inline">
-				<span class="h5 font-weight-normal d-inline mr-2 mb-0">Specific Locality: </span>
-				<span class="h5">#spec_locality#</span>
+				<span class="h5"></span>
 			</h2>
-			<h2 class="my-0 form-row d-inline">
-				<span class="h5 font-weight-normal mr-2 mb-0">Higher Geography:</span>
-				<span class="h5">#higher_geog#</span>
-			</h2>
-			<div class="form-row my-2">
-				<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-			</div>	
+
 		</div>
-	</div>
-			</div>
+	</div>--->
+			
 </section>
 			</div>
 
