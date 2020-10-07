@@ -14,6 +14,7 @@
 <cfif not isdefined("show_all")>
     <cfset show_all = "false" >
 </cfif>
+<cfset pageTitle = "Print Reports">
 <cfinclude template="/shared/_header.cfm">
 <cfinclude template="/Reports/functions/label_functions.cfm">
 
