@@ -159,7 +159,6 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 	<div class="col-12">
-		<div class="col-12">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -207,10 +206,6 @@ limitations under the License.
 				<span class="h5">#began_date# - #ended_date#</span>
 			</cfif>
 		</h2>--->
-	</div>
-
-
-
 <!---<div class="col-12 col-md-7 float-left">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
