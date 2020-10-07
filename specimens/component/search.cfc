@@ -163,8 +163,8 @@ Function getLocalityAutocompleteMeta.  Search for localities with a substring ma
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
-				f.locality_id
-				f.spec_locality
+				f.locality_id,
+				f.spec_locality,
 				f.higher_geog
 			FROM 
 				#session.flatTableName# f
