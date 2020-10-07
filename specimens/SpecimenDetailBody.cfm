@@ -968,8 +968,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </div>
 			   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-md-8 col-xl-9 px-1 pr-md-2 pl-md-0">
-		<div class="card-columns"> 
+	<div class="col-12 col-md-6 col-xl-6 px-1 pr-md-2 pl-md-0">
+ 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
@@ -1362,40 +1362,40 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
 				</cfif>
 					<cfif len(one.verbatim_locality) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Locality:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_locality#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
+					<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
 				</cfif>
 				<cfif len(one.collecting_source) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Source:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_source#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
 				</cfif>
 				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
 				<cfif len(one.began_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Began Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.began_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Began Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.began_date#</li>
 				</cfif>
 				<cfif len(one.ended_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Ended Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.ended_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Ended Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.ended_date#</li>
 				</cfif>
 				<cfif len(one.verbatim_date) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Date:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatim_date#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
 				</cfif>
 				<cfif len(one.verbatimcoordinates) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.verbatimcoordinatesp#</li>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatimcoordinatesp#</li>
 				</cfif>
 				<cfif len(one.collecting_method) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Method:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.collecting_method#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
 				</cfif>
 				<cfif len(one.coll_event_remarks) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Collecting Event Remarks:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.coll_event_remarks#</li>
+					<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
+					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
 				</cfif>
 				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
+					<li class="list-group-item col-5 px-0"><em>Habitat Description:</em></li>
 					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
 				</cfif>
 				<cfif len(one.habitat) gt 0>
@@ -1553,7 +1553,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							
 		</div><!--- end of two column section --->
 						
-	<div class="one-column">
+	<div class="col-12 col-md-3 col-xl-3">
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
