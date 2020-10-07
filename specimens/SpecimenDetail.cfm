@@ -159,6 +159,7 @@ limitations under the License.
 		<section class="row mb-2 defaultType">
 	</cfif>
 	<div class="col-12">
+		<div class="col-12">
 			<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<div class="card flex-md-row box-shadow border-0 bg-transparent">
@@ -169,10 +170,11 @@ limitations under the License.
 			<cfelse>
 					<div class="card flex-md-row box-shadow no-card bg-transparent">
 			</cfif>
-	<div class="card-body">
+
+
 		<div class="form-row mx-0">
-			<h1 class="h4 mt-0 mb-0 float-left"> #collection#&nbsp;#cat_num#</h1>
-			<div class="w-auto float-right">
+			<h1 class="col-12 col-md-6 h4"> #collection#&nbsp;#cat_num#</h1>
+			<div class="col-12 col-md-6">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
 					<h2 class="h4 mt-0">#typeName#</h2>
@@ -185,8 +187,8 @@ limitations under the License.
 				</cfif>	
 			</div>
 		</div>
-
-		<h2 class="my-0 form-row h4 float-left"> 
+	</div>
+<!---		<h2 class="my-0 form-row h4 float-left"> 
 			<a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps">#author_text#</span>
 		</h2>
 		<h2 class="my-0 form-row right">
@@ -195,7 +197,7 @@ limitations under the License.
 		<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
 		<div class="h5 form-row my-2">
 			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-		</div>	
+		</div>	--->
 <!---		<h2 class="my-0 form-row">
 			<cfif len(verbatim_date) gt 0>
 				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Verbatim date:</span>
@@ -206,7 +208,7 @@ limitations under the License.
 			</cfif>
 		</h2>--->
 	</div>
-	</div>
+
 
 
 <!---<div class="col-12 col-md-7 float-left">
