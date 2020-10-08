@@ -1643,6 +1643,9 @@ and also iPads specifically.
 		padding-bottom: 0;
 		line-height: 1;
 	}
+	.card-columns {
+		column-count: 1;
+	}
 }
 @media(max-width:1024px) {
 	.card-columns {
@@ -1666,6 +1669,7 @@ and also iPads specifically.
 		max-width: 1600px;
 	}
 }
+
 /*@media (min-width: 768px){
 .container, .container-md, .container-sm {
     max-width: 748px;
