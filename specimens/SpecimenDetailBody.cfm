@@ -1784,12 +1784,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
-				<h3 class="h4 my-0 float-left"><a class="btn-link dropdown-toggle" role="button" data-toggle="collapse show" data-target="##collapseParts"> Parts   </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
+				<h3 class="h4 my-0 float-left"><a class="btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts   </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
 					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
+						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
