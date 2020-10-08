@@ -1284,12 +1284,15 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					</cfloop>
 				</cfif>
 				<cfif len(colls.collectors) gt 1>	
-					<li class="list-group-item"><em>Collector:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
+					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
 				</cfif>
-				<cfif len(preps.preparators) gt 0>
+				<cfif len(preps.preparators) eq 1>
 						<cfloop query="colls">
-					<li class="list-group-item"><em>Preparators:&nbsp;</em> #preps.preparators#</li>
+					<li class="list-group-item"><em>Preparator:&nbsp;</em> #preps.preparators#</li>
 					</cfloop>
+				</cfif>
+				<cfif len(preps.preparators) gt 1>
+					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
 				</cfif>
 			
 			</ul>
