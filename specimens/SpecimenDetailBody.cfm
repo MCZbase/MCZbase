@@ -396,7 +396,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 </cfif>
 	<div class="row">
-		<div class="col-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
+		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
@@ -968,7 +968,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 </div>
 			   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
+		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
