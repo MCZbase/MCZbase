@@ -1511,6 +1511,9 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
+.dropdown-toggle .collapsed {
+	transform:rotate(90deg);
+}
 
 /****************end small form fields*********************/
 /**********************************************************/
