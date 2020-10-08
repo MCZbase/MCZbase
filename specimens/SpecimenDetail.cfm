@@ -178,13 +178,13 @@ limitations under the License.
 				<div class="col-12 col-md-6">
 				<h2 class="mt-0 px-0"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span></h2>
 			</div>
-			<div class="col-12 col-md-6 mt-1 mb-0">
+			<div class="col-12 col-md-6 mt-0 mb-2">
 				<cfif isDefined("cited_as") and len(cited_as) gt 0>
 				<cfif toptypestatuskind eq 'Primary' >
-					<h2 class="h4">#typeName#</h2>
+					<h2 class="h4 mt-0">#typeName#</h2>
 				</cfif>
 				<cfif toptypestatuskind eq 'Secondary'>
-					<h2 class="h4">#typeName#</h2>
+					<h2 class="h4 mt-0">#typeName#</h2>
 				</cfif>
 				<cfelse>
 				<!--- No special color background for non-type specimens -- default background is gray --->
