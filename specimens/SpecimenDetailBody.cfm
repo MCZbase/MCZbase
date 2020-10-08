@@ -20,14 +20,7 @@ limitations under the License.
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
-<style>
-    .bs-example{
-        margin: 20px;
-    }
-    .accordion .fa{
-        margin-right: 0.5rem;
-    }
-</style>
+
 <script>
     $(document).ready(function(){
         // Add minus icon for collapse element which is open by default
@@ -1803,7 +1796,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
-				<h3 class="h4 my-0 float-left"><a class="btn-link dropdown-toggle" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
+				<h3 class="h4 my-0 float-left"><a class="btn-link dropdown-toggle" data-toggle="collapse" data-target="##collapseParts"> Parts  <i class="fa fa-plus"></i> </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
