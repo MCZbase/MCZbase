@@ -439,6 +439,7 @@ limitations under the License.
 		</div>
 	</div>
 </cfif>
+	<cfset media_id = ''>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
@@ -460,7 +461,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '77177'>
+<cfset media_id = '#media_id#'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
