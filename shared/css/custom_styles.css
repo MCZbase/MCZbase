@@ -989,7 +989,9 @@ table.inputTable tr {
 	border-radius: 0 0 4px 4px;
 }
 /******************/
-
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9fa;
+}
 .card-header:first-child {
     border-radius: .25em .25em 0 0;
 }
