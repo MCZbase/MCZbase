@@ -1287,8 +1287,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 						<cfloop query="colls">
 					<li class="list-group-item"><em>Preparator:&nbsp;</em> #preps.preparators#</li>
 					</cfloop>
-				</cfif>
-				<cfif len(preps.preparators) gt 1>
+				<cfelse>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
 				</cfif>
 			
