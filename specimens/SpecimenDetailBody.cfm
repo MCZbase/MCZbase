@@ -1280,7 +1280,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<ul class="list-unstyled form-row p-1 mb-0">
 				<cfif len(colls.collectors) gt 0>
 						<cfloop query="colls">
-					<li class="list-group-item"><em>Collectors:&nbsp;</em> #colls.collectors#</li>
+					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
+					</cfloop>
+				</cfif>
+				<cfif len(colls.preps) gt 0>
+						<cfloop query="colls">
+					<li class="list-group-item"><em>Preparators:&nbsp;</em> #colls.preps#</li>
 					</cfloop>
 				</cfif>
 			
