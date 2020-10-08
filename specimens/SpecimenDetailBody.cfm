@@ -1269,28 +1269,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 	</cfif>
 		
-<!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2 mb-md-0">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			
-		</div>
-		<div class="card-body float-left">
-			<ul class="list-unstyled form-row p-1 mb-0">
-			
-				<cfif len(colls.collectors) gt 0>	
-					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
-					<cfelse>
-						
-						</cfif>
-				<cfif len(preps.preparators) gt 0>
-					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
-				</cfif>
-			
-			</ul>
-		</div>
-	</div>
+
 	<!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card mb-2 mb-md-0">
@@ -1555,7 +1534,28 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
  	</div>
 </div>
 
-							
+<!------------------------------------ Collectors and Preparators ----------------------------------->
+	<div class="card mb-2 mb-md-0">
+		<div class="card-header float-left w-100">
+			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
+			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			
+		</div>
+		<div class="card-body float-left">
+			<ul class="list-unstyled form-row p-1 mb-0">
+			
+				<cfif len(colls.collectors) gt 0>	
+					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
+					<cfelse>
+						
+						</cfif>
+				<cfif len(preps.preparators) gt 0>
+					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
+				</cfif>
+			
+			</ul>
+		</div>
+	</div>							
 		</div><!--- end of two column section --->
 						
 	<div class="one-column">
@@ -1778,16 +1778,16 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-<div class="accordion" id="accordionForParts">
+			<div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
-				<div class="card-header float-left w-100" id="headingPart">
+				<div class="card-header w-100" id="headingPart">
 				<h3 class="h4 my-0 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
-				<div class="card-body float-left p-0">
-				<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-						<table class="table d-table table-responsive table-striped mb-0">
+					<div class="card-body p-0">
+						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
+							<table class="table d-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
 								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
@@ -1800,7 +1800,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
-							<tr>
+								<tr>
 									<td class="inside pl-md-3">#part_name#</td>
 									<td class="inside">#part_condition#</td>
 									<td class="inside">#part_disposition#</td>
@@ -1907,7 +1907,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</cfif>
 	</cfif>
 	</div>
-	</div>
+
 
 <cfif oneOfUs is 1>
 	</form>
