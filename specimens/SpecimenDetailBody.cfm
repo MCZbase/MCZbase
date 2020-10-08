@@ -996,7 +996,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-	<div class="card">
+	<div class="card mb-2 mb-md-0">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Identifications</h3> 
   				<div class="dialog" title="Edit Identification (id: #identification_id#)">
@@ -1160,7 +1160,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
-		<div class="card">
+		<div class="card mb-2 mb-md-0">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Citations</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1248,7 +1248,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card">
+		<div class="card mb-2 mb-md-0">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Other IDs</h4>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1270,7 +1270,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</cfif>
 		
 <!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card">
+	<div class="card mb-2 mb-md-0">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1287,7 +1287,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	</div>
 	<!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
-		<div class="card">
+		<div class="card mb-2 mb-md-0">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Attributes</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1403,7 +1403,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
-		<div class="card">
+		<div class="card mb-2 mb-md-0">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Relationship</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
