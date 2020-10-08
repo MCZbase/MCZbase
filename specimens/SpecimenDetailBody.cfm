@@ -1279,7 +1279,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		<div class="card-body float-left">
 			<ul class="list-unstyled form-row p-1 mb-0">
 				<cfif len(colls.collectors) gt 0>
+						<cfloop query="colls">
 					<li class="list-group-item"><em>Collectors:&nbsp;</em> #colls.collectors#</li>
+					</cfloop>
 				</cfif>
 			
 			</ul>
