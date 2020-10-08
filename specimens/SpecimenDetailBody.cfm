@@ -1278,16 +1278,13 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		</div>
 		<div class="card-body float-left">
 			<ul class="list-unstyled form-row p-1 mb-0">
-				<cfif len(colls.collectors) eq 1>	
+			
+				<cfif len(colls.collectors) gt 0>	
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
 					<cfelse>
-						<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>	
-				</cfif>
-				<cfif len(preps.preparators) eq 1>
-						<cfloop query="colls">
-					<li class="list-group-item"><em>Preparator:&nbsp;</em> #preps.preparators#</li>
-					</cfloop>
-				<cfelse>
+						
+						</cfif>
+				<cfif len(preps.preparators) gt 0>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
 				</cfif>
 			
