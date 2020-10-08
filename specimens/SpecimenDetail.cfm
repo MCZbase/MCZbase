@@ -195,7 +195,7 @@ limitations under the License.
 				<span class="h5 d-block font-weight-normal mt-1 mb-0 mx-0 mx-md-2">#began_date# - #ended_date#</span>
 			</div>
 			<div class="col-12 col-md-12 mb-2 mt-0">
-				<span class="h6 my-0 mx-0">#higher_geog# :: #spec_locality#</span>
+				<span class="h5 my-0 mx-0">#higher_geog# :: #spec_locality#</span>
 			</div>
 		</div>
 	</div>
