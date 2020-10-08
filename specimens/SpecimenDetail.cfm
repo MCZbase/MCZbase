@@ -191,7 +191,7 @@ limitations under the License.
 				<h2 class="mt-0 px-0"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span></h2>
 			</div>
 			<div class="col-12 col-md-6 mt-0">
-				<span class="h5 font-weight-normal mr-2 mb-0 mx-0 mx-md-2">Collector(s):  #collectors#</span>
+				<span class="h5 d-block font-weight-normal mb-0 mx-0 mx-md-2">Collector(s):  #collectors#</span>
 				<span class="h5 d-block font-weight-normal mt-1 mb-0 mx-0 mx-md-2">#began_date# - #ended_date#</span>
 			</div>
 			<div class="col-12 col-md-12 mb-2 mt-0">
