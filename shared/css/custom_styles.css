@@ -1646,7 +1646,7 @@ and also iPads specifically.
 }
 @media(max-width:1024px) {
 	.card-columns {
-		column-count: 1;
+		column-count: 2;
 	}
 	.card-body h5 {
 		margin-top: -0.5em;
