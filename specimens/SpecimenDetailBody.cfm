@@ -1878,7 +1878,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 		<cfif oneOfUs is 1>
 			<div class="card mb-5">
 				<div class="card-header float-left w-100">
-					<h3 class="h4 my-1 float-left">Metadata</h4>
+					<h3 class="h4 my-0 float-left">Metadata</h4>
 				</div>
 				<div class="card-body float-left">
 					<ul  class="pl-0 pt-1">
