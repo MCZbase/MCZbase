@@ -21,7 +21,9 @@ limitations under the License.
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
 
-<script>
+
+<cfoutput>
+	<script>
     $(document).ready(function(){
         // Add minus icon for collapse element which is open by default
         $(".collapse.show").each(function(){
@@ -36,7 +38,6 @@ limitations under the License.
         });
     });
 </script>
-<cfoutput>
 <cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 	<div class="error"> Improper call. Aborting..... </div>
 	<cfabort>
