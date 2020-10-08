@@ -188,24 +188,6 @@ limitations under the License.
 											$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
 										</script> 
 									</div>
-									<div class="col-12 col-md-6">
-										<span>
-											<label for="additional_contact_agent_name">Additional Outside Contact:</label>
-											<span id="additional_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="additional_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input type="text" name="additional_contact_agent_name" id="additional_contact_agent_name" class="form-control data-entry-input" >
-										</div>
-										<input type="hidden" name="additional_contact_agent_id" id="additional_contact_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('additional_contact_agent_name','additional_contact_agent_id','additional_contact_agent_icon','additional_contact_agent_view',null));
-										</script> 
-									</div>
-								</div>
-								<div class="form-row mb-2">
 									<div class="col-12 col-md-6"> 
 										<span>
 											<label for="recipient_institution_agent_name">Recipient Institution:</label>
@@ -220,6 +202,24 @@ limitations under the License.
 										<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
 										<script>
 											$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
+										</script> 
+									</div>
+								</div>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-6">
+										<span>
+											<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
+											<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+										</span>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control data-entry-input" >
+										</div>
+										<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
+										<script>
+											$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
 										</script> 
 									</div>
 									<div class="col-12 col-md-6"> 
@@ -1388,6 +1388,17 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_contact_agent_id#">,
 					'additional outside contact')
+			</cfquery>
+			<cfif isdefined("additional_incontact_agent_id") and len(additional_contact_agent_id) gt 0>
+				<cfquery name="additional_incontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO trans_agent (
+					transaction_id,
+					agent_id,
+					trans_agent_role
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_incontact_agent_id#">,
+					'additional in-house contact')
 			</cfquery>
 			</cfif>
 			<cfif isdefined("foruseby_agent_id") and len(foruseby_agent_id) gt 0>
