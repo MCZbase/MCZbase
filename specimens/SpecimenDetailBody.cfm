@@ -20,7 +20,29 @@ limitations under the License.
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
-
+<style>
+    .bs-example{
+        margin: 20px;
+    }
+    .accordion .fa{
+        margin-right: 0.5rem;
+    }
+</style>
+<script>
+    $(document).ready(function(){
+        // Add minus icon for collapse element which is open by default
+        $(".collapse.show").each(function(){
+        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+        
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+    });
+</script>
 <cfoutput>
 <cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
 	<div class="error"> Improper call. Aborting..... </div>
