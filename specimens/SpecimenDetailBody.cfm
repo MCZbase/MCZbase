@@ -924,7 +924,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfif>
 			#one_thumb# 
 			<a href="#aForImHref#" target="_blank">
-				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb">
+				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%">
 			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
