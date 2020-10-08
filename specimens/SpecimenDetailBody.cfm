@@ -402,7 +402,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-					<h3 class="h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="mt-1 btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
+					<h3 class="h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
                   
             
             </div>
@@ -998,14 +998,14 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfquery>
 	<div class="card">
 		<div class="card-header float-left w-100">
-			<h3 class="h4 my-1 float-left">Identifications</h3> 
+			<h3 class="h4 my-0 float-left">Identifications</h3> 
   				<div class="dialog" title="Edit Identification (id: #identification_id#)">
   					<div id="identificationNewForm">Stuff here...</div>
   				</div>
 				  <script type="text/javascript">
 					  $( document ).ready(loadIdentifications(#identification_id#));
 				  </script>
-			 <button type="button" class="mt-1 btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+			 <button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body float-left">
 			<cfloop query="identification">
@@ -1162,8 +1162,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<cfif len(citations.cited_name) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Citations</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="h4 my-0 float-left">Citations</h3>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<ul class="list-group px-0 float-left">
@@ -1250,8 +1250,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<cfif len(oid.other_id_type) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Other IDs</h4>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="h4 my-0 float-left">Other IDs</h4>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<ul class="list-group">
@@ -1272,8 +1272,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <!------------------------------------ Collectors and Preparators ----------------------------------->
 	<div class="card">
 		<div class="card-header float-left w-100">
-			<h3 class="h4 my-1 float-left">Collectors and Preparators</h3>
-			<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
+			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body float-left">
@@ -1289,8 +1289,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<cfif len(attribute.attribute_type) gt 0>
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Attributes</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="h4 my-0 float-left">Attributes</h3>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<cfquery name="sex" dbtype="query">
@@ -1405,8 +1405,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
 		<div class="card">
 			<div class="card-header float-left w-100">
-				<h3 class="h4 my-1 float-left">Relationship</h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="h4 my-0 float-left">Relationship</h3>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
 				<ul class="list-group list-group-flush float-left pl-2">
@@ -1429,8 +1429,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <div class="accordion" id="accordionExample4">
     <div class="card bg-light">
 		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="btn-link h4 my-1 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
-					<button type="button" id="edit-locality" class="mt-1 btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="btn-link h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
+					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
   		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
        <div class="card-body">
@@ -1575,8 +1575,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 	<cfif oneOfUs is 1 and vpdaccn is 1>
 			<div class="card mb-2">
 				<div class="card-header float-left w-100">
-					<h3 class="h4 my-1 float-left">Transactions</h3>
-					<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					<h3 class="h4 my-0 float-left">Transactions</h3>
+					<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 				<div class="card-body float-left">
 					<ul class="list-group list-group-flush pl-0">
@@ -1775,8 +1775,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header float-left w-100" id="headingPart">
-				<h3 class="h4 my-1 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count 1 part)</span></h3>
-				<button type="button" class="mt-1 btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				<h3 class="h4 my-0 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count 1 part)</span></h3>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
 				<div class="card-body float-left p-0">
