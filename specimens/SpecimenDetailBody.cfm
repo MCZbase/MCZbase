@@ -1173,8 +1173,8 @@ limitations under the License.
 				<cfif len(colls.collectors) gt 1>	
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
 					<cfelse>
-							<li class="list-group-item"><em>Collector:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop></li>
-						</cfif>
+					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
+				</cfif>
 				<cfif len(preps.preparators) gt 0>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
 				</cfif>
