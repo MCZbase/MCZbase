@@ -1512,8 +1512,8 @@ textarea {
 
 .smaller {font-size: .7em!important;}
 .dropdown-toggle:before {transform:rotat(0deg)}
-.dropdown-toggle:after {
-	transform:rotate(90deg);
+.dropdown-toggle.collapsed:after {
+	transform:rotate(-90deg);
 }
 
 /****************end small form fields*********************/
