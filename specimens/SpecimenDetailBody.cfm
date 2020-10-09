@@ -1713,21 +1713,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 
 <!------------------------------------ parts ---------------------------------------------->
 <cfoutput>
-		<script>
-    $(document).ready(function(){
-        // Add minus icon for collapse element which is open by default
-        $(".collapse.show").each(function(){
-        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-        });
-        
-        // Toggle plus minus icon on show hide of collapse element
-        $(".collapse").on('show.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-        }).on('hide.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-        });
-    });
-</script>
+
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
@@ -1798,12 +1784,12 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<div class="accordion" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
-				<h3 class="h4 my-0 float-left"><a class="btn-link" data-toggle="collapse" data-target="##collapseParts"><i class="fa fa-plus smaller"></i> Parts   </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
+				<h3 class="h4 my-0 float-left"><a class="btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts   </a> <span class="text-success small ml-4">(count: ## parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
 					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
+						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
