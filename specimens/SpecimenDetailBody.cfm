@@ -388,16 +388,17 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
-<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		media.media_id,
-		media.media_uri
+		media.media_uri,
+		media_relations.media_relationship
 	FROM
 		media, 
 		media_relations
 	WHERE 
 		media.media_id = media_relations.media_id and
-		media.relations = 'shows cataloged_item' and 
+		media_relations.media_relationship like '%cataloged_item' and
 		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
 	
