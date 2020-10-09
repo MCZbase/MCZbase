@@ -676,6 +676,11 @@ limitations under the License.
 										</select>
 									</span>
 								</div>
+								<div class="col-12 col-md-3">
+									<label for="return_due_date" class="data-entry-label">Due Date</label>
+									<input type="text" id="return_due_date" name="return_due_date" class="data-entry-input"
+										value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
+								</div>
 								<div class="col-12 col-md-3" tabindex="0">
 									<span class="data-entry-label">Date Closed:</span>
 									<div class="col-12 bg-light border">
@@ -685,11 +690,6 @@ limitations under the License.
 											--
 										</cfif>
 									</div>
-								</div>
-								<div class="col-12 col-md-3">
-									<label for="return_due_date" class="data-entry-label">Due Date</label>
-									<input type="text" id="return_due_date" name="return_due_date" class="data-entry-input"
-										value="#dateformat(loanDetails.return_due_date,'yyyy-mm-dd')#">
 								</div>
 								<div class="col-12 col-md-3" tabindex="0">
 									<span class="data-entry-label">Entered By</span>
@@ -948,34 +948,6 @@ limitations under the License.
 							</script>
 						</div> 
 					</section>
-					<section name="countriesOfOriginSection" class="row border rounded my-2">
-						<div class="col-12 pb-3" tabindex="0">
-							<h3>Countries of Origin of items in this loan</h3>
-							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(*) as ct, sovereign_nation 
-								from loan_item 
-									left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-									left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-									left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-									left join locality on collecting_event.locality_id = locality.locality_id
-								where
-									loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-								group by sovereign_nation
-							</cfquery>
-							<cfset sep="">
-							<cfif ctSovereignNation.recordcount EQ 0>
-								<span>None</span>
-							<cfelse>
-								<cfloop query=ctSovereignNation>
-									<cfif len(sovereign_nation) eq 0>
-										<cfset sovereign_nation = '[no value set]'>
-									</cfif>
-									<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
-									<cfset sep="; ">
-								</cfloop>
-							</cfif>
-						</div>
-					</section>
 					<section name="shipmentSection" class="row border rounded my-2" tabindex="0">
 						<div class="col-12 pb-3">
 							<h3>Shipment Information:</h3>
@@ -1022,6 +994,35 @@ limitations under the License.
 		
 					<cfinclude template="/transactions/shipmentDialog.cfm">
 					
+					<section name="countriesOfOriginSection" class="row border rounded my-2">
+						<div class="col-12 pb-3" tabindex="0">
+							<h3>Countries of Origin of items in this loan</h3>
+							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) as ct, sovereign_nation 
+								from loan_item 
+									left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+									left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+									left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+									left join locality on collecting_event.locality_id = locality.locality_id
+								where
+									loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+								group by sovereign_nation
+							</cfquery>
+							<cfset sep="">
+							<cfif ctSovereignNation.recordcount EQ 0>
+								<span>None</span>
+							<cfelse>
+								<cfloop query=ctSovereignNation>
+									<cfif len(sovereign_nation) eq 0>
+										<cfset sovereign_nation = '[no value set]'>
+									</cfif>
+									<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+									<cfset sep="; ">
+								</cfloop>
+							</cfif>
+						</div>
+					</section>
+
 					<div class="row px-0">
 						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded" tabindex="0">
 							<h3>Accessions of material in this loan:</h3>
