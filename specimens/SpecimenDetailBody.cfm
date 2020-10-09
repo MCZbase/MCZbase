@@ -1416,7 +1416,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <div class="accordion" id="accordionExample4">
     <div class="card bg-light">
 		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="btn-link h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location & Collecting Event </h3>
+				<h3 class="btn-link h4 my-0 float-left collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne">Location & Collecting Event </h3>
 					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
   		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
