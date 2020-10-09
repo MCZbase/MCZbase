@@ -1389,7 +1389,7 @@ limitations under the License.
         from
                 rparts
         group by
-				count(*),
+				ct,
                 part_id,
                 label,
                 part_name,
