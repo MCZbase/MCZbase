@@ -453,7 +453,7 @@ limitations under the License.
 <img src="#mediaS2.media_uri#" alt="" width="100%">
 	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 		<cfelse>
-		<img src="/images/kronosaurus_placeholder.jpg" alt="No media object available" width="100%">	
+		<img src="../images/kronosaurus_placeholder.jpg" alt="No media object available" width="100%">	
 			</cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
