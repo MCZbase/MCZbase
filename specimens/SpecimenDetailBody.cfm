@@ -1170,7 +1170,7 @@ limitations under the License.
 		<div class="card-body float-left">
 			<ul class="list-unstyled form-row p-1 mb-0">
 			
-				<cfif <cfif colls.recordcount lt 1>
+				<cfif colls.recordcount lt 1>
 					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
 					<cfelse>
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
