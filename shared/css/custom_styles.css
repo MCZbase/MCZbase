@@ -1519,10 +1519,10 @@ textarea {
     font-family: "Font Awesome 5 Free"; font-weight: 900;
     content:"\f068";
     padding-right: 5px;
-	float:right;
+	float:left!important;
 }
 .card-header h3 a.collapsed:before{
-    float: right !important;
+    float:left !important;
     content:"\f067";
 }
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {text-decoration: none;}
