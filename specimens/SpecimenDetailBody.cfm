@@ -676,7 +676,7 @@ limitations under the License.
       		</div>
        <cfelse>
         <div class="targetarea media_image">
-            <img id="multizoom1" src='/images/noThumbGray.jpg' width='100%'>
+            <img id="multizoom1" src='/images/kronosaurus_placeholder.jpg' width='100%'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
