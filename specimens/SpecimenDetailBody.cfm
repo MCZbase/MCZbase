@@ -1170,10 +1170,10 @@ limitations under the License.
 		<div class="card-body float-left">
 			<ul class="list-unstyled form-row p-1 mb-0">
 			
-				<cfif len(colls.collectors) gt 0>	
+				<cfif len(colls.collectors) gt 1>	
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
 					<cfelse>
-						
+							<li class="list-group-item"><em>Collector:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop></li>
 						</cfif>
 				<cfif len(preps.preparators) gt 0>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
