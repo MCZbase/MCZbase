@@ -1521,7 +1521,7 @@ textarea {
     content:"\f068";
     padding-right: 5px;
 }
-.card-header h3 a.collapsed:before {
+.card-header h3 a.collapsed:after {
     float: right !important;
     content:"\f067";
 }
