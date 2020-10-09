@@ -1511,9 +1511,9 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-toggle:before {transform:rotate(-90deg);margin-top:2px;}
+.dropdown-toggle:before {transform:rotate(0deg);margin-top:2px;}
 .dropdown-toggle.collapsed:after {
-	transform:rotate(0deg);margin-top:2px;
+	transform:rotate(-90deg);margin-top:2px;
 }
 .nav-link.dropdown-toggle:hover:before {transform:rotate(0deg)}
 .nav-link.dropdown-toggle:hover:after {
