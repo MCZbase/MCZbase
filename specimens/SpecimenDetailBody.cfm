@@ -1172,6 +1172,7 @@ limitations under the License.
 			
 				<cfif colls.recordcount eq 1>
 					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
+				</cfif>
 						<cfif colls.recordcount lt 1>
 					<cfelse>
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
