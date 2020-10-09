@@ -1170,19 +1170,10 @@ limitations under the License.
 		<div class="card-body float-left">
 			<ul class="list-unstyled form-row p-1 mb-0">
 			
-				<cfif colls.recordcount eq 1>
-					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
-				</cfif>
-						<cfif colls.recordcount lt 1>
-					<cfelse>
+				<cfif colls.recordcount gt 0>
 					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
 				</cfif>
-				<cfif preps.recordcount eq 1>
-					<li class="list-group-item"><em>Preparator:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop></li>
-							</cfif>
-					<cfif preps.recordcount lt 1>
-						
-					<cfelse>
+				<cfif preps.recordcount gt 0>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
 				</cfif>
 			
