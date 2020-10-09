@@ -450,6 +450,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <img src="#mediaS2.media_uri#" alt="" width="100%">
+	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Records</a>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -473,7 +474,7 @@ limitations under the License.
 </cfquery>
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
-		<div class="detailLabel"><p>Additional Media</p>
+		<div class="mt-2"><p>Additional Media</p>
 			<cfquery name="wrlCount" dbtype="query">
                                     select * from media where mime_type = 'model/vrml'
                         </cfquery>
