@@ -1178,7 +1178,9 @@ limitations under the License.
 				</cfif>
 				<cfif preps.recordcount eq 1>
 					<li class="list-group-item"><em>Preparator:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop></li>
+							</cfif>
 					<cfif preps.recordcount lt 1>
+						
 					<cfelse>
 					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
 				</cfif>
