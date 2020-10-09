@@ -1171,10 +1171,10 @@ limitations under the License.
 			<ul class="list-unstyled form-row p-1 mb-0">
 			
 				<cfif colls.recordcount gt 0>
-					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
+					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#<span>,</span></cfloop></li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
-					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
+					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#<span>,</span></cfloop></li>
 				</cfif>
 			
 			</ul>
