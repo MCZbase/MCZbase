@@ -1770,6 +1770,353 @@ limitations under the License.
 	<cfreturn getPermitMediaListThread.output>
 </cffunction>
 
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for entering a new permit and linking it to a transaction or shipment.   
+      @param related_id the transaction or shipment ID to link the new permit to.
+      @param related_label a human readable description of the transaction or shipment to link the new permit to.
+      @param relation_type 'transaction' to relate the new permit to a transaction, 'shipment' to relate to a shipment.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+
+      @see createNewPermitForTrans
+---> 
+<cffunction name="getNewPermitForTransHtml" access="remote" returntype="string">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="related_label" type="string" required="yes">
+	<cfargument name="relation_type" type="string" required="yes">
+
+	<cfthread name="getPermitTransDialogThread">
+
+		<cftry>
+			<cfif relation_type EQ "transaction">
+				<cfset transaction_id = related_id>
+			<cfelse>
+				<cfset shipment_id = related_id>
+			</cfif>
+		
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select ct.specific_type, ct.permit_type, count(p.permit_id) uses 
+				from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+				group by ct.specific_type, ct.permit_type
+				order by ct.specific_type
+			</cfquery>
+			<cfoutput>
+				<h2>Create New Permissions &amp; Rights Document</h2>
+				<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+				material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
+				<form id='newPermitForm' onsubmit='addnewpermit'>
+					<input type='hidden' name='method' value='createNewPermitForTrans'>
+					<input type='hidden' name='returnformat' value='plain'>
+					<input type='hidden' name='related_id' value='#related_id#'>
+					<input type='hidden' name='related_label' value='#related_label#'>
+					<input type='hidden' name='relation_type' value='#relation_type#'>
+					<div class="form-row">
+						<div class="col-12">
+							<span class="my-1 data-entry-label">
+								<label class="data-entry-label" for="npf_issued_by">Issued By</label>
+								<span id="npf_issued_by_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="IssuedByAgentID" id="npf_IssuedByAgentId" value=""
+									onchange=" updateAgentLink($('##npf_IssuedByAgentId').val(),'npf_issued_by_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_issuedbyagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="IssuedByAgent" id="npf_issued_by" required class="form-control data-entry-input reqdClr">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_issued_by','npf_IssuedByAgentId','npf_issuedbyagent_icon','npf_issued_by_view_link',null)); 
+								});
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<span class="my-1 data-entry-label">
+								<label class="data-entry-label" for="npf_issued_to">Issued To:</label>
+								<span id="npf_issued_to_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="IssuedToAgentID" id="npf_IssuedToAgentId" value=""
+									onchange=" updateAgentLink($('##npf_IssuedToAgentId').val(),'npf_issued_to_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_issuedtoagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="IssuedToAgent" id="npf_issued_to" required class="form-control data-entry-input reqdClr">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_issued_to','npf_IssuedToAgentId','npf_issuedtoagent_icon','npf_issued_to_view_link',null)); 
+								});
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<span class="my-1 data-entry-label">
+								<label class="data-entry-label" for="npf_contact">Contact Person</label>
+								<span id="npf_contact_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="contact_agent_id" id="npf_ContactAgentId" value=""
+									onchange=" updateAgentLink($('##npf_ContactAgentId').val(),'npf_contact_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_contactagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="ContactAgent" id="npf_contact" class="form-control data-entry-input">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_contact','npf_ContactAgentId','npf_contactagent_icon','npf_contact_view_link',null)); 
+								});
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="npf_issued_date" class="data-entry-label">Issued Date</label>
+							<input type="text" name="issued_date" id="npf_issued_date" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="npf_renewed_date" class="data-entry-label">Renewed Date</label>
+							<input type='text' name='renewed_Date'id="npf_renewed_date" class="data-entry-input" >
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="npf_exp_date" class="data-entry-label">Expiration Date</label>
+							<input type="text" name="exp_Date" id="npf_exp_date" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_num" class="data-entry-label">Permit Number</label>
+							<input type='text' name='permit_Num'id="npf_permit_num" class="data-entry-input" >
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+							<select name='specific_type' id='specific_type' size='1' class='reqdClr data-entry-select' required='yes' >
+								<option value=''></option>
+								<cfloop query="ctSpecificPermitType">
+									<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+								</cfloop>
+							</select>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+								<button id='addSpecificTypeButton' onclick='openAddSpecificTypeDialog(); event.preventDefault();' class="btn btn-xs btn-secondary">+</button>
+								<div id='newPermitASTDialog'></div>
+							</cfif>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_title" class="data-entry-label">Document Title</label>
+							<input type="text" name="permit_title" id="npf_permit_title" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_remarks" class="data-entry-label">Remarks</label>
+							<input type="text" name="permit_remarks" id="npf_permit_remarks" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
+							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
+							<textarea cols='80' rows='3' name='benefits_summary' id="npf_benefits_summary" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
+							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<script language='javascript' type='text/javascript'>
+						$("textarea.autogrow").keyup(autogrow);
+						function addnewpermit(event) { 
+							event.preventDefault();
+							return false; 
+						};
+					</script>
+				</form> 
+				<div id='permitAddResults'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2 class="h3">Error: #cfcatch.Message# #cfcatch.Detail#</h2>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitTransDialogThread" />
+	<cfreturn getPermitTransDialogThread.output>
+</cffunction>
+<!--------------------------------------------------------------------------------------------------->
+<!--- Given information about a new permissions/rights document record, create that record, and
+      link it to a provided transaction or shipment.
+
+      @param related_id the transaction_id or shipment_id to link the new permit to.
+      @param related_label a human readable descriptor of the transaction or shipment to link to.
+      @param relation_type the value "tranasction" to link the new permit to a transaction, "shipment"
+            to link it to a shipment.
+
+      @see getNewPermitForTransHtml
+--->
+<cffunction name="createNewPermitForTrans" returntype="string" access="remote">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="related_label" type="string" required="yes">
+	<cfargument name="relation_type" type="string" required="yes">
+	<cfargument name="specific_type" type="string" required="yes">
+	<cfargument name="issuedByAgentId" type="string" required="yes">
+	<cfargument name="issuedToAgentId" type="string" required="yes">
+	<cfargument name="issued_date" type="string" required="no">
+	<cfargument name="renewed_date" type="string" required="no">
+	<cfargument name="exp_date" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
+	<cfargument name="contact_agent_id" type="string" required="no">
+
+	<cfset result = "">
+
+	<cftransaction action="begin">
+	<cftry>
+		<cfif NOT isdefined('issued_date')><cfset issued_date=''></cfif>
+		<cfif NOT isdefined('renewed_date')><cfset renewed_date=''></cfif>
+		<cfif NOT isdefined('exp_date')><cfset exp_date=''></cfif>
+		<cfif NOT isdefined('permit_num')><cfset permit_num=''></cfif>
+		<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+		<cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+		<cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
+		<cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+		<cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
+		<cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
+
+		<cfif relation_type EQ "transaction">
+			 <cfset transaction_id = related_id>
+		 <cfelse>
+			 <cfset shipment_id = related_id>
+		 </cfif>
+
+		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+		</cfquery>
+		<cfset permit_type = #ptype.permit_type#>
+		<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select sq_permit_id.nextval nextPermit from dual
+		</cfquery>
+		<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
+			<cfthrow message="Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.">
+		</cfif>
+		<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+			INSERT INTO permit (
+				PERMIT_ID,
+				ISSUED_BY_AGENT_ID
+				<cfif len(#ISSUED_DATE#) gt 0>
+					,ISSUED_DATE
+				</cfif>
+				,ISSUED_TO_AGENT_ID
+				<cfif len(#RENEWED_DATE#) gt 0>
+					,RENEWED_DATE
+				</cfif>
+				<cfif len(#EXP_DATE#) gt 0>
+					,EXP_DATE
+				</cfif>
+				<cfif len(#PERMIT_NUM#) gt 0>
+					,PERMIT_NUM
+				</cfif>
+				,PERMIT_TYPE
+				,SPECIFIC_TYPE
+				<cfif len(#PERMIT_TITLE#) gt 0>
+					,PERMIT_TITLE
+				</cfif>
+				<cfif len(#PERMIT_REMARKS#) gt 0>
+					,PERMIT_REMARKS
+				</cfif>
+				<cfif len(#restriction_summary#) gt 0>
+					,restriction_summary
+				</cfif>
+				<cfif len(#benefits_summary#) gt 0>
+					,benefits_summary
+				</cfif>
+				<cfif len(#benefits_provided#) gt 0>
+					,benefits_provided
+				</cfif>
+				<cfif len(#contact_agent_id#) gt 0>
+					,contact_agent_id
+				</cfif>)
+			VALUES (
+				#nextPermit.nextPermit#
+				, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
+				<cfif len(#ISSUED_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+				<cfif len(#RENEWED_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RENEWED_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				<cfif len(#EXP_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(EXP_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				<cfif len(#PERMIT_NUM#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
+				</cfif>
+				, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+				, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+				<cfif len(#PERMIT_TITLE#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+				</cfif>
+				<cfif len(#PERMIT_REMARKS#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+				</cfif>
+				<cfif len(#restriction_summary#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+				</cfif>
+				<cfif len(#benefits_summary#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+				</cfif>
+				<cfif len(#benefits_provided#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+				</cfif>
+				<cfif len(#contact_agent_id#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
+				</cfif>)
+		</cfquery>
+		<cfif newPermitResult.recordcount eq 1>
+			<cfset result = result & "<span>Created new Permissons/Rights record. ">
+			<cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
+			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
+		</cfif>
+		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
+			<cfif relation_type EQ "transaction">
+				INSERT into permit_trans (permit_id, transaction_id)
+			<cfelse>
+				INSERT into permit_shipment (permit_id, shipment_id)
+			</cfif>
+			VALUES
+				(<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">,
+				<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#related_id#">)
+		</cfquery>
+		<cfif newPermitLinkResult.recordcount eq 1>
+			<cfset result = result & "Linked to #related_label#">
+		</cfif>
+		<cftransaction action="commit">
+	<cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+		<cftransaction action="rollback">
+	</cfcatch>
+	</cftry>
+	</cftransaction>
+	<cfreturn result >
+</cffunction>
 <!------------------------------------------------------->
 <cffunction name="getTrans_agent_role" access="remote">
 	<!---  obtain the list of transaction agent roles, used to populate agent role picklist for new agent rows in edit transaction forms --->
@@ -3702,5 +4049,27 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addNewctSpecificType" access="remote" returnformat="json">
+	<cfargument name="new_specific_type" type="string" required="yes">
+
+	<cfset result = structNew()>
+	<cftry>
+		<cfset new_specific_type = trim(new_specific_type) >
+		<cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctspecific_permit_type (specific_type)
+			values ( <cfqueryparam value = "#new_specific_type#" CFSQLType="CF_SQL_VARCHAR"> )
+		</cfquery>
+		<cfset result["message"] = "Added #new_specific_type#.">
+	<cfcatch>
+		<cfif cfcatch.queryError contains 'ORA-00001'>
+			<cfset result["message"] = "Error: That value is already a specific type of permit.">
+		<cfelse>
+			<cfset result["message"] = "Error #cfcatch.message# #cfcatch.queryError#">
+		</cfif>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
 
 </cfcomponent>

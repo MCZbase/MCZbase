@@ -543,6 +543,7 @@ function loadShipmentFormPermits(shipment_id) {
 	});
 };
 
+// Create and open a dialog link to existing permit record adding a provided relationship to the permit record
 function openfindpermitdialog(valueControl, idControl, dialogid) { 
 	var title = "Find Permissions and Rights Documents";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
@@ -599,14 +600,88 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 		success: function(data) {
 			$("#"+dialogid+"_div").html(data);
 		},
-		error: function (jqXHR, status, error) {
-			var message = "";
-			if (error == 'timeout') { 
-				message = ' Server took too long to respond.';
-			} else { 
-				message = jqXHR.responseText;
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading permit picker dialog");
+		}
+	});
+}
+
+
+// Create and open a dialog to create a new permit record adding a provided relationship to the permit record
+function opencreatepermitdialog(dialogid, related_label, related_id, relation_type, okcallback) { 
+	var title = "Add new Permit record to " + related_label;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Save Permit Record": function(){ 
+				var datasub = $('#newPermitForm').serialize();
+				if ($('#newPermitForm')[0].checkValidity()) {
+					$.ajax({
+						url: "/component/functions.cfc",
+						type: 'post',
+						returnformat: 'plain',
+						data: datasub,
+						success: function(data) { 
+							if (jQuery.type(okcallback)==='function') {
+								okcallback();
+							};
+							$("#"+dialogid+"_div").html(data);
+						},
+						fail: function (jqXHR, textStatus,error) { 
+							handleFail(jqXHR,textStatus,error,"saving perimit record");
+						}	
+					});
+		 		} else { 
+					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
+		 		};
+		 	},
+		 	"Close Dialog": function() { 
+				if (jQuery.type(okcallback)==='function') {
+					okcallback();
+				}
+			 	$("#"+dialogid+"_div").html("");
+				$("#"+dialogid).dialog('close'); 
+				$("#"+dialogid).dialog('destroy'); 
 			}
-			$("#"+dialogid+"_div").html("Error (" + error + "): " + message );
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+			}
+		} 
+	});
+	thedialog.dialog('open');
+	datastr = {
+		method: "getNewPermitForTransHtml",
+		returnformat: "plain",
+		relation_type: relation_type,
+		related_label: related_label,
+		related_id: related_id
+	};
+	jQuery.ajax({
+		url: "/component/functions.cfc",
+		type: "post",
+		data: datastr,
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"deleting shipment");
 		}
 	});
 }
@@ -723,30 +798,30 @@ function addTransAgentDeacc (id,name,role) {
 			var d='<tr><td>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" class="reqdClr" size="30" value="' + name + '"';
-  			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'editDeacc\',this.value);"';
-  			d+=' return false;"	onKeyPress="return noenter(event);">';
-  			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '">';
-  			d+='</td><td>';
-  			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
-  			for (a=0; a<data.ROWCOUNT; ++a) {
+ 			d+=' onchange="getAgent(\'agent_id_' + i + '\',\'trans_agent_' + i + '\',\'editDeacc\',this.value);"';
+ 			d+=' return false;"	onKeyPress="return noenter(event);">';
+			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '">';
+			d+='</td><td>';
+			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '">';
+			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
 				if(role==data.DATA.TRANS_AGENT_ROLE[a]){
 					d+=' selected="selected"';
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-  			d+='</td><td>';
-  			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
-  			d+='</td><td>';
-  			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
-  			d+='<option value=""></option>';
-  			for (a=0; a<data.ROWCOUNT; ++a) {
+			d+='</td><td>';
+			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
+			d+='</td><td>';
+			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
+			d+='<option value=""></option>';
+			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</select>';
-  			d+='</td><td>-</td></tr>';
-  			document.getElementById('numAgents').value=i;
-  			jQuery('#deaccAgents tr:last').after(d);
+ 			d+='</td><td>-</td></tr>';
+			document.getElementById('numAgents').value=i;
+			jQuery('#deaccAgents tr:last').after(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
@@ -1469,19 +1544,19 @@ function movePermitFromShipmentCB(oldShipmentId,newShipmentId,permitId,transacti
 }
 
 function deleteMediaFromPermit(mediaId,permitId,relationType) {
-    jQuery.getJSON("/transactions/component/functions.cfc",
-        {
-            method : "removeMediaFromPermit",
-            media_id : mediaId,
-            permit_id : permitId,
-            media_relationship : relationType,
-            returnformat : "json",
-            queryformat : 'column'
-        },
-        function (result) {
-           loadPermitMedia(permitId);
-           loadPermitRelatedMedia(permitId);
-        }
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeMediaFromPermit",
+			media_id : mediaId,
+			permit_id : permitId,
+			media_relationship : relationType,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadPermitMedia(permitId);
+			loadPermitRelatedMedia(permitId);
+		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"removing project from transaction record");
 	});
@@ -1505,8 +1580,8 @@ function makeLoanPicker(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -1541,8 +1616,8 @@ function makeAccessionAutocompleteMeta(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -1577,8 +1652,8 @@ function makeDeaccessionAutocompleteMeta(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -1613,8 +1688,8 @@ function makeBorrowAutocompleteMeta(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
@@ -1630,4 +1705,51 @@ function makeBorrowAutocompleteMeta(valueControl, idControl) {
 		// override to display meta with additional information instead of minimal value in picklist.
 		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
 	};
+};
+/* Supporting function for Add ctspecific_permit_type dialog on New/Edit Permit pages, 
+ * save a new ctspecific_permit_type.specific_type value and report feedback.
+ */
+function storeNewPermitSpecificType() { 
+	jQuery.getJSON("/transactions/component/functions.cfc", 
+		{ 
+			method: "addNewctSpecificType",
+			new_specific_type: $('#new_specific_type').val()
+		},
+		function(data) { 
+			$('#addTDFeedback').html(data.message);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding new specific type of permissions and rights documents.");
+	});
+}
+/* Supporting function to create an add ctspecific_permit_type dialog on New/Edit Permit pages.
+ */
+function openAddSpecificTypeDialog() {
+	console.log('called openAddSpecificTypeDialog');
+	var dialog = $('#newPermitASTDialog')
+		.html(
+			'<div id="addTypeDialogFrm"><input type="text" name="new_specific_type" id="new_specific_type"><input type="button" value="Add" onclick="storeNewPermitSpecificType();"></div><div id="addTDFeedback"></div>'
+		)
+		.dialog({
+			title: 'Add A Specific Type',
+			autoOpen: false,
+			dialogClass: 'dialog_fixed,ui-widget-header',
+			modal: true,
+			height: 300,
+			width: 500,
+			minWidth: 300,
+			minHeight: 400,
+			draggable:true,
+			buttons: { "Ok": function () { 
+				var newval = $('#new_specific_type').val(); 
+				console.log(newval);
+				$('#specific_type').append($("<option></option>").attr("value",newval).text(newval)); 
+				$('#specific_type').val(newval);
+				console.log($('#specific_type').val());
+				$(this).dialog("close"); },
+					"Close": function () { $(this).dialog("close"); }
+			}
+		});
+	dialog.dialog('open');
+	console.log('dialog open');
 };
