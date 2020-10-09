@@ -1531,6 +1531,7 @@ textarea {
 .nav-link.dropdown-toggle:hover:after {
 	transform:rotate(-90deg);
 }
+.card-body li.list-group-item span:last-child {display:none;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
