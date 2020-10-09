@@ -481,7 +481,7 @@ limitations under the License.
 
 <cfif NOT isDefined("media_id")>
   <cfoutput>
-    <h2>No Media Object Specified</h2>
+    <img src="/images/kronosaurus_placeholder.jpg" alt="no media object specified" width="100%">
   </cfoutput>
   <cfelse>
 	<cfset checkSql(media_id)>
