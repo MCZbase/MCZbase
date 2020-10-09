@@ -1408,7 +1408,7 @@ limitations under the License.
 			<cfloop query=ctParts>
 			<span>#part_name#&nbsp;(#ct#)</span>
 			</cfloop>
-		</cfif>
+
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
