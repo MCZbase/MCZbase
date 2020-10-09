@@ -1432,7 +1432,7 @@ limitations under the License.
 </cfquery>
 <cfset ctPart.ct=''>
 <cfquery name="ctPart" dbtype="query">
-	select count(*) as ct from rparts group by lot_count order by part_name
+	select count(*) as ct from parts group by lot_count order by part_name
 	</cfquery>
 
 			<div class="accordion w-100" id="accordionForParts">
