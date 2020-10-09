@@ -1405,7 +1405,7 @@ limitations under the License.
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 
-			<cfloop query=ctParts>
+			<cfloop query="parts">
 			<span>#part_name#&nbsp;</span>
 			</cfloop>
 
