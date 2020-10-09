@@ -672,11 +672,11 @@ limitations under the License.
 
        <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
             <div class="media_image targetarea">
-      			<img id="multizoom1" src='#m.media_uri#' width="100%">
+      			<img id="multizoom1" src='#mediaS.media_uri#' width="100%">
       		</div>
        <cfelse>
         <div class="targetarea media_image">
-            <img id="multizoom1" src='#m.media_uri#' width='100%'>
+            <img id="multizoom1" src='#mediaS.media_uri#' width='100%'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
