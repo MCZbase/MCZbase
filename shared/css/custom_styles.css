@@ -1517,7 +1517,7 @@ textarea {
 }*/
 .card-header h3 a:show before {
     font-family: "Font Awesome 5 Free"; font-weight: 900;
-    content:"\f068";
+    content:"\f007";
     padding-right: 5px;
 }
 .card-header h3 a.collapsed:before{
