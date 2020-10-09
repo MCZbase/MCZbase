@@ -1511,7 +1511,8 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-toggle .collapsed {
+.dropdown-toggle:before {transform:rotat(0deg)}
+.dropdown-toggle:after {
 	transform:rotate(90deg);
 }
 
