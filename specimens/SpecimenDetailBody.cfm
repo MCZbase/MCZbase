@@ -462,7 +462,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '77177'>
+
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -756,6 +756,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				to_number(get_medialabel(media.media_id,'height')) desc
 		</cfquery>
       <cfoutput>
+		  	<img id="multizoom1" src='#m.media_uri#' width="100%">
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		
