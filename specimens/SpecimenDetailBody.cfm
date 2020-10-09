@@ -549,7 +549,6 @@ limitations under the License.
 			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-				#aForDetHref#
 				<span class="">#description#</span> </p>
 			</div>
 		</cfloop>
