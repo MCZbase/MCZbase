@@ -756,7 +756,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				to_number(get_medialabel(media.media_id,'height')) desc
 		</cfquery>
       <cfoutput>
-		  	<img id="multizoom1" src='#m.media_uri#' width="100%">
+		  	<img id="multizoom1" src='#relm.media_uri#' width="100%">
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		
