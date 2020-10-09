@@ -1404,22 +1404,16 @@ limitations under the License.
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 	<cfquery name="ctParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(*) as ct, part_id 
-								from parts
-													
-							</cfquery>
-							<cfset cpt="">
-							<cfif ctParts.recordcount EQ 0>
-								<span>None</span>
-							<cfelse>
-								<cfloop query=ctParts>
-									<cfif len(part_id) eq 0>
-										<cfset part_id = '[no value set]'>
-									</cfif>
-									<span>#ct# #part_name#&nbsp;(#ct#)</span>
-									<cfset cpt="">
-								</cfloop>
-							</cfif>
+			select count(*) as ct, part_id 
+			from rparts				
+	</cfquery>
+		<cfif ctParts.recordcount EQ 0>
+			<span>None</span>
+		<cfelse>
+			<cfloop query=ctParts>
+			<span>#part_id#&nbsp;(#ct#)</span>
+			</cfloop>
+		</cfif>
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
