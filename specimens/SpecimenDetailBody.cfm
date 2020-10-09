@@ -449,7 +449,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-	<cfif isdefined(mediaS2.media_id)>
+	<cfif isDefined(mediaS2.media_id)>
 <img src="#mediaS2.media_uri#" alt="" width="100%">
 	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 		<cfelse>
