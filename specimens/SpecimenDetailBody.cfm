@@ -412,7 +412,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 
 </cfif>
-	#mediaS.media_id#
+	<!---#mediaS.media_id#--->
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -420,7 +420,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-					<h3 class="h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
+					<h3 class="h4 my-0 float-left btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(#mediaS.media_id#);">Edit</button>
                   
             
             </div>
