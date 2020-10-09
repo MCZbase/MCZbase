@@ -1810,9 +1810,9 @@ limitations under the License.
 					<input type='hidden' name='related_label' value='#related_label#'>
 					<input type='hidden' name='relation_type' value='#relation_type#'>
 					<div class="form-row">
-						<div class="col-12">
+						<div class="col-12 col-md-4">
 							<span class="my-1 data-entry-label">
-								<label class="data-entry-label" for="npf_issued_by">Issued By</label>
+								<label for="npf_issued_by">Issued By</label>
 								<span id="npf_issued_by_view_link" class="px-2">&nbsp;</span>
 							</span>
 							<input type="hidden" name="IssuedByAgentID" id="npf_IssuedByAgentId" value=""
@@ -1829,11 +1829,9 @@ limitations under the License.
 								});
 							</script>
 						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12">
+						<div class="col-12 col-md-4">
 							<span class="my-1 data-entry-label">
-								<label class="data-entry-label" for="npf_issued_to">Issued To:</label>
+								<label for="npf_issued_to">Issued To:</label>
 								<span id="npf_issued_to_view_link" class="px-2">&nbsp;</span>
 							</span>
 							<input type="hidden" name="IssuedToAgentID" id="npf_IssuedToAgentId" value=""
@@ -1850,11 +1848,9 @@ limitations under the License.
 								});
 							</script>
 						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12">
+						<div class="col-12 col-md-4">
 							<span class="my-1 data-entry-label">
-								<label class="data-entry-label" for="npf_contact">Contact Person</label>
+								<label for="npf_contact">Contact Person</label>
 								<span id="npf_contact_view_link" class="px-2">&nbsp;</span>
 							</span>
 							<input type="hidden" name="contact_agent_id" id="npf_ContactAgentId" value=""
@@ -1873,27 +1869,25 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-4">
 							<label for="npf_issued_date" class="data-entry-label">Issued Date</label>
 							<input type="text" name="issued_date" id="npf_issued_date" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-4">
 							<label for="npf_renewed_date" class="data-entry-label">Renewed Date</label>
 							<input type='text' name='renewed_Date'id="npf_renewed_date" class="data-entry-input" >
 						</div>
-					</div>
-					<div class="form-row">
-						<div class="col-12 col-md-6">
+						<div class="col-12 col-md-4">
 							<label for="npf_exp_date" class="data-entry-label">Expiration Date</label>
 							<input type="text" name="exp_Date" id="npf_exp_date" class="data-entry-input">
 						</div>
-						<div class="col-12 col-md-6">
-							<label for="npf_permit_num" class="data-entry-label">Permit Number</label>
-							<input type='text' name='permit_Num'id="npf_permit_num" class="data-entry-input" >
-						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12">
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_num" class="data-entry-label">Permit/Document Number</label>
+							<input type='text' name='permit_Num'id="npf_permit_num" class="data-entry-input" >
+						</div>
+						<div class="col-12 col-md-6">
 							<label for="specific_type" class="data-entry-label">Specific Document Type</label>
 							<select name='specific_type' id='specific_type' size='1' class='reqdClr data-entry-select' required='yes' >
 								<option value=''></option>
@@ -1935,6 +1929,7 @@ limitations under the License.
 							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" class="form-control autogrow"></textarea>
 						</div>
 					</div>
+					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
 					<script language='javascript' type='text/javascript'>
 						$("textarea.autogrow").keyup(autogrow);
 						function addnewpermit(event) { 

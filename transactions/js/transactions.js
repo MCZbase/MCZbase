@@ -632,7 +632,7 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
 				var datasub = $('#newPermitForm').serialize();
 				if ($('#newPermitForm')[0].checkValidity()) {
 					$.ajax({
-						url: "/component/functions.cfc",
+						url: "/transactions/component/functions.cfc",
 						type: 'post',
 						returnformat: 'plain',
 						data: datasub,
