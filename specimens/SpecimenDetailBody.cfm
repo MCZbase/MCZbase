@@ -670,13 +670,13 @@ limitations under the License.
       <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
 
-       <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
+       <cfif mediaS.media_relationship eq "shows cataloged_item">
             <div class="media_image targetarea">
       			<img id="multizoom1" src='#mediaS.media_uri#' width="100%">
       		</div>
        <cfelse>
         <div class="targetarea media_image">
-            <img id="multizoom1" src='#mediaS.media_uri#' width='100%'>
+            <img id="multizoom1" src='images/noThumb.jpg' width='100%'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
