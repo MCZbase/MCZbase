@@ -854,6 +854,21 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
             order by media.media_type
 </cfquery>
 <cfif media.recordcount gt 0>
+	  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+    select media_uri, mime_type, media_type, media_id,
+           get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
+		   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
+		   nvl(
+		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
+		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
+              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
+              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
+ 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
+		   , 'Unrelated image') mrstr
+    from MEDIA
+        where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
+              AND MCZBASE.is_media_encumbered(media.media_id)  < 1
+</cfquery>
 	<div class="detailCell">
 		<div class="detailLabel"><p>Additional Media</p>
 			<cfquery name="wrlCount" dbtype="query">
