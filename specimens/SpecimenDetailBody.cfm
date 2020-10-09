@@ -1171,10 +1171,10 @@ limitations under the License.
 			<ul class="list-unstyled form-row p-1 mb-0">
 			
 				<cfif colls.recordcount gt 0>
-					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
+					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
 				</cfif>
 				<cfif preps.recordcount gt 0>
-					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
+					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
 				</cfif>
 			
 			</ul>
@@ -1403,6 +1403,23 @@ limitations under the License.
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
+	<cfquery name="ctParts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) as ct, part_id 
+								from parts
+													
+							</cfquery>
+							<cfset cpt="">
+							<cfif ctParts.recordcount EQ 0>
+								<span>None</span>
+							<cfelse>
+								<cfloop query=ctParts>
+									<cfif len(part_id) eq 0>
+										<cfset part_id = '[no value set]'>
+									</cfif>
+									<span>#ct# #part_name#&nbsp;(#ct#)</span>
+									<cfset cpt="">
+								</cfloop>
+							</cfif>
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
@@ -1411,7 +1428,7 @@ limitations under the License.
 				</div>
 
 					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
+						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
