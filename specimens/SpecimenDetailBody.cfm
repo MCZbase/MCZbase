@@ -1420,7 +1420,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
   		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
-       <div class="card-body px-0">
+       <div class="card-body px-3">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 		
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
