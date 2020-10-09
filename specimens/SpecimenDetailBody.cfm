@@ -1430,10 +1430,10 @@ limitations under the License.
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-
+<cfset ct=''>
 <cfquery name="ctPart" dbtype="query">
-	
-	select count(*) as ct from rparts group by part_name order by part_name</cfquery>
+	select count(*) as ct from rparts group by part_name order by part_name
+	</cfquery>
 
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
