@@ -420,7 +420,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-				<h3 class="h4 my-0 float-left btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3>
+				<h3 class="h4 my-0 float-left btn-link"><a href="##" class="mr-4" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3>
 				<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(#mediaS.media_id#);">Edit</button>
                   
             
