@@ -449,7 +449,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-	<cfif len("mediaS2.media_id") lt 0>
+	<cfif mediaS2.media_id is null>
 		<img src="../images/kronosaurus_placeholder.jpg" alt="No media object available" width="100%">
 		<cfelse>
 			<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
