@@ -1511,14 +1511,27 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-toggle:before {transform:rotat(0deg);margin-top:1px;}
+/*.dropdown-toggle:before {transform:rotate(0deg);margin-top:2px;}
 .dropdown-toggle.collapsed:after {
-	transform:rotate(-90deg);margin-top:1px;
+	transform:rotate(-90deg);margin-top:2px;
+}*/
+.card-header h3 a:before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900;
+    content:"\f068";
+    padding-right: 5px;
+	float:left!important;
 }
-.nav-link.dropdown-toggle:hover:before {transform:rotat(0deg)}
+.card-header h3 a.collapsed:before{
+    float:left !important;
+    content:"\f067";
+}
+.card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {text-decoration: none;}
+
+.nav-link.dropdown-toggle:hover:before {transform:rotate(0deg)}
 .nav-link.dropdown-toggle:hover:after {
 	transform:rotate(-90deg);
 }
+.card-body li.list-group-item span:last-child {display:none;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
