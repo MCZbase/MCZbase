@@ -388,6 +388,19 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
+<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id,
+		media.media_uri
+	FROM
+		media, 
+		media_relations
+	WHERE 
+		media.media_id = media_relations.media_id and
+		media.relations = 'shows cataloged_item' and 
+		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL">
+	</cfquery>
+	
 <cfoutput query="one">
 <cfif oneOfUs is 1>
 	<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -396,7 +409,9 @@ limitations under the License.
 	<input type="hidden" name="action" value="nothing">
 	<input type="hidden" name="Srch" value="Part">
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+	<input type="hidden" name="media_id" value="#one.media_id#">
 </cfif>
+	#one.media_id#
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -462,7 +477,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-
+<cfset media_id = '77177'>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -756,7 +771,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				to_number(get_medialabel(media.media_id,'height')) desc
 		</cfquery>
       <cfoutput>
-		  	<img id="multizoom1" src='#ff.media_uri#' width="100%">
         <a name="otherimages"></a>
         <div class="media_thumbs">
     		
@@ -854,21 +868,6 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
             order by media.media_type
 </cfquery>
 <cfif media.recordcount gt 0>
-	  <cfquery name="m" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select media_uri, mime_type, media_type, media_id,
-           get_medialabel(media_id,'height') height, get_medialabel(media_id,'width') width,
-		   nvl(MCZBASE.GET_MAXHEIGHTMEDIASET(media_id), get_medialabel(media_id,'height')) maxheightinset,
-		   nvl(
-		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows cataloged_item') ||
-		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows publication') ||
-              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows collecting_event') ||
-              MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows agent') ||
- 		      MCZBASE.GET_MEDIA_REL_SUMMARY(media_id, 'shows locality')
-		   , 'Unrelated image') mrstr
-    from MEDIA
-        where media_id= <cfqueryparam value=#media_id# CFSQLType="CF_SQL_DECIMAL" >
-              AND MCZBASE.is_media_encumbered(media.media_id)  < 1
-</cfquery>
 	<div class="detailCell">
 		<div class="detailLabel"><p>Additional Media</p>
 			<cfquery name="wrlCount" dbtype="query">
