@@ -484,7 +484,7 @@ limitations under the License.
     <img src="/images/kronosaurus_placeholder.jpg" alt="no media object specified" width="100%">
   </cfoutput>
   <cfelse>
-	<cfset checkSql(media_id)>
+	<cfset media_id=#mediaS.media_id#>
   <cfset PVWIDTH=500>
   <!--- Fixed width for the scaled display of the media object on this page. --->
 
