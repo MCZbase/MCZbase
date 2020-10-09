@@ -1430,7 +1430,7 @@ limitations under the License.
 <cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-<cfset ct=''>
+<cfset ctPart.ct=''>
 <cfquery name="ctPart" dbtype="query">
 	select count(*) as ct from rparts group by part_name order by part_name
 	</cfquery>
@@ -1438,7 +1438,7 @@ limitations under the License.
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
 				<div class="card-header w-100" id="headingPart">
-				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ct# parts)</span></h3>
+				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
 
