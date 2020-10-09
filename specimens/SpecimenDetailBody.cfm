@@ -1377,7 +1377,33 @@ limitations under the License.
 		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 </cfquery>
 <cfquery name="parts" dbtype="query">
-        select 
+        select  
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        from
+                rparts
+        group by
+			
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        order by
+                part_name
+</cfquery>
+	
+<cfquery name="parts" dbtype="query">
+        select  
                 part_id,
                 label,
                 part_name,
@@ -1405,9 +1431,9 @@ limitations under the License.
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
 
-			<cfloop query="rparts">
-			<span>#part_name#&nbsp;</span>
-			</cfloop>
+<cfquery name="ctPart" dbtype="query">
+	
+	select count(*) from rparts group by part_name order by part_name</cfquery>
 
 			<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-2">
