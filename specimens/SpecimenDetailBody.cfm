@@ -1806,7 +1806,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 
 					<div class="card-body p-0">
 						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
-							<table class="table table-responsive table-striped mb-0">
+							<table class="table d-lg-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
 								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
