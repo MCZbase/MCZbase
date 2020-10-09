@@ -1511,10 +1511,14 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-toggle .collapsed {
-	transform:rotate(90deg);
+.dropdown-toggle:before {transform:rotat(0deg);margin-top:1px;}
+.dropdown-toggle.collapsed:after {
+	transform:rotate(-90deg);margin-top:1px;
 }
-
+.nav-link.dropdown-toggle:hover:before {transform:rotat(0deg)}
+.nav-link.dropdown-toggle:hover:after {
+	transform:rotate(-90deg);
+}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/

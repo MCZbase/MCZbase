@@ -388,6 +388,20 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
+<cfquery name="mediaS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	SELECT
+		media.media_id,
+		media.media_uri,
+		media_relations.media_relationship
+	FROM
+		media, 
+		media_relations
+	WHERE 
+		media.media_id = media_relations.media_id and
+		media_relations.media_relationship like '%cataloged_item' and
+		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL">
+	</cfquery>
+	
 <cfoutput query="one">
 <cfif oneOfUs is 1>
 	<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -396,7 +410,9 @@ limitations under the License.
 	<input type="hidden" name="action" value="nothing">
 	<input type="hidden" name="Srch" value="Part">
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+
 </cfif>
+	#mediaS.media_id#
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -654,13 +670,13 @@ limitations under the License.
       <!--- div targetarea has space reserved for the tallest image in the set of images, it has a fixed width to which all images are rescaled.  --->
       <!--- div targetarea is the bit to hold the image that will be replaced by multizoom.js when a different image is picked --->
 
-       <cfif (#maxheightinset# - #scaledheight#) GT (#maxheightinset#/2)>
+       <cfif mediaS.media_relationship eq "shows cataloged_item">
             <div class="media_image targetarea">
-      			<img id="multizoom1" src='#m.media_uri#' width="100%">
+      			<img id="multizoom1" src='#mediaS.media_uri#' width="100%">
       		</div>
        <cfelse>
         <div class="targetarea media_image">
-            <img id="multizoom1" src='#m.media_uri#' width='100%'>
+            <img id="multizoom1" src='/shared/images/noThumbGray.jpg' width='100%'>
         </div>
     </cfif>
       <!---  Enclosing div reserves a place for metadata about the currently selected image --->
@@ -1416,11 +1432,11 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 <div class="accordion" id="accordionExample4">
     <div class="card bg-light">
 		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="btn-link h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseOne">Location Data &amp; Map</h3>
+				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
 					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
   		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
-       <div class="card-body">
+       <div class="card-body px-3">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
 		
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1529,8 +1545,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</cfif>
 			</ul>
 		</div>
-	
-				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>
+	<!---
+				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
 			
 			</div>
  	</div>
