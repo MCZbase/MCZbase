@@ -412,7 +412,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 
 </cfif>
-	<!---#mediaS.media_id#--->
+	#mediaS.media_id#
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -420,8 +420,7 @@ limitations under the License.
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
              
-				<h3 class="h4 my-0 float-left btn-link"><a href="##" class="mr-4" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3>
-				<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(#mediaS.media_id#);">Edit</button>
+					<h3 class="h4 my-0 float-left collapsed btn-link" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
                   
             
             </div>
@@ -479,7 +478,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = #mediaS.media_id#>
+
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -1806,7 +1805,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</div>
 
 					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
+						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
@@ -1853,7 +1852,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td class="partnameatts">
+										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
 												<div class="detailCellSmall">
 													#attribute_type#=#attribute_value#
