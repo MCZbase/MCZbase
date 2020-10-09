@@ -457,7 +457,7 @@ limitations under the License.
 		</div>
 	</div>
 </cfif>
-<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
         media.media_uri,
@@ -479,7 +479,7 @@ limitations under the License.
 </cfquery>
 
 
-<cfif NOT isDefined("mediaS.media_id")>
+<cfif NOT isDefined("mediaS2.media_id")>
   <cfoutput>
     <img src="/images/kronosaurus_placeholder.jpg" alt="no media object specified" width="100%">
   </cfoutput>
