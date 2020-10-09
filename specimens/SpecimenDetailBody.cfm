@@ -429,7 +429,7 @@ limitations under the License.
                 <div class="card-body">
 					<!------------------------------------ media ---------------------------------------------->
 <!---START Code from MEDIA SET code--->
-<!---
+
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
@@ -457,7 +457,7 @@ limitations under the License.
 			</cfloop>
 		</div>
 	</div>
-</cfif>--->
+</cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
@@ -479,7 +479,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<!---<cfset media_id = '77177'>--->
+<cfset media_id = #mediaS.media_id#>
 <cfif NOT isDefined("media_id")>
   <cfoutput>
     <h2>No Media Object Specified</h2>
@@ -814,7 +814,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			   
 			   
 <!---START Code from specimen details code--->
-<!---<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
                         media.media_uri,
@@ -828,8 +828,8 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
             where
                         media.media_id=tag.media_id and
                         tag.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-</cfquery>--->
-<!---<cfif mediaTag.recordcount gt 0>
+</cfquery>
+<cfif mediaTag.recordcount gt 0>
 	<div class="detailCell">
 		<div class="detailLabel">Tagged in Media </div>
 		<div class="detailBlock">
@@ -837,9 +837,9 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			<cfloop query="mediaTag">
 				<cfset altText = mediaTag.media_descriptor>
 				<cfset mediaLoopTime = #Now()#>
-				<cfif DateDiff('s',mediaStartTime,mediaLoopTime) GT 10>--->
+				<cfif DateDiff('s',mediaStartTime,mediaLoopTime) GT 10>
 					<!--- Lookups of mediaPreview on slow remote server can exceed the timeout for cfoutput, if responses are slow, fallback to noThumb before timing out page --->
-<!---					<cfset puri='/images/noThumb.jpg'>
+					<cfset puri='/images/noThumb.jpg'>
 					<cfelse>
 					<cfset puri=getMediaPreview(preview_uri,media_type)>
 				</cfif>
@@ -847,7 +847,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			</cfloop>
 		</div>
 	</div>
-</cfif>--->
+</cfif>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
