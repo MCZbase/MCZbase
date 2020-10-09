@@ -674,14 +674,14 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
 		related_id: related_id
 	};
 	jQuery.ajax({
-		url: "/component/functions.cfc",
+		url: "/transactions/component/functions.cfc",
 		type: "post",
 		data: datastr,
 		success: function (data) { 
 			$("#"+dialogid+"_div").html(data);
 		}, 
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"deleting shipment");
+			handleFail(jqXHR,textStatus,error,"loading new permit dialog");
 		}
 	});
 }
