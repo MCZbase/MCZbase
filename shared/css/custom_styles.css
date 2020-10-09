@@ -1511,17 +1511,16 @@ textarea {
 }
 
 .smaller {font-size: .7em!important;}
-.dropdown-toggle:before {transform:rotate(0deg);margin-top:2px;}
+/*.dropdown-toggle:before {transform:rotate(0deg);margin-top:2px;}
 .dropdown-toggle.collapsed:after {
 	transform:rotate(-90deg);margin-top:2px;
-}
-.card-header h3 a:before {
-    float: right !important;
-    font-family: FontAwesome;
+}*/
+.card-header h3 a:show before {
+    font-family: "Font Awesome 5 Free"; font-weight: 900;
     content:"\f068";
     padding-right: 5px;
 }
-.card-header h3 a.collapsed:after {
+.card-header h3 a.collapsed:before{
     float: right !important;
     content:"\f067";
 }
