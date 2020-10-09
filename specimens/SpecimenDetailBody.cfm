@@ -436,9 +436,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 
-<cfset media_id = '77177'>
-
-			   
+		   
 			   
 <!---START Code from specimen details code--->
 <cfquery name="mediaTag" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
