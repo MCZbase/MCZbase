@@ -388,7 +388,7 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
-<cfquery name="mediaS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<!---<cfquery name="mediaS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		media.media_id,
 		media.media_uri,
@@ -400,7 +400,7 @@ limitations under the License.
 		media.media_id = media_relations.media_id and
 		media_relations.media_relationship like '%cataloged_item' and
 		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL">
-	</cfquery>
+	</cfquery>--->
 	
 <cfoutput query="one">
 <cfif oneOfUs is 1>
@@ -412,7 +412,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 
 </cfif>
-	#mediaS.media_id#
+	<!---#mediaS.media_id#--->
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -450,7 +450,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <img src="#mediaS2.media_uri#" alt="" width="100%">
-	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Records</a>
+	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
