@@ -1173,10 +1173,12 @@ limitations under the License.
 				<cfif colls.recordcount eq 1>
 					<li class="list-group-item"><em>Collector:&nbsp;</em> #colls.collectors#</li>
 					<cfelse>
-					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#,</cfloop></li>
+					<li class="list-group-item"><em>Collectors:&nbsp;</em><cfloop query="colls"> #colls.collectors#</cfloop><span>,</span></li>
 				</cfif>
-				<cfif len(preps.preparators) gt 0>
-					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#,</cfloop></li>
+				<cfif preps.recordcount eq 1>
+					<li class="list-group-item"><em>Preparator:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop></li>
+					<cfelse>
+					<li class="list-group-item"><em>Preparators:&nbsp;</em><cfloop query="colls"> #preps.preparators#</cfloop><span>,</span></li>
 				</cfif>
 			
 			</ul>
