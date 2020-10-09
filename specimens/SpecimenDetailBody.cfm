@@ -1806,7 +1806,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 				</div>
 
 					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse show p-1" aria-labelledby="headingPart" data-parent="##accordionForParts">
+						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table table-responsive table-striped mb-0">
 							<tr>
 								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
@@ -1853,7 +1853,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td colspan="6" class="partnameatts">
+										<td class="partnameatts">
 											<cfloop query="patt">
 												<div class="detailCellSmall">
 													#attribute_type#=#attribute_value#
