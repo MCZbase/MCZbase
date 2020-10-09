@@ -1390,7 +1390,7 @@ limitations under the License.
 					'additional outside contact')
 			</cfquery>
 			</cfif>
-			<cfif isdefined("additional_incontact_agent_id") and len(additional_contact_agent_id) gt 0>
+			<cfif isdefined("additional_incontact_agent_id") and len(additional_incontact_agent_id) gt 0>
 				<cfquery name="additional_incontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
