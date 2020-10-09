@@ -449,7 +449,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-#mediaS2.media_uri#
+<img src="#mediaS2.media_uri#" alt="" width="100%">
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -549,6 +549,7 @@ limitations under the License.
 			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+				#aForDetHref#
 				<span class="">#description#</span> </p>
 			</div>
 		</cfloop>
