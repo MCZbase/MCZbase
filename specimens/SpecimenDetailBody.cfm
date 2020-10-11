@@ -1119,13 +1119,13 @@ limitations under the License.
 					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
 				</cfif>
 				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-				<cfif len(one.began_date) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Began Date:</em></li>
+				<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+					<li class="list-group-item col-5 px-0"><em>On Date:</em></li>
 					<li class="list-group-item col-7 px-0">#one.began_date#</li>
 				</cfif>
-				<cfif len(one.ended_date) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Ended Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.ended_date#</li>
+				<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+					<li class="list-group-item col-5 px-0"><em>Began Date - Ended Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
 				</cfif>
 				<cfif len(one.verbatim_date) gt 0>
 					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
