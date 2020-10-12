@@ -414,7 +414,7 @@ limitations under the License.
 </cfif>
 	<!---#mediaS.media_id#--->
 	<div class="row">
-		<div class="col-12 col-sm-12 col-md-2 col-xl-2 mb-2 px-1 pr-md-0 pl-md-2">
+		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
@@ -552,7 +552,7 @@ limitations under the License.
 			<a href="#aForImHref#" target="_blank">
 				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%">
 			</a>
-					<p class="small"> #media_type# <span class="smaller">(#mime_type#)</span> <br>
+			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 				<span class="">#description#</span> </p>
 			</div>
@@ -594,7 +594,7 @@ limitations under the License.
 </div>
 			   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 col-md-10 col-xl-10 px-1 pr-md-2 pl-md-0">
+		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
