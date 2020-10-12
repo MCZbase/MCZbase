@@ -414,7 +414,7 @@ limitations under the License.
 </cfif>
 	<!---#mediaS.media_id#--->
 	<div class="row">
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
+		<div class="col-12 col-sm-12 col-md-2 col-xl-2 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
@@ -594,7 +594,7 @@ limitations under the License.
 </div>
 			   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
+		<div class="col-12 col-sm-12 col-md-10 col-xl-10 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
