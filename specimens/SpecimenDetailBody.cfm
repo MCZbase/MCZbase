@@ -552,7 +552,7 @@ limitations under the License.
 			<a href="#aForImHref#" target="_blank">
 				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%">
 			</a>
-			<p class="small"> #media_type# (#mime_type#) <br>
+					<p class="small"> #media_type# <span class="smaller">(#mime_type#)</span> <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 				<span class="">#description#</span> </p>
 			</div>
