@@ -20,8 +20,9 @@
 	
 	<cftransaction>
 		<cfquery name="nr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			update coll_object set  COLL_OBJ_DISPOSITION = '#disposition#'
-			where collection_object_id = #collection_object_id#
+			update coll_object 
+			set COLL_OBJ_DISPOSITION = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#disposition#">
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfset result = "success">
 	</cftransaction>
@@ -42,7 +43,7 @@
 	<cftransaction>
 		<cfquery name="isThere" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) cnt from coll_object_remark
-			where collection_object_id = #collection_object_id#
+			where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		</cfquery>
 		<cfif #isThere.cnt# is 0>
 			<cfquery name="nr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

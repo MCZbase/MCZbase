@@ -12,14 +12,14 @@
 				preferred_agent_name
 			where 
 				agent_name.agent_id=preferred_agent_name.agent_id and
-				upper(agent_name.agent_name) like '%#ucase(q)#%'
+				upper(agent_name.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(q)#%">
 			group by
 				preferred_agent_name.agent_name,
 				preferred_agent_name.agent_id
 			order by
 				preferred_agent_name.agent_name
 		) 
-		where rownum <= #limit#
+		where rownum <= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#limit#">
 	</cfquery>
 	<cfloop query="pn">
 		#replace(agent_name,",","","all")#|#agent_id##chr(10)#
