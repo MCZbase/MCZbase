@@ -22,7 +22,9 @@
     <cfoutput>
     <div class="changePW">
 	 	<cfquery name="pwExp" datasource="uam_god">
-			select pw_change_date from cf_users where username = '#session.username#'
+			select pw_change_date 
+			from cf_users where 
+			username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfset pwtime =  round(now() - pwExp.pw_change_date)>
 		<cfset pwage = Application.max_pw_age - pwtime>
@@ -33,11 +35,19 @@
 	    <br>Your password is #pwtime# days old.
 	    <cfquery name="isDb" datasource="uam_god">
 			select
-			(select count(*) c from all_users where
-			username='#ucase(session.username)#')
+			(
+				select count(*) c 
+				from all_users 
+				where
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
+			)
 			+
-			(select count(*) C from temp_allow_cf_user,
-			cf_users where temp_allow_cf_user.user_id = cf_users.user_id and cf_users.username='#session.username#')
+			(
+				select count(*) C 
+				from temp_allow_cf_user, cf_users 
+				where temp_allow_cf_user.user_id = cf_users.user_id 
+				and cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			)
 			cnt
 			from dual
 		</cfquery>
@@ -73,9 +83,10 @@
 	        <input type="submit" value="Save Password Change" class="savBtn">
 	    </form>
 	    <cfquery name="isGoodEmail" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select email,username from cf_user_data,cf_users
+			select email, username 
+			from cf_user_data, cf_users
 			 where cf_user_data.user_id = cf_users.user_id and
-			 username= '#session.username#'
+			 username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 		<cfif len(isGoodEmail.email) gt 0>
 			<p>If you can't remember your old password, we can
@@ -108,7 +119,9 @@
     <div class="changePW">
 	<cfoutput>
 	<cfquery name="getPass" datasource="cf_dbuser">
-		select password from cf_users where username = '#session.username#'
+		select password 
+		from cf_users 
+		where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	</cfquery>
 	<cfif hash(oldpassword) is not getpass.password>
 		<span style="background-color:red;">
@@ -128,27 +141,33 @@
 	</cfif>
 	<!--- Passwords check out for public users, now see if they're a database user --->
 	<cfquery name="isDb" datasource="uam_god">
-		select * from all_users where
-		username='#ucase(session.username)#'
+		select * 
+		from all_users 
+		where
+		username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(session.username)#">
 	</cfquery>
 	<cfif isDb.recordcount is 0>
 		<cfquery name="setPass" datasource="cf_dbuser">
-			UPDATE cf_users SET password = '#hash(newpassword)#',
-			PW_CHANGE_DATE=sysdate
-			WHERE username = '#session.username#'
+			UPDATE cf_users 
+			SET 
+				password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+				PW_CHANGE_DATE=sysdate
+			WHERE 
+				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 		</cfquery>
 	<cfelse>
 		<cftry>
 			<cftransaction>
 				<cfquery name="dbUser" datasource="uam_god">
 					alter user #session.username#
-					identified by "#newpassword#"
+					identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newpassword#">
 				</cfquery>
 				<cfquery name="setPass" datasource="uam_god">
 					UPDATE cf_users
-					SET password = '#hash(newpassword)#',
-					PW_CHANGE_DATE=sysdate
-					WHERE username = '#session.username#'
+					SET 
+						password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newpassword)#">,
+						PW_CHANGE_DATE=sysdate
+					WHERE username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 			</cftransaction>
 			<cfcatch>
@@ -204,9 +223,12 @@ You will be redirected soon, or you may use the menu above now.
     <div class="changePW">
 <cfoutput>
 	<cfquery name="isGoodEmail" datasource="cf_dbuser">
-		select cf_user_data.user_id, email,username from cf_user_data,cf_users
-		 where cf_user_data.user_id = cf_users.user_id and
-		 email = '#email#' and username= '#username#'
+		select cf_user_data.user_id, email,username 
+		from cf_user_data,cf_users
+		where 
+			cf_user_data.user_id = cf_users.user_id 
+			and email = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#email#">
+			and username= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#username#">
 	</cfquery>
 	<cfif isGoodEmail.recordcount neq 1>
 		Sorry, that email wasn't found with your username.
@@ -234,13 +256,16 @@ You will be redirected soon, or you may use the menu above now.
 					alter trigger CF_PW_CHANGE disable
 				</cfquery>
 				<cfquery name="setNewPass" datasource="uam_god">
-					UPDATE cf_users SET password = '#hash(newPass)#',
-					pw_change_date=sysdate-91
-					where user_id = #isGoodEmail.user_id#
+					UPDATE cf_users 
+					SET 
+						password = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#hash(newPass)#">,
+						pw_change_date=sysdate-91
+					where 
+						user_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#isGoodEmail.user_id#">
 				</cfquery>
 				<cftry>
 				<cfquery name="db" datasource="uam_god">
-					alter user #isGoodEmail.username# identified by "#newPass#"
+					alter user #isGoodEmail.username# identified by <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newPass#">
 				</cfquery>
 				<cfcatch><!--- not a DB user - whatever ---></cfcatch>
 				</cftry>
