@@ -75,6 +75,42 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 	});
 };
 
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
+ * types it as a jquery-ui modal dialog styled as a warning and displays it, invokes 
+ * the specified callback function when OK is pressed.
+ *
+ * @param dialogText the text to place in the dialog.
+ * @prarm dialogTitle for the dialog header.
+ * @param okFunction callback function to invoke upon a press of the OK button.
+ */
+function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
+	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: dialogTitle,
+		classes: {
+			"ui-dialog-titlebar": "bg-danger",
+			"ui-dialog-title": "text-light"
+		},
+		buttons: {
+			OK: function () {
+				setTimeout(okFunction, 30);
+				$(this).dialog('destroy');
+			},
+			Cancel: function () {
+				$(this).dialog('destroy');
+			}
+		},
+		close: function() {
+			 $(this).dialog( "destroy" );
+		}
+	});
+};
+
+
 function confirmDelete(formName,msg){
 	console.log('TODO: use confirmDialog instead of confirmDelete.');
 	// TODO: Old code, don't use, rewrite invocations to use confirmDialog instead. 
