@@ -169,6 +169,6 @@ override Bootstrap styles
     font-size: 80%;
     font-weight: 400;
 }
-#mediaSearchResults a {
+.ui-dialog-content a {
 	color: #036ee0 !important;
 }
