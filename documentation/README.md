@@ -517,6 +517,8 @@ Col-12 should be included for most columns with a column size in the class for t
 
 The class=”row” – important to know that the row class has a -15px margin on each side. Combined with class=”col-12” (or any column number, col-N), which has padding of 15px on each side, allows it to fit devices to the edge without movement (bouncing left or right when a field is brought into focus).
 
+Tables must have the following classes <table class="table table-responsive d-xx-table">  The class d-xx-table can have a different breakpoint at "xx" where the intent is to swipe to see the rest of the table. A common usage would be to have d-xl-table so that the table stretches to fill the container on the larger screens but is still swipeable on an iPad. The class "table-striped" should be considered for tables with many rows or abundant data per row so it is easier to read.
+
 ### Whitespace
 
 Pages SHOULD have enough whitespace for clarity, but not too much.
@@ -647,6 +649,8 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 <u>**For highlighting a field or group of fields**</u>
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
+
+Dialog content boxes should be laid out similarly to a main page when data captured is the same (e.g., create media page appear as a dialog box). The buttons follow the same rules as listed in the button section of this document when in the content area.  The close button for the dialog and any button along the bottom will have the standard jquery gray buttonface background (difficult to style separately without changing the library files). The borders and background should be different from the main page so it is easy to recognize it as a dialog box. Searches in dialog boxes will have the class "search-box", which has following styles:  background-color: #f5f5f5; margin-top: 1em; padding-bottom: .25em; width: 100%; border-radius: 8px; border: 2px solid #3E6F7D; to make a dark teal outline with a gray background around the search fields. Small search/create dialog boxes which do not replicate a main page, can have a white background (e.g., add shipment dialog box). The search results should repeat the jqxwidget grid style when possible.  The form fields to create a records should have the classes "p-3 border bg-light" in the column div around them (see create media for an example).  The dialog boxes should be repsonsive based on the screen size when launched.  Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
 
 ## Accessibility:
 
