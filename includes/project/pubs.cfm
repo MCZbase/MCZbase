@@ -16,7 +16,7 @@
 			formatted_publication.publication_id=citation.publication_id (+) and
 			project_publication.publication_id = publication_url.publication_id (+) AND
 			format_style = 'long' and
-			project_publication.project_id = #project_id#
+			project_publication.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			formatted_publication.publication_id,
 			formatted_publication, 
@@ -58,9 +58,9 @@
 					</li>
 					<li><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#">Details</a></li>
 					<cfquery name="links" dbtype="query">
-						select description,
-						link from pubs
-						where publication_id=#publication_id#
+						select description, link 
+						from pubs
+						where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 					</cfquery>
 					<cfif len(#links.description#) gt 0>
 						<cfloop query="links">

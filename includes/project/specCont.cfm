@@ -15,7 +15,7 @@
 			cataloged_item.collection_id=collection.collection_id and
 			project_trans.transaction_id = accn.transaction_id AND 
 			project.project_id = project_trans.project_id AND 
-			project.project_id = #project_id#
+			project.project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		group by
 			collection,
 			collection.collection_id
