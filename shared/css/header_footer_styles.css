@@ -1,127 +1,78 @@
 /** This file contains Various local style customizations for the header and footer **/
 /************************/
-/*.menu-div, .bg-light {
-	background-color: #f8f9fa;
-}*/
 :focus:not(:focus-visible) {
-    outline:0;
+	outline: 0;
 }
 :focus {
-    outline: #ccc auto 1px;
+	outline: #ccc auto 1px;
 	border: 1px solid rgba(0, 34, 51, 0.1);
+	border: none;
 	box-shadow: 2px 4px 10px 0 rgba(0, 34, 51, 0.05), 2px 4px 10px 0 rgba(0, 34, 51, 0.05);
 }
-
-.navbar-collapse {
-	font-size: .9em;
+.navbar-nav input:focus {
+	box-shadow:none;
 }
 .anchor-button {
 	font-size: .9em;
-	border:none;
+	border: none;
 	background-color: transparent;
 	text-align: left;
 }
 .anchor-button:hover {
-	background-color:#ddd;
+	background-color: #ddd;
 	box-shadow: none;
 }
-.bg-black {background-color: #1b1b1b;}
+.bg-black {
+	background-color: #1b1b1b;
+}
 .anchor-button:hover {
-	background-color:#ddd;
+	background-color: #ddd;
 	box-shadow: none;
 }
-nav.navbar {
+/* Navigation menu styles */
+nav.navbar {  /* makes the navbar text slightly smaller than default and give padding so the login and search aren't at the edge of page */
 	padding: 0 1em;
-}
-nav.navbar-nav .nav-item a {
-	font-weight: 600;
-	margin: 0;
-	font-family: 'Open Sans', sans-serif;
-	color: #000000;
-	text-decoration: none;
-	display: block;
-	padding: .9em 2em .9em 1em;
-}
-nav.navbar-nav .nav-item a:hover {
-	font-weight: 600;
-	margin: 0;
-	text-decoration: none;
-	display: block;
-	background-color: #f1f2f4;
-	padding: .9em 2em .9em 1em;
-}
-nav .navbar-nav li a.nav-link {
-	display: block;
-}
-.navbar-expand-lg .navbar-nav .nav-link {
-	padding-right: 1rem;
-	padding-left: 1rem;
-	/*max-width: 15em;*/
-}
-.navbar-expand-lg .navbar-nav .nav-link:hover {
-	background-color: #ebebeb;
-}
-.dropdown-menu {
-/*	width: 16em;*/
-	padding: 0;
-	margin-left: 1px;
-	margin-top: -1px;
-	background-color: #f8f9fa !important;
-	border: 1px solid #f5f5f5;
-}
-.dropdown-menu a.dropdown-item {
 	font-size: .9em;
-	border: 1px solid aliceblue;
 }
 .dropdown-item {
-	padding: .25em .5em;
-	color: rgba(0, 0, 0, .7);
+	font-size: .9em;   /* makes the navbar text slightly smaller than default */
 }
-.dropdown-menu a.dropdown-item:hover {
-	background-color: #ddd;
-	color: #000;
-	width: 100%;
+.navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
+    color: rgba(0,0,0,1)!important;  /* this makes the dropdown header darker then the rest of headers when a page within it is selected */
+	box-shadow:none;     /* this takes away the default focus & focus style from above */
+	border: none;      /* this takes away the default focus & focus style from above */
 }
-.dropdown:hover .dropdown-menu {
-	display: block;
-}
-.navbar-nav li.show, .navbar-nav li:show, .navbar-nav li.show:hover {
-	text-decoration: none;
-	background-color: #ddd;
-}
-.navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
-	border-right: 2px solid transparent;
-	border-left: 2px solid transparent;
-}
-.navbar-light .navbar-nav li.active > .nav-link, .navbar-light .navbar-nav .nav-link.active {
-	color: #000000;
-	background-color: #ffffff;
-    border-left: 3px solid #deebec;
-    border-right: 3px solid #deebec;
-}
-.dropdown-item:active, .dropdown-item.active {
-	background-color: #ffffff;
-	color: #000000;
-}
-.dropdown-item:active:hover, .dropdown-item.active:hover, .dropdown-menu a:hover {
-	background-color: #dddddd;
-	color: #000;
-}
-.navbar-toggler {
-	line-height: .9em;
+.dropdown-item.active, .dropdown-item:active {  /* when the menu option is clicked this styling is activated */
+	background-color:#deebec ;
+	color: black;
 }
 .navbar-toggler-icon {
-    display: inline-block;
-    width: 1em;
-    height: .87em;
-    vertical-align: middle;
-    content: "";
-    background: no-repeat center center;
-    background-size: 100% 100%;
+	width: 1em;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
+	height: .87em;
+}
+.nav-tabs .nav-link, .navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
+	display: block;
+	padding: .25em 1em;
+	color: rgba(0,0,0,.7)!important;
+}
+/* End navigation menu styles */
+.logout {
+	padding: 0 .45em;
+	font-size: 100%;
+	font-weight: bold;
+	position: relative;
+	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	letter-spacing: .02em;
+	margin-right: .25em;
+}
+.user {
+	font-size: .9em;
+	height: calc(1em + .5rem + 2px);
 }
 .mczbase a span {
 	font-size: smaller;
-} /*This is for the "base" of MCZbase*/
+}
+/*This is for the "base" of MCZbase*/
 .branding-container {
 	background-color: #1b1b1b;
 }
@@ -179,7 +130,6 @@ img.shield {
 .mczbase a:hover {
 	color: white;
 	text-decoration: none;
-	/*border-bottom: 1px dotted white;*/
 }
 .mcz_logo_krono {
 	padding-left: 1em;
@@ -191,56 +141,29 @@ nav.navbar-harvard {
 nav.navbar-harvard li {
 	color: white;
 }
-.dropdown-menu {
-	/*min-width: 13em;*/
-	top: 104%;
-}
 nav button {
 	border: none;
 	background-color: #f8f9fa;
 }
-.nav-fill .nav-item {
-	text-align: left;
-}
-.navbar-light .navbar-nav .nav-link {
-	color: rgba(0, 0, 0, .7);
-}
-.navbar-nav li:hover > ul.dropdown-menu {
-	display: block;
-}
-.dropdown-submenu {
-	position: relative;
-}
-
-.dropdown-submenu > .dropdown-menu {
-	top: 0;
-	left: 100%;
-	margin-top: 0px;
-}
-.dropdown-menu > li > a:hover:after {
-	text-decoration: underline;
-	transform: rotate(-90deg);
-}
 .headerCollectionTextSmall {
 	font-size: smaller;
 }
+.form-login {
+	position:absolute;
+	top:2px;
+	right:1em;
+}
+.login-form {
+	width:340px;
+	text-align:right;
+}
 .loginButtons {
-	padding: 5px 6px 4px 6px;
+	padding: 4px 6px 4px 6px;
 	font-size: .78rem;
 	line-height: 1em;
 	border-radius: .2rem;
-	display:inline-block;
-	border: 1px solid #ddd;
-}
-.logout {
-	padding: 0 .45em;
-    font-size: .88em;
-	font-weight: bold;
-	/*position: absolute;*/
-	right: 10px;
-	top: 3px;
-	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	letter-spacing: .02em;
+	display: inline-block;
+	max-width:100px;
 }
 .footer {
 	line-height: 1em;
@@ -281,22 +204,16 @@ html {
 	min-height: 100%;
 }
 body {
-	/* Margin bottom by footer height */
 	margin-bottom: 60px;
 }
 .footer {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	/* Set the fixed height of the footer here */
 	height: 60px;
-	line-height: 48px; /* Vertically center the text there */
+	line-height: 40px;
 	background-color: #f5f5f5;
 }
-body > .container {
-	padding: 30px 15px 0;
-}
-
 .footer > .container {
 	padding-right: 15px;
 	padding-left: 15px;
@@ -324,7 +241,7 @@ body > .container {
 .copyright_background a.policy_link:focus {
 	color: #004870;
 	text-decoration: none;
-		outline: 0;
+	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .ui-icon.ui-icon-triangle-2-n-s {
@@ -334,11 +251,11 @@ body > .container {
 	font-weight: 600;
 	color: #046aa2 !important;
 	line-height: 2.2em;
-		padding: .15em .4em;
+	padding: .15em .4em;
 }
 .helplinks a:hover {
-	padding: .15em .4em;	
-	border-color:transparent;
+	padding: .15em .4em;
+	border-color: transparent;
 }
 .helplinks a:focus {
 	padding: .15em .4em;
@@ -352,30 +269,57 @@ body > .container {
 .color-green {
 	color: #006100;
 }
-/*.logout-style {
-	position:absolute;
-	top:2px;
-	right: 8px;
-}*/
-.login-form {
-	position: absolute;
-	top: 2px;
-	right: 15px;
-}
-.nav-link {
-    display: block;
-    padding: .25rem 1rem;
-}
 input#Username {
 	width: 100px;
 }
 input#Password {
 	width: 75px;
 }
-@media only screen and (max-width: 990px) {
-	.logout {
-	padding: 0.3em .45em;
+.dropdown:hover .dropdown-menu {/* Needed for dropdown menu to work with hover */
+    display: block;
+    margin-top: 0; 
+    }
+.dropdown:hover > .dropdown-menu .dropdown > .dropdown-toggle:active { /* needed to eliminate click for dropdown opening */
+	pointer-events:none;
 }
+.nav-link {display:block;}
+
+
+
+@media (max-width:991px) {
+	ul {
+		display: block;
+		list-style-type: none;
+		margin-block-start: 0em;
+		margin-block-end: 0em;
+		margin-inline-start: 0px;
+		margin-inline-end: 0px;
+		padding-inline-start: 0px;
+	}
+	.login-form {
+		width: 340px;
+		text-align: right;
+	}
+	.logout {
+		padding: .1em .45em;
+		font-size: .83em;
+		font-weight: bold;
+		position: absolute;
+		right: 1em;
+		top: 5px;
+		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+		letter-spacing: .02em;
+	}
+	.loginfld1 {
+		width:100px;
+	}
+	.loginfld2 {
+		width: 100px;
+	}
+	.nav-tabs .nav-link, .navbar-nav .nav-link {
+	display: block;
+	padding: .5em 1em;
+	}	
 }
 @media(min-width:991px) {
 	.mcz-center {
@@ -417,7 +361,6 @@ input#Password {
 	.mcz2 {
 		width: 100%;
 		padding-bottom: 0;
-		
 	}
 	.mcz2 a {
 		color: white;
@@ -433,7 +376,7 @@ input#Password {
 	.mczbase a {
 		color: white;
 		text-decoration: none;
-		font-size: .9em;
+		font-size: 1em;
 		display: block;
 	}
 	img.mcz_logo_krono {
@@ -463,15 +406,126 @@ input#Password {
 	.mczbase a {
 		color: white;
 	}
+	.logout {
+		padding: .1em .45em;
+		font-size: .94em;
+		font-weight: bold;
+		position: absolute;
+		right: 1.25em;
+		top: 3px;
+		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+		letter-spacing: .02em;
+	}
 }
-@media(max-width:575px){
-/*	.loginButtons {
-	padding: 3px 5px 3px 5px;
-	font-size: .78rem;
-	line-height: 1.15em;
-	border-radius: .2rem;
-}*/
-	.file-os-file-medium{
-	max-width: 350px;
+@media(max-width:575px) {
+	.file-os-file-medium {
+		max-width: 350px;
+	}
+	/* Small device login/logout */
+	nav.navbar{
+		padding: 0 1em;
+    	font-size: .9em;		
+	}
+	.navbar-toggler {
+    	padding: .25rem .75rem;
+    	font-size: 1.25rem;
+    	border-radius: .25rem;
+	}
+	.logout {
+		padding: .1em .45em;
+		font-size: .89em;
+		font-weight: bold;
+		position: absolute;
+		right: 1em;
+		top: 5px;
+		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+		letter-spacing: .02em;
+		margin-right:.25em;
+	}
+	.login-form {
+		width: 320px;
+		text-align:right;
+	}
+	.loginfld1 {
+		width:77px!important;
+	}
+	.loginfld2 {
+		width: 73px!important;
+	}
 }
+@media(max-width:414px) {
+	nav.navbar {
+		padding: 0 1em;
+    	font-size: .9em;
+	}
+	.navbar-toggler {
+  		padding: .35rem .5rem;
+    	font-size: 1.2rem;
+    	border-radius: .25rem;
+	}
+	.form-login {
+		right:.7em;
+	}
+	.login-form {
+		width: 323px;
+		text-align:right;
+	}
+	.loginfld1 {
+		width:78px!important;
+	}
+	.loginfld2 {
+		width: 76px!important;
+	}
+}
+@media(max-width:375px) {
+	nav.navbar{
+		padding: 0 .75em;
+    	font-size: .9em;
+	}
+	.navbar-toggler {
+  		padding: .35rem .5rem;
+    	font-size: 1.2rem;
+    	border-radius: .25rem;
+	}
+	.form-login {right:.7em;}
+	.login-form {
+		width: 318px;
+		text-align:right;
+	}
+	.loginfld1 {
+		width:75px!important;
+	}
+	.loginfld2 {
+		width: 75px!important;
+	}
+}
+@media(max-width:280px) {
+	nav.navbar{
+		padding: 0 .5em;
+    	font-size: .9em;
+	}
+	.navbar-toggler {
+    	padding: .1rem .5rem;
+    	font-size: 1rem;
+    	border-radius: .25rem;
+	}
+	.login-form {
+		width: 229px;
+		text-align: right;
+	}
+	.loginfld1 {
+		width:55px!important;
+	}
+	.loginfld2 {
+		width: 55px!important;
+	}
+	.logout {
+		font-size: .78em;
+		margin-right:0;
+		top: 2px;
+	}
+	.navbar-toggler-icon {
+    	width: 1em;
+    	height: 1.5em;
+	}
 }
