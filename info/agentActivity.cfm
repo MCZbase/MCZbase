@@ -323,7 +323,9 @@
     <h3 class="wikilink">Encumbrances:</h3>
 	<ul class="agent_act">
 		<cfquery name="encumbrance" datasource="uam_god">
-			select count(*) cnt from encumbrance where encumbering_agent_id=#agent_id#
+			select count(*) cnt 
+			from encumbrance 
+			where encumbering_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfquery name="coll_object_encumbrance" datasource="uam_god">
 			select 
