@@ -319,11 +319,11 @@ limitations under the License.
 						<div class="row mx-2 py-3">
 							<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 							<div class="col-12 col-xl-3">
-								<p class="smaller-text mt-2" aria-label="introduction: Search for taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative." tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
+								<p class="smaller-text mt-2" tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 							<div class="form-row">
 								<input type="hidden" name="action" value="search">
 								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-									<legend class="text-dark mb-2">Search accepted taxa?</legend>
+									<legend class="text-dark mb-2">Search accepted names:</legend>
 								<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
 									<cfif valid_catalog_term_fg EQ 1>
 										<cfset validFlagAllSelected = ''>
@@ -340,20 +340,20 @@ limitations under the License.
 									</cfif>
 									<li class="list-group-item px-0 pb-0 pt-1">
 										<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-										<label for="validFGChecked" class="btn-link smaller-text">All matches</label>
+										<label for="validFGChecked" class="btn-link smaller-text">Show all matches.</label>
 									</li>
 									<li class="list-group-item px-0 pb-0 pt-1">
 										<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-										<label for="validFGUnchecked" class="btn-link smaller-text">Taxa currently accepted for data entry</label>
+										<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry.</label>
 									</li>
 									<li class="list-group-item px-0 py-1">
 										<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-										<label for="validFGNot" class="btn-link smaller-text">Taxa not accepted for data entry</label>
+										<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry.</label>
 									</li>
 								</ul>
 								</fieldset>
 								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-								<legend class="text-dark mb-2">Search taxa used on specimen records?</legend>
+								<legend class="text-dark mb-2">Search taxa used on specimen records:</legend>
 								<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
 									<cfif we_have_some EQ 1>
 										<cfset usedInIdAllSelected = ''>
@@ -370,15 +370,15 @@ limitations under the License.
 									</cfif>
 									<li class="list-group-item px-0 pb-0 pt-1">
 										<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-										<label for="wehavesomeAll" class="btn-link smaller-text">Taxa without regard for use</label>
+										<label for="wehavesomeAll" class="btn-link smaller-text">Show all taxa without regard for use.</label>
 									</li>
 									<li class="list-group-item px-0 pb-0 pt-1">
 										<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-										<label for="wehavesomeHave" class="btn-link smaller-text">Taxa for which cataloged items exist</label>
+										<label for="wehavesomeHave" class="btn-link smaller-text">Show only taxa for which cataloged items exist.</label>
 									</li>
 									<li class="list-group-item px-0 py-1">
 										<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-										<label for="wehavesomeNot" class="btn-link smaller-text">Taxa not used in identifications</label>
+										<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications.</label>
 									</li>
 								</ul>
 								</fieldset>
