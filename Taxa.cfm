@@ -310,82 +310,85 @@ limitations under the License.
 		<!--- Search form --->
 		<div id="search-form-div">
 			<div class="container-fluid">
-			<section id="content" role="search" class="row mx-0 mb-3">
-				<form name="searchForm"  id="searchForm" class="search-box"> 
-					<input type="hidden" name="method" value="getTaxa" class="keeponclear">
-					<input type="hidden" name="action" value="search">
-					<div class="search-box-header">
-						<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-					</div>
-						<div class="row mx-2 py-3">
+				<section id="content" role="search" class="row mx-0 mb-3">
+					<form name="searchForm" id="searchForm" class="search-box">
+						<input type="hidden" name="method" value="getTaxa" class="keeponclear">
+						<input type="hidden" name="action" value="search">
+						<div class="search-box-header">
+							<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+						</div>
+						<div class="row mx-2 py-2">
 							<div class="col-12 col-xl-3">
-								<p class="smaller-text mt-2" tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
-							<div class="form-row">
-								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-									<legend class="text-dark mb-2">Search accepted names:</legend>
-								<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
-									<cfif valid_catalog_term_fg EQ 1>
-										<cfset validFlagAllSelected = ''>
-										<cfset validFlagOnlySelected = 'checked="checked"'>
-										<cfset validFlagNotSelected = ''>
-									<cfelseif valid_catalog_term_fg EQ 0>
-										<cfset validFlagAllSelected = ''>
-										<cfset validFlagOnlySelected = ''>
-										<cfset validFlagNotSelected = 'checked="checked"'>
-									<cfelse>
-										<cfset validFlagAllSelected = 'checked="checked"'>
-										<cfset validFlagOnlySelected = ''>
-										<cfset validFlagNotSelected = ''>
-									</cfif>
-									<li class="list-group-item px-0 pb-0 pt-1">
-										<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-										<label for="validFGChecked" class="btn-link smaller-text">Show all matches.</label>
-									</li>
-									<li class="list-group-item px-0 pb-0 pt-1">
-										<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-										<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry.</label>
-									</li>
-									<li class="list-group-item px-0 py-1">
-										<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-										<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry.</label>
-									</li>
-								</ul>
-								</fieldset>
-								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
-								<legend class="text-dark mb-2">Search taxa used on specimen records:</legend>
-								<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
-									<cfif we_have_some EQ 1>
-										<cfset usedInIdAllSelected = ''>
-										<cfset usedInIdOnlySelected = 'checked="checked"'>
-										<cfset usedInIdNotSelected = ''>
-									<cfelseif we_have_some EQ 0>
-										<cfset usedInIdAllSelected = ''>
-										<cfset usedInIdOnlySelected = ''>
-										<cfset usedInIdNotSelected = 'checked="checked"'>
-									<cfelse>
-										<cfset usedInIdAllSelected = 'checked="checked"'>
-										<cfset usedInIdOnlySelected = ''>
-										<cfset usedInIdNotSelected = ''>
-									</cfif>
-									<li class="list-group-item px-0 pb-0 pt-1">
-										<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-										<label for="wehavesomeAll" class="btn-link smaller-text">Show all taxa without regard for use.</label>
-									</li>
-									<li class="list-group-item px-0 pb-0 pt-1">
-										<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-										<label for="wehavesomeHave" class="btn-link smaller-text">Show only taxa for which cataloged items exist.</label>
-									</li>
-									<li class="list-group-item px-0 py-1">
-										<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-										<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications.</label>
-									</li>
-								</ul>
-								</fieldset>
+								<p class="smaller-text mt-2" tabindex="0">
+									Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. 
+									<a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>
+								</p>
+								<div class="form-row">
+									<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
+										<legend class="text-dark mb-2">Search accepted names:</legend>
+										<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
+											<cfif valid_catalog_term_fg EQ 1>
+												<cfset validFlagAllSelected = ''>
+												<cfset validFlagOnlySelected = 'checked="checked"'>
+												<cfset validFlagNotSelected = ''>
+											<cfelseif valid_catalog_term_fg EQ 0>
+												<cfset validFlagAllSelected = ''>
+												<cfset validFlagOnlySelected = ''>
+												<cfset validFlagNotSelected = 'checked="checked"'>
+											<cfelse>
+												<cfset validFlagAllSelected = 'checked="checked"'>
+												<cfset validFlagOnlySelected = ''>
+												<cfset validFlagNotSelected = ''>
+											</cfif>
+											<li class="list-group-item px-0 pb-0 pt-1">
+												<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+												<label for="validFGChecked" class="btn-link smaller-text">Show all matches.</label>
+											</li>
+											<li class="list-group-item px-0 pb-0 pt-1">
+												<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+												<label for="validFGUnchecked" class="btn-link smaller-text">Show only taxa currently accepted for data entry.</label>
+											</li>
+											<li class="list-group-item px-0 py-1">
+												<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+												<label for="validFGNot" class="btn-link smaller-text">Show only taxa not accepted for data entry.</label>
+											</li>
+										</ul>
+									</fieldset>
+									<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
+										<legend class="text-dark mb-2" >Search taxa used on specimen records:</legend>
+										<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
+											<cfif we_have_some EQ 1>
+												<cfset usedInIdAllSelected = ''>
+												<cfset usedInIdOnlySelected = 'checked="checked"'>
+												<cfset usedInIdNotSelected = ''>
+											<cfelseif we_have_some EQ 0>
+												<cfset usedInIdAllSelected = ''>
+												<cfset usedInIdOnlySelected = ''>
+												<cfset usedInIdNotSelected = 'checked="checked"'>
+											<cfelse>
+												<cfset usedInIdAllSelected = 'checked="checked"'>
+												<cfset usedInIdOnlySelected = ''>
+												<cfset usedInIdNotSelected = ''>
+											</cfif>
+											<li class="list-group-item px-0 pb-0 pt-1">
+												<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+												<label for="wehavesomeAll" class="btn-link smaller-text">Show all taxa without regard for use.</label>
+											</li>
+											<li class="list-group-item px-0 pb-0 pt-1">
+												<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+												<label for="wehavesomeHave" class="btn-link smaller-text">Show only taxa for which cataloged items exist.</label>
+											</li>
+											<li class="list-group-item px-0 py-1">
+												<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+												<label for="wehavesomeNot" class="btn-link smaller-text">Show only taxa not used in identifications.</label>
+											</li>
+										</ul>
+									</fieldset>
+								</div>
 							</div>
-											</div>
 							<div class="col-12 col-xl-9 mt-2">
 								<div class="col-12">
-									<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
+									<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Add ! for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
 								</div>
 								<div class="form-row bg-light border rounded p-2 mx-0">
 									<div class="col-md-4">
@@ -530,31 +533,31 @@ limitations under the License.
 								<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 							</div>
 						</div>
-				</form>
-			</section>
+					</form>
+				</section>
 			</div>
 		</div><!--- end search form div --->
 
 		<!--- Results table as a jqxGrid. --->
 		<div class="container-fluid">
-			<section class="row" role="main">
-				<div class="col-12 mb-5">						
+			<main class="row">
+				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-								<h2 class="h4">Results: </h2>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
-								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
+						<h2 class="h4">Results: </h2>
+						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<div id="columnPickDialog">
+							<div id="columnPick" class="px-1"></div>
+						</div>
+						<div id="columnPickDialogButton"></div>
+						<div id="resultDownloadButtonContainer"></div>
+					</div>
 					<div class="row mt-0 mx-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
-							</div>
+						<!--- Grid Related code is below along with search handlers --->
+						<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+						<div id="enableselection"></div>
+					</div>
 				</div>
-			</section>
+			</main>
 		</div>
 
 		<cfset cellRenderClasses = "ml-1">
@@ -718,7 +721,7 @@ limitations under the License.
 						pageable: true,
 						editable: false,
 						pagesize: '50',
-						pagesizeoptions: ['20','50','100'],  // reset in gridLoaded
+						pagesizeoptions: ['20','50','100'], // reset in gridLoaded
 						showaggregates: true,
 						columnsresize: true,
 						autoshowfiltericon: true,
@@ -875,7 +878,7 @@ limitations under the License.
 					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Common Names</button>
 					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Super/Sub/Infra</button>
 					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Scientific Name</button>
-						<button id='pinTaxonToggle' onclick=" togglePinTaxonColumn(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Pin Taxon Column</button>
+					 	<button id='pinTaxonToggle' onclick=" togglePinTaxonColumn(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Pin Taxon Column</button>
 					</span>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
