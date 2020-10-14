@@ -159,6 +159,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 --->
 <cffunction name="getAgentAutocompleteMeta" access="remote" returntype="any" returnformat="json">
 	<cfargument name="term" type="string" required="yes">
+	<cfargument name="constraint" type="string" required="no">
 	<!--- perform wildcard search anywhere in agent_name.agent_name --->
 	<cfset name = "%#term#%"> 
 
@@ -166,7 +167,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 	<cftry>
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT distinct
 				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
 				agent.agent_type, agent.edited,
 				prefername.agent_name as preferred_agent_name
@@ -174,8 +175,32 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
 				agent_name searchname
 				left join agent on searchname.agent_id = agent.agent_id
 				left join agent_name prefername on agent.preferred_agent_name_id = prefername.agent_name_id
+				<cfif isdefined("constraint") AND constraint EQ 'permit_issued_by_agent'>
+					left join permit on agent.agent_id = permit.issued_by_agent_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'permit_issued_to_agent'>
+					left join permit on agent.agent_id = permit.issued_to_agent_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'permit_contact_agent'>
+					left join permit on agent.agent_id = permit.contact_agent_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'transaction_agent'>
+					left join trans_agent on agent.agent_id = trans_agent.agent_id
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
+					left join project_agent on searchname.agent_name_id = trans_agent.agent_name_id
+				</cfif>
 			WHERE
 				upper(searchname.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(name)#">
+				<cfif isdefined("constraint") AND (constraint EQ 'permit_issued_to_agent' or constraint EQ 'permit_issued_by_agent' or constraint EQ 'permit_contact_agent' )>
+					AND permit.permit_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'transaction_agent'>
+					AND trans_agent.trans_agent_id is not null
+				</cfif>
+				<cfif isdefined("constraint") AND constraint EQ 'project_agent'>
+					AND project_agent.project_id is not null
+				</cfif>
 		</cfquery>
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
