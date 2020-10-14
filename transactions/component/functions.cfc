@@ -1,5 +1,5 @@
 <!---
-specimens/component/functions.cfc
+/transactions/component/functions.cfc
 
 Copyright 2020 President and Fellows of Harvard College
 
@@ -18,6 +18,8 @@ limitations under the License.
 --->
 <cfcomponent>
 
+<cfinclude template = "/shared/functionLib.cfm">
+
 <cffunction name="checkAgentFlag" access="remote">
 	<cfargument name="agent_id" type="numeric" required="yes">
 	<cfquery name="checkAgentQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -25,7 +27,6 @@ limitations under the License.
 	</cfquery>
 	<cfreturn checkAgentQuery>
 </cffunction>
-
 <!-------------------------------------------->
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
@@ -71,6 +72,136 @@ limitations under the License.
 	<cfreturn rankCount>
 </cffunction>
 
+<!--- ** removeSubloanFromParent removes a record from loan_relations of type Subloan.
+  * @param parent_transaction_id the master exhibition loan from which to remove the subloan.
+  * @param child_transaction_id the subloan to remove from the master exhibition loan.
+--->
+<cffunction name="removeSubloanFromParent" returntype="query" access="remote">
+	<cfargument name="parent_transaction_id" type="string" required="yes">
+	<cfargument name="child_transaction_id" type="string" required="yes">
+	
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from LOAN_RELATIONS 
+			where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#parent_transaction_id#">
+			and related_transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#child_transaction_id#">
+			and relation_type = 'Subloan'
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #parent_transaction_id# #child_transaction_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<!---
+  ** getSubloansForLoanHtml obtain an html block listing the subloans for an exhibition master loan
+  * along with a pick list of available not-yet related to a parent subloans available to add.
+  *
+  * @param transaction_id the transaction_id of the parent exhibition loan.
+--->
+<cffunction name="getSubloansForLoanHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfthread name="getSubloanHtmlThread">
+		<cfoutput>
+			<cftry>
+
+				<cfquery name="parentLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select loan_number from loan 
+					where 
+						transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+				</cfquery>
+				<cfset parent_loan_number = parentLoan.loan_number>
+				<!--- Subloans of the current loan (used for exhibition-master/exhibition-subloans) --->
+				<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select c.loan_number, c.transaction_id as child_transaction_id
+					from loan p left join loan_relations lr on p.transaction_id = lr.transaction_id 
+						left join loan c on lr.related_transaction_id = c.transaction_id 
+					where lr.relation_type = 'Subloan'
+						 and p.transaction_id = <cfqueryparam value=#transaction_id# CFSQLType="CF_SQL_DECIMAL" >
+					order by c.loan_number
+				</cfquery>
+				<!---  Loans which are available to be used as subloans for an exhibition master loan (exhibition-subloans that are not allready children) --->
+				<cfquery name="potentialChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select pc.loan_number, pc.transaction_id as potential_transaction_id
+					from loan pc left join loan_relations lr on pc.transaction_id = lr.related_transaction_id
+					where pc.loan_type = 'exhibition-subloan' 
+						and (lr.transaction_id is null or lr.relation_type <> 'Subloan')
+					order by pc.loan_number
+				</cfquery>
+	
+				<div class="col-12">
+					<span id="subloan_list" tabindex="0">
+						<cfif childLoans.RecordCount GT 0>
+							<a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
+						<cfelse>
+							<h3>No exhibition subloans are currently linked to this exhibtion master loan</h3>
+						</cfif>
+						<cfif childLoans.RecordCount GT 0>
+							<cfset childLoanCounter = 0>
+							<cfset childseparator = "">
+							<cfloop query="childLoans">
+								#childseparator#
+	 							<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
+								<button type="button" class="btn btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
+								<cfset childLoanCounter = childLoanCounter + 1 >
+								<cfset childseparator = ";&nbsp;">
+							</cfloop>
+						</cfif>
+					</span>
+				</div>
+				<div class="col-12">
+					<cfif potentialChildLoans.recordcount EQ 0>
+						<h3>No subloans available to add</h3>
+					<cfelse>
+						<label for="possible_subloans">Subloans that can be added to this exhibition-master loan:</label>
+						<div class="input-group">
+							<select name="possible_subloans" id="possible_subloans" class="input-group-text">
+								<cfloop query="potentialChildLoans">
+									<option value="#potentialChildLoans.potential_transaction_id#">#potentialChildLoans.loan_number#</option>
+								</cfloop>
+							</select>
+							<div class="input-group-append">
+								<button type="button" class="btn btn-xs btn-secondary" id="button_add_subloans" onclick=" addSubloanToParent(#transaction_id#,$('##possible_subloans').val()); ">Add</button>
+							</div>
+						</div>
+					</cfif>
+				</div>
+			<cfcatch>
+				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getSubloanHtmlThread" />
+	<cfreturn getSubloanHtmlThread.output>
+</cffunction>
 
 <!-------------------------------------------->
 <!--- obtain an html block listing the media for a transaction  --->
@@ -91,14 +222,14 @@ limitations under the License.
 		from
 			media_relations left join media on media_relations.media_id = media.media_id
 		where
-			media_relationship like '% #transaction_type#'
+			media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
 			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif query.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
@@ -114,103 +245,494 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfset r=1>
 	<cfthread name="getSBTHtmlThread">
-	<cftry>
-		 <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
-						hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
-						shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
-						toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
-						fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
-						shipment.print_flag
-				 from shipment
-						left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
-						left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
-				 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
-				 order by shipped_date
-		</cfquery>
-		<cfset resulthtml = "<div id='shipments'> ">
-
-		<cfloop query="theResult">
-			<cfif print_flag eq "1">
-				<cfset printedOnInvoice = "&##9745; Printed on invoice">
-			<cfelse>
-				<cfset printedOnInvoice = "<span class='infoLink' onClick=' setShipmentToPrint(#shipment_id#,#transaction_id#); ' >&##9744; Not Printed</span>">
-			</cfif>
-			<cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select permit.permit_id,
-						issuedBy.agent_name as IssuedByAgent,
-						issued_Date,
-						renewed_Date,
-						exp_Date,
-						permit_Num,
-						permit_Type
-					from
-						permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
-						left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-					where
-						permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
-			</cfquery>
-			<cfset resulthtml = resulthtml & "<script>function reloadShipments() { loadShipments(#transaction_id#); } </script>" >
-			<cfset resulthtml = resulthtml & "<div class='shipment'>" >
-				<cfset resulthtml = resulthtml & "<ul class='shipheaders'><li>Ship Date:</li><li>Method:</li><li>Packages:</li><li>Tracking Number:</li></ul>">
-				<cfset resulthtml = resulthtml & " <ul class='shipdata'>" >
-					 <cfset resulthtml = resulthtml & "<li>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#shipped_carrier_method#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#no_of_packages#&nbsp;</li> " >
-					 <cfset resulthtml = resulthtml & " <li>#carriers_tracking_number#</li>">
-				<cfset resulthtml = resulthtml & "</ul>">
-				<cfset resulthtml = resulthtml & "<ul class='shipaddresseshead'><li>Shipped To:</li><li>Shipped From:</li></ul>">
-				<cfset resulthtml = resulthtml & " <ul class='shipaddressesdata'>">
-					 <cfset resulthtml = resulthtml & "<li>(#printedOnInvoice#) #tofaddr#</li> ">
-					 <cfset resulthtml = resulthtml & " <li>#fromfaddr#</li>">
-				<cfset resulthtml = resulthtml & "</ul>">
-				<cfset resulthtml = resulthtml & "<div class='changeship'><div class='shipbuttons'><input type='button' value='Edit this Shipment' class='lnkBtn' onClick=""$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');""></div><div class='shipbuttons' id='addPermit_#shipment_id#'><input type='button' value='Add Permit to this Shipment' class='lnkBtn' onClick="" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); "" ></div><div id='addPermitDlg_#shipment_id#'></div></div> ">
-				<cfset resulthtml = resulthtml & "<div class='shippermitstyle'><h4>Permits:</h4>">
-					<cfset resulthtml = resulthtml & "<div class='permitship'><span id='permits_ship_#shipment_id#'>">
-					<cfloop query="shippermit">
-					<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				 select media.media_id, media_uri, preview_uri, media_type
-					from media_relations left join media on media_relations.media_id = media.media_id
-					where media_relations.media_relationship = 'shows permit'
-					and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+		<cfoutput>
+			<cftry>
+				 <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 1 as status, shipment_id, packed_by_agent_id, shipped_carrier_method, shipped_date, package_weight, no_of_packages,
+								hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id, carriers_tracking_number,
+								shipped_from_addr_id, fromaddr.formatted_addr, toaddr.formatted_addr,
+								toaddr.country_cde tocountry, toaddr.institution toinst, toaddr.formatted_addr tofaddr,
+								fromaddr.country_cde fromcountry, fromaddr.institution frominst, fromaddr.formatted_addr fromfaddr,
+								shipment.print_flag
+						 from shipment
+								left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+								left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+						 where shipment.transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						 order by shipped_date
 				</cfquery>
-				<cfset mediaLink = "&##8855;">
-				<cfloop query="mediaQuery">
-					<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
-				</cfloop>
-					<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li></ul>">
-					<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-					<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-					<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this shipment (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
-					<cfset resulthtml = resulthtml & "<li>">
-					<cfset resulthtml = resulthtml & "<input type='button' onClick=' opendialog(""picks/PermitPick.cfm?Action=movePermit&permit_id=#permit_id#&transaction_id=#transaction_id#&current_shipment_id=#theResult.shipment_id#"",""##movePermitDlg_#theResult.shipment_id##permit_id#"",""Move Permit to another Shipment"");' class='lnkBtn' style='padding:1px 6px;' value='Move'>">
-					<cfset resulthtml = resulthtml & "<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span></li>">
-				</cfloop>
-				<cfif shippermit.recordcount eq 0>
-					<cfset resulthtml = resulthtml & "None">
+				<div id='shipments'>
+				<cfloop query="theResult">
+					<cfif print_flag eq "1">
+						<cfset printedOnInvoice = "&##9745; Printed on invoice">
+					<cfelse>
+						<cfset printedOnInvoice = "<span class='infoLink' onClick=' setShipmentToPrint(#shipment_id#,#transaction_id#); ' >&##9744; Not Printed</span>">
+					</cfif>
+					<cfquery name="shippermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="shippermit_result">
+							select permit.permit_id,
+								issuedBy.agent_name as IssuedByAgent,
+								issued_Date,
+								renewed_Date,
+								exp_Date,
+								permit_Num,
+								permit_Type
+							from
+								permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+								left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+							where
+								permit_shipment.shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#theResult.shipment_id#">
+					</cfquery>
+					<script>
+						function reloadShipments() { 
+							console.log("reloadShipments()"); 
+							loadShipments(#transaction_id#); 
+							loadTransactionPermitMediaList(#transaction_id#) 
+						} 
+					</script>
+						
+					<div class='shipments my-2'>
+						<table class='table table-responsive d-table mb-0'>
+							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
+							<tbody>
+								<tr>
+									<td>#dateformat(shipped_date,'yyyy-mm-dd')#&nbsp;</td>
+									<td>#shipped_carrier_method#&nbsp;</td>
+									<td>#no_of_packages#&nbsp;</td>
+									<td>#carriers_tracking_number#</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class='table table-responsive d-table'>
+							<thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
+							<tbody>
+								<tr>
+									<td>(#printedOnInvoice#) #tofaddr#</td>
+									<td>#fromfaddr#</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class='form-row'>
+							<div class='col-12 col-md-2'>
+								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
+							</div>
+							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-10'>
+								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
+							</div>
+							<div id='addPermitDlg_#shipment_id#'></div>
+						</div>
+						<div class='shippermitstyle' tabindex="0">
+							<h4 class='font-weight-bold mb-0'>Permits:</h4>
+							<div class='permitship pb-2'>
+								<span id='permits_ship_#shipment_id#' tabindex="0">
+									<cfloop query="shippermit">
+										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select media.media_id, media_uri, preview_uri, media_type,
+												mczbase.get_media_descriptor(media.media_id) as media_descriptor
+											from media_relations left join media on media_relations.media_id = media.media_id
+											where media_relations.media_relationship = 'shows permit' 
+												and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+										</cfquery>
+										<cfset mediaLink = "&##8855;"><!--- show (x) character if there are no permit media --->
+										<cfloop query="mediaQuery">
+											<cfset puri=getMediaPreview(preview_uri,media_type) >
+											<cfif puri EQ "/images/noThumb.jpg">
+												<!--- linked media, but no preview image --->
+												<cfset altText = "Red X in a red square, with text, no preview image available">
+											<cfelse>
+												<!--- linked media with preview image --->
+												<cfset altText = mediaQuery.media_descriptor>
+											</cfif>
+											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
+										</cfloop>
+										<ul class='permitshipul mb-0'>
+											<li>
+												<span>#mediaLink# #permit_type# #permit_Num#</span>
+											</li>
+											<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li>
+										</ul>
+										<ul class='permitshipul2'>
+											<li>
+												<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+											</li>
+											<li>
+												<button type='button' 
+													class='delBtn btn btn-xs btn-warning mr-1' 
+													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
+													value='Remove Permit'>Remove</button>
+											</li>
+											<cfif theResult.recordcount GT 1>
+												<!--- add the option to copy/move the permit if there is more than one shipment --->
+												<li>
+													<button type='button' 
+														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
+														class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
+													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+												</li>
+											</cfif>
+										</ul>
+									</cfloop>
+									<cfif shippermit.recordcount eq 0>
+										<span>None</span>
+									</cfif>
+								</span>
+							</div>
+						</div> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
+						<cfif shippermit.recordcount eq 0>
+							 <div class='deletestyle mb-1' id='removeShipment_#shipment_id#'>
+								<input type='button' value='Delete this Shipment' class='delBtn btn btn-xs btn-danger' onClick=" confirmDialog('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); " >
+							</div>
+						<cfelse>
+							<div class='deletestyle pb-1'>
+								<input type='button' class='disBtn btn btn-xs btn-secondary' value='Delete this Shipment'>
+							</div>
+						</cfif>
+					</div> <!--- shipment div --->
+				</cfloop> <!--- theResult --->
+							
+				<cfif theResult.recordcount eq 0>
+					 <span>No shipments found for this transaction.</span>
 				</cfif>
-				<cfset resulthtml = resulthtml & "</span></div></div>"> <!--- span#permit_ships_, div.permitship div.shippermitsstyle --->
-				<cfif shippermit.recordcount eq 0>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle' id='removeShipment_#shipment_id#'><input type='button' value='Delete this Shipment' class='delBtn' onClick="" confirmAction('Delete this shipment (#theResult.shipped_carrier_method# #theResult.carriers_tracking_number#)?', 'Confirm Delete Shipment', function() { deleteShipment(#shipment_id#,#transaction_id#); }  ); "" ></div>">
-				<cfelse>
-					 <cfset resulthtml = resulthtml & "<div class='deletestyle'><input type='button' class='disBtn' value='Delete this Shipment'></div>">
-				</cfif>
-				<cfset resulthtml = resulthtml & "</div>" > <!--- shipment div --->
-		</cfloop> <!--- theResult --->
-		<cfset resulthtml = resulthtml & "</div>"><!--- shipments div --->
-		<cfif theResult.recordcount eq 0>
-			 <cfset resulthtml = resulthtml & "No shipments found for this transaction.">
-		</cfif>
-	<cfcatch>
-		 <cfset resulthtml = resulthtml & "Error:" & "#cfcatch.type# #cfcatch.message# #cfcatch.detail#">
-	</cfcatch>
-	</cftry>
-	<cfoutput>#resulthtml#</cfoutput>
+					</div><!--- shipments div --->
+			<cfcatch>
+				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
+			</cfcatch>
+			</cftry>
+		</cfoutput>
 	</cfthread>
-	 <cfthread action="join" name="getSBTHtmlThread" />
-	 <cfreturn getSBTHtmlThread.output>
+	<cfthread action="join" name="getSBTHtmlThread" />
+	<cfreturn getSBTHtmlThread.output>
 </cffunction>
 
+
+<!--- 
+ ** method movePermitHtml populates a dialog to move a permit from one shipment to another shipment in the same transaction 
+ * Or to copy (add another link for) a permit from one shipment to another shipment in the same transaction
+ ---> 
+<cffunction name="movePermitHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="current_shipment_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfset feedbackId = "queryMovePermit#permit_id##current_shipment_id#">
+ 
+	<cfthread name="getMovePermitHtmlThread">
+		<cftry>
+			<cfquery name="queryPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct permit_num, permit_type, issued_date, permit.permit_id,
+					issuedBy.agent_name as IssuedByAgent
+				from permit left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				where permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+			</cfquery>
+			<cfoutput>
+				<cfloop query="queryPermit">
+					<h3>Move/Copy Permit #permit_type# #permit_num# Issued By: #IssuedByAgent#</h3><p><strong><span id='#feedbackId#'></span></strong></p>
+				</cfloop>
+				<cfquery name="queryShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 1 as status, shipment_id,
+						packed_by_agent_id, mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, carriers_tracking_number,
+						shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, package_weight, no_of_packages,
+						hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+						shipped_from_addr_id, fromaddr.formatted_addr as shipped_from_address, toaddr.formatted_addr as shipped_to_address
+					from shipment
+						left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+						left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+					where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#"> and
+						shipment_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_shipment_id#">
+				</cfquery>
+				<cfif queryShip.recordcount gt 0>
+					<ul>
+						<cfloop query="queryShip">
+							<li>
+								<script>
+									function moveClickCallback(status) { 
+										if (status == 1) { 
+											$('##" + "#feedbackId#').html('Moved.  Click OK to close dialog.'); 
+										} else { 
+											$('##" + "#feedbackId#').html('Error.'); 
+										}
+									}; 
+									function moveClickHandler() { 
+										 movePermitFromShipmentCB(#current_shipment_id#,#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback); 
+									};
+									function addClickCallback(status) { 
+										if (status == 1) { 
+											$('##" + "#feedbackId#').html('Added.  Click OK to close dialog.'); 
+										} else { 
+											$('##" + "#feedbackId#').html('Error.'); 
+										}
+									}; 
+									function addClickHandler() { 
+										addPermitToShipmentCB(#shipment_id#,#permit_id#,#transaction_id#, moveClickCallback); 
+									}; 
+								</script>
+								<input type='button' style='margin-left: 30px;' value='Move To' class='btn btn-xs btn-warning' 
+									onClick=" moveClickHandler(); ">
+								<input type='button' style='margin-left: 30px;' value='Copy To' class='btn btn-xs btn-secondary'
+									 onClick=" addClickHandler(); ">
+								#shipped_carrier_method# #shipped_date# #carriers_tracking_number#
+						</li>
+						</cfloop>
+					</ul>
+				<cfelse>
+					<h3>There are no other shipments in this transaction, you must create a new shipment to move this permit to.</h3>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getMovePermitHtmlThread" />
+	<cfreturn getMovePermitHtmlThread.output>
+
+</cffunction>
+
+
+<!---
+  ** method getShipments returns a details of shipments matching a provided list of shipmentIDs,
+  * this method is used to populate the shipment dialog for transactions to edit a shipment, where
+  * it is provided with a single shipment_id in shipmentIdList 
+  * 
+  * @param a comma separated list of one or more shipment_id values for which to look up the shipment details.
+  * @return a serialization of a query object
+--->
+<cffunction name="getShipments" returntype="query" access="remote">
+	<cfargument name="shipmentidList" type="string" required="yes">
+	<cftry>
+		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select 1 as status, shipment_id, transaction_id,
+				packed_by_agent_id, 
+				mczbase.get_agentnameoftype(packed_by_agent_id,'preferred') packed_by_agent, 
+				carriers_tracking_number,
+				shipped_carrier_method, to_char(shipped_date, 'yyyy-mm-dd') as shipped_date, 
+				package_weight, no_of_packages,
+				hazmat_fg, insured_for_insured_value, shipment_remarks, contents, foreign_shipment_fg, shipped_to_addr_id,
+				shipped_from_addr_id, 
+				fromaddr.formatted_addr as shipped_from_address, 
+				toaddr.formatted_addr as shipped_to_address,
+				shipment.print_flag
+			from shipment
+				left join addr fromaddr on shipment.shipped_from_addr_id = fromaddr.addr_id
+				left join addr toaddr on shipment.shipped_to_addr_id = toaddr.addr_id
+			where 
+				shipment_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipmentIdList#" list="yes">)
+		</cfquery>
+		<cfif theResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<!---  Given a shipment_id, set only that shipment out of the set of shipments in that transaction to print. --->
+<cffunction name="setShipmentToPrint" access="remote">
+	<cfargument name="shipment_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction action="begin">
+		<!--- First set the print flag off for all shipments on this transaction. --->
+		<cfquery name="clearResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="clearResultRes">
+			update shipment set print_flag = 0 where transaction_id in (
+				select transaction_id from shipment where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			)
+		</cfquery>
+		<!--- Then set the print flag on for the provided shipments. --->
+		<cfif clearResultRes.recordcount GT 0 >
+			<cfquery name="updateResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateResultRes">
+				 update shipment set print_flag = 1 where shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			</cfquery>
+
+			<cfif updateResultRes.recordcount eq 0>
+				<cftransaction action="rollback"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment not updated. #shipment_id# #updateResultRes.sql#", 1)>
+			</cfif>
+			<cfif updateResultRes.recordcount eq 1>
+				<cftransaction action="commit"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment updated to print.", 1)>
+			</cfif>
+		<cfelse>
+				<cftransaction action="rollback"/>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Shipment not found. #shipment_id# #clearResultRes.sql#", 1)>
+		</cfif>
+		</cftransaction>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+
+<!--- 
+ ** method removePermitFromShipment deletes a relationship between a permit and a shipment.
+ *  @param permit_id the permissions and rights document the shipment is linked to.
+ *  @param shipment_id the id of the shipment to from which to unlink the permit_id.
+--->
+<cffunction name="removePermitFromShipment" returntype="query" access="remote">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="shipment_id" type="string" required="yes">
+	
+	<cfset theResult=queryNew("status, message")>
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+			delete from permit_shipment
+			where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+		</cfquery>
+		<cfif deleteResultRes.recordcount eq 0>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResultRes.recordcount eq 1>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<!--- 
+ ** method removeShipment deletes a shipment record.
+ *  @param transaction_id the id of the transaction thie shipment is part of.
+ *  @param shipment_id the id of the shipment to delete.
+--->
+<cffunction name="removeShipment" returntype="query" access="remote">
+	<cfargument name="shipment_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfset r=1>
+	<cftransaction>
+		<cftry>
+			<cfquery name="countPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="countPermits_result">
+				select count(*) as ct 
+				from permit_shipment
+			 	where shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+			</cfquery>
+			<cfif countPermits.ct EQ 0 >
+				<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="delete_result">
+					delete from shipment
+					where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">
+				</cfquery>
+				<cfif delete_result.recordcount eq 0>
+					<cfset theResult=queryNew("status, message")>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "No records deleted. #shipment_id# #delete_result.sql#", 1)>
+				</cfif>
+				<cfif delete_result.recordcount eq 1>
+					<cfset theResult=queryNew("status, message")>
+					<cfset t = queryaddrow(theResult,1)>
+					<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+					<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+				</cfif>
+			<cfelse>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Can't delete shipment with attached permits.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
+</cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
 
@@ -235,15 +757,22 @@ limitations under the License.
 				and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 		</cfquery>
 		<cfset mediaLink = "&##8855;">
-		<cfloop query="mediaQuery">
-			<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
-		</cfloop>
+		<cfset getMediaPreview = ''>
+			<cfloop query="mediaQuery">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfif puri EQ "/images/noThumb.jpg">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = mediaQuery.media_descriptor>
+			</cfif>
+		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+	</cfloop>
 		<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
 
 		<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='savBtn' style='padding:1px 6px;' onClick=' window.open(""Permit.cfm?Action=editPermit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='delBtn' style='padding:1px 6px;' onClick='confirmAction(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick=' window.open(""/transactions/Permit.cfm?action=edit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
+		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick='confirmDialog(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
 		<cfset resulthtml = resulthtml & "</ul>">
 	</cfloop>
 	<cfif query.recordcount eq 0>
@@ -309,59 +838,8 @@ limitations under the License.
 			<cfset row = StructNew()>
 			<cfset row["id"] = "#search.permit_id#">
 			<cfif len(search.issued_date) gt 0><cfset i_date= ", " & search.issued_date><cfelse><cfset i_date=""></cfif>
-			<cfset row["value"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
-			<cfset data[i]  = row>
-			<cfset i = i + 1>
-		</cfloop>
-		<cfreturn #serializeJSON(data)#>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getPermitAutocomplete: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!--- backing for a loan autocomplete control --->
-<cffunction name="getLoanAutocomplete" access="remote" returntype="any" returnformat="json">
-	<cfargument name="term" type="string" required="yes">
-	<cfset data = ArrayNew(1)>
-
-	<cftry>
-		<cfset rows = 0>
-		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select distinct
-				trans.transaction_id,
-				to_char(trans_date,'YYYY-MM-DD') trans_date,
-				loan_number,
-				loan_status,
-				concattransagent(trans.transaction_id,'received by') rec_agent
-			from 
-				loan left join trans on loan.transaction_id = trans.transaction_id
-			where upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
-			order by loan_number
-		</cfquery>
-		<cfset rows = search_result.recordcount>
-		<cfset i = 1>
-		<cfloop query="search">
-			<cfset row = StructNew()>
-			<cfset row["id"] = "#search.transaction_id#">
-			<cfset row["value"] = "#search.loan_number#" >
-			<cfset row["meta"] = "#search.loan_number# (#search.loan_status# #search.trans_date# #search.rec_agent#)" >
+			<cfset row["value"] = "#search.permit_num# #search.permit_title#" >
+			<cfset row["meta"] = "#search.permit_num# #search.permit_title# (#search.specific_type##i_date#)" >
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -369,201 +847,6 @@ limitations under the License.
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-		<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn #serializeJSON(data)#>
-</cffunction>
-
-<!--- obtain an html block for picking permits for a permit text control and permit_id control  --->
-<cffunction name="queryPermitPickerHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="valuecontrol" type="string" required="yes">
-	<cfargument name="idcontrol" type="string" required="yes">
-	<cfargument name="dialog" type="string" required="yes">
-	<cfset result="">
-	<cftry>
-		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
-				group by ct.permit_type
-				order by ct.permit_type
-		</cfquery>
-		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
-				group by ct.specific_type
-				order by ct.specific_type
-		</cfquery>
-		<cfset result = '
-				<h3>Search for permits.</h3>
-   			<form id="findPermitSearchForm" name="findPermit">
-					<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
-							<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="issuedToAgent"class="data-entry-label mb-0">Issued To</label>
-							<input type="text" name="issuedToAgent" id="issuedToAgent" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="issued_date" class="data-entry-label mb-0">Issued Date</label>
-							<input type="text" name="issued_date" id="issued_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="renewed_date" class="data-entry-label mb-0">Renewed Date</label>
-							<input type="text" name="renewed_date" id="renewed_date" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="exp_date" class="data-entry-label mb-0">Expiration Date</label>
-							<input type="text" name="exp_date" id="exp_date" class="data-entry-input">
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_num_search" class="data-entry-label">Permit Number</label>
-							<input type="text" name="permit_num" id="permit_num_search" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
-							<select name="permit_Type" id="permit_type" size="1" style="width: 15em;" class="data-entry-select">
-								<option value=""></option>
-		'>
-								<cfloop query="ctPermitType">
-									<cfset result = result & '<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>' >
-								</cfloop>
-		<cfset result = result & '
-							</select>
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_remarks" class="data-entry-label mb-0">Remarks</label>
-							<input type="text" name="permit_remarks" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
-							<select name="specific_type" size="1" style="width: 15em;" class="data-entry-select">
-								<option value=""></option>
-		'>
-								<cfloop query="ctSpecificPermitType">
-									<cfset result = result & '<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>' >
-								</cfloop>
-		<cfset result = result & '
-							</select>
-						</div>
-						<div class="col-12 col-md-6">
-							<label for="permit_title" class="data-entry-label mb-0">Permit Title</label>
-							<input type="text" name="permit_title" class="data-entry-input">
-						</div>
-					</div>
-					<div class="form-row mb-2">
-						<div class="col-12 col-md-6">
-							<button type="submit" aria-label="Search for Permits" class="btn btn-primary">Search<span class="fa fa-search pl-1"></span></button>
-						</div>
-					</div>
-				</form>
-
-				<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-					<h4>Results: </h4>
-					<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
-				</div>
-				<div class="row mt-0">
-					<div id="permitPickSearchText"></div>
-					<div id="permitPickResultsGrid" class="jqxGrid"></div>
-					<div id="enableselection"></div>
-				</div>
-				<script>
-   				$("##findPermitSearchForm").bind("submit", function(evt){
-      				evt.preventDefault();
-						$("##permitPickResultsGrid").replaceWith(''<div id="permitPickResultsGrid" class="jqxGrid"></div>'');
-						$("##permitPickResultCount").html("");
-						$("##permitPickResultLink").html("");
-						$("##permitPickSearchText").jqxGrid("showloadelement");
-
-					   var permitSearch = {
-							datatype: "json",
-							datafields: [
-								{ name: "permit_id", type: "string" },
-                        { name: "permit_num", type: "string" }, 
-                        { name: "permit_type", type: "string" }, 
-                        { name: "specific_type", type: "string" }, 
-                        { name: "permit_title", type: "string" }, 
-                        { name: "issued_date", type: "string" }, 
-                        { name: "renewed_date", type: "string" },
-                        { name: "exp_date", type: "string" },
-                        { name: "permit_remarks", type: "string" },
-                        { name: "IssuedByAgent", type: "string" },
-                        { name: "IssuedToAgent", type: "string" }
-							],
-							root: "permitRecord",
-							id: "permit_id",
-							url: "/transactions/component/functions.cfc?" + $("##findPermitSearchForm").serialize()
-						};
-
-						var dataAdapter = new $.jqx.dataAdapter(permitSearch);
-
-						var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-							var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-							var result = "<button class=\"btn btn-primary\" onclick=\" $(''###idcontrol#'').val( ''" +  value + "''); $(''###valuecontrol#'').val(''" + pvalue + "''); $(''###dialog#'').dialog(''close''); \">Select</button>";
-							return result;
-						};
-
-						$("##permitPickResultsGrid").jqxGrid({
-							width: "100%",
-							autoheight: "true",
-							source: dataAdapter,
-							filterable: true,
-							sortable: true,
-							pageable: true,
-							editable: false,
-							pagesize: "50",
-							pagesizeoptions: ["50","100"],
-							showaggregates: false,
-							columnsresize: true,
-							autoshowfiltericon: true,
-							autoshowcolumnsmenubutton: false,
-							columnsreorder: true,
-							groupable: false,
-							selectionmode: "none",
-							altrows: true,
-							showtoolbar: false,
-							columns: [
-								{text: "Select", datafield: "permit_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
-								{text: "permit_num", datafield: "permit_num", width: 100, hideable: true, hidden: false }, 
-								{text: "permit_type", datafield: "permit_type", width: 100, hideable: true, hidden: false }, 
-								{text: "specific_type", datafield: "specific_type", width: 100, hideable: true, hidden: false }, 
-								{text: "permit_title", datafield: "permit_title", width: 100, hideable: true, hidden: false }, 
-								{text: "issued_date", datafield: "issued_date", width: 100, hideable: true, hidden: false }, 
-								{text: "renewed_date", datafield: "renewed_date", width: 100, hideable: true, hidden: false },
-								{text: "exp_date", datafield: "exp_date", width: 100, hideable: true, hidden: false },
-								{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
-								{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
-								{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
-         				]
-						});
-					});
-				</script>
-		'>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing queryPermitPickerHtml: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">
@@ -580,8 +863,713 @@ limitations under the License.
 		<cfabort>
 	</cfcatch>
 	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+<!--- backing for a permit number autocomplete control --->
+<cffunction name="getPermitNumberAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct permit_num, permit_id
+			from permit 
+			where upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			order by permit_num
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.permit_id#">
+			<cfset row["value"] = "#search.permit_num#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+<!--- backing for a permit title autocomplete control --->
+<cffunction name="getPermitTitleAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct permit_title, permit_id
+			from permit 
+			where upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			order by permit_title
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.permit_id#">
+			<cfset row["value"] = "#search.permit_title#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
+
+<!--- obtain an html block for picking permits for a permit text control and permit_id control  --->
+<cffunction name="queryPermitPickerHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="valuecontrol" type="string" required="yes">
+	<cfargument name="idcontrol" type="string" required="yes">
+	<cfargument name="dialog" type="string" required="yes">
+
+	<cfthread name="getPermitPickerThread">
+		<cftry>
+			<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select ct.permit_type, count(p.permit_id) uses from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type
+					group by ct.permit_type
+					order by ct.permit_type
+			</cfquery>
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select ct.specific_type, count(p.permit_id) uses from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+					group by ct.specific_type
+					order by ct.specific_type
+			</cfquery>
+			<cfoutput>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+						<h1 class="h3">Search for permits.</h1>
+						<form id="findPermitSearchForm" name="findPermit">
+							<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="issuedByAgent" class="data-entry-label mb-0">Issued By</label>
+									<input type="text" name="issuedByAgent" id="issuedByAgent" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="issuedToAgent"class="data-entry-label mb-0">Issued To</label>
+									<input type="text" name="issuedToAgent" id="issuedToAgent" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="issued_date" class="data-entry-label mb-0">Issued Date</label>
+									<input type="text" name="issued_date" id="issued_date" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="renewed_date" class="data-entry-label mb-0">Renewed Date</label>
+									<input type="text" name="renewed_date" id="renewed_date" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-sm-6">
+									<label for="exp_date" class="data-entry-label mb-0">Expiration Date</label>
+									<input type="text" name="exp_date" id="exp_date" class="data-entry-input">
+								</div>
+								<div class="col-12 col-sm-6">
+									<label for="permit_num_search" class="data-entry-label">Permit Number</label>
+									<input type="text" name="permit_num" id="permit_num_search" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<label for="permit_type" class="data-entry-label mb-0">Permit Type</label>
+									<select name="permit_Type" id="permit_type" class="data-entry-select w-75">
+										<option value=""></option>
+										<cfloop query="ctPermitType">
+											<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-6">
+									<label for="permit_remarks" class="data-entry-label mb-0">Remarks</label>
+									<input type="text" name="permit_remarks" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<label for="specific_type" class="data-entry-label mb-0">Specific Type</label>
+									<select name="specific_type" class="data-entry-select w-75">
+										<option value=""></option>
+										<cfloop query="ctSpecificPermitType">
+											<option value = "#ctSpecificPermitType.specific_type#">#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+										</cfloop>
+									</select>
+								</div>
+								<div class="col-12 col-md-6">
+									<label for="permit_title" class="data-entry-label mb-0">Permit Title</label>
+									<input type="text" name="permit_title" class="data-entry-input">
+								</div>
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<button type="submit" aria-label="Search for Permits" class="btn btn-xs btn-primary">Search<span class="fa fa-search pl-1"></span></button>
+								</div>
+							</div>
+						</form>
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+							<h4>Results: </h4>
+							<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
+						</div>
+						<div class="row mt-0">
+							<div id="permitPickSearchText"></div>
+							<div id="permitPickResultsGrid" class="jqxGrid"></div>
+							<div id="enableselection"></div>
+						</div>
+						<script>
+						$("##findPermitSearchForm").bind("submit", function(evt){
+							evt.preventDefault();
+								$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
+								$("##permitPickResultCount").html("");
+								$("##permitPickResultLink").html("");
+								$("##permitPickSearchText").jqxGrid("showloadelement");
+
+							   var permitSearch = {
+									datatype: "json",
+									datafields: [
+										{ name: "permit_id", type: "string" },
+								{ name: "permit_num", type: "string" }, 
+								{ name: "permit_type", type: "string" }, 
+								{ name: "specific_type", type: "string" }, 
+								{ name: "permit_title", type: "string" }, 
+								{ name: "issued_date", type: "string" }, 
+								{ name: "renewed_date", type: "string" },
+								{ name: "exp_date", type: "string" },
+								{ name: "permit_remarks", type: "string" },
+								{ name: "IssuedByAgent", type: "string" },
+								{ name: "IssuedToAgent", type: "string" }
+									],
+									root: "permitRecord",
+									id: "permit_id",
+									url: "/transactions/component/functions.cfc?" + $("##findPermitSearchForm").serialize()
+								};
+
+								var dataAdapter = new $.jqx.dataAdapter(permitSearch);
+
+								var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
+									var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+									return result;
+								};
+
+								$("##permitPickResultsGrid").jqxGrid({
+									width: "100%",
+									autoheight: "true",
+									source: dataAdapter,
+									filterable: true,
+									sortable: true,
+									pageable: true,
+									editable: false,
+									pagesize: "50",
+									pagesizeoptions: ["50","100"],
+									showaggregates: false,
+									columnsresize: true,
+									autoshowfiltericon: true,
+									autoshowcolumnsmenubutton: false,
+									columnsreorder: true,
+									groupable: false,
+									selectionmode: "none",
+									altrows: true,
+									showtoolbar: false,
+									columns: [
+										{text: "Select", datafield: "permit_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
+										{text: "permit_num", datafield: "permit_num", width: 100, hideable: true, hidden: false }, 
+										{text: "permit_type", datafield: "permit_type", width: 100, hideable: true, hidden: false }, 
+										{text: "specific_type", datafield: "specific_type", width: 100, hideable: true, hidden: false }, 
+										{text: "permit_title", datafield: "permit_title", width: 100, hideable: true, hidden: false }, 
+										{text: "issued_date", datafield: "issued_date", width: 100, hideable: true, hidden: false }, 
+										{text: "renewed_date", datafield: "renewed_date", width: 100, hideable: true, hidden: false },
+										{text: "exp_date", datafield: "exp_date", width: 100, hideable: true, hidden: false },
+										{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
+										{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
+										{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
+								]
+								});
+							});
+						</script>
+					</div>
+				</div>
+			</div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitPickerThread" />
+	<cfreturn getPermitPickerThread.output>
+</cffunction>
+
+<!---  Given a shipment_id, return a block of html code for a permit picking dialog to pick permits for the given
+       shipment.
+       @param shipment_id the shipment to which selected permits are to be related.
+       @return html content for a permit picker dialog for transaction permits or an error message if an exception was raised.
+
+       @see setShipmentForPermit 
+       @see findPermitShipSearchResults  
+--->
+<cffunction name="shipmentPermitPickerHtml" returntype="string" access="remote">
+	<cfargument name="shipment_id" type="string" required="yes">
+	<cfargument name="shipment_label" type="string" required="yes">
+   
+	<cfthread name="getSPPHtmlThread">
+ 	<cftry>
+		<cfquery name="ctPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select ct.permit_type, count(p.permit_id) uses 
+			from ctpermit_type ct left join permit p on ct.permit_type = p.permit_type 
+			group by ct.permit_type
+			order by ct.permit_type
+		</cfquery>
+		<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select ct.specific_type, count(p.permit_id) uses 
+			from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+			group by ct.specific_type
+			order by ct.specific_type
+		</cfquery>
+		<cfoutput>
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
+			<h1 class="h3">Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h1>
+			<form id="findPermitForm" onsubmit="searchforpermits(event);">
+				<input type="hidden" name="method" value="findPermitShipSearchResults">
+				<input type="hidden" name="returnformat" value="plain">
+				<input type="hidden" name="shipment_id" value="#shipment_id#">
+				<input type="hidden" name="shipment_label" value="#shipment_label#">
+				<div class="form-row">
+					<div class="col-12 col-md-3">
+						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
+						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
+						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
+					</div>
+					<div class="col-6 col-md-3">
+						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
+						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
+					</div>
+					<div class="col-6 col-md-3">
+						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
+						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
+						<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="permit_Num">Permit Number</label>
+						<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
+						<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
+							<option value=""></option>
+							<cfloop query="ctPermitType">
+								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-3">
+						<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
+						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-md-6">
+						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
+						<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
+							<option value=""></option>
+							<cfloop query="ctSpecificPermitType">
+								<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+							</cfloop>
+						</select>
+					</div>
+					<div class="col-12 col-md-6">
+						<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
+						<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-12 col-md-6">
+						<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
+						<script>
+							function createPermitDialogDone () { 
+								$("##permit_Num").val($("##permit_number_passon").val()); 
+							};
+						</script>
+						<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
+					</div>
+					<div class="col-12 col-md-6">
+						<span id="createPermit_#shipment_id#_span">
+							<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+						</span>
+						<div id="createPermitDlg_#shipment_id#"></div>
+					</div>
+				</div>
+			</form>
+			<script>
+				function searchforpermits(event) { 
+					event.preventDefault();
+					// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+					// console.log($('##findPermitForm').serialize());
+					jQuery.ajax({
+						url: '/transactions/component/functions.cfc',
+						type: 'post',
+						data: $('##findPermitForm').serialize(),
+						success: function (data) {
+							$('##permitSearchResults').html(data);
+						},
+						error: function (jqXHR, textStatus, error) {
+							handleFail(jqXHR,textStatus,error,'removing project from transaction record');
+							$('##permitSearchResults').html('Error:' + textStatus);
+						}
+					});
+					return false; 
+				};
+			</script>
+			<div id="permitSearchResults"></div>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+	<cfcatch>
+		<cfoutput>
+			<h2>Error: #cfcatch.Message# #cfcatch.Detail#</h2>
+		</cfoutput>
+	</cfcatch>
+	</cftry>
+	</cfthread>
+	<cfthread action="join" name="getSPPHtmlThread" />
+	<cfreturn getSPPHtmlThread.output>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a shipment_id and a list of permit search criteria return an html list of permits matching the
+      search criteria, along with controls allowing selected permits to be linked to the specified shipment.
+
+      @see shipmentPermitPickerHtml
+      @see setShipmentForPermit 
+--->
+<cffunction name="findPermitShipSearchResults" access="remote" returntype="string">
+	<cfargument name="shipment_id" type="string" required="yes">
+	<cfargument name="shipment_label" type="string" required="yes">
+	<cfargument name="IssuedByAgent" type="string" required="no">
+	<cfargument name="IssuedToAgent" type="string" required="no">
+	<cfargument name="issued_Date" type="string" required="no">
+	<cfargument name="renewed_Date" type="string" required="no">
+	<cfargument name="exp_Date" type="string" required="no">
+	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="specific_type" type="string" required="no">
+	<cfargument name="permit_Type" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfset result = "">
+	<cftry>
+		<cfif NOT isdefined('IssuedByAgent')><cfset IssuedByAgent=''></cfif>
+		<cfif NOT isdefined('IssuedToAgent')><cfset IssuedToAgent=''></cfif>
+		<cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
+		<cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
+		<cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
+		<cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+		<cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
+		<cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
+		<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+		<cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+		<cfif len(IssuedByAgent) EQ 0 AND len(IssuedToAgent) EQ 0 AND len(issued_Date) EQ 0 AND 
+				len(renewed_Date) EQ 0 AND len(exp_Date) EQ 0 AND len(permit_Num) EQ 0 AND 
+				len(specific_type) EQ 0 AND len(permit_Type) EQ 0 AND len(permit_title) EQ 0 AND 
+				len(permit_remarks) EQ 0 >
+			<cfthrow type="noQueryParameters" message="No search criteria provided." >
+		</cfif>
+
+		<cfquery name="matchPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct permit.permit_id,
+				issuedByPref.agent_name IssuedByAgent,
+				issuedToPref.agent_name IssuedToAgent,
+				issued_Date,
+				renewed_Date,
+				exp_Date,
+				permit_Num,
+				permit_Type,
+				permit_title,
+				specific_type,
+				permit_remarks,
+				(select count(*) from permit_shipment
+					where permit_shipment.permit_id = permit.permit_id
+					and permit_shipment.shipment_id = <cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#shipment_id#'>
+				) as linkcount
+			from 
+				permit 
+				left join preferred_agent_name issuedToPref on permit.issued_to_agent_id = issuedToPref.agent_id 
+				left join preferred_agent_name issuedByPref on permit.issued_by_agent_id = issuedByPref.agent_id 
+				left join agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+				left join agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id 
+				left join permit_trans on permit.permit_id = permit_trans.permit_id 
+			where
+				permit.permit_id is not null
+				<cfif len(#IssuedByAgent#) gt 0>
+					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedByAgent)#%'>
+				</cfif>
+				<cfif len(#IssuedToAgent#) gt 0>
+					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(IssuedToAgent)#%'>
+				</cfif>
+				<cfif len(#issued_Date#) gt 0>
+					AND upper(issued_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(issued_Date)#%'>
+				</cfif>
+				<cfif len(#renewed_Date#) gt 0>
+					AND upper(renewed_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(renewed_Date)#%'>
+				</cfif>
+				<cfif len(#exp_Date#) gt 0>
+					AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
+				</cfif>
+				<cfif len(#permit_Num#) gt 0>
+					AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+				</cfif>
+				<cfif len(#specific_type#) gt 0>
+					AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>
+				</cfif>
+				<cfif len(#permit_Type#) gt 0>
+					AND permit_Type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Type#'>
+				</cfif>
+				<cfif len(#permit_title#) gt 0>
+					AND upper(permit_title) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_title)#%'>
+				</cfif>
+				<cfif len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(permit_remarks)#%'>
+				</cfif>
+			ORDER BY permit_id
+		</cfquery>
+		<cfset i=1>
+		<cfset result = result & "<h2>Find permits to link to #shipment_label#</h2>">
+		<cfloop query="matchPermit" >
+			<cfset result = result & "<hr><div">
+			<cfif (i MOD 2) EQ 0> 
+				<cfset result = result & "class='evenRow'"> 
+			<cfelse> 
+				<cfset result = result & "class='oddRow'"> 
+			</cfif>
+			<cfset result = result & " >">
+			<cfset result = result & "
+		<form id='pp_#permit_id#_#shipment_id#_#i#' >
+			Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
+			issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+			<cfif len(#matchPermit.renewed_Date#) gt 0><cfset result = result & " (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)"></cfif>
+			<cfset result = result & ". Expires #dateformat(matchPermit.exp_Date,'yyyy-mm-dd')#.  ">
+			<cfif len(#matchPermit.permit_remarks#) gt 0><cfset result = result & "Remarks: #matchPermit.permit_remarks# "></cfif> 
+			<cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
+			<div id='pickResponse#shipment_id#_#i#'>">
+				<cfif matchPermit.linkcount GT 0>
+					<cfset result = result & " This Permit is already linked to #shipment_label# ">
+				<cfelse>
+			<cfset result = result & "
+				<input type='button' class='btn btn-xs btn-secondary'
+				onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
+			">
+			</cfif>
+			<cfset result = result & "
+			</div>
+		</form>
+		<script language='javascript' type='text/javascript'>
+		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
+		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
+			jQuery.ajax({
+				url: '/transactions/component/functions.cfc',
+				type: 'post',
+				data: {
+					method: 'setShipmentForPermit',
+					permit_id: permit_id,
+					shipment_id: shipment_id,
+					returnformat: 'json',
+					queryformat: 'column'
+				},
+				success: function (data) {
+					var dataobj = JSON.parse(data)
+					$('##'+div_id).html(dataobj.DATA.MESSAGE);
+				},
+				error: function (jqXHR, textStatus) {
+					$('##'+div_id).html('Error:' + textStatus);
+				}
+			});
+		};
+		</script>
+		</div>">
+			<cfset i=i+1>
+		</cfloop>
+
+	<cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+	</cfcatch>
+	</cftry>
 	<cfreturn result>
+</cffunction>
+
+<!---  
+	** function setShipmentForPermit Given a permit_id and a shipment_id, link the permit to the shipment 
+	*
+	* @param shipment_id the shipment to which to link the permit.
+	* @param permit_id the permit to link to the shipment
+	* @return a query containing status and message, status of 1 means success, 0 failure to insert, or 
+	* if an exception was raised, an http response with http statuscode of 500.
+	*
+	* @see shipmentPermitPickerHtml
+	* @see setShipmentForPermit 
+--->
+<cffunction name="setShipmentForPermit" access="remote">
+	<cfargument name="shipment_id" type="numeric" required="yes">
+	<cfargument name="permit_id" type="numeric" required="yes">
+	<cftry>
+		<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+			insert into permit_shipment (permit_id, shipment_id)
+			values ( <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#">)
+		</cfquery>
+		<cfif insertResultRes.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record not added. #permit_id# #shipment_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif insertResultRes.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<!--- 
+  ** function movePermitToShipment move a permit from one shippment to another 
+  * @param permit_id the permit to move.
+  * @source_shipment_id the shipment to move the permit from.
+  * @target_shipment_id the shipment to move the permit to.
+--->
+<cffunction name="movePermitToShipment" access="remote">
+	<cfargument name="source_shipment_id" type="numeric" required="yes">
+	<cfargument name="target_shipment_id" type="numeric" required="yes">
+	<cfargument name="permit_id" type="numeric" required="yes">
+	<cftransaction>
+		<cftry>
+			<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+				delete from permit_shipment
+				where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					and shipment_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#source_shipment_id#">
+			</cfquery>
+			<cfif deleteResultRes.recordcount NEQ 1>
+				<cfthrow message="Failed to properly delete old permit_shipment record">
+			</cfif>
+			<cfquery name="insertResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResultRes">
+				insert into permit_shipment (permit_id, shipment_id)
+				values ( 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#target_shipment_id#">
+				)
+			</cfquery>
+			<cfif insertResultRes.recordcount eq 0>
+				<cfthrow message="Failed to properly insert new permit_shipment record">
+			</cfif>
+			<cfif insertResultRes.recordcount eq 1>
+				<cfset theResult=queryNew("status, message")>
+				<cfset t = queryaddrow(theResult,1)>
+				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+			</cfif>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn theResult>
 </cffunction>
 
 <!--- backing for a permit lookup method returning json for permit table --->
@@ -672,7 +1660,7 @@ limitations under the License.
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getPermitsJSON: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
 		<cfheader statusCode="500" statusText="#message#">
 		<cfoutput>
 			<div class="container">
@@ -691,4 +1679,2392 @@ limitations under the License.
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+
+<cffunction name="getTransPermitMediaList" access="remote" returntype="string" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getPermitMediaListThread">
+		<cftry>
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type
+				from trans
+				where
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfset transaction = transType.transaction_type>
+			<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
+				from (
+					select 
+						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+						mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+						p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+						ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+					from
+						<cfif transaction EQ "loan"> 
+							loan_item li
+						<cfelseif transaction EQ "deacc">
+							deacc_item li
+						<cfelseif transaction EQ "borrow">
+							borrow_item li
+						<cfelse>
+							-- TODO: Accession not supported yet
+						</cfif>
+						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+						left join accn on ci.accn_id = accn.transaction_id
+						left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+						left join permit p on permit_trans.permit_id = p.permit_id
+						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					union
+					select 
+						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
+						mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+						p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
+					from shipment s
+						left join permit_shipment ps on s.shipment_id = ps.shipment_id
+						left join permit p on ps.permit_id = p.permit_id
+					where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+				) where permit_type is not null
+			</cfquery>
+			<cfoutput>
+					<cfset uriList = ''>
+					<ul class="">
+						<cfloop query="getPermitMedia">
+							<cfif media_id is ''>
+								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
+							<cfelse>
+								<cfif show_on_shipment EQ 1>
+									<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+									<cfset uriList = ListAppend(uriList,uri)>
+								<cfelse>
+									<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+								</cfif>
+							</cfif>
+						</cfloop>
+					</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitMediaListThread" />
+	<cfreturn getPermitMediaListThread.output>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<!--- Create an html form for entering a new permit and linking it to a transaction or shipment.   
+      @param related_id the transaction or shipment ID to link the new permit to.
+      @param related_label a human readable description of the transaction or shipment to link the new permit to.
+      @param relation_type 'transaction' to relate the new permit to a transaction, 'shipment' to relate to a shipment.
+      @return an html form suitable for placement as the content of a jquery-ui dialog to create the new permit.
+
+      @see createNewPermitForTrans
+---> 
+<cffunction name="getNewPermitForTransHtml" access="remote" returntype="string">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="related_label" type="string" required="yes">
+	<cfargument name="relation_type" type="string" required="yes">
+
+	<cfthread name="getPermitTransDialogThread">
+
+		<cftry>
+			<cfif relation_type EQ "transaction">
+				<cfset transaction_id = related_id>
+			<cfelse>
+				<cfset shipment_id = related_id>
+			</cfif>
+		
+			<cfquery name="ctSpecificPermitType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select ct.specific_type, ct.permit_type, count(p.permit_id) uses 
+				from ctspecific_permit_type ct left join permit p on ct.specific_type = p.specific_type
+				group by ct.specific_type, ct.permit_type
+				order by ct.specific_type
+			</cfquery>
+			<cfoutput>
+				<h2>Create New Permissions &amp; Rights Document</h2>
+				<p>Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
+				material transfer agreements, collecting permits, salvage permits, etc.)  This record will be linked to #related_label#</p>
+				<form id='newPermitForm' onsubmit='addnewpermit'>
+					<input type='hidden' name='method' value='createNewPermitForTrans'>
+					<input type='hidden' name='returnformat' value='plain'>
+					<input type='hidden' name='related_id' value='#related_id#'>
+					<input type='hidden' name='related_label' value='#related_label#'>
+					<input type='hidden' name='relation_type' value='#relation_type#'>
+					<div class="form-row">
+						<div class="col-12 col-md-4">
+							<span class="my-1 data-entry-label">
+								<label for="npf_issued_by">Issued By</label>
+								<span id="npf_issued_by_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="IssuedByAgentID" id="npf_IssuedByAgentId" value=""
+									onchange=" updateAgentLink($('##npf_IssuedByAgentId').val(),'npf_issued_by_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_issuedbyagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="IssuedByAgent" id="npf_issued_by" required class="form-control data-entry-input reqdClr">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_issued_by','npf_IssuedByAgentId','npf_issuedbyagent_icon','npf_issued_by_view_link',null)); 
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-4">
+							<span class="my-1 data-entry-label">
+								<label for="npf_issued_to">Issued To:</label>
+								<span id="npf_issued_to_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="IssuedToAgentID" id="npf_IssuedToAgentId" value=""
+									onchange=" updateAgentLink($('##npf_IssuedToAgentId').val(),'npf_issued_to_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_issuedtoagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="IssuedToAgent" id="npf_issued_to" required class="form-control data-entry-input reqdClr">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_issued_to','npf_IssuedToAgentId','npf_issuedtoagent_icon','npf_issued_to_view_link',null)); 
+								});
+							</script>
+						</div>
+						<div class="col-12 col-md-4">
+							<span class="my-1 data-entry-label">
+								<label for="npf_contact">Contact Person</label>
+								<span id="npf_contact_view_link" class="px-2">&nbsp;</span>
+							</span>
+							<input type="hidden" name="contact_agent_id" id="npf_ContactAgentId" value=""
+									onchange=" updateAgentLink($('##npf_ContactAgentId').val(),'npf_contact_view_link'); ">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text smaller" id="npf_contactagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="ContactAgent" id="npf_contact" class="form-control data-entry-input">
+							</div>
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('npf_contact','npf_ContactAgentId','npf_contactagent_icon','npf_contact_view_link',null)); 
+								});
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-4">
+							<label for="npf_issued_date" class="data-entry-label">Issued Date</label>
+							<input type="text" name="issued_date" id="npf_issued_date" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="npf_renewed_date" class="data-entry-label">Renewed Date</label>
+							<input type='text' name='renewed_Date'id="npf_renewed_date" class="data-entry-input" >
+						</div>
+						<div class="col-12 col-md-4">
+							<label for="npf_exp_date" class="data-entry-label">Expiration Date</label>
+							<input type="text" name="exp_Date" id="npf_exp_date" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_num" class="data-entry-label">Permit/Document Number</label>
+							<input type='text' name='permit_Num'id="npf_permit_num" class="data-entry-input" >
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="specific_type" class="data-entry-label">Specific Document Type</label>
+							<select name='specific_type' id='specific_type' size='1' class='reqdClr data-entry-select' required='yes' >
+								<option value=''></option>
+								<cfloop query="ctSpecificPermitType">
+									<option value = '#ctSpecificPermitType.specific_type#'>#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.permit_type#)</option>
+								</cfloop>
+							</select>
+							<cfif isdefined("session.roles") and listfindnocase(session.roles,"admin_permits")>
+								<button id='addSpecificTypeButton' onclick='openAddSpecificTypeDialog(); event.preventDefault();' class="btn btn-xs btn-secondary">+</button>
+								<div id='newPermitASTDialog'></div>
+							</cfif>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_title" class="data-entry-label">Document Title</label>
+							<input type="text" name="permit_title" id="npf_permit_title" class="data-entry-input">
+						</div>
+						<div class="col-12 col-md-6">
+							<label for="npf_permit_remarks" class="data-entry-label">Remarks</label>
+							<input type="text" name="permit_remarks" id="npf_permit_remarks" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_restriction_summary" class="data-entry-label">Summary of Restrictions on use</label>
+							<textarea cols='80' rows='3' name='restriction_summary' id="npf_restriction_summary" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_benefits_summary" class="data-entry-label">Summary of Agreed Benefits</label>
+							<textarea cols='80' rows='3' name='benefits_summary' id="npf_benefits_summary" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12">
+							<label for="npf_benefits_provided" class="data-entry-label">Benefits Provided</label>
+							<textarea cols='80' rows='3' name='benefits_provided' id="npf_benefits_provided" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<!--- Note: Save Permit Record button is created on containing dialog by opencreatepermitdialog() js function. --->
+					<script language='javascript' type='text/javascript'>
+						$("textarea.autogrow").keyup(autogrow);
+						function addnewpermit(event) { 
+							event.preventDefault();
+							return false; 
+						};
+					</script>
+				</form> 
+				<div id='permitAddResults'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2 class="h3">Error: #cfcatch.Message# #cfcatch.Detail#</h2>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitTransDialogThread" />
+	<cfreturn getPermitTransDialogThread.output>
+</cffunction>
+<!--------------------------------------------------------------------------------------------------->
+<!--- Given information about a new permissions/rights document record, create that record, and
+      link it to a provided transaction or shipment.
+
+      @param related_id the transaction_id or shipment_id to link the new permit to.
+      @param related_label a human readable descriptor of the transaction or shipment to link to.
+      @param relation_type the value "tranasction" to link the new permit to a transaction, "shipment"
+            to link it to a shipment.
+
+      @see getNewPermitForTransHtml
+--->
+<cffunction name="createNewPermitForTrans" returntype="string" access="remote">
+	<cfargument name="related_id" type="string" required="yes">
+	<cfargument name="related_label" type="string" required="yes">
+	<cfargument name="relation_type" type="string" required="yes">
+	<cfargument name="specific_type" type="string" required="yes">
+	<cfargument name="issuedByAgentId" type="string" required="yes">
+	<cfargument name="issuedToAgentId" type="string" required="yes">
+	<cfargument name="issued_date" type="string" required="no">
+	<cfargument name="renewed_date" type="string" required="no">
+	<cfargument name="exp_date" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
+	<cfargument name="contact_agent_id" type="string" required="no">
+
+	<cfset result = "">
+
+	<cftransaction action="begin">
+	<cftry>
+		<cfif NOT isdefined('issued_date')><cfset issued_date=''></cfif>
+		<cfif NOT isdefined('renewed_date')><cfset renewed_date=''></cfif>
+		<cfif NOT isdefined('exp_date')><cfset exp_date=''></cfif>
+		<cfif NOT isdefined('permit_num')><cfset permit_num=''></cfif>
+		<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
+		<cfif NOT isdefined('permit_remarks')><cfset permit_remarks=''></cfif>
+		<cfif NOT isdefined('restriction_summary')><cfset restriction_summary=''></cfif>
+		<cfif NOT isdefined('benefits_summary')><cfset benefits_summary=''></cfif>
+		<cfif NOT isdefined('benefits_provided')><cfset benefits_provided=''></cfif>
+		<cfif NOT isdefined('contact_agent_id')><cfset contact_agent_id=''></cfif>
+
+		<cfif relation_type EQ "transaction">
+			 <cfset transaction_id = related_id>
+		 <cfelse>
+			 <cfset shipment_id = related_id>
+		 </cfif>
+
+		<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		   select permit_type from ctspecific_permit_type where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+		</cfquery>
+		<cfset permit_type = #ptype.permit_type#>
+		<cfquery name="nextPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select sq_permit_id.nextval nextPermit from dual
+		</cfquery>
+		<cfif isdefined("specific_type") and len(#specific_type#) is 0 and ( not isdefined("permit_type") OR len(#permit_type#) is 0 )>
+			<cfthrow message="Error: There was an error selecting the permit type for the specific document type.  Please file a bug report.">
+		</cfif>
+		<cfquery name="newPermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitResult">
+			INSERT INTO permit (
+				PERMIT_ID,
+				ISSUED_BY_AGENT_ID
+				<cfif len(#ISSUED_DATE#) gt 0>
+					,ISSUED_DATE
+				</cfif>
+				,ISSUED_TO_AGENT_ID
+				<cfif len(#RENEWED_DATE#) gt 0>
+					,RENEWED_DATE
+				</cfif>
+				<cfif len(#EXP_DATE#) gt 0>
+					,EXP_DATE
+				</cfif>
+				<cfif len(#PERMIT_NUM#) gt 0>
+					,PERMIT_NUM
+				</cfif>
+				,PERMIT_TYPE
+				,SPECIFIC_TYPE
+				<cfif len(#PERMIT_TITLE#) gt 0>
+					,PERMIT_TITLE
+				</cfif>
+				<cfif len(#PERMIT_REMARKS#) gt 0>
+					,PERMIT_REMARKS
+				</cfif>
+				<cfif len(#restriction_summary#) gt 0>
+					,restriction_summary
+				</cfif>
+				<cfif len(#benefits_summary#) gt 0>
+					,benefits_summary
+				</cfif>
+				<cfif len(#benefits_provided#) gt 0>
+					,benefits_provided
+				</cfif>
+				<cfif len(#contact_agent_id#) gt 0>
+					,contact_agent_id
+				</cfif>)
+			VALUES (
+				#nextPermit.nextPermit#
+				, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedByAgentId#">
+				<cfif len(#ISSUED_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(ISSUED_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#IssuedToAgentId#">
+				<cfif len(#RENEWED_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(RENEWED_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				<cfif len(#EXP_DATE#) gt 0>
+					,<cfqueryparam CFSQLTYPE="CF_SQL_TIMESTAMP" value="#dateformat(EXP_DATE,"yyyy-mm-dd")#">
+				</cfif>
+				<cfif len(#PERMIT_NUM#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_num#">
+				</cfif>
+				, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+				, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+				<cfif len(#PERMIT_TITLE#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+				</cfif>
+				<cfif len(#PERMIT_REMARKS#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+				</cfif>
+				<cfif len(#restriction_summary#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+				</cfif>
+				<cfif len(#benefits_summary#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+				</cfif>
+				<cfif len(#benefits_provided#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+				</cfif>
+				<cfif len(#contact_agent_id#) gt 0>
+					, <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#contact_agent_id#">
+				</cfif>)
+		</cfquery>
+		<cfif newPermitResult.recordcount eq 1>
+			<cfset result = result & "<span>Created new Permissons/Rights record. ">
+			<cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
+			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
+		</cfif>
+		<cfquery name="newPermitLink" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newPermitLinkResult">
+			<cfif relation_type EQ "transaction">
+				INSERT into permit_trans (permit_id, transaction_id)
+			<cfelse>
+				INSERT into permit_shipment (permit_id, shipment_id)
+			</cfif>
+			VALUES
+				(<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#nextPermit.nextPermit#">,
+				<cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#related_id#">)
+		</cfquery>
+		<cfif newPermitLinkResult.recordcount eq 1>
+			<cfset result = result & "Linked to #related_label#">
+		</cfif>
+		<cftransaction action="commit">
+	<cfcatch>
+		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
+		<cftransaction action="rollback">
+	</cfcatch>
+	</cftry>
+	</cftransaction>
+	<cfreturn result >
+</cffunction>
+<!------------------------------------------------------->
+<cffunction name="getTrans_agent_role" access="remote">
+	<!---  obtain the list of transaction agent roles, used to populate agent role picklist for new agent rows in edit transaction forms --->
+	<!---  TODO: Add ability to restrict roles by transaction type --->
+	<cfargument name="transaction_type" type="string" required="no">
+	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
+	</cfquery>
+	<cfreturn k>
+</cffunction>
+
+
+<!------------------------------------------------------->
+<cffunction name="saveLoan" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="loan_number" type="string" required="yes">
+	<cfargument name="loan_type" type="string" required="yes">
+	<cfargument name="loan_status" type="string" required="yes">
+	<cfargument name="collection_id" type="string" required="yes">
+	<cfargument name="initiating_date" type="string" required="yes">
+	<cfargument name="nature_of_material" type="string" required="yes">
+	<!--- return_due_date is required, but not for exhibition subloans --->
+	<cfargument name="return_due_date" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="loan_description" type="string" required="no">
+	<cfargument name="loan_instructions" type="string" required="no">
+	<cfargument name="insurance_value" type="string" required="no">
+	<cfargument name="insurance_maintained_by" type="string" required="no">
+	<cfargument name="numagents" type="string" required="no">
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				UPDATE trans SET
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
+					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(initiating_date,"yyyy-mm-dd")#">,
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
+					trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfif not isdefined("return_due_date") or len(return_due_date) eq 0 >
+				<!--- If there is no value set for return_due_date, don't overwrite an existing value.  ---> 
+				<!--- This prevents edits to exhibition-subloans from wiping out an existing date value --->
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE loan SET
+						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
+						LOAN_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">,
+						loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">,
+						loan_description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">,
+						LOAN_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">,
+						insurance_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_VALUE#">,
+						insurance_maintained_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_MAINTAINED_BY#">
+					where 
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
+			<cfelse>
+				<cfquery name="upLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE loan SET
+						return_due_date = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(return_due_date,"yyyy-mm-dd")#">,
+						LOAN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_TYPE#">,
+						LOAN_NUMBER = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_number#">,
+						loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_status#">,
+						loan_description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#loan_description#">,
+						LOAN_INSTRUCTIONS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#LOAN_INSTRUCTIONS#">,
+						insurance_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_VALUE#">,
+						insurance_maintained_by = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#INSURANCE_MAINTAINED_BY#">
+					where 
+						transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
+			</cfif>
+			<cfif isdefined("loan_type") and loan_type EQ 'exhibition-master' >
+				<!--- Propagate due date to child exhibition-subloans --->
+				<cfset formatted_due_date = dateformat(return_due_date,"yyyy-mm-dd")>
+				<cfquery name="upChildLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE loan SET
+						return_due_date = <cfqueryparam value = "#formatted_due_date#" CFSQLType="CF_SQL_TIMESTAMP">
+					WHERE 
+						loan_type = 'exhibition-subloan' AND
+ 						transaction_id in (select lr.related_transaction_id from loan_relations lr where
+						lr.relation_type = 'Subloan' AND
+						lr.transaction_id = <cfqueryparam value = "#TRANSACTION_ID#" CFSQLType="CF_SQL_DECIMAL">)
+				</cfquery>
+			</cfif>
+			<cfloop from="1" to="#numAgents#" index="n">
+				<cfif IsDefined("trans_agent_id_" & n) >
+					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+					<cfset agent_id_ = evaluate("agent_id_" & n)>
+					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+					<cftry>
+						<cfset del_agnt_=evaluate("del_agnt_" & n)>
+					<cfcatch>
+						<cfset del_agnt_=0>
+					</cfcatch>
+					</cftry>
+					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from trans_agent 
+							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+						</cfquery>
+					<cfelse>
+						<cfif len(agent_id_) GT 0>
+							<!--- don't try to add/update a blank row --->
+							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									insert into trans_agent (
+										transaction_id,
+										agent_id,
+										trans_agent_role
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									)
+								</cfquery>
+							<cfelseif del_agnt_ is 0>
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update trans_agent set
+										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									where
+										trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
+				</cfif>
+			</cfloop>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#transaction_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<cffunction name="okToPrintLoan" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select agent_id, trans_agent_role
+			from trans_agent
+			where
+				trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfquery name="inhouse" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+		</cfquery>
+		<cfquery name="outside" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+		</cfquery>
+		<cfquery name="authorized" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+		</cfquery>
+		<cfquery name="recipientinstitution" dbtype="query">
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+		</cfquery>
+		<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+			<cfset okToPrint = true>
+			<cfset okToPrintMessage = "">
+		<cfelse>
+			<cfset okToPrint = false>
+			<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+		</cfif>
+		<cfset row = StructNew()>
+		<cfset row["okToPrint"] = "#okToPrint#">
+		<cfset row["message"] = "#okToPrintMessage#">
+		<cfset row["id"] = "#transaction_id#">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+		
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- obtain an html block to populate a print list dialog for a loan --->
+<cffunction name="getLoanPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getLoanPrintHtmlThread">
+		<cftry>
+			<cfquery name="loanDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select loan_type 
+				from loan
+				where
+					loan.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select agent_id, trans_agent_role
+				from trans_agent
+				where
+					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="inhouse" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+			</cfquery>
+			<cfquery name="outside" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+			</cfquery>
+			<cfquery name="authorized" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+			</cfquery>
+			<cfquery name="recipientinstitution" dbtype="query">
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+			</cfquery>
+			<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+				<cfset okToprint = true>
+			<cfelse>
+				<cfset okToprint = false>
+			</cfif>
+	
+			<cfoutput>
+				<h2 class="h2">Print Loan Paperwork</h2> 
+				<p>Links to available reports:</p>
+				<ul>
+					<!--- report_printer.cfm takes parameters transaction_id, report, and sort, where
+					sort={a field name that is in the select portion of the query specified in the custom tag}, or
+					sort={cat_num_pre_int}, which is interpreted as order by cat_num_prefix, cat_num_integer.
+					--->
+					<cfif okToPrint  >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_header" target="_blank">MCZ Invoice Header</a></li>
+					</cfif>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_loan_header" target="_blank">Header Copy for MCZ Files</a></li>
+					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhibition_loan_header" target="_blank">MCZ Exhibition Loan Header</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 and loanDetails.loan_type eq 'exhibition-master' and recipientinstitution.c GT 0 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_exhib_loan_header_five_plus" target="_blank">MCZ Exhibition Loan Header Long</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_legacy" target="_blank">MCZ Legacy Invoice Header</a></li>
+					</cfif>
+					<cfif okToPrint >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num" target="_blank">MCZ Item Invoice</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=cat_num_pre_int" target="_blank">MCZ Item Invoice (cat num sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items&sort=scientific_name" target="_blank">MCZ Item Invoice (taxon sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num" target="_blank">MCZ Item Parts Grouped Invoice</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=cat_num_pre_int" target="_blank">MCZ Item Parts Grouped Invoice (cat num sort)</a></li>
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_items_parts&sort=scientific_name" target="_blank">MCZ Item Parts Grouped Invoice (taxon sort)</a></li>
+					</cfif>
+					<cfif inhouse.c is 1 and outside.c is 1 >
+						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary" target="_blank">MCZ Loan Summary Report</a></li>
+					</cfif>
+					<li><a href="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
+					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getLoanPrintHtmlThread" />
+	<cfreturn getLoanPrintHtmlThread.output>
+</cffunction>
+
+<!--- obtain an html block for agents for a transaction  --->
+<cffunction name="agentTableHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAgentHtmlThread">
+		<cftry>
+			<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type
+				from trans
+				where
+					transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfset transaction = transType.transaction_type>
+			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select
+					trans_agent_id,
+					trans_agent.agent_id,
+					agent_name,
+					trans_agent_role,
+					MCZBASE.get_worstagentrank(trans_agent.agent_id) worstagentrank
+				from
+					trans_agent,
+					preferred_agent_name
+				where
+					trans_agent.agent_id = preferred_agent_name.agent_id and
+					trans_agent_role != 'entered by' and
+					trans_agent.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				order by
+					trans_agent_role,
+					agent_name
+			</cfquery>
+			<cfswitch expression="#transaction#">
+				<cfcase value="loan">
+					<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'stewarship from agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
+					</cfquery>
+					<!--- Obtain picklist values for loan agents controls.  --->
+					<cfquery name="inhouse" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
+					</cfquery>
+					<cfquery name="outside" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
+					</cfquery>
+					<cfquery name="authorized" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+					</cfquery>
+					<cfquery name="recipientinstitution" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
+					</cfquery>
+					<cfif inhouse.c is 1 and outside.c is 1 and authorized.c GT 0 and recipientinstitution.c GT 0 >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+					</cfif>
+				</cfcase>
+				<cfdefaultcase>
+					<!--- Obtain list of transaction agent roles --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by'
+					</cfquery>
+					<cfset okToPrint = false>
+					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
+				</cfdefaultcase>
+			</cfswitch>
+			<!--- TODO: Implement ok to print checks for other transaction types --->
+			<cfoutput>
+				<div class="form-row my-1">
+					<div class="col-12 mt-1">
+						<table id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan	" class="table table-responsive d-table mb-0">
+							<thead class="thead-light">
+								<tr>
+									<th colspan="2"> 
+										<span>
+											Agent&nbsp;Name&nbsp;
+											<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+										</span>
+									</th>
+									<th>Role</th>
+									<th>Delete?</th>
+									<th>Clone As</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="5" tabindex="0">
+										<cfif okToPrint >
+											<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
+										<cfelse>
+											<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
+										</cfif>
+									</td>
+								</tr>
+								<cfset i=1>
+								<cfloop query="transAgents">
+									<tr>
+										<td>
+											<!--- trans_agent_id_{i} identifies the row in trans_agent table holding this agent for this transaction in this role --->
+											<!--- trans_agent_id_{i} is not touched by makeRichTransAgentPicker or selection of an agent. --->
+											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												</div>
+												<!--- trans_agent_{i} is the human readable agent --->
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
+											</div>
+											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
+											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+											<script>
+												$(document).ready(function() {
+													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+												});
+											</script>
+										</td>
+										<td style=" min-width: 3.5em; ">
+											<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+												<cfif transAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif transAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</td>
+										<td>
+											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
+												<cfloop query="cttrans_agent_role">
+													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+														<cfset sel = 'selected="selected"'>
+													<cfelse>
+														<cfset sel = ''>
+													</cfif>
+													<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+												</cfloop>
+											</select>
+										</td>
+										<td class="text-center">
+											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline">
+											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
+										</td>
+										<td>
+											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="cttrans_agent_role">
+													<option value="#trans_agent_role#">#trans_agent_role#</option>
+												</cfloop>
+											</select>
+										</td>
+									</tr>
+									<cfset i=i+1>
+								</cfloop>
+								<cfset na=i-1>
+								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+							</tbody>
+						</table>
+						<!-- end agents table ---> 
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAgentHtmlThread" />
+	<cfreturn getAgentHtmlThread.output>
+</cffunction>
+
+<!------------------------------------->
+<!--- 
+  * method addSubLoanToLoan given two transaction ids add one transaction as the subloan of another. 
+  * @param transaction_id the parent transaction
+  * @param subloan_transaction_id the child transaction
+--->
+<cffunction name="addSubLoanToLoan" access="remote">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="addChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into loan_relations 
+				(transaction_id, related_transaction_id, relation_type)
+			values (
+				<cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				<cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL">,
+				'Subloan'
+			)
+		</cfquery>
+		<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select l.loan_number, l.transaction_id 
+			from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+			where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+			order by l.loan_number
+		</cfquery>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn childLoans>
+</cffunction>
+<!------------------------------------->
+
+<!--- 
+  * method removeSubLoan given two transaction ids remove one as the child of the other
+  * @param transaction_id the parent transaction
+  * @param subloan_transaction_id the child transaction to unlink from the parent
+--->
+<cffunction name="removeSubLoan" access="remote">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="subloan_transaction_id" type="string" required="yes">
+
+	<cfquery name="removeChildLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		delete from loan_relations
+		where transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+		related_transaction_id = <cfqueryparam value = "#subloan_transaction_id#" CFSQLType="CF_SQL_DECIMAL"> and
+		relation_type = 'Subloan'
+	</cfquery>
+	<cfquery name="childLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select l.loan_number, l.transaction_id from loan_relations lr left join loan l on lr.related_transaction_id = l.transaction_id
+		where lr.transaction_id = <cfqueryparam value = "#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+		order by l.loan_number
+	</cfquery>
+	<cfreturn childLoans>
+</cffunction>
+
+<!--- 
+ ** method getProjectListHtml obtains an html block listing the projects related to a transaction 
+ * 
+ * @param transaction_id the id of the transaction for which to look up projects.
+ * @return html to replace the html content of a div.
+--->
+<cffunction name="getProjectListHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getProjectListThread">
+		<cftry>
+			<cfquery name="projs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select project_name, project.project_id, 
+					project_trans_remarks,
+					to_char(start_date,'YYYY-MM-DD') as start_date,
+					to_char(end_date,'YYYY-MM-DD') as end_date
+				from project_trans left join project on project_trans.project_id =  project.project_id
+				where
+					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfoutput>
+				<ul class="list-group">
+					<cfif projs.recordcount gt 0>
+						<cfloop query="projs">
+							<li class="list-group-item py-1">
+								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
+								(#start_date#/#end_date#) #project_trans_remarks#
+								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
+							</li>
+						</cfloop>
+					<cfelse>
+						<li class="list-group-item">None</li>
+					</cfif>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getProjectListThread" />
+	<cfreturn getProjectListThread.output>
+</cffunction>
+
+<!--- 
+ ** method getlinkProjectDialogHtml obtains the html content for a dialog to pick a project to add to a transaction.
+ * 
+ * @param transaction_id the id of the transaction to which to add selected projects
+ * @return html to populate a dialog
+--->
+<cffunction name="getLinkProjectDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="linkProjectDialogThread">
+		<cftry>
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type, specific_number
+				from transaction_view
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfoutput>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+				<form id="project_picker_form">
+					<label for="pick_project_name">Pick a Project to associate with #lookupTrans.transaction_type# #lookupTrans.specific_number# (%% lists all projects)</label>
+					<input type="hidden" name="pick_project_id" id="pick_project_id" value="">
+					<input type="text" name="pick_project_name" id="pick_project_name" class="data-entry-input mb-2 reqdClr" >
+					<label for="project_trans_remarks">Project-Transaction Remarks</label>
+					<input type="text" name="project_trans_remarks" id="project_trans_remarks" class="data-entry-input mb-2" >
+					<script>
+						$(document).ready( makeProjectPicker('pick_project_name','pick_project_id') );
+						function saveProjectLink() {
+							var id = $('##pick_project_id').val();
+							var remarks = $('##project_trans_remarks').val();
+							if (id) { 
+								jQuery.getJSON("/transactions/component/functions.cfc",
+									{
+										method : "linkProjectToTransaction",
+										project_id : id,
+										transaction_id : #transaction_id#,
+										project_trans_remarks: remarks,
+										returnformat : "json",
+										queryformat : 'column'
+									},
+									function (result) {
+										if (result.DATA.STATUS[0]=='1') { 
+											$('##project_picker_form').html('Relationship to project saved.');
+										} else {
+											messageDialog('Error linking project to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
+										}
+									}
+								).fail(function(jqXHR,textStatus,error){
+									var message = "";
+									if (error == 'timeout') {
+										message = ' Server took too long to respond.';
+									} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+										message = ' Backing method did not return JSON.';
+									} else {
+										message = jqXHR.responseText;
+									}
+									if (!error) { error = ""; } 
+									messageDialog('Error linking project to transaction record: '+message, 'Error: '+error.substring(0,50));
+								});
+							} else { 
+								messageDialog('You must pick a project from the picklist)','Error: No project picked to link');
+							}
+						};
+					</script>
+					<button type="button" class="btn btn-xs btn-primary" onClick="saveProjectLink();">Save</button>
+				</form>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="linkProjectDialogThread" />
+	<cfreturn linkProjectDialogThread.output>
+</cffunction>
+
+
+<!--- 
+ ** method getlinkProjectDialogHtml obtains the html content for a dialog to create a project to add to a transaction.
+ * 
+ * @param transaction_id the id of the transaction to which to add the new project
+ * @return html to populate a dialog 
+--->
+<cffunction name="getAddProjectDialogHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getProjectDialogThread">
+		<cftry>
+			<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select transaction_type, specific_number, trans_date, trans_remarks
+				from transaction_view
+				where
+					transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfoutput>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+						<h1 class="h4" for="create_project">Create a New Project linked to #lookupTrans.transaction_type# #lookupTrans.specific_number#</h1>
+						<form id="create_project">
+					<input type="hidden" name="transaction_id" value="#transaction_id#">
+					<input type="hidden" name="method" value="createProjectLinkToTrans">
+					<input type="hidden" name="returnformat" value="json">
+					<input type="hidden" name="queryformat" value="column">
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<span class="my-1 data-entry-label">
+								<label for="newAgent_name">Project Agent Name</label>
+								<span id="newAgentViewLink" class="px-2">&nbsp;</span>
+							</span>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text small" id="project_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								</div>
+								<input type="text" name="newAgent_name" id="newAgent_name" required class="form-control data-entry-input reqdClr" value="">
+							</div>
+							<input type="hidden" name="newAgent_name_id" id="newAgent_name_id" value=""
+								onchange=" updateAgentLink($('##newAgent_name_id').val(),'newAgentViewLink'); ">
+							<script>
+								$(document).ready(function() {
+									$(makeRichTransAgentPicker('newAgent_name','newAgent_name_id','project_agent_icon','newAgentViewLink',null)); 
+								});
+							</script>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<cfquery name="ctProjAgRole" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select project_agent_role from ctproject_agent_role order by project_agent_role
+							</cfquery>
+							<label for="project_agent_role" class="data-entry-label">Project Agent Role</label>
+							<select name="project_agent_role" id="project_agent_role" size="1" class="reqdClr data-entry-select" required>
+								<option value=""></option>
+								<cfloop query="ctProjAgRole">
+								<option value="#ctProjAgRole.project_agent_role#">#ctProjAgRole.project_agent_role#</option>
+								</cfloop>
+							</select>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<label for="start_date" class="data-entry-label">Project Start Date</label>
+							<input type="text" name="start_date" id="start_date" value="#dateformat(lookupTrans.trans_date,"yyyy-mm-dd")#" class="data-entry-input">
+						</div>
+						<div class="col-12 px-0">
+							<label for="end_date" class="data-entry-label">Project End Date</label>
+							<input type="text" name="end_date" id="end_date" class="data-entry-input">
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<label for="project_name" class="data-entry-label">Project Title</label>
+							<textarea name="project_name" id="project_name" cols="50" rows="2" class="reqdClr form-control autogrow" required></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<label for="project_description" class="data-entry-label">Project Description</label>
+							<textarea name="project_description" id="project_description" class="form-control autogrow"
+								id="project_description" cols="50" rows="2"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<label for="project_remarks" class="data-entry-label">Project Remarks</label>
+							<textarea name="project_remarks" id="project_remarks" cols="50" rows="2" class="form-control autogrow">#lookupTrans.trans_remarks#</textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+							<label for="project_trans_remarks" class="data-entry-label">Project-Transaction Remarks</label>
+							<textarea name="project_trans_remarks" id="project_trans_remarks" cols="50" rows="2" class="form-control autogrow"></textarea>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-12 px-0">
+						<div class="form-group mt-2">
+							<input type="button" value="Create Project" aria-label="Create Project" class="btn btn-xs btn-primary"
+								onClick="if (checkFormValidity($('##create_project')[0])) { createProject();  } ">
+						</div>
+						</div>
+					</div>
+					<script>
+						$(document).ready(function() { 
+							$("textarea.autogrow").keyup(autogrow);  
+							$('textarea.autogrow').keyup();
+						});
+						function createProject(){
+							$.ajax({
+								url : "/transactions/component/functions.cfc",
+								type : "post",
+								dataType : "json",
+								data: $("##create_project").serialize(),
+								success: function (result) {
+									if (result.DATA.STATUS[0]=='1') { 
+										$('##create_project').html('New project saved. ['+result.DATA.ID[0]+']');
+									} else {
+										messageDialog('Error creating project to link to transaction record: '+result.DATA.MESSAGE[0], 'Error saving project-transaction relation.');
+									}
+								},
+								error: function(jqXHR,textStatus,error){
+									handleFail(jqXHR,textStatus,error,"creating project to link to transaction record");
+								}
+							});
+						};
+					</script>
+				</form>
+						</div>
+					</div>
+			
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getProjectDialogThread" />
+	<cfreturn getProjectDialogThread.output>
+</cffunction>
+
+<!--- 
+ ** method removeMediaFromTransaction unlink a media record from a transaction.
+ *
+ * @param transaction_id the transaction id that is the related_primary_key of the media_relations record to delate.
+ * @parem media_id the media id of the media_relations record to delete
+ * @param media_relationship the media relationship of the media_relations record to delete.
+--->
+<cffunction name="removeMediaFromTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="media_relationship" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from media_relations
+			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+				and media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #transaction_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount GT 1>
+			<cfthrow message="More than one (#deleteResult.recordcount#) deleted.">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+	<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
+
+<!--- 
+ ** method linkProjectToTransaction unlink a media record from a transaction.
+ *
+ * @param transaction_id the transaction id that is the related_primary_key of the media_relations record to delate.
+ * @parem media_id the media id of the media_relations record to delete
+ * @param media_relationship the media relationship of the media_relations record to delete.
+--->
+<cffunction name="linkProjectToTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+			insert into project_trans (
+				transaction_id
+				,project_id
+				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+					,project_trans_remarks
+				</cfif>
+			) values (
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			 	,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+				<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_trans_remarks#">
+				</cfif>
+			)
+		</cfquery>
+		<cfif add_result.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No record added. #transaction_id# #project_id# #add.sql#", 1)>
+		</cfif>
+		<cfif add_result.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record Added.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+
+<cffunction name="createProjectLinkToTrans" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_name" type="string" required="yes">
+	<cfargument name="start_date" type="string" required="no">
+	<cfargument name="end_date" type="string" required="no">
+	<cfargument name="project_description" type="string" required="no">
+	<cfargument name="project_remarks" type="string" required="no">
+	<cfargument name="newAgent_name_id" type="string" required="yes">
+	<cfargument name="project_agent_role" type="string" required="yes">
+	<cfargument name="project_trans_remarks" type="string" required="no">
+	<cfset r=1>
+	<cftransaction>
+		<cftry>
+			<cfquery name="newProjSeq" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select sq_project_id.nextval as id from dual
+			</cfquery>
+			<cfset project_id_new = newProjSeq.id>
+			<cfquery name="newProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project (
+					PROJECT_ID
+					,PROJECT_NAME
+					<cfif len(#START_DATE#) gt 0>
+						,START_DATE
+					</cfif>
+					<cfif len(#END_DATE#) gt 0>
+						,END_DATE
+					</cfif>
+					<cfif len(#PROJECT_DESCRIPTION#) gt 0>
+						,PROJECT_DESCRIPTION
+					</cfif>
+					<cfif len(#PROJECT_REMARKS#) gt 0>
+						,PROJECT_REMARKS
+					</cfif>
+				)
+				VALUES 
+				(
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_NAME#">
+					<cfif len(#START_DATE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(START_DATE,"yyyy-mm-dd")#">
+					</cfif>
+					<cfif len(#END_DATE#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(END_DATE,"yyyy-mm-dd")#">
+					</cfif>
+					<cfif len(#PROJECT_DESCRIPTION#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_DESCRIPTION#">
+					</cfif>
+					<cfif len(#PROJECT_REMARKS#) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#PROJECT_REMARKS#">
+					</cfif>
+				)
+			</cfquery>
+			<cfquery name="newProjAgnt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project_agent (
+					PROJECT_ID,
+					AGENT_NAME_ID,
+					PROJECT_AGENT_ROLE,
+					AGENT_POSITION )
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newAgent_name_id#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_agent_role#">
+					,1 )
+			</cfquery>
+			<cfquery name="newTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				INSERT INTO project_trans (
+					project_id
+					, transaction_id
+					<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+						,project_trans_remarks
+					</cfif>
+				) 
+				values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id_new#">
+					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+					<cfif isDefined("project_trans_remarks") AND len(project_trans_remarks) GT 0>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#project_trans_remarks#">
+					</cfif>
+				)
+			</cfquery>
+			<cfset data=queryNew("status, message, id")>
+			<cfset t = queryaddrow(data,1)>
+			<cfset t = QuerySetCell(data, "status", "1", 1)>
+			<cfset t = QuerySetCell(data, "message", "Record Added.", 1)>
+			<cfset t = QuerySetCell(data, "id", "#project_id_new#", 1)>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cftry>
+				<cfif isDefined("cfcatch.TagContext") ><cfset line="Line: #cfcatch.TagContext[1].line#"><cfelse><cfset line = ''></cfif>
+			<cfcatch>
+				<cfset line = ''>
+			</cfcatch>
+			</cftry>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & line & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #data#>
+</cffunction>
+
+<!--- 
+ ** method removeProjectFromTransaction unlink a project record from a transaction (weak entity, 
+ *  primary key comprised of foreign keys transaction_id and project_id.
+ *
+ * @param transaction_id the transaction id of the project_trans record to delate.
+ * @parem project_id the project id of the project_trans record to delete
+--->
+<cffunction name="removeProjectFromTransaction" returntype="any" access="remote" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="project_id" type="string" required="yes">
+	<cfset r=1>
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from project_trans
+			where transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				and project_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #project_id# #transaction_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfif isDefined("asTable") AND asTable eq "true">
+		<cfreturn resulthtml>
+	<cfelse>
+		<cfreturn theResult>
+	</cfif>
+</cffunction>
+
+
+
+<!--- 
+  ** obtain an html block for picking addresses for a shipment using an address text control and address_id control 
+  *  with a specified dialog.
+  *
+ --->
+<cffunction name="getAddressPickerHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="valuecontrol" type="string" required="yes">
+	<cfargument name="idcontrol" type="string" required="yes">
+	<cfargument name="dialog" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAddressPickerThread">
+
+	<cftry>
+		<cfquery name="lookupTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select transaction_type, specific_number, trans_date, trans_remarks
+			from transaction_view
+			where
+				transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+		</cfquery>
+		<cfif lookupTrans.transaction_type EQ "accn"> 
+			<!--- Temporary addresses for agents can be created for accessions, where an agent working at the MCZ is shipping from a temporary address on an expedition --->
+			<cfset includeTemporary = "true">
+		<cfelse>
+			<cfset includeTemporary = "">
+		</cfif>
+		<cfoutput>
+			<h1 class="h3">Search for Addresses</h1>
+   		<form id="findAddressSearchForm" name="findAddress" class="mb-4">
+				<input type="hidden" name="method" value="getAddressesJSON" class="keeponclear">
+				<input type="hidden" name="include_temporary" value="#includeTemporary#" class="keeponclear">
+
+				<cfif includeTemporary EQ "true">
+					<h2>TODO: Implement temporary address creation.</h2>
+				</cfif>
+
+				<div class="row col-12">
+					<div class="col-12 col-md-4 mt-1">
+						<span class="my-1 data-entry-label">
+							<label for="shipment_agent_name">Agent Name</label>
+							<span id="shipment_agent_view_link" class="px-2 infoLink">&nbsp;</span>
+						</span>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text small bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+							</div>
+							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control data-entry-input" value="">
+						</div>
+						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
+							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
+						<script>
+							$(document).ready(function() {
+								$(makeRichTransAgentPicker('shipment_agent_name','shipment_agent_id','shipment_agent_icon','shipment_agent_view_link',null)); 
+							});
+						</script>
+					</div>
+					<div class="col-12 col-md-4 mt-1">
+						<label for="start_date" class="data-entry-label">Address</label>
+						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
+					</div>
+					<div class="col-12 col-md-4 mt-0 mt-md-1">
+							<label for="start_date" class="data-entry-label invisible">search for shipping address</label>
+						<button class="btn btn-xs btn-primary px-3" id="searchButton"
+							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
+					</div>
+				</div>
+			</form>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+				<h4>Results: </h4>
+				<div class="px-3 p-2" id="addressPickResultCount"></div> 
+				<div id="addressPickResultLink" class="p-2"></div>
+			</div>
+			<div class="row mt-0">
+				<div id="addressPickSearchText"></div>
+				<div id="addressPickResultsGrid" class="jqxGrid"></div>
+				<div id="enableselection"></div>
+			</div>
+			<script>
+				$("##findAddressSearchForm").bind("submit", function(evt){
+					evt.preventDefault();
+					$("##addressPickResultsGrid").replaceWith('<div id="addressPickResultsGrid" class="jqxGrid"></div>');
+					$("##addressPickResultCount").html("");
+					$("##addressPickResultLink").html("");
+					$("##addressPickSearchText").jqxGrid("showloadelement");
+
+					var addressSearch = {
+						datatype: "json",
+						datafields: [
+							{ name: "addr_id", type: "string" },
+							{ name: "agent_name", type: "string" },
+							{ name: "agent_id", type: "string" },
+							{ name: "formatted_addr", type: "string" },
+							{ name: "valid_addr_fg", type: "string" },
+							{ name: "addr_type", type: "string" }
+						],
+						root: "addressRecord",
+						id: "address_id",
+						url: "/transactions/component/functions.cfc?" + $("##findAddressSearchForm").serialize()
+					};
+
+					var dataAdapter = new $.jqx.dataAdapter(addressSearch);
+
+					// TODO: Implement agentcellrenderer, bind to agent id to create view link for agent
+
+					var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
+						var pvalue = rowdata.formatted_addr;
+						var result = "<button class=\"btn btn-xs btn-outline-primary mx-2 mt-1\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+						return result;
+					};
+
+					$("##addressPickResultsGrid").jqxGrid({
+						width: "100%",
+						autoheight: "true",
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: false,
+						pagesize: "50",
+						pagesizeoptions: ["50","100"],
+						showaggregates: false,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						columnsreorder: true,
+						groupable: false,
+						selectionmode: "none",
+						altrows: true,
+						showtoolbar: false,
+						columns: [
+							{text: "Select", datafield: "addr_id", width: 100, hideable: false, hidden: false, cellsrenderer: linkcellrenderer }, 
+							{text: "Agent", datafield: "agent_name", width: 150, hideable: true, hidden: false }, 
+							{text: "agent_id", datafield: "agent_id", width: 50, hideable: true, hidden: true }, 
+							{text: "Valid", datafield: "valid_addr_fg", width: 80, hideable: true, hidden: false },
+							{text: "Type", datafield: "addr_type", width: 150, hideable: true, hidden: false },
+							{text: "Address", datafield: "formatted_addr", hideable: true, hidden: false }
+						]
+					});
+				});
+			</script>
+		</div>
+	</div>
+			</div>
+		</cfoutput>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+	</cfthread>
+	<cfthread action="join" name="getAddressPickerThread" />
+	<cfreturn getAddressPickerThread.output>
+</cffunction>
+
+
+<cffunction name="getAddressesJSON" access="remote" returntype="any" returnformat="json">
+	<cfargument name="shipment_agent_id" type="string" required="no">
+	<cfargument name="formatted_address" type="string" required="no">
+	<cfargument name="include_temporary" type="string" required="no">
+	<cfif isdefined("include_temporary") and #include_temporary# IS "true">
+		<cfset showTemp = TRUE>
+	<cfelse>
+		<cfset showTemp = FALSE>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT agent_name, preferred_agent_name.agent_id, formatted_addr, addr_id,VALID_ADDR_FG, addr_type
+			FROM preferred_agent_name left join addr on preferred_agent_name.agent_id = addr.agent_id
+			WHERE
+				formatted_addr is not null
+			<cfif showTemp EQ FALSE >
+				AND addr_type <> 'temporary'
+			</cfif >
+			<cfif isdefined("shipment_agent_id") AND len(shipment_agent_id) gt 0>
+				AND addr.agent_id = <cfqueryparam value="#shipment_agent_id#" cfsqltype="CF_SQL_DECIMAL">
+			<cfelseif isdefined("formatted_address") AND len(formatted_address) gt 0>
+				AND upper(formatted_addr) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(formatted_address)#%" >
+			</cfif>
+			ORDER BY valid_addr_fg desc, agent_name asc
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["agent_name"] = "#search.agent_name#">
+			<cfset row["agent_id"] = "#search.agent_id#">
+			<cfset row["formatted_addr"] = "#JSStringFormat(search.formatted_addr)#">
+			<cfset row["addr_id"] = "#search.addr_id#">
+			<cfset row["valid_addr_fg"] = "#search.valid_addr_fg#">
+			<cfset row["addr_type"] = "#search.addr_type#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+   Function to create or save a shipment from a ajax post
+   @param shipment_id the shipment_id of the shipment to save, if null, then create a new shipment.
+   @param transaction_id the transaction with which this shipment is associated.
+   @return json query structure with STATUS = 0|1 and MESSAGE, status = 0 on a failure.
+ --->
+<cffunction name="saveShipment" returntype="query" access="remote">
+   <cfargument name="shipment_id" required="no">
+   <cfargument name="transaction_id" type="numeric" required="yes">
+   <cfargument name="packed_by_agent_id" type="numeric" required="no">
+   <cfargument name="shipped_carrier_method" type="string" required="no">
+   <cfargument name="carriers_tracking_number" type="string" required="no">
+   <cfargument name="shipped_date" type="string" required="no">
+   <cfargument name="package_weight" type="string" required="no">
+   <cfargument name="no_of_packages" type="string" required="no">
+   <cfargument name="hazmat_fg" type="numeric" required="no">
+   <cfargument name="insured_for_insured_value" type="string" required="no">
+   <cfargument name="shipment_remarks" type="string" required="no">
+   <cfargument name="contents" type="string" required="no">
+   <cfargument name="foreign_shipment_fg" type="numeric" required="no">
+   <cfargument name="shipped_to_addr_id" type="string" required="no">
+   <cfargument name="shipped_from_addr_id" type="string" required="no">
+   <cfset theResult=queryNew("status, message")>
+   <cftry>
+      <cfset debug = shipment_id >
+      <!---  Try to obtain a numeric value for no_of_packages, if this fails, set no_of_packages to empty string to not include --->
+      <cfset noofpackages = val(#no_of_packages#) >
+      <cfif noofpackages EQ 0>
+          <cfset no_of_packages = "">
+      </cfif>
+      <cfif NOT IsDefined("shipment_id") OR shipment_id EQ "">
+         <!---  Determine how many shipments there are in this transaction, if none, set the print_flag on the new shipment --->
+         <cfquery name="countShipments" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             select count(*) ct from shipment
+                where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+         </cfquery>
+         <cfif countShipments.ct EQ 0>
+             <cfset printFlag = 1>
+         <cfelse>
+             <cfset printFlag = 0>
+         </cfif>
+         <cfset debug = shipment_id & "Insert" >
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             insert into shipment (
+                transaction_id, packed_by_agent_id, shipped_carrier_method, carriers_tracking_number, shipped_date, package_weight,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                  no_of_packages,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                  insured_for_insured_value,
+                </cfif>
+                hazmat_fg, shipment_remarks, contents, foreign_shipment_fg,
+                shipped_to_addr_id, shipped_from_addr_id,
+                print_flag
+             )
+             values (
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">,
+                <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#">,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#insured_for_insured_value#" null="yes">,
+                </cfif>
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
+                <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">,
+                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#printFlag#">
+             )
+         </cfquery>
+      <cfelse>
+         <cfset debug = shipment_id & "Update" >
+         <cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+             update shipment set
+                packed_by_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#packed_by_agent_id#">,
+                shipped_carrier_method = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipped_carrier_method#">,
+                carriers_tracking_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#carriers_tracking_number#">,
+                shipped_date = <cfqueryparam cfsqltype="CF_SQL_DATE" value="#shipped_date#">,
+                package_weight = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#package_weight#">,
+                <cfif isdefined("no_of_packages") and len(#no_of_packages#) gt 0>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#noofpackages#" >,
+                <cfelse>
+                   no_of_packages = <cfqueryparam cfsqltype="CF_SQL_NULL" null="yes" value="" >,
+                </cfif>
+                <cfif isdefined("insured_for_insured_value") and len(#insured_for_insured_value#) gt 0>
+                   insured_for_insured_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insured_for_insured_value#">,
+                </cfif>
+                hazmat_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#hazmat_fg#">,
+                shipment_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shipment_remarks#">,
+                contents = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#contents#">,
+                foreign_shipment_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#foreign_shipment_fg#">,
+                shipped_to_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_to_addr_id#">,
+                shipped_from_addr_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipped_from_addr_id#">
+             where
+                shipment_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#shipment_id#"> and
+                transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+          </cfquery>
+      </cfif>
+      <cfset t = queryaddrow(theResult,1)>
+      <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+      <cfset t = QuerySetCell(theResult, "message", "Saved.", 1)>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
+
+<cffunction name="savePermit" access="remote" returntype="any" returnformat="json">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="issued_to_agent_id" type="string" required="yes">
+	<cfargument name="issued_by_agent_id" type="string" required="yes">
+	<cfargument name="specific_type" type="string" required="yes">
+	<cfargument name="contact_agent_id" type="string" required="no">
+	<cfargument name="issued_date" type="string" required="no">
+	<cfargument name="renewed_date" type="string" required="no">
+	<cfargument name="exp_date" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_title" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfquery name="ptype" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select permit_type 
+				from ctspecific_permit_type 
+				where specific_type = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+			</cfquery>
+			<cfset permit_type = #ptype.permit_type#>
+			<cfoutput>
+				<cfquery name="updatePermit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					UPDATE permit SET
+						permit_id = <cfqueryparam CFSQLTYPE="CF_SQL_DECIMAL" value="#permit_id#">
+						,ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_agent_id#">
+						,ISSUED_TO_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_agent_id#">
+						,SPECIFIC_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#specific_type#">
+						,PERMIT_TYPE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_type#">
+						<cfif isdefined("contact_agent_id") and len(#contact_agent_id#) gt 0>
+							,contact_agent_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#contact_agent_id#">
+						<cfelse>
+							,contact_agent_id = null
+						</cfif>
+						<cfif isdefined("issued_date") AND len(#issued_date#) GT 0 >
+							,ISSUED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#issued_date#">
+						<cfelse>
+							,ISSUED_DATE = null
+						</cfif>
+						<cfif isdefined("renewed_date") and len(#renewed_date#) GT 0 >
+							,RENEWED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#renewed_date#">
+						<cfelse>
+							,RENEWED_DATE = null
+						</cfif>
+						<cfif isdefined("exp_date") and len(#exp_date#) GT 0>
+							,EXP_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#exp_date#">
+						<cfelse>
+							,EXP_DATE = null
+						</cfif>
+						<cfif isdefined("PERMIT_NUM")>
+							,PERMIT_NUM = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_num#">
+						</cfif>
+						<cfif isdefined("PERMIT_TITLE")>
+							,PERMIT_TITLE = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_title#">
+						</cfif>
+						<cfif isdefined("PERMIT_REMARKS")>
+							,PERMIT_REMARKS = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#permit_remarks#">
+						</cfif>
+						<cfif isdefined("restriction_summary")>
+							,restriction_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#restriction_summary#">
+						</cfif>
+						<cfif isdefined("benefits_summary")>
+							,benefits_summary = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_summary#">
+						</cfif>
+						<cfif isdefined("benefits_provided")>
+							,benefits_provided = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#benefits_provided#">
+						</cfif>
+					where  permit_id =  <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+				</cfquery>
+			</cfoutput>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#permit_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="getPermitMediaHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="permit_id" type="string" required="yes">
+	<cfargument name="correspondence" type="string" required="no">
+
+	<cfif isdefined("correspondence") and len(#correspondence#) gt 0>
+		<cfset relation = "document for permit">
+		<cfset heading = "Additional Documents">
+	<cfelse>
+		<cfset relation = "shows permit">
+		<cfset heading = "The Document (copy of the actual permit)">
+	</cfif>
+	<cfset rel = left(relation,3)>
+
+	<cfthread name="getPermitMediaThread">
+		<cftry>
+			<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select permit.permit_id,
+					issuedBy.agent_name as IssuedByAgent,
+					issued_Date,
+					permit_Num,
+			 		permit_Type
+				from
+					permit,
+					preferred_agent_name issuedBy
+				where
+					permit.issued_by_agent_id = issuedBy.agent_id (+)
+					and permit_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			</cfquery>
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct media.media_id as media_id, preview_uri, media.media_uri, media.mime_type, media.media_type as media_type,
+					MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+	  				MCZBASE.get_media_descriptor(media.media_id) as media_descriptor,
+					label_value
+				from media_relations left join media on media_relations.media_id = media.media_id
+					left join media_labels on media.media_id = media_labels.media_id
+				where media_relations.media_relationship = <cfqueryparam value="#relation#" CFSQLType="CF_SQL_VARCHAR">
+					and (media_label = 'description' or media_label is null )
+					and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
+			</cfquery>
+			<cfoutput>
+				<h3>#heading# Media</h3>
+				<cfif query.recordcount gt 0>
+					<ul>
+					<cfloop query="query">
+						<cfset puri=getMediaPreview(preview_uri,media_type) >
+						<cfif puri EQ "/images/noThumb.jpg">
+							<cfset altText = "Red X in a red square, with text, no preview image available">
+						<cfelse>
+							<cfset altText = query.media_descriptor>
+						</cfif>
+						<li>
+							<a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a>
+							#mime_type# #media_type# #label_value# 
+							<a href='/media/#media_id#' target='_blank'>Media Details</a>
+							<input class='btn btn-xs btn-warning' 
+									onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
+									value='Remove' style='width: 5em; text-align: center;' >
+						</li>
+					</cfloop>
+					</ul>
+				</cfif>
+				<span>
+					<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
+						<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
+							value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
+						<span id='addPermit_#permit_id#'>
+							<input type='button' value='Link Media' class='btn btn-xs btn-secondary' 
+								onClick="openlinkmediadialog('addPermitDlg_#permit_id#_#rel#','Pick Media for Permit #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia); " >
+						</span>
+					</cfif>
+				</span>
+				<div id='addMediaDlg_#permit_id#_#rel#'></div>
+				<div id='addPermitDlg_#permit_id#_#rel#'></div>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getPermitMediaThread" />
+	<cfreturn getPermitMediaThread.output>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="removeMediaFromPermit" returntype="query" access="remote">
+	 <cfargument name="permit_id" type="string" required="yes">
+	 <cfargument name="media_id" type="string" required="yes">
+	 <cfargument name="media_relationship" type="string" required="yes">
+	 <cfset r=1>
+	 <cftry>
+	 	<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from media_relations
+			where related_primary_key =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+			and media_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+			and media_relationship=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_relationship#">
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #media_id# #media_relationship# #permit_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+	 <cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	 </cfcatch>
+	 </cftry>
+	 <cfreturn theResult>
+</cffunction>
+
+
+<cffunction name="getUseReportJSON" access="remote" returntype="any" returnformat="json">
+	<cfargument name="permit_id" type="string" required="no">
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
+					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join accn on trans.transaction_id = accn.transaction_id
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'accn'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join accn on trans.transaction_id = accn.transaction_id
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join flat on cataloged_item.collection_object_id = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'accn'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join loan on trans.transaction_id = loan.transaction_id
+						left join loan_item on loan.transaction_id = loan_item.transaction_id
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'loan'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join loan on trans.transaction_id = loan.transaction_id
+						left join loan_item on loan.transaction_id = loan_item.transaction_id
+						left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+						left join flat on specimen_part.derived_from_cat_item = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'loan'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join deaccession on trans.transaction_id = deaccession.transaction_id
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join flat on deacc_item.collection_object_id = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'deaccession'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						locality.sovereign_nation,
+						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
+						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join deaccession on trans.transaction_id = deaccession.transaction_id
+						left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+						left join flat on deacc_item.collection_object_id = flat.collection_object_id
+						left join locality on flat.locality_id = locality.locality_id
+						left join taxonomy on flat.scientific_name = taxonomy.scientific_name
+						where trans.transaction_type = 'deaccession'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						borrow_item.country_of_origin as sovereign_nation,
+						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
+						' ' as common_name
+					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join borrow on trans.transaction_id = borrow.transaction_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+					union
+					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
+						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						borrow_item.country_of_origin as sovereign_nation,
+						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
+						' ' as common_name
+					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
+						left join addr toaddr on shipped_to_addr_id = toaddr.addr_id
+						left join addr fromaddr on shipped_from_addr_id = fromaddr.addr_id
+						left join trans on shipment.transaction_id = trans.transaction_id
+						left join collection on trans.collection_id = collection.collection_id
+						left join borrow on trans.transaction_id = borrow.transaction_id
+						left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
+						where trans.transaction_type = 'borrow'
+							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
+		</cfquery>
+		<cfset rows = use_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="use">
+			<cfset row = StructNew()>
+			<cfset row["id_link"] = "<a href='uri'>#use.transaction_type# #use.tnumber#">
+			<cfset row["ontype"] = "#use.ontype#">
+			<cfset row["tnumber"] = "#use.tnumber#">
+			<cfset row["ttype"] = "#use.ttype#">
+			<cfset row["transaction_type"] = "#use.transaction_type#">
+			<cfset row["trans_date"] = "#use.trans_date#">
+			<cfset row["shipped_date"] = "#use.shipped_date#">
+			<cfset row["guid_prefix"] = "#use.guid_prefix#">
+			<cfset row["uri"] = "#use.uri#">
+			<cfset row["sovereign_nation"] = "#use.sovereign_nation#">
+			<cfset row["country"] = "#use.country#">
+			<cfset row["state_prov"] = "#use.state_prov#">
+			<cfset row["county"] = "#use.county#">
+			<cfset row["island"] = "#use.island#">
+			<cfset row["scientific_name"] = "#use.scientific_name#">
+			<cfset row["guid"] = "#use.guid#">
+			<cfset row["toinstitution"] = "#use.toinstitution#">
+			<cfset row["frominstitution"] = "#use.frominstitution#">
+			<cfset row["parts"] = "#use.parts#">
+			<cfset row["common_name"] = "#use.common_name#">
+			<cfset row["row_number"] = "#i#">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!----------------------------------------------------------------------------------------------------------------->
+<cffunction name="addNewctSpecificType" access="remote" returnformat="json">
+	<cfargument name="new_specific_type" type="string" required="yes">
+
+	<cfset result = structNew()>
+	<cftry>
+		<cfset new_specific_type = trim(new_specific_type) >
+		<cfquery name="addSpecificType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			insert into ctspecific_permit_type (specific_type)
+			values ( <cfqueryparam value = "#new_specific_type#" CFSQLType="CF_SQL_VARCHAR"> )
+		</cfquery>
+		<cfset result["message"] = "Added #new_specific_type#.">
+	<cfcatch>
+		<cfif cfcatch.queryError contains 'ORA-00001'>
+			<cfset result["message"] = "Error: That value is already a specific type of permit.">
+		<cfelse>
+			<cfset result["message"] = "Error #cfcatch.message# #cfcatch.queryError#">
+		</cfif>
+	</cfcatch>
+	</cftry>
+	<cfreturn result>
+</cffunction>
+
 </cfcomponent>
