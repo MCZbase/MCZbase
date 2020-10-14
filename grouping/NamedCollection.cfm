@@ -66,7 +66,7 @@ limitations under the License.
 		</cfif>
 		<!--- Search Form ---> 
 		<cfoutput>
-			<div class="container mt-2 mb-3">
+			<section class="container mt-2 mb-3" role="search">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
@@ -76,7 +76,7 @@ limitations under the License.
 								<div class="form-row mb-2">
 									<div class="col-md-6">
 										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="form-control-sm" value="#collection_name#" aria-labelledby="collection_name_label" >
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
 											$(document).ready(function() {
 												makeNamedCollectionPicker('collection_name',null);
@@ -85,13 +85,13 @@ limitations under the License.
 									</div>
 									<div class="col-md-6">
 										<label for="description" id="description_label">Description</label>
-										<input type="text" id="description" name="description" class="form-control-sm" value="#description#" aria-labelledby="description_label" >
+										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
-										<input type="text" id="guid" name="guid" class="form-control-sm" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+										<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
 								<div class="form-row my-2 mx-0">
@@ -108,11 +108,11 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 		</cfoutput> 
 		
 		<!--- Results table as a jqxGrid. --->
-		<div class="container-fluid">
+		<section class="container-fluid" role="main">
 			<div class="row mx-0">
 				<div class="col-12">
 					<main role="main">
@@ -135,7 +135,7 @@ limitations under the License.
 					</main>
 				</div>
 			</div>
-		</div>
+		</section>
 		<cfoutput> 
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
@@ -358,7 +358,7 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-md-12">
 									<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
-									<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" required aria-labelledby="collection_name_label" >
+									<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
 								</div>
 							</div>
 							<div class="form-row mb-2">
@@ -381,9 +381,9 @@ limitations under the License.
 									</span>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											<span class="input-group-text smaller bg-light" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
-										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
+										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
 										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
 									</div>
 									<script>
@@ -467,18 +467,18 @@ limitations under the License.
 		<cfoutput query="undColl">
 			<cfset collname = collection_name>
 			<!--- save name for later use outside this output section --->
-			<div class="container">
+			<main class="container" role="main">
 				<div class="row">
 					<div class="col-12">
 						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
-						<div role="region" aria-labelledby="formheading" class="border p-2 mb-3">
+						<section aria-labelledby="formheading" class="border p-2 mb-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="form-control-sm reqdClr" 
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >
 									</div>
 								</div>
@@ -506,9 +506,9 @@ limitations under the License.
 										</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text small bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
 										<script>
@@ -576,16 +576,16 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</div>
+						</section>
 						<!--- region --->
-						<div role="region" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
+						<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
 							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 								<div class="form-row mb-2">
 									<div class="col-md-10">
 										<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
-										<input type="text" id="guid_list" name="guid_list" class="form-control-sm " 
+										<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 									</div>
 									<script>
@@ -624,13 +624,13 @@ limitations under the License.
 										<div id="addResultDiv">&nbsp;</div>
 										<input type="button" id="addbutton"
 												value="Add" title="Add" aria-label="Add"
-												class="btn btn-xs btn-primary mt-1"
+												class="btn btn-xs btn-secondary"
 												onClick=" addCollectionObjects(); " 
 												>
 									</div>
 								</div>
 							</form>
-						</div>
+						</section>
 					</div>
 					<!--- col ---> 
 				</div>
@@ -682,7 +682,7 @@ limitations under the License.
 							});
 						}
 					</script>
-					<div class="row mx-0">
+					<div class="row">
 						<div class="col-12 mb-5">
 							<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 								<cfif undCollUse_result.recordcount EQ 0>
@@ -690,7 +690,7 @@ limitations under the License.
 									<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 										<input type="hidden" name="action" value="delete">
 										<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-										<button class="btn btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+										<button class="btn btn-xs btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
 										<script>
 											$(document).ready(function() {
 												$('##deleteButton').bind('click', function(evt){
@@ -706,7 +706,7 @@ limitations under the License.
 										<cfloop query="undCollUse">
 											<li>
 												<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
-												<button class="btn-xs btn-secondary mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
+												<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
 											</li>
 										</cfloop>
 									</ul>
