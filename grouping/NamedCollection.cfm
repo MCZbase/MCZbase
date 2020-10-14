@@ -71,8 +71,6 @@ limitations under the License.
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
 							<h1 class="h2" id="formheading">Find named groups of cataloged items</h1>
-							<p>These records can represent collections by workers in natural history or any named group of cataloged items in MCZbase for which we wish to have a persistent record.
- See, for cases of collections by workers in natural history: <a href="http://id.lib.harvard.edu/alma/990011227530203941/catalog">Sherborn, 1940.</a> <i>Where is the _______ collection? An account of the various natural history collections which have come under the notice of the compiler Charles Davies Sherborn D.Sc. Oxon. Between 1880 and 1939.</i> Cambridge University Press, Cambridge, 149 pp.</p>
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
 								<div class="form-row mb-2">
