@@ -75,7 +75,10 @@ limitations under the License.
 										<div class="col-12 px-0">
 											<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collection number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
+											</cfif>
 										</div>
 									</div>
 								</form>
@@ -90,7 +93,7 @@ limitations under the License.
 				<div class="row mx-0">
 					<div class="col-12 mb-5">
 						<section role="main">
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+							<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 								<h4>Results: </h4>
 								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 								<div id="columnPickDialog">
