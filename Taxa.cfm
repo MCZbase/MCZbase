@@ -326,7 +326,7 @@ limitations under the License.
 								<div class="form-row">
 									<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
 										<legend class="text-dark mb-2">Search accepted names:</legend>
-										<ul class="list-group btn-link list-group-flush p-2 border bg-light rounded">
+										<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
 											<cfif valid_catalog_term_fg EQ 1>
 												<cfset validFlagAllSelected = ''>
 												<cfset validFlagOnlySelected = 'checked="checked"'>
@@ -356,7 +356,7 @@ limitations under the License.
 									</fieldset>
 									<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
 										<legend class="text-dark mb-2" >Search taxa used on specimen records:</legend>
-										<ul class="list-group list-group-flush p-2 bg-light border rounded">
+										<ul class="list-group list-group-flush mt-1 p-2 bg-light border rounded">
 											<cfif we_have_some EQ 1>
 												<cfset usedInIdAllSelected = ''>
 												<cfset usedInIdOnlySelected = 'checked="checked"'>
@@ -540,28 +540,24 @@ limitations under the License.
 
 		<!--- Results table as a jqxGrid. --->
 		<div class="container-fluid">
-			<div class="row mx-0">
-				<div class="col-12">
-					<main role="main">
-						<div class="mb-5"> 						
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-								<h2 class="h4">Results: </h2>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
-								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0 mx-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
-							</div>
+			<main class="row">
+				<div class="col-12 mb-5">
+					<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
+						<h2 class="h4">Results: </h2>
+						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<div id="columnPickDialog">
+							<div id="columnPick" class="px-1"></div>
 						</div>
-					</main>
+						<div id="columnPickDialogButton"></div>
+						<div id="resultDownloadButtonContainer"></div>
+					</div>
+					<div class="row mt-0 mx-0">
+						<!--- Grid Related code is below along with search handlers --->
+						<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+						<div id="enableselection"></div>
+					</div>
 				</div>
-			</div>
+			</main>
 		</div>
 
 		<cfset cellRenderClasses = "ml-1">
