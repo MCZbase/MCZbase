@@ -312,16 +312,15 @@ limitations under the License.
 			<div class="container-fluid">
 			<section id="content" role="search" class="row mx-0 mb-3">
 				<form name="searchForm"  id="searchForm" class="search-box"> 
-				<!--- TODO: Why is taxonomy in a tab, this page doesn't have multiple tabs????  ...update: changed to search-box --->
+					<input type="hidden" name="method" value="getTaxa" class="keeponclear">
+					<input type="hidden" name="action" value="search">
 					<div class="search-box-header">
 						<h1 class="h3 smallcaps text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					</div>
 						<div class="row mx-2 py-3">
-							<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 							<div class="col-12 col-xl-3">
 								<p class="smaller-text mt-2" tabindex="0">Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a></p>
 							<div class="form-row">
-								<input type="hidden" name="action" value="search">
 								<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
 									<legend class="text-dark mb-2">Search accepted names:</legend>
 								<ul class="list-group btn-link list-group-flush mt-1 p-2 border bg-light rounded">
@@ -386,7 +385,7 @@ limitations under the License.
 											</div>
 							<div class="col-12 col-xl-9 mt-2">
 								<div class="col-12">
-									<p class="small" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
+									<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Name fields accept comma separated lists.  NULL finds blanks.</p>
 								</div>
 								<div class="form-row bg-light border rounded p-2 mx-0">
 									<div class="col-md-4">
