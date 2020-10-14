@@ -586,6 +586,16 @@ limitations under the License.
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					} else { 
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
+					return result;
+				};
 			</script>
 		<cfelse>
 			<!--- Redesign links --->
@@ -599,6 +609,16 @@ limitations under the License.
 				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 					return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+				};
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					} else { 
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
+					return result;
 				};
 			</script>
 		</cfif>
@@ -699,7 +719,7 @@ limitations under the License.
 						pageable: true,
 						editable: false,
 						pagesize: '50',
-						pagesizeoptions: ['50','100'],
+						pagesizeoptions: ['20','50','100'],  // reset in gridLoaded
 						showaggregates: true,
 						columnsresize: true,
 						autoshowfiltericon: true,
@@ -713,15 +733,16 @@ limitations under the License.
 						columns: [
 							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
 							<cfelse>
-								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:80, hideable: true, hidden: true }, 
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
 							</cfif>
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
-							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:80, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
 							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
-							{ text: 'Phylum', datafield: 'PHYLUM', width:100, hideable: true, hidden: false },
+							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: false },
 							{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: true },
 							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
 							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
@@ -737,10 +758,10 @@ limitations under the License.
 							{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: false },
 							{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: false },
 							{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: false },
-							{ text: 'Subsepecies', datafield: 'SUBSPECIES', width:100, hideable: true, hidden: false },
-							{ text: 'Infraspecific Rank', datafield: 'INFRASPECIFIC_RANK', width:100, hideable: true, hidden: false },
+							{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: false },
+							{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: false },
 							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
-							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:150, hideable: true, hidden: false },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: false },
 							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
 							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
@@ -750,7 +771,6 @@ limitations under the License.
 							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
 							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
 							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT',  hideable: true, hidden: false },
 							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
 						],
 						rowdetails: true,
@@ -802,9 +822,11 @@ limitations under the License.
 				}
 				// set maximum page size
 				if (rowcount > 100) { 
-				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesize: 50});
 				} else if (rowcount > 50) { 
-				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
+				   $('##' + gridId).jqxGrid({ pagesize: 50});
 				} else { 
 				   $('##' + gridId).jqxGrid({ pageable: false });
 				}
@@ -854,17 +876,30 @@ limitations under the License.
 					 	<button id='commonNameToggle' onclick=" toggleCommon(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Common Names</button>
 					 	<button id='superSubToggle' onclick=" toggleSuperSub(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Super/Sub/Infra</button>
 					 	<button id='sciNameToggle' onclick=" toggleScientific(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Scientific Name</button>
+						<button id='pinTaxonToggle' onclick=" togglePinTaxonColumn(); " class='btn-xs btn-secondary px-1 py-1 my-2' >Pin Taxon Column</button>
 					</span>`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
 				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
 				var maxZIndex = getMaxZIndex();
 				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
+			function togglePinTaxonColumn() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+				} else {
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
 			function toggleCommon() { 
 				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
 				$("##searchResultsGrid").jqxGrid('beginupdate');
