@@ -780,14 +780,16 @@ limitations under the License.
 						};
 						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
 					</script>
-					<div class="form-row col-12 px-0 mt-1 pt-2">
-						<input type="button" 
-							value="Save" title="Save" aria-label="Save"
-							class="btn btn-xs btn-primary mx-1"
-							onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
-							>
-						<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
-						<a class="btn btn-xs btn-secondary mx-1" href='taxonomy/Taxonomy.cfm?action=newTaxon&taxon_name_id=#taxon_name_id#'>Clone</a>
+					<div class="form-row col-12 mt-1 px-1">
+						<span>
+							<input type="button" 
+								value="Save" title="Save" aria-label="Save"
+								class="btn btn-xs btn-primary mx-1"
+								onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
+								>
+							<output id="saveResultDiv" class="text-danger mx-auto text-center">&nbsp;</output>	
+							<a class="btn btn-xs btn-secondary mx-1" href='/taxonomy/Taxonomy.cfm?action=newTaxon&taxon_name_id=#taxon_name_id#'>Clone</a>
+						</span>
 						<input type="button" value="Delete" class="btn btn-xs btn-danger mx-1 float-right"	onclick=" confirmDialog('Delete this Taxon?','Confirm Delete Taxon',function(){ window.location.href='#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=deleTaxon&taxon_name_id=#taxon_name_id#' });">
 					</div>
 				</form>
