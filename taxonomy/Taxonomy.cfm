@@ -1064,14 +1064,9 @@ limitations under the License.
 						<div class="col-12">
 							<div class="row mx-0">
 								<div class="col-12 col-sm-6 px-0 float-left my-2">
-							<h1 class="h3 mb-0 px-1 float-left">Create New Taxonomy</h1>
-							<p class="px-3 float-left w-100">(through cloning and editing)</p>
-							</div>
-				<!---				<div class="col-12 col-sm-6 px-0 float-right text-right mt-sm-5 pr-2">
-									<input type="button" value="Save" class="savBtn btn-xs btn-primary" onclick=" qcTaxonEdits(); ">
-									<input type="button" value="Clone" class="insBtn btn-xs btn-secondary mx-1" onclick="taxon_form.Action.value='newTaxon';submit();">
-									<input type="button" value="Delete" class="delBtn btn-xs btn-warning mr-2"	onclick="taxa.Action.value='deleTaxa';confirmDelete('taxa');">
-								</div>--->
+									<h1 class="h3 mb-0 px-1 float-left">Create New Taxonomy</h1>
+									<p class="px-3 float-left w-100">(through cloning and editing)</p>
+								</div>
 							</div>
 						</div>
 						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
@@ -1083,7 +1078,7 @@ limitations under the License.
 					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 						<cfloop query="ctSourceAuth">
 							<option
-								<cfif form.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
+								<cfif getClonedFromTaxon.source_authority is ctSourceAuth.source_authority> selected="selected" </cfif>
 								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 						</cfloop>
 					</select>
@@ -1100,7 +1095,7 @@ limitations under the License.
 										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr custom-select data-entry-select w-75">
 											<cfloop query="ctnomenclatural_code">
 												<option
-													<cfif #form.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
+													<cfif #getClonedFromTaxon.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
 													value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
 											</cfloop>
 										</select>
@@ -1117,7 +1112,7 @@ limitations under the License.
 									<cfset searchtext = "" >
 									<cfset searchclass = "" >
 									<cfloop query="ctguid_type_taxon">
-										<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+										<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
 												<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 											<cfset searchclass = 'class="btn btn-xs btn-secondary"'>
@@ -1130,7 +1125,7 @@ limitations under the License.
 										</cfif>
 										<cfloop query="ctguid_type_taxon">
 											<cfset sel="">
-											<cfif form.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
+											<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 												<cfset sel="selected='selected'">
 												<cfset placeholder = "#ctguid_type_taxon.placeholder#">
 												<cfset pattern = "#ctguid_type_taxon.pattern_regex#">
@@ -1197,7 +1192,7 @@ limitations under the License.
 									<cfset searchtext = "" >
 									<cfset searchclass = "" >
 									<cfloop query="ctguid_type_scientificname">
-										<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+										<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 											<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
 											<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 											<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
@@ -1210,7 +1205,7 @@ limitations under the License.
 										</cfif>
 										<cfloop query="ctguid_type_scientificname">
 											<cfset sel="">
-											<cfif form.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
+											<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 												<cfset sel="selected='selected'">
 												<cfset placeholder = "#ctguid_type_scientificname.placeholder#">
 												<cfset pattern = "#ctguid_type_scientificname.pattern_regex#">
@@ -1307,10 +1302,10 @@ limitations under the License.
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
 										<div class="col-sm-8 float-left">
 											<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-select my-1">
-												<option <cfif form.infraspecific_rank is ""> selected </cfif>  value=""></option>
+												<option <cfif getClonedFromTaxon.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
-														<cfif form.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
+														<cfif getClonedFromTaxon.infraspecific_rank is ctinfrank.infraspecific_rank> selected="selected" </cfif>
 														value="#ctInfRank.infraspecific_rank#">#ctInfRank.infraspecific_rank#</option>
 												</cfloop>
 											</select>
@@ -1324,7 +1319,7 @@ limitations under the License.
 											<select name="taxon_status" id="taxon_status" class="custom-select data-entry-select my-1">
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
-													<option <cfif form.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
+													<option <cfif getClonedFromTaxon.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
 				            						value="#cttaxon_status.taxon_status#">#cttaxon_status.taxon_status#</option>
 												</cfloop>
 											</select>
