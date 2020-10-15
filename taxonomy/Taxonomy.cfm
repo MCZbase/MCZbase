@@ -1072,7 +1072,7 @@ limitations under the License.
 						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
 							<div class="form-row mx-2 mb-1">
 								<div class="col-12 col-sm-6">
-									<input type="hidden" name="Action" value="saveNewTaxa">
+									<input type="hidden" name="Action" value="saveNewTaxon">
 									<label for="source_authority">Source</label>
 									<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
 										<cfloop query="ctSourceAuth">
@@ -1479,12 +1479,12 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "saveNewtaxa">
+<cfif action is "saveNewTaxon">
 	<cfoutput>
 		<cftransaction>
 			<cfquery name="nextID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select sq_taxon_name_id.nextval nextID from dual
-		</cfquery>
+				select sq_taxon_name_id.nextval nextID from dual
+			</cfquery>
 			<cfquery name="newTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO taxonomy (
 				taxon_name_id,
@@ -1750,192 +1750,6 @@ limitations under the License.
 		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
-<!---------------------------------------------------------------------------------------------------->
-<!---<cfif #Action# is "saveTaxonEdits">
-	<cfoutput>
-		<cfset subgenus_message = "">
-		<cfif len(#subgenus#) gt 0 and REFind("^\(.*\)$",#subgenus#) gt 0>
-			<cfset subgenus_message = "Do Not include parethesies">
-			<cfset subgenus = replace(replace(#subgenus#,")",""),"(","") >
-		</cfif>
-		<cfset hasError = 0 >
-		<cfif not isdefined("source_authority") OR len(#source_authority#) is 0>
-			Error: You didn't select a Source. Go back and try again.
-			<cfset hasError = 1 >
-		</cfif>
-		<cfif hasError eq 0>
-			<cftransaction>
-				<cfquery name="edTaxa" datasource="user_login" username='#session.username#' password="#decrypt(session.epw,cfid)#">
-	UPDATE taxonomy SET
-		valid_catalog_term_fg=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">,
-		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
-		<cfif len(#author_text#) gt 0>
-			,author_text=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(author_text)#">
-		<cfelse>
-			,author_text=null
-		</cfif>
-		<cfif len(#taxonid_guid_type#) gt 0>
-			,taxonid_guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxonid_guid_type)#">
-		<cfelse>
-			,taxonid_guid_type=null
-		</cfif>
-		<cfif len(#taxonid#) gt 0>
-			,taxonid=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxonid)#">
-		<cfelse>
-			,taxonid=null
-		</cfif>
-		<cfif len(#scientificnameid_guid_type#) gt 0>
-			,scientificnameid_guid_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(scientificnameid_guid_type)#">
-		<cfelse>
-			,scientificnameid_guid_type=null
-		</cfif>
-		<cfif len(#scientificnameid#) gt 0>
-			,scientificnameid=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(scientificnameid)#">
-		<cfelse>
-			,scientificnameid=null
-		</cfif>
-		<cfif len(#tribe#) gt 0>
-			,tribe = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(tribe)#">
-		<cfelse>
-			,tribe = null
-		</cfif>
-		<cfif len(#infraspecific_rank#) gt 0>
-			,infraspecific_rank = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#infraspecific_rank#">
-		<cfelse>
-			,infraspecific_rank = null
-		</cfif>
-		<cfif len(#phylclass#) gt 0>
-			,phylclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylclass)#">
-		<cfelse>
-			,phylclass = null
-		</cfif>
-		<cfif len(#phylorder#) gt 0>
-			,phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylorder)#">
-		<cfelse>
-			,phylorder = null
-		</cfif>
-		<cfif len(#suborder#) gt 0>
-			,suborder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(suborder)#">
-		<cfelse>
-			,suborder = null
-		</cfif>
-		<cfif len(#family#) gt 0>
-			,family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(family)#">
-		<cfelse>
-			,family = null
-		</cfif>
-		<cfif len(#subfamily#) gt 0>
-			,subfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subfamily)#">
-		<cfelse>
-			,subfamily = null
-		</cfif>
-		<cfif len(#genus#) gt 0>
-			,genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(genus)#">
-		<cfelse>
-			,genus = null
-		</cfif>
-		<cfif len(#subgenus#) gt 0>
-			,subgenus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subgenus)#">
-		<cfelse>
-			,subgenus = null
-		</cfif>
-		<cfif len(#species#) gt 0>
-			,species = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(species)#">
-		<cfelse>
-			,species = null
-		</cfif>
-		<cfif len(#subspecies#) gt 0>
-			,subspecies = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subspecies)#">
-		<cfelse>
-			,subspecies = null
-		</cfif>
-		<cfif len(#phylum#) gt 0>
-			,phylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(phylum)#">
-		<cfelse>
-			,phylum = null
-		</cfif>
-		<cfif len(#taxon_remarks#) gt 0>
-			,taxon_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_remarks)#">
-		<cfelse>
-			,taxon_remarks = null
-		</cfif>
-		<cfif len(#kingdom#) gt 0>
-			,kingdom = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#">
-		<cfelse>
-			,kingdom = null
-		</cfif>
-		<cfif len(#nomenclatural_code#) gt 0>
-			,nomenclatural_code = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
-		<cfelse>
-			,nomenclatural_code = null
-		</cfif>
-		<cfif len(#infraspecific_author#) gt 0>
-			,infraspecific_author = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_author)#">
-		<cfelse>
-			,infraspecific_author = null
-		</cfif>
-		<cfif len(#subphylum#) gt 0>
-			,subphylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subphylum)#">
-		<cfelse>
-			,subphylum = null
-		</cfif>
-		<cfif len(#superclass#) gt 0>
-			,superclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superclass)#">
-		<cfelse>
-			,superclass = null
-		</cfif>
-		<cfif len(#subclass#) gt 0>
-			,subclass = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subclass)#">
-		<cfelse>
-			,subclass = null
-		</cfif>
-		<cfif len(#superorder#) gt 0>
-			,superorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superorder)#">
-		<cfelse>
-			,superorder = null
-		</cfif>
-		<cfif len(#infraorder#) gt 0>
-			,infraorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraorder)#">
-		<cfelse>
-			,infraorder = null
-		</cfif>
-		<cfif len(#superfamily#) gt 0>
-			,superfamily = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(superfamily)#">
-		<cfelse>
-			,superfamily = null
-		</cfif>
-		<cfif len(#division#) gt 0>
-			,division = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(division)#">
-		<cfelse>
-			,division = null
-		</cfif>
-		<cfif len(#subdivision#) gt 0>
-			,subdivision = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subdivision)#">
-		<cfelse>
-			,subdivision = null
-		</cfif>
-		<cfif len(#subsection#) gt 0>
-			,subsection = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subsection)#">
-		<cfelse>
-			,subsection = null
-		</cfif>
-		<cfif len(#infraclass#) gt 0>
-			,infraclass  = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraclass)#">
-		<cfelse>
-			,infraclass = null
-		</cfif>
-		<cfif len(#taxon_status#) gt 0>
-			,taxon_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_status)#">
-		<cfelse>
-			,taxon_status = null
-		</cfif>
-	WHERE taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-			</cftransaction>
-			<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#&subgenus_message=#subgenus_message#" addtoken="false">
-		</cfif>
-	</cfoutput>
-</cfif>--->
 <!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">
