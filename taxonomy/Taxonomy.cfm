@@ -1,6 +1,6 @@
 <cfset pageTitle = "Taxon Management">
 <cfif isdefined("action") AND action EQ 'newTaxon'>
-	<cfset pageTitle = "Create New Loan">
+	<cfset pageTitle = "Create New Taxon">
 </cfif>
 <cfif isdefined("action") AND action EQ 'editTaxon'>
 	<cfset pageTitle = "Edit Taxon">
@@ -1054,9 +1054,9 @@ limitations under the License.
 <cfif action is "newTaxon">
 	<cfset title = "Add Taxon">
 	<cfquery name="getClonedFromTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+		select * from taxonomy where taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
-	<cfoutput>
+	<cfoutput query="getClonedFromTaxon">
 		<div class="container-fluid">
 			<div class="row mb-4 mx-0">
 				<div class="col-12 px-0">
@@ -1070,38 +1070,37 @@ limitations under the License.
 							</div>
 						</div>
 						<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100">
-								
-								<div class="tInput form-row mx-2 mb-1">
-									<div class="col-12 col-sm-6">
-										<input type="hidden" name="Action" value="saveNewTaxa">
-										<label for="source_authority">Source</label>
-					<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
-						<cfloop query="ctSourceAuth">
-							<option
-								<cfif getClonedFromTaxon.source_authority is ctSourceAuth.source_authority> selected="selected" </cfif>
-								value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
-						</cfloop>
-					</select>
-									</div>
-									<div class="col-12 col-sm-3">
-										<label for="valid_catalog_term_fg">Valid?</label>
-										<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
-											<option <cfif valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
-											<option <cfif valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
-										</select>
-									</div>
-									<div class="col-12 col-sm-3">
-										<label for="nomenclatural_code">Nomenclatural Code</label>
-										<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr custom-select data-entry-select w-75">
-											<cfloop query="ctnomenclatural_code">
-												<option
-													<cfif #getClonedFromTaxon.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
-													value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
-											</cfloop>
-										</select>
-									</div>
+							<div class="form-row mx-2 mb-1">
+								<div class="col-12 col-sm-6">
+									<input type="hidden" name="Action" value="saveNewTaxa">
+									<label for="source_authority">Source</label>
+									<select name="source_authority" id="source_authority" size="1"  class="reqdClr">
+										<cfloop query="ctSourceAuth">
+											<option
+												<cfif getClonedFromTaxon.source_authority is ctSourceAuth.source_authority> selected="selected" </cfif>
+												value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
+										</cfloop>
+									</select>
 								</div>
-								<div class="form-row col-12 mb-2">
+								<div class="col-12 col-sm-3">
+									<label for="valid_catalog_term_fg">Valid?</label>
+									<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
+										<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
+										<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
+									</select>
+								</div>
+								<div class="col-12 col-sm-3">
+									<label for="nomenclatural_code">Nomenclatural Code</label>
+									<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr custom-select data-entry-select w-75">
+										<cfloop query="ctnomenclatural_code">
+											<option
+												<cfif #getClonedFromTaxon.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
+												value="#ctnomenclatural_code.nomenclatural_code#">#ctnomenclatural_code.nomenclatural_code#</option>
+										</cfloop>
+									</select>
+								</div>
+							</div>
+							<div class="form-row col-12 mb-2">
 								<div class="col-12 border rounded mt-2 mb-1 pt-0 pb-2 pl-2">
 									<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 									<cfset pattern = "">
