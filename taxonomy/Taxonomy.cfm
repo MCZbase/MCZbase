@@ -1493,9 +1493,6 @@ limitations under the License.
 			<cfif len(#author_text#) gt 0>
 				,author_text
 			</cfif>
-			<cfif len(#source_authority#) gt 0>
-				,source_authority
-			</cfif>
 			<cfif len(#taxonid_guid_type#) gt 0>	
 				,taxonid_guid_type 
 			</cfif>
@@ -1645,7 +1642,7 @@ limitations under the License.
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(taxon_remarks)#">
 			</cfif>
 			<cfif len(#phylum#) gt 0>
-				,'#phylum#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylum#">
 			</cfif>
 			<cfif len(#infraspecific_author#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(infraspecific_author)#">
@@ -1654,7 +1651,7 @@ limitations under the License.
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(kingdom)#">
 			</cfif>
 			<cfif len(#nomenclatural_code#) gt 0>
-				,'#nomenclatural_code#'
+				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nomenclatural_code#">
 			</cfif>
 			<cfif len(#subphylum#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subphylum)#">
