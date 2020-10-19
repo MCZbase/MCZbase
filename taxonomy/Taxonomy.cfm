@@ -999,14 +999,39 @@ limitations under the License.
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif Action is "deleTaxa">
-	<cfoutput>
-		<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM
-			taxonomy
-		WHERE
-			taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		Taxon record successfully deleted. </cfoutput>
+	<cftry>
+		<cfoutput>
+			<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				DELETE FROM
+					taxonomy
+				WHERE
+					taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<section class="container">
+				<h1 class="h3">Taxon record successfully deleted.</h1>
+				<ul>
+					<li><a href="/Taxa.cfm">Search for taxon records</a>.</li>
+				</ul>
+			</section>
+		</cfoutput>
+	<cfcatch>
+		<cfoutput>
+			<section class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h1 class="h2">
+							Delete of <a href="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">taxon record</a> failed.
+						</h1>
+						<p>There was an error deleting this taxon record.</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+				<p><cfdump var=#cfcatch#></p>
+			</section>
+		</cfoutput>	
+	</cfcatch>
+	</cftry>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "deleteCommon">
