@@ -57,11 +57,11 @@
 				<thead class="thead-light">
 				<tr>
 					<th>
-						<strong>License</strong>
+						License
 					</th>
-					<th><strong>Description</strong></td>
+					<th>Description</td>
 					<th>
-						<strong>URI</strong>
+						URI
 					</th>
 				</tr>
 				</thead>
@@ -80,19 +80,19 @@
 				<thead class="thead-light">
 				<tr>
 					<th>
-						<strong>GUID Type</strong>
+						GUID Type
 					</th>
 					<th>
-						<strong>Applies To</strong>
+						Applies To
 					</th>
 					<th>
-						<strong>Description</strong>
+						Description
 					</th>
 					<th>
-						<strong>Placeholder</strong>
+						Placeholder
 					</th>
 					<th>
-						<strong>Search URI</strong>
+						Search URI
 					</th>
 				</tr>
 				</thead>
@@ -113,13 +113,13 @@
 				<thead class="thead-light">
 				<tr>
 					<th>
-						<strong>Specific Type</strong>
+						Specific Type
 					</th>
 					<th>
-						<strong>Permit Type</strong>
+						Permit Type
 					</th>
 					<th>
-						<strong>Inherit to Shipments</strong>
+						Inherit to Shipments
 					</th>
 				</tr>
 				</thead>
@@ -195,12 +195,12 @@
 				<tr>
 					<cfloop array="#columnArr#" index="colName">
 						<th>
-							<strong>#colName#</strong>
+							#colName#
 						</th>
 					</cfloop>
 					<cfif NOT #columnList# contains "collection_cde">
 						<th>
-							<strong>Collection</strong>
+							Collection
 						</th>
 					</cfif>
 				</tr>
