@@ -2157,6 +2157,7 @@ limitations under the License.
 					</cfif>
 					)
 				</cfquery>
+				<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfset ruleFailure = false>
@@ -2164,34 +2165,31 @@ limitations under the License.
 					<!--- expected failure when rules for nomenclatural code are not met: [Macromedia][Oracle JDBC Driver][Oracle]ORA-01400: cannot insert NULL into ("MCZBASE"."TAXONOMY"."FULL_TAXON_NAME") --->
 					<cfset ruleFailure = true>
 				</cfif>
-				<cfoutput>
-					<section class="container">
-						<div class="row">
-							<div class="alert alert-danger" role="alert">
-								<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
-								<h1 class="h2">Creation of new taxon record failed.<h1>
-								<cfif ruleFailure >
-									<p>The content of one or more fields did not match the rules for the selected nomeclatural code
-										<cfif isdefined("nomenclatural_code") AND len(#nomenclatural_code#) gt 0>#nomenclatural_code#</cfif>.
-										A higher taxon name may not be properly capitialized, there may be spaces or unexpected characters in a taxon name.
-										Historical names may not comply with the ICZN rules, an may need to be entered with a nomenclatural code of "noncompliant".
-										Go back, check the values for errors, and try saving again.
-									</p>
-								<cfelse>
-									<p>There was an error creating this taxon record, please file a bug report describing the problem.</p>
-									<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-								</cfif>
-							</div>
+				<section class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h1 class="h2">Creation of new taxon record failed.<h1>
+							<cfif ruleFailure >
+								<p>The content of one or more fields did not match the rules for the selected nomeclatural code
+									<cfif isdefined("nomenclatural_code") AND len(#nomenclatural_code#) gt 0>#nomenclatural_code#</cfif>.
+									A higher taxon name may not be properly capitialized, there may be spaces or unexpected characters in a taxon name.
+									Historical names may not comply with the ICZN rules, an may need to be entered with a nomenclatural code of "noncompliant".
+									Go back, check the values for errors, and try saving again.
+								</p>
+							<cfelse>
+								<p>There was an error creating this taxon record, please file a bug report describing the problem.</p>
+								<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+							</cfif>
 						</div>
-						<cfif NOT ruleFailure >
-							<p><cfdump var=#cfcatch#></p>
-						</cfif>
-					</section>
-				</cfoutput>	
+					</div>
+					<cfif NOT ruleFailure >
+						<p><cfdump var=#cfcatch#></p>
+					</cfif>
+				</section>
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
