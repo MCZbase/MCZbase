@@ -274,8 +274,10 @@ limitations under the License.
 									<a class="dropdown-item" href="">Projects</a>
 								</cfif>
 							
-								<cfif targetMenu EQ "redesign">
+								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
+								<cfelse>
+									<a class="dropdown-item" href = "">Annotations</a>
 								</cfif>
 								
 									
