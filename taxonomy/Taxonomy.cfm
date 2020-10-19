@@ -2157,11 +2157,12 @@ limitations under the License.
 					</cfif>
 					)
 				</cfquery>
+				<cftransaction action="commit">
 				<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#nextID.nextID#" addtoken="false">
 			<cfcatch>
 				<cftransaction action="rollback">
 				<cfset ruleFailure = false>
-				<cfif cfcatch.message contains "ORA-01400">
+				<cfif cfcatch.detail contains "ORA-01400">
 					<!--- expected failure when rules for nomenclatural code are not met: [Macromedia][Oracle JDBC Driver][Oracle]ORA-01400: cannot insert NULL into ("MCZBASE"."TAXONOMY"."FULL_TAXON_NAME") --->
 					<cfset ruleFailure = true>
 				</cfif>
