@@ -229,7 +229,7 @@ limitations under the License.
 								</cfif>
 								
 								<cfif targetMenu EQ "redesign">
-									<a class="dropdown-item" href="">Browse Specimens By Category</a>
+									<a class="dropdown-item" href="##">Browse Specimens By Category</a>
 								</cfif>
 					
 								<cfif targetMenu EQ "production">
