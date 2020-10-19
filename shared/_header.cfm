@@ -223,9 +223,9 @@ limitations under the License.
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" id="specimenMenuItem" href="SpecimenSearch.cfm">Specimens</a> <!--- old --->
+									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<cfelse>
-									<a class="dropdown-item" id="specimenMenuItem" href="">Specimen Details</a>
+									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimen Details</a>
 								</cfif>
 								
 								<cfif targetMenu EQ "redesign">
