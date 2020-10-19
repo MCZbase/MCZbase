@@ -998,10 +998,10 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif Action is "deleTaxa">
+<cfif Action is "deleTaxon">
 	<cftry>
 		<cfoutput>
-			<cfquery name="deleTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="deleTaxon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				DELETE FROM
 					taxonomy
 				WHERE
