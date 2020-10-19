@@ -76,7 +76,7 @@
 				</tbody>
 			</table>
 		<cfelseif table is "ctguid_type">
-			<table class="table table-responsive table-striped d-lg-table">
+			<table class="table table-responsive table-striped d-xl-table">
 				<thead class="thead-light">
 				<tr>
 					<th>
