@@ -2020,7 +2020,7 @@ limitations under the License.
 			<cfif len(#subdivision#) gt 0>
 				,subdivision
 			</cfif>
-			<cfif len(#subsection#) gt 0>
+			<cfif isdefined("subsection") AND len(#subsection#) gt 0>
 				,subsection
 			</cfif>
 			<cfif len(#infraclass#) gt 0>
@@ -2120,7 +2120,7 @@ limitations under the License.
 			<cfif len(#subdivision#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subdivision)#">
 			</cfif>
-			<cfif len(#subsection#) gt 0>
+			<cfif isdefined("subsection") AND len(#subsection#) gt 0>
 				,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trim(subsection)#">
 			</cfif>
 			<cfif len(#infraclass#) gt 0>
