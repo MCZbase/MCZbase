@@ -48,7 +48,8 @@
 		<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
 
 		<cfif table is "ctmedia_license">
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
 					<td>
 						<strong>License</strong>
@@ -58,6 +59,8 @@
 						<strong>URI</strong>
 					</td>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#display#</td>
@@ -65,9 +68,11 @@
 						<td><a href="#uri#" target="_blank" class="external">#uri#</a></td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelseif table is "ctguid_type">
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
 					<td>
 						<strong>GUID Type</strong>
@@ -85,6 +90,8 @@
 						<strong>Search URI</strong>
 					</td>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#guid_type#</td>
@@ -94,9 +101,11 @@
 						<td>#search_uri#</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelseif table is "ctspecific_permit_type">
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
 					<td>
 						<strong>Specific Type</strong>
@@ -108,6 +117,8 @@
 						<strong>Inherit to Shipments</strong>
 					</td>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#specific_type#</td>
@@ -115,6 +126,7 @@
 						<td>#accn_show_on_shipment#</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelse>
 
@@ -173,7 +185,8 @@
 			</cfif>
 			<cfset columnArr = ListToArray(columnList)>
 
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
 					<cfloop array="#columnArr#" index="colName">
 						<th>
@@ -186,6 +199,8 @@
 						</th>
 					</cfif>
 				</tr>
+				</thead>
+				<tbody>
 				<cfset i=1>
 				<cfloop query="orderedDocs">
 					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -201,6 +216,7 @@
 						</cfif>
 					</tr>
 				</cfloop>
+					</tbody>
 			</table>
 		</cfif>
 	</div>
