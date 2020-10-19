@@ -241,17 +241,17 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item" href="">Media</a>
+									<a class="dropdown-item" href="##">Media</a>
 								</cfif>
 									
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/showLocality.cfm">Localities</a>
 								<cfelse>
-									<a class="dropdown-item" href="">Localities</a>
+									<a class="dropdown-item" href="##">Localities</a>
 								</cfif>
 								
 								<cfif targetMenu EQ "redesign">
-									<a class="dropdown-item" href="">Geography</a>
+									<a class="dropdown-item" href="##">Geography</a>
 				
 									<a class="dropdown-item" href="">Geology</a>
 							
@@ -261,13 +261,13 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 								<cfelse>
-									<a class="dropdown-item" href="">Agents</a> 
+									<a class="dropdown-item" href="##">Agents</a> 
 								</cfif>
 						
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item" href = "">Publications</a>
+									<a class="dropdown-item" href = "##">Publications</a>
 								</cfif>
 									
 								<cfif targetMenu EQ "redesign">
