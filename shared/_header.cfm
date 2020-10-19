@@ -286,6 +286,8 @@ limitations under the License.
 									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
 									<cfelse>
 									<a class="dropdown-item" href="">SQL Queries</a> 
+										</cfif>
+										
 								</cfif>
 								</li>
 							 </li>
