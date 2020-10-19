@@ -56,13 +56,13 @@
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
-					<td>
+					<th>
 						<strong>License</strong>
-					</td>
-					<td><strong>Description</strong></td>
-					<td>
+					</th>
+					<th><strong>Description</strong></td>
+					<th>
 						<strong>URI</strong>
-					</td>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -79,21 +79,21 @@
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
-					<td>
+					<th>
 						<strong>GUID Type</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Applies To</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Description</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Placeholder</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Search URI</strong>
-					</td>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -112,15 +112,15 @@
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
-					<td>
+					<th>
 						<strong>Specific Type</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Permit Type</strong>
-					</td>
-					<td>
+					</th>
+					<th>
 						<strong>Inherit to Shipments</strong>
-					</td>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
