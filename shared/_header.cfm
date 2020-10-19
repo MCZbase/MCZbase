@@ -548,6 +548,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a>
 											</cfif>
+												</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
 											<a class="dropdown-item" href="">DGR Locator</a> 
 										</cfif>
