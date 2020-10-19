@@ -3,8 +3,10 @@
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("table") OR len(table) EQ 0>
 	<div class="container my-3">
-	   <h2>MCZbase controlled vocabulary tables</h2>
-   	<cfquery name="getCTName" datasource="uam_god">
+		<div class="row">
+			<div class="col-12">
+	   			<h2>MCZbase controlled vocabulary tables</h2>
+   				<cfquery name="getCTName" datasource="uam_god">
       	select
          	distinct(table_name) table_name
 	      from
@@ -13,7 +15,7 @@
 	         table_name like 'CT%'
    	    order by table_name
 	   </cfquery>
-		<ul>
+				<ul>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
 			</cfif>
@@ -27,6 +29,8 @@
 				</cfif>
 		   </cfloop>
 		</ul>
+			</div>
+		</div>
 	</div>
 <cfelse>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
@@ -45,9 +49,10 @@
 	</cfquery>
 	
 	<div class="container my-3">
-		<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
-
-		<cfif table is "ctmedia_license">
+		<div class="row">
+			<div class="col-12">
+			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+			<cfif table is "ctmedia_license">
 			<table class="table table-responsive table-striped d-lg-table">
 				<thead class="thead-light">
 				<tr>
@@ -219,6 +224,8 @@
 					</tbody>
 			</table>
 		</cfif>
+			</div>
+		</div>
 	</div>
 	
 </cfif>
