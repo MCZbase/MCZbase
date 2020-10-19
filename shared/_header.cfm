@@ -463,7 +463,7 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Locality.cfm?action=newHG">Geography</a> 
 											<cfelse>
-												<a class="dropdown-item" href="">Geography</a> 
+												<a class="dropdown-item" href="##">Geography</a> 
 											</cfif>
 										</cfif>
 											
@@ -487,7 +487,7 @@ limitations under the License.
 											<a class="dropdown-item" href="##">Encumbrances</a>
 										</cfif>
 										<cfif targetMenu EQ "redesign">
-											<a class="dropdown-item" href = "">Annotations</a>
+											<a class="dropdown-item" href = "##">Annotations</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Review Pending Merges</a>
@@ -538,9 +538,16 @@ limitations under the License.
 										</cfif>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<a class="dropdown-item" href="">Browse Storage Locations</a> 
-											<a class="dropdown-item" href="">Find Storage Location/Container</a> 
-										</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
+											<cfelse>
+												<a class="dropdown-item" href="##">Browse Storage Locations</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a> 
+											<cfelse>
+												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a>
+											</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
 											<a class="dropdown-item" href="">DGR Locator</a> 
 										</cfif>
