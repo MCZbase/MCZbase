@@ -222,29 +222,65 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 
-								<cfif targetMenu EQ "production"><cfset href = "/SpecimenSearch.cfm"><cfelse><cfset href="/Specimens.cfm"></cfif>
-								<a class="dropdown-item" id="specimenMenuItem" href="#href#">Specimen Details</a> 
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" id="specimenMenuItem" href="SpecimenSearch.cfm">Specimens</a> <!--- old --->
+								<cfelse>
+									<a class="dropdown-item" id="specimenMenuItem" href="">Specimen Details</a>
+								</cfif>
+								
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="">Browse Specimens By Category</a>
 								</cfif>
-								<cfif targetMenu EQ "production"><cfset href = "/MediaSearch.cfm"><cfelse><cfset href=""></cfif>
-								<a class="dropdown-item" href="#href#">Media</a><!--- old --->
+					
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a>
+									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a><!--- do we still need the old /Taxonomy.cfm page?--->
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy (new)</a>
 								<cfelse>
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								</cfif>
-								<a class="dropdown-item" href="">Geography</a>
-								<a class="dropdown-item" href="">Geology</a>
-								<a class="dropdown-item" href="">Localities</a>
-								<a class="dropdown-item" href="">Collecting Events</a> 
-								<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
-								<a class="dropdown-item" href="">Publications</a>
-								<a class="dropdown-item" href="">Annotations</a>
-								<a class="dropdown-item" href="">Projects</a> 
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
+								<cfelse>
+									<a class="dropdown-item" href="">Media</a>
+								</cfif>
+									
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/showLocality.cfm">Localities</a>
+								<cfelse>
+									<a class="dropdown-item" href="">Localities</a>
+								</cfif>
+								
+								<cfif targetMenu EQ "redesign">
+									<a class="dropdown-item" href="">Geography</a>
+				
+									<a class="dropdown-item" href="">Geology</a>
+							
+									<a class="dropdown-item" href="">Collecting Events</a>
+								</cfif>
+									
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+								<cfelse>
+									<a class="dropdown-item" href="">Agents</a> 
+								</cfif>
+						
+								<cfif targetMenu EQ "production">
+									<a class="dropdown-item" href = "/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
+								<cfelse>
+									<a class="dropdown-item" href = "">Publications</a>
+								</cfif>
+									
+								<cfif targetMenu EQ "redesign">
+									<a class="dropdown-item" href="">Projects</a>
+								</cfif>
+							
+								<cfif targetMenu EQ "redesign">
+									<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
+								</cfif>
+								
+									
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old --->
+									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
 								</cfif>
 								</li>
 							 </li>
@@ -257,32 +293,116 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<a class="dropdown-item" href="/DataEntry.cfm">Specimen</a> 
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+											<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
+											<cfelse>
+											<a class="dropdown-item" href="">Specimen</a>
+											</cfif>
+										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-											<a class="dropdown-item" href="/media.cfm?action=newMedia">Media</a><!--- old --->
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/media.cfm?action=newMedia">Media</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Media</a>
+											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
-											<a class="dropdown-item" href="/agents.cfm">Agent</a> 
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/agents.cfm">Agent</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Agent</a> 
+											</cfif>
 										</cfif>
 										</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-											<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a> 
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Publication</a> 
+											</cfif>
 										</cfif>
-										<!--- remove, can't create from menu <a class="dropdown-item" href="/Publication.cfm">Citation (on Pub results)</a> --->
-										<!--- remove, can't create from menu <a class="dropdown-item" href="/Taxa.cfm">Taxonomy (clone only)</a> --->
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
-										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>
-										<a class="dropdown-item" href="/Bulkloader/">Bulkload Specimens</a> 
-										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a> 
-										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Batch Tools (alter existing records)</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-											<a class="dropdown-item" href="">Publication Staging</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+											
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Bulkload Builder</a> 
+											</cfif>
+												
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Bulkloader/">Bulkload Specimens</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Bulkload Specimens</a> 
+											</cfif>
+											
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Browse and Edit</a> 
+											</cfif>
+									
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item" href="">Bulkloader Status</a> 
+											</cfif>
+											
+											<cfif targetMenu EQ "redesign">
+												<a class="dropdown-item" href="">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
+											</cfif>			
 										</cfif>
-										<a class="dropdown-item" href="">Data Loan Items</a>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
+											<cfelse>
+												<a class="dropdown-item" href="">Publication Staging</a>
+											</cfif>
+										</cfif>								
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+											<cfif targetMenu EQ "redesign">
+												<a class="dropdown-item" href="">Data Loan Items</a>
+											</cfif>
+										</cfif>	
 									</div>
+									<cfif targetMenu EQ "production">
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+											<div>
+											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div><!--- old --->
+
+												<a class="dropdown-item" href="/tools/BulkloadNewParts.cfm">Bulk Parts</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadEditedParts.cfm">Bulk Edited Parts</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadAttributes.cfm">Bulk Attributes</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadCitations.cfm">Bulk Citations</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadOtherId.cfm">Bulk Identifiers</a>
+
+												<a class="dropdown-item" href="/tools/loanBulkload.cfm">Bulk Loans</a>
+
+												<a class="dropdown-item" href="/DataServices/agents.cfm">Bulk Agents</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadPartContainer.cfm">Bulk Part Containers</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadIdentification.cfm">Bulk Identifications</a> 
+
+												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit/Move Parts</a> 
+
+												<a class="dropdown-item" href="/tools/BulkloadMedia.cfm">Bulk Media</a> 
+
+												<a class="dropdown-item" href="/tools/BulkloadRelations.cfm">Bulk Relationships</a>
+
+												<a class="dropdown-item" href="/tools/BulkloadGeoref.cfm">Bulk Georeference</a> 
+
+												<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a> 
+											</div>
+										</cfif>	
+									</cfif>
 								</li>
 							</ul>
 						</li>
@@ -294,34 +414,104 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="">Geography</a> 
-										<a class="dropdown-item" href="">Localities</a> 
-										<a class="dropdown-item" href="">Geology Attributes Heirarchy</a>
-										<a class="dropdown-item" href="">Collecting Events</a>
-										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Geography</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Locality.cfm?action=findLO">Localities</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Localities</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Geology Attributes Hierarchy</a>
+										</cfif>
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Geology Attributes Hierarchy</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Event</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Collecting Event</a>
+										</cfif>
+												
+										<cfif targetMenu EQ "redesign">
+											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										</cfif> 
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+										
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-											<a class="dropdown-item" href="">Geography</a> 
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Locality.cfm?action=newHG">Geography</a> 
+											<cfelse>
+												<a class="dropdown-item" href="">Geography</a> 
+											</cfif>
 										</cfif>
+											
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<a class="dropdown-item" href="">Locality</a> 
-											<a class="dropdown-item" href="">Collecting Event</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Locality.cfm?action=newHG">Locality</a> 
+											<cfelse>
+												<a class="dropdown-item" href="">Locality</a> 
+											</cfif>
+										</cfif>
+									
+										<cfif targetMenu EQ "redesign">									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-										<a class="dropdown-item" href="">Encumbrances</a>
-										<a class="dropdown-item" href="">Annotations</a>
-										<a class="dropdown-item" href="">Review Pending Agent Merges</a>
-										<a class="dropdown-item" href="">Merge bad duplicate agents</a>
-										<a class="dropdown-item" href="">Sync parent/child taxonomy</a>
-										<a class="dropdown-item" href="">Pending Relationships</a>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
+										<cfelse>
+											<a class="dropdown-item" href="">Encumbrances</a>
+										</cfif>
+										<cfif targetMenu EQ "redesign">
+											<a class="dropdown-item" href = "">Annotations</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Review Pending Merges</a>
+										<cfelse>
+											<a class="dropdown-item" href="">Review Pending Agent Merges</a>
+										</cfif>
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Merge bad duplicate agents</a>
+										<cfelse>
+											<a class="dropdown-item" href="">Merge bad duplicate agents</a>
+										</cfif>
+									
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Sync parent/child taxonomy</a>
+										<cfelse>
+											<a class="dropdown-item" href="">Sync parent/child taxonomy</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Pending Relationships</a>
+										<cfelse>
+											<a class="dropdown-item" href="">Pending Relationships</a>
+										</cfif>
+										
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production"><cfset href = "/tools/sqlTaxonomy.cfm"><cfelse><cfset href=""></cfif>
-											<a class="dropdown-item" href="">SQL Taxonomy</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+											<cfelse>
+												<a class="dropdown-item" href="">SQL Taxonomy</a>
+											</cfif>
 										</cfif>
 									</div>
 								</li>
@@ -336,7 +526,9 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="">Annotations</a> 
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a> 
+										</cfif>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<a class="dropdown-item" href="">Browse Storage Locations</a> 
@@ -348,11 +540,25 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<a class="dropdown-item" href="">Annotation (on Pub results)</a>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
+										<cfif targetMenu EQ "redesign">
+										<a class="dropdown-item" href="">Annotation</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
+										<cfelse>
+											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
+										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<a class="dropdown-item" href="">Storage Location/Create Container</a> 
-											<a class="dropdown-item" href="">Create Container Series</a> 
+											<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
+											<cfelse>
+												<a class="dropdown-item" href="">Storage Location/Create Container</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
+											<cfelse>
+												<a class="dropdown-item" href="">Create Container Series</a>
+											</cfif>
 										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
