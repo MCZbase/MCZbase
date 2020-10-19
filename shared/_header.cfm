@@ -366,7 +366,7 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 											<cfelse>
-												<a class="dropdown-item" href="">Publication Staging</a>
+												<a class="dropdown-item" href="##">Publication Staging</a>
 											</cfif>
 										</cfif>								
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
