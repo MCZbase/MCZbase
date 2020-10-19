@@ -546,17 +546,17 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a> 
 											<cfelse>
-												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a>
+												<a class="dropdown-item" href="##">Find Storage Location/Container</a>
 											</cfif>
 												</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
-											<a class="dropdown-item" href="">DGR Locator</a> 
+											<a class="dropdown-item" href="##">DGR Locator</a> 
 										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif targetMenu EQ "redesign">
-										<a class="dropdown-item" href="">Annotation</a>
+										<a class="dropdown-item" href="##">Annotation</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
