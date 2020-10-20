@@ -226,12 +226,10 @@ limitations under the License.
 									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<cfelse>
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
-								</cfif>
-								
+								</cfif>				
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="">Browse Specimens By Category</a>
 								</cfif>
-					
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a><!--- we still need the old /Taxonomy.cfm page until Redmine 708 is closed. --->
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy (new)</a>
@@ -242,54 +240,44 @@ limitations under the License.
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item" href="">Media</a>
-								</cfif>
-									
+								</cfif>						
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/showLocality.cfm">Localities</a>
 								<cfelse>
 									<a class="dropdown-item" href="">Localities</a>
-								</cfif>
-								
+								</cfif>		
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="">Geography</a>
 				
 									<a class="dropdown-item" href="">Geology</a>
 							
 									<a class="dropdown-item" href="">Collecting Events</a>
-								</cfif>
-									
+								</cfif>					
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 								<cfelse>
 									<a class="dropdown-item" href="">Agents</a> 
-								</cfif>
-						
+								</cfif>						
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item" href="">Publications</a>
-								</cfif>
-									
+								</cfif>	
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="">Projects</a>
 								</cfif>
-							
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
 								<cfelse>
 									<a class="dropdown-item" href="">Annotations</a>
 								</cfif>
-								
-									
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
+										<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
 									<cfelse>
-									<a class="dropdown-item" href="">SQL Queries</a> 
-										</cfif>
-										
+										<a class="dropdown-item" href="">SQL Queries</a> 
+									</cfif>
 								</cfif>
-								</li>
 							 </li>
 						</ul>
 					</li>
@@ -321,7 +309,6 @@ limitations under the License.
 												<a class="dropdown-item" href="">Agent</a> 
 											</cfif>
 										</cfif>
-										</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Publication.cfm?action=newPub">Publication</a><!--- old --->
@@ -333,31 +320,26 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-											
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item" href="">Bulkload Builder</a> 
-											</cfif>
-												
+											</cfif>									
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Bulkloader/">Bulkload Specimens</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item" href="">Bulkload Specimens</a> 
-											</cfif>
-											
+											</cfif>			
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item" href="">Browse and Edit</a> 
-											</cfif>
-									
+											</cfif>							
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item" href="">Bulkloader Status</a> 
-											</cfif>
-											
+											</cfif>			
 											<cfif targetMenu EQ "redesign">
 												<a class="dropdown-item" href="">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
 											</cfif>			
@@ -500,11 +482,10 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item" href="">Merge bad duplicate agents</a>
 										</cfif>
-									
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Sync parent/child taxonomy</a>
+											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Sync Parent/Child Taxonomy</a>
 										<cfelse>
-											<a class="dropdown-item" href="">Sync parent/child taxonomy</a>
+											<a class="dropdown-item" href="">Sync Parent/Child Taxonomy</a>
 										</cfif>
 											
 										<cfif targetMenu EQ "production">
@@ -513,13 +494,13 @@ limitations under the License.
 											<a class="dropdown-item" href="">Pending Relationships</a>
 										</cfif>
 										
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
-											<cfelse>
-												<a class="dropdown-item" href="">SQL Taxonomy</a>
-											</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+										<cfelse>
+											<a class="dropdown-item" href="">SQL Taxonomy</a>
 										</cfif>
+									</cfif>
 									</div>
 								</li>
 							</ul>
@@ -530,7 +511,7 @@ limitations under the License.
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
 		              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
-									<li class="d-md-flex align-items-start justify-content-start">		
+								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 										<cfif targetMenu EQ "production">
@@ -548,7 +529,7 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item" href="">Find Storage Location/Container</a>
 											</cfif>
-												</cfif>
+										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
 											<a class="dropdown-item" href="">DGR Locator</a> 
 										</cfif>
@@ -633,42 +614,35 @@ limitations under the License.
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-	              		<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
-								
+	              			<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										
+										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Transactions.cfm">All Transactions</a>
 										<cfelse>
 											<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										</cfif>
-											
+										</cfif>			
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/editAccn.cfm">Accessions</a>
 										<cfelse>
 											<a class="dropdown-item" href="">Accessions</a>
-										</cfif>
-											
+										</cfif>			
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										<cfelse>
 											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										</cfif>
-										
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/Borrow.cfm">
 										<cfelse>
 											<a class="dropdown-item" href="">
-										</cfif>
-											
+										</cfif>	
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/Deaccession.cfm">
 										<cfelse>
 											<a class="dropdown-item" href="">
-										</cfif>
-											
+										</cfif>	
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Permit.cfm">Permissions &amp; Rights</a>
 										<cfelse>
@@ -677,38 +651,33 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/addAccn.cfm">Accession</a> 
 										<cfelse>
-											<a class="dropdown-item stillNeedToDo" href="">Accession</a> 
+											<a class="dropdown-item" href="">Accession</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Loan.cfm?action=newLoan">Loan</a> 
 										<cfelse>
 											<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
 										</cfif>
-										
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
 										<cfelse>
-											<a class="dropdown-item stillNeedToDo" href="">Deaccession</a> 
+											<a class="dropdown-item" href="">Deaccession</a> 
 										</cfif>
-							
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Borrow.cfm?action=new">Borrow</a> 
 										<cfelse>
-											<a class="dropdown-item stillNeedToDo" href="">Borrow</a> 
+											<a class="dropdown-item" href="">Borrow</a> 
 										</cfif>
-									
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Permit.cfm?action=newPermit">Permissions &amp; Rights</a> 
 										<cfelse>
 											<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 										</cfif>
-									
 									</div>
-								</li>
+									</li>
 							</ul>
 						</li>
 					</cfif>
@@ -717,6 +686,7 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 								<li class="align-items-start justify-content-start">
 									<div>
+												<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/info/recentgeorefs.cfm">Reports</a> 
 										<a class="dropdown-item" href="/info/queryStats.cfm">Statistics</a> 
 									</div>
