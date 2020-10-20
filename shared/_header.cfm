@@ -686,7 +686,7 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 								<li class="align-items-start justify-content-start">
 									<div>
-												<cfif targetMenu EQ "production">
+												
 										<a class="dropdown-item" href="/info/recentgeorefs.cfm">Reports</a> 
 										<a class="dropdown-item" href="/info/queryStats.cfm">Statistics</a> 
 									</div>
