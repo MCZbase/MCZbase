@@ -225,7 +225,7 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<cfelse>
-									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimen Details</a>
+									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
 								</cfif>
 								
 								<cfif targetMenu EQ "redesign">
@@ -233,7 +233,7 @@ limitations under the License.
 								</cfif>
 					
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a><!--- do we still need the old /Taxonomy.cfm page?--->
+									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a><!--- we still need the old /Taxonomy.cfm page until Redmine 708 is closed. --->
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy (new)</a>
 								<cfelse>
 									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
@@ -267,7 +267,7 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item" href = "##">Publications</a>
+									<a class="dropdown-item" href="">Publications</a>
 								</cfif>
 									
 								<cfif targetMenu EQ "redesign">
@@ -277,7 +277,7 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
 								<cfelse>
-									<a class="dropdown-item" href = "##">Annotations</a>
+									<a class="dropdown-item" href="">Annotations</a>
 								</cfif>
 								
 									
@@ -378,7 +378,7 @@ limitations under the License.
 									<cfif targetMenu EQ "production">
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 											<div>
-											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div><!--- old --->
+											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div><!--- old, retain until landing page is in place. --->
 
 												<a class="dropdown-item" href="/tools/BulkloadNewParts.cfm">Bulk Parts</a>
 
@@ -487,7 +487,7 @@ limitations under the License.
 											<a class="dropdown-item" href="">Encumbrances</a>
 										</cfif>
 										<cfif targetMenu EQ "redesign">
-											<a class="dropdown-item" href = "##">Annotations</a>
+											<a class="dropdown-item" href="">Annotations</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Review Pending Merges</a>
@@ -648,7 +648,7 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href = "/editAccn.cfm">Accessions</a>
 										<cfelse>
-											<a class="dropdown-item" href = "##">Accessions</a>
+											<a class="dropdown-item" href="">Accessions</a>
 										</cfif>
 											
 										<cfif targetMenu EQ "production">
