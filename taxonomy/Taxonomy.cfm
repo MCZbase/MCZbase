@@ -484,18 +484,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 botanical mx-0">
-						<div class="col-12 col-md-8 px-0 botanical">
-							<label for="infraspecific_author" id="infraspecific_author_label" class="col-md-3 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
-							<div class="col-12 col-md-7 float-left">
-								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#gettaxa.infraspecific_author#">
-								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
-								</span>
-							</div>
-						</div>
-					</div>
 					<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
 						<label for="kingdom" class="col-12 col-md-3 col-form-label align-left float-left">Kingdom</label>
 						<div  class="col-12 col-md-9 float-left">
@@ -682,6 +670,19 @@ limitations under the License.
 								 <small class="link-color">Find Kew Abbr</small>
 							</span>
 						 </div>
+					</div>
+
+					<div class="form-row col-12 px-0 botanical mx-0">
+						<div class="col-12 col-md-8 px-0 botanical">
+							<label for="infraspecific_author" id="infraspecific_author_label" class="col-md-3 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
+							<div class="col-12 col-md-7 float-left">
+								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#gettaxa.infraspecific_author#">
+								<span class="infoLink botanical" 
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
+									<small class="link-color">Find Kew Abbr</small>
+								</span>
+							</div>
+						</div>
 					</div>
 						
 					<div class="form-row col-12 px-0 mx-0">
@@ -1314,18 +1315,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-					<div class="form-row col-12 px-0 botanical mx-0">
-						<div class="col-12 col-md-8 px-0 botanical">
-							<label for="infraspecific_author" id="infraspecific_author_label" class="col-md-3 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
-							<div class="col-12 col-md-7 float-left">
-								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#getClonedFromTaxon.infraspecific_author#">
-								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
-								</span>
-							</div>
-						</div>
-					</div>
 					<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
 						<label for="kingdom" class="col-12 col-md-3 col-form-label align-left float-left">Kingdom</label>
 						<div  class="col-12 col-md-9 float-left">
@@ -1512,6 +1501,18 @@ limitations under the License.
 								 <small class="link-color">Find Kew Abbr</small>
 							</span>
 						 </div>
+					</div>
+					<div class="form-row col-12 px-0 botanical mx-0">
+						<div class="col-12 col-md-8 px-0 botanical">
+							<label for="infraspecific_author" id="infraspecific_author_label" class="col-md-3 col-form-label float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
+							<div class="col-12 col-md-7 float-left">
+								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-2" value="#getClonedFromTaxon.infraspecific_author#">
+								<span class="infoLink botanical" 
+									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
+									<small class="link-color">Find Kew Abbr</small>
+								</span>
+							</div>
+						</div>
 					</div>
 						
 					<div class="form-row col-12 px-0 mx-0">
