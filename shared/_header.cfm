@@ -556,7 +556,7 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif targetMenu EQ "redesign">
-										<a class="dropdown-item" href="##">Annotation</a>
+										<a class="dropdown-item stillNeedToDo" href="##">Annotation</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
@@ -567,12 +567,12 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
 											<cfelse>
-												<a class="dropdown-item" href="##">Storage Location/Create Container</a>
+												<a class="dropdown-item stillNeedToDo" href="##">Storage Location/Create Container</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
 											<cfelse>
-												<a class="dropdown-item" href="##">Create Container Series</a>
+												<a class="dropdown-item stillNeedToDo" href="##">Create Container Series</a>
 											</cfif>
 										</cfif>
 									</div>
@@ -580,31 +580,50 @@ limitations under the License.
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Create Container</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="##">Create Container</a> 
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="##">Create Container Series</a> 
+											</cfif>
+												
+											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/moveContainer.cfm">Move Container</a> 
 											<cfelse>
-												<a class="dropdown-item" href="##">Move Container</a> 
+												<a class="dropdown-item stillNeedToDo" href="##">Move Container</a> 
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/batchScan.cfm">Batch Scan</a>
 											<cfelse>
-												<a class="dropdown-item" href="##">Batch Scan</a>
-											</cfif>
+												<a class="dropdown-item stillNeedToDo" href="##">Batch Scan</a>
+											</cfif>	
+								
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/labels2containers.cfm">Label>Container</a> 
 											<cfelse>
-												<a class="dropdown-item" href="##">Label>Container</a> 
+												<a class="dropdown-item  stillNeedToDo" href="##">Label>Container</a> 
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="##">Put Parts in Containers</a> 
+											</cfif>
+								
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 
+											<cfelse>
+												<a class="dropdown-item stillNeedToDo" href="##">Clear Part Flags</a> 
 											</cfif>
 												
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Object+BC>Container</a> 
+												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a> 
 											<cfelse>
-												<a class="dropdown-item" href="##">Object+BC>Container</a> 
+												<a class="dropdown-item stillNeedToDo" href="##">Upload Scan File</a> 
 											</cfif>
-											<a class="dropdown-item" href="">Object+BC>Container</a> 
-											<a class="dropdown-item" href="">Clear Part Flags</a> 
-											<a class="dropdown-item" href="">Upload Scan File</a> 
-											<a class="dropdown-item" href="">Put Parts in Containers</a> 
-											<a class="dropdown-item" href="">Bulk Edit Containers</a> 
+										
 										</div>
 									</cfif>
 								</li>
@@ -619,29 +638,75 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										<cfif targetMenu EQ "production"><cfset href = "/editAccn.cfm"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Accessions</a> 
-										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										<cfif targetMenu EQ "production"><cfset href = "/Borrow.cfm"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Borrows</a><!--- old --->
-										<cfif targetMenu EQ "production"><cfset href = "/Deaccession.cfm"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Deaccessions</a> 
-										<cfif targetMenu EQ "production"><cfset href = "/Permit.cfm"><cfelse><cfset href="/transactions/Permit.cfm"></cfif>
-										<a class="dropdown-item" href="#href#">Permissions &amp; Rights</a> 
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Transactions.cfm">All Transactions</a>
+										<cfelse>
+											<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/editAccn.cfm">Accessions</a>
+										<cfelse>
+											<a class="dropdown-item" href = "##">Accessions</a>
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
+										<cfelse>
+											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
+										</cfif>
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/Borrow.cfm">
+										<cfelse>
+											<a class="dropdown-item" href="##">
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/Deaccession.cfm">
+										<cfelse>
+											<a class="dropdown-item" href="##">
+										</cfif>
+											
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Permit.cfm">Permissions &amp; Rights</a>
+										<cfelse>
+											<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif targetMenu EQ "production"><cfset href = "/addAccn.cfm"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Accession</a>
-										<cfif targetMenu EQ "production"><cfset href = "/Loan.cfm?action=newLoan"><cfelse><cfset href="/transactions/Loan.cfm?action=newLoan"></cfif>
-										<a class="dropdown-item" href="#href#">Loan</a>
-										<cfif targetMenu EQ "production"><cfset href = "/Deaccession.cfm?action=newDeacc"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Deaccession</a> 
-										<cfif targetMenu EQ "production"><cfset href = "/Borrow.cfm?action=new"><cfelse><cfset href=""></cfif>
-										<a class="dropdown-item" href="#href#">Borrow</a>
-										<cfif targetMenu EQ "production"><cfset href = "/Permit.cfm"><cfelse><cfset href="/transactions/Permit.cfm?action=new"></cfif>
-										<a class="dropdown-item" href="#href#">Permissions &amp; Rights</a> 
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/addAccn.cfm">Accession</a> 
+										<cfelse>
+											<a class="dropdown-item stillNeedToDo" href="##">Accession</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Loan.cfm?action=newLoan">Loan</a> 
+										<cfelse>
+											<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
+										</cfif>
+										
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
+										<cfelse>
+											<a class="dropdown-item stillNeedToDo" href="##">Deaccession</a> 
+										</cfif>
+							
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Borrow.cfm?action=new">Borrow</a> 
+										<cfelse>
+											<a class="dropdown-item stillNeedToDo" href="##">Borrow</a> 
+										</cfif>
+									
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Permit.cfm?action=newPermit">Permissions &amp; Rights</a> 
+										<cfelse>
+											<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
+										</cfif>
+									
 									</div>
 								</li>
 							</ul>
