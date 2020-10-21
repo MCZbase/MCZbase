@@ -373,6 +373,8 @@ limitations under the License.
 												<a class="dropdown-item" href="/tools/BulkloadOtherId.cfm">Bulk Identifiers</a>
 
 												<a class="dropdown-item" href="/tools/loanBulkload.cfm">Bulk Loans</a>
+												
+												<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Bulk Data Loans</a>
 
 												<a class="dropdown-item" href="/DataServices/agents.cfm">Bulk Agents</a>
 
