@@ -915,7 +915,7 @@ limitations under the License.
 								<li>
 									<cfif session.roles contains "coldfusion_user">
 										<a href="" class="dropdown-item">
-										<!--- TODO: Fix this, should be just a link, not a form POST --->
+										<!--- TODO: Fix this, should be just a link, not a form POST -- it is not working either way right now (after a test)--->
 										<form name="profile" method="post" action="/UserProfile.cfm">
 											<input type="hidden" name="action" value="nothing">
 											<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
