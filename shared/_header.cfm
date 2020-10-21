@@ -701,9 +701,19 @@ limitations under the License.
 											<a class="dropdown-item" href="">Citation Details</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/loanStats.cfm">Loans</a> 
+											<a class="dropdown-item" href="/info/loanStats.cfm">Loans Statistics</a> 
 										<cfelse>
-											<a class="dropdown-item" href="">Loan</a> 
+											<a class="dropdown-item" href="">Loan Statistics</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Admin/download.cfm">Download Statistics</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Download Statistics</a> 
+										</cfif>
+											<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Query Statistics</a> 
 										</cfif>
 									</div>
 								</li>
