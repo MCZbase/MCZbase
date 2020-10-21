@@ -678,7 +678,7 @@ limitations under the License.
 											<a class="dropdown-item" href="">Holdings by Class</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Genbank Missing Data</a> 
+											<a class="dropdown-item" href="/info/mia_in_genbank.cfm">Genbank Missing Data</a> 
 										<cfelse>
 											<a class="dropdown-item" href="">Genbank Missing Data</a> 
 										</cfif>
@@ -687,6 +687,46 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item" href="">Problem Taxonomy</a> 
 										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Taxonomy Gaps</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/slacker.cfm">Suspect Data</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Suspect Data</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Holdings by Class</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Holdings by Class</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/noParts.cfm">Partless Specimen Records</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Partless Specimen Records</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Messy Taxonomy</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/tools/findGap.cfm">Catalog Number Gaps</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Catalog Number Gaps</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/dupAgent.cfm">Duplicate Agents</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Duplicate Agents</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Reports/partusage.cfm">Part Usage</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Part Usage</a> 
+										</cfif>																				
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Statistics</div>
