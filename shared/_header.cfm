@@ -666,15 +666,44 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
 								<li class="align-items-start justify-content-start">
 									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Reports</div>
 										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Reports</a> 
+											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 										<cfelse>
-											<a class="dropdown-item" href="">Reports</a> 
+											<a class="dropdown-item" href="">Recently Georeferenced Localities</a> 
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/queryStats.cfm">Statistics</a> 
+											<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/collnHoldgByClass.cfm">Holdings by Class</a> 
 										<cfelse>
-											<a class="dropdown-item" href="">Statistics</a> 
+											<a class="dropdown-item" href="">Holdings by Class</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Genbank Missing Data</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Genbank Missing Data</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Problem Taxonomy</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Problem Taxonomy</a> 
+										</cfif>
+									</div>
+									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Statistics</div>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/info/Citations.cfm">Citations Summary</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Citation Summary</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/MoreCitationStats.cfm">Citation Details</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Citation Details</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/info/loanStats.cfm">Loans</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Loan</a> 
 										</cfif>
 									</div>
 								</li>
