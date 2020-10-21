@@ -738,37 +738,89 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item" href="">Dump</a>
 											</cfif>
-										</cfif>
-											
+										</cfif>	
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production"><cfset href = "/ScheduledTasks/index.cfm"><cfelse><cfset href=""></cfif>
-											<a class="dropdown-item" href="#href#">Scheduled Tasks</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item"  href = "/ScheduledTasks/index.cfm">Scheduled Tasks</a>
+											<cfelse>
+												<a class="dropdown-item"  href = "">Scheduled Tasks</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item"  href = "/tools/imageList.cfm">
+											<cfelse>
+												<a class="dropdown-item" href="">Image List</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item"  href = "/tools/imageList.cfm">
+											<cfelse>
+												<a class="dropdown-item" href="">Image List</a>
+											</cfif>
 										</cfif>
-										<a class="dropdown-item" href="/">Image List</a>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
-										<a class="dropdown-item" href="/">Audit SQL</a>
-										<a class="dropdown-item" href="/">MCZbase Users</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production"><cfset href = "/Admin/form_roles.cfm"><cfelse><cfset href=""></cfif>
-											<a class="dropdown-item" href="#href#">Form Permissions</a>
-											<cfif targetMenu EQ "production"><cfset href = "/tools/uncontrolledPages.cfm"><cfelse><cfset href=""></cfif>
-											<a class="dropdown-item" href="#href#">See Form Permissions</a>
-											<cfif targetMenu EQ "production"><cfset href = "/Admin/blacklist.cfm"><cfelse><cfset href=""></cfif>
-											<a class="dropdown-item" href="#href#">Blacklist</a>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
+										<cfelse>
+											<a class="dropdown-item" href="/">Audit SQL</a>
 										</cfif>
-										<a class="dropdown-item" href="/">Database roles</a>
-										<a class="dropdown-item" href="/">Oracle roles</a>
-										<a class="dropdown-item" href="/">User Loan</a>
-										<a class="dropdown-item" href="/">All User Stats</a>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/AdminUsers.cfm">MCZbase User Access</a>
+										<cfelse>
+											<a class="dropdown-item" href="/">MCZbase User Access</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href = "/tools/access_report.cfm?action=role">User Role Report</a>
+										<cfelse>
+											<a class="dropdown-item" href = "">User Role Report</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/user_roles.cfm">Database Role Definitions</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">Database Role Definitions</a>
+										</cfif>	
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
+											<cfelse>
+												<a class="dropdown-item" href="">Form Permissions</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/blacklist.cfm">Blacklist</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">Blacklist</a>
+											</cfif>
+												
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/manage_user_loan_request.cfm">User Loan</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">User Loan</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/user_report.cfm">All User Stats</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">All User Stats</a>
+											</cfif>
+										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dba")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
-											<a class="dropdown-item" href="/">Manage Collection</a>
-											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
-											<a class="dropdown-item" href="/">Redirects</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/Collection.cfm">Manage Collection</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">Manage Collection</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/CFIDE/administrator/">Manage Coldfusion</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">Manage Coldfusion</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href = "/Admin/redirect.cfm">Redirects</a>
+											<cfelse>
+												<a class="dropdown-item" href = "">Redirects</a>
+											</cfif> 
 										</div>
 									</cfif>
 								</li>
@@ -817,7 +869,7 @@ limitations under the License.
 			
 				</ul>
 			</div>
-														<cfif isdefined("session.username") and len(#session.username#) gt 0>
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 						<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
 							<input type="hidden" name="action" value="signOut">
 							<button class="btn btn-outline-success logout" aria-label="logout" onclick="signOut.action.value='signOut';submit();" target="_top">Log out #session.username#
