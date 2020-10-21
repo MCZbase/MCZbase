@@ -505,6 +505,8 @@ limitations under the License.
 						</div>
 					</div>
 					<div id="division_row" class="botanical form-row">
+						<div class="col-12 col-xl-3 px-0 botanical float-left">
+						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 botanical float-left">
 							<label for="division" id="division_label" class="col-12 col-md-3 col-form-label align-left float-left">Division</label>
 							<div class="col-12 col-md-9 float-left">
