@@ -628,7 +628,7 @@ limitations under the License.
 									<small class="link-color">Add&nbsp;&##215;</small>
 								</span>
 							</label>
-							<div class="col-12 col-md-9 float-left pl-3 pr-2">
+							<div class="col-12 col-md-9 float-left pl-md-3 pr-md-2">
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
@@ -659,7 +659,7 @@ limitations under the License.
 					</div>
 
 					<div class="form-row">
-						<div class="col-12 col-md-6 col-xl-3 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="infraspecific_rank" class="col-12 col-md-4 col-form-label align-left float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="col-12 col-md-8 float-left">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-1" data-style="btn-primary" show-tick>
@@ -685,7 +685,7 @@ limitations under the License.
 						</div>
 					</div>
 
-					<div class="form-row col-12 px-0 botanical mx-0">
+					<div class="form-row col-12 px-0 botanical px-0">
 						<div class="col-12 col-md-6 col-xl-3 botanical">
 						</div>
 						<div class="col-12 col-md-6 col-xl-9 px-0 botanical">
