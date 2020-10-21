@@ -620,7 +620,7 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="form-row">
-						<div class="col-12 col-md-6 col-xl-3 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="genus" class="col-12 col-md-3 col-form-label align-left float-left">Genus
 								<span class="likeLink botanical" onClick="$('##genus').val('&##215;' + $('##genus').val());">
 									<small class="link-color">Add&nbsp;&##215;</small>
@@ -630,7 +630,7 @@ limitations under the License.
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
-						<div class="col-12 col-md-6 col-xl-3 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<cfif len(#gettaxa.subgenus#) gt 0 and REFind("^\(.*\)$",#gettaxa.subgenus#) gt 0>
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
@@ -642,13 +642,13 @@ limitations under the License.
 							</div>
 						</div>
 			
-						<div class="col-12 col-md-6 col-xl-3 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="species" class="col-12 col-md-3 col-form-label align-left float-left">Species</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
-						<div class="col-12 col-md-6 col-xl-3 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-9 float-left">
 							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
@@ -700,10 +700,10 @@ limitations under the License.
 						
 					<div class="form-row px-0 mx-0">
 						<div class="col-12 px-0 mt-0">
-							<label for="taxon_remarks" class="text-right col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
+							<label for="taxon_remarks" class="col-12 col-md-2 col-form-label float-left">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<textarea name="taxon_remarks" id="taxon_remarks" 
 								onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
-								rows="3" class="data-entry-textarea mt-1">#gettaxa.taxon_remarks#</textarea>
+								rows="3" class="data-entry-textarea col-12 col-md-10 mt-0">#gettaxa.taxon_remarks#</textarea>
 						</div>
 					</div>
 					<script>
