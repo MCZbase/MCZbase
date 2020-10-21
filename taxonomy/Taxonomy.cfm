@@ -246,7 +246,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container py-3" id="content" role="main">
+		<main class="container-float px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -799,8 +799,8 @@ limitations under the License.
 								class="btn btn-xs btn-primary mx-1"
 								onClick="if (checkFormValidity($('##taxon_form')[0])) { saveEdits(); } " 
 								>
-							<output id="saveResultDiv" class="text-danger mx-auto text-center" style="width: 10em;">&nbsp;</output>	
 							<a class="btn btn-xs btn-secondary mx-1" href='/taxonomy/Taxonomy.cfm?action=newTaxon&taxon_name_id=#taxon_name_id#'>Clone</a>
+							<output id="saveResultDiv" class="text-danger mx-auto text-left" style="width: 10em;">&nbsp;</output>	
 						</div>
 						<div class="col-2">
 							<input type="button" value="Delete" class="btn btn-xs btn-danger mx-1 float-right"	onclick=" confirmDialog('Delete this Taxon?','Confirm Delete Taxon',function(){ window.location.href='#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=deleTaxon&taxon_name_id=#taxon_name_id#' });">
