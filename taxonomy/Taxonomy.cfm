@@ -309,8 +309,8 @@ limitations under the License.
 							</select>
 						</div>
 					</div>
-					<div class="row mt-2 mb-3">
-						<div class="col-12 col-md-6 border bg-light pb-2 pt-1 rounded mt-2">
+					<div class="row mx-0 mx-md-1 mt-2 mb-3">
+						<div class="col-12 col-md-6 form-row mx-0 mr-1 border bg-light pb-2 pt-1 rounded mt-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -397,7 +397,7 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
+						<div class="col-12 col-md-6 form-row mx-0 ml-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
