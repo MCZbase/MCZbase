@@ -663,10 +663,10 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">
-								<li class="align-items-start justify-content-start">
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
+									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Reports</div>
+									<div class="h5 dropdown-header px-4 text-danger">Reports</div>
 										<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 										<cfelse>
