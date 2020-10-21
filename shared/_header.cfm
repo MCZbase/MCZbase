@@ -702,7 +702,7 @@ limitations under the License.
 						</li>
 					</cfif>
 			<!---		<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>  Can't see what I'm doing with these permissions--->
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"MANAGE_CODETABLES")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
@@ -804,7 +804,7 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dba")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Application</div>
 											<cfif targetMenu EQ "production">
