@@ -685,12 +685,12 @@ limitations under the License.
 						</div>
 					</div>
 
-					<div class="form-row col-12 px-0 botanical px-0">
+					<div class="form-row col-12 px-0 botanical">
 						<div class="col-12 col-md-6 col-xl-3 botanical">
 						</div>
 						<div class="col-12 col-md-6 col-xl-9 px-0 botanical">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="col-12 col-md-1 col-form-label align-left float-left"> Infraspecific Author <small class="line-height-sm d-block">(do not use for ICZN names)</small></label>
-							<div class="col-12 col-md-11 float-left">
+							<div class="col-12 col-md-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
 									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
