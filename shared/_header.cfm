@@ -527,7 +527,7 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif targetMenu EQ "redesign">
-										<a class="dropdown-item stillNeedToDo" href="">Annotation</a>
+										<a class="dropdown-item" href="">Annotation</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
@@ -538,29 +538,19 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Storage Location/Create Container</a>
+												<a class="dropdown-item" href="">Storage Location/Create Container</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
 											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Create Container Series</a>
+												<a class="dropdown-item" href="">Create Container Series</a>
 											</cfif>
 										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Create Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Create Container</a> 
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Create Container Series</a> 
-											</cfif>
-												
+																					
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/moveContainer.cfm">Move Container</a> 
 											<cfelse>
@@ -573,9 +563,9 @@ limitations under the License.
 											</cfif>	
 								
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/labels2containers.cfm">Label>Container</a> 
+												<a class="dropdown-item" href="/labels2containers.cfm">Label > Container</a> 
 											<cfelse>
-												<a class="dropdown-item  stillNeedToDo" href="">Label>Container</a> 
+												<a class="dropdown-item  stillNeedToDo" href="">Label > Container</a> 
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
