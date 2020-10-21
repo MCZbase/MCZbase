@@ -703,6 +703,11 @@ limitations under the License.
 											<a class="dropdown-item" href="">Suspect Data</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">		
+											<a class="dropdown-item" href="/Reports/partusage.cfm">Part Usage</a> 
+										<cfelse>
+											<a class="dropdown-item" href="">Part Usage</a> 
+										</cfif>
+										<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/info/noParts.cfm">Partless Specimen Records</a> 
 										<cfelse>
 											<a class="dropdown-item" href="">Partless Specimen Records</a> 
@@ -717,12 +722,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/info/dupAgent.cfm">Duplicate Agents</a> 
 										<cfelse>
 											<a class="dropdown-item" href="">Duplicate Agents</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Reports/partusage.cfm">Part Usage</a> 
-										<cfelse>
-											<a class="dropdown-item" href="">Part Usage</a> 
-										</cfif>																				
+										</cfif>																		
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Statistics</div>
