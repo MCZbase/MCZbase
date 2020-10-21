@@ -417,19 +417,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item" href="">Localities</a>
 										</cfif>
-											
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a> 
-										<cfelse>
-											<a class="dropdown-item" href="">Geology Attributes Hierarchy</a>
-										</cfif>
-										
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a> 
-										<cfelse>
-											<a class="dropdown-item" href="">Geology Attributes Hierarchy</a>
-										</cfif>
-											
+																					
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Locality.cfm?action=findCO">Collecting Event</a> 
 										<cfelse>
@@ -717,6 +705,13 @@ limitations under the License.
 												<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
 											<cfelse>
 												<a class="dropdown-item" href="">Code Table Editor</a>
+											</cfif>
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a>
+											<cfelse>
+												<a class="dropdown-item" href="">Geology Attributes Hierarchy</a>
 											</cfif>
 										</cfif>
 										<!--- TODO: Need another role for report management  --->
