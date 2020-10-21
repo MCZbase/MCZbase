@@ -674,8 +674,8 @@ limitations under the License.
 						</div>
 					
 						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
-							<label for="author_text" class="col-12 col-md-1 col-form-label align-left float-left">Author</label>
-							<div class="col-12 col-md-11 float-left">
+							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label align-left float-left">Author</label>
+							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
@@ -689,7 +689,7 @@ limitations under the License.
 						<div class="col-12 col-md-6 col-xl-3 botanical">
 						</div>
 						<div class="col-12 col-md-6 col-xl-9 px-0 botanical">
-							<label for="infraspecific_author" id="infraspecific_author_label" class="col-12 col-md-12 col-xl-1 col-form-label align-left float-left"> Infraspecific Author <small class="line-height-sm d-block d-md-inline">(do not use for ICZN names)</small></label>
+							<label for="infraspecific_author" id="infraspecific_author_label" class="pt-0 col-12 col-md-12 col-xl-1 col-form-label align-left float-left"> Infraspecific Author <small class="line-height-sm d-block d-md-inline">(do not use for ICZN names)</small></label>
 							<div class="col-12 col-md-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
