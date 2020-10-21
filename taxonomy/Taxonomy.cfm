@@ -261,7 +261,7 @@ limitations under the License.
 				<a class="btn btn-info btn-xs" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 				<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 			</span>
-			<section class="row border rounded my-2 px-1 py-1">
+			<section class="row border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
 						<div class="col-12 col-sm-3">
@@ -299,7 +299,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
-							<select name="taxon_status" id="taxon_status" class="data-entry-input">
+							<select name="taxon_status" id="taxon_status" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="cttaxon_status">
 									<option 
@@ -662,7 +662,7 @@ limitations under the License.
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="infraspecific_rank" class="col-12 col-md-4 col-form-label align-left float-left"><span>Infraspecific&nbsp;Rank</span></label>
 							<div class="col-12 col-md-8 float-left">
-								<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-1" data-style="btn-primary" show-tick>
+								<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1" data-style="btn-primary" show-tick>
 									<option value=""></option>
 									<cfloop query="ctInfRank">
 										<option
@@ -896,7 +896,7 @@ limitations under the License.
 								<div class="p-3 border bg-light rounded mt-2">
 									<h4 class="mt-0 mb-1">Related Taxa:</h4>
 									<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-									<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
+									<select name="taxon_relationship" class="reqdClr data-entry-select">
 										<cfloop query="ctRelation">
 											<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 										</cfloop>
@@ -971,7 +971,7 @@ limitations under the License.
 								<input type="hidden" name="action" value="newhabitat">
 								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
 								<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
-								<select name="taxon_habitat" id="habitat_name"size="1" class="custom-select data-entry-select my-1 w-75 float-left">
+								<select name="taxon_habitat" id="habitat_name"size="1" class="data-entry-select my-1 w-75 float-left">
 								<cfloop query="cttaxon_habitat">
 									<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 										<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
@@ -1145,7 +1145,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-sm-3">
 							<label for="taxon_status" >Nomenclatural Status <i class="fas fas-info fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
-							<select name="taxon_status" id="taxon_status" class="data-entry-input">
+							<select name="taxon_status" id="taxon_status" class="data-entry-select">
 								<option value=""></option>
 								<cfloop query="cttaxon_status">
 									<option 
@@ -1496,7 +1496,7 @@ limitations under the License.
 					<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 						<label for="infraspecific_rank" class="col-12 col-md-6 col-form-label align-left float-left"><span>Infraspecific&nbsp;Rank</span></label>
 						<div class="col-12 col-md-6 float-left">
-							<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-input my-1" data-style="btn-primary" show-tick>
+							<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-input my-1" data-style="btn-primary" show-tick>
 								<option value=""></option>
 								<cfloop query="ctInfRank">
 									<option
@@ -1569,14 +1569,14 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-sm-3">
 									<label for="valid_catalog_term_fg">Valid?</label>
-									<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr custom-select data-entry-select w-75">
+									<select name="valid_catalog_term_fg" id="valid_catalog_term_fg" class="reqdClr data-entry-select w-75">
 										<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "1"> selected="selected" </cfif> value="1">yes</option>
 										<option <cfif getClonedFromTaxon.valid_catalog_term_fg is "0"> selected="selected" </cfif> value="0">no</option>
 									</select>
 								</div>
 								<div class="col-12 col-sm-3">
 									<label for="nomenclatural_code">Nomenclatural Code</label>
-									<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr custom-select data-entry-select w-75">
+									<select name="nomenclatural_code" id="nomenclatural_code" class="reqdClr data-entry-select w-75">
 										<cfloop query="ctnomenclatural_code">
 											<option
 												<cfif #getClonedFromTaxon.nomenclatural_code# is "#ctnomenclatural_code.nomenclatural_code#"> selected </cfif>
@@ -1603,7 +1603,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-6 px-0 float-left">
-									<select name="taxonid_guid_type" id="taxonid_guid_type" class="custom-select data-entry-select">
+									<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
 										</cfif>
@@ -1683,7 +1683,7 @@ limitations under the License.
 										</cfif>
 									</cfloop>
 									<div class="col-12 col-md-2 px-0 float-left">
-									<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="custom-select data-entry-select">
+									<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select">
 										<cfif searchtext EQ "">
 											<option value=""></option>
 										</cfif>
@@ -1785,7 +1785,7 @@ limitations under the License.
 									<div class="col-6 px-0">
 										<label for="infraspecific_rank" class="col-sm-4 col-form-label float-left">Infraspecific Rank</label>
 										<div class="col-sm-8 float-left">
-											<select name="infraspecific_rank" id="infraspecific_rank" class="custom-select data-entry-select my-1">
+											<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1">
 												<option <cfif getClonedFromTaxon.infraspecific_rank is ""> selected </cfif>  value=""></option>
 												<cfloop query="ctInfRank">
 													<option
@@ -1800,7 +1800,7 @@ limitations under the License.
 									<div class="col-6 px-0">
 										<label for="taxon_status" class="col-sm-4 col-form-label float-left">Taxon Status <i class="fas fas-info mt-1 fa-info-circle" onclick="getCtDoc('cttaxon_status');" aria-label="help link"></i></label>
 										<div class="col-sm-8 float-left">
-											<select name="taxon_status" id="taxon_status" class="custom-select data-entry-select my-1">
+											<select name="taxon_status" id="taxon_status" class="data-entry-select my-1">
 												<option value=""></option>
 												<cfloop query="cttaxon_status">
 													<option <cfif getClonedFromTaxon.taxon_status is cttaxon_status.taxon_status> selected="selected" </cfif>
