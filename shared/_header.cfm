@@ -614,14 +614,14 @@ limitations under the License.
 											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/Borrow.cfm">
+											<a class="dropdown-item" href = "/Borrow.cfm">Borrow</a>
 										<cfelse>
-											<a class="dropdown-item" href="">
+											<a class="dropdown-item" href="">Borrow</a>
 										</cfif>	
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/Deaccession.cfm">
+											<a class="dropdown-item" href = "/Deaccession.cfm">Deaccession</a>
 										<cfelse>
-											<a class="dropdown-item" href="">
+											<a class="dropdown-item" href="">Deaccession</a>
 										</cfif>	
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Permit.cfm">Permissions &amp; Rights</a>
