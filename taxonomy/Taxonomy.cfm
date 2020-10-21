@@ -650,7 +650,7 @@ limitations under the License.
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#gettaxa.species#">
 							</div>
 						</div>		
-						<div class="col-12 col-md-6 col-xl-3 px-9 float-left">
+						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="subspecies" class="col-12 col-md-3 col-form-label align-left float-left">Subspecies</label>
 							<div class="col-12 col-md-9 float-left">
 								<input type="text" name="subspecies" id="subspecies" value="#gettaxa.subspecies#" class="data-entry-input my-1">
