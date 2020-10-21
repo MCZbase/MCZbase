@@ -330,7 +330,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-lg-3 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -348,10 +348,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-lg-2 w-100 px-0 float-left"> 
+							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-lg-7 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
@@ -417,7 +417,7 @@ limitations under the License.
 									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
-							<div class="col-6 col-lg-3 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
@@ -435,10 +435,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-lg-2 px-0 float-left">
+							<div class="col-6 col-xl-2 px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-lg-7 pl-0 float-left">
+							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
