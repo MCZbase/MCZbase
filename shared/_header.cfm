@@ -462,24 +462,24 @@ limitations under the License.
 											<a class="dropdown-item" href="">Annotations</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Review Pending Merges</a>
+											<a class="dropdown-item" href = "/Admin/agentMergeReview.cfm">Review Pending Merges</a>
 										<cfelse>
 											<a class="dropdown-item" href="">Review Pending Agent Merges</a>
 										</cfif>
 										
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Merge bad duplicate agents</a>
+											<a class="dropdown-item" href = "/Admin/killBadAgentDups.cfm">Merge bad duplicate agents</a>
 										<cfelse>
 											<a class="dropdown-item" href="">Merge bad duplicate agents</a>
 										</cfif>
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Sync Parent/Child Taxonomy</a>
+											<a class="dropdown-item" href = "/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
 										<cfelse>
 											<a class="dropdown-item" href="">Sync Parent/Child Taxonomy</a>
 										</cfif>
 											
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href = "/info/reviewAnnotation.cfm">Pending Relationships</a>
+											<a class="dropdown-item" href = "/tools/pendingRelations.cfm">Pending Relationships</a>
 										<cfelse>
 											<a class="dropdown-item" href="">Pending Relationships</a>
 										</cfif>
