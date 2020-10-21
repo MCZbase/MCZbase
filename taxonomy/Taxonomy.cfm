@@ -310,7 +310,8 @@ limitations under the License.
 						</div>
 					</div>
 					<div class="row mx-0 mx-md-1 mt-2 mb-3">
-						<div class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
+						<div class="form-row">
+						<div class="col-12 col-md-6 mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
 							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -397,7 +398,9 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
-						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
+						</div>
+						<div class="form-row">
+						<div class="col-12 col-md-6 ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2">
 							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
@@ -483,7 +486,12 @@ limitations under the License.
 								</script> 
 							</div>
 						</div>
+						</div>
 					</div>
+								
+								
+								
+								
 					<div class="form-row"><!--- organize layout so that phylum, class, order, family stack in same column --->
 						<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
 							<label for="kingdom" class="col-12 col-md-3 col-form-label align-left float-left">Kingdom</label>
