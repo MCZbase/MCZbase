@@ -917,13 +917,16 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
 										<cfelse>
+										<!--- TODO: Fix this, should be just a link, not a form POST  it is not working either way right now (after a test) --->
+										<a href="/UserProfile.cfm?action=nothing" class="dropdown-item">User Profile</a>
+										<!--- 
 										<a href="" class="dropdown-item">
-										<!--- TODO: Fix this, should be just a link, not a form POST -- it is not working either way right now (after a test)--->
 										<form name="profile" method="post" action="/UserProfile.cfm">
 											<input type="hidden" name="action" value="nothing">
 											<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 										</form>
 										</a> 
+										---->
 										</cfif>
 										<cfif targetMenu EQ "redesign">
 											<a href="" class="dropdown-item">Settings</a>
