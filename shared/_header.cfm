@@ -894,11 +894,13 @@ limitations under the License.
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
+								<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							</cfif>
-							<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
-							<a class="dropdown-item" href="/">API</a>
-							<a class="dropdown-item" href="/">Technical Details</a>
+							<cfif targetMenu EQ "redesign">
+								<a class="dropdown-item" href="/">API</a>
+								<a class="dropdown-item" href="/">Technical Details</a>
+							</cfif>
 						</ul>
 					</li>
 				</ul>
