@@ -917,7 +917,6 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
 										<cfelse>
-											<a href="<cfif len(session.username) is 0>/UserProfile.cfm</cfif>" onClick="logIn.action.value='nothing';submit();">Profile</a>
 										<a href="" class="dropdown-item">
 										<!--- TODO: Fix this, should be just a link, not a form POST -- it is not working either way right now (after a test)--->
 										<form name="profile" method="post" action="/UserProfile.cfm">
