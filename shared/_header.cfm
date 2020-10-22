@@ -891,10 +891,15 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 								<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+								<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
 							</cfif>
-								<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+							<cfif targetMenu EQ "production">
 								<a class="dropdown-item" href="/info/api.cfm">API</a>
-								<a class="dropdown-item" href="/site/arctosdb/">Technical Details</a>
+							<cfelse>
+								<a class="dropdown-item bg-warning" href="">API</a>
+								<a class="dropdown-item bg-warning" href="">Technical Details</a>
+							</cfif>
 						</ul>
 					</li>
 				</ul>
