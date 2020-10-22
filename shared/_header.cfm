@@ -914,6 +914,9 @@ limitations under the License.
 							<ul aria-labelledby="dropdownMenu5" class="dropdown-menu border-0 shadow">
 								<li>
 									<cfif session.roles contains "coldfusion_user">
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
+										<cfelse>
 										<a href="" class="dropdown-item">
 										<!--- TODO: Fix this, should be just a link, not a form POST -- it is not working either way right now (after a test)--->
 										<form name="profile" method="post" action="/UserProfile.cfm">
@@ -921,9 +924,18 @@ limitations under the License.
 											<input type="submit" aria-label="Search" value="User Profile" class="user form-control-sm form-control-plaintext p-0 text-left outline-0 border-0"  placeholder="User Profile" onClick="logIn.action.value='nothing';submit();">
 										</form>
 										</a> 
-										<a href="" class="dropdown-item">Settings</a>
-										<a href="/saveSearch.cfm?action=manage" class="dropdown-item">Saved Searches</a>
-										<a href="" class="dropdown-item">Saved Search Queries</a>
+										</cfif>
+										<cfif targetMenu EQ "redesign">
+											<a href="" class="dropdown-item">Settings</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a href="/saveSearch.cfm?action=manage" class="dropdown-item">Saved Searches</a>
+										<cfelse>
+											<a href="" class="dropdown-item">Saved Searches</a>
+										</cfif>
+										<cfif targetMenu EQ "redesign">
+											<a href="" class="dropdown-item">Saved Search Queries</a>
+										</cfif>
 									</cfif>
 								</li>	
 							</ul>
