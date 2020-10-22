@@ -896,11 +896,9 @@ limitations under the License.
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 								<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
 							</cfif>
-							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
-							<cfif targetMenu EQ "redesign">
-								<a class="dropdown-item" href="/">API</a>
-								<a class="dropdown-item" href="/">Technical Details</a>
-							</cfif>
+								<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
+								<a class="dropdown-item" href="/info/api.cfm">API</a>
+								<a class="dropdown-item" href="/site/arctosdb/">Technical Details</a>
 						</ul>
 					</li>
 				</ul>
@@ -924,7 +922,7 @@ limitations under the License.
 										</form>
 										</a> 
 										<a href="" class="dropdown-item">Settings</a>
-										<a href="" class="dropdown-item">Saved Searches</a>
+										<a href="/saveSearch.cfm?action=manage" class="dropdown-item">Saved Searches</a>
 										<a href="" class="dropdown-item">Saved Search Queries</a>
 									</cfif>
 								</li>	
