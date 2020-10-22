@@ -172,3 +172,6 @@ override Bootstrap styles
 .ui-dialog-content a {
 	color: #036ee0 !important;
 }
+ .ui-autocomplete-loading {
+     background: transparent url("/images/ui-anim_basic_16x16.gif") right center no-repeat;
+  }

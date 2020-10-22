@@ -1,5 +1,6 @@
 /** This file contains Various local style customizations **/
 /************************/
+
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
@@ -112,6 +113,9 @@ h6, .h6 {
 p {
 	margin-bottom: .75em;
 	line-height: normal;
+}
+p:focus {
+	box-shadow: none;
 }
 .info {
 	position: absolute;
