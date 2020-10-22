@@ -752,6 +752,10 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="">Query Statistics</a> 
 										</cfif>
 									</div>
+									<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
+										<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
+										<a class="dropdown-item" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
+									</div>
 								</li>
 							</ul>
 						</li>
@@ -891,7 +895,6 @@ limitations under the License.
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>
 								<a class="dropdown-item" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
-								<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
 							</cfif>
 							<a class="dropdown-item" href="https://mcz.harvard.edu/database">About MCZbase</a>
 							<cfif targetMenu EQ "production">
