@@ -918,7 +918,7 @@ limitations under the License.
 											<a class="dropdown-item" href="/myArctos.cfm">User Profile</a>
 										<cfelse>
 											<a href="<cfif len(session.username) is 0>
-	<cflocation url="/login.cfm" addtoken="false">
+	<cflocation url="/UserProfile.cfm" addtoken="false">
 												 </cfif>">Profile</a>
 										<a href="" class="dropdown-item">
 										<!--- TODO: Fix this, should be just a link, not a form POST -- it is not working either way right now (after a test)--->
