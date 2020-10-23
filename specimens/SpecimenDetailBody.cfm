@@ -1586,7 +1586,7 @@ limitations under the License.
 }
 .spinner-border {
 	padding-right: 0px;
-    background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
+    background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/712_sm.gif);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
@@ -1602,7 +1602,7 @@ limitations under the License.
   </div>
 </div>
 	
-<button class="btn btn-primary btn-sm" type="button">
+<button class="btn btn-primary" type="button">
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 </button>
