@@ -1101,7 +1101,7 @@ limitations under the License.
 		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
-		<main class="container py-3" id="content" role="main">
+		<main class="container-float px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
 			<div class="row mx-0">
 				<div class="col-12 col-sm-6 px-0 float-left my-2">
 					<h1 class="h2">Create New Taxonomy Record</h1>
@@ -1173,11 +1173,7 @@ limitations under the License.
 							<cfloop query="ctguid_type_taxon">
 								<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
-									<cfif len(getClonedFromTaxon.taxonid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
-									<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-									</cfif>
+									<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
@@ -1203,24 +1199,14 @@ limitations under the License.
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
-								<input type="text" name="taxonid" id="taxonid" value="#getClonedFromTaxon.taxonid#" 
+								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
-								<cfif len(regex) GT 0 >
-									<cfset link = REReplace(getClonedFromTaxon.taxonid,regex,replacement)>
-								<cfelse>
-									<cfset link = getClonedFromTaxon.taxonid>
-								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 88%;">#getClonedFromTaxon.taxonid#</a> 
+								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 88%;"></a> 
 								<script>
 									$(document).ready(function () { 
-										if ($('##taxonid').val().length > 0) {
-											$('##taxonid').hide();
-											$('##taxonid_link').show();
-										} else { 
-											$('##taxonid').show();
-											$('##taxonid_link').hide();
-										}
+										$('##taxonid').show();
+										$('##taxonid_link').hide();
 										$('##taxonid_search').click(function () { 
 											$('##taxonid').show();
 											$('##taxonid_link').hide();
@@ -1260,11 +1246,7 @@ limitations under the License.
 							<cfloop query="ctguid_type_scientificname">
 								<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-									<cfif len(getClonedFromTaxon.scientificnameid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
-									<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-									</cfif>
+									<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
 									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
@@ -1290,24 +1272,14 @@ limitations under the License.
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
-								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#getClonedFromTaxon.scientificnameid#" 
+								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
-								<cfif len(regex) GT 0 >
-									<cfset link = REReplace(getClonedFromTaxon.scientificnameid,regex,replacement)>
-								<cfelse>
-									<cfset link = getClonedFromTaxon.scientificnameid>
-								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;">#getClonedFromTaxon.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 								<script>
 									$(document).ready(function () { 
-										if ($('##scientificnameid').val().length > 0) {
-											$('##scientificnameid').hide();
-											$('##scientificnameid_link').show();
-										} else { 
-											$('##scientificnameid').show();
-											$('##scientificnameid_link').hide();
-										}
+										$('##scientificnameid').show();
+										$('##scientificnameid_link').hide();
 										$('##scientificnameid_search').click(function () { 
 											$('##scientificnameid').show();
 											$('##scientificnameid_link').hide();
