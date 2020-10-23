@@ -1571,18 +1571,18 @@ limitations under the License.
 </cfif>
 
 <style>   
-	.spinner-border {
-		    padding-right: 0px;
+.spinner-border {
+	padding-right: 0px;
     background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
     display: block;
-	}
+}
 </style>
 	
 <div class="d-flex justify-content-center">
-  <div class="spinner-border text-secondary" role="status">
+  <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
