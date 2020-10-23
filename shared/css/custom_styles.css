@@ -1541,8 +1541,8 @@ input#readMore_check_id {display:none;}
 
 .spinner-border {
 	display: inline-block;
-	width: 3rem;
-	height: 3rem;
+	width: 32px;
+	height: 32px;
 	vertical-align: text-bottom;
 	border-top: .2em solid transparent; 
 	border-right: .2em solid transparent; 
@@ -1554,7 +1554,7 @@ input#readMore_check_id {display:none;}
 }
 .spinner-border {
 	padding-right: 0px;
-    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/712.gif);
+    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/712_sm.gif);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
