@@ -1617,7 +1617,7 @@ limitations under the License.
     height: 100vh;
 }
 	</style>
-	<div class="spinner"></div>
+	<div class="loading-spinner"></div>
 </div>
 </cfoutput>
 </section>
