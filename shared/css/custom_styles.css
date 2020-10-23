@@ -1551,10 +1551,8 @@ input#readMore_check_id {display:none;}
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;
-}
-.spinner-border {
 	padding-right: 0px;
-    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/712_sm.gif);
+    background-image: url("../images/spinner_712_sm.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
