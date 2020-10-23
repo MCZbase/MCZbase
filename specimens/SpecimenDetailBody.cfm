@@ -1570,10 +1570,20 @@ limitations under the License.
 	</form>
 </cfif>
 
-	
+	<style>   
+	.spinner2 {display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    vertical-align: super;
+    border: .25em dotted currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+		animation: spinner-border .75s linear infinite;}
+	</style>
 	
 	<div class="d-flex justify-content-center">
-  <div class="spinner-border" role="status">
+  <div class="spinner-border text-secondary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
