@@ -1578,9 +1578,11 @@ limitations under the License.
 	vertical-align: super;
 	border-top: .25em dotted currentColor;
 	border-right-color: ##f8f9f3;
+	transform: translate(50%);
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;}
+	
 </style>
 	
 <div class="d-flex justify-content-center">
