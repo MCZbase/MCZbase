@@ -1575,7 +1575,7 @@ limitations under the License.
 	display: inline-block;
 	width: 2rem;
 	height: 2rem;
-	vertical-align: super;
+	vertical-align: text-bottom;
 	border-top: .25em dotted currentColor;
 	border-right-color: red;
 	border-radius: 50%;
