@@ -1564,7 +1564,6 @@ input#readMore_check_id {display:none;}
 	background:transparent;
 	width:auto;
 	height:auto;
-	line-height: inherit;
 }
 #overlay {
   	position: fixed;
