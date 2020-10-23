@@ -962,7 +962,7 @@ limitations under the License.
   right: 0;
   background: rgba(0,0,0,.7);
 }
-	.overlay__wrapper {
+	.overlay_wrapper {
   width: 100%;
   height: 100%;
   position: relative;
