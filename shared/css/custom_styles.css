@@ -57,7 +57,7 @@ legend {
 	font-size: 14px;
 	margin-bottom: 0;
 	padding-bottom: 0;
-	line-height: .25em;
+	line-height: .7em;
 }
 [hidden] {
 	display: none;
@@ -115,8 +115,9 @@ p {
 	line-height: normal;
 }
 p:focus {
-	box-shadow: none;
+	box-shadow: 0 0 0 0;
 }
+div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .info {
 	position: absolute;
 	left: -9000px;
@@ -1536,6 +1537,31 @@ textarea {
 	transform:rotate(-90deg);
 }
 .card-body li.list-group-item span:last-child {display:none;}
+input#readMore_check_id {display:none;}
+
+.spinner-border {
+	display: inline-block;
+	width: 3rem;
+	height: 3rem;
+	vertical-align: text-bottom;
+	border-top: .2em solid transparent; 
+	border-right: .2em solid transparent; 
+	border-left: .2em solid transparent;
+	border-bottom: .2em solid transparent;
+	border-radius: 50%;
+	-webkit-animation: spinner-border 1.5s linear infinite;
+	animation: spinner-border 1.5s linear infinite;
+}
+.spinner-border {
+	padding-right: 0px;
+    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    z-index: 9999;
+	border-color: transparent;
+	vertical-align: middle;
+    color: black;
+}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
@@ -1584,6 +1610,89 @@ and also iPads specifically.
 		padding-right: 0em;
 		padding-left: 0em;
 	}
+}
+@media (min-width:1200px) and (max-width: 1700px) {
+#blurb {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  list-style-type: none;
+font-size: .87em;
+margin-bottom: 1em;
+}
+
+div span.ilt  {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: black;
+  padding-left: 0px;
+  position: relative;
+  -webkit-transition: background .3s;
+          transition: background .3s;
+}
+div span.ilt:hover {
+  background: #cdcbc4; 
+}
+.readMore { 
+  position: relative; 
+  height: auto;
+  border-top: 0;
+}
+[type="checkbox"] {
+  position: absolute;
+  left:  -9999px;            
+}
+label.read{
+  background: aliceblue;
+  display: block;
+  width: 70px;
+  cursor: pointer;
+  position: relative;
+float: right;
+}
+label.read:before,
+label.read:after {
+position: absolute;
+}
+label.read:before {
+  content: 'More';
+  left: 10px;
+}
+label.read:after {
+  content: '⇣';
+  right: 10px;
+  -webkit-animation: sudo .85s linear infinite alternate;
+          animation: sudo .85s linear infinite alternate;
+}
+@keyframes sudo { 
+            from { 
+    -webkit-transform: translateY(-1px); 
+            transform: translateY(-1px); 
+  }
+            to { 
+    -webkit-transform: translateY(1px); 
+            transform: translateY(1px); 
+  }
+}
+.readMore [type="checkbox"] ~ span.ilt {
+  width: 100%;
+display: none;
+}
+.readMore [type="checkbox"]:checked ~ span.ilt {
+  display: block;
+} 
+.readMore [type="checkbox"]:checked + label.read {
+  position: absolute; 
+  top: 100%;
+right: 0;
+}
+.readMore [type="checkbox"]:checked + label.read:before {
+  content: 'Less';
+}
+.readMore [type="checkbox"]:checked + label.read:after {
+content: '⇡'; 
+}
 }
 @media screen and (max-width: 55.1875em) {
 	.cbp-spmenu-horizontal {
