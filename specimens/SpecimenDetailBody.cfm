@@ -1593,7 +1593,7 @@ limitations under the License.
         transition: opacity linear 0.1s;
     }
 
-    #{$selector} {
+    ##{$selector} {
         animation: $time linear infinite spinner;
         animation-play-state: inherit;
         border: solid 3px ##dedede;
