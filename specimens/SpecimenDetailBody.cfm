@@ -1592,16 +1592,18 @@ limitations under the License.
     z-index: 9999;
     display: block;
 	border-color: transparent;
+	vertical-align: middle;
+    color: black;
 }
 </style>
 	
 <div class="d-flex justify-content-center">
-  <div class="spinner-border text-secondary" role="status">
+  <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
 	
-<button class="btn btn-primary" type="button" disabled>
+<button class="btn btn-primary" type="button">
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 </button>
