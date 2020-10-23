@@ -1576,14 +1576,16 @@ limitations under the License.
 	width: 2rem;
 	height: 2rem;
 	vertical-align: text-bottom;
-	border-top: .25em dotted currentColor;
-	border-right-color: red;
+	border-top: .25em dotted white; 
+	border-right: .25em dotted red; 
+	border-left: .25em dotted lightgray;
+	border-bottom:.25em dotted lightgray;
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;
 }
 .spinner-border:before {
-	border-top: .15em dashed white; 
+	border-top: .15em dotted white; 
 	border-right: .15em dotted red; 
 	border-left: .15em dotted lightgray;
 	border-bottom:.15em dotted lightgray;
