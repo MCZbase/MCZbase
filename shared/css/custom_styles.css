@@ -1543,7 +1543,6 @@ input#readMore_check_id {display:none;}
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-	vertical-align: text-bottom;
 	border-top: .2em solid transparent; 
 	border-right: .2em solid transparent; 
 	border-left: .2em solid transparent;
@@ -1551,10 +1550,8 @@ input#readMore_check_id {display:none;}
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;
-}
-.spinner-border {
 	padding-right: 0px;
-    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/712_sm.gif);
+    background-image: url("../../images/spinner_32_sm.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
@@ -1567,6 +1564,26 @@ input#readMore_check_id {display:none;}
 	width:auto;
 	height:auto;
 	line-height: inherit;
+}
+#overlay {
+  	position: fixed;
+  	top: 0;
+  	left: 0;
+  	bottom: 0;
+  	right: 0;
+  	background: rgba(0,0,0,.7);
+	display:none;
+}
+.overlay_wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.overlay__spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 /****************end small form fields*********************/
 /**********************************************************/
