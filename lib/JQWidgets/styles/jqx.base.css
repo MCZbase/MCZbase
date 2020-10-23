@@ -3,7 +3,7 @@
 .jqx-rc-tl
 {
     -moz-border-radius-topleft: 3px;
-    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-left-radius: lo3px;
     border-top-left-radius: 3px;
 }
 /*top-right rounded Corners*/
@@ -5842,7 +5842,7 @@ ol li .jqx-listmenu-item-label:before
 }
 .jqx-loader-icon
 {
-    background-image: url("../../jqwidgets/styles/images/loader.gif");
+    background-image: url("../jqwidgets/styles/images/loader.gif");
     background-repeat: no-repeat;
     background-position: center;
     width: 100%;
