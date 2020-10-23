@@ -1579,10 +1579,15 @@ limitations under the License.
 	border-top: .25em dotted currentColor;
 	border-right-color: red;
 	border-radius: 50%;
-	
 	-webkit-animation: spinner-border 1.5s linear infinite;
-	animation: spinner-border 1.5s linear infinite;}
-	
+	animation: spinner-border 1.5s linear infinite;
+}
+.spinner-border:before {
+	border-top: .15em dashed white; 
+	border-right: .15em dotted red; 
+	border-left: .15em dotted lightgray;
+	border-bottom:.15em dotted lightgray;
+}
 </style>
 	
 <div class="d-flex justify-content-center">
