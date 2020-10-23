@@ -977,11 +977,12 @@ limitations under the License.
 			</style>
 		<div id="overlay">
     <div class="overlay__wrapper">
-        <!---<div class="overlay__spinner"></div>--->
+        <div class="overlay__spinner">
 		<button class="btn btn-dark" type="button">
 				  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				  Loading...
+				  Searching...
 				</button>
+			</div>
     </div>
 </div>
 <!---		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
