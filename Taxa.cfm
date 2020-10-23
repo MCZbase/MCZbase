@@ -340,7 +340,7 @@ div span.ilt  {
           transition: background .3s;
 }
 div span.ilt:hover {
-  background: #cdcbc4; 
+  background: ##cdcbc4; 
 }
 .readMore { 
   position: relative; 
