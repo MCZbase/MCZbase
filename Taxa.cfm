@@ -957,9 +957,9 @@ limitations under the License.
 		<div id="overlay">
 			<div class="overlay__wrapper">
 				<div class="overlay__spinner">
-					<button class="btn btn-dark" type="button" aria-title="searching">
+					<button class="btn btn-dark" type="button">
 						 <span class="spinner-border_overlay spinner-border-sm" role="status" aria-hidden="true"></span>
-						  Searching...
+						  <span tabindex="0">Searching...</span>
 					</button>
 				</div>
 			</div>
