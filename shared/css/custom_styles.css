@@ -1586,7 +1586,7 @@ and also iPads specifically.
 		padding-left: 0em;
 	}
 }
-@media (min-width:768px) and (max-width: 1459px) {
+@media (min-width:1200px) and (max-width: 1700px) {
 #blurb {
   width: 100%;
   margin-left: auto;
