@@ -1578,11 +1578,40 @@ limitations under the License.
 	vertical-align: super;
 	border-top: .25em dotted currentColor;
 	border-right-color: ##f8f9f3;
-	transform: translate(50%);
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;}
 	
+	.gradient-box {
+  
+  display: flex;
+  align-items: center;
+  //width: 50vw;
+  width: 90%;
+  margin: auto;
+  max-width: 22em;
+
+  position: relative;
+  padding: 30% 2em;
+  box-sizing: border-box;
+
+  $border: 5px;
+  color: #FFF;
+  background: #000;
+  background-clip: padding-box; /* !importanté */
+  border: solid $border transparent; /* !importanté */
+  border-radius: 1em;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
+    margin: -$border; /* !importanté */
+    border-radius: inherit; /* !importanté */
+    background: linear-gradient(to right, red, orange);
+  }
+}
 </style>
 	
 <div class="d-flex justify-content-center">
@@ -1597,6 +1626,7 @@ limitations under the License.
 </button>
 	
 	
+
 	
 </div>
 </cfoutput>
