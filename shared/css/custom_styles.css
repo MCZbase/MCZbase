@@ -1541,24 +1541,24 @@ input#readMore_check_id {display:none;}
 
 
 .spinner-border_overlay {
-	display: inline-block;
+/*	display: inline-block;
 	width: 32px;
 	height: 32px;
 	border-top: .2em solid transparent; 
 	border-right: .2em solid transparent; 
 	border-left: .2em solid transparent;
 	border-bottom: .2em solid transparent;
-	border-radius: 50%;
+	border-radius: 50%;*/
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;
-	padding-right: 0px;
+	/*padding-right: 0px;*/
     background-image: url("../../images/spinner_32px_dark_bg.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
 	border-color: transparent;
 	vertical-align: middle;
-    color: black;
+    /*color: black;*/
 }
 .jqx-fill-state-normal {
 	background:transparent;
