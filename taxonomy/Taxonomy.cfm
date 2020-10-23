@@ -706,13 +706,17 @@ limitations under the License.
 							<div class="col-12 col-md-10 float-left">
 							<textarea name="taxon_remarks" id="taxon_remarks" 
 								onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
-								rows="3" class="data-entry-textarea col-12 mt-1">#gettaxa.taxon_remarks#</textarea>
+								rows="3" class="data-entry-textarea col-12 mt-1 autogrow">#gettaxa.taxon_remarks#</textarea>
 							</div>
 						</div>
 					</div>
 					<script>
 						// Make all textareas currently defined autogrow as text is entered.
 						$("textarea").keyup(autogrow);
+						$(document).ready(function() { 
+							// trigger autogrow event on autogrow text areas
+							$('textarea.autogrow').keyup();
+						});
 					</script>
 					<script>
 						function changed(){
@@ -808,6 +812,7 @@ limitations under the License.
 					</div>
 				</form>
 			</section>
+
 			<section class="row">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						 <div class="col-12 px-0">
@@ -1529,10 +1534,20 @@ limitations under the License.
 								rows="3" class="data-entry-textarea col-12 mt-1">#getClonedFromTaxon.taxon_remarks#</textarea>
 							</div>
 						</div>
+						<script>
+							// Make all textareas currently defined autogrow as text is entered.
+							$("textarea").keyup(autogrow);
+							$(document).ready(function() { 
+								// trigger autogrow event on autogrow text areas
+								$('textarea.autogrow').keyup();
+							});
+						</script>
 					</div>
 
-					<div class="form-row col-12 px-0 justify-content-center mt-1 pt-2">
-						<input type="submit" value="Create" class="btn btn-xs btn-primary">
+					<div class="row mt-1 px-1 mb-1">
+						<div class="col-12">
+							<input type="submit" value="Create" title="Create" class="btn btn-xs btn-primary" aria-label="Save and create new taxon record">
+						</div>
 					</div>
 
 				</form>
