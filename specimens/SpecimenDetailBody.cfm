@@ -1578,6 +1578,7 @@ limitations under the License.
     background-repeat: no-repeat;
     z-index: 9999;
     display: block;
+	border-color: transparent;
 }
 </style>
 	
