@@ -1572,6 +1572,19 @@ limitations under the License.
 
 <style>   
 .spinner-border {
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	vertical-align: text-bottom;
+	border-top: .2em solid transparent; 
+	border-right: .2em solid transparent; 
+	border-left: .2em solid transparent;
+	border-bottom: .2em solid transparent;
+	border-radius: 50%;
+	-webkit-animation: spinner-border 1.5s linear infinite;
+	animation: spinner-border 1.5s linear infinite;
+}
+.spinner-border {
 	padding-right: 0px;
     background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
     background-position: 50% 50%;
@@ -1583,7 +1596,7 @@ limitations under the License.
 </style>
 	
 <div class="d-flex justify-content-center">
-  <div class="spinner-border" role="status">
+  <div class="spinner-border text-secondary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
@@ -1592,7 +1605,7 @@ limitations under the License.
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 </button>
-
+	
 	
 	
 </div>
