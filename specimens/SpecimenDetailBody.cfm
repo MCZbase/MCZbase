@@ -1571,7 +1571,7 @@ limitations under the License.
 </cfif>
 
    
-
+	</div>
 	
 <div class="d-flex justify-content-center">
   <div class="spinner-border" role="status">
