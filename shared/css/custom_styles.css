@@ -1562,6 +1562,12 @@ input#readMore_check_id {display:none;}
 	vertical-align: middle;
     color: black;
 }
+.jqx-fill-state-normal {
+	background:transparent;
+	width:auto;
+	height:auto;
+	line-height: inherit;
+}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
