@@ -1573,7 +1573,7 @@ limitations under the License.
 <style>   
 .spinner-border {
 	padding-right: 0px;
-    background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader2.gif);
+    background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
