@@ -1587,8 +1587,8 @@ limitations under the License.
     border: .25em dotted currentColor;
     border-right-color: transparent;
     border-radius: 50%;
-    -webkit-animation: spinner-border .75s linear infinite;
-		animation: spinner-border .75s linear infinite;}
+    -webkit-animation: spinner2 .75s linear infinite;
+		animation: spinner2 .75s linear infinite;}
 	</style>
 	
 	<div class="d-flex justify-content-center">
