@@ -1571,31 +1571,14 @@ limitations under the License.
 </cfif>
 
 <style>   
-.spinner-border {
-	display: inline-block;
-	width: 2rem;
-	height: 2rem;
-	vertical-align: text-bottom;
-	border-top: 2px solid black; 
-	border-right: 2px solid darkgray; 
-	border-left: 2px solid lightgray;
-	border-bottom:2px solid white;
-	border-radius: 50%;
-	-webkit-animation: spinner-border 1.5s linear infinite;
-	animation: spinner-border 1.5s linear infinite;
-}
-.spinner-border:before {
-	border-top: 2px solid black; 
-	border-right: 2px solid darkgray; 
-	border-left: 2px solid lightgray;
-	border-bottom:2px solid white;
-}
-	.spinner-border:after {
-	border-top: 2px solid black; 
-	border-right: 2px solid darkgray; 
-	border-left: 2px solid lightgray;
-	border-bottom:2px solid white;
-}
+	.spinner-border {
+		    padding-right: 0px;
+    background-image: url(../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    z-index: 9999;
+    display: block;
+	}
 </style>
 	
 <div class="d-flex justify-content-center">
@@ -1608,7 +1591,7 @@ limitations under the License.
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 </button>
-	
+
 	
 	
 </div>
