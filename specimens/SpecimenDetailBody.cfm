@@ -1602,7 +1602,7 @@ limitations under the License.
   </div>
 </div>
 	
-<button class="btn btn-primary" type="button">
+<button class="btn btn-primary btn-sm" type="button">
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 </button>
