@@ -678,8 +678,8 @@ limitations under the License.
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-									 <small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
+									 <small class="link-color">Find in IPNI</small>
 								</span>
 							 </div>
 						</div>
@@ -693,8 +693,8 @@ limitations under the License.
 							<div class="col-12 col-md-12 col-xl-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
+									<small class="link-color">Find in IPNI</small>
 								</span>
 							</div>
 						</div>
@@ -1503,8 +1503,8 @@ limitations under the License.
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#getClonedFromTaxon.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-									 <small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
+									 <small class="link-color">Find in IPNI</small>
 								</span>
 							 </div>
 						</div>
@@ -1518,8 +1518,8 @@ limitations under the License.
 							<div class="col-12 col-md-12 col-xl-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#getClonedFromTaxon.infraspecific_author#">
 								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
+									<small class="link-color">Find in IPNI</small>
 								</span>
 							</div>
 						</div>
