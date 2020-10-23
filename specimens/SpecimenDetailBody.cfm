@@ -1570,7 +1570,7 @@ limitations under the License.
 	</form>
 </cfif>
 
-<style>   
+   
 
 	
 <div class="d-flex justify-content-center">
