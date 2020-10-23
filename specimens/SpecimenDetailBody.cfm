@@ -1571,6 +1571,15 @@ limitations under the License.
 </cfif>
 
 	<style>   
+		.spinner-border {display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: super;
+    border: .25em dotted currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: spinner-border .75s linear infinite;
+		animation: spinner-border .75s linear infinite;}
 	.spinner2 {display: inline-block;
     width: 1rem;
     height: 1rem;
@@ -1583,7 +1592,7 @@ limitations under the License.
 	</style>
 	
 	<div class="d-flex justify-content-center">
-  <div class="spinner-border text-secondary" role="status">
+  <div class="spinner-border spinner2 text-secondary" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
