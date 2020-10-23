@@ -117,7 +117,7 @@ p {
 p:focus {
 	box-shadow: 0 0 0 0;
 }
-div, div > span:focus {box-shadow: 0 0 0 0;}
+div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .info {
 	position: absolute;
 	left: -9000px;
