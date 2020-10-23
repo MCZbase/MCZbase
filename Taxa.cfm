@@ -320,7 +320,7 @@ limitations under the License.
 						<div class="row mx-2 py-2">
 							<div class="col-12 col-xl-3">
 								<style>
-#blurb {
+##blurb {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
