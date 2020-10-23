@@ -958,7 +958,7 @@ limitations under the License.
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
 		<!---		<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
 				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	--->
-				<button class="btn btn-primary" type="button">
+				<button class="btn btn-dark" type="button">
 				  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 				  Loading...
 				</button>
