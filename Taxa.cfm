@@ -953,18 +953,43 @@ limitations under the License.
 			
 	
 		</script>
-
-		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
+<style>
+	.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0,0,0,.7);
+}
+	.overlay__wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+	.overlay__spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+			</style>
+		<div class="overlay">
+    <div class="overlay__wrapper">
+        <div class="overlay__spinner"></div>
+    </div>
+</div>
+<!---		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
-				<!---width: 10em; height: 2.4em;line-height: 2.4em; --->
-		<!---		<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
-				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	--->
+			width: 10em; height: 2.4em;line-height: 2.4em;
+			<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
+				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>
 				<button class="btn btn-dark" type="button">
 				  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 				  Loading...
 				</button>
 			</div>
-		</div>	
+		</div>	--->
 	</div>
 </cfoutput>
 <cfinclude template = "shared/_footer.cfm">
