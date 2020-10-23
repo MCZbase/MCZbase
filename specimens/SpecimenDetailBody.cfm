@@ -1569,6 +1569,33 @@ limitations under the License.
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
+
+<style>   
+.spinner-border {
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	vertical-align: super;
+	border-top: .25em dotted currentColor;
+	border-right-color: ##f8f9f3;
+	border-radius: 50%;
+	-webkit-animation: spinner-border 1.5s linear infinite;
+	animation: spinner-border 1.5s linear infinite;}
+</style>
+	
+<div class="d-flex justify-content-center">
+  <div class="spinner-border text-secondary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+	
+<button class="btn btn-primary" type="button" disabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...
+</button>
+	
+	
+	
 </div>
 </cfoutput>
 </section>
