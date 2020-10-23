@@ -1123,12 +1123,9 @@ limitations under the License.
 								<cfif isSourceAuthorityCurrent.ct GT 0> (Clone source: #getClonedFromTaxon.source_authority#) </cfif>
 							</label>
 							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
-								<cfif isSourceAuthorityCurrent.ct eq 0>
-									<option value="" selected="selected"></option>
-								</cfif>
+								<option value="" selected="selected"></option>
 								<cfloop query="ctSourceAuth">
-									<option <cfif isSourceAuthorityCurrent.ct eq 1 and getClonedFromTaxon.source_authority is ctsourceauth.source_authority> selected="selected" </cfif>
-										value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
+									<option value="#ctSourceAuth.source_authority#">#ctSourceAuth.source_authority#</option>
 								</cfloop>
 							</select>
 						</div>
