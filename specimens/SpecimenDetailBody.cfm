@@ -1576,8 +1576,8 @@ limitations under the License.
 	width: 2rem;
 	height: 2rem;
 	vertical-align: super;
-	border: .25em dotted currentColor;
-	border-right-color: transparent;
+	border-top: .25em dotted currentColor;
+	border-right-color: ##f8f9f3;
 	border-radius: 50%;
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;}
