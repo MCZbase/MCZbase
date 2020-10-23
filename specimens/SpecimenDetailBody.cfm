@@ -1586,9 +1586,15 @@ limitations under the License.
 }
 .spinner-border:before {
 	border-top: .15em dotted white; 
-	border-right: .15em dotted red; 
-	border-left: .15em dotted lightgray;
-	border-bottom:.15em dotted lightgray;
+	border-right: .15em dotted white; 
+	border-left: .15em dotted white;
+	border-bottom:.15em dotted white;
+}
+	.spinner-border:after {
+	border-top: .15em dotted white; 
+	border-right: .15em dotted white; 
+	border-left: .15em dotted white;
+	border-bottom:.15em dotted white;
 }
 </style>
 	
