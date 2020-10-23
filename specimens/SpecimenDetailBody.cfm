@@ -1590,7 +1590,6 @@ limitations under the License.
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
-    display: block;
 	border-color: transparent;
 	vertical-align: middle;
     color: black;
