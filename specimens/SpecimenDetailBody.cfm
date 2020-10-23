@@ -1581,6 +1581,8 @@ limitations under the License.
         100% {
             transform: translate3d(-50%, -50%, 0) rotate(360deg);
         }
+		 from {background-color: red;}
+  to {background-color: yellow;}
     }
     
     animation-play-state: running;
