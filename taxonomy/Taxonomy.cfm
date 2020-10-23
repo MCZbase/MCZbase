@@ -1531,7 +1531,7 @@ limitations under the License.
 							<div class="col-12 col-md-10 float-left">
 							<textarea name="taxon_remarks" id="taxon_remarks" 
 								onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
-								rows="3" class="data-entry-textarea col-12 mt-1">#getClonedFromTaxon.taxon_remarks#</textarea>
+								rows="3" class="data-entry-textarea col-12 mt-1 autogrow">#getClonedFromTaxon.taxon_remarks#</textarea>
 							</div>
 						</div>
 						<script>
