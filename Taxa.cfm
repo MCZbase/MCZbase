@@ -961,6 +961,7 @@ limitations under the License.
   bottom: 0;
   right: 0;
   background: rgba(0,0,0,.7);
+		display:none;
 }
 	.overlay_wrapper {
   width: 100%;
