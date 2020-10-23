@@ -1569,55 +1569,14 @@ limitations under the License.
 <cfif oneOfUs is 1>
 	</form>
 </cfif>
+
 	
-	<style>
 	
-
-    @keyframes spinner {
-        0% {
-            transform: translate3d(-50%, -50%, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate3d(-50%, -50%, 0) rotate(360deg);
-        }
-		 from {background-color: red;}
-  to {background-color: yellow;}
-    }
-    
-    animation-play-state: running;
-    opacity: 1;
-    position: relative;
-    
-    &.-paused { 
-        animation-play-state: paused; 
-        opacity: 0.2;
-        transition: opacity linear 0.1s;
-    }
-
-    div.spin {
-        animation: $time linear infinite spinner;
-        animation-play-state: inherit;
-        border: solid 3px ##dedede;
-        border-bottom-color: ##{$activeColor};
-        border-radius: 50%;
-        content: "";
-        height: 40px;
-        left: 50%;
-        opacity: inherit;
-        position: absolute;
-        top: 50%; 
-        transform: translate3d(-50%, -50%, 0);
-        width: 40px;
-        will-change: transform;
-    }
-
-.loading-spinner {
-    @include loading-spinner;
-    height: 100vh;
-}
-	</style>
-	<div class="spin loading-spinner"></div>
+	<div class="d-flex justify-content-center">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
 </div>
 </cfoutput>
 </section>
