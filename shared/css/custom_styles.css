@@ -1536,6 +1536,7 @@ textarea {
 	transform:rotate(-90deg);
 }
 .card-body li.list-group-item span:last-child {display:none;}
+input#readMore_check_id {display:none;}
 /****************end small form fields*********************/
 /**********************************************************/
 /*********************************/
