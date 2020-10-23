@@ -319,10 +319,103 @@ limitations under the License.
 						</div>
 						<div class="row mx-2 py-2">
 							<div class="col-12 col-xl-3">
-								<p class="smaller-text mt-2" tabindex="0">
-									Search taxonomies used in MCZbase.  Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. 
-									<a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>
-								</p>
+								<style>
+#blurb {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  list-style-type: none;
+font-size: .87em;
+margin-bottom: 1em;
+}
+
+div span.ilt  {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  color: black;
+  padding-left: 0px;
+  position: relative;
+  -webkit-transition: background .3s;
+          transition: background .3s;
+}
+div span.ilt:hover {
+  background: #cdcbc4; 
+}
+.readMore { 
+  position: relative; 
+  height: auto;
+  border-top: 0;
+}
+[type="checkbox"] {
+  position: absolute;
+  left:  -9999px;            
+}
+label.read{
+  background: aliceblue;
+  display: block;
+  width: 70px;
+  cursor: pointer;
+  position: relative;
+float: right;
+}
+label.read:before,
+label.read:after {
+position: absolute;
+}
+label.read:before {
+  content: 'More';
+  left: 10px;
+}
+label.read:after {
+  content: '⇣';
+  right: 10px;
+  -webkit-animation: sudo .85s linear infinite alternate;
+          animation: sudo .85s linear infinite alternate;
+}
+@keyframes sudo { 
+            from { 
+    -webkit-transform: translateY(-1px); 
+            transform: translateY(-1px); 
+  }
+            to { 
+    -webkit-transform: translateY(1px); 
+            transform: translateY(1px); 
+  }
+}
+.readMore [type="checkbox"] ~ span.ilt {
+  width: 100%;
+display: none;
+}
+.readMore [type="checkbox"]:checked ~ span.ilt {
+  display: block;
+} 
+.readMore [type="checkbox"]:checked + label.read {
+  position: absolute; 
+  top: 100%;
+right: 0;
+}
+.readMore [type="checkbox"]:checked + label.read:before {
+  content: 'Less';
+}
+.readMore [type="checkbox"]:checked + label.read:after {
+content: '⇡'; 
+}
+</style>
+
+
+								
+								<div id=blurb class="smaller-text mt-2" tabindex="0">
+									Search taxonomies used in MCZbase.  
+									<div class="readMore">
+   										<input type="checkbox" id="readMore_check_id">
+    									<label class="read" for="readMore_check_id"></label>
+										<span class="ilt">
+										Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens. 
+										<a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>
+										</span>
+									</div>
+								</div>
 								<div class="form-row">
 									<fieldset class="col-12 col-md-6 col-lg-6 col-xl-12 mt-3 mt-md-2 mt-lg-3 mb-2">
 										<legend class="text-dark mb-2">Search accepted names:</legend>
