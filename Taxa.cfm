@@ -954,7 +954,7 @@ limitations under the License.
 	
 		</script>
 <style>
-	.overlay {
+	#overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -975,7 +975,7 @@ limitations under the License.
   transform: translate(-50%, -50%);
 }
 			</style>
-		<div class="overlay">
+		<div id="overlay">
     <div class="overlay__wrapper">
         <div class="overlay__spinner"></div>
     </div>
