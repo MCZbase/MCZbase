@@ -1572,7 +1572,7 @@ limitations under the License.
 	
 	<style>
 	
-	@mixin loading-spinner($activeColor: ##EF6565, $selector: "&::before", $time: 1.5s) {
+
     @keyframes spinner {
         0% {
             transform: translate3d(-50%, -50%, 0) rotate(0deg);
@@ -1593,7 +1593,7 @@ limitations under the License.
         transition: opacity linear 0.1s;
     }
 
-    ##{$selector} {
+    div.spin {
         animation: $time linear infinite spinner;
         animation-play-state: inherit;
         border: solid 3px ##dedede;
@@ -1609,15 +1609,13 @@ limitations under the License.
         width: 40px;
         will-change: transform;
     }
-}
-
 
 .loading-spinner {
     @include loading-spinner;
     height: 100vh;
 }
 	</style>
-	<div class="loading-spinner"></div>
+	<div class="spin loading-spinner"></div>
 </div>
 </cfoutput>
 </section>
