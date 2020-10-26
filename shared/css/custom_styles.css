@@ -1290,7 +1290,7 @@ data-entry-select:after {
 	position: absolute;
 	content: "";
 	top: 14px;
-	right: 10px;
+	right: .5em;
 	width: 0;
 	height: 0;
 	border: 6px solid #ccc;
