@@ -480,7 +480,7 @@ Given a common name and a taxon_name_id, delete the matching row from the (weak 
 @param common_name a text string representing a common name of a taxon, together with taxon_name_id forms PK of common_name table.
 @param taxon_name_id the PK of the taxon name for which to remove the matching common name.
 --->
-<cffunction name="newCommon" access="remote" returntype="any" returnformat="json">
+<cffunction name="deleteCommon" access="remote" returntype="any" returnformat="json">
 	<cfargument name="common_name" type="numeric" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
