@@ -923,13 +923,13 @@ limitations under the License.
 							</div>
 								<script>
 									$(document).ready(
-										loadCommonNames(#transaction_id#,'commonNamesDiv')
+										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
 									);
 								</script>
 								<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
 								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-									onclick=" addCommon(#taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
+									onclick=" addCommon(#getTaxa.taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
 									>
 						</div>
 						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
