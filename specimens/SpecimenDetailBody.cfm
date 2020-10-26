@@ -594,7 +594,7 @@ limitations under the License.
 </div>
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
+		<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-6 col-xl-6</cfif> px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
