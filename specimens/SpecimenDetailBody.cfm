@@ -595,8 +595,8 @@ limitations under the License.
 		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 				<!---#mediaS.media_id#--->
-	<div class="row">
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
+
+	
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
@@ -768,8 +768,7 @@ limitations under the License.
 
 
     	</div>
-	</div>
-</div>
+
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
