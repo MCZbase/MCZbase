@@ -412,24 +412,7 @@ limitations under the License.
 	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 
 </cfif>
-	<!---#mediaS.media_id#--->
-	<div class="row">
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
-		<div class="bs-example">
-    <div class="accordion" id="accordionExample">
-		 <div class="card bg-light">
-            <div class="card-header" id="headingTwo">
-             
-					<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
-                  
-            
-            </div>
-            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
-                <div class="card-body">
-					<!------------------------------------ media ---------------------------------------------->
-<!---START Code from MEDIA SET code--->
-
-<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
         media.media_uri,
@@ -449,6 +432,24 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
+	<!---#mediaS.media_id#--->
+	<div class="row">
+		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
+		<div class="bs-example">
+    <div class="accordion" id="accordionExample">
+		 <div class="card bg-light">
+            <div class="card-header" id="headingTwo">
+             
+					<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
+                  
+            
+            </div>
+            <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
+                <div class="card-body">
+					<!------------------------------------ media ---------------------------------------------->
+<!---START Code from MEDIA SET code--->
+
+
 <cfif mediaS2.recordcount eq 0>
 	<img src="../images/kronosaurus_placeholder.jpg" alt="No media object available" width="100%">
 <cfelse>
