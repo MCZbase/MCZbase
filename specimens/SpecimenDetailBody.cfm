@@ -432,7 +432,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-	<!---#mediaS.media_id#--->
+	#mediaS.media_id#
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
