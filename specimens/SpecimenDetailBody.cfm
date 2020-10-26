@@ -450,9 +450,7 @@ limitations under the License.
 <!---START Code from MEDIA SET code--->
 
 
-<cfif mediaS2.recordcount eq 0>
-	<img src="../images/kronosaurus_placeholder.jpg" alt="No media object available" width="100%">
-<cfelse>
+<cfif mediaS2.recordcount gt 1>
 	<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
 	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 </cfif>
@@ -477,7 +475,7 @@ limitations under the License.
                         AND MCZBASE.is_media_encumbered(media.media_id) < 1
             order by media.media_type
 </cfquery>
-		#media.media_id#
+	
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
 		<div class="mt-2"><p>Additional Media</p>
