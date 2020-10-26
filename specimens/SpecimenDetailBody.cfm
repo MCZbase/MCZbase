@@ -439,10 +439,7 @@ limitations under the License.
     <div class="accordion" id="accordionExample">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
-             
 					<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseTwo">Media</a></h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
-                  
-            
             </div>
             <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionExample">
                 <div class="card-body">
@@ -515,7 +512,7 @@ limitations under the License.
 			</cfif>
 		</div>
 		<div class="detailBlock">
-		<span class="detailData form-row col-12 mx-0 px-0"> 
+			<span class="detailData form-row col-12 mx-0 px-0"> 
 		<!---div class="thumbs"--->
 	
 		<cfloop query="media">
@@ -559,7 +556,7 @@ limitations under the License.
 		</cfloop>
 		<!--/div---> 
 		</span> 
-	</div>
+		</div>
 	<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select p.barcode from
 				container c,
@@ -594,7 +591,7 @@ limitations under the License.
 </div>
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-6 col-xl-6</cfif> px-1 pr-md-2 pl-md-0">
+		<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
