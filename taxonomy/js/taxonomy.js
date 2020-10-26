@@ -40,3 +40,46 @@ function loadTaxonPublications(taxon_name_id,target) {
       dataType: "html"
    });
 };
+
+function loadCommonNames(taxon_name_id,target) { 
+   jQuery.ajax({
+      url: "/taxonomy/component/functions.cfc",
+      data : {
+         method : "getCommonHtml",
+         taxon_name_id: taxon_name_id,
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"loading common names for taxon");
+      },
+      dataType: "html"
+   });
+}
+
+/**
+ * addCommon, given a taxon and text string for a common name of the taxon
+ * link the common name and reload the list of common names for the taxon.
+ * 
+ * @param taxon_name_id the primary key for the taxon record to which to add the common name.
+ * @param common_name the text string to add to the taxon as a common name.
+ * @param target the id of the target div containing the list of common names 
+ *   to reload, without a leading # selector.
+ */
+function addCommon(taxon_name_id,common_name,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "addCommon",
+			common_name : common_name,
+			taxon_name_id : taxon_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing adding common name to taxon");
+	});
+};

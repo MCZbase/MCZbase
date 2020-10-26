@@ -373,4 +373,98 @@ limitations under the License.
 </cffunction>
 --->
 
+
+<cffunction name="getCommonHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfthread name="getCommonHtmlThread">
+		<cftry>
+			<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="common_result">
+				select common_name 
+				from common_name 
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfoutput>
+				<h4 class="mt-0">Common Names</h4>
+				<cfset i=1>
+				<cfif common.recordcount gt 0>
+					<cfloop query="common">
+									<form name="common#i#" method="post" action="/taxonomy/Taxonomy.cfm">
+										<input type="hidden" name="Action">
+										<input type="hidden" name="origCommonName" value="#common.common_name#">
+										<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+										<div class="form-row mx-0 my-1">
+											<input type="text" name="common_name" value="#common_name#" class="data-entry-input w-50 float-left">
+											<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" onClick="common#i#.Action.value='saveCommon';submit();">
+											<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
+										</div>
+									</form>
+						<cfset i=i+1>
+					</cfloop>
+				<cfelse>
+				</cfif>
+			</cfif>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getCommonHtmlThread" />
+	<cfreturn getCommonHtmlThread.output>
+</cffunction>
+
+<cffunction name="newCommon" access="remote" returntype="any" returnformat="json">
+	<cfargument name="common_name" type="numeric" required="yes">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newCommon_result">
+				INSERT INTO common_name (
+					common_name, 
+					taxon_name_id)
+				VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> 
+				)
+			</cfquery>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "added">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 </cfcomponent>

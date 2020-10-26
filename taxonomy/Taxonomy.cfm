@@ -918,37 +918,20 @@ limitations under the License.
 							</form>
 							<div id="taxonrelations"></div>
 						</div>
-							<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select common_name 
-								from common_name 
-								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-							</cfquery>
 						<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
-							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-							<h4 class="mt-0">Common Names</h4>
-							<cfset i=1>
-							<cfloop query="common">
-								<form name="common#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-									<input type="hidden" name="Action">
-									<input type="hidden" name="origCommonName" value="#common_name#">
-									<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-									<div class="form-row mx-0 my-1">
-									<input type="text" name="common_name" value="#common_name#" class="data-entry-input w-50 float-left">
-									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" onClick="common#i#.Action.value='saveCommon';submit();">
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
-									</div>
-								</form>
-								<cfset i=i+1>
-							</cfloop>
-								<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
-									<input type="hidden" name="Action" value="newCommon">
-									<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-									<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
-									<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
-									<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left">
-								</form>
+							<div class="border bg-light float-left pl-3 py-3 w-100 rounded" id="commonNamesDiv">
 							</div>
-								</div>
+								<script>
+									$(document).ready(
+										loadCommonNames(#transaction_id#,'commonNamesDiv')
+									);
+								</script>
+								<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
+								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+									onclick=" addCommon(#taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
+									>
+						</div>
 						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
 								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -990,19 +973,6 @@ limitations under the License.
 				</div>
 			</section>
 		</main>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newCommon">
-	<cfoutput>
-		<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO common_name 
-			(common_name, taxon_name_id)
-		VALUES 
-			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
