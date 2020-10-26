@@ -1541,7 +1541,7 @@ textarea {
 .card-body li.list-group-item span:last-child {display:none;}
 input#readMore_check_id {display:none;}
 
-
+/*
 .spinner-border_overlay {
 	display: inline-block;
 	width: 32px;
@@ -1562,30 +1562,21 @@ input#readMore_check_id {display:none;}
 	vertical-align: middle;
     color: black;
 }
-.jqx-fill-state-normal {
-	background:transparent;
-	width:auto;
-	height:auto;
+*/
+.jqx-grid-load { 
+    background-image: url("../../images/spinner_32px_dark_bg.gif");
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }
 #overlay {
-  	position: fixed;
+  	position: absolute;
   	top: 0;
   	left: 0;
-  	bottom: 0;
-  	right: 0;
-  	background: rgba(0,0,0,.7);
+	width: 100%;
+	height: 100%;
+  	background: rgba(0,0,0,.5);
+	opacity: 0.99;
 	display:none;
-}
-.overlay_wrapper {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-.overlay__spinner {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
 }
 /****************end small form fields*********************/
 /**********************************************************/
