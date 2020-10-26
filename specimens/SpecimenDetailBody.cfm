@@ -432,7 +432,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-
+<cfif mediaS2.recordcount gt 1>
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
@@ -450,10 +450,10 @@ limitations under the License.
 <!---START Code from MEDIA SET code--->
 
 
-<cfif mediaS2.recordcount gt 1>
+
 	<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
 	<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
-</cfif>
+
 <cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
@@ -592,7 +592,7 @@ limitations under the License.
     	</div>
 	</div>
 </div>
-			   
+	</cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 col-md-9 col-xl-9 px-1 pr-md-2 pl-md-0">
 		<div class="card-columns"> 
