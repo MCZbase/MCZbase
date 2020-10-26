@@ -1164,18 +1164,7 @@ table#pairs, th, td {
 }
 /* Style the arrow inside the select element: */
 /*.custom-select:after, */
-data-entry-select:after {
-	position: absolute;
-	content: "";
-	top: 14px;
-	right: 10px;
-	width: 0;
-	height: 0;
-	border: 6px solid #ccc;
-	background-color: #ccc !important;
-	border-color: white;
-	outline: 0;
-}
+
 #clear {
 	cursor: pointer;
 	position: absolute;
@@ -1285,7 +1274,8 @@ select.data-entry-select {
 	width: 100%;
 	font-size: .875em;
 	line-height: 1em;
-	padding: .25em .5em;
+/*	padding: .25em .5em;*/
+	padding: 0 .5em;
 	height: calc(1em + .375rem + .5em);
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
@@ -1295,6 +1285,18 @@ select.data-entry-select {
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
+}
+data-entry-select:after {
+	position: absolute;
+	content: "";
+	top: 14px;
+	right: .5em;
+	width: 0;
+	height: 0;
+	border: 6px solid #ccc;
+	background-color: #ccc !important;
+	border-color: white;
+	outline: 0;
 }
 select.data-entry-select:focus, select.data-entry-select.focus, select.custom-select:focus, select.custom-select.focus, select.data-entry-select option:focus, select.data-entry-select option.focus, select.custom-select option:focus, select.custom-select option.focus {
 	color: #495057;
@@ -1539,28 +1541,20 @@ textarea {
 .card-body li.list-group-item span:last-child {display:none;}
 input#readMore_check_id {display:none;}
 
-.spinner-border {
-	display: inline-block;
-	width: 3rem;
-	height: 3rem;
-	vertical-align: text-bottom;
-	border-top: .2em solid transparent; 
-	border-right: .2em solid transparent; 
-	border-left: .2em solid transparent;
-	border-bottom: .2em solid transparent;
-	border-radius: 50%;
-	-webkit-animation: spinner-border 1.5s linear infinite;
-	animation: spinner-border 1.5s linear infinite;
-}
-.spinner-border {
-	padding-right: 0px;
-    background-image: url(../../lib/JQWidgets/jqwidgets_ver9.1.6/jqwidgets/styles/images/loader.gif);
+.jqx-grid-load { 
+    background-image: url("../../images/spinner_712_sm.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
-    z-index: 9999;
-	border-color: transparent;
-	vertical-align: middle;
-    color: black;
+}
+#overlay {
+  	position: absolute;
+  	top: 0;
+  	left: 0;
+	width: 100%;
+	height: 100%;
+  	background: rgba(0,0,0,.5);
+	opacity: 0.99;
+	display:none;
 }
 /****************end small form fields*********************/
 /**********************************************************/
