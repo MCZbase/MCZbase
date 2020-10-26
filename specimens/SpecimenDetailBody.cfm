@@ -440,7 +440,7 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-<cfif isDefined(mediaS.media_id)>	
+<cfif len(mediaS.media_id) gt 0>	
 	<div class="row">
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 			<div class="bs-example">
@@ -598,6 +598,7 @@ limitations under the License.
     		</div>
 		</div>
 	</div>
+			<cfelse>
 </cfif>
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
