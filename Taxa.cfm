@@ -954,7 +954,7 @@ limitations under the License.
 	
 		</script>
 
-		<div id="overlay">
+		<div id="overlay position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5) none repeat scroll 0% 0%; opacity: 0.99; z-index: 2; display: none;">
 			<div class="overlay__wrapper">
 				<div class="overlay__spinner">
 					<button class="btn btn-dark" type="button">
