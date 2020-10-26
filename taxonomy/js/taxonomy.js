@@ -59,7 +59,7 @@ function loadCommonNames(taxon_name_id,target) {
 }
 
 /**
- * addCommon, given a taxon and text string for a common name of the taxon
+ * newCommon, given a taxon and text string for a common name of the taxon
  * link the common name and reload the list of common names for the taxon.
  * 
  * @param taxon_name_id the primary key for the taxon record to which to add the common name.

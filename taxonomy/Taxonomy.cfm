@@ -813,9 +813,10 @@ limitations under the License.
 				</form>
 			</section>
 
-			<section class="row">
+			<div class="row">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-						 <div class="col-12 px-0">
+
+						 <section class="col-12 px-0">
 							<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
@@ -834,7 +835,6 @@ limitations under the License.
 								</div>
 								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 							</div>
-						 </div>
 							<script>
 							$( document ).ready(
 							$('##newPubForm').bind('submit', function(evt){
@@ -894,7 +894,9 @@ limitations under the License.
 								});
 							}
 						</script>
-						<div class="col-12 px-0">
+						</section>
+
+						<section class="col-12 px-0">
 							<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonRelation">
@@ -917,8 +919,9 @@ limitations under the License.
 								</div>
 							</form>
 							<div id="taxonrelations"></div>
-						</div>
-						<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
+						</section>
+
+						<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
 							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 								<div id="commonNamesDiv">Loading....</div>
 								<script>
@@ -926,14 +929,15 @@ limitations under the License.
 										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
 									);
 								</script>
-								<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
+								<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
 								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
+									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
 									>
 							</div>
-						</div>
-						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
+						</section>
+
+						<section class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
 								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select taxon_habitat 
@@ -970,9 +974,9 @@ limitations under the License.
 								<input type="submit" value="Add" class="btn btn-xs btn-secondary m-1 float-left">
 							</form>
 						</div>
-					</div>
+					</section>
 				</div>
-			</section>
+			</div>
 		</main>
 	</cfoutput>
 </cfif>
@@ -1024,19 +1028,6 @@ limitations under the License.
 		</cfoutput>	
 	</cfcatch>
 	</cftry>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "deleteCommon">
-	<cfoutput>
-		<cfquery name="killCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM
-			common_name
-		WHERE
-			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> 
-			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "saveCommon">
