@@ -919,8 +919,8 @@ limitations under the License.
 							<div id="taxonrelations"></div>
 						</div>
 						<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
-							<div class="border bg-light float-left pl-3 py-3 w-100 rounded" id="commonNamesDiv">
-							</div>
+							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+								<div id="commonNamesDiv">Loading....</div>
 								<script>
 									$(document).ready(
 										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
@@ -931,6 +931,7 @@ limitations under the License.
 								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
 									onclick=" addCommon(#getTaxa.taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
 									>
+							</div>
 						</div>
 						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
 								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
