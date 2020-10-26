@@ -929,7 +929,7 @@ limitations under the License.
 								<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
 								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-									onclick=" addCommon(#getTaxa.taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
+									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##common_name').val(),'commonNamesDiv'); "
 									>
 							</div>
 						</div>

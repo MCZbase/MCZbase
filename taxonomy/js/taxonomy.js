@@ -67,10 +67,10 @@ function loadCommonNames(taxon_name_id,target) {
  * @param target the id of the target div containing the list of common names 
  *   to reload, without a leading # selector.
  */
-function addCommon(taxon_name_id,common_name,target) {
+function newCommon(taxon_name_id,common_name,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
-			method : "addCommon",
+			method : "newCommon",
 			common_name : common_name,
 			taxon_name_id : taxon_name_id,
 			returnformat : "json",
