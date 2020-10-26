@@ -477,7 +477,7 @@ limitations under the License.
                         AND MCZBASE.is_media_encumbered(media.media_id) < 1
             order by media.media_type
 </cfquery>
-		#mediaS.media_id#
+		#media.media_id#
 <cfif media.recordcount gt 0>
 	<div class="detailCell">
 		<div class="mt-2"><p>Additional Media</p>
