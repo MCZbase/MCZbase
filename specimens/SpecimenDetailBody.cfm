@@ -580,6 +580,7 @@ limitations under the License.
             </div>
         </div>
 		</div>
+				</div>
 	
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
