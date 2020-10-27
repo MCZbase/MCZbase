@@ -458,7 +458,7 @@ Given a common name and a taxon_name_id, add a row from the (weak entity) common
 @param taxon_name_id the PK of the taxon name for which to add the matching common name.
 --->
 <cffunction name="newCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name" type="numeric" required="yes">
+	<cfargument name="common_name" type="string" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
@@ -503,7 +503,7 @@ Given a common name and a taxon_name_id, delete the matching row from the (weak 
 @param taxon_name_id the PK of the taxon name for which to remove the matching common name.
 --->
 <cffunction name="deleteCommon" access="remote" returntype="any" returnformat="json">
-	<cfargument name="common_name" type="numeric" required="yes">
+	<cfargument name="common_name" type="string" required="yes">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
