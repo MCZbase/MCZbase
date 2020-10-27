@@ -1559,7 +1559,7 @@ input#readMore_check_id {display:none;}
 	-webkit-animation: spinner-border 1.5s linear infinite;
 	animation: spinner-border 1.5s linear infinite;
 	padding-right: 0px;
-    background-image: url("../../images/spinner_32px_dark_bg.gif");
+    background-image: url("../../images/spinner_32.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
