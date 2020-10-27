@@ -1160,7 +1160,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
