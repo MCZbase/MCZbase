@@ -111,11 +111,12 @@ function deleteCommonName(taxon_name_id,common_name,target) {
 	});
 };
 
-function saveCommon(taxon_name_id,common_name,target) {
+function saveCommon(original_common_name, common_name, taxon_name_id,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "saveCommon",
 			common_name : common_name,
+			origcommonname : original_common_name,
 			taxon_name_id : taxon_name_id,
 			returnformat : "json",
 			queryformat : 'column'
