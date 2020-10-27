@@ -1053,7 +1053,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	if (method=="") { 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
 	} else { 
-		var content = '<div id="'+dialogid+'_div">Loading....</div>';
+		var content = '<div id="'+dialogid+'_div"><div class="my-2 ml-3 text-left"><img src="../shared/images/indicator.gif"> Loading Print Options</div>');
 		var thedialog = $("#"+dialogid).html(content)
 		.dialog({
 			title: title,
@@ -1083,6 +1083,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 			}
 		});
 		thedialog.dialog('open');
+		
 		jQuery.ajax({
 			url: "/transactions/component/functions.cfc",
 			type: "get",
