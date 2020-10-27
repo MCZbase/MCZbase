@@ -1551,7 +1551,7 @@ input#readMore_check_id {display:none;}
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-    background-image: url("../../images/spinner_32.gif");
+    background-image: url("../../images/spinner_32_sm.gif");
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
