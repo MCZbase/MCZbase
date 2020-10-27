@@ -443,7 +443,7 @@ function loadShipments(transaction_id) {
 		},
 		success: function (result) {
 			$("#shipmentTable").html(result);
-			$("#shipmentTable span").removeClass('loader-spinner');
+			//$("#shipmentTable span").removeClass('loader-spinner');
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"deleting shipment");
