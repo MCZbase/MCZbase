@@ -275,7 +275,7 @@ limitations under the License.
 	<cfabort>
 </cfif>
 <section class="container-fluid">
-	<div class="row">
+	<div class="form-row">
 <cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
@@ -434,8 +434,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <cfif mediaS2.recordcount gt 1>
-
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
+		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 float-left">
     		<div class="accordion" id="accordionE">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
@@ -580,11 +579,9 @@ limitations under the License.
             </div>
         </div>
 		</div>
-				</div>
-	
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-		<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> px-1 pr-md-2 pl-md-0">
+	<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> float-left">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
@@ -1170,9 +1167,8 @@ limitations under the License.
 			</ul>
 		</div>
 	</div>							
-		</div><!--- end of two column section --->
-						
-	<div class="one-column">
+		</div><!--- end of two column section --->						
+		<div class="one-column">
 <!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
@@ -1554,16 +1550,12 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	</div>
-
-
-<cfif oneOfUs is 1>
-	</form>
-</cfif>
+		<cfif oneOfUs is 1>
+			</form>
+		</cfif>
 
 	</div>
-	
-	
 </div>
 </cfoutput>
-			</div>
+	</div>
 </section>
