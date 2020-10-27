@@ -439,7 +439,7 @@ function loadShipments(transaction_id) {
 			transaction_id : transaction_id
 		},
 		beforeSend: function(result){
-			$('#shipmentTable').removeClass('d-none');
+			$('#shipmentTable').removeClass('hidden');
 		},
 		success: function (result) {
 			$("#shipmentTable").html(result);
