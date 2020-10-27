@@ -349,7 +349,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
@@ -360,7 +360,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 88%;">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
@@ -678,8 +678,8 @@ limitations under the License.
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-									 <small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
+									 <small class="link-color">Find in IPNI</small>
 								</span>
 							 </div>
 						</div>
@@ -693,8 +693,8 @@ limitations under the License.
 							<div class="col-12 col-md-12 col-xl-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#gettaxa.infraspecific_author#">
 								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
+									<small class="link-color">Find in IPNI</small>
 								</span>
 							</div>
 						</div>
@@ -813,9 +813,10 @@ limitations under the License.
 				</form>
 			</section>
 
-			<section class="row">
+			<div class="row">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-						 <div class="col-12 px-0">
+
+						 <section class="col-12 px-0">
 							<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
@@ -834,7 +835,6 @@ limitations under the License.
 								</div>
 								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 							</div>
-						 </div>
 							<script>
 							$( document ).ready(
 							$('##newPubForm').bind('submit', function(evt){
@@ -894,7 +894,9 @@ limitations under the License.
 								});
 							}
 						</script>
-						<div class="col-12 px-0">
+						</section>
+
+						<section class="col-12 px-0">
 							<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
 								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
 								<input type="hidden" name="Action" value="newTaxonRelation">
@@ -917,39 +919,25 @@ limitations under the License.
 								</div>
 							</form>
 							<div id="taxonrelations"></div>
-						</div>
-							<cfquery name="common" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select common_name 
-								from common_name 
-								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-							</cfquery>
-						<div class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
+						</section>
+
+						<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
 							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-							<h4 class="mt-0">Common Names</h4>
-							<cfset i=1>
-							<cfloop query="common">
-								<form name="common#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-									<input type="hidden" name="Action">
-									<input type="hidden" name="origCommonName" value="#common_name#">
-									<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-									<div class="form-row mx-0 my-1">
-									<input type="text" name="common_name" value="#common_name#" class="data-entry-input w-50 float-left">
-									<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" onClick="common#i#.Action.value='saveCommon';submit();">
-									<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" onClick="common#i#.Action.value='deleteCommon';confirmDialog('Delete <b>common#i#</b> common name entry','Delete?');">
-									</div>
-								</form>
-								<cfset i=i+1>
-							</cfloop>
-								<form name="newCommon" method="post" action="/taxonomy/Taxonomy.cfm">
-									<input type="hidden" name="Action" value="newCommon">
-									<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-									<label for="common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
-									<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75">
-									<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left">
-								</form>
+								<div id="commonNamesDiv">Loading....</div>
+								<script>
+									$(document).ready(
+										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
+									);
+								</script>
+								<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
+								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
+									>
 							</div>
-								</div>
-						<div class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
+						</section>
+
+						<section class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
 								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select taxon_habitat 
@@ -986,23 +974,10 @@ limitations under the License.
 								<input type="submit" value="Add" class="btn btn-xs btn-secondary m-1 float-left">
 							</form>
 						</div>
-					</div>
+					</section>
 				</div>
-			</section>
+			</div>
 		</main>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newCommon">
-	<cfoutput>
-		<cfquery name="newCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO common_name 
-			(common_name, taxon_name_id)
-		VALUES 
-			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> , 
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#"> )
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1053,34 +1028,6 @@ limitations under the License.
 		</cfoutput>	
 	</cfcatch>
 	</cftry>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "deleteCommon">
-	<cfoutput>
-		<cfquery name="killCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM
-			common_name
-		WHERE
-			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#"> 
-			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "saveCommon">
-	<cfoutput>
-		<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE
-			common_name
-		SET
-			common_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#">
-		WHERE
-			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
-			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "deleteHabitat">
@@ -1198,13 +1145,13 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 88%" target="_blank" #searchclass# >#searchtext# </a> 
+								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
-								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 88%;"></a> 
+								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 								<script>
 									$(document).ready(function () { 
 										$('##taxonid').show();
@@ -1503,8 +1450,8 @@ limitations under the License.
 							<div class="col-12 col-md-10 col-xl-11 float-left">
 								<input type="text" name="author_text" id="author_text" value="#getClonedFromTaxon.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=author_text','picWin','width=700,height=400, resizable,scrollbars')">
-									 <small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
+									 <small class="link-color">Find in IPNI</small>
 								</span>
 							 </div>
 						</div>
@@ -1518,8 +1465,8 @@ limitations under the License.
 							<div class="col-12 col-md-12 col-xl-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#getClonedFromTaxon.infraspecific_author#">
 								<span class="infoLink botanical" 
-									onclick="window.open('/taxonomy/KewAbbrPick.cfm?tgt=infraspecific_author','picWin','width=700,height=400, resizable,scrollbars')"> 
-									<small class="link-color">Find Kew Abbr</small>
+									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
+									<small class="link-color">Find in IPNI</small>
 								</span>
 							</div>
 						</div>
