@@ -703,8 +703,7 @@ limitations under the License.
 								<script>
 									$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 								</script>
-								<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv" >
-									<span class="loading-spinner d-none">Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
+								<div id="agentTableContainerDiv" class="text-center my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
 								</div>
 								<script>
 									$(document).ready(function() { 
@@ -1041,7 +1040,7 @@ limitations under the License.
 							<ul class="accn">
 								<cfloop query="getAccessions">
 									<li class="accn2">
-										<a style="font-weight:bold;" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
+										<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
 										, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
 										<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
@@ -1161,7 +1160,9 @@ limitations under the License.
 								Projects associated with this loan: 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
-							<div id="projectsDiv"></div>
+							<div id="projectsDiv">
+								<div class="text-center"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Loading shipments...</div>
+							</div>
 							<script>
 								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
 								function reloadTransProjects() {
