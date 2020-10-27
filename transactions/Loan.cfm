@@ -1191,8 +1191,8 @@ limitations under the License.
 <div class="text-center">
   <div id="loadShipments">
    <div class="d-flex align-items-center">
-  <strong>Loading...</strong>
-  <div class="spinner-border" role="status" aria-hidden="true"></div>
+ 
+  <div class="spinner-border" role="status" aria-hidden="true"></div> <strong>Loading...</strong>
 </div>
   </div>
 </div>
