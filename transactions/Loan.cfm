@@ -704,7 +704,7 @@ limitations under the License.
 									$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 								</script>
 								<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv" >
-									<span class="loader-spinner d-none">Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
+									<span class="loading-spinner d-none">Awaiting load.... (if agents don't show up here shortly, there is an error).</span>
 								</div>
 								<script>
 									$(document).ready(function() { 
@@ -1188,7 +1188,7 @@ limitations under the License.
 
 				</div>
 			</div>
-								<span class="loader-spinner">Loading...</span>
+								<span class="loading-spinner">Loading...</span>
 		</main>
 	</cfoutput> 
 </cfif>
