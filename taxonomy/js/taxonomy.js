@@ -81,7 +81,7 @@ function newCommon(taxon_name_id,common_name,target) {
 			loadCommonNames(taxon_name_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing adding common name to taxon");
+		handleFail(jqXHR,textStatus,error,"adding common name to taxon");
 	});
 };
 
@@ -107,7 +107,7 @@ function deleteCommonName(taxon_name_id,common_name,target) {
 			loadCommonNames(taxon_name_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing adding common name to taxon");
+		handleFail(jqXHR,textStatus,error,"removing common name from taxon");
 	});
 };
 
@@ -125,6 +125,6 @@ function saveCommon(original_common_name, common_name, taxon_name_id,target) {
 			loadCommonNames(taxon_name_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"removing adding common name to taxon");
+		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");
 	});
 };

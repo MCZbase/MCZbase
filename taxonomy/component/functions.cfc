@@ -410,7 +410,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									id="commonEditButton_#i#"
 									>
 								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmDialog('Delete <b>common#i#</b> common name entry','Delete?',deleteCommonName('#common.common_name#',#taxon_name_id#)); " 
+									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName('#common.common_name#',#taxon_name_id#); } ); " 
 									id="commonDeleteButton_#i#">
 								<script>
 									function toggleCommon#i#() {
