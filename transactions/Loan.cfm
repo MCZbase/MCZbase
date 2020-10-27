@@ -1192,7 +1192,7 @@ limitations under the License.
   <div id="loadShipments">
    <div class="d-flex align-items-center">
  
-  <div class="spinner-border" role="status" aria-hidden="true"></div> <strong>Loading...</strong>
+  <div class="spinner-border mr-2 text-dark" role="status" aria-hidden="true"></div> <strong>Loading...</strong>
 </div>
   </div>
 </div>
