@@ -1568,18 +1568,7 @@ limitations under the License.
 </cfif>
 
    
-	
-	
-<div class="d-flex justify-content-center">
-  <div class="spinner-border text-dark" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-	
-<button class="btn btn-primary" type="button">
-  <span class="spinner-border text-dark spinner-border-sm" role="status" aria-hidden="true"></span>
-  Loading...
-</button>
+
 	
 	</div>
 	
