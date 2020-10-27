@@ -1188,9 +1188,10 @@ limitations under the License.
 
 				</div>
 			</div>
-<div class="btn btn-primary" type="button" disabled>
-  <span class="loading-spinning" role="status"></span>
-  Loading...
+<div class="text-center">
+  <div class="spinner-border" role="status">
+    <span>Loading...</span>
+  </div>
 </div>
 		
 		</main>
