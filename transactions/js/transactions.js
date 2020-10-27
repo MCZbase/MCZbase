@@ -502,7 +502,7 @@ function loadTransactionFormPermits(transaction_id) {
 		},
 		complete: function() {
 			$('#loading-spinner').hide();
-		}
+		},
 		success: function (result) {
 			$("#transactionFormPermits").html(result);
 		},
