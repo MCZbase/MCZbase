@@ -1555,7 +1555,9 @@ input#readMore_check_id {display:none;}
     background-position: 50% 50%;
     background-repeat: no-repeat;
     z-index: 9999;
-	vertical-align: middle;
+	vertical-align: text-bottom;
+	opacity:0;
+	animation: loading-spinner 1.5s linear infinite;
 }
 #overlay {
   	position: absolute;

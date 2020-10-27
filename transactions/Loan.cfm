@@ -1189,11 +1189,10 @@ limitations under the License.
 				</div>
 			</div>
 <div class="btn btn-primary" type="button" disabled>
-  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+  <span class="loading-spinning" role="status"></span>
   Loading...
 </div>
-								
-								<span class="loading-spinner">Loading...</span>
+		
 		</main>
 	</cfoutput> 
 </cfif>
