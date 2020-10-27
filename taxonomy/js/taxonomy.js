@@ -97,7 +97,7 @@ function newCommon(taxon_name_id,common_name,target) {
 function deleteCommonName(taxon_name_id,common_name,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
-			method : "newCommon",
+			method : "deleteCommon",
 			common_name : common_name,
 			taxon_name_id : taxon_name_id,
 			returnformat : "json",
