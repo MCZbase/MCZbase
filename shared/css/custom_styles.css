@@ -1546,7 +1546,19 @@ input#readMore_check_id {display:none;}
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
+.spinner {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	-webkit-animation: spinner 1.5s linear infinite;
+	animation: spinner-border 1.5s linear infinite;
+	padding-right: 0px;
+    background-image: url("../../images/spinner_32px_dark_bg.gif");
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    z-index: 9999;
 
+}
 .loading-spinner {
 	display: inline-block;
 	width: 32px;
@@ -1557,7 +1569,7 @@ input#readMore_check_id {display:none;}
     z-index: 9999;
 	vertical-align: text-bottom;
 	opacity:0;
-	animation: loading-spinner 1.5s linear infinite;
+	animation: spinner 1.5s linear infinite;
 }
 #overlay {
   	position: absolute;
