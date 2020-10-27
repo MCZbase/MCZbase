@@ -704,7 +704,7 @@ limitations under the License.
 									$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 								</script>
 								<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
-									 <div class="my-2"><img src='/shared/images/indicator.gif'> Awaiting load... (if agents don't show up here shortly, there is an error)...</div>
+									 <div class="my-2 text-center"><img src='../images/spinner_16px_reqd_bg.gif'> Awaiting load... (if agents don't show up here shortly, there is an error)...</div>
 								</div>
 								<script>
 									$(document).ready(function() { 
@@ -935,7 +935,7 @@ limitations under the License.
 							</span>
 							<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-							<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+							<div id="transactionFormMedia" class="my-2"><img src='../images/spinner_32_sm.gif'> Loading Media....</div>
 							<script>
 								// callback for ajax methods to reload from dialog
 								function reloadTransMedia() { 
@@ -981,7 +981,7 @@ limitations under the License.
 								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 							</cfquery>
 								<div id="shipmentTable"> 
-									<div class="text-center"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Loading shipments...</div>
+									<div class="my-2 text-center"><img src='../images/spinner_16px_reqd_bg.gif'> Loading Shipments</div>
 								</div>
 							<!--- shippmentTable for ajax replace ---> 
 							<script>
