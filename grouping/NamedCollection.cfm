@@ -635,10 +635,7 @@ limitations under the License.
 					<!--- col ---> 
 				</div>
 				<!--- row ---> 
-			</div>
-			<!--- container ---> 
-		</cfoutput>
-		<cfif undColl_result.recordcount GT 0>
+					<cfif undColl_result.recordcount GT 0>
 			<!--- list specimens in the collection, link out by guid --->
 			<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
 					select guid, underscore_relation_id
@@ -717,6 +714,10 @@ limitations under the License.
 				</div>
 			</cfoutput>
 		</cfif>
+			</main>
+			<!--- container ---> 
+		</cfoutput>
+	
 	</cfif>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
