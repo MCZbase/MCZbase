@@ -980,7 +980,7 @@ limitations under the License.
 									left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 							</cfquery>
-								<div id="shipmentTable"><span class="d-none loading-spinner">Loading shipments...</span></div>
+								<div id="shipmentTable"><span class="d-none spinning-border">Loading shipments...</span></div>
 							<!--- shippmentTable for ajax replace ---> 
 							<script>
 								$( document ).ready(loadShipments(#transaction_id#));
@@ -1188,15 +1188,7 @@ limitations under the License.
 
 				</div>
 			</div>
-<div class="text-center">
-  <div id="loadShipments">
-   <div class="d-flex align-items-center">
- 
-  <div class="spinner-border mr-2 text-dark" role="status" aria-hidden="true"></div> <strong>Loading...</strong>
-</div>
-  </div>
-</div>
-		
+
 		</main>
 	</cfoutput> 
 </cfif>
