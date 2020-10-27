@@ -28,7 +28,7 @@ function loadTaxonPublications(taxon_name_id,target) {
       url: "/taxonomy/component/functions.cfc",
       data : {
          method : "getTaxonPublicationsHtml",
-         taxon_name_id: taxon_name_id,
+         taxon_name_id: taxon_name_id
       },
       success: function (result) {
          $("#" + target).html(result);
@@ -47,6 +47,7 @@ function loadCommonNames(taxon_name_id,target) {
       data : {
          method : "getCommonHtml",
          taxon_name_id: taxon_name_id,
+         target: target
       },
       success: function (result) {
          $("#" + target).html(result);
@@ -97,6 +98,23 @@ function deleteCommonName(taxon_name_id,common_name,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "newCommon",
+			common_name : common_name,
+			taxon_name_id : taxon_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing adding common name to taxon");
+	});
+};
+
+function saveCommon(taxon_name_id,common_name,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "saveCommon",
 			common_name : common_name,
 			taxon_name_id : taxon_name_id,
 			returnformat : "json",

@@ -1030,21 +1030,6 @@ limitations under the License.
 	</cftry>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif action is "saveCommon">
-	<cfoutput>
-		<cfquery name="upCommon" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE
-			common_name
-		SET
-			common_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#common_name#">
-		WHERE
-			common_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origCommonName#">
-			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
 <cfif action is "deleteHabitat">
 	<cfoutput>
 		<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
