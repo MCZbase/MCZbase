@@ -1550,7 +1550,7 @@ input#readMore_check_id {display:none;}
 .spinner-border {
     z-index: 9999;
 	vertical-align: middle;
-	animation: spinner 1.5s linear infinite;
+	animation: spinner-border 1.5s linear infinite;
 }
 #overlay {
   	position: absolute;
