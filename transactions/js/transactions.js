@@ -497,10 +497,10 @@ function loadTransactionFormPermits(transaction_id) {
 			method : "getPermitsForTransHtml",
 			transaction_id: transaction_id
 		},
-		beforeSend: function(){
+		beforeSend: function(result){
 			$('#loading-spinner').show();
 		},
-		complete: function() {
+		complete: function(result) {
 			$('#loading-spinner').hide();
 		},
 		success: function (result) {
