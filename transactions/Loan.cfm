@@ -1188,7 +1188,7 @@ limitations under the License.
 
 				</div>
 			</div>
-								<span class="loader-spinner"></span>
+								<span class="loader-spinner">Loading...</span>
 		</main>
 	</cfoutput> 
 </cfif>
