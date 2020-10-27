@@ -1189,8 +1189,10 @@ limitations under the License.
 				</div>
 			</div>
 <div class="text-center">
-  <div class="spinner-border" role="status">
-    <span>Loading...</span>
+  <div id="loadShipments">
+    <div class="overlay"><span class="spinner-border" role="status"></span>
+	  Loading...
+	  </div>
   </div>
 </div>
 		
