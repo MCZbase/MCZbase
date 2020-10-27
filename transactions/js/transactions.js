@@ -998,7 +998,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
  * @param transaction_id the id of the transaction for which to look up projects.
  */
 function loadProjects(projectsDiv,transaction_id) { 
-	$('#' + projectsDiv).html("Loading....");
+	$('#' + projectsDiv).html("<div class='my-2 ml-3 text-left'><img src='../shared/images/indicator.gif'> Loading Projects</div>");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
 		type : "get",

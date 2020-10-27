@@ -1161,8 +1161,8 @@ limitations under the License.
 								Projects associated with this loan: 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
-							<div id="projectsDiv px-3">
-								<div class="my-2 text-center"><img src='../shared/images/indicator.gif'> Loading Projects</div>
+							<div id="projectsDiv">
+							
 							</div>
 							<script>
 								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
