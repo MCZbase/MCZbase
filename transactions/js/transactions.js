@@ -438,6 +438,9 @@ function loadShipments(transaction_id) {
 			method : "getShipmentsByTransHtml",
 			transaction_id : transaction_id
 		},
+		beforeSend: function(result){
+			$('#shipmentTable').removeClass('d-none');
+		},
 		success: function (result) {
 			$("#shipmentTable").html(result);
 		},
