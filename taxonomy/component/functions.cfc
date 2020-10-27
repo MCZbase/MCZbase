@@ -398,7 +398,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 					<cfloop query="common">
 						<form name="common#i#" action="" onClick=" function(e){e.preventDefault();};">
 							<div class="form-row mx-0 my-1">
-								<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left">#common_name#</label>
+								<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" onclick=" toggleCommon#i#(); ">#common_name#</label>
 								<input id="common_name_#i#" type="text" name="common_name" value="#common_name#" 
 									class="data-entry-input w-50 float-left" style="display: none;">
 								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
@@ -410,7 +410,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 									id="commonEditButton_#i#"
 									>
 								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName('#common.common_name#',#taxon_name_id#); } ); " 
+									onClick=" confirmWarningDialog('Delete <b>common#i#</b> common name entry','Delete?', function() { deleteCommonName(#taxon_name_id#,'#common.common_name#','#target#'); } ); " 
 									id="commonDeleteButton_#i#">
 								<script>
 									function toggleCommon#i#() {
