@@ -1548,10 +1548,6 @@ input#readMore_check_id {display:none;}
 }
 .spinner {
 	display: inline-block;
-	width: 32px;
-	height: 32px;
-	-webkit-animation: spinner 1.5s linear infinite;
-	animation: spinner-border 1.5s linear infinite;
 	padding-right: 0px;
     background-image: url("../../images/spinner_32px_dark_bg.gif");
     background-position: 50% 50%;
@@ -1563,11 +1559,8 @@ input#readMore_check_id {display:none;}
 	display: inline-block;
 	width: 32px;
 	height: 32px;
-    background-image: url("../../images/spinner_32_sm.gif");
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
     z-index: 9999;
-	vertical-align: text-bottom;
+	vertical-align: middle;
 	opacity:0;
 	animation: spinner 1.5s linear infinite;
 }
