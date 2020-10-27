@@ -438,12 +438,12 @@ function loadShipments(transaction_id) {
 			method : "getShipmentsByTransHtml",
 			transaction_id : transaction_id
 		},
-		beforeSend: function(result){
-			$('#shipmentTable span').removeClass('d-none');
-		},
+	//	beforeSend: function(result){
+		//	$('#shipmentTable span').removeClass('d-none');
+		//},
 		success: function (result) {
 			$("#shipmentTable").html(result);
-			//$("#shipmentTable span").removeClass('loader-spinner');
+		//	$("#shipmentTable span").removeClass('loader-spinner');
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"deleting shipment");
