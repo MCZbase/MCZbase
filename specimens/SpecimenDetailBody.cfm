@@ -432,8 +432,9 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
+			<div class="row">
 <cfif mediaS2.recordcount gt 1>
-	<div class="row">
+
 		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-1 pr-md-0 pl-md-2">
 		<div class="bs-example">
     <div class="accordion" id="accordionExample">
@@ -588,7 +589,7 @@ limitations under the License.
 
     	</div>
 	</div>
-</div>
+
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
 		<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> px-1 pr-md-2 pl-md-0">
@@ -1574,5 +1575,6 @@ limitations under the License.
 	
 	
 </div>
+	</div>
 </cfoutput>
 </section>
