@@ -389,20 +389,6 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
-<!---<cfquery name="mediaS" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		media.media_id,
-		media.media_uri,
-		media_relations.media_relationship
-	FROM
-		media, 
-		media_relations
-	WHERE 
-		media.media_id = media_relations.media_id and
-		media_relations.media_relationship like '%cataloged_item' and
-		media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL">
-	</cfquery>--->
-	
 <cfoutput query="one">
 <cfif oneOfUs is 1>
 	<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -434,7 +420,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <cfif mediaS2.recordcount gt 1>
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 float-left">
+		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-0 float-left">
     		<div class="accordion" id="accordionE">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
@@ -579,9 +565,10 @@ limitations under the License.
             </div>
         </div>
 		</div>
+				</div>
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-	<div class="col-12 col-sm-12 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> float-left">
+	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> float-left">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
@@ -1555,7 +1542,7 @@ limitations under the License.
 		</cfif>
 
 	</div>
-</div>
+
 </cfoutput>
 	</div>
 </section>
