@@ -1161,8 +1161,8 @@ limitations under the License.
 								Projects associated with this loan: 
 								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 							</h3>
-							<div id="projectsDiv">
-								<div class="text-center"><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Loading shipments...</div>
+							<div id="projectsDiv px-3">
+								<div class="my-2 text-center"><img src='../shared/images/indicator.gif'> Loading Projects</div>
 							</div>
 							<script>
 								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
@@ -1224,12 +1224,14 @@ limitations under the License.
 	<cfcatch>
 		<section class="container">
 			<div class="row">
+				<div class="col-10 mx-5">
 				<div class="alert alert-danger" role="alert">
 					<img src="../shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 					<h1 class="h2">DELETE FAILED</h1>
 					<p>You cannot delete an active loan. This loan probably has specimens or
 						other transactions attached. Use your back button.</p>
 					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+				</div>
 				</div>
 			</div>
 			<p><cfdump var=#cfcatch#></p>
