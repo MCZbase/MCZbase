@@ -1188,6 +1188,10 @@ limitations under the License.
 
 				</div>
 			</div>
+							<div class="spinner-border" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+								
 								<span class="loading-spinner">Loading...</span>
 		</main>
 	</cfoutput> 
