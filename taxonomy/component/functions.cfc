@@ -402,7 +402,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 								<input id="common_name_#i#" type="text" name="common_name" value="#common_name#" 
 									class="data-entry-input w-50 float-left" style="display: none;">
 								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" saveCommon('#common_name#',$('##common_name_#i#',#taxon_name_id#,'#target#');" 
+									onClick=" saveCommon('#common_name#',$('##common_name_#i#').val(),#taxon_name_id#,'#target#');" 
 									id="commonSaveButton_#i#"
 									style="display: none;">
 								<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
@@ -415,6 +415,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 								<script>
 									function toggleCommon#i#() {
 										$('##label_common_name_#i#').toggle();
+										$('##common_name_#i#').toggle();
 										$('##commonSaveButton_#i#').toggle();
 										$('##commonEditButton_#i#').toggle();
 									};
