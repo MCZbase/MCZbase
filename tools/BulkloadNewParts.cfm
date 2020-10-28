@@ -43,6 +43,30 @@
 	<li>part_att_detby_2</li>
 	<li>part_att_madedate_2</li>
 	<li>part_att_rem_2</li>
+	<li>part_att_name_3</li>
+	<li>part_att_val_3</li>
+	<li>part_att_units_3</li>
+	<li>part_att_detby_3</li>
+	<li>part_att_madedate_3</li>
+	<li>part_att_rem_3</li>
+	<li>part_att_name_4</li>
+	<li>part_att_val_4</li>
+	<li>part_att_units_4</li>
+	<li>part_att_detby_4</li>
+	<li>part_att_madedate_4</li>
+	<li>part_att_rem_4</li>
+	<li>part_att_name_5</li>
+	<li>part_att_val_5</li>
+	<li>part_att_units_5</li>
+	<li>part_att_detby_5</li>
+	<li>part_att_madedate_5</li>
+	<li>part_att_rem_5</li>
+	<li>part_att_name_6</li>
+	<li>part_att_val_6</li>
+	<li>part_att_units_6</li>
+	<li>part_att_detby_6</li>
+	<li>part_att_madedate_6</li>
+	<li>part_att_rem_6</li>
 </ul>
     <br>
 <cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadNewParts.cfm">
@@ -373,6 +397,30 @@
 			<td>part_att_detby_2</td>
 			<td>part_att_madedate_2</td>
 			<td>part_att_rem_2</td>
+			<td>part_att_name_3</td>
+			<td>part_att_val_3</td>
+			<td>part_att_units_3</td>
+			<td>part_att_detby_3</td>
+			<td>part_att_madedate_3</td>
+			<td>part_att_rem_3</td>
+			<td>part_att_name_4</td>
+			<td>part_att_val_4</td>
+			<td>part_att_units_4</td>
+			<td>part_att_detby_4</td>
+			<td>part_att_madedate_4</td>
+			<td>part_att_rem_4</td>
+			<td>part_att_name_5</td>
+			<td>part_att_val_5</td>
+			<td>part_att_units_5</td>
+			<td>part_att_detby_5</td>
+			<td>part_att_madedate_5</td>
+			<td>part_att_rem_5</td>
+			<td>part_att_name_6</td>
+			<td>part_att_val_6</td>
+			<td>part_att_units_6</td>
+			<td>part_att_detby_6</td>
+			<td>part_att_madedate_6</td>
+			<td>part_att_rem_6</td>
 		</tr>
 		<cfloop query="inT">
 			<tr>
@@ -412,6 +460,30 @@
 				<td>#part_att_detby_2#</td>
 				<td>#part_att_madedate_2#</td>
 				<td>#part_att_rem_2#</td>
+				<td>#part_att_name_3#</td>
+				<td>#part_att_val_3#</td>
+				<td>#part_att_units_3#</td>
+				<td>#part_att_detby_3#</td>
+				<td>#part_att_madedate_3#</td>
+				<td>#part_att_rem_3#</td>
+				<td>#part_att_name_4#</td>
+				<td>#part_att_val_4#</td>
+				<td>#part_att_units_4#</td>
+				<td>#part_att_detby_4#</td>
+				<td>#part_att_madedate_4#</td>
+				<td>#part_att_rem_4#</td>
+				<td>#part_att_name_5#</td>
+				<td>#part_att_val_5#</td>
+				<td>#part_att_units_5#</td>
+				<td>#part_att_detby_5#</td>
+				<td>#part_att_madedate_5#</td>
+				<td>#part_att_rem_5#</td>
+				<td>#part_att_name_6#</td>
+				<td>#part_att_val_6#</td>
+				<td>#part_att_units_6#</td>
+				<td>#part_att_detby_6#</td>
+				<td>#part_att_madedate_6#</td>
+				<td>#part_att_rem_6#</td>
 			</tr>
 		</cfloop>
 	</table>
@@ -542,6 +614,62 @@
 			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
 				values(sq_collection_object_id.currval, '#part_att_name_2#', '#part_att_val_2#', '#part_att_units_2#', '#part_att_madedate_2#', #numAgentId#, '#part_att_rem_2#')
+			</cfquery>
+		</cfif>
+		<cfif len(#part_att_name_3#) GT 0>
+			<cfif len(#part_att_detby_3#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_3#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "NULL">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_3#', '#part_att_val_3#', '#part_att_units_3#', '#part_att_madedate_3#', #numAgentId#, '#part_att_rem_3#')
+			</cfquery>
+		</cfif>
+		<cfif len(#part_att_name_4#) GT 0>
+			<cfif len(#part_att_detby_4#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_4#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_4#', '#part_att_val_4#', '#part_att_units_4#', '#part_att_madedate_4#', #numAgentId#, '#part_att_rem_4#')
+			</cfquery>
+		</cfif>
+		<cfif len(#part_att_name_5#) GT 0>
+			<cfif len(#part_att_detby_5#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_5#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "NULL">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_5#', '#part_att_val_5#', '#part_att_units_5#', '#part_att_madedate_5#', #numAgentId#, '#part_att_rem_5#')
+			</cfquery>
+		</cfif>
+		<cfif len(#part_att_name_6#) GT 0>
+			<cfif len(#part_att_detby_6#) GT 0>
+				<cfquery name="a" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select agent_id from agent_name where agent_name = trim('#part_att_detby_6#')
+				</cfquery>
+				<cfset numAgentID = a.agent_id>
+			<cfelse>
+				<cfset  numAgentID = "">
+			</cfif>
+			<cfquery name="addPartAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				insert into SPECIMEN_PART_ATTRIBUTE(collection_object_id, attribute_type, attribute_value, attribute_units, determined_date, determined_by_agent_id, attribute_remark)
+				values(sq_collection_object_id.currval, '#part_att_name_6#', '#part_att_val_6#', '#part_att_units_6#', '#part_att_madedate_6#', #numAgentId#, '#part_att_rem_6#')
 			</cfquery>
 		</cfif>
 
