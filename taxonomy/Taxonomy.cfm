@@ -920,7 +920,7 @@ limitations under the License.
 										<input type="hidden" name="newRelatedId" id="newRelatedId">
 										<script>
 											$(document).ready( 
-												makeScientificNameAutocompleteMeta('newRelatedName', 'newRelatedId');
+												makeScientificNameAutocompleteMeta('newRelatedName', 'newRelatedId')
 											);
 										</script>
 									</div>

@@ -798,7 +798,7 @@ function makeScientificNameAutocompleteMeta(valueControl, idControl) {
 		source: function (request, response) { 
 			$.ajax({
 				url: "/taxonomy/component/search.cfc",
-				data: { term: request.term, method: 'getScientificNameAutocompleteMeta' },
+				data: { term: request.term, method: 'getScientificNameAutocomplete' },
 				dataType: 'json',
 				success : function (data) { response(data); },
 				error : function (jqXHR, status, error) {
