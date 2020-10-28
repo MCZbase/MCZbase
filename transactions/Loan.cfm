@@ -121,298 +121,298 @@ limitations under the License.
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
 				<section class="col-12 col-sm-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
-							<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
-								<input type="hidden" name="action" value="makeLoan">
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<label for="collection_id">Collection</label>
-										<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
-											<cfloop query="ctcollection">
-												<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
-											</cfloop>
-										</select>
+					<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
+						<input type="hidden" name="action" value="makeLoan">
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="collection_id">Collection</label>
+								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
+									<cfloop query="ctcollection">
+										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
+								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="auth_agent_name">Authorized By</label>
+									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<div class="col-12 col-md-6">
-										<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-										<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
-									</div>
+									<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control data-entry-input" required >
 								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<span>
-											<label for="auth_agent_name">Authorized By</label>
-											<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control data-entry-input" required >
-										</div>
-										<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
-										<script>
-											$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
-										</script> 
-									</div>
-									<div class="col-12 col-md-6">
-										<span>
-											<label for="rec_agent_name">Received By:</label>
-											<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control data-entry-input" required >
-										</div>
-										<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
-										</script> 
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<span>
-											<label for="in_house_contact_agent_name">In-House Contact:</label>
-											<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="reqdClr form-control data-entry-input" required >
-										</div>
-										<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
-										</script> 
-									</div>
-									<div class="col-12 col-md-6"> 
-										<span>
-											<label for="recipient_institution_agent_name">Recipient Institution:</label>
-											<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" class="reqdClr form-control data-entry-input" required >
-										</div>
-										<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
-										</script> 
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<span>
-											<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
-											<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control data-entry-input" >
-										</div>
-										<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
-										</script> 
-									</div>
-									<div class="col-12 col-md-6"> 
-										<span>
-											<label for="foruseby_agent_name">For Use By:</label>
-											<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control data-entry-input" >
-										</div>
-										<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
-										<script>
-											$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
-										</script> 
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<label for="loan_type">Loan Type</label>
-										<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
-											<cfloop query="ctLoanType">
-												<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-											</cfloop>
-										</select>
-									</div>
-									<div class="col-12 col-md-6">
-										<label for="loan_status">Loan Status</label>
-										<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
-											<cfloop query="ctLoanStatus">
-												<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
-													<cfif #ctLoanStatus.loan_status# is "open">
-														<cfset selected = "selected='selected'">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctLoanStatus.loan_status#" #selected# >#ctLoanStatus.loan_status#</option>
-												</cfif>
-											</cfloop>
-										</select>
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-5">
-										<label for="initiating_date">Transaction Date</label>
-										<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input">
-									</div>
-									<div class="col-12 col-md-5">
-										<label for="return_due_date">Return Due Date</label>
-										<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input" >
-									</div>
-								</div>
-								<div class="form-row mb-2" id="insurance_section">
-									<div class="col-12 col-md-5">
-										<label for="insurance_value" class="data-entry-label">Insurance value</label>
-										<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
-									</div>
-									<div class="col-12 col-md-5">
-										<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-										<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
-									</div>
-								</div>
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
-									$(document).ready(function() {
-										// on page load, hide the insurance section.
-										$("##insurance_section").hide();
-										// on page load, remove transfer and exhibition-master from the list of loan/gift types
-										$("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
+								</script> 
+							</div>
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="rec_agent_name">Received By:</label>
+									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input  name="rec_agent_name" id="rec_agent_name" class="reqdClr form-control data-entry-input" required >
+								</div>
+								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="reqdClr form-control data-entry-input" required >
+								</div>
+								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-6"> 
+								<span>
+									<label for="recipient_institution_agent_name">Recipient Institution:</label>
+									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="recipient_institution_agent_name"  id="recipient_institution_agent_name" class="reqdClr form-control data-entry-input" required >
+								</div>
+								<input type="hidden" name="recipient_institution_agent_id"  id="recipient_institution_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
+									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control data-entry-input" >
+								</div>
+								<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-6"> 
+								<span>
+									<label for="foruseby_agent_name">For Use By:</label>
+									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control data-entry-input" >
+								</div>
+								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<label for="loan_type">Loan Type</label>
+								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
+									<cfloop query="ctLoanType">
+										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-md-6">
+								<label for="loan_status">Loan Status</label>
+								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
+									<cfloop query="ctLoanStatus">
+										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
+											<cfif #ctLoanStatus.loan_status# is "open">
+												<cfset selected = "selected='selected'">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option value="#ctLoanStatus.loan_status#" #selected# >#ctLoanStatus.loan_status#</option>
+										</cfif>
+									</cfloop>
+								</select>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-5">
+								<label for="initiating_date">Transaction Date</label>
+								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input">
+							</div>
+							<div class="col-12 col-md-5">
+								<label for="return_due_date">Return Due Date</label>
+								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control data-entry-input" >
+							</div>
+						</div>
+						<div class="form-row mb-2" id="insurance_section">
+							<div class="col-12 col-md-5">
+								<label for="insurance_value" class="data-entry-label">Insurance value</label>
+								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
+							</div>
+							<div class="col-12 col-md-5">
+								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
+								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
+							</div>
+						</div>
+						<script>
+							$(document).ready(function() {
+								// on page load, hide the insurance section.
+								$("##insurance_section").hide();
+								// on page load, remove transfer and exhibition-master from the list of loan/gift types
+								$("##loan_type option[value='transfer']").each(function() { $(this).remove(); } );
+								$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
+								// on page load, bind a function to collection_id to change the list of loan types
+								// based on the selected collection
+								$("##collection_id").change( function () {
+									if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+										// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
+										if ($("##loan_type option[value='exhibition-master']").length < 1) { 
+											$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
+										}
+									} else {
 										$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-										// on page load, bind a function to collection_id to change the list of loan types
-										// based on the selected collection
-										$("##collection_id").change( function () {
-											if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
-												// only MCZ collections (the non-specimen collection) is allowed to be exhibition-masters (but only add once).
-												if ($("##loan_type option[value='exhibition-master']").length < 1) { 
-													$("##loan_type").append($("<option></option>").attr("value",'exhibition-master').text('exhibition-master'));
-												}
-											} else {
-												$("##loan_type option[value='exhibition-master']").each(function() { $(this).remove(); } );
-												$("##insurance_section").hide();
-											}
-										});
-										// on page load, bind a function to loan_type to hide/show the insurance section.
-										$("##loan_type").change( function () {
-											if ($("##loan_type").val() == "exhibition-master") {
-												$("##insurance_section").show();
-												$("##return_due_date").datepicker('option','disabled',false);
-											} else if ($("##loan_type").val() == "exhibition-subloan") {
-												$("##insurance_section").hide();
-												$("##return_due_date").datepicker('option','disabled',true);
-											} else {
-												$("##insurance_section").hide();
-												$("##return_due_date").datepicker('option','disabled',false);
-											}
-										});
-									});
-								</script>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-10">
-										<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
-										<textarea name="nature_of_material" id="nature_of_material" rows="2" 
-											onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-											class="reqdClr form-control form-control-sm w-100 autogrow" 
-											required ></textarea>
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-10">
-										<label for="loan_description">Description (<span id="length_loan_description"></span>)</label>
-										<textarea name="loan_description" id="loan_description"
-											onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-											class="form-control-sm form-control w-100 autogrow" rows="2"></textarea>
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-10">
-										<label for="loan_instructions">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
-										<textarea name="loan_instructions" id="loan_instructions" 
-											onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-											rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-10">
-										<label for="trans_remarks">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
-										<textarea name="trans_remarks" id="trans_remarks" 
-											onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-											class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
-									</div>
-								</div>
-								<script>
-									// Make all textareas with autogrow class re bound to the autogrow function on key up
-									$(document).ready(function() { 
-										$("textarea.autogrow").keyup(autogrow);  
-										$('textarea.autogrow').keyup();
-									});
-								</script>
-								<div class="form-row my-2">
-									<div class="form-group col-12">
-										<input type="button" value="Create Loan" class="btn btn-xs btn-primary"
-											onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
-									</div>
-								</div>
-							</form>
-						</section>
+										$("##insurance_section").hide();
+									}
+								});
+								// on page load, bind a function to loan_type to hide/show the insurance section.
+								$("##loan_type").change( function () {
+									if ($("##loan_type").val() == "exhibition-master") {
+										$("##insurance_section").show();
+										$("##return_due_date").datepicker('option','disabled',false);
+									} else if ($("##loan_type").val() == "exhibition-subloan") {
+										$("##insurance_section").hide();
+										$("##return_due_date").datepicker('option','disabled',true);
+									} else {
+										$("##insurance_section").hide();
+										$("##return_due_date").datepicker('option','disabled',false);
+									}
+								});
+							});
+						</script>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-10">
+								<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
+									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
+									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									required ></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-10">
+								<label for="loan_description">Description (<span id="length_loan_description"></span>)</label>
+								<textarea name="loan_description" id="loan_description"
+									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
+									class="form-control-sm form-control w-100 autogrow" rows="2"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-10">
+								<label for="loan_instructions">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<textarea name="loan_instructions" id="loan_instructions" 
+									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
+									rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-10">
+								<label for="trans_remarks">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<textarea name="trans_remarks" id="trans_remarks" 
+									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
+									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
+							</div>
+						</div>
+						<script>
+							// Make all textareas with autogrow class re bound to the autogrow function on key up
+							$(document).ready(function() { 
+								$("textarea.autogrow").keyup(autogrow);  
+								$('textarea.autogrow').keyup();
+							});
+						</script>
+						<div class="form-row my-2">
+							<div class="form-group col-12">
+								<input type="button" value="Create Loan" class="btn btn-xs btn-primary"
+									onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
+							</div>
+						</div>
+					</form>
+				</section>
 				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
 				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
-							<div id="nextNumDiv">
-								<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
-								<!--- Find list of all non-observational collections --->
-								<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select collection_id, collection_cde, collection from collection 
-									where collection not like '% Observations'
-									order by collection 
+					<div id="nextNumDiv">
+						<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
+						<!--- Find list of all non-observational collections --->
+						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id, collection_cde, collection from collection 
+							where collection not like '% Observations'
+							order by collection 
+						</cfquery>
+						<nav class="nav flex-column align-items-start">
+						<cfloop query="loanableCollections">
+							<cftry>
+								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									from
+										loan,
+										trans,
+										collection
+									where
+										loan.transaction_id=trans.transaction_id 
+										AND trans.collection_id=collection.collection_id
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
 								</cfquery>
-								<nav class="nav flex-column align-items-start">
-								<cfloop query="loanableCollections">
-									<cftry>
-										<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
-										<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select
-											'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
-											from
-												loan,
-												trans,
-												collection
-											where
-												loan.transaction_id=trans.transaction_id 
-												AND trans.collection_id=collection.collection_id
-												AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-												AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
-										</cfquery>
-									<cfcatch>
-										<hr>
-										#cfcatch.detail#<br>
-										#cfcatch.message# 
-										<!--- Put an error message into nextNumberQuery.nextNumber --->
-										<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select 'check data' as nextNumber from dual
-										</cfquery>
-									</cfcatch>
-									</cftry>
-									<cfif len(nextNumberQuery.nextNumber) gt 0>
-										<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
-									<cfelse>
-										<span style="font-size:x-small"> No data available for #collection#. </span>
-									</cfif>
-								</cfloop>
-								</nav>
-							</div>
-						</aside><!--- next number aside --->
+							<cfcatch>
+								<hr>
+								#cfcatch.detail#<br>
+								#cfcatch.message# 
+								<!--- Put an error message into nextNumberQuery.nextNumber --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select 'check data' as nextNumber from dual
+								</cfquery>
+							</cfcatch>
+							</cftry>
+							<cfif len(nextNumberQuery.nextNumber) gt 0>
+								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+							<cfelse>
+								<span style="font-size:x-small"> No data available for #collection#. </span>
+							</cfif>
+						</cfloop>
+						</nav>
+					</div>
+				</aside><!--- next number aside --->
 			</div>
 		</main>
 	</cfoutput>
