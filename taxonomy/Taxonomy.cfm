@@ -927,8 +927,8 @@ limitations under the License.
 									<div class="col-12 col-md-4">
 										<label for="relation_authority" class="data-entry-label">Authority</label>
 										<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
-									<div class="col-12 col-md-2">
 									</div>
+									<div class="col-12 col-md-2">
 										<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
 											onclick=" addTaxonRelation(#getTaxa.taxon_name_id#,$('##newRelatedId').val(),$('##new_taxon_relationship').val(),$('##new_relation_authority').val(),'taxonRelationsDiv'); ";
 										>

@@ -151,7 +151,7 @@ function addTaxonRelation(taxon_name_id,related_taxon_name_id,taxon_relationship
 		{
 			method : "newTaxonRelation",
 			taxon_name_id : taxon_name_id,
-			related_taxon_name_id : related_taxon_name_id,
+			newRelatedId: related_taxon_name_id,
 			taxon_relationship : taxon_relationship,
 			relation_authority : relation_authority,
 			returnformat : "json",
