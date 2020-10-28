@@ -935,7 +935,7 @@ limitations under the License.
 							</span>
 							<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
 							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-							<div id="transactionFormMedia" class="my-2"><img src='../shared/images/indicator.gif'> Loading Media....</div>
+							<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 							<script>
 								// callback for ajax methods to reload from dialog
 								function reloadTransMedia() { 
@@ -981,7 +981,7 @@ limitations under the License.
 								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 							</cfquery>
 								<div id="shipmentTable"> 
-									<div class="my-2 text-center"><img src='../shared/images/indicator.gif'> Loading Shipments</div>
+									<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
 								</div>
 							<!--- shippmentTable for ajax replace ---> 
 							<script>
@@ -1226,7 +1226,7 @@ limitations under the License.
 			<div class="row">
 				<div class="col-10 mx-5">
 				<div class="alert alert-danger" role="alert">
-					<img src="../shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 					<h1 class="h2">DELETE FAILED</h1>
 					<p>You cannot delete an active loan. This loan probably has specimens or
 						other transactions attached. Use your back button.</p>
