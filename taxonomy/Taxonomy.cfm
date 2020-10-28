@@ -904,7 +904,7 @@ limitations under the License.
 								<div id="taxonRelationsDiv">Loading....</div>
 								<script>
 									$(document).ready(
-										loadTaxonRelationships(#getTaxa.taxon_name_id#,'taxonRelationsDiv')
+										loadTaxonRelationships(#getTaxa.taxon_name_id#,'taxonRelationsDiv');
 									);
 								</script>
 								<div class="form-row">
