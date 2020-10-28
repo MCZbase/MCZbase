@@ -820,6 +820,9 @@ limitations under the License.
 							<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 								<div class="col-12 px-0">
 									<h4 class="mt-0 mb-1">Related Publications</h4>
+									<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
+								</div>
+								<div class="col-12 px-0">
 									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
 									<span>
 										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
@@ -833,7 +836,6 @@ limitations under the License.
 										</form>
 									</span>
 								</div>
-								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
 							</div>
 							<script>
 							$( document ).ready(

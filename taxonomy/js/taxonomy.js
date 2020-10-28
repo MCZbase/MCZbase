@@ -145,3 +145,71 @@ function loadTaxonRelations(taxon_name_id,target) {
       dataType: "html"
    });
 };
+
+/* function openEditTaxonRelationDialog create a dialog to edit a taxon relationship
+ * 
+ * @param taxon_name_id the id of the parent taxon
+ * @param related_taxon_name_id the id of the related taxon
+*  @param relationship the relationship type
+ * @param dialogId the id, without a leading # selector, of the div that is to contain the dialog.
+ * @param projectsDivId the id, without a leading # selector, of the div containing a list of relations
+ *   that is to be reloaded with loadRelations at dialog close.
+ * @see loadProjects
+ */
+function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relationship, dialogId, relationsDivId) { 
+	var title = "Edit Taxon Relationship.";
+	var content = '<div id="'+dialogId+'_div">Loading....</div>';
+	var thedialog = $("#"+dialogId).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		minWidth: 320,
+		minHeight: 200,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() {
+				$("#"+dialogId).dialog('close');
+				loadProjects(projectsDivId,transaction_id); 
+			}
+		},
+		open: function (event, ui) {
+			// force the dialog to lay above any other elements in the page.
+			var maxZindex = getMaxZIndex();
+			$('.ui-dialog').css({'z-index': maxZindex + 6 });
+			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+		},
+		close: function(event,ui) {
+			$("#"+dialogId+"_div").html("");
+			$("#"+dialogId).dialog('destroy');
+		}
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/taxonomy/component/functions.cfc",
+		type: "get",
+		data: {
+			method: 'getTaxonRelationEditor',
+			returnformat: "plain",
+			taxon_name_id: taxon_name_id,
+			related_taxon_name_id: related_taxon_name_id,
+			taxon_relationship: relationship,
+			target: relationsDivId
+		},
+		success: function(data) {
+			$("#"+dialogId+"_div").html(data);
+		},
+		error: function (jqXHR, status, error) {
+			var message = "";
+			if (error == 'timeout') { 
+				message = ' Server took too long to respond.';
+			} else { 
+				message = jqXHR.responseText;
+			}
+			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		}
+	});
+}
+
