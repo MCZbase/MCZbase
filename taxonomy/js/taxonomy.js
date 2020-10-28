@@ -134,7 +134,8 @@ function loadTaxonRelations(taxon_name_id,target) {
       url: "/taxonomy/component/functions.cfc",
       data : {
          method : "getTaxonRelationsHtml",
-         taxon_name_id: taxon_name_id
+         taxon_name_id: taxon_name_id,
+         target: target 
       },
       success: function (result) {
          $("#" + target).html(result);
