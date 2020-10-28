@@ -293,64 +293,143 @@ limitations under the License.
 </cffunction>
 
 
+<!---
+Given a taxon_name_id retrieve, as html, an editable list of the relationships for that taxon to other taxa.
+@param taxon_name_id the PK of the taxon name for which to look up relationshis.
+@param target the id of the element in the DOM, without a leading # selector,
+  into which the result is to be placed, used to specify target for reload after successful save.
+@return a block of html listing relationships, if any, with edit/delete controls.
+--->
 <cffunction name="getTaxonRelationsHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="taxon_name_id" type="numeric" required="yes">
-	<cfset result ="">
-	<cftry>
-		<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
-			SELECT
-				scientific_name,
-				author_text,
-				taxon_relationship,
-				relation_authority,
-				related_taxon_name_id
-			FROM
-				taxon_relations,
-				taxonomy
-			WHERE
-				taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
-				AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		</cfquery>
-		<cfif relations.recordcount gt 0>
-			<cfloop query="relations">
-				<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-				<cfset result=result & "<li>">
-				<cfset result=result & "#relations.taxonrelationship# ">
-				<!--- Create a link out of scientific name --->
-				<cfset taxonname = "<em><a href='/taxonomy/Taxonomy.cfm?taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>">
-				<cfset taxonname = taxonname & "<span class='sm-caps'>#relations.author_text#</span>">
-				<cfset result=result & "#taxonname# ">
-				<cfif len(relations.relation_authority) GT 0>
-					<cfset result=result & " fide #relations.relation_authority# ">
-				</cfif>
-				<cfset result=result & "<button class='btn-xs btn-secondary mx-1' onclick='editTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,#relations.taxon_relationship#);' value='Edit' title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>">
-				<cfset result=result & "<button class='btn-xs btn-secondary mx-1' onclick='removeTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,#relations.taxon_relationship#);' value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>">
-				<cfset result=result & "</li>">
-				</cfloop>
-		</cfif>
-	<cfcatch>
-		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-		<cfheader statusCode="500" statusText="#message#">
-		<cfoutput>
-			<div class="container">
-				<div class="row">
-					<div class="alert alert-danger" role="alert">
-						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
-						<p>#message#</p>
-						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+	<cfargument name="target" type="string" required="yes">
+	<cfthread name="getRelationsHtmlThread">
+		<cftry>
+			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+				SELECT
+					scientific_name,
+					author_text,
+					taxon_relationship,
+					relation_authority,
+					related_taxon_name_id
+				FROM
+					taxon_relations,
+					taxonomy
+				WHERE
+					taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
+					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfif relations.recordcount gt 0>
+				<cfloop query="relations">
+					<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
+					<li>#relations.taxonrelationship#
+					<!--- Create a link out of scientific name --->
+					<em><a href='/taxonomy/Taxonomy.cfm?taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
+					<span class='sm-caps'>#relations.author_text#</span>
+					<cfif len(relations.relation_authority) GT 0>
+						 fide #relations.relation_authority# 
+					</cfif>
+					<button class='btn-xs btn-secondary mx-1' onclick='editTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,'#relations.taxon_relationship#','#target#');' value='Edit' title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
+					<button class='btn-xs btn-warning mx-1' onclick='removeTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,'#relations.taxon_relationship#','#target#');' value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
+					<cfset result=result & "</li>">
+					</cfloop>
+			<cfelse>
+				<p>No Taxon Relationships</p>
+			</cfif>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
 					</div>
 				</div>
-			</div>
-		</cfoutput>
-		<cfabort>
-	</cfcatch>
-	</cftry>
-	<cfreturn result>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRelationsHtmlThread" />
+	<cfreturn getRelationsHtmlThread.output>
 </cffunction>
 
 
+<!--- TODO: dialog for editing a taxon relationship --->
+<cffunction name="getTaxonRelationEditor" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="related_taxon_name_id" type="numeric" required="yes">
+	<cfargument name="taxon_relationship" type="string" required="yes">
+	<cfargument name="target" type="string" required="yes">
+	<cfthread name="getRelationEditorHtmlThread">
+		<cftry>
+			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
+				SELECT
+					scientific_name,
+					author_text,
+					taxon_relationship,
+					relation_authority,
+					related_taxon_name_id
+				FROM
+					taxon_relations,
+					taxonomy
+				WHERE
+					taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
+					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					AND taxon_relations.taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfoutput>
+				<form name="relation#i#" method="post" action="/taxonomy/Taxonomy.cfm">
+					<div class="row">
+								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+								<input type="hidden" name="Action">
+								<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
+								<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
+								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
+									<cfloop query="ctRelation">
+										<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
+									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
+									</cfloop>
+								</select>
+								<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
+								onKeyPress="return noenter(event);">
+								<input type="hidden" name="newRelatedId">
+								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
+								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
+								<input type="button" value="Delete" class="btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
+					</div>
+				</form>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getRelationEditorHtmlThread" />
+	<cfreturn getRelationEditorHtmlThread.output>
+</cffunction>
 
 <!---
 Given a taxon_name_id retrieve, as html, an editable list of the common names for that taxon.
@@ -572,113 +651,5 @@ Given old and new common name and a taxon_name_id, update a row in the common na
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-
-<!--- TODO:
-<cffunction name="getTaxonRelationEditor" returntype="string" access="remote" returnformat="plain">
-							<form name="relation#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-								<input type="hidden" name="Action">
-								<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
-								<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
-								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
-									<cfloop query="ctRelation">
-										<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
-									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
-									</cfloop>
-								</select>
-								<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
-								onKeyPress="return noenter(event);">
-								<input type="hidden" name="newRelatedId">
-								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
-								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-								<input type="button" value="Delete" class="btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
-							</form>
-</cffunction>
---->
-<!---
-Given a taxon_name_id retrieve, as html, an editable list of the relationships for that taxon to other taxa.
-@param taxon_name_id the PK of the taxon name for which to look up relationshis.
-@param target the id of the element in the DOM, without a leading # selector,
-  into which the result is to be placed, used to specify target for reload after successful save.
-@return a block of html listing relationships, if any, with edit/delete controls.
---->
-<cffunction name="getTaxonRelationsHtml" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="taxon_name_id" type="numeric" required="yes">
-	<cfargument name="target" type="string" required="yes">
-	<cfthread name="getRelationsHtmlThread">
-		<cftry>
-			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
-			select
-				TAXON_NAME_ID,
-				RELATED_TAXON_NAME_ID,
-				TAXON_RELATIONSHIP,
-				RELATION_AUTHORITY,
-				taxonomy.scientific_name as related_name,
-				taxonomy.author_text as related_author
-			from  taxon_relations 
-				left join taxonomy on related_taxon_name_id = taxonomy.taxon_name_id
-			where
-				where taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-			</cfquery>
-			<cfoutput>
-				<cfset i=1>
-				<cfif relations.recordcount gt 0>
-					<cfloop query="relations">
-						<form name="relations#i#" action="" onClick=" function(e){e.preventDefault();};">
-							<!--- TODO: convert from common names to relationships --->
-							<div class="form-row mx-0 my-1">
-								<label id="label_relations_name_#i#" value="#relations_name#" class="w-50 float-left" onclick=" toggleCommon#i#(); ">#relations_name#</label>
-								<input id="relations_name_#i#" type="text" name="relations_name" value="#relations_name#" 
-									class="data-entry-input w-50 float-left" style="display: none;">
-								<input type="button" value="Save" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" saveCommon('#relations_name#',$('##relations_name_#i#').val(),#taxon_name_id#,'#target#');" 
-									id="relationsSaveButton_#i#"
-									style="display: none;">
-								<input type="button" value="Edit" class="btn btn-xs btn-primary ml-1 float-left" 
-									onClick=" toggleCommon#i#();" 
-									id="relationsEditButton_#i#"
-									>
-								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 float-left" 
-									onClick=" confirmWarningDialog('Delete <b>relations#i#</b> relations name entry','Delete?', function() { deleteCommonName(#taxon_name_id#,'#relations.relations_name#','#target#'); } ); " 
-									id="relationsDeleteButton_#i#">
-								<script>
-									function toggleCommon#i#() {
-										$('##label_relations_name_#i#').toggle();
-										$('##relations_name_#i#').toggle();
-										$('##relationsSaveButton_#i#').toggle();
-										$('##relationsEditButton_#i#').toggle();
-									};
-								</script>
-							</div>
-						</form>
-						<cfset i=i+1>
-					</cfloop>
-				<cfelse>
-					<p>No Taxon Relationships</p>
-				</cfif>
-			</cfoutput>
-		<cfcatch>
-			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-			<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
-			<cfheader statusCode="500" statusText="#message#">
-			<cfoutput>
-				<div class="container">
-					<div class="row">
-						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
-							<p>#message#</p>
-							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-			<cfabort>
-		</cfcatch>
-		</cftry>
-	</cfthread>
-	<cfthread action="join" name="getRelationsHtmlThread" />
-	<cfreturn getRelationsHtmlThread.output>
-</cffunction>
 
 </cfcomponent>
