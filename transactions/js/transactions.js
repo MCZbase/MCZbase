@@ -964,7 +964,7 @@ function deletePermitFromShipment(shipmentId,permitId,transactionId) {
  * @param changeHandler callback function to pass to monitorForChanges to be called when input values change.
  */
 function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler){ 
-	$('#' + agentsDiv).html("Loading....");
+	$('#' + agentsDiv).html(" <div class='my-2 text-center'><img src='/shared/images/indicator.gif'> Awaiting load... (if agents don't show up here shortly, there is an error)...</div>");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
 		type : "get",
@@ -998,7 +998,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
  * @param transaction_id the id of the transaction for which to look up projects.
  */
 function loadProjects(projectsDiv,transaction_id) { 
-	$('#' + projectsDiv).html("Loading....");
+	$('#' + projectsDiv).html("<div class='my-2 ml-3 text-left'><img src='/shared/images/indicator.gif'> Loading Projects</div>");
 	jQuery.ajax({
 		url : "/transactions/component/functions.cfc",
 		type : "get",
