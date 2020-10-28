@@ -158,7 +158,7 @@ function addTaxonRelation(taxon_name_id,related_taxon_name_id,taxon_relationship
 			queryformat : 'column'
 		},
 		function (result) {
-			loadCommonNames(taxon_name_id,target);
+			loadTaxonRelations(taxon_name_id,target);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");

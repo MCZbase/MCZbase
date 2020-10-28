@@ -321,25 +321,27 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 			</cfquery>
 			<cfset i=0>
 			<cfif relations.recordcount gt 0>
-				<cfloop query="relations">
-					<cfset i=i+1>
-					<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
-					<li>#relations.taxonrelationship#
-					<!--- Create a link out of scientific name --->
-					<em><a href='/taxonomy/Taxonomy.cfm?taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
-					<span class='sm-caps'>#relations.author_text#</span>
-					<cfif len(relations.relation_authority) GT 0>
-						 fide #relations.relation_authority# 
-					</cfif>
-					<button class='btn-xs btn-secondary mx-1' 
-						onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationshipDialog#i#","#target#");' value='Edit' 
-						title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
-					<button class='btn-xs btn-warning mx-1' 
-						onclick='removeTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,'#relations.taxon_relationship#','#target#');' 
-						value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
-					<cfset result=result & "</li>">
-					<div id="editTaxonRelationDialog#i#"></div>
+				<ul>
+					<cfloop query="relations">
+						<cfset i=i+1>
+						<!--- PRIMARY KEY ("TAXON_NAME_ID", "RELATED_TAXON_NAME_ID", "TAXON_RELATIONSHIP") --->
+						<li>#relations.taxonrelationship#
+						<!--- Create a link out of scientific name --->
+							<em><a href='/taxonomy/Taxonomy.cfm?taxon_name_id=#relations.related_taxon_name_id#' target='_blank'>#relations.scientific_name#</a></em>
+							<span class='sm-caps'>#relations.author_text#</span>
+							<cfif len(relations.relation_authority) GT 0>
+								 fide #relations.relation_authority# 
+							</cfif>
+							<button class='btn-xs btn-secondary mx-1' 
+								onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationshipDialog#i#","#target#");' value='Edit' 
+								title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
+							<button class='btn-xs btn-warning mx-1' 
+								onclick='removeTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,'#relations.taxon_relationship#','#target#');' 
+								value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
+							</li>
+						<div id="editTaxonRelationDialog#i#"></div>
 					</cfloop>
+				</ul>
 			<cfelse>
 				<p>No Taxon Relationships</p>
 			</cfif>
