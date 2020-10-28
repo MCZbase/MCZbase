@@ -128,3 +128,20 @@ function saveCommon(original_common_name, common_name, taxon_name_id,target) {
 		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");
 	});
 };
+
+function loadTaxonRelations(taxon_name_id,target) {
+   jQuery.ajax({
+      url: "/taxonomy/component/functions.cfc",
+      data : {
+         method : "getTaxonRelationsHtml",
+         taxon_name_id: taxon_name_id
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, textStatus,error) {
+			handleFail(jqXHR,textStatus,error,"loading taxon relationships taxon");
+      },
+      dataType: "html"
+   });
+};

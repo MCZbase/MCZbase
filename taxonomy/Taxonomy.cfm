@@ -897,28 +897,37 @@ limitations under the License.
 						</section>
 
 						<section class="col-12 px-0">
-							<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
-								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-								<input type="hidden" name="Action" value="newTaxonRelation">
-								<div class="p-3 border bg-light rounded mt-2">
-									<h4 class="mt-0 mb-1">Related Taxa:</h4>
-									<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-									<select name="taxon_relationship" class="reqdClr data-entry-select">
-										<cfloop query="ctRelation">
-											<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
-										</cfloop>
-									</select>
-									<label for="relatedName" class="data-entry-label">Related Taxa</label>
-									<input type="text" name="relatedName" class="reqdClr data-entry-input"
-							onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
-							onKeyPress="return noenter(event);">
-									<input type="hidden" name="newRelatedId">
-									<label for="relation_authority" class="data-entry-label">Authority</label>
-									<input type="text" name="relation_authority" class="data-entry-input">
-									<input type="submit" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1">
+							<div class="p-3 border bg-light rounded mt-2">
+								<h4 class="mt-0 mb-1">Related Taxa:</h4>
+								<div id="taxonRelationsDiv">Loading....</div>
+								<script>
+									$(document).ready(
+										loadTaxonRelationships(#getTaxa.taxon_name_id#,'taxonRelationsDiv')
+									);
+								</script>
+								<div class="form-row">
+									<div class="col-12 col-md-4">
+										<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
+										<select name="taxon_relationship" class="reqdClr data-entry-select">
+											<cfloop query="ctRelation">
+												<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="relatedName" class="data-entry-label">Related Taxon</label>
+										<input type="text" name="relatedName" class="reqdClr data-entry-input"
+											onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
+											onKeyPress="return noenter(event);">
+										<input type="hidden" name="newRelatedId">
+									</div>
+									<div class="col-12 col-md-4">
+										<label for="relation_authority" class="data-entry-label">Authority</label>
+										<input type="text" name="relation_authority" class="data-entry-input">
+										<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1">
+									</div>
 								</div>
-							</form>
-							<div id="taxonrelations"></div>
+							</div>
 						</section>
 
 						<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
@@ -931,7 +940,7 @@ limitations under the License.
 								</script>
 								<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
-								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+								<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
 									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
 									>
 							</div>
