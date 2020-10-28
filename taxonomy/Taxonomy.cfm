@@ -903,9 +903,7 @@ limitations under the License.
 								<h4 class="mt-0 mb-1">Related Taxa:</h4>
 								<div id="taxonRelationsDiv">Loading....</div>
 								<script>
-									$(document).ready(
-										loadTaxonRelationships(#getTaxa.taxon_name_id#,'taxonRelationsDiv');
-									);
+									$(document).ready( loadTaxonRelations(#getTaxa.taxon_name_id#,'taxonRelationsDiv') );
 								</script>
 								<div class="form-row">
 									<div class="col-12 col-md-4">
@@ -936,9 +934,7 @@ limitations under the License.
 							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 								<div id="commonNamesDiv">Loading....</div>
 								<script>
-									$(document).ready(
-										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
-									);
+									$(document).ready( loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv'));
 								</script>
 								<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
 								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
