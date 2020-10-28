@@ -438,6 +438,63 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfreturn getRelationEditorHtmlThread.output>
 </cffunction>
 
+<!--- function newTaxonRelation 
+ Given a a taxon_name_id, related taxon name id, relationship, and optional authority add a row from the (weak entity) taxon_relations table.
+ @param taxon_name_id the PK of the taxonomy record to which the relationship is to be made
+ @param newRelatedId the PK of the taxonomy record which is to be related to the taxon_name_id record
+ @param taxon_relationship the type of relationship between the two taxa.
+ @param relation_authority the authority to which the relationship can be attributed.
+--->
+<cffunction name="newTaxonRelation" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="newRelatedId" type="numeric" required="yes">
+	<cfargument name="taxon_relationship" type="string" required="yes">
+	<cfargument name="relation_authority" type="string" required="no">
+	<cftry>
+		<cftransaction>
+			<cfquery name="newRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newRelation_result">
+				INSERT INTO taxon_relations (
+					TAXON_NAME_ID,
+					RELATED_TAXON_NAME_ID,
+					TAXON_RELATIONSHIP,
+					RELATION_AUTHORITY
+				) VALUES (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXON_RELATIONSHIP#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
+				)
+			</cfquery>
+			<cfif newRelation_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#newRelation_result.recordcount#) inserted.  Insert canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "added">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 <!---
 Given a taxon_name_id retrieve, as html, an editable list of the common names for that taxon.
 @param taxon_name_id the PK of the taxon name for which to look up common names.

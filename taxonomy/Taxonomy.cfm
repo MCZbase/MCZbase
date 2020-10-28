@@ -906,9 +906,9 @@ limitations under the License.
 									$(document).ready( loadTaxonRelations(#getTaxa.taxon_name_id#,'taxonRelationsDiv') );
 								</script>
 								<div class="form-row">
-									<div class="col-12 col-md-4">
+									<div class="col-12 col-md-2">
 										<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-										<select name="taxon_relationship" class="reqdClr data-entry-select">
+										<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship">
 											<cfloop query="ctRelation">
 												<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 											</cfloop>
@@ -916,15 +916,22 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="relatedName" class="data-entry-label">Related Taxon</label>
-										<input type="text" name="relatedName" class="reqdClr data-entry-input"
-											onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
-											onKeyPress="return noenter(event);">
-										<input type="hidden" name="newRelatedId">
+										<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName">
+										<input type="hidden" name="newRelatedId" id="newRelatedId">
+										<script>
+											$(document).ready( 
+												makeScientificNameAutocompleteMeta('newRelatedName', 'newRelatedId');
+											);
+										</script>
 									</div>
 									<div class="col-12 col-md-4">
 										<label for="relation_authority" class="data-entry-label">Authority</label>
-										<input type="text" name="relation_authority" class="data-entry-input">
-										<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1">
+										<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
+									<div class="col-12 col-md-2">
+									</div>
+										<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
+											onclick=" addTaxonRelation(#getTaxa.taxon_name_id#,$('##newRelatedId').val(),$('##new_taxon_relationship').val(),$('##new_relation_authority').val(),'taxonRelationsDiv'); ";
+										>
 									</div>
 								</div>
 							</div>
@@ -1754,25 +1761,6 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxonRelation">
-	<cfoutput>
-		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxon_relations (
-			TAXON_NAME_ID,
-			RELATED_TAXON_NAME_ID,
-			TAXON_RELATIONSHIP,
-			RELATION_AUTHORITY
-		) VALUES (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXON_RELATIONSHIP#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
-		)
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->

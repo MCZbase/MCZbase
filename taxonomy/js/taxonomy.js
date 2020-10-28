@@ -146,6 +146,24 @@ function loadTaxonRelations(taxon_name_id,target) {
       dataType: "html"
    });
 };
+function addTaxonRelation(taxon_name_id,related_taxon_name_id,taxon_relationship,relation_authority,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "newTaxonRelation",
+			taxon_name_id : taxon_name_id,
+			related_taxon_name_id : related_taxon_name_id,
+			taxon_relationship : taxon_relationship,
+			relation_authority : relation_authority,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadCommonNames(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"saving changes to common name of taxon");
+	});
+};
 
 /* function openEditTaxonRelationDialog create a dialog to edit a taxon relationship
  * 
@@ -173,7 +191,7 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
 		buttons: {
 			"Close Dialog": function() {
 				$("#"+dialogId).dialog('close');
-				loadProjects(projectsDivId,transaction_id); 
+				loadTaxonRelations(taxon_name_id,relationsDivId);
 			}
 		},
 		open: function (event, ui) {
@@ -202,14 +220,8 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
 		success: function(data) {
 			$("#"+dialogId+"_div").html(data);
 		},
-		error: function (jqXHR, status, error) {
-			var message = "";
-			if (error == 'timeout') { 
-				message = ' Server took too long to respond.';
-			} else { 
-				message = jqXHR.responseText;
-			}
-			$("#"+dialogId+"_div").html("Error (" + error + "): " + message );
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"openting edit taxon relationship dialog");
 		}
 	});
 }
