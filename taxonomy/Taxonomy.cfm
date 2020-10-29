@@ -950,6 +950,8 @@ limitations under the License.
 														'taxonRelationsDiv'
 													);
 												}
+											} else { 
+												messageDialog('Error: Unable to create relationship, required field missing a value.' ,'Error: Required fields not filled in.');
 											}
 										}
 									</script>
