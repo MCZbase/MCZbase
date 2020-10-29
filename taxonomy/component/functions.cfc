@@ -386,7 +386,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					p.author_text sourceauthor,
 					taxon_relationship,
 					relation_authority,
-					related_taxon_name_id
+					related_taxon_name_id,
 					c.scientific_name targetname,
 					c.author_text targetauthor
 				FROM
