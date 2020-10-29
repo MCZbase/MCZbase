@@ -694,16 +694,16 @@ limitations under the License.
 			            var message = "";      
 							if (error == 'timeout') { 
 			               message = ' Server took too long to respond.';
-							} else if (status =='success'){
-								message = 'search returned results tab to grid';
-			            	} else { 
+							} else { 
 			               		message = jqXHR.responseText;
 			            	}
 			            messageDialog('Error:' + message ,'Error: ' + error);
 						},
 						async: true
 					};
-			
+					$(document).ajaxSuccess(function() {
+							$( "##searchResultsGrid" ).text( "Triggered ajaxSuccess handler." );
+					});
 					var dataAdapter = new $.jqx.dataAdapter(search);
 					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
