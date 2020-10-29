@@ -295,10 +295,6 @@ limitations under the License.
 						error : handleError
 					})
 				},
-					$(document).ajaxSuccess(function() {
-							$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
-					});
-
 				select: function (event,ui) { 
 					$("##author_text").val("="+ui.item.value);
 					return false; // prevents default action
@@ -703,6 +699,10 @@ limitations under the License.
 								},
 								async: true
 							};
+							$(document).ajaxSuccess(function() {
+							$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
+							});
+
 							var dataAdapter = new $.jqx.dataAdapter(search);
 							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
