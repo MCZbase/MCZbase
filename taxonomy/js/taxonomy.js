@@ -178,10 +178,10 @@ function addTaxonRelation(taxon_name_id,related_taxon_name_id,taxon_relationship
  * @param target the id of the target div containing the list of taxon relationships
  *   to reload, without a leading # selector.
  */
-function deleteTaxonRelation(taxon_name_id,,related_taxon_name_id,taxon_relationship,target) {
+function deleteTaxonRelation(taxon_name_id,related_taxon_name_id,taxon_relationship,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
-			method : "deletTaxonRelation",
+			method : "deleteTaxonRelation",
 			taxon_relationship : taxon_relationship ,
 			taxon_name_id : taxon_name_id,
 			related_taxon_name_id : related_taxon_name_id,
