@@ -905,18 +905,19 @@ limitations under the License.
 								<script>
 									$(document).ready( loadTaxonRelations(#getTaxa.taxon_name_id#,'taxonRelationsDiv') );
 								</script>
+								<form id="taxonRelationsForm">
 								<div class="form-row">
 									<div class="col-12 col-md-2">
-										<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-										<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship">
+										<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
+										<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 											<cfloop query="ctRelation">
 												<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 											</cfloop>
 										</select>
 									</div>
 									<div class="col-12 col-md-4">
-										<label for="relatedName" class="data-entry-label">Related Taxon</label>
-										<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName">
+										<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
+										<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
 										<input type="hidden" name="newRelatedId" id="newRelatedId">
 										<script>
 											$(document).ready( 
@@ -925,15 +926,49 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-12 col-md-4">
-										<label for="relation_authority" class="data-entry-label">Authority</label>
+										<label for="new_relation_authority" class="data-entry-label">Authority</label>
 										<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
 									</div>
+									<script>
+										function clearTaxonRelationFields() {
+											$('##newRelatedName').val("");
+											$('##newRelatedId').val("");
+											if ($('##new_taxon_relationship').val() != 'accepted synonym of') {
+												$('##newRelatedId').val("");
+											}
+										}
+										function addTaxonRelationHandler() { 
+											if ($('##taxonRelationsForm').checkValidity()) { 
+												if ($'##newRelatedId').val() == "") { 
+													messageDialog('Error: Unable to create relationship, you must pick a related taxon from the picklist.' ,'Error: No related taxon selected');
+												} else { 
+													$("##addTaxonRelationFeedback").show();
+													addTaxonRelation(#getTaxa.taxon_name_id#,
+														$('##newRelatedId').val(),
+														$('##new_taxon_relationship').val(),
+														$('##new_relation_authority').val(),
+														'taxonRelationsDiv'
+													);
+												}
+											}
+										}
+									</script>
 									<div class="col-12 col-md-2">
+										<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
+											<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
+										</label>
 										<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
-											onclick=" addTaxonRelation(#getTaxa.taxon_name_id#,$('##newRelatedId').val(),$('##new_taxon_relationship').val(),$('##new_relation_authority').val(),'taxonRelationsDiv'); ";
+											onclick=" addTaxonRelationHandler(); "
+											id="addTaxonRelationButton"
 										>
 									</div>
 								</div>
+								</form>
+								<script>
+									$(document).ready( 
+										$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } );
+									);
+								</script>
 							</div>
 						</section>
 
