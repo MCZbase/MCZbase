@@ -702,7 +702,7 @@ limitations under the License.
 						async: true
 					};
 					$(document).ajaxSuccess(function() {
-							$( "##resultCount.messageResults" ).text( "Search successful" );
+							$( ".messageResults" ).text( "Search successful" );
 					});
 					var dataAdapter = new $.jqx.dataAdapter(search);
 					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
