@@ -543,7 +543,7 @@ limitations under the License.
 		<!--- Results table as a jqxGrid. --->
 		<div class="container-fluid">
 			<main class="row">
-				<div class="col-12 mb-5">
+				<div class="col-12 mb-5" tabindex="2">
 					<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 						<h2 class="h4">Results: </h2>
 			<div class="messageResults" tabindex="0" aria-label="search results"></div>
