@@ -694,9 +694,11 @@ limitations under the License.
 			            var message = "";      
 							if (error == 'timeout') { 
 			               message = ' Server took too long to respond.';
-			            } else { 
-			               message = jqXHR.responseText;
-			            }
+							} else if (status =='success'){
+								message = 'search returned results tab to grid';
+			            	} else { 
+			               		message = jqXHR.responseText;
+			            	}
 			            messageDialog('Error:' + message ,'Error: ' + error);
 						},
 						async: true
