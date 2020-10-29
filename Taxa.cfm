@@ -702,7 +702,7 @@ limitations under the License.
 						async: true
 					};
 					$(document).ajaxSuccess(function() {
-							$( "##searchResultsGrid" ).text( "Triggered ajaxSuccess handler." );
+							$( "##resultCount" ).text( "Triggered ajaxSuccess handler." );
 					});
 					var dataAdapter = new $.jqx.dataAdapter(search);
 					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
