@@ -637,7 +637,7 @@ limitations under the License.
 					$("##overlay").show();
 			
 					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-					$('##resultCount').html('<div tabindex="0" style="z-index:1;"></div>');
+					$('##resultCount').html('');
 					$('##resultLink').html('');
 			
 					var search =
@@ -734,9 +734,12 @@ limitations under the License.
 						autoshowloadelement: false,  // overlay acts as load element for form+results
 						columnsreorder: true,
 						groupable: true,
-						selectionmode: 'none',
+						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
+						ready: function () {
+							$("##searchResultsGrid").jqxGrid('selectrow', 0);
+						},
 						columns: [
 							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
