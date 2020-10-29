@@ -388,13 +388,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					relation_authority,
 					related_taxon_name_id
 					c.scientific_name targetname,
-					c.author_text targetauthor,
+					c.author_text targetauthor
 				FROM
 					taxon_relations 
 					left join taxonomy p on taxon_relations.taxon_name_id = p.taxon_name_id
 					left join taxonomy c on taxon_relations.related_taxon_name_id = c.taxon_name_id
 				WHERE
-					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 					AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
 					AND taxon_relations.taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#">
 			</cfquery>
