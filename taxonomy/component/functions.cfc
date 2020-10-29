@@ -416,7 +416,6 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 								<input type="hidden" name="newRelatedId">
 								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
 								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-								<input type="button" value="Delete" class="btn-xs btn-warning" onclick="relation#i#.Action.value='deleReln';confirmDelete('relation#i#');">
 					</div>
 				</form>
 			</cfoutput>
@@ -500,6 +499,58 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<!---
+Given a taxon relationship and a taxon_name_id, delete the matching row from the (weak entity) taxon_relations table.
+@param taxon_relationship a text string representing a taxon relationship of a taxon, together with taxon_name_id and 
+ related taxon name id forms PK of taxon_relations table.
+@param taxon_name_id the PK of the taxon for which to remove the matching taxon relationship.
+@param related_taxon_name_id the PK of the related taxon for which to remove the matching taxon relationship.
+--->
+<cffunction name="deleteTaxonRelation" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_relationship" type="string" required="yes">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="related_taxon_name_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteTaxonRelation_result">
+				DELETE FROM
+					taxon_relations
+				WHERE
+					taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					AND taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#">
+					AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
+			</cfquery>
+			<cfif deleteTaxonRelation_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#deleteTaxonRelation_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "deleted">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 
 <!---
 Given a taxon_name_id retrieve, as html, an editable list of the common names for that taxon.
@@ -642,7 +693,7 @@ Given a common name and a taxon_name_id, delete the matching row from the (weak 
 			</cfquery>
 			<cfif deleteCommon_result.recordcount NEQ 1>
 				<cftransaction action="rollback"/>
-				<cfthrow message="Other than one row (#saveCommon_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+				<cfthrow message="Other than one row (#deleteCommon_result.recordcount#) would be deleted.  Delete canceled and rolled back">
 			</cfif>
 		</cftransaction>
 		<cfset row = StructNew()>

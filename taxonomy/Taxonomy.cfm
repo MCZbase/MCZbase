@@ -1801,21 +1801,6 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif Action is "deleReln">
-	<cfoutput>
-		<cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	DELETE FROM
-		taxon_relations
-	WHERE
-		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origtaxon_relationship#">
-		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-		</cfquery>
-
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
 <cfif #Action# is "saveRelnEdit">
 	<cfoutput>
 		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
