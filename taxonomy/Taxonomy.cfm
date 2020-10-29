@@ -939,7 +939,7 @@ limitations under the License.
 										}
 										function addTaxonRelationHandler() { 
 											if ($('##taxonRelationsForm').checkValidity()) { 
-												if ($'##newRelatedId').val() == "") { 
+												if ($('##newRelatedId').val() == "") { 
 													messageDialog('Error: Unable to create relationship, you must pick a related taxon from the picklist.' ,'Error: No related taxon selected');
 												} else { 
 													$("##addTaxonRelationFeedback").show();
@@ -966,7 +966,7 @@ limitations under the License.
 								</form>
 								<script>
 									$(document).ready( 
-										$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } );
+										$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } )
 									);
 								</script>
 							</div>
