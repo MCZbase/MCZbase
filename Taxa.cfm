@@ -530,7 +530,7 @@ limitations under the License.
 										<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-labelledby="infraspecific_author equals" aria-label="infraspecific author for botanical names only">
 									</div>
 								</div>
-								<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			<a class="messageResults" tabindex="0" aria-label="search results"></a></button>
+								<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
 								<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
 								<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 							</div>
@@ -702,9 +702,7 @@ limitations under the License.
 						},
 						async: true
 					};
-					$(document).ajaxSuccess(function() {
-							$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
-					});
+			
 					var dataAdapter = new $.jqx.dataAdapter(search);
 					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
