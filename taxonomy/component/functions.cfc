@@ -266,7 +266,7 @@ limitations under the License.
 				<cfset publication = "<a href='SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
 				<cfif NOT findNoCase('</a>',publication)><cfset publication = publication & "</a"></cfif>
 				<cfset result=result & "#publication#">
-				<cfset result=result & "<button class='btn-xs btn-warning mx-1' onclick='removeTaxonPub(#taxonomy_publication_id#);' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
+				<cfset result=result & "<button class='btn-xs btn-warning mx-1' onclick=' confirmDialog("" Remove Relatioship?"",""Remove?"", function() { removeTaxonPub(#taxonomy_publication_id#); } );' value='Remove' title='Remove' aria-label='Remove this Publication from Taxonomy'>Remove</button>">
 				<cfset result=result & "</div>">
 				</cfloop>
 		</cfif>
@@ -337,7 +337,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationshipDialog#i#","#target#");' value='Edit' 
 									title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
 								<button class='btn-xs btn-warning mx-1' 
-									onclick=' deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#");' 
+									onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 									value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
 								</li>
 							<div id="editTaxonRelationDialog#i#"></div>
