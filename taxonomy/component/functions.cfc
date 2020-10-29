@@ -382,42 +382,67 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 		<cftry>
 			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
 				SELECT
-					scientific_name,
-					author_text,
+					p.scientific_name sourcename,
+					p.author_text sourceauthor,
 					taxon_relationship,
 					relation_authority,
 					related_taxon_name_id
+					c.scientific_name targetname,
+					c.author_text targetauthor,
 				FROM
-					taxon_relations,
-					taxonomy
+					taxon_relations 
+					left join taxonomy p on taxon_relations.taxon_name_id = p.taxon_name_id
+					left join taxonomy c on taxon_relations.related_taxon_name_id = c.taxon_name_id
 				WHERE
-					taxon_relations.related_taxon_name_id = taxonomy.taxon_name_id
 					AND taxon_relations.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-					AND taxon_relations.taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+					AND taxon_relations.related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
+					AND taxon_relations.taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_relationship#">
 			</cfquery>
 			<cfset i=0>
-			<cfoutput query="relations">
-				<cfset i=i+1>
-				<form name="relation#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-					<div class="row">
-								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-								<input type="hidden" name="Action">
-								<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
-								<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
-								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select">
+			<cfoutput>
+				<cfloop query="relations">
+					<cfset i=i+1>
+					<form name="relationEditForm_#i#">
+						<div class="form-row">
+							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
+							<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
+							<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
+							<div class="col-12">
+								<h2 class="h3">#sourcename# <span class="sm-caps">#sourceauthor#</span> is a/an</h2>
+							</div>
+							<div class="col-12">
+								<label for="taxon_relationship_EF#i#" class="data-entry-label">Relationship</label>
+								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select" id="taxon_relationship_EF#i#">
 									<cfloop query="ctRelation">
-										<option <cfif ctRelation.taxon_relationship is relations.taxon_relationship>
-									selected="selected" </cfif>value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
+										<cfset selected = "">
+										<cfif ctRelation.taxon_relationship is relations.taxon_relationship>
+											<cfset selected="selected='selected'">
+										</cfif>
+										<option #selected# value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship# </option>
 									</cfloop>
 								</select>
-								<input type="text" name="relatedName" class="reqdClr data-entry-input" value="#relations.scientific_name#" onChange="taxaPick('newRelatedId','relatedName','relation#i#',this.value); return false;"
-								onKeyPress="return noenter(event);">
-								<input type="hidden" name="newRelatedId">
+							</div>
+							<div class="col-12">
+								<label for="relatedName_EF#i#" class="data-entry-label">Related Taxon</label>
+								<input type="text" name="relatedName" class="reqdClr data-entry-input" 
+									value="#relations.scientific_name#" id="relatedName_EF#i#" >
+								<input type="hidden" name="newRelatedId" id="newRelatedIdEF#i#">
+							</div>
+							<div class="col-12">
 								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
-								<input type="button" value="Save" class="btn-xs btn-primary" onclick="relation#i#.Action.value='saveRelnEdit';submit();">
-					</div>
-				</form>
+							</div>
+							<div class="col-12">
+								<input type="button" value="Save" class="btn-xs btn-primary" onclick=" alert('TODO: implement')">
+							</div>
+						</div>
+					</form>
+					<script>
+						$(document).ready( 
+							makeScientificNameAutocompleteMeta('relatedName_EF#i#', 'newRelatedIdEF#i#')
+							$('##relationEditForm_#i#').submit( function(event){ event.preventDefault(); } )
+						);
+					</script>
+				</cfloop>
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
