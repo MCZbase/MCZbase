@@ -378,6 +378,9 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 	<cfargument name="related_taxon_name_id" type="numeric" required="yes">
 	<cfargument name="taxon_relationship" type="string" required="yes">
 	<cfargument name="target" type="string" required="yes">
+	<cfquery name="ctRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select taxon_relationship  from cttaxon_relation order by taxon_relationship
+	</cfquery>
 	<cfthread name="getRelationEditorHtmlThread">
 		<cftry>
 			<cfquery name="relations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="relations_result">
