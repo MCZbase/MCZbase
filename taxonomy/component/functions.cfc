@@ -446,18 +446,18 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					</script>
 				</cfloop>
 				<script>
-					function saveRelEFChanges(i) { 
-						if ($('##relationEditForm_#i#')[0].checkValidity()) { 
-							if ($('##new_related_taxon_name_id_#i#').val() == "") { 
+					function saveRelEFChanges(counter) { 
+						if ($('##relationEditForm_'+counter)[0].checkValidity()) { 
+							if ($('##new_related_taxon_name_id_'+counter).val() == "") { 
 								messageDialog('Error: Unable to save relationship, you must pick a related taxon from the picklist, click Close Dialog on relationship edit dialog to exit without saving changes.' ,'Error: No related taxon selected');
 							} else { 
 								saveTaxonRelation(
 									#taxon_name_id#,
-									$('##orig_related_taxon_name_id_#i#').val(),
-									$('##orig_taxon_relationship_#i#').val(),
-									$('##new_related_taxon_name_id_#i#').val(),
-									$('##new_taxon_relationship_#i#').val(),
-									$('##new_relation_authority_#i#').val(),
+									$('##orig_related_taxon_name_id_'+counter).val(),
+									$('##orig_taxon_relationship_'+counter).val(),
+									$('##new_related_taxon_name_id_'+counter).val(),
+									$('##new_taxon_relationship_'+counter).val(),
+									$('##new_relation_authority_'+counter).val(),
 									"#target#");
 							};
 						};
