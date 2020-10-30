@@ -75,7 +75,7 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/images/noThumbKronosaurus.jpg">
+			<cfreturn "/images/noThumbGray.jpg">
 		<cfelseif mt is "audio">
 			<cfreturn "/images/noThumbGray.jpg">
 		<cfelseif mt is "text">
