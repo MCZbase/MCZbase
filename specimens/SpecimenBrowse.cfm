@@ -61,27 +61,29 @@ limitations under the License.
 
 <cfoutput>
 	<main class="container">
-		<div class="col-12 col-md-6">
-			<h1 class="h2">Browse by higher geography</h1>
-			<ul>
-				<cfloop query="countries">
-					<li><a href="/Specimens.cfm?country=#country#&execute=true">#country#</a> (#ct#)</li>
-				</cfloop>
-				<cfloop query="notcountries">
-					<li><a href="/Specimens.cfm?country=NULL&continent_ocean=#continent_ocean#&execute=true">#continent_ocean#</a> (#ct#)</li>
-				</cfloop>
-			</ul>
-		</div>
-		<div class="col-12 col-md-6">
-			<h1 class="h2">Browse by higher taxonomy</h1>
-			<ul>
-				<cfloop query="phyla">
-					<li><a href="/Specimens.cfm?phylum=#phylum#&execute=true">#phylum#</a> (#ct#)</li>
-				</cfloop>
-				<cfloop query="notphyla">
-					<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
-				</cfloop>
-			</ul>
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<h1 class="h2">Browse by higher geography</h1>
+				<ul>
+					<cfloop query="countries">
+						<li><a href="/Specimens.cfm?country=#country#&execute=true">#country#</a> (#ct#)</li>
+					</cfloop>
+					<cfloop query="notcountries">
+						<li><a href="/Specimens.cfm?country=NULL&continent_ocean=#continent_ocean#&execute=true">#continent_ocean#</a> (#ct#)</li>
+					</cfloop>
+				</ul>
+			</div>
+			<div class="col-12 col-md-6">
+				<h1 class="h2">Browse by higher taxonomy</h1>
+				<ul>
+					<cfloop query="phyla">
+						<li><a href="/Specimens.cfm?phylum=#phylum#&execute=true">#phylum#</a> (#ct#)</li>
+					</cfloop>
+					<cfloop query="notphyla">
+						<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
+					</cfloop>
+				</ul>
+			</div>
 		</div>
 	</main>
 </cfoutput>
