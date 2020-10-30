@@ -390,12 +390,12 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p><span class="sr-only" id="equals">begin with equals sign for exact match, exclamation mark for not</span
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p><span class="sr-only" id="equals">begin with equals sign for exact match, exclamation mark for not. </span
 									</div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) <span class="sr-only">add equals for exact match</span></a></label>
-											<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
+											<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name equals">
 										</div>
 										<div class="col-md-4">
 											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
