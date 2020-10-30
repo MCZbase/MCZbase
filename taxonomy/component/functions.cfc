@@ -428,8 +428,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							<div class="col-12">
 								<label for="relatedName_EF#i#" class="data-entry-label">Related Taxon</label>
 								<input type="text" name="relatedName" class="reqdClr data-entry-input" 
-									value="#relations.scientific_name#" id="relatedName_EF#i#" >
-								<input type="hidden" name="newRelatedId" id="newRelatedIdEF#i#">
+									value="#relations.targetname# #relations.targetauthor#" id="relatedName_EF#i#" >
+								<input type="hidden" name="newRelatedId" id="newRelatedIdEF#i#" value="#related_taxon_name_id#">
 							</div>
 							<div class="col-12">
 								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
