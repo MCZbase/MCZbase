@@ -435,12 +435,13 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							</div>
 							<div class="col-12">
 								<input type="button" value="Save" class="btn-xs btn-primary" onclick=" saveRelEFChanges(#i#); ">
+								<output id=”editTaxonRelationFeedback#i#” style="display: none;"></output>
 							</div>
 						</div>
 					</form>
 					<script>
 						$(document).ready( function() { 
-							makeScientificNameAutocompleteMeta('relatedName_EF#i#', 'newRelatedIdEF#i#');
+							makeScientificNameAutocompleteMeta('relatedName_EF#i#', 'new_related_taxon_name_id_#i#');
 							$('##relationEditForm_#i#').submit( function(event){ event.preventDefault(); } );
 						});
 					</script>
@@ -458,7 +459,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									$('##new_related_taxon_name_id_'+counter).val(),
 									$('##new_taxon_relationship_'+counter).val(),
 									$('##new_relation_authority_'+counter).val(),
-									"#target#");
+									"#target#",
+									"editTaxonRelationFeedback"+counter;
 							};
 						};
 					};

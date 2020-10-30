@@ -263,8 +263,11 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
  * @param taxon_relationship the text string representing the taxon relationship type.
  * @param target the id of the target div containing the list of taxon relationships
  *   to reload, without a leading # selector.
+ * @param feedbacktarget the id of an output node, without a leading # selector, in which to show saving/saved feedback.
 **/
-function saveTaxonRelation(taxon_name_id,orig_related_taxon_name_id,orig_taxon_relationship,new_related_taxon_name_id,new_taxon_relationship,new_relation_authority,target) {
+function saveTaxonRelation(taxon_name_id,orig_related_taxon_name_id,orig_taxon_relationship,new_related_taxon_name_id,new_taxon_relationship,new_relation_authority,target,feedbacktarget) {
+   $("#"+feedbacktarget).html("<img src='/shared/images/indicator.gif'> Saving...");
+   $("#"+feedbacktarget).show();
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
 			method : "saveTaxonRelationEdit",
@@ -279,10 +282,11 @@ function saveTaxonRelation(taxon_name_id,orig_related_taxon_name_id,orig_taxon_r
 		},
 		function (result) {
 			loadTaxonRelations(taxon_name_id,target);
+   		$("#"+feedbacktarget).html("Saved.");
 		}
 	).fail(function(jqXHR,textStatus,error){
 		handleFail(jqXHR,textStatus,error,"saving changes to a taxon relationship");
-		$("#addTaxonRelationFeedback").hide();
+   	$("#"+feedbacktarget).html("Error.");
 	});
 };
 
