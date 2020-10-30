@@ -221,7 +221,7 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogId).dialog('close');
+				$(this).dialog("close"); 
 				loadTaxonRelations(taxon_name_id,relationsDivId);
 			}
 		},
