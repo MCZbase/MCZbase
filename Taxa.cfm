@@ -319,10 +319,10 @@ limitations under the License.
 							</div>
 							<div class="row mx-2 py-2">
 								<div class="col-12 col-xl-3">
-
 									<div id=blurb class="smaller-text mt-2" tabindex="0">
 										Search taxonomies used in MCZbase. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>  
 										<div class="readMore"><input type="checkbox" id="readMore_check_id"><label class="read" for="readMore_check_id"></label><span class="ilt">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
+											<span class="sr-only" tabindex="0">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 										</div>
 									</div>
 									<div class="form-row">
@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0"><span id="equals">Add equals sign for exact match when shown.</span> Add ! for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only equals">or when use equals is announced</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
 									</div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
