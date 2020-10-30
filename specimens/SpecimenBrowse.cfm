@@ -46,17 +46,17 @@ limitations under the License.
 	select count(*) ct, kingdom, phylorder 
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
-	where phylum is null
+	where phylum is null and (kingdom is not null or phylorder is not null)
 	group by kingdom, phylorder
 	order by phylorder
 </cfquery>
 <cfquery name="notkingdoms" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) ct, full_taxon_name
+	select count(*) ct, scientific_name
 	from 
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where kingdom is null and phylum is null and phylorder is null
-	group by full_taxon_name
-	order by full_taxon_name
+	group by scientific_name
+	order by scientific_name
 </cfquery> 
 
 <cfoutput>
@@ -81,6 +81,9 @@ limitations under the License.
 					</cfloop>
 					<cfloop query="notphyla">
 						<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
+					</cfloop>
+					<cfloop query="notkingdoms">
+						<li><a href="/Specimens.cfm?phylum=NULL&kingdom=NULL&phylorder=NULL&scientific_name=#scientific_name#&execute=true">#scientific_name#</a> (#ct#)</li>
 					</cfloop>
 				</ul>
 			</div>
