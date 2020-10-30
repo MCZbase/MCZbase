@@ -405,7 +405,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 			<cfoutput>
 				<cfloop query="relations">
 					<cfset i=i+1>
-					<form name="relationEditForm_#i#">
+					<form id="relationEditForm_#i#">
 						<div class="form-row">
 							<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#" id="orig_related_taxon_name_id_#i#">
 							<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#" id="orig_taxon_relationship_#i#">
