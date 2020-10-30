@@ -84,6 +84,6 @@ limitations under the License.
 			</ul>
 		</div>
 	</main>
-<cfoutput>
+</cfoutput>
 
 <cfinclude template = "/shared/_footer.cfm">
