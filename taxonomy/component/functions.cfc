@@ -440,10 +440,10 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 						</div>
 					</form>
 					<script>
-						$(document).ready( 
-							makeScientificNameAutocompleteMeta('relatedName_EF#i#', 'newRelatedIdEF#i#')
-							$('##relationEditForm_#i#').submit( function(event){ event.preventDefault(); } )
-						);
+						$(document).ready( function() { 
+							makeScientificNameAutocompleteMeta('relatedName_EF#i#', 'newRelatedIdEF#i#');
+							$('##relationEditForm_#i#').submit( function(event){ event.preventDefault(); } );
+						});
 					</script>
 				</cfloop>
 			</cfoutput>
