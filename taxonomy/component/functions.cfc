@@ -596,15 +596,6 @@ Given a taxon relationship and a taxon_name_id, delete the matching row from the
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
-
-<!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveRelnEdit">
-	<cfoutput>
-		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
 <!---
 Given old and new taxon_name_id, related taxon name id, and relationship values along with an 
 authority, update a row in the taxon_relations table.  
