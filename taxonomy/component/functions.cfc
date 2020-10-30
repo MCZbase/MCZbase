@@ -407,15 +407,14 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 					<cfset i=i+1>
 					<form name="relationEditForm_#i#">
 						<div class="form-row">
-							<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-							<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#">
-							<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#">
+							<input type="hidden" name="related_taxon_name_id" value="#related_taxon_name_id#" id="orig_related_taxon_name_id_#i#">
+							<input type="hidden" name="origTaxon_Relationship" value="#taxon_relationship#" id="orig_taxon_relationship_#i#">
 							<div class="col-12">
 								<h2 class="h3">#sourcename# <span class="sm-caps">#sourceauthor#</span> is a/an</h2>
 							</div>
 							<div class="col-12">
 								<label for="taxon_relationship_EF#i#" class="data-entry-label">Relationship</label>
-								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select" id="taxon_relationship_EF#i#">
+								<select name="taxon_relationship" class="reqdClr custom-select data-entry-select" id="new_taxon_relationship_#i#" required>
 									<cfloop query="ctRelation">
 										<cfset selected = "">
 										<cfif ctRelation.taxon_relationship is relations.taxon_relationship>
@@ -427,15 +426,15 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							</div>
 							<div class="col-12">
 								<label for="relatedName_EF#i#" class="data-entry-label">Related Taxon</label>
-								<input type="text" name="relatedName" class="reqdClr data-entry-input" 
+								<input type="text" name="relatedName" class="reqdClr data-entry-input" required
 									value="#relations.targetname# #relations.targetauthor#" id="relatedName_EF#i#" >
-								<input type="hidden" name="newRelatedId" id="newRelatedIdEF#i#" value="#related_taxon_name_id#">
+								<input type="hidden" name="newRelatedId" id="new_related_taxon_name_id_#i#" value="#related_taxon_name_id#">
 							</div>
 							<div class="col-12">
-								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input">
+								<input type="text" name="relation_authority" value="#relations.relation_authority#" class="data-entry-input" id="new_relation_authority_#i#">
 							</div>
 							<div class="col-12">
-								<input type="button" value="Save" class="btn-xs btn-primary" onclick=" alert('TODO: implement')">
+								<input type="button" value="Save" class="btn-xs btn-primary" onclick=" saveRelEFChanges(#i#); ">
 							</div>
 						</div>
 					</form>
@@ -446,6 +445,24 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 						});
 					</script>
 				</cfloop>
+				<script>
+					function saveRelEFChanges(i) { 
+						if ($('##relationEditForm_#i#')[0].checkValidity()) { 
+							if ($('##new_related_taxon_name_id_#i#').val() == "") { 
+								messageDialog('Error: Unable to save relationship, you must pick a related taxon from the picklist, click Close Dialog on relationship edit dialog to exit without saving changes.' ,'Error: No related taxon selected');
+							} else { 
+								saveTaxonRelation(
+									#taxon_name_id#,
+									$('##orig_related_taxon_name_id_#i#').val(),
+									$('##orig_taxon_relationship_#i#').val(),
+									$('##new_related_taxon_name_id_#i#').val(),
+									$('##new_taxon_relationship_#i#').val(),
+									$('##new_relation_authority_#i#').val(),
+									"#target#");
+							};
+						};
+					};
+				</script>
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -556,6 +573,87 @@ Given a taxon relationship and a taxon_name_id, delete the matching row from the
 		</cftransaction>
 		<cfset row = StructNew()>
 		<cfset row["status"] = "deleted">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!---------------------------------------------------------------------------------------------------->
+<cfif #Action# is "saveRelnEdit">
+	<cfoutput>
+		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+</cfquery>
+		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
+	</cfoutput>
+</cfif>
+<!---
+Given old and new taxon_name_id, related taxon name id, and relationship values along with an 
+authority, update a row in the taxon_relations table.  
+
+@param orig_taxon_relationship a text string representing the current relationship type.
+@param new_taxon_relationship a text string representing the new relationship type.
+@param orig_taxon_name_id the PK of the taxon name to which the relationship belongs.
+@param new_taxon_name_id optional the PK of the taxon name to be changed for the relationship (moves the relationship to a different taxon).
+@param orig_related_taxon_name_id the PK of the taxon name on the other side of the relationship.
+@param new_related_taxon_name_id the PK of the taxon name on the other side of the relationship.
+@param relation_authority a text string representing the source authority for the relationship, 
+  if an empty string will set existing value to null, to retain rather than overwrite an
+  existing value, the existing value must be passed along in this parameter.
+@return a json data structure contaning the status of the save, or an http 500 error.
+--->
+<cffunction name="saveTaxonRelationEdit" access="remote" returntype="any" returnformat="json">
+	<cfargument name="orig_taxon_name_id" type="numeric" required="yes">
+	<cfargument name="new_taxon_name_id" type="numeric" required="no"><!--- possible to change, but not needed --->
+	<cfargument name="orig_related_taxon_name_id" type="numeric" required="yes">
+	<cfargument name="new_taxon_name_id" type="numeric" required="yes">
+	<cfargument name="orig_taxon_relationship" type="string" required="yes">
+	<cfargument name="new_taxon_relationship" type="string" required="yes">
+	<cfargument name="relation_authority" type="string" required="yes"><!--- if empty string will set to null, but must be provided --->
+	<cftry>
+		<cftransaction>
+			<cfquery name="saveTaxonRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="saveTaxonRelation_result">
+				UPDATE taxon_relations SET
+					taxon_relationship = '#new_taxon_relationship#'
+					,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_related_taxon_name_id#">
+					<cfif len(#relation_authority#) gt 0>
+						,relation_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relation_authority#">
+					<cfelse>
+						,relation_authority = null
+					</cfif>
+					<cfif isdefined("new_taxon_name_id") AND len(#new_taxon_name_id#) gt 0 >
+						,taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_taxon_name_id#">
+					</cfif>
+					WHERE
+						taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#orig_taxon_name_id#">
+						AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orig_taxon_relationship#">
+						AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#orig_related_taxon_name_id#">
+			</cfquery>
+			<cfif saveTaxonRelation_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#saveTaxonRelation_result.recordcount#) affected by update, edit canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "saved">
 		<cfset data[1] = row>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>

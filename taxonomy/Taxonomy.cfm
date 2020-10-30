@@ -1801,29 +1801,5 @@ limitations under the License.
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveRelnEdit">
-	<cfoutput>
-		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	UPDATE taxon_relations SET
-		taxon_relationship = '#taxon_relationship#'
-		<cfif len(#newRelatedId#) gt 0>
-			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">
-		<cfelse>
-			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-		</cfif>
-		<cfif len(#relation_authority#) gt 0>
-			,relation_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relation_authority#">
-		<cfelse>
-			,relation_authority = null
-		</cfif>
-	WHERE
-		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origTaxon_relationship#">
-		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
 
 <cfinclude template="/shared/_footer.cfm">

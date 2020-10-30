@@ -256,4 +256,33 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
 		}
 	});
 }
+/** function saveTaxonRelation for a given taxon name id, save changes to an existing relationship to another taxon.
+ *
+ * @param taxon_name_id the primary key for the taxon record to which to delete the relationship.
+ * @param related_taxon_name_id the primary key for the related taxon record in the relationship.
+ * @param taxon_relationship the text string representing the taxon relationship type.
+ * @param target the id of the target div containing the list of taxon relationships
+ *   to reload, without a leading # selector.
+**/
+function saveTaxonRelation(taxon_name_id,orig_related_taxon_name_id,orig_taxon_relationship,new_related_taxon_name_id,new_taxon_relationship,new_relation_authority,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "saveTaxonRelationEdit",
+			orig_taxon_name_id : taxon_name_id,
+			orig_related_taxon_name_id: orig_related_taxon_name_id,
+			orig_taxon_relationship : orig_taxon_relationship,
+			new_related_taxon_name_id: new_related_taxon_name_id,
+			new_taxon_relationship : new_taxon_relationship,
+			relation_authority : new_relation_authority,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadTaxonRelations(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"saving changes to a taxon relationship");
+		$("#addTaxonRelationFeedback").hide();
+	});
+};
 
