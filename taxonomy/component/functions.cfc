@@ -460,7 +460,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									$('##new_taxon_relationship_'+counter).val(),
 									$('##new_relation_authority_'+counter).val(),
 									"#target#",
-									"editTaxonRelationFeedback"+counter;
+									"editTaxonRelationFeedback"+counter
+								);
 							};
 						};
 					};
