@@ -25,14 +25,14 @@ limitations under the License.
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where country is not null
 	group by country
-	order by country;
+	order by country
 </cfquery>
 <cfquery name="notcountries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, continent_ocean
 	from
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where country is null
-	group by continent_ocean;
+	group by continent_ocean
 </cfquery>
 <cfquery name="phyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, phylum 
@@ -40,7 +40,7 @@ limitations under the License.
 		<cfif ucase(session.flatTableName) EQ "FLAT"> flat <cfelse> filtered_flat </cfif>
 	where phylum is not null
 	group by phylum
-	order by phylum;
+	order by phylum
 </cfquery>
 <cfquery name="notphyla" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) ct, kingdom, phylorder 
