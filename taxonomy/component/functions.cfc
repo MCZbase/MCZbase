@@ -624,7 +624,7 @@ authority, update a row in the taxon_relations table.
 	<cfargument name="orig_taxon_name_id" type="numeric" required="yes">
 	<cfargument name="new_taxon_name_id" type="numeric" required="no"><!--- possible to change, but not needed --->
 	<cfargument name="orig_related_taxon_name_id" type="numeric" required="yes">
-	<cfargument name="new_taxon_name_id" type="numeric" required="yes">
+	<cfargument name="new_related_taxon_name_id" type="numeric" required="yes">
 	<cfargument name="orig_taxon_relationship" type="string" required="yes">
 	<cfargument name="new_taxon_relationship" type="string" required="yes">
 	<cfargument name="relation_authority" type="string" required="yes"><!--- if empty string will set to null, but must be provided --->
