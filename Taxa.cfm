@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or when <span id="equals">use equals</span> is announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
 									</div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
