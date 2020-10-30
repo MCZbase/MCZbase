@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or when <span class="equals">use equals</span> is announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match when shown. <span class="sr-only">or when <span id="equals">use equals</span> is announced.</span> Add !<span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists.  NULL finds blanks.</p>
 									</div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
@@ -544,7 +544,7 @@ limitations under the License.
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h2 class="h4">Results: </h2>
-							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="1" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
+							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
