@@ -228,7 +228,7 @@ limitations under the License.
 									<a class="dropdown-item" id="specimenMenuItem" href="/Specimens.cfm">Specimens</a>
 								</cfif>				
 								<cfif targetMenu EQ "redesign">
-									<a class="dropdown-item bg-warning" href="">Browse Specimens By Category</a>
+									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/Taxonomy.cfm">Taxonomy</a><!--- we still need the old /Taxonomy.cfm page until Redmine 708 is closed. --->
