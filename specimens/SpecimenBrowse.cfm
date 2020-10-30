@@ -75,7 +75,7 @@ limitations under the License.
 		<div class="col-12 col-md-6">
 			<h1 class="h2">Browse by higher taxonomy</h1>
 			<ul>
-				<cfloop query="phylum">
+				<cfloop query="phyla">
 					<li><a href="/Specimens.cfm?phylum=#phylum#&execute=true">#phylum#</a> (#ct#)</li>
 				</cfloop>
 				<cfloop query="notphyla">
