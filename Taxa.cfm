@@ -395,7 +395,7 @@ limitations under the License.
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) <span class="sr-only">add equals for exact match</span></a></label>
-											<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name equals">
+											<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
 										</div>
 										<div class="col-md-4">
 											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
@@ -543,7 +543,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h2 class="h4">Results: </h2>
+							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
