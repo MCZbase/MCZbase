@@ -817,6 +817,7 @@ limitations under the License.
 
 				function gridLoaded(gridId, searchType) { 
 					$("##overlay").hide();
+					$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
 					var now = new Date();
 					var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
 					var filename = searchType + '_results_' + nowstring + '.csv';
