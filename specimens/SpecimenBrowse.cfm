@@ -79,7 +79,7 @@ limitations under the License.
 					<li><a href="/Specimens.cfm?phylum=#phylum#&execute=true">#phylum#</a> (#ct#)</li>
 				</cfloop>
 				<cfloop query="notphyla">
-					<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdome#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
+					<li><a href="/Specimens.cfm?phylum=NULL&kingdom=#kingdom#&phylorder=#phylorder#&execute=true">#kingdom#:#phylorder#</a> (#ct#)</li>
 				</cfloop>
 			</ul>
 		</div>
