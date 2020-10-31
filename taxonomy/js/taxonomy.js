@@ -320,7 +320,7 @@ function newHabitat(taxon_name_id,habitat,target) {
 function deleteHabitat(taxon_habitat_id,taxon_name_id,target) {
 	jQuery.getJSON("/taxonomy/component/functions.cfc",
 		{
-			method : deleteHabitat",
+			method : "deleteHabitat",
 			taxon_habitat_id : taxon_habitat_id,
 			returnformat : "json",
 			queryformat : 'column'
