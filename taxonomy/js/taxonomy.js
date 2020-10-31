@@ -233,7 +233,6 @@ function openEditTaxonRelationDialog(taxon_name_id, related_taxon_name_id, relat
 		},
 		close: function(event,ui) {
 			$("#"+dialogId+"_div").html("");
-			$("#"+dialogId).dialog('destroy');
 		}
 	});
 	thedialog.dialog('open');
