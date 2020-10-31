@@ -909,7 +909,7 @@ Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
 					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
 			</cfquery>
-			<cfif newPermitResult.recordcount eq 1>
+			<cfif newHabitat_result.recordcount eq 1>
 				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
 					select taxon_habitat_id from taxon_habitat
 					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newHabitat_result.GENERATEDKEY#">
