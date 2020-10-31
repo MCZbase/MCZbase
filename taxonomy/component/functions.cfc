@@ -891,5 +891,159 @@ Given old and new common name and a taxon_name_id, update a row in the common na
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!---
+Given a habitat and a taxon_name_id, add a row from the taxon_habitat table.
+@param taxon_habitat a text string representing a habitat.
+@param taxon_name_id the PK of the taxon name for which to add the matching common name.
+@return a json structure the status and the id of the new taxon_habitat row.
+--->
+<cffunction name="newHabitat" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_habitat" type="string" required="yes">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newHabitat_result">
+				INSERT INTO taxon_habitat 
+					(taxon_habitat, taxon_name_id)
+				VALUES 
+					(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
+			</cfquery>
+			<cfif newPermitResult.recordcount eq 1>
+				<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+					select taxon_habitat_id from taxon_habitat
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newHabitat_result.GENERATEDKEY#">
+				</cfquery>
+			<cfelse>
+				<cftransaction action="rollback">
+				<cfthrow message="Other than one row (#newHabitat_result.recordcount#) would be added, insert canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "added">
+		<cfset row["id"] = "#savePK.taxon_habitat_id#">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Given a taxon_habitat_id, delete the matching row from the taxon_habitat table.
+@param taxon_habitat_id the PK value for the row to remove from the taxon_habitat table.
+@return a data structure with status or an http 400 status.
+--->
+<cffunction name="deleteHabitat" access="remote" returntype="any" returnformat="json">
+	<cfargument name="taxon_habitat_id" type="numeric" required="yes">
+	<cftry>
+		<cftransaction>
+			<cfquery name="deleteHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteHabitat_result">
+				DELETE FROM
+					taxon_habitat
+				WHERE
+					taxon_habitat_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_habitat_id#">
+			</cfquery>
+			<cfif deleteHabitat_result.recordcount NEQ 1>
+				<cftransaction action="rollback"/>
+				<cfthrow message="Other than one row (#deleteHabitat_result.recordcount#) would be deleted.  Delete canceled and rolled back">
+			</cfif>
+		</cftransaction>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "deleted">
+		<cfset data[1] = row>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---
+Given a taxon_name_id retrieve, as html, an editable list of the habitats for that taxon.
+@param taxon_name_id the PK of the taxon name for which to look up habitats.
+@param target the id of the element in the DOM, without a leading # selector,
+  into which the result is to be placed, used to specify target for reload after successful save.
+@return a block of html listing habitats, if any, with edit/delete controls.
+--->
+<cffunction name="getHabitatsHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="taxon_name_id" type="numeric" required="yes">
+	<cfargument name="target" type="string" required="yes">
+	<cfthread name="getHabitatsHtmlThread">
+		<cftry>
+			<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select taxon_habitat, taxon_habitat_id
+				from taxon_habitat 
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+			</cfquery>
+			<cfoutput>
+				<cfset i=1>
+				<cfif habitat.recordcount gt 0>
+					<cfloop query="habitat">
+						<div class="form-row mx-0 my-1">
+							<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-50 float-left">#taxon_habitat#</label>
+							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
+								id="habitatDeleteButton_#i#">Remove</button>
+						</div>
+						<cfset i=i+1>
+					</cfloop>
+				<cfelse>
+					<p>No Habitats Entered</p>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()# " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getHabitatsHtmlThread" />
+	<cfreturn getHabitatsHtmlThread.output>
+</cffunction>
 
 </cfcomponent>

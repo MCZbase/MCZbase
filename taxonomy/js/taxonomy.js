@@ -289,3 +289,69 @@ function saveTaxonRelation(taxon_name_id,orig_related_taxon_name_id,orig_taxon_r
 	});
 };
 
+/**
+ * newHabitat, given a taxon and text string for a habitat of the taxon
+ * link the habitat and reload the list of habitats for the taxon.
+ * 
+ * @param taxon_name_id the primary key for the taxon record to which to add the habitat.
+ * @param habitat the text string to add to the taxon as a habitat.
+ * @param target the id of the target div containing the list of habitats 
+ *   to reload, without a leading # selector.
+ */
+function newHabitat(taxon_name_id,habitat,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : "newHabitat",
+			taxon_habitat : habitat,
+			taxon_name_id : taxon_name_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadHabitats(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding habitat to taxon");
+	});
+};
+/** given a taxon_habitat_id remove a row from the taxon_habitat table 
+ * and reload the habitats for a specified taxon into a specified target div
+ */
+function deleteHabitat(taxon_habitat_id,taxon_name_id,target) {
+	jQuery.getJSON("/taxonomy/component/functions.cfc",
+		{
+			method : deleteHabitat",
+			taxon_habitat_id : taxon_habitat_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadHabitats(taxon_name_id,target);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"adding habitat to taxon");
+	});
+};
+/** given a taxon name id and a target div, load an html description of the habitats
+ * for the specified taxon.
+ * @param taxon_name_id the pk of the taxonomy table for which to look up habitats.
+ * @param target the id of the target div to contain the list of habitats 
+ *   to load, without a leading # selector.
+ */
+function loadHabitats(taxon_name_id,target) { 
+   jQuery.ajax({
+      url: "/taxonomy/component/functions.cfc",
+      data : {
+         method : "getHabitatsHtml",
+         taxon_name_id: taxon_name_id,
+         target: target
+      },
+      success: function (result) {
+         $("#" + target).html(result);
+      },
+      error: function (jqXHR, textStatus, message) {
+			handleFail(jqXHR,textStatus,message,"loading common names for taxon");
+      },
+      dataType: "html"
+   });
+}
