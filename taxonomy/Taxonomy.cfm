@@ -902,6 +902,7 @@ limitations under the License.
 							<div class="p-3 border bg-light rounded mt-2">
 								<h4 class="mt-0 mb-1">Related Taxa:</h4>
 								<div id="taxonRelationsDiv">Loading....</div>
+								<div id="editTaxonRelationDialog"></div>
 								<script>
 									$(document).ready( loadTaxonRelations(#getTaxa.taxon_name_id#,'taxonRelationsDiv') );
 								</script>

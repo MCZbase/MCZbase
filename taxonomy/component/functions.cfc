@@ -334,9 +334,8 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 									 fide #relations.relation_authority# 
 								</cfif>
 								<button class='btn-xs btn-secondary mx-1' 
-									onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog#i#","#target#");' value='Edit' 
+									onclick='openEditTaxonRelationDialog(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","editTaxonRelationDialog","#target#");' value='Edit' 
 									title='Edit' aria-label='Edit this Taxon Relation'>Edit</button>
-								<div id="editTaxonRelationDialog#i#"></div>
 								<button class='btn-xs btn-warning mx-1' 
 									onclick=' confirmDialog(" Remove Relatioship?","Remove?", function() { deleteTaxonRelation(#taxon_name_id#,#relations.related_taxon_name_id#,"#relations.taxon_relationship#","#target#"); }); ' 
 									value='Remove' title='Remove' aria-label='Remove this Relation from Taxonomy'>Remove</button>
