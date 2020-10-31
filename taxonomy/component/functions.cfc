@@ -435,7 +435,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 							</div>
 							<div class="col-12">
 								<input type="button" value="Save" class="btn-xs btn-primary" onclick=" saveRelEFChanges(#i#); ">
-								<output id=”editTaxonRelationFeedback#i#” style="display: none;"></output>
+								<output id="editTaxonRelationFeedback#i#" style="display: none;"></output>
 							</div>
 						</div>
 					</form>
