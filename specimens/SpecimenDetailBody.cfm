@@ -921,8 +921,8 @@ limitations under the License.
 							len(efn.attribute_units) gt 0  OR
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
-							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped mb-0 table-responsive">
+							<p class="px-2 mb-0">Standard Measurements</p>
+							<table class="table table-striped mb-0 px-1 table-responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
 									<td><font size="-1">tail length</font></td>
@@ -994,169 +994,28 @@ limitations under the License.
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
-				<ul class="list-group list-group-flush float-left pl-2">
-				<li class="list-group-item">
+				<ul class="list-group list-group-flush float-left">
+				
 					<cfloop query="relns">
+						<li class="list-group-item py-0">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
 						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 							(Remark: #biol_indiv_relation_remarks#)
 						</cfif>
+						</li>
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						<li class="pb-2">
+						<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						</li>
 					</cfif>
-				</li>
+				
 			</ul>
 			</div>
 		</div>
 	</cfif>
-<!------------------------------------ locality and collecting event-------------------------------------------> 
-<div class="accordion" id="accordionExample4">
-    <div class="card bg-light">
-		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
-					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-            </div>
-  		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
-       <div class="card-body px-3">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-		
-		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select  spec_locality, geog_auth_rec_id from locality
-			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select higher_geog from geog_auth_rec where
-			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
-		</cfquery>
-		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT 
-						media_id 
-					FROM 
-						media_relations 
-					WHERE 
-						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
-						MEDIA_RELATIONSHIP like '% locality'
-		</cfquery>
-		<cfif len(one.spec_locality) gt 0>
-		<cfif localityMedia.recordcount gt 0>
-			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-		</cfif>
-		</cfif>
-			<ul class="list-unstyled row px-3 py-1 mb-0">
-				<cfif len(one.continent_ocean) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-					<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
-				</cfif>
-				<cfif len(one.sea) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-					<li class="list-group-item col-7 px-0">#one.sea#</li>
-				</cfif>
-				<cfif len(one.country) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-					<li class="list-group-item col-7 px-0">#one.country#</li>
-				</cfif>
-				<cfif len(one.state_prov) gt 0>
-					<li class="list-group-item col-5 px-0"><em>State:</em></li>
-					<li class="list-group-item col-7 px-0">#one.state_prov#</li>
-				</cfif>
-				<cfif len(one.feature) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-					<li class="list-group-item col-7 px-0">#one.feature#</li>
-				</cfif>
-				<cfif len(one.county) gt 0>
-					<li class="list-group-item col-5 px-0"><em>County:</em></li>
-					<li class="list-group-item col-7 px-0">#one.county#</li>
-				</cfif>
-				<cfif len(one.island_group) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-					<li class="list-group-item col-7 px-0">#one.island_group#</li>
-				</cfif>
-				<cfif len(one.island) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-					<li class="list-group-item col-7 px-0">#one.island#</li>
-				</cfif>
-				<cfif len(one.quad) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-					<li class="list-group-item col-7 px-0">#one.quad#</li>
-				</cfif>
-				<cfif len(one.spec_locality) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
-					<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
-				</cfif>
-					<cfif len(one.verbatim_locality) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
-					<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
-				</cfif>
-				<cfif len(one.collecting_source) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
-					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
-				</cfif>
-				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-				<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
-					<li class="list-group-item col-5 px-0"><em>On Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.began_date#</li>
-				</cfif>
-				<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
-					<li class="list-group-item col-5 px-0"><em>Began Date - Ended Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
-				</cfif>
-				<cfif len(one.verbatim_date) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
-				</cfif>
-				<cfif len(one.verbatimcoordinates) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-7 px-0">#one.verbatimcoordinatesp#</li>
-				</cfif>
-				<cfif len(one.collecting_method) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
-					<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
-				</cfif>
-				<cfif len(one.coll_event_remarks) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
-					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
-				</cfif>
-				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
-				</cfif>
-				<cfif len(one.habitat) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
-				</cfif>
-			</ul>
-		</div>
-	<!---
-				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
-			
-			</div>
- 	</div>
-</div>
-
-<!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2 mb-md-0">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			
-		</div>
-		<div class="card-body float-left">
-			<ul class="list-unstyled form-row p-1 mb-0">
-			
-				<cfif colls.recordcount gt 0>
-					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#<span>,</span></cfloop></li>
-				</cfif>
-				<cfif preps.recordcount gt 0>
-					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#<span>,</span></cfloop></li>
-				</cfif>
-			
-			</ul>
-		</div>
-	</div>							
-		</div><!--- end of two column section --->						
-		<div class="one-column">
-<!------------------------------------- tranactions  ---------------------------------------->
+							
+	<!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
 			media.media_id,
@@ -1304,6 +1163,155 @@ limitations under the License.
 				</div>
 			</div>
 	</cfif>
+<!------------------------------------ locality and collecting event-------------------------------------------> 
+<div class="accordion" id="accordionExample4">
+    <div class="card bg-light">
+		<div class="card-header float-left w-100" id="headingOne">
+				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
+					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+            </div>
+  		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
+       <div class="card-body px-3">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+		
+		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select  spec_locality, geog_auth_rec_id from locality
+			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select higher_geog from geog_auth_rec where
+			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT 
+						media_id 
+					FROM 
+						media_relations 
+					WHERE 
+						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
+						MEDIA_RELATIONSHIP like '% locality'
+		</cfquery>
+		<cfif len(one.spec_locality) gt 0>
+		<cfif localityMedia.recordcount gt 0>
+			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
+		</cfif>
+		</cfif>
+			<ul class="list-unstyled row px-3 py-1 mb-0">
+				<cfif len(one.continent_ocean) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+					<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
+				</cfif>
+				<cfif len(one.sea) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+					<li class="list-group-item col-7 px-0">#one.sea#</li>
+				</cfif>
+				<cfif len(one.country) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+					<li class="list-group-item col-7 px-0">#one.country#</li>
+				</cfif>
+				<cfif len(one.state_prov) gt 0>
+					<li class="list-group-item col-5 px-0"><em>State:</em></li>
+					<li class="list-group-item col-7 px-0">#one.state_prov#</li>
+				</cfif>
+				<cfif len(one.feature) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+					<li class="list-group-item col-7 px-0">#one.feature#</li>
+				</cfif>
+				<cfif len(one.county) gt 0>
+					<li class="list-group-item col-5 px-0"><em>County:</em></li>
+					<li class="list-group-item col-7 px-0">#one.county#</li>
+				</cfif>
+				<cfif len(one.island_group) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+					<li class="list-group-item col-7 px-0">#one.island_group#</li>
+				</cfif>
+				<cfif len(one.island) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+					<li class="list-group-item col-7 px-0">#one.island#</li>
+				</cfif>
+				<cfif len(one.quad) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+					<li class="list-group-item col-7 px-0">#one.quad#</li>
+				</cfif>
+				<cfif len(one.spec_locality) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
+					<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
+				</cfif>
+					<cfif len(one.verbatim_locality) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
+					<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
+				</cfif>
+				<cfif len(one.collecting_source) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
+				</cfif>
+				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+				<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+					<li class="list-group-item col-5 px-0"><em>On Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.began_date#</li>
+				</cfif>
+				<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+					<li class="list-group-item col-5 px-0"><em>Began Date - Ended Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
+				</cfif>
+				<cfif len(one.verbatim_date) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
+				</cfif>
+				<cfif len(one.verbatimcoordinates) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
+					<li class="list-group-item col-7 px-0">#one.verbatimcoordinatesp#</li>
+				</cfif>
+				<cfif len(one.collecting_method) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
+					<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
+				</cfif>
+				<cfif len(one.coll_event_remarks) gt 0>
+					<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
+					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
+				</cfif>
+				<cfif len(one.habitat_desc) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
+				</cfif>
+				<cfif len(one.habitat) gt 0>
+					<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
+					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
+				</cfif>
+			</ul>
+		</div>
+	<!---
+				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
+			
+			</div>
+ 	</div>
+</div>
+
+<!------------------------------------ Collectors and Preparators ----------------------------------->
+	<div class="card mb-2 mb-md-0">
+		<div class="card-header float-left w-100">
+			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
+			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			
+		</div>
+		<div class="card-body float-left">
+			<ul class="list-unstyled form-row p-1 mb-0">
+			
+				<cfif colls.recordcount gt 0>
+					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#<span>,</span></cfloop></li>
+				</cfif>
+				<cfif preps.recordcount gt 0>
+					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#<span>,</span></cfloop></li>
+				</cfif>
+			
+			</ul>
+		</div>
+	</div>		
+
+
+			
+		</div><!--- end of two column section --->						
+		<div class="one-column">
 
 
 <!------------------------------------ parts ---------------------------------------------->
