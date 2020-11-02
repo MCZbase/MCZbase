@@ -1006,7 +1006,7 @@ limitations under the License.
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
 						<li>
-						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
 						</li>
 					</cfif>
 				
