@@ -543,7 +543,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h4>Results: </h4>
+							<h4 id="resultsHeaderElement">Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
@@ -894,6 +894,7 @@ limitations under the License.
 					$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 					$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
 					$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+					$('##resultsHeaderElement').focus();
 				}
 
 				function togglePinTaxonColumn() { 
