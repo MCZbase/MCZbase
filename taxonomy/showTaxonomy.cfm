@@ -575,28 +575,8 @@
 						</ul>
 					</div>
 					<div class="row" id="taxRelatedNames">
-						<!--- TODO: lookup related names --->
-						<!-------
-						<cfif len(one.genus) gt 0>
-							<cfquery name="samegen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select scientific_name,display_name from taxonomy where genus='#one.genus#'
-								and scientific_name != '#one.scientific_name#'
-								order by scientific_name
-							</cfquery>
-							<div>
-								<cfif len(one.scientific_name) gt 0>
-									Additional MCZbase entries for <a href="/TaxonomyResults.cfm?genus==#one.genus#">genus=#one.genus#</a>
-									<ul>
-										<cfloop query="samegen">
-											<li><a href="/name/#scientific_name#">#display_name#</a></li>
-										</cfloop>
-									</ul>
-								<cfelse>
-									There are no other MCZbase taxonomy records in this genus.
-								</cfif>
-							</div>
-						</cfif>
-						-----> 
+						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+						<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
 					</div>
 				</div><!--- internal-external-links-lists --->
 			</cfoutput> 
