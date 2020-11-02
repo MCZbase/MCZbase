@@ -1153,10 +1153,8 @@ limitations under the License.
 			
 			</ul>
 		</div>
-	</div>							
-		</div><!--- end of two column section --->						
-		<div class="one-column">
-<!------------------------------------- tranactions  ---------------------------------------->
+	</div>		
+	<!------------------------------------- tranactions  ---------------------------------------->
 	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
 			media.media_id,
@@ -1304,6 +1302,10 @@ limitations under the License.
 				</div>
 			</div>
 	</cfif>
+
+			
+		</div><!--- end of two column section --->						
+		<div class="one-column">
 
 
 <!------------------------------------ parts ---------------------------------------------->
