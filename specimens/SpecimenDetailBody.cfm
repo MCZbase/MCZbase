@@ -921,8 +921,8 @@ limitations under the License.
 							len(efn.attribute_units) gt 0  OR
 							len(weight.attribute_units) gt 0>
 							<!---semi-standard measurements --->
-							<p class="pt-2">Standard Measurements</p>
-							<table class="table table-striped mb-0 table-responsive">
+							<p class="px-2 mb-0">Standard Measurements</p>
+							<table class="table table-striped mb-0 px-1 table-responsive">
 								<tr>
 									<td><font size="-1">total length</font></td>
 									<td><font size="-1">tail length</font></td>
@@ -962,7 +962,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 					<cfloop query="theRest">
-						<li class="list-group-item">#attribute_type#: #attribute_value#
+						<li class="list-group-item py-0">#attribute_type#: #attribute_value#
 							<cfif len(attribute_units) gt 0>
 								, #attribute_units#
 							</cfif>
