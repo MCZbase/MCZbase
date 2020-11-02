@@ -2,7 +2,7 @@
 <cfif isdefined("action") AND action EQ 'newTaxon'>
 	<cfset pageTitle = "Create New Taxon">
 </cfif>
-<cfif isdefined("action") AND action EQ 'editTaxon'>
+<cfif isdefined("action") AND action EQ 'edit'>
 	<cfset pageTitle = "Edit Taxon">
 	<cfif isdefined("taxon_name_id") >
 		<cfquery name="TaxonIDNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -35,9 +35,9 @@ limitations under the License.
 -->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to Taxonomy search page --->
-	
 	<cflocation url="/Taxa.cfm">
 </cfif>
+
 <!-------------------------------------------------------------------------------------------------->
 <cfinclude template = "/shared/_header.cfm">
 <cfquery name="ctInfRank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -234,7 +234,6 @@ limitations under the License.
 
 </script> 
 </cfoutput> 
-<!------------------------------------------------>
 
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "edit">
@@ -246,7 +245,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container-float px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
+		<main class="container-fluid px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -814,60 +813,62 @@ limitations under the License.
 			</section>
 
 			<div class="row">
-					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 
-						 <section class="col-12 px-0">
-							<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
-								<div class="col-12 px-0">
-									<h4 class="mt-0 mb-1">Related Publications</h4>
-									<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
-									<span>
-										<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
-										<form name="newPubForm" id="newPubForm">
-											<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
-												<input type="submit" value="Add" class="btn btn-xs btn-secondary">
-											</div>
-									<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-									<input type="hidden" name="method" value="newTaxonPub">
-									<input type="hidden" name="publication_id" id="publication_id">
-										</form>
-									</span>
-								</div>
-								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left"></div>
+					<section class="col-12 px-0">
+						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
+							<div class="col-12 px-0">
+								<h4 class="mt-0 mb-1">Related Publications</h4>
+								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left">Loading....</div>
 							</div>
-							<script>
+							<div class="col-12 px-0">
+								<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
+								<span>
+									<input type="text" id="new_pub_formatted" name="newPub" class="data-entry-input col-12 col-md-9 float-left">
+									<form name="newPubForm" id="newPubForm">
+										<div class="col-12 col-sm-3 pl-1 pr-0 float-left">
+											<input type="submit" value="Add" class="btn btn-xs btn-secondary">
+										</div>
+								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
+								<input type="hidden" name="method" value="newTaxonPub">
+								<input type="hidden" name="publication_id" id="publication_id">
+									</form>
+								</span>
+							</div>
+						</div>
+						<script>
 							$( document ).ready(
-							$('##newPubForm').bind('submit', function(evt){
-								evt.preventDefault();
-								var pubId = $('##publication_id').val();
-								if (pubId.length > 0) { 
-									jQuery.ajax({
-										url : "/taxonomy/component/functions.cfc",
-										type : "post",
-										dataType : "json",
-										data :  $('##newPubForm').serialize(),
-										success : function (data) {
-											loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv');
-											$('##publication_id').val("");
-											$('##new_pub_formatted').val("");
-										},
-										error: function(jqXHR,textStatus,error){
-											var message = "";
-											if (error == 'timeout') {
-												message = ' Server took too long to respond.';
-											} else {
-												message = jqXHR.responseText;
+								$('##newPubForm').bind('submit', function(evt){
+									evt.preventDefault();
+									var pubId = $('##publication_id').val();
+									if (pubId.length > 0) { 
+										jQuery.ajax({
+											url : "/taxonomy/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data :  $('##newPubForm').serialize(),
+											success : function (data) {
+												loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv');
+												$('##publication_id').val("");
+												$('##new_pub_formatted').val("");
+											},
+											error: function(jqXHR,textStatus,error){
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error adding publication: '+message, 'Error: '+error.substring(0,50));
 											}
-											messageDialog('Error adding publication: '+message, 'Error: '+error.substring(0,50));
-										}
-									});
-								} else { 
-									messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
-								};
-							})
+										});
+									} else { 
+										messageDialog('Error adding publication. You must select a publication to add from the picklist.', 'Error: Publication not selected');
+									};
+								})
 							);
 						</script>
-							<script>
+						<script>
 							$( document ).ready(makePublicationPicker('new_pub_formatted','publication_id'));
 							$( document ).ready(loadTaxonPublications(#taxon_name_id#,'taxonPublicationsDiv'));
 							function removeTaxonPub(taxonomy_publication_id) { 
@@ -894,103 +895,129 @@ limitations under the License.
 								});
 							}
 						</script>
-						</section>
+					</section>
 
-						<section class="col-12 px-0">
-							<form name="newRelation" method="post" action="/taxonomy/Taxonomy.cfm">
-								<input type="hidden" name="taxon_name_id" value="#getTaxa.taxon_name_id#">
-								<input type="hidden" name="Action" value="newTaxonRelation">
-								<div class="p-3 border bg-light rounded mt-2">
-									<h4 class="mt-0 mb-1">Related Taxa:</h4>
-									<label for="taxon_relationship" class="data-entry-label">Add Relationship</label>
-									<select name="taxon_relationship" class="reqdClr data-entry-select">
+					<section class="col-12 px-0">
+						<div class="p-3 border bg-light rounded mt-2">
+							<h4 class="mt-0 mb-1">Related Taxa:</h4>
+							<div id="taxonRelationsDiv">Loading....</div>
+							<div id="editTaxonRelationDialog"></div>
+							<script>
+								$(document).ready( loadTaxonRelations(#getTaxa.taxon_name_id#,'taxonRelationsDiv') );
+							</script>
+							<form id="taxonRelationsForm">
+							<div class="form-row">
+								<div class="col-12 col-md-2">
+									<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
+									<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 										<cfloop query="ctRelation">
 											<option value="#ctRelation.taxon_relationship#">#ctRelation.taxon_relationship#</option>
 										</cfloop>
 									</select>
-									<label for="relatedName" class="data-entry-label">Related Taxa</label>
-									<input type="text" name="relatedName" class="reqdClr data-entry-input"
-							onChange="taxaPick('newRelatedId','relatedName','newRelation',this.value); return false;"
-							onKeyPress="return noenter(event);">
-									<input type="hidden" name="newRelatedId">
-									<label for="relation_authority" class="data-entry-label">Authority</label>
-									<input type="text" name="relation_authority" class="data-entry-input">
-									<input type="submit" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1">
 								</div>
-							</form>
-							<div id="taxonrelations"></div>
-						</section>
-
-						<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
-							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
-								<div id="commonNamesDiv">Loading....</div>
+								<div class="col-12 col-md-4">
+									<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
+									<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
+									<input type="hidden" name="newRelatedId" id="newRelatedId">
+									<script>
+										$(document).ready( 
+											makeScientificNameAutocompleteMeta('newRelatedName', 'newRelatedId')
+										);
+									</script>
+								</div>
+								<div class="col-12 col-md-4">
+									<label for="new_relation_authority" class="data-entry-label">Authority</label>
+									<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
+								</div>
 								<script>
-									$(document).ready(
-										loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv')
-									);
+									function clearTaxonRelationFields() {
+										$('##newRelatedName').val("");
+										$('##newRelatedId').val("");
+										if ($('##new_taxon_relationship').val() != 'accepted synonym of') {
+											$('##newRelatedId').val("");
+										}
+									}
+									function addTaxonRelationHandler() { 
+										if ($('##taxonRelationsForm')[0].checkValidity()) { 
+											if ($('##newRelatedId').val() == "") { 
+												messageDialog('Error: Unable to create relationship, you must pick a related taxon from the picklist.' ,'Error: No related taxon selected');
+											} else { 
+												$("##addTaxonRelationFeedback").show();
+												addTaxonRelation(#getTaxa.taxon_name_id#,
+													$('##newRelatedId').val(),
+													$('##new_taxon_relationship').val(),
+													$('##new_relation_authority').val(),
+													'taxonRelationsDiv'
+												);
+											}
+										} else { 
+											messageDialog('Error: Unable to create relationship, required field missing a value.' ,'Error: Required fields not filled in.');
+										}
+									}
 								</script>
-								<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
-								<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
-								<input type="submit" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
-									onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
+								<div class="col-12 col-md-2">
+									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
+										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
+									</label>
+									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
+										onclick=" addTaxonRelationHandler(); "
+										id="addTaxonRelationButton"
 									>
+								</div>
 							</div>
-						</section>
+							</form>
+							<script>
+								$(document).ready( 
+									$('##taxonRelationsForm').submit( function(event){ event.preventDefault(); } )
+								);
+							</script>
+						</div>
+					</section>
 
-						<section class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
-								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+					<section class="mt-2 float-left col-12 col-md-6 pl-0 pr-1">
+						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+							<div id="commonNamesDiv">Loading....</div>
+							<script>
+								$(document).ready( loadCommonNames(#getTaxa.taxon_name_id#,'commonNamesDiv'));
+							</script>
+							<label for="new_common_name" class="data-entry-label float-left mt-2">Add New Common Name</label>
+							<input type="text" name="common_name" class="data-entry-input my-1 float-left w-75" id="new_common_name">
+							<input type="button" value="Create" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+								onclick=" newCommon(#getTaxa.taxon_name_id#,$('##new_common_name').val(),'commonNamesDiv'); "
+								>
+						</div>
+					</section>
+
+					<section class="mt-2 float-left col-12 col-md-6 pl-1 pr-0">
+						<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
 							<cfquery name="habitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select taxon_habitat 
 								from taxon_habitat 
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 							</cfquery>
-							
+						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
 							<h4 class="mt-0">Habitat</h4>
-							<cfset i=1>
-							<cfloop query="habitat">
-							<form name="habitat#i#" method="post" action="/taxonomy/Taxonomy.cfm">
-								<input type="hidden" name="action">
-								<input type="hidden" name="orighabitatName" value="#taxon_habitat#">
-								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-								<div class="form-row mx-0">
-								<input type="text" name="taxon_habitat" value="#taxon_habitat#" class="data-entry-input w-50 float-left">
-								<input type="button" value="Delete" class="btn btn-xs btn-danger ml-1 mb-1 float-left" onClick="habitat#i#.Action.value='deletehabitat';confirmDialog('Delete <b>#taxon_habitat#</b> habitat entry','Delete?');">
-								</div>
-							</form>
-							<cfset i=i+1>
-							</cfloop>
-							<form name="newhabitat" method="post" action="/taxonomy/Taxonomy.cfm">
-								<input type="hidden" name="action" value="newhabitat">
-								<input type="hidden" name="taxon_name_id" value="#taxon_name_id#">
-								<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
-								<select name="taxon_habitat" id="habitat_name"size="1" class="data-entry-select my-1 w-75 float-left">
+							<div id="habitatsDiv">Loading....</div>
+							<script>
+								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));
+							</script>
+							<label for="taxon_habitat" class="data-entry-label float-left mt-2">Add New Habitat</label>
+							<select name="taxon_habitat" id="new_taxon_habitat"size="1" class="data-entry-select my-1 w-75 float-left">
 								<cfloop query="cttaxon_habitat">
 									<cfif not listcontains(usedHabitats,cttaxon_habitat.taxon_habitat)>
 										<option value="#cttaxon_habitat.taxon_habitat#">#cttaxon_habitat.taxon_habitat#</option>
 									</cfif>
 								</cfloop>
-								</select>
-								<input type="submit" value="Add" class="btn btn-xs btn-secondary m-1 float-left">
-							</form>
+							</select>
+							<input type="button" value="Add" class="btn btn-xs btn-secondary ml-1 mt-1 float-left" 
+								onclick=" newHabitat(#getTaxa.taxon_name_id#,$('##new_taxon_habitat').val(),'habitatsDiv'); "
+								>
 						</div>
 					</section>
 				</div>
 			</div>
 		</main>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newHabitat">
-	<cfoutput>
-		<cfquery name="newHabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxon_habitat 
-			(taxon_habitat, taxon_name_id)
-		VALUES 
-			(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#taxon_habitat#">, 
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">)
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
@@ -1028,19 +1055,6 @@ limitations under the License.
 		</cfoutput>	
 	</cfcatch>
 	</cftry>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "deleteHabitat">
-	<cfoutput>
-		<cfquery name="killhabitat" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM
-			taxon_habitat
-		WHERE
-			taxon_habitat=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#orighabitatName#">
-			AND taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
 </cfif>
 
 <!---------------------------------------------------------------------------------------------------->
@@ -1747,64 +1761,6 @@ limitations under the License.
 			</cfcatch>
 			</cftry>
 		</cftransaction>
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif action is "newTaxonRelation">
-	<cfoutput>
-		<cfquery name="newReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO taxon_relations (
-			TAXON_NAME_ID,
-			RELATED_TAXON_NAME_ID,
-			TAXON_RELATIONSHIP,
-			RELATION_AUTHORITY
-		) VALUES (
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TAXON_NAME_ID#">,
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TAXON_RELATIONSHIP#">,
-			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#RELATION_AUTHORITY#">
-		)
-	</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif Action is "deleReln">
-	<cfoutput>
-		<cfquery name="deleReln" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	DELETE FROM
-		taxon_relations
-	WHERE
-		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origtaxon_relationship#">
-		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-		</cfquery>
-
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
-	</cfoutput>
-</cfif>
-<!---------------------------------------------------------------------------------------------------->
-<cfif #Action# is "saveRelnEdit">
-	<cfoutput>
-		<cfquery name="edRel" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	UPDATE taxon_relations SET
-		taxon_relationship = '#taxon_relationship#'
-		<cfif len(#newRelatedId#) gt 0>
-			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#newRelatedId#">
-		<cfelse>
-			,related_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-		</cfif>
-		<cfif len(#relation_authority#) gt 0>
-			,relation_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#relation_authority#">
-		<cfelse>
-			,relation_authority = null
-		</cfif>
-	WHERE
-		taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
-		AND Taxon_relationship = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origTaxon_relationship#">
-		AND related_taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#related_taxon_name_id#">
-</cfquery>
-		<cflocation url="/taxonomy/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#" addtoken="false">
 	</cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->
