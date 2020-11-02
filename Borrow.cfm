@@ -332,7 +332,7 @@ function setBorrowNum(cid,v){
 					from
 						getBorrow
 					where
-						transaction_id=#transaction_id#
+						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 					group by
 						agent_name,
 						trans_agent_role
@@ -784,10 +784,11 @@ function opendialog(page,id,title) {
 		select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
 	</cfquery>
 	<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                 select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-                 from shipment sh
-                    left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
-                    left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+		select sh.*, 
+			toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+		from shipment sh
+			left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+			left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 		where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getBorrow.transaction_id#">
 	</cfquery>
     <div id="shipmentTable">Loading shipments...</div> <!--- shippmentTable for ajax replace --->
@@ -918,10 +919,10 @@ $(function() {
 	</cfoutput>
                 </div>
 </cfif>
-<!------------------------------------------------------->
+<!--- ------------------------------------------------- --->
 <cfif #action# is "getFile">
 <cfoutput>
-	<!--- upload items --->
+	<!-- upload items --->
 	<cffile action="READ" file="#FiletoUpload#" variable="fileContent">
 	<cfset fileContent=replace(fileContent,"'","''","all")>
 	<cfset arrResult = CSVToArray(CSV = fileContent.Trim()) />
@@ -968,14 +969,14 @@ $(function() {
         NO_OF_SPECIMENS = '#NO_OF_SPECIMENS#',
 		BORROW_STATUS = '#BORROW_STATUS#'
 	WHERE
-		TRANSACTION_ID=#TRANSACTION_ID#
+		TRANSACTION_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 	</cfquery>
 	<cfquery name="setTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		UPDATE trans SET
-			NATURE_OF_MATERIAL = '#NATURE_OF_MATERIAL#',
-			TRANS_REMARKS = '#TRANS_REMARKS#'
+			NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#NATURE_OF_MATERIAL#">,
+			TRANS_REMARKS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#TRANS_REMARKS#">
 		WHERE
-			TRANSACTION_ID=#TRANSACTION_ID#
+			TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#TRANSACTION_ID#">
 	</cfquery>
 	<cfloop from="1" to="#numAgents#" index="n">
 	   <cfif IsDefined("trans_agent_id_" & n) >
@@ -990,7 +991,7 @@ $(function() {
 	        </cftry>
 	        <cfif  del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
 	                <cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	                        delete from trans_agent where trans_agent_id=#trans_agent_id_#
+	                        delete from trans_agent where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 	                </cfquery>
 	        <cfelse>
 	                <cfif len(agent_id_) GT 0><!--- don't try to add/update a blank row --->
@@ -1003,16 +1004,16 @@ $(function() {
 	                                ) values (
 	                                        <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 	                                        <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
-	                                        '#trans_agent_role_#'
+	                                        <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 	                                )
 	                        </cfquery>
 	                <cfelseif del_agnt_ is 0>
 	                        <cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	                                update trans_agent set
-	                                        agent_id = #agent_id_#,
-	                                        trans_agent_role = '#trans_agent_role_#'
+	                                        agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+	                                        trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
 	                                where
-	                                        trans_agent_id=#trans_agent_id_#
+	                                        trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
 	                        </cfquery>
 	                </cfif>
 	                </cfif>
@@ -1024,7 +1025,7 @@ $(function() {
   </cfoutput>
 </cfif>
 
-<!------------------------------------------------------------------------------------------------------->
+<!--- -------------------------------------------------------------------------------------------- --->
 <cfif action is "new">
 <cfset title="New Borrow">
 <cfoutput>
@@ -1332,8 +1333,8 @@ $(function() {
 			    agent_id,
 			    trans_agent_role
 			) values (
-				#transaction_id#,
-				#AUTH_AGENT_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AUTH_AGENT_ID#">,
 				'authorized by')
 		</cfquery>
 		<cfquery name="overBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1342,8 +1343,8 @@ $(function() {
 			    agent_id,
 			    trans_agent_role
 			) values (
-				#transaction_id#,
-				#OVER_AGENT_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#OVER_AGENT_ID#">,
 				'borrow overseen by')
 		</cfquery>
 		<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1352,8 +1353,8 @@ $(function() {
 			    agent_id,
 			    trans_agent_role
 			) values (
-				#transaction_id#,
-				#RECEIVED_AGENT_ID#,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#RECEIVED_AGENT_ID#">,
 				'received by'
 			)
 		</cfquery>
@@ -1385,7 +1386,7 @@ $(function() {
 	<cflocation url="Borrow.cfm?action=edit&transaction_id=#transaction_id#" addtoken="false">
 	</cfoutput>
 </cfif>
-<!------------------------------------------------------------------------------------------------------->
+<!-- --------------------------------------------------------------------------------------------------->
     </div>
 
 <cfinclude template = "/includes/_footer.cfm">
