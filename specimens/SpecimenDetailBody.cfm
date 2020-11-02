@@ -962,7 +962,7 @@ limitations under the License.
 						</cfquery>
 					</cfif>
 					<cfloop query="theRest">
-						<li class="list-group-item py-0">#attribute_type#: #attribute_value#
+						<li class="list-group-item">#attribute_type#: #attribute_value#
 							<cfif len(attribute_units) gt 0>
 								, #attribute_units#
 							</cfif>
@@ -994,10 +994,10 @@ limitations under the License.
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
-				<ul class="list-group list-group-flush float-left pl-2">
+				<ul class="list-group list-group-flush float-left">
 				
 					<cfloop query="relns">
-						<li class="list-group-item">
+						<li class="list-group-item py-0">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
 						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 							(Remark: #biol_indiv_relation_remarks#)
@@ -1005,7 +1005,7 @@ limitations under the License.
 						</li>
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<li>
+						<li class="pb-2">
 						<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
 						</li>
 					</cfif>
