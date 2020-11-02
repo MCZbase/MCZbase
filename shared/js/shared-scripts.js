@@ -174,7 +174,7 @@ function exportGridToCSV (idOfGrid, filename) {
  */
 function exportToCSV (csvStringData, filename) {
    var downloadLink = document.createElement("a");
-   var csvblob = new Blob(["\ufeff", csvStringData]);
+   var csvblob = new Blob(["\ufeff", csvStringData],{type: 'text/csv;charset=utf-8'});
    var url = URL.createObjectURL(csvblob);
    downloadLink.href = url;
    downloadLink.download = filename;
