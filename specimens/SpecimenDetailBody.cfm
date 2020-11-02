@@ -995,18 +995,21 @@ limitations under the License.
 			</div>
 			<div class="card-body float-left">
 				<ul class="list-group list-group-flush float-left pl-2">
-				<li class="list-group-item">
+				
 					<cfloop query="relns">
+						<li class="list-group-item">
 						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
 						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
 							(Remark: #biol_indiv_relation_remarks#)
 						</cfif>
-						,
+						</li>
 					</cfloop>
 					<cfif len(relns.biol_indiv_relationship) gt 0>
+						<li>
 						<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
+						</li>
 					</cfif>
-				</li>
+				
 			</ul>
 			</div>
 		</div>
