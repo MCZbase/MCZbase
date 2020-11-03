@@ -17,6 +17,39 @@ limitations under the License.
 
 */
 
+/** Give a paired guid text input and guid anchor controls with a button to toggle between 
+ * Edit and Find GUID modes (Edit, show anchor, Find Guid, show text input), on a click of
+ * the buttion switch the set of controls from the display the guid in a link with an Edit 
+ * button state to the display the set of controls with the guid in a text input with a 
+ * find guid button which opens a window to do a lookup for the guid.
+ * Assumes the use of 'editGuidButton' and 'findGuidButton' classes to distinguish state 
+ * of the searchControl.
+ * Example invocation: 
+ * <pre>
+   $(document).ready(function () { 
+     $('#taxonid_search').click(function (evt) { 
+		 switchGuidEditToFind('taxonid','taxonid_search','taxonid_link',evt);
+	  };
+   }
+ * </pre>
+ *
+ * @param inputControl the id for the input of type text that alows the GUID to be editied, without # id selector.
+ * @param searchControl the id for the butten which displays Edit or Find Guid, without # id selector.
+ * @param linkControl the id for the anchor tag which displays the guid as a hyperlink, without # id selector.
+ * @param evt the button click event passed from a click event in the searchControl.
+ * @see getGuidTypeInfo
+ */
+function switchGuidEditToFind(inputControl,searchControl,linkControl,evt) {
+	if ($('#'+searchControl).hasClass('editGuidButton')) { 
+		evt.preventDefault();
+		$('#'+inputControl).show();
+		$('#'+linkControl).hide();
+		$('#'+searchControl).html('Find GUID');
+		$('#'+searchControl).addClass('findGuidButton external');
+		$('#'+searchControl).removeClass('editGuidButton');
+	}
+};
+
 /** Given a paired guid text input and guid anchor control, and a guid type, look up the metadata on the guid type,
  *  validate the content of the guid text input with the pattern for that guid type, set the placeholder for the 
  *  input, and construct a resolvable link for the href of the anchor from the text input of the guid, and update
