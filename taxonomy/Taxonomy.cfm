@@ -322,11 +322,12 @@ limitations under the License.
 								<cfif gettaxa.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "Edit" >
+										<cfset searchclass = 'class="btn bt-xs btn-secondary editGuidButton"' >
 									<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "Find GUID" >
+										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
-									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -369,9 +370,8 @@ limitations under the License.
 											$('##taxonid').show();
 											$('##taxonid_link').hide();
 										}
-										$('##taxonid_search').click(function () { 
-											$('##taxonid').show();
-											$('##taxonid_link').hide();
+										$('##taxonid_search').click(function (evt) { 
+											switchGuidEditToFind('taxonid','taxonid_search','taxonid_link',evt);
 										});
 										$('##taxonid_guid_type').change(function () { 
 											// On selecting a guid_type, remove an existing guid value.
@@ -409,11 +409,12 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "Replace <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "Replace" >
+										<cfset searchclass = 'class="btn bt-xs btn-secondary editGuidButton"' >
 									<cfelse>
-										<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
+										<cfset searchtext = "Find GUID" >
+										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
-									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -456,9 +457,8 @@ limitations under the License.
 											$('##scientificnameid').show();
 											$('##scientificnameid_link').hide();
 										}
-										$('##scientificnameid_search').click(function () { 
-											$('##scientificnameid').show();
-											$('##scientificnameid_link').hide();
+										$('##scientificnameid_search').click(function (evt) { 
+											switchGuidEditToFind('scientificnameid','scientificnameid_search','scientificnameid_link',evt);
 										});
 										$('##scientificnameid_guid_type').change( function () { 
 											// On selecting a guid_type, remove an existing guid value.
@@ -1136,8 +1136,8 @@ limitations under the License.
 							<cfloop query="ctguid_type_taxon">
 								<cfif getClonedFromTaxon.taxonid_guid_type is ctguid_type_taxon.guid_type OR ctguid_type_taxon.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_taxon.search_uri & getClonedFromTaxon.scientific_name >
-									<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
+									<cfset searchtext = "Find GUID" >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1170,9 +1170,8 @@ limitations under the License.
 									$(document).ready(function () { 
 										$('##taxonid').show();
 										$('##taxonid_link').hide();
-										$('##taxonid_search').click(function () { 
-											$('##taxonid').show();
-											$('##taxonid_link').hide();
+										$('##taxonid_search').click(function (evt) { 
+											switchGuidEditToFind('taxonid','taxonid_search','taxonid_link',evt);
 										});
 										$('##taxonid_guid_type').change(function () { 
 											// On selecting a guid_type, remove an existing guid value.
@@ -1209,8 +1208,8 @@ limitations under the License.
 							<cfloop query="ctguid_type_scientificname">
 								<cfif getClonedFromTaxon.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & getClonedFromTaxon.scientific_name >
-									<cfset searchtext = "Find GUID <i class='fas fa-external-link-alt'></i>" >
-									<cfset searchclass = 'class="btn btn-xs btn-secondary"' >
+									<cfset searchtext = "Find GUID" >
+									<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
@@ -1243,9 +1242,8 @@ limitations under the License.
 									$(document).ready(function () { 
 										$('##scientificnameid').show();
 										$('##scientificnameid_link').hide();
-										$('##scientificnameid_search').click(function () { 
-											$('##scientificnameid').show();
-											$('##scientificnameid_link').hide();
+										$('##scientificnameid_search').click(function (evt) { 
+											switchGuidEditToFind('scientificnameid','scientificnameid_search','scientificnameid_link',evt);
 										});
 										$('##scientificnameid_guid_type').change( function () { 
 											// On selecting a guid_type, remove an existing guid value.
