@@ -60,6 +60,7 @@ function switchGuidEditToFind(inputControl,searchControl,linkControl,evt) {
  *  @param linkControl the id for the anchor that is to take the resolvable guid as an href (without a leading # selector).
  *  @param searchControl the id for the anchor that is to take a guid search link as an href (without a leading # selector).
  *  @param searchText the text to append to the end of the search_uri in the searchControl href to lookup a guid.
+ *  @see switchGuidEditToFind
  */
 function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, searchText) {
 	$.ajax({
@@ -96,14 +97,18 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 			$('#'+searchControl).attr("href",data[0].search_uri + encodeURIComponent(searchText)); 
 			if (searchText && searchText.length > 0) { 
 				if (guid.length > 0) { 
-					$('#'+searchControl).html("Replace <i class='fas fa-external-link-alt'></i>"); 
+					$('#'+searchControl).html("Edit"); 
+					$('#'+searchControl).addClass("editGuidButton"); 
+					$('#'+searchControl).removeClass("findGuidButton external"); 
 				} else { 
-					$('#'+searchControl).html("Find GUID <i class='fas fa-external-link-alt'></i>"); 
+					$('#'+searchControl).html("Find GUID"); 
+					$('#'+searchControl).removeClass("editGuidButton"); 
+					$('#'+searchControl).addClass("findGuidButton external"); 
 				}
-				$('#'+searchControl).addClass("btn-xs btn-secondary");
+				$('#'+searchControl).addClass("btn btn-xs btn-secondary");
 			} else {
 				$('#'+searchControl).html(""); 
-				$('#'+searchControl).removeClass("btn-xs btn-secondary");
+				$('#'+searchControl).removeClass("btn btn-xs btn-secondary external");
 			}
 		},
 		error : function (jqXHR, status, error) {
