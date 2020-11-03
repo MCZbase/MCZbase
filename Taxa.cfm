@@ -634,7 +634,7 @@ limitations under the License.
 						$("##overlay").show();
 
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-						$('##resultCount').replaceWith('<span class="d-block px-3 p-2" id="resultCount"><a class="messageResults" aria-label="search results" tabindex="1"></a></span> <span id="resultLink" class="d-block p-2"></span>');
+						$('##resultCount').replaceWith('<span class="d-block px-3 p-2" id="resultCount"><a class="messageResults" aria-label="search results" tabindex="1"></a></span> ');
 						$('##resultLink').html('');
 
 						var search =
