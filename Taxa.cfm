@@ -544,7 +544,8 @@ limitations under the License.
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h4 id="resultsHeaderElement">Results: </h4>
-							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
+							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"></span> 
+							<span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
@@ -699,9 +700,9 @@ limitations under the License.
 							},
 							async: true
 						};
-						$(document).ajaxSuccess(function() {
-						$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
-						});
+			//			$(document).ajaxSuccess(function() {
+//						$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
+//						});
 
 						var dataAdapter = new $.jqx.dataAdapter(search);
 						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
