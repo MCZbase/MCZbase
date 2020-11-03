@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Searching 'any part of name or classification' and 'remarks fields' use fuzzy matching.</span
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Search fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span
 									</div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
@@ -633,8 +633,8 @@ limitations under the License.
 
 						$("##overlay").show();
 
-						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-						$('##resultCount').html('');
+						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
+						$('##resultCount').replaceWith('<span class="d-block px-3 p-2" id="resultCount" tabindex="1"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>');
 						$('##resultLink').html('');
 
 						var search =
