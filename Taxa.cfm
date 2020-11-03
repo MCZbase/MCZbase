@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Searching the fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span
+										<p class="smaller-text" tabindex="0">Add an equals sign to the beginning of names for exact match. Add ! <span class="sr-only">(an exclamation point)</span> to the beginning of names for a NOT search. Name fields accept comma separated lists. NULL finds blanks.</span
 									></div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
