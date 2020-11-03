@@ -101,8 +101,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##subphylum").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -115,8 +115,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##superclass").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -129,8 +129,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##phylclass").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -143,8 +143,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##subclass").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -157,8 +157,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##superorder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -171,8 +171,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##phylorder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -185,8 +185,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##suborder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -199,8 +199,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##infraorder").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -213,8 +213,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##superfamily").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -227,8 +227,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##family").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -241,8 +241,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##subfamily").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -255,8 +255,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##tribe").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -269,8 +269,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##genus").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -283,8 +283,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 			jQuery("##author_text").autocomplete({
 				source: function (request, response) {
 					$.ajax({
@@ -301,8 +301,8 @@ limitations under the License.
 				},
 				minLength: 3
 			}).autocomplete( "instance" )._renderItem = function( ul, item ) {
-      		return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
-    		};
+				return $("<li>").append( "<span>" + item.value + " (" + item.meta +")</span>").appendTo( ul );
+			};
 		});
 	</script>
 	
@@ -575,19 +575,22 @@ limitations under the License.
 					return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
 				};
 			</script>
-			<cfif isdefined("Application.header_image")>
-				<!--- Production links --->
-				<script>
+			<!--- links --->
+			<script>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 						var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+						return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
 						};
 					</cfif>
 
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/TaxonomyDetails.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 					};
+			</script>
+			<cfif isdefined("Application.header_image")>
+				<!--- Production specific links --->
+				<script>
 					var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						var result = "";
@@ -600,18 +603,8 @@ limitations under the License.
 					};
 				</script>
 			<cfelse>
-				<!--- Redesign links --->
+				<!--- Redesign specific links --->
 				<script>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-						var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
-						};
-					</cfif>
-
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
-					};
 					var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 						var result = "";
@@ -828,13 +821,13 @@ limitations under the License.
 					}
 					// set maximum page size
 					if (rowcount > 100) { 
-					   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
-					   $('##' + gridId).jqxGrid({ pagesize: 50});
+						$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
+						$('##' + gridId).jqxGrid({ pagesize: 50});
 					} else if (rowcount > 50) { 
-					   $('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
-					   $('##' + gridId).jqxGrid({ pagesize: 50});
+						$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
+						$('##' + gridId).jqxGrid({ pagesize: 50});
 					} else { 
-					   $('##' + gridId).jqxGrid({ pageable: false });
+						$('##' + gridId).jqxGrid({ pageable: false });
 					}
 					// add a control to show/hide columns
 					var columns = $('##' + gridId).jqxGrid('columns').records;
@@ -863,7 +856,7 @@ limitations under the License.
 					$("##columnPickDialog").dialog({ 
 						height: 'auto', 
 						title: 'Show/Hide Columns',
-						autoOpen: false,  
+						autoOpen: false,
 						modal: true, 
 						reszable: true, 
 						buttons: { 
@@ -872,7 +865,7 @@ limitations under the License.
 						open: function (event, ui) { 
 							var maxZIndex = getMaxZIndex();
 							// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-							$('.ui-dialog').css({'z-index': maxZIndex + 4 });  
+							$('.ui-dialog').css({'z-index': maxZIndex + 4 });
 							$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
 						} 
 					});
