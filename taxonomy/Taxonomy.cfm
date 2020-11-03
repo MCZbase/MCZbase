@@ -409,7 +409,7 @@ limitations under the License.
 								<cfif gettaxa.scientificnameid_guid_type is ctguid_type_scientificname.guid_type OR ctguid_type_scientificname.recordcount EQ 1 >
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
-										<cfset searchtext = "Replace" >
+										<cfset searchtext = "Edit" >
 										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
