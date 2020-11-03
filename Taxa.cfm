@@ -391,7 +391,7 @@ limitations under the License.
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
 										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Search fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span
-									</div>
+									></div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=)</a></label>
@@ -544,7 +544,7 @@ limitations under the License.
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h4 id="resultsHeaderElement">Results: </h4>
-							<button class="d-block px-3 p-2" id="resultCount"><a class="messageResults" aria-label="search results"></a></button> <span id="resultLink" class="d-block p-2"></span>
+							<span class="d-block px-3 p-2" id="resultCount" aria-label="Found Records"><a class="messageResults" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
@@ -634,7 +634,7 @@ limitations under the License.
 						$("##overlay").show();
 
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid"></div>');
-						$('##resultCount').replaceWith('<button class="d-block px-3 p-2" id="resultCount" tabindex="1"><a class="messageResults" aria-label="search results" tabindex="1"></a></button> ');
+						$('##resultCount').replaceWith('<span class="d-block px-3 p-2" id="resultCount" tabindex="1"><a class="messageResults" aria-label="search results" tabindex="1"></a></span> ');
 						$('##resultLink').html('');
 
 						var search =
