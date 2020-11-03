@@ -637,7 +637,6 @@ limitations under the License.
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" tabindex="0" style="z-index: 1;"></div>');
 						$('##resultCount').html('');
 						$('##resultLink').html(''); 
-						$('##wrapper').replace("<div tabindex='0' class='jqx-clear jqx-max-size jqx-position-relative jqx-overflow-hidden jqx-background-reset' id='wrapper" + h.element.id + "'><div class='jqx-clear jqx-position-absolute' id='toolbar' style='visibility: hidden;'></div>");
 
 						var search =
 						{
