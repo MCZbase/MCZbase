@@ -383,6 +383,14 @@ Provide a marker to indicate that content is expected to be loaded by ajax when 
 
 **Provide a consistent spinner that ajax is happening.**
 
+Use this pattern for areas that are to have content loaded by ajax on page load: 
+
+    <div id="areaIntoWhichDataIsToBeAjaxLoaded"> 
+        <div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading...</div>
+    </div>
+
+WARNING: The spinner is deceptive, it implies that an action is ongoing, if this area remains spinning it is likely that javascript is broken and nothing is happening.
+
 ## Styling Pages [In Progress]
 
 ### Types of Pages
