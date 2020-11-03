@@ -542,7 +542,7 @@ limitations under the License.
 			<section class="container-fluid">
 				<div class="row">
 					<div class="col-12 mb-5">
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0" tabindex="1">
+						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0" tabindex="0">
 							<h4 id="resultsHeaderElement">Results: </h4>
 							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"></span> 
 							<span id="resultLink" class="d-block p-2"></span>
