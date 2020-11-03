@@ -323,7 +323,7 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Edit" >
-										<cfset searchclass = 'class="btn bt-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
 										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
@@ -410,7 +410,7 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
 										<cfset searchtext = "Replace" >
-										<cfset searchclass = 'class="btn bt-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
 										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
