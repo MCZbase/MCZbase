@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add an = <span class="sr-only">equals sign</span> to the beginning of names entered for exact match. Add ! <span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists. NULL finds blanks. Searching the fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span></div>
+										<p class="smaller-text" tabindex="0">Add an = <span class="sr-only">sign</span> to the beginning of names entered for exact match. Add ! <span class="sr-only">exclamation mark</span> for not. Name fields accept comma separated lists. NULL finds blanks. Searching the fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span></div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=)</a></label>
