@@ -101,7 +101,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 					$('#'+searchControl).addClass("editGuidButton"); 
 					$('#'+searchControl).removeClass("findGuidButton external"); 
 				} else { 
-					$('#'+searchControl).html("Find GUID"); 
+					$('#'+searchControl).html("Find GUID");
 					$('#'+searchControl).removeClass("editGuidButton"); 
 					$('#'+searchControl).addClass("findGuidButton external"); 
 				}
