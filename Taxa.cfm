@@ -390,7 +390,7 @@ limitations under the License.
 								</div>
 								<div class="col-12 col-xl-9 mt-2">
 									<div class="col-12">
-										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Search fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span
+										<p class="smaller-text" tabindex="0">Add equals sign for exact match to the beginning of names entered. Add exclamation mark for not. Name fields accept comma separated lists. NULL finds blanks. Searching the fields 'any part of name or classification' and 'remarks' use fuzzy matching.</span
 									></div>
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
@@ -544,8 +544,7 @@ limitations under the License.
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
 							<h4 id="resultsHeaderElement">Results: </h4>
-							<a class="d-block px-3 p-2" id="resultCount" aria-label="Found Records"><span class="messageResults" aria-label="search results"></span></a> 
-							<span id="resultLink" class="d-block p-2"></span>
+							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
 								<div id="columnPick" class="px-1"></div>
 							</div>
@@ -633,10 +632,10 @@ limitations under the License.
 						evt.preventDefault();
 
 						$("##overlay").show();
-						$('##resultCount').replaceWith('<a class="d-block px-3 p-2" id="resultCount" tabindex="1"><span class="messageResults" aria-label="search results" tabindex="1"></span></a> ');
-						$('##resultLink').replaceWith('<span id="resultLink" class="d-block p-2" tabindex="2"></span>');
-						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" tabindex="3"></div>');
-						
+
+						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+						$('##resultCount').html('');
+						$('##resultLink').html('');
 
 						var search =
 						{
@@ -733,7 +732,7 @@ limitations under the License.
 							autoshowloadelement: false,  // overlay acts as load element for form+results
 							columnsreorder: true,
 							groupable: true,
-							selectionmode: 'none',
+							selectionmode: 'singlerow',
 							altrows: true,
 							showtoolbar: false,
 							columns: [
@@ -788,7 +787,7 @@ limitations under the License.
 						});
 						$("##searchResultsGrid").on("bindingcomplete", function(event) {
 							// add a link out to this search, serializing the form as http get parameters
-							$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '" >Link to this search</a>');
+							$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 							gridLoaded('searchResultsGrid','taxon record');
 						});
 						$('##searchResultsGrid').on('rowexpand', function (event) {
