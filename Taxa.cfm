@@ -634,7 +634,7 @@ limitations under the License.
 
 						$("##overlay").show();
 						$('##resultCount').replaceWith('<a class="d-block px-3 p-2" id="resultCount" tabindex="1"><span class="messageResults" aria-label="search results" tabindex="1"></span></a> ');
-						$('##resultLink').html('<span id="resultLink" class="d-block p-2"></span>');
+						$('##resultLink').replaceWith('<span id="resultLink" class="d-block p-2" tabindex="2"></span>');
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" tabindex="3"></div>');
 						
 
@@ -788,7 +788,7 @@ limitations under the License.
 						});
 						$("##searchResultsGrid").on("bindingcomplete", function(event) {
 							// add a link out to this search, serializing the form as http get parameters
-							$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '" tabindex="2">Link to this search</a>');
+							$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '" >Link to this search</a>');
 							gridLoaded('searchResultsGrid','taxon record');
 						});
 						$('##searchResultsGrid').on('rowexpand', function (event) {
