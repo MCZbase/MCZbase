@@ -704,7 +704,13 @@ limitations under the License.
 									$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 								</script>
 								<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
-									
+									<img src='/shared/images/indicator.gif'>
+									Loading Agents....  <span id='agentWarningSpan'>(if agents don't appear here, there is an error).</span>
+									<script>
+									$(document).ready(function() { 
+										$('##agentWarningSpan').delay(1000).fadeIn(300);
+									});
+									<script>
 								</div>
 								<script>
 									$(document).ready(function() { 
@@ -740,6 +746,7 @@ limitations under the License.
 								</div>
 								<div class="col-12">
 									<span class="form-row" id="subloan_section">
+										<img src='/shared/images/indicator.gif'>
 										Loading subloans...
 									</span><!--- end subloan section ---> 
 									<script>
