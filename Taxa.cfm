@@ -552,7 +552,7 @@ limitations under the License.
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
 						</div>
-						<div class="row mt-0 mx-0">
+						<div id="gridControl" class="row mt-0 mx-0">
 							<!--- Grid Related code is below along with search handlers --->
 							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
 							<div id="enableselection"></div>
@@ -635,6 +635,7 @@ limitations under the License.
 						$("##overlay").show();
 
 						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" tabindex="1" style="z-index: 1;"></div>');
+						$("##gridControl").replaceWith('<div id="gridControl" class="row mt-0 mx-0" tabindex="1">');
 						$('##resultCount').html('');
 						$('##resultLink').html(''); 
 
