@@ -424,18 +424,12 @@ limitations under the License.
       <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfset targetform = "/transactions/Loan.cfm?action=editLoan&">
+			<cfset targetform = "Loan.cfm?action=editLoan&">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfif isdefined("Application.header_image")>
-				<!--- Link for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
-			<cfelse>
-				<!--- Link for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
