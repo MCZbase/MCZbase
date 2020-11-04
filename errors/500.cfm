@@ -1,6 +1,8 @@
-<cfif not isdefined("toProperCase")>
-	<!---  if header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
-	<cfinclude template="/includes/_header.cfm">
+<cfif not isdefined("HEADER_DELIVERED") AND not isdefined("toProperCase")>
+	<!---  if includes header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
+	<!---  if shared header has been included then HEADER_DELIVERED is defined --->
+   <cfset pageTitle = "404 Error - Page Not Found">
+   <cfinclude template="/shared/_header.cfm">
 </cfif>
 <cfoutput>
 	<cfheader statuscode="500" statustext="Internal Server Error">
@@ -18,4 +20,8 @@
 	 	containing any information that might help us resolve this issue.
 	</p>
 </cfoutput>
-<cfinclude template="/includes/_footer.cfm">
+<cfif not isdefined("HEADER_DELIVERED")>
+	<cfinclude template="/includes/_footer.cfm">
+<cfelse>
+	<cfinclude template="/shared/_footer.cfm">
+</cfif>
