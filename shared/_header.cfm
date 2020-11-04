@@ -598,21 +598,13 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Transactions.cfm">All Transactions</a>
-										<cfelse>
-											<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										</cfif>			
+										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editAccn.cfm">Accessions</a>
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Accessions</a>
 										</cfif>			
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										<cfelse>
-											<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										</cfif>
+										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Borrow.cfm">Borrow</a>
 										<cfelse>
@@ -636,11 +628,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Accession</a> 
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Loan.cfm?action=newLoan">Loan</a> 
-										<cfelse>
-											<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
 										<cfelse>
