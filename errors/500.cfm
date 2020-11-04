@@ -1,7 +1,7 @@
 <cfif not isdefined("HEADER_DELIVERED") AND not isdefined("toProperCase")>
 	<!---  if includes header has been included, functionLib.cfm will have been invoked and toProperCase will be defined --->
 	<!---  if shared header has been included then HEADER_DELIVERED is defined --->
-   <cfset pageTitle = "404 Error - Page Not Found">
+   <cfset pageTitle = "500 Error - Internal Server Error">
    <cfinclude template="/shared/_header.cfm">
 </cfif>
 <cfoutput>
