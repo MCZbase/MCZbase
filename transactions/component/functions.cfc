@@ -445,7 +445,7 @@ limitations under the License.
 								<script>
 									function moveClickCallback(status) { 
 										if (status == 1) { 
-											$('##' + '#feedbackId#').html('Moved.  Click OK to close dialog.'); 
+											$('##' + '#feedbackId#').html('Moved.  Click the Close Dialog button.'); 
 										} else { 
 											$('##' + '#feedbackId#').html('Error.'); 
 										}
@@ -455,7 +455,7 @@ limitations under the License.
 									};
 									function addClickCallback(status) { 
 										if (status == 1) { 
-											$('##' + '#feedbackId#').html('Added.  Click OK to close dialog.'); 
+											$('##' + '#feedbackId#').html('Added.  Click the Close Dialog button.'); 
 										} else { 
 											$('##' + '#feedbackId#').html('Error.'); 
 										}
