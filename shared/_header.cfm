@@ -615,11 +615,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a>
 										</cfif>	
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Permit.cfm">Permissions &amp; Rights</a>
-										<cfelse>
-											<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
