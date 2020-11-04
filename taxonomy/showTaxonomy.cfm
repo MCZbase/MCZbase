@@ -432,7 +432,7 @@
 						</cfloop>
 					</cfif>
 				</ul>
-				<h2 class="h4">Nomenclaturally Related Names:</h2>
+				<h2 class="h4">Synonymns and other Related Names:</h2>
 				<ul>
 					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
 						<li><b>No related names recorded.</b></li>
@@ -456,7 +456,7 @@
 					</cfif>
 				</ul>
 
-				<h2 class="h4">Related Taxon Records:</h2>
+				<h2 class="h4">Related higher and lower rank Taxon Records:</h2>
 				<div class="row" id="taxRelatedNames">
 					<cfset taxon_name_id = tnid>
 					<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
