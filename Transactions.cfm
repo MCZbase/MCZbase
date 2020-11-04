@@ -740,7 +740,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -786,7 +786,7 @@ limitations under the License.
 		content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
 		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
 		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
-		content = content + "<a href='/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
+		content = content + "<a href='/transaction/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
