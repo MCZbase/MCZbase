@@ -1087,8 +1087,8 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
-				{text: 'Loan', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
+				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Type', datafield: 'loan_type', width: 100},
