@@ -106,6 +106,9 @@ Disallow: /SpecimenQuickSearch.cfm
 Disallow: /specLocality.cfm
 Disallow: /TAG.cfm
 Disallow: /Taxonomy.cfm
+Disallow: /taxonomy/Taxonomy.cfm
+Disallow: /taxonomy/js/
+Disallow: /taxonomy/component/
 Disallow: /Taxa.cfm
 Disallow: /Transactions.cfm
 Disallow: /userBrowseBulked.cfm
