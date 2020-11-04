@@ -1468,7 +1468,12 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		},
 		close: function(event,ui) {
 			$("#"+dialogId+"_div").html("");
-			$("#"+dialogId).dialog('destroy');
+			$("#"+dialogId).empty();
+			try {
+				$("#"+dialogId).dialog('destroy');
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	});
 	thedialog.dialog('open');
