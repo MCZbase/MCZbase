@@ -730,7 +730,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -776,7 +776,7 @@ limitations under the License.
 		content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
 		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
 		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
-		content = content + "<a href='/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
+		content = content + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
@@ -896,8 +896,8 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
-				{text: 'Transaction', datafield: 'id_link', width: 110},
+				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: true },
+				{text: 'Transaction', datafield: 'id_link', width: 120},
 				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: true },
@@ -1087,8 +1087,8 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
-				{text: 'Loan', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
+				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Type', datafield: 'loan_type', width: 100},

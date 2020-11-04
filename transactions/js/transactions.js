@@ -1457,7 +1457,8 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogId).dialog('close');
+				$(this).dialog('close');
+				//$("#"+dialogId).dialog('close');
 			}
 		},
 		open: function (event, ui) {
@@ -1468,7 +1469,12 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		},
 		close: function(event,ui) {
 			$("#"+dialogId+"_div").html("");
-			$("#"+dialogId).dialog('destroy');
+			$("#"+dialogId).empty();
+			try {
+				$("#"+dialogId).dialog('destroy');
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	});
 	thedialog.dialog('open');
