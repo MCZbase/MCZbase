@@ -19,7 +19,7 @@
 						species is null and 
 						subspecies is null
 				</cfquery>
-				<cfif len(ssp.scientific_name) gt 0>
+				<cfif len(genus.scientific_name) gt 0>
 					<p>Parent Genus: <a href="/name/#genus.scientific_name#">#genus.display_name# <span class="sm-caps">#genus.author_text#</span></a></p>
 				<cfelse>
 					<p>There is no taxonomy record in MCZbase for the genus #t.genus#
@@ -28,7 +28,7 @@
 			<div class="col-12 col-lg-6">
 				<cfif len(t.subspecies) gt 0>
 					<cfquery name="ssp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
-						select scientific_name,display_name, author_text
+						select scientific_name, display_name, author_text
 						from taxonomy 
 						where 
 							genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
