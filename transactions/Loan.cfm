@@ -710,7 +710,7 @@ limitations under the License.
 									$(document).ready(function() { 
 										$('##agentWarningSpan').delay(1000).fadeIn(300);
 									});
-									<script>
+									</script>
 								</div>
 								<script>
 									$(document).ready(function() { 
