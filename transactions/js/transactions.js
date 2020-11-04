@@ -1457,7 +1457,8 @@ function openMovePermitDialog(transaction_id, current_shipment_id, permit_id, di
 		draggable:true,
 		buttons: {
 			"Close Dialog": function() {
-				$("#"+dialogId).dialog('close');
+				$("#"+dialogId).closest('.ui-dialog-content').dialog('close');
+				//$("#"+dialogId).dialog('close');
 			}
 		},
 		open: function (event, ui) {
