@@ -575,6 +575,7 @@
 						</ul>
 					</div>
 					<div class="row" id="taxRelatedNames">
+						<cfset taxon_name_id = tnid>
 						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
 						<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
 					</div>
