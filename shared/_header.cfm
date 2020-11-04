@@ -639,11 +639,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Borrow</a> 
 										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Permit.cfm?action=newPermit">Permissions &amp; Rights</a> 
-										<cfelse>
-											<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 									</div>
 									</li>
 							</ul>
