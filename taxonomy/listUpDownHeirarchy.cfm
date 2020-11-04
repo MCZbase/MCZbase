@@ -1,4 +1,7 @@
 <cfoutput>
+	<cfif NOT isdefined("taxon_name_id")>
+		<h3>No taxon name id provided to look up related taxon records.</h3>
+	</cfelse>
 		<cfquery name="t" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 			select TAXON_NAME_ID, PHYLCLASS, PHYLORDER, SUBORDER, FAMILY, SUBFAMILY, GENUS, SUBGENUS, SPECIES,
 				SUBSPECIES, VALID_CATALOG_TERM_FG, SOURCE_AUTHORITY, FULL_TAXON_NAME, SCIENTIFIC_NAME, AUTHOR_TEXT, TRIBE,
@@ -102,7 +105,7 @@
 						scientific_name
 				</cfquery>
 				<cfif d.recordcount gt 0>
-					<br>Species:
+					<br>Included Species:
 				</cfif>
 				<ul>
 					<cfloop query="d">
@@ -111,4 +114,5 @@
 				</ul>
 			</div>
 		</cfif>
+	</cfif>
 </cfoutput>

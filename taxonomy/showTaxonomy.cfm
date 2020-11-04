@@ -193,8 +193,10 @@
 			taxon_relations.RELATION_AUTHORITY,
 			related_taxa.SCIENTIFIC_NAME as related_name,
 			related_taxa.display_name as related_display_name,
+			related_taxa.author_text as related_author_text,
 			imp_related_taxa.SCIENTIFIC_NAME imp_related_name,
 			imp_related_taxa.display_name imp_related_display_name,
+			imp_related_taxa.author_text imp_related_author_text,
 			imp_taxon_relations.taxon_name_id imp_RELATED_TAXON_NAME_ID,
 			imp_taxon_relations.TAXON_RELATIONSHIP imp_TAXON_RELATIONSHIP,
 			imp_taxon_relations.RELATION_AUTHORITY imp_RELATION_AUTHORITY
@@ -268,7 +270,8 @@
 			TAXON_RELATIONSHIP,
 			RELATION_AUTHORITY,
 			related_name,
-			related_display_name
+			related_display_name,
+			related_author_text
 		from
 			getDetails
 		where
@@ -278,7 +281,8 @@
 			TAXON_RELATIONSHIP,
 			RELATION_AUTHORITY,
 			related_name,
-			related_display_name
+			related_display_name,
+			related_author_text
 	</cfquery>
 	<cfquery name="imp_related" dbtype="query">
 		select
@@ -286,7 +290,8 @@
 			imp_RELATED_TAXON_NAME_ID,
 			imp_TAXON_RELATIONSHIP,
 			imp_RELATION_AUTHORITY,
-			imp_related_display_name
+			imp_related_display_name,
+			imp_related_author_text
 		from
 			getDetails
 		where
@@ -296,7 +301,8 @@
 			imp_RELATED_TAXON_NAME_ID,
 			imp_TAXON_RELATIONSHIP,
 			imp_RELATION_AUTHORITY,
-			imp_related_display_name
+			imp_related_display_name,
+			imp_related_author_text
 	</cfquery>
 	<cfquery name="tax_pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select
@@ -335,29 +341,6 @@
 	<section class="row">
 		<div class="col-12 mb-5"> 
 			<cfoutput> 
-				<!--- TODO: Review these, replace with queries to load data directly in page load, no need for ajax here --->
-				<script>
-					jQuery(document).ready(function(){
-						//var elemsToLoad='specTaxMedia,taxRelatedNames,mapTax';
-						//var elemsToLoad='taxRelatedNames,mapTax';
-						var elemsToLoad='taxRelatedNames';
-						getMedia('taxon','#one.taxon_name_id#','specTaxMedia','14','1');
-	
-						//var elemsToLoad='taxRelatedNames';
-						var elemAry = elemsToLoad.split(",");
-						for(var i=0; i<elemAry.length; i++){
-							load(elemAry[i]);
-						}
-					});
-
-					function load(name){
-						//var el=document.getElementById(name);
-						var ptl="/includes/taxonomy/" + name + ".cfm?taxon_name_id=#one.taxon_name_id#&scientific_name=#one.scientific_name#";
-						jQuery.get(ptl, function(data){
-						jQuery('##' + name).html(data);
-						})
-					}
-				</script>
 
 				<cfset title="#one.scientific_name#">
 				<cfset metaDesc="Taxon Detail for #one.scientific_name#">
@@ -366,22 +349,6 @@
 					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 				</cfloop>
 
-				<!--- TODO: Incorporate annotations into page flow, instead of floating class --->
-				<div class="float-right">
-					<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-						<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select count(*) cnt from annotations
-							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
-						</cfquery>
-
-						<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [ Annotate ] 
-							<cfif #existingAnnotations.cnt# gt 0>
-								(#existingAnnotations.cnt# existing)
-							</cfif>
-						</a>
-					</cfif>
-				</div>
-		
 				<div>
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
@@ -451,29 +418,36 @@
 						</cfloop>
 					</cfif>
 				</ul>
-				<h2 class="h4">Related Taxa:</h2>
+				<h2 class="h4">Nomenclaturally Related Names:</h2>
 				<ul>
 					<cfif related.recordcount is 0 and imp_related.recordcount is 0>
-						<li><b>No related taxa recorded.</b></li>
+						<li><b>No related names recorded.</b></li>
 					<cfelse>
 						<cfloop query="related">
 							<li>
-								#TAXON_RELATIONSHIP# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><i><b>#related_name#</b></i></a>
+								#TAXON_RELATIONSHIP# of <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
 								<cfif len(RELATION_AUTHORITY) gt 0>
-									(Authority: #RELATION_AUTHORITY#)
+									(According to: #RELATION_AUTHORITY#)
 								</cfif>
 							</li>
 						</cfloop>
 						<cfloop query="imp_related">
 							<li> 
-								<a href="/TaxonomyDetails.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><i><b>#imp_related_name#</b></i></a> is #imp_TAXON_RELATIONSHIP#
+								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><b><i>#imp_related_name#</i> <span class="sm-caps">#imp_related_author_text#</span></b></a> is #imp_TAXON_RELATIONSHIP#
 								<cfif len(imp_RELATION_AUTHORITY) gt 0>
-									(Authority: #imp_RELATION_AUTHORITY#)
+									(According to: #imp_RELATION_AUTHORITY#)
 								</cfif>
 							</li>
 						</cfloop>
 					</cfif>
 				</ul>
+
+				<div class="row" id="taxRelatedNames">
+					<h2 class="h4">Related Taxon Records:</h2>
+					<cfset taxon_name_id = tnid>
+					<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+					<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
+				</div>
 
 				<div id="specTaxMedia">
 					<!--- TODO: Lookup media --->
@@ -574,12 +548,26 @@
 							</li>
 						</ul>
 					</div>
-					<div class="row" id="taxRelatedNames">
-						<cfset taxon_name_id = tnid>
-						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
-						<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
+				</div>
+
+				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+					<div class="row">
+						<div class="col-12">
+							<h2 class="h4">Annotations:</h2>
+							<cfquery name="existingAnnotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								select count(*) cnt from annotations
+								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+							</cfquery>
+	
+							<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [ Annotate ] 
+								<cfif #existingAnnotations.cnt# gt 0>
+									(#existingAnnotations.cnt# existing)
+								</cfif>
+							</a>
+						</div>
 					</div>
-				</div><!--- internal-external-links-lists --->
+				</cfif>
+		
 			</cfoutput> 
 		</div> <!--- col --->
 	</section><!-- row --->
