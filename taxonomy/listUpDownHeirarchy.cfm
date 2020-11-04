@@ -15,8 +15,8 @@
 					from taxonomy 
 					where 
 						genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
-						subgenus = is null and 
-						species = is null and 
+						subgenus is null and 
+						species is null and 
 						subspecies is null
 				</cfquery>
 				<cfif len(ssp.scientific_name) gt 0>
