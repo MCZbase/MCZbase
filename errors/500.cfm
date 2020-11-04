@@ -6,7 +6,7 @@
 </cfif>
 <cfoutput>
 	<cfheader statuscode="500" statustext="Internal Server Error">
-	<div class="basic_box">
+	<div class="basic_box mb-5">
 	<cfset title="500: Internal Server Error">
 	<h2>500 Internal Server Error. </h2>
 	<cfif isdefined("errorMessage")>
@@ -19,6 +19,7 @@
       Please <a href="/info/bugs.cfm"><b>submit a bug report</b></a>
 	 	containing any information that might help us resolve this issue.
 	</p>
+	</div>
 </cfoutput>
 <cfif not isdefined("HEADER_DELIVERED")>
 	<cfinclude template="/includes/_footer.cfm">
