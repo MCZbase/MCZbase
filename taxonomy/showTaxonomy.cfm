@@ -369,9 +369,9 @@
 				
 				<table class="table table-responsive">
 					<tr>
-						<cfloop list="#taxaRanksList#" index="i">
-							<cfif len(evaluate("one." & i)) gt 0>
-								<cfset lbl=replace(i,"PHYL",'')>
+						<cfloop list="#taxaRanksList#" index="rank">
+							<cfif len(evaluate("one." & rank)) gt 0>
+								<cfset lbl=replace(rank,"PHYL",'')>
 								<cfif lbl is "subspecies" and len(one.infraspecific_rank) gt 0>
 									<cfset lbl=one.infraspecific_rank>
 								</cfif>
@@ -380,10 +380,24 @@
 						</cfloop>
 					</tr>
 					<tr>
-						<cfloop list="#taxaRanksList#" index="i">
-							<cfif len(evaluate("one." & i)) gt 0>
-								<td>#evaluate("one." & i)#</td>
-								<cfset metaDesc=metaDesc & "; #replace(i,'PHYL','')#: #evaluate('one.' & i)#">
+						<cfloop list="#taxaRanksList#" index="rank">
+							<cfif len(evaluate("one." & rank)) gt 0>
+								<cfif rank EQ "Family">
+									<cfset fam = evaluate("one." & rank)>
+									<td><a href="/Taxa.cfm?execute=true&family=#fam#">#fam#</a></td>
+								<cfelseif rank EQ "Genus">
+									<cfset highertaxon = evaluate("one." & rank)>
+									<td><a href="/Taxa.cfm?execute=true&genus=#highertaxon#">#highertaxon#</a></td>
+								<cfelseif rank EQ "Superfamily">
+									<cfset highertaxon = evaluate("one." & rank)>
+									<td><a href="/Taxa.cfm?execute=true&superfamily=#highertaxon#">#highertaxon#</a></td>
+								<cfelseif rank EQ "Suborder">
+									<cfset highertaxon = evaluate("one." & rank)>
+									<td><a href="/Taxa.cfm?execute=true&suborder=#highertaxon#">#highertaxon#</a></td>
+								<cfelse>
+									<td>#evaluate("one." & rank)#</td>
+								</cfif>
+								<cfset metaDesc=metaDesc & "; #replace(rank,'PHYL','')#: #evaluate('one.' & rank)#">
 							</cfif>
 						</cfloop>
 					</tr>
