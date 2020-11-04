@@ -594,13 +594,7 @@ limitations under the License.
 			<cfif len(label) EQ 0>
 				<cfset label = trim(search.specific_type)>
 			</cfif>
-			<cfif isdefined("Application.header_image")>
-				<!--- Link for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#permit_id=#search.permit_id#' target='_blank'>#label#</a>">
-			<cfelse>
-				<!--- Link for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#label#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#label#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
