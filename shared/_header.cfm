@@ -124,8 +124,15 @@ limitations under the License.
 <body class="default">
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset rev = FileReadLine(FileOpen("/var/www/html/arctos/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset rev = "unknown">
+</cfcatch>
+</cftry>
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
-<cfif isdefined("Application.header_image")>
+<cfif findNoCase('redesign',rev) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
 	<cfset collection_link_color = "white">
@@ -192,13 +199,15 @@ limitations under the License.
 	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
 		<!--- display turned on with javascript below ---> 
 		<!---	
-			Test for Application.header_image is required for continued integration, as the production menu
+			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-		<cfif isdefined("Application.header_image")>
-			<cfset targetMenu = "production">
-		<cfelse>
+		<cfif findNoCase('redesign',rev) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
 			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
 		</cfif>
 		<script>
 			// Keyboard shortcut for Search
