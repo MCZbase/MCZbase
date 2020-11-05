@@ -132,8 +132,8 @@ limitations under the License.
 <cfcatch>
 	<cfset gitBranch = "unknown">
 </cfcatch>
-<cfset Session.gitBranch = gitBranch>
 </cftry>
+<cfset Session.gitBranch = gitBranch>
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
