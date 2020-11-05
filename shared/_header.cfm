@@ -302,9 +302,10 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
+												<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
 											<cfelse>
-											<a class="dropdown-item bg-warning" href="">Specimen</a>
+												<a class="dropdown-item bg-warning" href="/dataentry/DataEntry.cfm">Data Entry</a>
+												<a class="dropdown-item bg-warning" href="">Specimen</a>
 											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
