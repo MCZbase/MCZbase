@@ -124,15 +124,18 @@ limitations under the License.
 <body class="default">
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
+<!--- determine which git branch is currently checked out --->
+<!--- TODO: Move to initSession --->
 <cftry>
 	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
-	<cfset rev = FileReadLine(FileOpen("/var/www/html/arctos/.git/HEAD", "read"))>
+	<cfset gitBranch = FileReadLine(FileOpen("/var/www/html/arctos/.git/HEAD", "read"))>
 <cfcatch>
-	<cfset rev = "unknown">
+	<cfset gitBranch = "unknown">
 </cfcatch>
+<cfset Session.gitBranch = gitBranch>
 </cftry>
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
-<cfif findNoCase('redesign',rev) EQ 0>
+<cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
 	<cfset collection_link_color = "white">
@@ -202,7 +205,7 @@ limitations under the License.
 			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-		<cfif findNoCase('redesign',rev) GT 0>
+		<cfif findNoCase('redesign',gitBranch) GT 0>
 			<!--- checkout is redesign, redesign2, or similar --->
 			<cfset targetMenu = "redesign">
 		<cfelse>

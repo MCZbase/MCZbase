@@ -325,8 +325,10 @@ limitations under the License.
 
 	<!-------------------------------------------------------------->
 
-	<cffunction name="onSessionStart" output="false"><cfinclude template="/includes/functionLib.cfm">
-		<cfset initSession() /></cffunction>
+	<cffunction name="onSessionStart" output="false">
+		<cfinclude template="/includes/functionLib.cfm">
+		<cfset initSession() />
+	</cffunction>
 	<!-------------------------------------------------------------->
 
 	<cffunction name="onRequestStart" returnType="boolean" output="true">

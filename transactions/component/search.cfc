@@ -122,7 +122,7 @@ limitations under the License.
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfif isdefined("Application.header_image")>
+			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 				<!--- Links for integration on production --->
 				<cfswitch expression="#search.transaction_type#">
 					<cfcase value="loan"><cfset targetform = "/transactions/Loan.cfm?action=editLoan&"></cfcase>
@@ -156,7 +156,7 @@ limitations under the License.
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
-			<cfif isdefined("Application.header_image")>
+			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 				<!--- Links for integration on production --->
 				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfelse>
