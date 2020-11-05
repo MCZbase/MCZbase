@@ -304,7 +304,7 @@ limitations under the License.
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="/dataentry/DataEntry.cfm">Data Entry</a>
+												<a class="dropdown-item" href="/dataentry/DataEntry.cfm">Data Entry</a>
 												<a class="dropdown-item bg-warning" href="">Specimen</a>
 											</cfif>
 										</cfif>
