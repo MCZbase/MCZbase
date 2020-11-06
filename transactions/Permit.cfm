@@ -88,10 +88,12 @@ limitations under the License.
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
-					<section class="container-fluid" role="search" aria-labelledby="formheading">
-						<div class="row">
+					<section class="container" role="search" aria-labelledby="formheading">
+						<div class="row search-box">
+							<div class="col-12 search-box-header">
+									<h1 class="h3 sm-caps text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
+							</div>
 							<div class="col-12">
-									<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
 									<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
 									</p>
