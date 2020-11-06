@@ -245,7 +245,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container px-xl-3 px-lg-3 px-md-3 py-3" id="content" role="main">
+		<main class="container px-xl-2 px-lg-2 px-md-2 py-3" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -413,7 +413,7 @@ limitations under the License.
 										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="w-75 btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
