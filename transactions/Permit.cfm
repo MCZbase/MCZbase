@@ -88,7 +88,7 @@ limitations under the License.
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
-					<section class="container" role="search" aria-labelledby="formheading">
+					<section class="container-fluid" role="search" aria-labelledby="formheading">
 						<div class="row search-box">
 							<div class="col-12 search-box-header">
 									<h1 class="h3 text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
