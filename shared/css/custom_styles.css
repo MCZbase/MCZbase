@@ -1544,7 +1544,7 @@ textarea {
 .dropdown-toggle.collapsed:after {
 	transform:rotate(-90deg);margin-top:2px;
 }*/
-.card-header h3 a:before {
+.card-header h3 a:before, .card-header h2 a:after {
     font-family: "Font Awesome 5 Free"; font-weight: 900;
     content:"\f068";
     padding-right: 5px;
