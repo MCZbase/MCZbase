@@ -818,7 +818,7 @@ limitations under the License.
 					<section class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div class="col-12 px-0">
-								<h4 class="mt-0 mb-1">Related Publications</h4>
+								<h2 class="h4 mt-0 mb-1">Related Publications</h4>
 								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left">Loading....</div>
 							</div>
 							<div class="col-12 px-0">
@@ -899,7 +899,7 @@ limitations under the License.
 
 					<section class="col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<h4 class="mt-0 mb-1">Related Taxa:</h4>
+							<h2 class="h4 mt-0 mb-1">Related Taxa:</h4>
 							<div id="taxonRelationsDiv">Loading....</div>
 							<div id="editTaxonRelationDialog"></div>
 							<script>
@@ -997,7 +997,7 @@ limitations under the License.
 							</cfquery>
 						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-							<h4 class="mt-0">Habitat</h4>
+							<h2 class="h4 mt-0">Habitat</h4>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
 								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));
