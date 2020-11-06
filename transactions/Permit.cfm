@@ -88,10 +88,9 @@ limitations under the License.
 				<cfif not isdefined("permit_remarks")><cfset permit_remarks=""></cfif>
 				<!--- Search Form --->
 				<cfoutput>
-					<div class="container pt-0 mt-2 mb-3">
+					<section class="container-fluid" role="search" aria-labelledby="formheading">
 						<div class="row">
 							<div class="col-12">
-								<section role="search" aria-labelledby="formheading">
 									<h1 class="h3" id="formheading">Find Permissions &amp; Rights Documents</h1>
 									<p>Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
@@ -224,10 +223,9 @@ limitations under the License.
 											</div>
 										</div>
 									</form>
-								</section>
 							</div>
 						</div>
-					</div>
+					</section>
 				</cfoutput>
 		
 				<!--- Results table as a jqxGrid. --->
@@ -1694,4 +1692,5 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 </cfswitch>
-<!--------------------------------------------------------------------------------------------------->
+
+<cfinclude template = "/shared/_footer.cfm">
