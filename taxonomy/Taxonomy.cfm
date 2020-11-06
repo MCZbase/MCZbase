@@ -245,7 +245,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container-fluid px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
+		<main class="container px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -323,10 +323,10 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Edit" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="w-75 small btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
@@ -348,8 +348,8 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
-								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
+							<div class="col-6 col-xl-3 px-0 float-left"> 
+								<a href="#searchlink#" id="taxonid_search" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
@@ -360,7 +360,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.taxonid>
 								</cfif>
-								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;">#gettaxa.taxonid#</a> 
+								<a id="taxonid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.taxonid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##taxonid').val().length > 0) {
@@ -410,10 +410,10 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_scientificname.search_uri & gettaxa.scientific_name >
 									<cfif len(gettaxa.scientificnameid) GT 0>
 										<cfset searchtext = "Edit" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
@@ -436,7 +436,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-6 col-xl-2 px-0 float-left">
-								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
+								<a href="#searchlink#" id="scientificnameid_search" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-7 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
@@ -447,7 +447,7 @@ limitations under the License.
 								<cfelse>
 									<cfset link = gettaxa.scientificnameid>
 								</cfif>
-								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;">#gettaxa.scientificnameid#</a> 
+								<a id="scientificnameid_link" href="#link#" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1">#gettaxa.scientificnameid#</a> 
 								<script>
 									$(document).ready(function () { 
 										if ($('##scientificnameid').val().length > 0) {
@@ -959,7 +959,7 @@ limitations under the License.
 									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
 										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
 									</label>
-									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
+									<input type="button" value="Create" class="btn btn-xs btn-secondary"
 										onclick=" addTaxonRelationHandler(); "
 										id="addTaxonRelationButton"
 									>
