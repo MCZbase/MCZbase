@@ -461,7 +461,7 @@
 							<h2 class="h4 my-0 float-left">  <a class="btn-link text-black" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">Related higher and lower rank Taxon Records: </a></h2>
 						</div>
 						<div class="card-body px-3 py-0">
-							<div id="collapseRelatedTaxa" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
+							<div id="collapseRelatedTaxa" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 								<div class="row" id="taxRelatedNames">
 									<cfset taxon_name_id = tnid>
 									<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
