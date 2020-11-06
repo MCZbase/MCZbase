@@ -326,7 +326,7 @@ limitations under the License.
 										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="small btn w-75 btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
