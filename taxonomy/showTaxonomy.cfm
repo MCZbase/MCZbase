@@ -458,10 +458,10 @@
 				<div class="accordion w-100" id="accordionForTaxa">
 					<div class="card mb-2">
 						<div class="card-header w-100" id="headingPart">
-							<h2 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa"> Related higher and lower rank Taxon Records:  </a></h2>
+							<h2 class="h4 my-0 float-left"> Related higher and lower rank Taxon Records: <a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa"> See All:  &nbsp;<i class="fa fa-plus"></i>  </a></h2>
 						</div>
-						<div class="card-body p-0">
-							<div id="collapseRelatedTaxa" class="collapse show" style="max-height: 350px;" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
+						<div class="card-body p-3">
+							<div id="collapseRelatedTaxa" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 								<div class="row" id="taxRelatedNames">
 									<cfset taxon_name_id = tnid>
 									<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
