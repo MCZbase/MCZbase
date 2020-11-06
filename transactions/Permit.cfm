@@ -1694,4 +1694,5 @@ limitations under the License.
 		</cfoutput>
 	</cfcase>
 </cfswitch>
-<!--------------------------------------------------------------------------------------------------->
+
+<cfinclude template = "/shared/_footer.cfm">
