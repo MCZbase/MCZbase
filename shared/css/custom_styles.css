@@ -1550,7 +1550,7 @@ textarea {
     padding-right: 5px;
 	float:left!important;
 }
-.card-header h3 a.collapsed:before{
+.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:after {
     float:left !important;
     content:"\f067";
 }
