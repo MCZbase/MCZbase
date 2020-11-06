@@ -907,7 +907,7 @@ limitations under the License.
 							</script>
 							<form id="taxonRelationsForm">
 							<div class="form-row">
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-3 col-xl-2">
 									<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
 									<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 										<cfloop query="ctRelation">
@@ -915,7 +915,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 col-xl-4">
 									<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
 									<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
 									<input type="hidden" name="newRelatedId" id="newRelatedId">
@@ -925,7 +925,7 @@ limitations under the License.
 										);
 									</script>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3 col-xl-4">
 									<label for="new_relation_authority" class="data-entry-label">Authority</label>
 									<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
 								</div>
