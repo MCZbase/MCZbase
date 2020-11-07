@@ -473,12 +473,18 @@ Search/Results pages MUST use the following top level structure. This structure,
 		<div id=”overlay”....></div>
 	</div>
 
-A search form SHOULD use
+A search form SHOULD use the classes search-box and search-box-header the following to style the search form within a box with a heading.  See: [Content-Boxes](#Content-Boxes) for the variation to use for tabs for mulitiple search forms on the same page.
 
-	<main id=”content”>
-		<section class=”container-fluid” role=”search”>
-			<div class=”row”>
-				<div class=”col-12”>
+	<div id="overlaycontainer" style="position: relative;">
+		<main id=”content”>
+			<section class="container-fluid" role="search">
+				<div class="row mx-0 mb-3">
+					<div class="search-box">
+						<div class="search-box-header">
+							<h1 class="h3 text-white" id="formheading">Find .....</h1>
+						</div>
+						<div class="col-12 px-4 py-1">
+							<form>
 
 as the initial outer containers for the search form. Add interior rows/form-rows and columns as necessary to layout form elements in a responsive grid.
 
