@@ -455,21 +455,24 @@
 						</cfloop>
 					</cfif>
 				</ul>
-
-				<h2 class="h4">Related higher and lower rank Taxon Records:</h2>
+				
 				<div class="row" id="taxRelatedNames">
-					<cfset taxon_name_id = tnid>
-					<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+					<div class="col-12">
+						<h2 class="h4">Related higher and lower rank Taxon Records:</h2>
+						<cfset taxon_name_id = tnid>
+						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
 					<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
+					</div>
 				</div>
 
 				<div id="specTaxMedia">
 					<!--- TODO: Lookup media --->
 				</div>
-
+								
 				<div class="row" id="internalExternalLinksLists">
 					<div class="col-12">
 						<h2 class="h4"> MCZbase Links:</h2>
+						
 						<ul>
 							<cfquery name="usedInIndentifications" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								select count(*) c 

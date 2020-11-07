@@ -124,8 +124,18 @@ limitations under the License.
 <body class="default">
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
+<!--- determine which git branch is currently checked out --->
+<!--- TODO: Move to initSession --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("/var/www/html/arctos/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+<cfset Session.gitBranch = gitBranch>
 <!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
-<cfif isdefined("Application.header_image")>
+<cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
 	<cfset collection_link_color = "white">
@@ -192,13 +202,15 @@ limitations under the License.
 	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
 		<!--- display turned on with javascript below ---> 
 		<!---	
-			Test for Application.header_image is required for continued integration, as the production menu
+			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-		<cfif isdefined("Application.header_image")>
-			<cfset targetMenu = "production">
-		<cfelse>
+		<cfif findNoCase('redesign',gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
 			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
 		</cfif>
 		<script>
 			// Keyboard shortcut for Search
@@ -285,9 +297,10 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
+												<a class="dropdown-item" href="/DataEntry.cfm">Data Entry</a><!--- old --->
 											<cfelse>
-											<a class="dropdown-item bg-warning" href="">Specimen</a>
+												<a class="dropdown-item" href="/dataentry/DataEntry.cfm">Data Entry</a>
+												<a class="dropdown-item bg-warning" href="">Specimen</a>
 											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>

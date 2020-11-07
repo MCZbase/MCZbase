@@ -315,7 +315,7 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-						<div class="row mx-2 py-2">
+						<div class="row mx-2 pt-2 pb-3">
 							<form name="searchForm" id="searchForm" class="search-box">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
@@ -592,7 +592,7 @@ limitations under the License.
 					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
 		</script>
-		<cfif isdefined("Application.header_image")>
+		<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 			<!--- Production specific links --->
 			<script>
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
