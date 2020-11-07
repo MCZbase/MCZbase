@@ -96,7 +96,7 @@ limitations under the License.
 							<div class="col-12 mb-5">
 								<section>
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-										<h4>Results: </h4>
+										<h1 class="h4">Results: </h1>
 										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 										<div id="columnPickDialog">
 											<div id="columnPick" class="px-1"></div>
@@ -326,7 +326,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
-							<h2 id="formheading">New Collecting Event Number Series</h2>
+							<h1 class="h2" id="formheading">New Collecting Event Number Series</h1>
 							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
@@ -450,7 +450,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Edit Collecting Event Number Series</h2>
+								<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
 								<form name="editNumSeries" id="editNumSeries"> 
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 									<input type="hidden" id="method" name="method" value="saveNumSeries" >

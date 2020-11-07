@@ -119,7 +119,7 @@ limitations under the License.
 						<div class="col-12">
 							<div class="mb-5">
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h4>Results: </h4>
+									<h1 class="h4">Results: </h1>
 									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
 									<div id="columnPickDialog">
 										<div id="columnPick" class="px-1"></div>
@@ -732,7 +732,7 @@ limitations under the License.
 				where
 				 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-		<h2>"Collection" successfully deleted.</h2>
+		<h1 class="h2">"Collection" successfully deleted.</h1>
 		<ul>
 			<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
 			<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
