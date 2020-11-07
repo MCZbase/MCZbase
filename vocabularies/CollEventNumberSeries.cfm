@@ -48,71 +48,73 @@ limitations under the License.
 			<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<div class="container pt-0 mt-2 mb-3">
-					<div class="row">
-						<div class="col-12">
-							<section role="search" aria-labelledby="formheading">
-								<h1 class="h3" id="formheading">Find Collecting Event Number Series</h1>
-								<form name="searchForm" id="searchForm"> 
-									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
-									<div class="form-row mb-2">
-										<div class="col-md-6">
-											<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-											<input type="text" id="number_series" name="number_series" class="form-control-sm" value="#number_series#" aria-labelledby="number_series_label" >					
+				<main id=”content”>
+					<section class="container-fluid" role="search">
+						<div class="row mx-0 mb-3">
+							<div class="search-box">
+								<div class="search-box-header">
+									<h1 class="h3 text-white" id="formheading">Find Collecting Event Number Series</h1>
+								</div>
+								<div class="col-12 px-4 py-1">
+									<form name="searchForm" id="searchForm"> 
+										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
+										<div class="form-row mb-2">
+											<div class="col-md-6">
+												<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
+												<input type="text" id="number_series" name="number_series" class="form-control-sm" value="#number_series#" aria-labelledby="number_series_label" >
+											</div>
+											<div class="col-md-6">
+												<label for="pattern" id="pattern_label">Pattern</label>
+												<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >					
+											</div>
 										</div>
-										<div class="col-md-6">
-											<label for="pattern" id="pattern_label">Pattern</label>
-											<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >					
+										<div class="form-row mb-2">
+											<div class="col-md-12">
+												<label for="number" id="number_label">A number in the Series</label>
+												<input type="text" id="number" name="number" class="form-control-sm" value="#number#" aria-labelledby="number_label" >					
+											</div>
 										</div>
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 px-0">
+												<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
+												</cfif>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<!--- Results table as a jqxGrid. --->
+					<div class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12 mb-5">
+								<section>
+									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+										<h4>Results: </h4>
+										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<div id="columnPickDialog">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div id="columnPickDialogButton"></div>
+										<div id="resultDownloadButtonContainer"></div>
 									</div>
-									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="number" id="number_label">A number in the Series</label>
-											<input type="text" id="number" name="number" class="form-control-sm" value="#number#" aria-labelledby="number_label" >					
-										</div>
+									<div class="row mt-0">
+										<!--- Grid Related code is below along with search handlers --->
+										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+										<div id="enableselection"></div>
 									</div>
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 px-0">
-											<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
-											</cfif>
-										</div>
-									</div>
-								</form>
-							</section>
+								</section>
+							</div>
 						</div>
 					</div>
-				</div>
-			</cfoutput>
-	
-			<!--- Results table as a jqxGrid. --->
-			<div class="container-fluid">
-				<div class="row mx-0">
-					<div class="col-12 mb-5">
-						<main>
-							<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h4>Results: </h4>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
-								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
-							</div>
-						</main>
-					</div>
-				</div>
-			</div>
+				</main>
 		
-			<cfoutput>
 				<script>
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
