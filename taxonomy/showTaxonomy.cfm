@@ -455,22 +455,16 @@
 						</cfloop>
 					</cfif>
 				</ul>
-				<div class="accordion w-100" id="accordionForTaxa">
-					<div class="card mb-2">
-						<div class="card-header w-100" id="headingPart">
-							<h2 class="h4 my-0 float-left">  <a class="btn-link text-black" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">Related higher and lower rank Taxon Records: </a></h2>
-						</div>
-						<div class="card-body px-3 py-0">
-							<div id="collapseRelatedTaxa" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
-								<div class="row" id="taxRelatedNames">
-									<cfset taxon_name_id = tnid>
-									<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
-									<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
-								</div>
-							</div>
-						</div>
+				
+				<div class="row" id="taxRelatedNames">
+					<div class="col-12">
+						<h2 class="h4">Related higher and lower rank Taxon Records:</h2>
+						<cfset taxon_name_id = tnid>
+						<cfinclude template="/taxonomy/listUpDownHeirarchy.cfm">
+					<!--- lookup names up and down in taxonomic heirarchy, depending on rank of taxon --->
 					</div>
 				</div>
+
 				<div id="specTaxMedia">
 					<!--- TODO: Lookup media --->
 				</div>
