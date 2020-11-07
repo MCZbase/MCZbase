@@ -316,7 +316,7 @@ limitations under the License.
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
 						<div class="row mx-2 pt-2 pb-3">
-							<form name="searchForm" id="searchForm">
+							<form name="searchForm" id="searchForm" class="row">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
 								<div class="col-12 col-xl-3">
