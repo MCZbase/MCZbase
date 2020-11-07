@@ -315,7 +315,7 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						</div>
-						<div class="row mx-2 pt-2 pb-3">
+						<div class="row px-3 mx-2 pt-2 pb-3">
 							<form name="searchForm" id="searchForm" class="row">
 								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
 								<input type="hidden" name="action" value="search">
@@ -396,15 +396,15 @@ limitations under the License.
 									<div class="form-row bg-light border rounded p-2 mx-0">
 										<div class="col-md-4">
 											<label for="scientific_name" class="data-entry-label align-left-center">Scientific Name <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('scientific_name');e.value='='+e.value;" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a></label>
-											<input type="text" class="data-entry-input" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
+											<input type="text" class="data-entry-input mb-2" name="scientific_name" id="scientific_name" placeholder="scientific name" value="#scientific_name#" aria-labelledby="scientific_name">
 										</div>
 										<div class="col-md-4">
 											<label for="full_taxon_name" class="data-entry-label align-left-center">Any part of name or classification</label>
-											<input type="text" class="data-entry-input" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
+											<input type="text" class="data-entry-input mb-2" id="full_taxon_name" name="full_taxon_name" placeholder="name at any rank" value="#full_taxon_name#">
 										</div>
 										<div class="col-md-4">
 											<label for="common_name" class="data-entry-label align-left-center">Common Name <a aria-hidden="true" tabindex="-1" href="##" class="btn-link" onclick="var e=document.getElementById('common_name');e.value='='+e.value;"> (=) </a></label>
-											<input type="text" class="data-entry-input" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
+											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
 										</div>
 									</div>
 									<div class="form-row mt-2">
@@ -880,7 +880,7 @@ limitations under the License.
 						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Super/Sub/Infra</button>
 						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Scientific Name</button>
 					</span>
-					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Pin Taxon Column</button>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 					`
 				);
 				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
@@ -891,7 +891,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 mx-1 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 
