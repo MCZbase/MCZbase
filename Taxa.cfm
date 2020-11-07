@@ -592,7 +592,7 @@ limitations under the License.
 					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
 				};
 		</script>
-		<cfif isdefined("Application.header_image")>
+		<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 			<!--- Production specific links --->
 			<script>
 				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
