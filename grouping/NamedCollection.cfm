@@ -66,11 +66,14 @@ limitations under the License.
 		</cfif>
 		<!--- Search Form ---> 
 		<cfoutput>
-			<section class="container mt-2 mb-3" role="search">
-				<div class="row">
-					<div class="col-12">
-						<div role="region" aria-labelledby="formheading">
+			<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+				<div class="row mx-0 mb-3">
+					<div class="seach-box">
+						<div class="search-box-header">
 							<h1 class="h2" id="formheading">Find named groups of cataloged items</h1>
+						</div>
+						<div class="col-12 px-4">
+							
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
 								<div class="form-row mb-2">
