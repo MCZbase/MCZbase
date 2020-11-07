@@ -74,7 +74,7 @@ limitations under the License.
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
 						</div>
-						<div class="col-12 px-4">
+						<div class="col-12 px-4 pt-3 pb-2">
 							
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
