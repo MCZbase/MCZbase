@@ -317,7 +317,7 @@ limitations under the License.
 							<div class="search-box-header">
 								<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 							</div>
-							<div class="row mx-2 py-2">
+							<div class="row mx-2 pt-2 pb-3">
 								<div class="col-12 col-xl-3">
 									<div id=blurb class="smaller-text mt-2" tabindex="0">
 										Search taxonomies used in MCZbase. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>  
