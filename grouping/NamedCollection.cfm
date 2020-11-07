@@ -115,12 +115,11 @@ limitations under the License.
 				</div>
 					</div>
 			</section>
-
 	
 			<!--- Results table as a jqxGrid. --->
-				<section class="container-fluid" role="main">
-			<div class="row mx-0">
-				<div class="col-12">
+			<section class="container-fluid">
+				<div class="row mx-0">
+					<div class="col-12">
 						<div class="mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 								<h4>Results: </h4>
@@ -137,10 +136,9 @@ limitations under the License.
 								<div id="enableselection"></div>
 							</div>
 						</div>
-			
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 			</main>
 	
 			<script>
@@ -473,7 +471,7 @@ limitations under the License.
 		<cfoutput query="undColl">
 			<cfset collname = collection_name>
 			<!--- save name for later use outside this output section --->
-			<main class="container" role="main">
+			<main class="container">
 				<div class="row">
 					<div class="col-12">
 						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>

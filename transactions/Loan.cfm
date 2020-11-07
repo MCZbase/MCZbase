@@ -117,7 +117,7 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-		<main class="container py-3" id="content" role="main">
+		<main class="container py-3" id="content">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
 				<section class="col-12 col-sm-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
@@ -605,7 +605,7 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<main class="container py-3" id="content" role="main">
+		<main class="container py-3" id="content">
 				<cftry>
 					<h1 class="h2">Edit Loan 
 						<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
