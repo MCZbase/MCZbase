@@ -245,7 +245,7 @@ limitations under the License.
 		select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#gettaxa.source_authority#">
 	</cfquery>
 	<cfoutput>
-		<main class="container-fluid px-xl-5 px-lg-4 px-md-3 py-3" id="content" role="main">
+		<main class="container py-3" id="content" role="main">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
 				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
@@ -323,10 +323,10 @@ limitations under the License.
 									<cfset searchlink = ctguid_type_taxon.search_uri & getTaxa.scientific_name >
 									<cfif len(gettaxa.taxonid) GT 0>
 										<cfset searchtext = "Edit" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary editGuidButton"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary editGuidButton"' >
 									<cfelse>
 										<cfset searchtext = "Find GUID" >
-										<cfset searchclass = 'class="btn btn-xs btn-secondary findGuidButton external"' >
+										<cfset searchclass = 'class="small btn btn-xs btn-secondary findGuidButton external"' >
 									</cfif>
 								</cfif>
 							</cfloop>
@@ -348,10 +348,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
+							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
@@ -435,10 +435,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-2 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -818,7 +818,7 @@ limitations under the License.
 					<section class="col-12 px-0">
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div class="col-12 px-0">
-								<h4 class="mt-0 mb-1">Related Publications</h4>
+								<h2 class="h4 mt-0 mb-1">Related Publications</h4>
 								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left">Loading....</div>
 							</div>
 							<div class="col-12 px-0">
@@ -899,7 +899,7 @@ limitations under the License.
 
 					<section class="col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<h4 class="mt-0 mb-1">Related Taxa:</h4>
+							<h2 class="h4 mt-0 mb-1">Related Taxa:</h4>
 							<div id="taxonRelationsDiv">Loading....</div>
 							<div id="editTaxonRelationDialog"></div>
 							<script>
@@ -907,7 +907,7 @@ limitations under the License.
 							</script>
 							<form id="taxonRelationsForm">
 							<div class="form-row">
-								<div class="col-12 col-md-2">
+								<div class="col-12 col-md-3 col-xl-2">
 									<label for="new_taxon_relationship" class="data-entry-label">Add Relationship</label>
 									<select name="taxon_relationship" class="reqdClr data-entry-select" id="new_taxon_relationship" required>
 										<cfloop query="ctRelation">
@@ -915,7 +915,7 @@ limitations under the License.
 										</cfloop>
 									</select>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4 col-xl-4">
 									<label for="newRelatedName" class="data-entry-label">Related Taxon</label>
 									<input type="text" name="relatedName" class="reqdClr data-entry-input" id="newRelatedName" required>
 									<input type="hidden" name="newRelatedId" id="newRelatedId">
@@ -925,7 +925,7 @@ limitations under the License.
 										);
 									</script>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-3 col-xl-4">
 									<label for="new_relation_authority" class="data-entry-label">Authority</label>
 									<input type="text" name="relation_authority" class="data-entry-input" id="new_relation_authority">
 								</div>
@@ -959,7 +959,7 @@ limitations under the License.
 									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
 										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
 									</label>
-									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-2 ml-1"
+									<input type="button" value="Create" class="btn btn-xs btn-secondary"
 										onclick=" addTaxonRelationHandler(); "
 										id="addTaxonRelationButton"
 									>
@@ -997,7 +997,7 @@ limitations under the License.
 							</cfquery>
 						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-							<h4 class="mt-0">Habitat</h4>
+							<h2 class="h4 mt-0">Habitat</h4>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
 								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));
