@@ -89,13 +89,13 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-md-6">
-										<label for="description" id="description_label">Description</label>
+										<label for="description" class="data-entry-label" id="description_label">Description</label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
+										<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 										<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
