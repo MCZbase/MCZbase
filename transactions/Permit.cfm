@@ -89,9 +89,9 @@ limitations under the License.
 				<!--- Search Form --->
 				<cfoutput>
 					<section class="container-fluid" role="search" aria-labelledby="formheading">
-						<div class="row">
+						<div class="row mx-0 mb-3">
 							<div class="search-box">
-								<div class="col-12 search-box-header">
+								<div class="search-box-header">
 									<h1 class="h3 text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
 								</div>
 								<div class="col-12">
