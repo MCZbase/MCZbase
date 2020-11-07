@@ -80,7 +80,7 @@ limitations under the License.
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
 								<div class="form-row mb-2">
 									<div class="col-md-6">
-										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
+										<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
 											$(document).ready(function() {
