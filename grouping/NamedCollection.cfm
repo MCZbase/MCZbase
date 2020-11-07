@@ -67,7 +67,7 @@ limitations under the License.
 		<!--- Search Form ---> 
 		<cfoutput>
 			<main id="content">
-			<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+				<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
 					<div class="seach-box">
 						<div class="search-box-header">
@@ -114,12 +114,11 @@ limitations under the License.
 				</div>
 			</section>
 
-			</main>
-		<!--- Results table as a jqxGrid. --->
-		<section class="container-fluid" role="main">
+	
+				<!--- Results table as a jqxGrid. --->
+				<section class="container-fluid" role="main">
 			<div class="row mx-0">
 				<div class="col-12">
-					<main role="main">
 						<div class="mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 								<h4>Results: </h4>
@@ -136,12 +135,12 @@ limitations under the License.
 								<div id="enableselection"></div>
 							</div>
 						</div>
-					</main>
+			
 				</div>
 			</div>
 		</section>
-				</cfoutput>
-		<cfoutput> 
+			</main>
+	
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
