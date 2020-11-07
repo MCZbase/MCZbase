@@ -48,7 +48,7 @@
 			<div class="accordion w-100" id="accordionForTaxa">
 					<div class="card mb-2">
 						<div class="card-header w-100" id="headingPart">
-							<h2 class="h4 my-0 float-left">  <a class="btn-link text-black" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">Related Taxon Records: </a></h2>
+							<h2 class="h4 my-0 float-left">  <a class="btn-link text-black collapsed" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">Related Taxon Records: </a></h2>
 						</div>
 						<div class="card-body px-3 py-0">
 					
