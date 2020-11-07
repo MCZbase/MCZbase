@@ -66,11 +66,12 @@ limitations under the License.
 		</cfif>
 		<!--- Search Form ---> 
 		<cfoutput>
+			<main id="content">
 			<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
 					<div class="seach-box">
 						<div class="search-box-header">
-							<h1 class="h2" id="formheading">Find named groups of cataloged items</h1>
+							<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
 						</div>
 						<div class="col-12 px-4">
 							
@@ -112,8 +113,8 @@ limitations under the License.
 					</div>
 				</div>
 			</section>
-		</cfoutput> 
-		
+
+			</main>
 		<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid" role="main">
 			<div class="row mx-0">
@@ -139,6 +140,7 @@ limitations under the License.
 				</div>
 			</div>
 		</section>
+				</cfoutput>
 		<cfoutput> 
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
