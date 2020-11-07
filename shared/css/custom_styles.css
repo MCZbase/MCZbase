@@ -1544,16 +1544,17 @@ textarea {
 .dropdown-toggle.collapsed:after {
 	transform:rotate(-90deg);margin-top:2px;
 }*/
+.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
+    float:left !important;
+    content:"\f067";
+}
 .card-header h3 a:before, .card-header h2 a:before {
     font-family: "Font Awesome 5 Free"; font-weight: 900;
     content:"\f068";
     padding-right: 5px;
 	float:left!important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
-    float:left !important;
-    content:"\f067";
-}
+
 .card-header h3 a:hover, .card-header h3 a:active, .card-header h3 a:focus {text-decoration: none;}
 
 .nav-link.dropdown-toggle:hover:before {transform:rotate(0deg)}
