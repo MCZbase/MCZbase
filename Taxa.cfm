@@ -69,7 +69,7 @@ limitations under the License.
 	<cfset in_source_authority="">
 <cfelse>
 	<cfset in_source_authority="#source_authority#">
-</cfif>
+</cfi<cfif NOT isDefined("taxon_status")>
 <cfif NOT isDefined("taxon_status")>
 	<cfset in_taxon_status="">
 <cfelse>
@@ -310,16 +310,17 @@ limitations under the License.
 		<!--- Search form --->
 		<main>
 			<section class="container-fluid" role="search" id="content">
-					<div class="row mx-0 mb-3">
-						<form name="searchForm" id="searchForm" class="search-box">
-							<input type="hidden" name="method" value="getTaxa" class="keeponclear">
-							<input type="hidden" name="action" value="search">
-							<div class="search-box-header">
-								<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-							</div>
-							<div class="row mx-2 pt-2 pb-3">
+				<div class="row mx-0 mb-3">
+					<div class="search-box">
+						<div class="search-box-header">
+							<h1 class="h3 text-white" tabindex="0">Search Taxonomy  <span class="count font-italic text-grayish mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+						</div>
+						<div class="row mx-2 pt-2 pb-3">
+							<form name="searchForm" id="searchForm" class="search-box">
+								<input type="hidden" name="method" value="getTaxa" class="keeponclear">
+								<input type="hidden" name="action" value="search">
 								<div class="col-12 col-xl-3">
-									<div id=blurb class="smaller-text mt-2" tabindex="0">
+									<div id="searchHelpTextBlock" class="smaller-text mt-2" tabindex="0">
 										Search taxonomies used in MCZbase. <a class="" href="##" onClick="getMCZDocs('Taxonomy Search')"><i class="fa fa-info-circle" aria-label="hidden"></i> <span class="sr-only" style="color: transparent !important"> link to more info </span></a>  
 										<div class="readMore"><input type="checkbox" id="readMore_check_id"><label class="read" for="readMore_check_id"></label><span class="ilt">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
 											<span class="sr-only" tabindex="0">Names include current identifications, accepted names for future identifications, previous identifications (including now-unaccepted names, invalid names, and nomina nuda found on labels). Taxonomies are neither complete nor authoritative. Not all taxa in MCZbase have associated specimens.</span>
@@ -534,10 +535,12 @@ limitations under the License.
 									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
 									<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
-				</section>
+				</div>
+			</section>
+
 			<!--- Results table as a jqxGrid. --->
 			<section class="container-fluid">
 				<div class="row">
@@ -559,404 +562,402 @@ limitations under the License.
 					</div>
 				</div>
 			</section>
+		</main>
 
-			<cfset cellRenderClasses = "ml-1">
-			<script>
-				var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		<cfset cellRenderClasses = "ml-1">
+		<script>
+			var validCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+				var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+				var v = String(value);
+				if (v.toUpperCase().trim()=='YES') { 
+					color = 'text-success'; 
+					bg = '';
+				} else { 
+					color = 'text-white'; 
+					bg = 'bg-danger'; 
+				} 
+				return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
+			};
+		</script>
+		<!--- links --->
+		<script>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					};
+				</cfif>
+
+				var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-					var v = String(value);
-					if (v.toUpperCase().trim()=='YES') { 
-						color = 'text-success'; 
-						bg = '';
+					return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
+				};
+		</script>
+		<cfif isdefined("Application.header_image")>
+			<!--- Production specific links --->
+			<script>
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
 					} else { 
-						color = 'text-white'; 
-						bg = 'bg-danger'; 
-					} 
-					return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+value+'</span></span>';
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
+					return result;
 				};
 			</script>
-			<!--- links --->
+		<cfelse>
+			<!--- Redesign specific links --->
 			<script>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-						var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="btn-xs btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
-						};
-					</cfif>
-
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a target="_blank" href="/taxonomy/showTaxonomy.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">'+value+'</a></span>';
-					};
+				var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+					var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+					var result = "";
+					if (value==0) {
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+					} else { 
+						result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
+					}
+					return result;
+				};
 			</script>
-			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-				<!--- Production specific links --->
-				<script>
-					var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						var result = "";
-						if (value==0) {
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-						} else { 
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
-						}
-						return result;
-					};
-				</script>
-			<cfelse>
-				<!--- Redesign specific links --->
-				<script>
-					var specimenCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						var result = "";
-						if (value==0) {
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
-						} else { 
-							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">' + value + '&nbsp;<a target="_blank" href="/SpecimenResults.cfm?taxon_name_id=' + rowData['TAXON_NAME_ID'] + '">Specimens</a></span>';
-						}
-						return result;
-					};
-				</script>
-			</cfif>
-			<script>
+		</cfif>
+		<script>
 
-				$(document).ready(function() {
-					/* Setup jqxgrid for Search */
-					$('##searchForm').bind('submit', function(evt){
-						evt.preventDefault();
+			$(document).ready(function() {
+				/* Setup jqxgrid for Search */
+				$('##searchForm').bind('submit', function(evt){
+					evt.preventDefault();
 
-						$("##overlay").show();
+					$("##overlay").show();
 
-						$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-						$('##resultCount').html('');
-						$('##resultLink').html('');
+					$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+					$('##resultCount').html('');
+					$('##resultLink').html('');
 
-						var search =
-						{
-							datatype: "json",
-							datafields:
-							[
-								{ name: 'TAXON_NAME_ID', type: 'n' }, 
-								{ name: 'FULL_TAXON_NAME', type: 'string' },
-								{ name: 'KINGDOM', type: 'string' },
-								{ name: 'PHYLUM', type: 'string' },
-								{ name: 'SUBPHYLUM', type: 'string' },
-								{ name: 'SUPERCLASS', type: 'string' },
-								{ name: 'PHYLCLASS', type: 'string' },
-								{ name: 'SUBCLASS', type: 'string' },
-								{ name: 'SUPERORDER', type: 'string' },
-								{ name: 'PHYLORDER', type: 'string' },
-								{ name: 'SUBORDER', type: 'string' },
-								{ name: 'INFRAORDER', type: 'string' },
-								{ name: 'SUPERFAMILY', type: 'string' },
-								{ name: 'FAMILY', type: 'string' },
-								{ name: 'SUBFAMILY', type: 'string' },
-								{ name: 'TRIBE', type: 'string' },
-								{ name: 'GENUS', type: 'string' },
-								{ name: 'SUBGENUS', type: 'string' },
-								{ name: 'SPECIES', type: 'string' },
-								{ name: 'SUBSPECIES', type: 'string' },
-								{ name: 'INFRASPECIFIC_RANK', type: 'string' },
-								{ name: 'SCIENTIFIC_NAME', type: 'string' },
-								{ name: 'AUTHOR_TEXT', type: 'string' },
-								{ name: 'DISPLAY_NAME', type: 'string' },
-								{ name: 'NOMENCLATURAL_CODE', type: 'string' },
-								{ name: 'DIVISION', type: 'string' },
-								{ name: 'SUBDIVISION', type: 'string' },
-								{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' },
-								{ name: 'VALID_CATALOG_TERM', type: 'string' },
-								{ name: 'SOURCE_AUTHORITY', type: 'string' },
-								{ name: 'SCIENTIFICNAMEID', type: 'string' },
-								{ name: 'TAXONID', type: 'string' },
-								{ name: 'TAXON_STATUS', type: 'string' },
-								{ name: 'TAXON_REMARKS', type: 'string' },
-								{ name: 'display_name_author', type: 'string' },
-								{ name: 'COMMON_NAMES', type: 'string' },
-								{ name: 'SPECIMEN_COUNT', type: 'int' }
-							],
-							updaterow: function (rowid, rowdata, commit) {
-								commit(true);
-							},
-							root: 'taxonRecord',
-							id: 'taxon_name_id',
-							url: '/taxonomy/component/search.cfc?' + $('##searchForm').serialize(),
-							timeout: 30000,  // units not specified, miliseconds? 
-							loadError: function(jqXHR, status, error) { 
-								$("##overlay").hide();
-							var message = "";      
-								if (error == 'timeout') { 
-							   message = ' Server took too long to respond.';
-								} else { 
-									message = jqXHR.responseText;
-								}
-							messageDialog('Error:' + message ,'Error: ' + error);
-							},
-							async: true
-						};
-						$(document).ajaxSuccess(function() {
-						$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
-						});
-
-						var dataAdapter = new $.jqx.dataAdapter(search);
-						var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-							// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-							var details = $($(parentElement).children()[0]);
-							details.html("<div id='rowDetailsTarget" + index + "'></div>");
-
-							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-							// Workaround, expansion sits below row in zindex.
-							var maxZIndex = getMaxZIndex();
-							$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-						}
-
-						$("##searchResultsGrid").jqxGrid({
-							width: '100%',
-							autoheight: 'true',
-							source: dataAdapter,
-							filterable: true,
-							sortable: true,
-							pageable: true,
-							editable: false,
-							pagesize: '50',
-							pagesizeoptions: ['20','50','100'], // reset in gridLoaded
-							showaggregates: true,
-							columnsresize: true,
-							autoshowfiltericon: true,
-							autoshowcolumnsmenubutton: false,
-							autoshowloadelement: false,  // overlay acts as load element for form+results
-							columnsreorder: true,
-							groupable: true,
-							selectionmode: 'singlerow',
-							altrows: true,
-							showtoolbar: false,
-							columns: [
-								{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-									{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
-								<cfelse>
-									{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
-								</cfif>
-								{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
-								{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
-								{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
-								{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
-								{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
-								{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: false },
-								{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: true },
-								{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
-								{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
-								{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
-								{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
-								{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
-								{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
-								{ text: 'Infraorder', datafield: 'INFRAORDER', width:100, hideable: true, hidden: true },
-								{ text: 'Superfamily', datafield: 'SUPERFAMILY', width:120, hideable: true, hidden: true },
-								{ text: 'Family', datafield: 'FAMILY', width:120, hideable: true, hidden: false },
-								{ text: 'Subfamily', datafield: 'SUBFAMILY', width:120, hideable: true, hidden:true },
-								{ text: 'Tribe', datafield: 'TRIBE', width:100, hideable: true, hidden: true },
-								{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: false },
-								{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: false },
-								{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: false },
-								{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: false },
-								{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: false },
-								{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
-								{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: false },
-								{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
-								{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
-								{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
-								{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
-								{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
-								{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
-								{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
-								{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
-								{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
-								{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
-							],
-							rowdetails: true,
-							rowdetailstemplate: {
-								rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-								rowdetailsheight:  1 // row details will be placed in popup dialog
-							},
-							initrowdetails: initRowDetails
-						});
-						$("##searchResultsGrid").on("bindingcomplete", function(event) {
-							// add a link out to this search, serializing the form as http get parameters
-							$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-							gridLoaded('searchResultsGrid','taxon record');
-						});
-						$('##searchResultsGrid').on('rowexpand', function (event) {
-							//  Create a content div, add it to the detail row, and make it into a dialog.
-							var args = event.args;
-							var rowIndex = args.rowindex;
-							var datarecord = args.owner.source.records[rowIndex];
-							createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-						});
-						$('##searchResultsGrid').on('rowcollapse', function (event) {
-							// remove the dialog holding the row details
-							var args = event.args;
-							var rowIndex = args.rowindex;
-							$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-						});
-					});
-					/* End Setup jqxgrid for number series Search ******************************/
-
-					// If requested in uri, execute search immediately.
-					<cfif isdefined("execute")>
-						$('##searchForm').submit();
-					</cfif>
-				}); /* End document.ready */
-
-				function gridLoaded(gridId, searchType) { 
-					$("##overlay").hide();
-					$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
-					var now = new Date();
-					var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-					var filename = searchType + '_results_' + nowstring + '.csv';
-					// display the number of rows found
-					var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-					var rowcount = datainformation.rowscount;
-					if (rowcount == 1) {
-						$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
-					} else { 
-						$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-					}
-					// set maximum page size
-					if (rowcount > 100) { 
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
-						$('##' + gridId).jqxGrid({ pagesize: 50});
-					} else if (rowcount > 50) { 
-						$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
-						$('##' + gridId).jqxGrid({ pagesize: 50});
-					} else { 
-						$('##' + gridId).jqxGrid({ pageable: false });
-					}
-					// add a control to show/hide columns
-					var columns = $('##' + gridId).jqxGrid('columns').records;
-					var columnListSource = [];
-					for (i = 0; i < columns.length; i++) {
-						var text = columns[i].text;
-						var datafield = columns[i].datafield;
-						var hideable = columns[i].hideable;
-						var hidden = columns[i].hidden;
-						var show = ! hidden;
-						if (hideable == true) { 
-							var listRow = { label: text, value: datafield, checked: show };
-							columnListSource.push(listRow);
-						}
-					} 
-					$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
-					$("##columnPick").on('checkChange', function (event) {
-						$("##" + gridId).jqxGrid('beginupdate');
-						if (event.args.checked) {
-							$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-						} else {
-							$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
-						}
-						$("##" + gridId).jqxGrid('endupdate');
-					});
-					$("##columnPickDialog").dialog({ 
-						height: 'auto', 
-						title: 'Show/Hide Columns',
-						autoOpen: false,
-						modal: true, 
-						reszable: true, 
-						buttons: { 
-							Ok: function(){ $(this).dialog("close"); }
+					var search =
+					{
+						datatype: "json",
+						datafields:
+						[
+							{ name: 'TAXON_NAME_ID', type: 'n' }, 
+							{ name: 'FULL_TAXON_NAME', type: 'string' },
+							{ name: 'KINGDOM', type: 'string' },
+							{ name: 'PHYLUM', type: 'string' },
+							{ name: 'SUBPHYLUM', type: 'string' },
+							{ name: 'SUPERCLASS', type: 'string' },
+							{ name: 'PHYLCLASS', type: 'string' },
+							{ name: 'SUBCLASS', type: 'string' },
+							{ name: 'SUPERORDER', type: 'string' },
+							{ name: 'PHYLORDER', type: 'string' },
+							{ name: 'SUBORDER', type: 'string' },
+							{ name: 'INFRAORDER', type: 'string' },
+							{ name: 'SUPERFAMILY', type: 'string' },
+							{ name: 'FAMILY', type: 'string' },
+							{ name: 'SUBFAMILY', type: 'string' },
+							{ name: 'TRIBE', type: 'string' },
+							{ name: 'GENUS', type: 'string' },
+							{ name: 'SUBGENUS', type: 'string' },
+							{ name: 'SPECIES', type: 'string' },
+							{ name: 'SUBSPECIES', type: 'string' },
+							{ name: 'INFRASPECIFIC_RANK', type: 'string' },
+							{ name: 'SCIENTIFIC_NAME', type: 'string' },
+							{ name: 'AUTHOR_TEXT', type: 'string' },
+							{ name: 'DISPLAY_NAME', type: 'string' },
+							{ name: 'NOMENCLATURAL_CODE', type: 'string' },
+							{ name: 'DIVISION', type: 'string' },
+							{ name: 'SUBDIVISION', type: 'string' },
+							{ name: 'INFRASPECIFIC_AUTHOR', type: 'string' },
+							{ name: 'VALID_CATALOG_TERM', type: 'string' },
+							{ name: 'SOURCE_AUTHORITY', type: 'string' },
+							{ name: 'SCIENTIFICNAMEID', type: 'string' },
+							{ name: 'TAXONID', type: 'string' },
+							{ name: 'TAXON_STATUS', type: 'string' },
+							{ name: 'TAXON_REMARKS', type: 'string' },
+							{ name: 'display_name_author', type: 'string' },
+							{ name: 'COMMON_NAMES', type: 'string' },
+							{ name: 'SPECIMEN_COUNT', type: 'int' }
+						],
+						updaterow: function (rowid, rowdata, commit) {
+							commit(true);
 						},
-						open: function (event, ui) { 
-							var maxZIndex = getMaxZIndex();
-							// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-							$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-							$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
-						} 
+						root: 'taxonRecord',
+						id: 'taxon_name_id',
+						url: '/taxonomy/component/search.cfc?' + $('##searchForm').serialize(),
+						timeout: 30000,  // units not specified, miliseconds? 
+						loadError: function(jqXHR, status, error) { 
+							$("##overlay").hide();
+						var message = "";      
+							if (error == 'timeout') { 
+						   message = ' Server took too long to respond.';
+							} else { 
+								message = jqXHR.responseText;
+							}
+						messageDialog('Error:' + message ,'Error: ' + error);
+						},
+						async: true
+					};
+					$(document).ajaxSuccess(function() {
+					$( ".messageResults" ).html( "<div class='color: red' aria-label='results'>Search successful</div>" );
 					});
-					$("##columnPickDialogButton").html(
-						`<span class="border rounded p-1 mx-lg-2">Show/Hide 
-							<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary px-1 py-1 my-2" >Select Columns</button>
-							<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Common Names</button>
-							<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Super/Sub/Infra</button>
-							<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Scientific Name</button>
-						</span>
-						<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Pin Taxon Column</button>
-						`
-					);
-					// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-					// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-					var maxZIndex = getMaxZIndex();
-					$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-cell').css({'border-color': '##aaa'});
-					$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-					$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
-					$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-					$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
-				}
 
-				function togglePinTaxonColumn() { 
-					var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
-					$("##searchResultsGrid").jqxGrid('beginupdate');
-					if (state==true) {
-						$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
-					} else {
-						$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
-					}
-					$("##searchResultsGrid").jqxGrid('endupdate');
-				}
-				function toggleCommon() { 
-					var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
-					$("##searchResultsGrid").jqxGrid('beginupdate');
-					if (state==true) {
-						$("##searchResultsGrid").jqxGrid('showcolumn', 'COMMON_NAMES');
-					} else {
-						$("##searchResultsGrid").jqxGrid('hidecolumn', 'COMMON_NAMES');
-					}
-					$("##searchResultsGrid").jqxGrid('endupdate');
-				}
-				function toggleSuperSub() { 
-					var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SUBPHYLUM', 'hidden');
-					$("##searchResultsGrid").jqxGrid('beginupdate');
-					if (state==true) {
-						var action = 'showcolumn';
-					} else {
-						var action = 'hidecolumn';
-					}
-					$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
-					$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
-					$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
-					$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');
-					$("##searchResultsGrid").jqxGrid(action, 'SUPERFAMILY');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBFAMILY');
-					$("##searchResultsGrid").jqxGrid(action, 'TRIBE');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
-					$("##searchResultsGrid").jqxGrid('endupdate');
-				}
-				function toggleScientific() { 
-					var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SPECIES', 'hidden');
-					$("##searchResultsGrid").jqxGrid('beginupdate');
-					if (state==true) {
-						var action = 'showcolumn';
-					} else {
-						var action = 'hidecolumn';
-					}
-					$("##searchResultsGrid").jqxGrid(action, 'GENUS');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
-					$("##searchResultsGrid").jqxGrid(action, 'SPECIES');
-					$("##searchResultsGrid").jqxGrid(action, 'SUBSPECIES');
-					$("##searchResultsGrid").jqxGrid(action, 'AUTHOR_TEXT');
-					$("##searchResultsGrid").jqxGrid(action, 'INFRASPECIFIC_RANK');
-					$("##searchResultsGrid").jqxGrid('endupdate');
-				}
+					var dataAdapter = new $.jqx.dataAdapter(search);
+					var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+						// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+						var details = $($(parentElement).children()[0]);
+						details.html("<div id='rowDetailsTarget" + index + "'></div>");
 
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+						// Workaround, expansion sits below row in zindex.
+						var maxZIndex = getMaxZIndex();
+						$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+					}
 
-			</script>
+					$("##searchResultsGrid").jqxGrid({
+						width: '100%',
+						autoheight: 'true',
+						source: dataAdapter,
+						filterable: true,
+						sortable: true,
+						pageable: true,
+						editable: false,
+						pagesize: '50',
+						pagesizeoptions: ['20','50','100'], // reset in gridLoaded
+						showaggregates: true,
+						columnsresize: true,
+						autoshowfiltericon: true,
+						autoshowcolumnsmenubutton: false,
+						autoshowloadelement: false,  // overlay acts as load element for form+results
+						columnsreorder: true,
+						groupable: true,
+						selectionmode: 'singlerow',
+						altrows: true,
+						showtoolbar: false,
+						columns: [
+							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+								{ text: 'Taxon_Name_ID', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: false, cellsrenderer: idCellRenderer }, 
+							<cfelse>
+								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
+							</cfif>
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
+							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
+							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
+							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
+							{ text: 'Kingdom', datafield: 'KINGDOM', width:100, hideable: true, hidden: true },
+							{ text: 'Phylum', datafield: 'PHYLUM', width:90, hideable: true, hidden: false },
+							{ text: 'Subphylum', datafield: 'SUBPHYLUM', width:100, hideable: true, hidden: true },
+							{ text: 'Superclass', datafield: 'SUPERCLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Class', datafield: 'PHYLCLASS', width:100, hideable: true, hidden: false },
+							{ text: 'Subclass', datafield: 'SUBCLASS', width:100, hideable: true, hidden: true },
+							{ text: 'Superorder', datafield: 'SUPERORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Order', datafield: 'PHYLORDER', width:120, hideable: true, hidden: false },
+							{ text: 'Suborder', datafield: 'SUBORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Infraorder', datafield: 'INFRAORDER', width:100, hideable: true, hidden: true },
+							{ text: 'Superfamily', datafield: 'SUPERFAMILY', width:120, hideable: true, hidden: true },
+							{ text: 'Family', datafield: 'FAMILY', width:120, hideable: true, hidden: false },
+							{ text: 'Subfamily', datafield: 'SUBFAMILY', width:120, hideable: true, hidden:true },
+							{ text: 'Tribe', datafield: 'TRIBE', width:100, hideable: true, hidden: true },
+							{ text: 'Genus', datafield: 'GENUS', width:100, hideable: true, hidden: false },
+							{ text: 'Subgenus', datafield: 'SUBGENUS', width:100, hideable: true, hidden: false },
+							{ text: 'Species', datafield: 'SPECIES', width:100, hideable: true, hidden: false },
+							{ text: 'Subspecies', datafield: 'SUBSPECIES', width:90, hideable: true, hidden: false },
+							{ text: 'Rank', datafield: 'INFRASPECIFIC_RANK', width:60, hideable: true, hidden: false },
+							{ text: 'Scientific Name', datafield: 'SCIENTIFIC_NAME', width:150, hideable: true, hidden: true },
+							{ text: 'Authorship', datafield: 'AUTHOR_TEXT', width:140, hideable: true, hidden: false },
+							{ text: 'Display Name', datafield: 'DISPLAY_NAME', width:300, hideable: true, hidden: true },
+							{ text: 'Code', datafield: 'NOMENCLATURAL_CODE', width:100, hideable: true, hidden: true },
+							{ text: 'Division', datafield: 'DIVISION', width:100, hideable: true, hidden: true },
+							{ text: 'Subdivision', datafield: 'SUBDIVISION', width:100, hideable: true, hidden: true },
+							{ text: 'Infraspecific Author', datafield: 'INFRASPECIFIC_AUTHOR', width:100, hideable: true, hidden: true },
+							{ text: 'Source Authority', datafield: 'SOURCE_AUTHORITY', width:100, hideable: true, hidden: true },
+							{ text: 'dwc:scientificNameID', datafield: 'SCIENTIFICNAMEID', width:100, hideable: true, hidden: true },
+							{ text: 'dwc:taxonID', datafield: 'TAXONID', width:100, hideable: true, hidden: true },
+							{ text: 'Status', datafield: 'TAXON_STATUS', width:100, hideable: true, hidden: true },
+							{ text: 'Remarks', datafield: 'TAXON_REMARKS', hideable: true, hidden: true }
+						],
+						rowdetails: true,
+						rowdetailstemplate: {
+							rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+							rowdetailsheight:  1 // row details will be placed in popup dialog
+						},
+						initrowdetails: initRowDetails
+					});
+					$("##searchResultsGrid").on("bindingcomplete", function(event) {
+						// add a link out to this search, serializing the form as http get parameters
+						$('##resultLink').html('<a href="/Taxa.cfm?execute=true&' + $('##searchForm :input').filter(function(index,element){ return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+						gridLoaded('searchResultsGrid','taxon record');
+					});
+					$('##searchResultsGrid').on('rowexpand', function (event) {
+						//  Create a content div, add it to the detail row, and make it into a dialog.
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						var datarecord = args.owner.source.records[rowIndex];
+						createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+					});
+					$('##searchResultsGrid').on('rowcollapse', function (event) {
+						// remove the dialog holding the row details
+						var args = event.args;
+						var rowIndex = args.rowindex;
+						$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+					});
+				});
+				/* End Setup jqxgrid for number series Search ******************************/
 
-			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
-				<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
-					<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
-					<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
-				</div>
-			</div>	
-		</main>
+				// If requested in uri, execute search immediately.
+				<cfif isdefined("execute")>
+					$('##searchForm').submit();
+				</cfif>
+			}); /* End document.ready */
+
+			function gridLoaded(gridId, searchType) { 
+				$("##overlay").hide();
+				$('.jqx-header-widget').css({'z-index': maxZIndex + 1 }); 
+				var now = new Date();
+				var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+				var filename = searchType + '_results_' + nowstring + '.csv';
+				// display the number of rows found
+				var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+				var rowcount = datainformation.rowscount;
+				if (rowcount == 1) {
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+				} else { 
+					$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+				}
+				// set maximum page size
+				if (rowcount > 100) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', '100', rowcount]});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else if (rowcount > 50) { 
+					$('##' + gridId).jqxGrid({ pagesizeoptions: ['20','50', rowcount]});
+					$('##' + gridId).jqxGrid({ pagesize: 50});
+				} else { 
+					$('##' + gridId).jqxGrid({ pageable: false });
+				}
+				// add a control to show/hide columns
+				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var columnListSource = [];
+				for (i = 0; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource.push(listRow);
+					}
+				} 
+				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				$("##columnPickDialog").dialog({ 
+					height: 'auto', 
+					title: 'Show/Hide Columns',
+					autoOpen: false,
+					modal: true, 
+					reszable: true, 
+					buttons: { 
+						Ok: function(){ $(this).dialog("close"); }
+					},
+					open: function (event, ui) { 
+						var maxZIndex = getMaxZIndex();
+						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+						$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+						$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+					} 
+				});
+				$("##columnPickDialogButton").html(
+					`<span class="border rounded p-1 mx-lg-2">Show/Hide 
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary px-1 py-1 my-2" >Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Scientific Name</button>
+					</span>
+					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Pin Taxon Column</button>
+					`
+				);
+				// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+				// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+				var maxZIndex = getMaxZIndex();
+				$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-cell').css({'border-color': '##aaa'});
+				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
+				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+			}
+
+			function togglePinTaxonColumn() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'display_name_author', 'pinned');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$('##searchResultsGrid').jqxGrid('unpincolumn', 'display_name_author');
+				} else {
+					$('##searchResultsGrid').jqxGrid('pincolumn', 'display_name_author');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleCommon() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'COMMON_NAMES', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					$("##searchResultsGrid").jqxGrid('showcolumn', 'COMMON_NAMES');
+				} else {
+					$("##searchResultsGrid").jqxGrid('hidecolumn', 'COMMON_NAMES');
+				}
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleSuperSub() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SUBPHYLUM', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					var action = 'showcolumn';
+				} else {
+					var action = 'hidecolumn';
+				}
+				$("##searchResultsGrid").jqxGrid(action, 'SUBPHYLUM');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERCLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBCLASS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRAORDER');
+				$("##searchResultsGrid").jqxGrid(action, 'SUPERFAMILY');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBFAMILY');
+				$("##searchResultsGrid").jqxGrid(action, 'TRIBE');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+			function toggleScientific() { 
+				var state = $('##searchResultsGrid').jqxGrid('getcolumnproperty', 'SPECIES', 'hidden');
+				$("##searchResultsGrid").jqxGrid('beginupdate');
+				if (state==true) {
+					var action = 'showcolumn';
+				} else {
+					var action = 'hidecolumn';
+				}
+				$("##searchResultsGrid").jqxGrid(action, 'GENUS');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBGENUS');
+				$("##searchResultsGrid").jqxGrid(action, 'SPECIES');
+				$("##searchResultsGrid").jqxGrid(action, 'SUBSPECIES');
+				$("##searchResultsGrid").jqxGrid(action, 'AUTHOR_TEXT');
+				$("##searchResultsGrid").jqxGrid(action, 'INFRASPECIFIC_RANK');
+				$("##searchResultsGrid").jqxGrid('endupdate');
+			}
+		</script>
+
+		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
+			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
+				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
+				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
+			</div>
+		</div>	
 	</div>
 </cfoutput>
 <cfinclude template = "shared/_footer.cfm">
