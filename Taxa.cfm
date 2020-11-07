@@ -69,7 +69,7 @@ limitations under the License.
 	<cfset in_source_authority="">
 <cfelse>
 	<cfset in_source_authority="#source_authority#">
-</cfi<cfif NOT isDefined("taxon_status")>
+</cfif>
 <cfif NOT isDefined("taxon_status")>
 	<cfset in_taxon_status="">
 <cfelse>
