@@ -68,77 +68,74 @@ limitations under the License.
 		<cfoutput>
 			<main id="content">
 				<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
-				<div class="row mx-0 mb-3">
-					<div class="col-12 px-0">
-					<div class="search-box">
-						<div class="search-box-header">
-							<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
-						</div>
-						<div class="col-12 px-4 pt-3 pb-2">
-							
-							<form name="searchForm" id="searchForm">
-								<input type="hidden" name="method" value="getCollections" class="keeponclear">
-								<div class="form-row mb-2">
-									<div class="col-md-6">
-										<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
-										<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
-										<script>
-											$(document).ready(function() {
-												makeNamedCollectionPicker('collection_name',null);
-											});
-										</script>
+					<div class="row mx-0 mb-3">
+						<div class="search-box">
+							<div class="search-box-header">
+								<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
+							</div>
+							<div class="col-12 px-4 pt-3 pb-2">
+								<form name="searchForm" id="searchForm">
+									<input type="hidden" name="method" value="getCollections" class="keeponclear">
+									<div class="form-row mb-2">
+										<div class="col-md-6">
+											<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
+											<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
+											<script>
+												$(document).ready(function() {
+													makeNamedCollectionPicker('collection_name',null);
+												});
+											</script>
+										</div>
+										<div class="col-md-6">
+											<label for="description" class="data-entry-label" id="description_label">Description</label>
+											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+										</div>
 									</div>
-									<div class="col-md-6">
-										<label for="description" class="data-entry-label" id="description_label">Description</label>
-										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+									<div class="form-row mb-2">
+										<div class="col-md-12">
+											<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
+											<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+										</div>
 									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-md-12">
-										<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
-										<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+									<div class="form-row my-2 mx-0">
+										<div class="col-12 px-0 pt-2">
+											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+											<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
+											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
+											</cfif>
+										</div>
 									</div>
-								</div>
-								<div class="form-row my-2 mx-0">
-									<div class="col-12 px-0 pt-2">
-										<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
-										<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-										<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
-										<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-											<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
-										</cfif>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-					</div>
-			</section>
+								</form>
+							</div><!--- col --->
+						</div><!--- search box --->
+					</div><!--- row --->
+				</section>
 	
-			<!--- Results table as a jqxGrid. --->
-			<section class="container-fluid">
-				<div class="row mx-0">
-					<div class="col-12">
-						<div class="mb-5">
-							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h4>Results: </h4>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
+				<!--- Results table as a jqxGrid. --->
+				<section class="container-fluid">
+					<div class="row mx-0">
+						<div class="col-12">
+							<div class="mb-5">
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h4>Results: </h4>
+									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<div id="columnPickDialog">
+										<div id="columnPick" class="px-1"></div>
+									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
 								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
-							</div>
-							<div class="row mt-0"> 
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
+								<div class="row mt-0"> 
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</section>
 			</main>
 	
 			<script>
