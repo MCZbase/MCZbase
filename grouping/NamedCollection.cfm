@@ -69,7 +69,7 @@ limitations under the License.
 			<main id="content">
 				<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
 				<div class="row mx-0 mb-3">
-					<div class="col-12 px-4">
+					<div class="col-12 px-0">
 					<div class="search-box">
 						<div class="search-box-header">
 							<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
