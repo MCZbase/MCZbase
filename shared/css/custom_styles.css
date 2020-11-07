@@ -1545,6 +1545,7 @@ textarea {
 	transform:rotate(-90deg);margin-top:2px;
 }*/
 .card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before {
+	font-family: "Font Awesome 5 Free"; font-weight: 900;
     float:left !important;
     content:"\f067";
 }
