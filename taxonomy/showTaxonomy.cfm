@@ -1,7 +1,7 @@
 <cfset pageTitle = "Taxon Details">
 <cfinclude template = "/shared/_header.cfm">
 
-<main role="main" class="container py-3">
+<main class="container py-3">
 	
 	<cftry>
 		<!--- if given a scientific name, (as in redirect from /name/Aus+bus in /errors/missing.cfm), try to look up the record --->

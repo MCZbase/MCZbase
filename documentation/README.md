@@ -345,7 +345,7 @@ Use the following semantic tags to organize the body of the page:
 		</section>
 	</main>
 
-A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.
+A section MUST NOT declare a role=”region”. Main MUST NOT declare a role=”main”.  
 
 For Ajax feedback, use `<output>`
 
@@ -353,7 +353,7 @@ For Ajax feedback, use `<output>`
 
 Use html semantic tags instead of role properties whenever possible.
 
-Every coldfusion page that includes /shared/\_header.cfm MUST have one and only one <main> tag, and this tag MUST have the id of content. <main id=”content”> identifies the main content when it is an edit page and there is only one main content. The id=”content” MUST be provided in every page used to support the link, which is always present in the header to the “skip to main content”.
+Every coldfusion page that includes /shared/\_header.cfm MUST have one and only one <main> tag, and this tag MUST have the id of content. <main id=”content”> identifies the main content when it is an edit page and there is only one main content. The id=”content” MUST be provided in every page used to support the link, which is always present in the header to the “skip to main content”.  A section MUST NOT declare a role="main".
 
 See accessibility and style section of this document for addition guidance.
 
@@ -456,7 +456,7 @@ See Edit Loan page to compare boxes for related information such as Accession, M
 
 Use semantic tags instead of roles whenever possible.
 
-Use the following top level structure for search/results pages. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
+Search/Results pages MUST use the following top level structure. This structure, with appropriate styling on the overlay div allows the overlay to cover the search form and results grid without covering the navigation header and footer elements of the page.
 
 	<div id="overlaycontainer" style="position: relative;">
 		<main id=”content’>
@@ -636,7 +636,7 @@ for Organization and Focus
 
 <u>**Main grouping of fields for search section**</u>
 
-*'*Without Tabs: *'*Use the class=”search-box”, which has a teal border and gray background \#f5f5f5 and within it there is class=”search-header” with the `<h1 class="h3 smallcaps text-white" tabindex="0"> </h1>` (inside the teal header).
+*'*Without Tabs: *'*Use the class=”search-box”, which has a teal border and gray background \#f5f5f5 and within it there is class=”search-header” with the `<h1 class="h3 smallcaps text-white" tabindex="0"> </h1>` (inside the teal header).  See [Search-Pages](#Search-Pages) for details.
 
 *'*With Tabs: *'*The tabs should follow this set of tags and classes. It makes a Teal border with light tabs.
 
