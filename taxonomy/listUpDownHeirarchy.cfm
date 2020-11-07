@@ -101,6 +101,8 @@
 				</ul>
 			</div>
 					</div>
+					</div>
+					</div></div></div>
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
 			<div class="col-12">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -124,7 +126,6 @@
 				</ul>
 			</div>
 		</cfif>
-			</div>
-					</div></div></div>
+		
 	</cfif>
 </cfoutput>
