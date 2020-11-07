@@ -126,6 +126,5 @@
 				</ul>
 			</div>
 		</cfif>
-		
 	</cfif>
 </cfoutput>
