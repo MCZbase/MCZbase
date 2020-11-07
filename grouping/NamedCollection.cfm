@@ -66,16 +66,21 @@ limitations under the License.
 		</cfif>
 		<!--- Search Form ---> 
 		<cfoutput>
-			<section class="container mt-2 mb-3" role="search">
-				<div class="row">
-					<div class="col-12">
-						<div role="region" aria-labelledby="formheading">
-							<h1 class="h2" id="formheading">Find named groups of cataloged items</h1>
+			<main id="content">
+				<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+				<div class="row mx-0 mb-3">
+					<div class="col-12 px-0">
+					<div class="search-box">
+						<div class="search-box-header">
+							<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
+						</div>
+						<div class="col-12 px-4 pt-3 pb-2">
+							
 							<form name="searchForm" id="searchForm">
 								<input type="hidden" name="method" value="getCollections" class="keeponclear">
 								<div class="form-row mb-2">
 									<div class="col-md-6">
-										<label for="collection_name" id="collection_name_label">Name for the group of cataloged items</label>
+										<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 										<script>
 											$(document).ready(function() {
@@ -84,13 +89,13 @@ limitations under the License.
 										</script>
 									</div>
 									<div class="col-md-6">
-										<label for="description" id="description_label">Description</label>
+										<label for="description" class="data-entry-label" id="description_label">Description</label>
 										<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="guid" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
+										<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 										<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 									</div>
 								</div>
@@ -108,14 +113,13 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+					</div>
 			</section>
-		</cfoutput> 
-		
-		<!--- Results table as a jqxGrid. --->
-		<section class="container-fluid">
-			<div class="row mx-0">
-				<div class="col-12">
-					<main>
+	
+			<!--- Results table as a jqxGrid. --->
+			<section class="container-fluid">
+				<div class="row mx-0">
+					<div class="col-12">
 						<div class="mb-5">
 							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 								<h4>Results: </h4>
@@ -132,11 +136,11 @@ limitations under the License.
 								<div id="enableselection"></div>
 							</div>
 						</div>
-					</main>
+					</div>
 				</div>
-			</div>
-		</section>
-		<cfoutput> 
+			</section>
+			</main>
+	
 			<script>
 					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
