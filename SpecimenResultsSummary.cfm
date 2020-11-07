@@ -215,7 +215,7 @@
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">MCZbase Taxonomy</a>.			</li>
+				If you searched by taxonomy, please consult the <a href="/Taxa.cfm" class="novisit">MCZbase Taxonomy</a>.			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc.			</li>
 			<li>

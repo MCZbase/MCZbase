@@ -273,7 +273,7 @@
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">The MCZbase Taxonomy</a>.
+				If you searched by taxonomy, please consult the <a href="/Taxa.cfm" class="novisit">MCZbase Taxonomy</a>.
 			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc. Don't assume we've accurately or predictably recorded data!

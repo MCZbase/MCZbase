@@ -302,7 +302,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 			<h3>Taxonomy Searches</h3>
 			<ul>
 			<li>
-				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm">The Taxonomy List</a>.
+				If you searched by taxonomy, consult the <a href="/Taxa.cfm">MCZbase Taxonomy</a>.
 				Taxa are often synonymized and revised and may not be consistent across collections. Previous Identifications,
 				which are separate from the taxonomy used in Identifications, may be located using the scientific name
 				"is/was/cited/related" option.
