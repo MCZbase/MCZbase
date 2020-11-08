@@ -448,8 +448,8 @@ limitations under the License.
 			</cfquery>
 			<cfoutput query="numSeries">
 				<main id="content">
-					<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
 					<section class="container py-3" aria-labelledby="formheading">
+						<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
 						<div class="row pb-3 border rounded">
 							<div class="col-12">
 								<form name="editNumSeries" id="editNumSeries"> 
