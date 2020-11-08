@@ -892,7 +892,7 @@ limitations under the License.
 				$("##columnPickDialog").dialog({ 
 					height: 'auto', 
 					width: '60%',
-					maxWidth: 650,
+					maxWidth: '650px',
 					title: 'Show/Hide Columns',
 					autoOpen: false,
 					modal: true, 
