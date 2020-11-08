@@ -884,19 +884,20 @@ limitations under the License.
 						<input type="hidden" name="permit_id" value="#permit_id#">
 					</form>
 				</section>
-				<section name="permitMediaSection" class="row mx-0 bg-light border rounded my-2">
+				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+					<section name="permitMediaSection" class="row mx-0 bg-light border rounded my-2">
 					<div class="col-12">
 					<!---  Show/add media copy of permit  (shows permit) --->
 					<div id="copyofpermit"><img src='images/indicator.gif'></div>
 					</div>
 				</section>
-				<section name="associatedMediaSection" class="mx-0 bg-light row border pb-3 rounded my-2">
+					<section name="associatedMediaSection" class="mx-0 bg-light row border pb-3 rounded my-2">
 					<div class="col-12">
 					<!---  list/add media copy of associated documents (document for permit) --->
 					<div id="associateddocuments"><img src='images/indicator.gif'></div>
 					</div>
 				</section>
-				<script>
+					<script>
 					function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
 						var url = '/media.cfm?action=newMedia&relationship='+relationship+'&related_value='+permitLabel+'&related_id='+permit_id ;
 						var amddialog = $('##'+targetid)
@@ -959,8 +960,7 @@ limitations under the License.
 					jQuery(document).ready(loadPermitMedia(#permit_id#));
 					jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 				</script>
-
-				<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded my-2">
+					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded my-2">
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
@@ -1051,6 +1051,7 @@ limitations under the License.
 					</span>
 						</div>
 				</section>
+				</div>
 			</main>
 		</cfoutput>
 	</cfcase>
