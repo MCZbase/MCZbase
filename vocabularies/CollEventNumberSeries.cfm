@@ -55,7 +55,7 @@ limitations under the License.
 								<div class="search-box-header">
 									<h1 class="h3 text-white" id="formheading">Find Collecting Event Number Series</h1>
 								</div>
-								<div class="col-12 px-4 py-1">
+								<div class="col-12 px-4 mt-3 py-1">
 									<form name="searchForm" id="searchForm"> 
 										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 										<div class="form-row mb-2">
