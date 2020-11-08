@@ -552,7 +552,7 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="form-row mb-0">	
+									<div class="form-row mb-1">	
 										<div class="col-12">   
 												<div id="saveResultDiv">&nbsp;</div>
 												<input type="button" 
