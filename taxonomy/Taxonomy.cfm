@@ -1269,20 +1269,20 @@ limitations under the License.
 					</div>
 					<div class="form-row"><!--- organize layout so that phylum, class, order, family stack in same column --->
 						<div class="col-12 col-xl-3 col-md-6 px-0 float-left">
-							<label for="kingdom" class="col-12 col-md-3 align-left float-left data-entry-label mt-md-2">Kingdom</label>
+							<label for="kingdom" class="col-12 col-xl-3 col-md-6 align-left float-left data-entry-label mt-md-2">Kingdom</label>
 							<div  class="col-12 col-md-9 float-left px-0 pl-md-0">
 								<input type="text" name="kingdom" id="kingdom" value="#getClonedFromTaxon.kingdom#" class="data-entry-input  mt-md-2">
 							</div>
 						</div>
 						<div id="phylum_row" class="col-12 col-xl-3 col-md-6 px-0 float-left">
-							<label for="phylum" id="phylum_label" class="col-12 col-md-3 data-entry-label  mt-md-2 align-left float-left">Phylum</label>
+							<label for="phylum" id="phylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Phylum</label>
 							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
 								<input type="text" name="phylum" id="phylum" value="#getClonedFromTaxon.phylum#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
-							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 data-entry-label  mt-md-2 align-left float-left">Subphylum</label>
-							<div  class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<label for="subphylum" id="subphylum_label" class="col-12 col-md-3 col-form-label align-left float-left">Subphylum</label>
+							<div  class="col-12 col-md-9 float-left">
 								<input type="text" name="subphylum" id="subphylum" value="#getClonedFromTaxon.subphylum#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1318,13 +1318,13 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="subclass" class="col-12 col-md-3 data-entry-label align-left mt-md-2 float-left">SubClass</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="subclass" id="subclass" value="#getClonedFromTaxon.subclass#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="infraclass" class="col-12 col-md-3  data-entry-label align-left mt-md-2 float-left">InfraClass</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="infraclass" id="infraclass" value="#getClonedFromTaxon.infraclass#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1332,25 +1332,25 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="superorder" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Superorder</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="superorder" id="superorder" value="#getClonedFromTaxon.superorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="phylorder" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Order</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="phylorder" id="phylorder" value="#getClonedFromTaxon.phylorder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="suborder" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Suborder</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="suborder" id="suborder" value="#getClonedFromTaxon.suborder#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="infraorder" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Infraorder</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="infraorder" id="infraorder" value="#getClonedFromTaxon.infraorder#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1363,13 +1363,13 @@ limitations under the License.
 							<div class="col-12 col-md-6 col-xl-3 px-0">
 								<label for="subsection" class="col-sm-3 data-entry-label mt-md-2 float-left">Section (zoological)</label>
 								<!--- Section would go here --->
-								<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+								<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 									--
 								</div>
 							</div>
 							<div class="col-12 col-md-6 px-0">
 								<label for="subsection" class="col-12 col-md-3 data-entry-label mt-md-2 float-left">Subsection (zoological)</label>
-								<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+								<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 									<input type="text" name="subsection" id="subsection" value="#getClonedFromTaxon.subsection#" class="data-entry-input my-1">
 								</div>
 							</div>
@@ -1381,13 +1381,13 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="superfamily" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Superfamily</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="superfamily" id="superfamily" value="#getClonedFromTaxon.superfamily#" class="data-entry-input my-1">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="family" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Family</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="family" id="family" value="#getClonedFromTaxon.family#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1399,7 +1399,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="tribe" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Tribe</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md">
 								<input type="text" name="tribe" id="tribe" value="#getClonedFromTaxon.tribe#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1411,7 +1411,7 @@ limitations under the License.
 									<small class="link-color">Add&nbsp;&##215;</small>
 								</span>
 							</label>
-							<div class="col-12 col-md-9 float-left  px-0 pl-md-0 pr-md-2">
+							<div class="col-12 col-md-9 float-left  px-0 pl-md-0 pr-md-3">
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#getClonedFromTaxon.genus#">
 							</div>
 						</div>
@@ -1420,7 +1420,7 @@ limitations under the License.
 								<cfset subgenus_message = "Do Not include parethesies">
 							</cfif>
 							<label for="subgenus" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Subgenus</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<span class="float-left d-inline brackets">(</span>
 								<input type="text" name="subgenus" id="subgenus" value="#getClonedFromTaxon.subgenus#" class="data-entry-input my-1 w-75 float-left">
 								<span class="float-left d-inline brackets">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> 
@@ -1429,13 +1429,13 @@ limitations under the License.
 			
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="species" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Species</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="species" id="species" class="data-entry-input my-1" value="#getClonedFromTaxon.species#">
 							</div>
 						</div>		
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="subspecies" class="col-12 col-md-3 data-entry-label mt-md-2 align-left float-left">Subspecies</label>
-							<div class="col-12 col-md-9 float-left px-0 pl-md-0">
+							<div class="col-12 col-md-9 float-left px-0 pl-md-0 pr-md-3">
 								<input type="text" name="subspecies" id="subspecies" value="#getClonedFromTaxon.subspecies#" class="data-entry-input my-1">
 							</div>
 						</div>
@@ -1444,7 +1444,7 @@ limitations under the License.
 					<div class="form-row">
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
 							<label for="infraspecific_rank" class="col-12 col-md-4 data-entry-label mt-md-2 align-left float-left"><span>Infraspecific Rank</span></label>
-							<div class="col-12 col-md-8 float-left">
+							<div class="col-12 col-md-8 float-left px-0 pl-md-0 pr-md-3">
 								<select name="infraspecific_rank" id="infraspecific_rank" class="data-entry-select my-1" data-style="btn-primary" show-tick>
 									<option value=""></option>
 									<cfloop query="ctInfRank">
