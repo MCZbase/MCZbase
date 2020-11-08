@@ -1731,7 +1731,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="">
+					<ul class="list-style-disc">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
@@ -3748,7 +3748,7 @@ limitations under the License.
 				
 						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul class="col-12 mx-3 float-left">
+							<ul class="col-12 mx-0 px-4 float-left list-style-disc">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
