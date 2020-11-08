@@ -1075,11 +1075,11 @@ limitations under the License.
 					</span>
 				</h1>
 		
-			<div class="row border rounded">
+			<div class="row mx-0 p-3 border rounded">
 				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12">
 					<input type="hidden" name="Action" value="saveNewTaxon">
 	
-					<div class="row my-1">
+					<div class="row">
 						<div class="col-12 col-sm-3">
 							<!---some devices (under @media < 991px need 4 columns)--->
 							<input type="hidden" id="taxon_name_id" name="taxon_name_id" value="#getClonedFromTaxon.taxon_name_id#">
