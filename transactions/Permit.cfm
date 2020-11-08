@@ -1035,7 +1035,7 @@ limitations under the License.
 						<h3>Permit used for</h3>
 						<ul class="col-12 col-md-6 mx-3 float-left">
 							<cfloop query="permituse">
-								<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# to: #guid_prefix#</li>
+								<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# type: #ttype# on: #dateformat(trans_date,'yyyy-mm-dd')# went to: #guid_prefix#</li>
 							</cfloop>
 							<cfif permituse.recordCount eq 0>
 								<li>No linked transactions or shipments.</li>
