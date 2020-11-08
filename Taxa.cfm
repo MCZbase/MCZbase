@@ -891,7 +891,7 @@ limitations under the License.
 				});
 				$("##columnPickDialog").dialog({ 
 					height: 'auto', 
-					width: '80%', 
+					width: '50%', 
 					title: 'Show/Hide Columns',
 					autoOpen: false,
 					modal: true, 
