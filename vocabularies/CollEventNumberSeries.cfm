@@ -483,7 +483,7 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										});
 									</script>
-									<div class="form-row mb-5">
+									<div class="form-row mb-0">
 										<div class="col-12 col-md-6"> 
 											<span>
 												<label for="collector_agent_name" id="collector_agent_name_label" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
@@ -552,8 +552,8 @@ limitations under the License.
 											</script>
 										</div>
 									</div>
-									<div class="form-row">	
-										<div class="col-12 my-2">   
+									<div class="form-row mb-0">	
+										<div class="col-12">   
 												<div id="saveResultDiv">&nbsp;</div>
 												<input type="button" 
 													value="Save" title="Save" aria-label="Save"
