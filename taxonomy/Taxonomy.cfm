@@ -270,7 +270,7 @@ limitations under the License.
 							<label for="source_authority">Source
 								<cfif isSourceAuthorityCurrent.ct eq 0> (#getTaxa.source_authority#) </cfif>
 							</label>
-							<select name="source_authority" id="source_authority" size="1" class="reqdClr col-form-label" required>
+							<select name="source_authority" id="source_authority" size="1" class="reqdClr data-entry-select" required>
 								<cfif isSourceAuthorityCurrent.ct eq 0>
 									<option value="" selected="selected"></option>
 								</cfif>
