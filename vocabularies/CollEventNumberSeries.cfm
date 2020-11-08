@@ -355,10 +355,10 @@ limitations under the License.
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text smaller" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control data-entry-input rounded-right" value="" aria-label="This is a number series of collector: " >
-											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
+											<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm rounded-right" value="" aria-label="This is a number series of collector: " >
+											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -448,8 +448,8 @@ limitations under the License.
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
 			<cfoutput query="numSeries">
-				<div class="container">
-					<div class="row">
+				<main class="container">
+					<section class="row" id="content">
 						<div class="col-12">
 							<div role="region" aria-labelledby="formheading">
 								<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
@@ -457,13 +457,11 @@ limitations under the License.
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 									<input type="hidden" id="method" name="method" value="saveNumSeries" >
 									<div class="form-row mb-2">
-										<div class="col-md-12">
+										<div class="col-12 col-md-6">
 											<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
 											<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" aria-labelledby="number_series_label">	
 										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-md-12">
+										<div class="col-12 col-md-6">
 											<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
 											<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >
 										</div>
@@ -493,9 +491,9 @@ limitations under the License.
 											</span>
 											<div class="input-group">
 												<div class="input-group-prepend">
-													<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
+												<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm rounded-right" value="#agentname#" aria-labelledby="collector_agent_name_label" >
 												<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 											</div>
 											<script>
@@ -565,8 +563,8 @@ limitations under the License.
 								</form>
 							</div><!--- region --->
 						</div><!--- col --->
-					</div><!--- row --->
-				</div><!--- container --->
+					</section><!--- row --->
+			
 			</cfoutput>
 			<cfif numSeries_result.recordcount GT 0>
 				<!--- list instances of the collecting event number, link out to specimen search --->
@@ -577,8 +575,8 @@ limitations under the License.
 					order by coll_event_number
 				</cfquery>
 				<cfoutput>
-					<div class="container">
-						<div role="region" aria-labelledby="existingvalues">
+					<section class="row">
+						<div class="col-12" aria-labelledby="existingvalues">
 							<cfif numSeriesUse_result.recordcount EQ 0>
 								<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
 							<cfelse>
@@ -590,7 +588,8 @@ limitations under the License.
 								</ul>
 							</cfif>
 						</div>
-					</div>
+					</section>
+				</main>
 				</cfoutput>
 			</cfif>
 		</cfif>
