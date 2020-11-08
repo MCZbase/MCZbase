@@ -3748,7 +3748,7 @@ limitations under the License.
 				
 						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul>
+							<ul class="col-12 mx-3 float-left">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
@@ -3758,7 +3758,8 @@ limitations under the License.
 								</cfif>
 								<li>
 									<a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a>
-									#mime_type# #media_type# #label_value# 
+									<span class="d-block">#mime_type# #media_type# </span>
+									<span class="d-block">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
 									<input class='btn btn-xs btn-warning' 
 											onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
