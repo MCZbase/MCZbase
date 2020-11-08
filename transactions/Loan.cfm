@@ -1032,8 +1032,9 @@ limitations under the License.
 						</div>
 					</section>
 
-					<div class="row px-0">
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 border rounded" tabindex="0">
+				
+					<div class="row mx-0 mx-md-1 mt-2 mb-3">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
 							<h3>Accessions of material in this loan:</h3>
 							<!--- List Accessions for collection objects included in the Loan --->
 							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1090,10 +1091,9 @@ limitations under the License.
 									</li>
 								</cfloop>
 							</ul>
-						</section>
-					
+						</section>	
 						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 border pb-3 rounded" tabindex="0">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
 							<h3>
 								Permissions and Rights Documents: 
 								<br/>
