@@ -3758,10 +3758,9 @@ limitations under the License.
 								</cfif>
 								<li>
 									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='65' alt='#media_descriptor#'></a>
-									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span>
-									<span class="d-block">#label_value#</span>
+									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
-									<input class='btn btn-xs btn-warning' 
+									<input class='btn btn-xs btn-warning'
 											onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
 											value='Remove' style='width: 5em; text-align: center;' >
 								</li>
