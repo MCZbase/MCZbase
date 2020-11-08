@@ -331,19 +331,19 @@ limitations under the License.
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-										<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" aria-labelledby="number_series_label" >					
+										<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
+										<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >					
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
-										<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" aria-labelledby="pattern_label" >
+										<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
+										<input type="text" id="pattern" name="pattern" class="data-entry-input" value="" aria-labelledby="pattern_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
 										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
 											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 											rows="3" aria-labelledby="remarks_label" ></textarea>
@@ -355,14 +355,14 @@ limitations under the License.
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
-											<label for="collector_agent_name">Numbers in this series assigned by Agent</label>
+											<label for="collector_agent_name" class="data-entry-label">Numbers in this series assigned by Agent</label>
 											<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="" aria-label="This is a number series of collector: " >
+											<input name="collector_agent_name" id="collector_agent_name" class="form-control data-entry-input" value="" aria-label="This is a number series of collector: " >
 											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
 										</div>
 										<script>
