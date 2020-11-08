@@ -360,7 +360,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
-										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+										<textarea id="remarks" name="remarks" class="data-entry-textarea"
 											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 											rows="3" aria-labelledby="remarks_label" ></textarea>
 									</div>
