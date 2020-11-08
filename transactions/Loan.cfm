@@ -1036,7 +1036,7 @@ limitations under the License.
 
 						<div class="row mx-md-1 mt-0 mb-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
-								<h2 class="h3">Accessions of material in this loan:</h2>
+								<h2 class="h3">Accessions of material in this loan</h2>
 								<!--- List Accessions for collection objects included in the Loan --->
 								<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
@@ -1096,9 +1096,8 @@ limitations under the License.
 							<!--- Print permits associated with these accessions --->
 							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
 								<h2 class="h3">
-									Permissions and Rights Documents: 
-									<br/>
-									<smaller>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
+									Permissions and Rights Documents 
+									<span class="smaller">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
 								</h2>
 								<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
@@ -1166,7 +1165,7 @@ limitations under the License.
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
-									Projects associated with this loan: 
+									Projects associated with this loan
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
 								</h2>
 								<div id="projectsDiv" class="mx-3">
