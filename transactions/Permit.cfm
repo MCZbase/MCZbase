@@ -729,14 +729,14 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_by_agent_name">Issued By:</label>
+									<label for="issued_by_agent_name" class="data-entry-label">Issued By:</label>
 									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control form-control-sm" required value="#IssuedByAgent#" >
+									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
 								</div>
 								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
 								<script>
@@ -745,14 +745,14 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_to_agent_name">Issued To:</label>
+									<label for="issued_to_agent_name" class="data-entry-label">Issued To:</label>
 									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control form-control-sm" required value="#IssuedToAgent#" >
+									<input name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedToAgent#" >
 								</div>
 								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
 								<script>
@@ -761,14 +761,14 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="contact_agent_name">Contact Person:</label>
+									<label for="contact_agent_name" class="data-entry-label">Contact Person:</label>
 									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="contact_agent_name" id="contact_agent_name" class="form-control form-control-sm" value="#ContactAgent#">
+									<input name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input" value="#ContactAgent#">
 								</div>
 								<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
 								<script>
@@ -884,9 +884,11 @@ limitations under the License.
 						<input type="hidden" name="permit_id" value="#permit_id#">
 					</form>
 				</section>
-				<section name="permitMediaSection" class="row border rounded my-2">
+				<section name="permitMediaSection" class="row mx-0 border rounded my-2">
+					<div class="col-12">
 					<!---  Show/add media copy of permit  (shows permit) --->
 					<div id="copyofpermit"><img src='images/indicator.gif'></div>
+					</div>
 				</section>
 				<section name="associatedMediaSection" class="row border rounded my-2">
 					<!---  list/add media copy of associated documents (document for permit) --->
@@ -1359,8 +1361,8 @@ limitations under the License.
 						<div class="col-12 mb-5">
 							<section>
 								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h4>Report: </h4>
-									<span class="d-block px-3 p-2" tabindex="0" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<h2 class="h4">Report: </h2>
+									<span class="d-block px-3 p-2" tabindex="0" id="resultCount"></span> <span id="resultLink" tabindex="0" class="d-block p-2"></span>
 									<div id="columnPickDialog">
 										<div id="columnPick" class="px-1"></div>
 									</div>
