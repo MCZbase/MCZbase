@@ -323,67 +323,65 @@ limitations under the License.
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
 			<main id="content">
-			<section class="container">
+			<section class="container" aria-labelledby="formheading">
 				<div class="row">
 					<div class="col-12">
-						<div role="region" aria-labelledby="formheading">
-							<h1 class="h2" id="formheading">New Collecting Event Number Series</h1>
-							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
-								<input type="hidden" id="action" name="action" value="saveNew" >
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-6">
-										<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
-										<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >					
-									</div>
-									<div class="col-12 col-md-6">
-										<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
-										<input type="text" id="pattern" name="pattern" class="data-entry-input" value="" aria-labelledby="pattern_label" >
-									</div>
+						<h1 class="h2" id="formheading">New Collecting Event Number Series</h1>
+						<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
+							<input type="hidden" id="action" name="action" value="saveNew" >
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-6">
+									<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
+									<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >					
 								</div>
-								<div class="form-row mb-2">
-									<div class="col-12 col-md-12">
-										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
-										<textarea id="remarks" name="remarks" class="data-entry-textarea"
-											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
-											rows="3" aria-labelledby="remarks_label" ></textarea>
-									</div>
+								<div class="col-12 col-md-6">
+									<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
+									<input type="text" id="pattern" name="pattern" class="data-entry-input" value="" aria-labelledby="pattern_label" >
 								</div>
-								<div class="form-row mb-2">
-										<div class="col-12 col-md-6">
-										<span>
-											<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
-											<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-										</span>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm rounded-right" value="" aria-label="This is a number series of collector: " >
-											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="" >
+							</div>
+							<div class="form-row mb-2">
+								<div class="col-12 col-md-12">
+									<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+									<textarea id="remarks" name="remarks" class="data-entry-textarea"
+										onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+										rows="3" aria-labelledby="remarks_label" ></textarea>
+								</div>
+							</div>
+							<div class="form-row mb-2">
+									<div class="col-12 col-md-6">
+									<span>
+										<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
+										<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</span>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
-										<script>
-											$(document).ready(function() {
-												$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', ''));
-											});
-										</script>
+										<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm rounded-right" value="" aria-label="This is a number series of collector: " >
+										<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="" >
 									</div>
-									
+									<script>
+										$(document).ready(function() {
+											$(makeRichAgentPicker('collector_agent_name', 'collector_agent_id', 'collector_agent_name_icon', 'collector_agent_view', ''));
+										});
+									</script>
 								</div>
-								<script>
-									$('##remarks').keyup(autogrow);
-								</script>
-								<div class="form-row mb-5">
-								
-									<div class="col-12 col-md-12 my-3 my-2">   								
-											<input type="button" 
-												value="Create" title="Create" aria-label="Create"
-												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
-												>
-									</div>
+
+							</div>
+							<script>
+								$('##remarks').keyup(autogrow);
+							</script>
+							<div class="form-row mb-5">
+
+								<div class="col-12 col-md-12 my-3 my-2">   								
+										<input type="button" 
+											value="Create" title="Create" aria-label="Create"
+											class="btn btn-xs btn-primary"
+											onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
+											>
 								</div>
-							</form>
-						</div><!--- region --->
+							</div>
+						</form>
 					</div><!--- col --->
 				</div><!--- row --->
 			</section><!--- container --->
@@ -450,11 +448,10 @@ limitations under the License.
 			</cfquery>
 			<cfoutput query="numSeries">
 				<main id="content">
-					<section class="container py-3">
-						<div class="row mx-0">
+					<section class="container py-3" aria-labelledby="formheading">
+						<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
+						<div class="row mx-0 pb-3 border rounded">
 							<div class="col-12">
-							<div aria-labelledby="formheading">
-								<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
 								<form name="editNumSeries" id="editNumSeries"> 
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 									<input type="hidden" id="method" name="method" value="saveNumSeries" >
@@ -565,8 +562,7 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							</div><!--- region --->
-						</div><!--- col --->
+							</div><!--- col --->
 						</div><!--- row --->
 					</section>
 			</cfoutput>
