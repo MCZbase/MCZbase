@@ -14,10 +14,11 @@ input.badPick, select.badPick, textarea.badPick {
 input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: rgba(173, 236, 199, 0.3) !important;
 }
-#taxon_form label {
+#taxon_form label, #taxon_form2 label{
 	font-size: .8em;
 	line-height: 1.02em;
 }
+
 
 /** Styling of external links out, shared with production **/
 .external:after {
