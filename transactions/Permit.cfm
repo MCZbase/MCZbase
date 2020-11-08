@@ -712,11 +712,11 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<main class="container">
-				<h2 class="wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >
+			<main class="container pt-4 pb-5">
+				<h1 class="h2 wikilink mt-2 mb-0" id="editPermitFormSectionLabel" >
 					Edit Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
-				</h2>
+				</h1>
 				<section id="editPermitFormSection" class="row" aria-labeledby="editPermitFormSectionLabel" >
 					<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post" class="col-12">
 						<input type="hidden" name="method" value="savePermit">

@@ -3389,7 +3389,7 @@ limitations under the License.
 				<div class="row">
 					<div class="alert alert-danger" role="alert">
 						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
+						<h2 class="h3">Internal Server Error.</h2>
 						<p>#message#</p>
 						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 					</div>
@@ -3587,7 +3587,7 @@ limitations under the License.
 				<div class="row">
 					<div class="alert alert-danger" role="alert">
 						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
+						<h2 class="h3">Internal Server Error.</h2>
 						<p>#message#</p>
 						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 					</div>
@@ -3689,7 +3689,7 @@ limitations under the License.
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
 							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
+							<h2 class="h3">Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
@@ -3746,7 +3746,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				
-						<h3>#heading# Media</h3>
+						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
 							<ul>
 							<cfloop query="query">
