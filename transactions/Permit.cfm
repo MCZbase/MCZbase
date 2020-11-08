@@ -717,7 +717,7 @@ limitations under the License.
 					Edit Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
 				</h1>
-				<section id="editPermitFormSection" class="row" aria-labeledby="editPermitFormSectionLabel" >
+				<section id="editPermitFormSection" class="row border rounded" aria-labeledby="editPermitFormSectionLabel" >
 					<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post" class="col-12">
 						<input type="hidden" name="method" value="savePermit">
 						<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
