@@ -2683,14 +2683,14 @@ limitations under the License.
 				<ul class="px-4 list-style-disc">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="my-2 d-inline-block">
+							<li class="my-2">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
 							</li>
 						</cfloop>
 					<cfelse>
-						<li class="list-group-item">None</li>
+						<li class="">None</li>
 					</cfif>
 				</ul>
 			</cfoutput>
