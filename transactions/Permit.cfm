@@ -95,19 +95,19 @@ limitations under the License.
 									<h1 class="h3 text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
 								</div>
 								<div class="col-12 px-4 py-1">
-									<p class="my-1 " tabindex="0">Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
+									<p class="my-1 small" tabindex="0">Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
 									</p>
 									<form name="searchForm" id="searchForm"> 
 										<input type="hidden" name="method" value="getPermits" class="keeponclear">
 										<div class="form-row mb-2">
 											<div class="col-md-6">
-												<label for="permit_title" id="permit_title_label">Document Title</label>
-												<input type="text" id="permit_title" name="permit_title" class="form-control-sm" value="#permit_title#" aria-labelledby="permit_title_label" >
+												<label for="permit_title" class="data-entry-label" id="permit_title_label">Document Title</label>
+												<input type="text" id="permit_title" name="permit_title" class="data-entry-input" value="#permit_title#" aria-labelledby="permit_title_label" >
 											</div>
 											<div class="col-md-6">
-												<label for="permit_num" id="permit_num_label">Permit Number</label>
-												<input type="text" id="permit_num" name="permit_num" class="form-control-sm" value="#permit_num#" aria-labelledby="permit_num_label" >					
+												<label for="permit_num" class="data-entry-label" id="permit_num_label">Permit Number</label>
+												<input type="text" id="permit_num" name="permit_num" class="data-entry-input" value="#permit_num#" aria-labelledby="permit_num_label" >					
 											</div>
 										</div>
 										<script>
@@ -118,18 +118,18 @@ limitations under the License.
 										</script>
 										<div class="form-row mb-2">
 											<div class="col-md-4">
-												<label for="IssuedByAgent" id="IssuedByAgent_label">Issued By</label>
-												<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="form-control-sm" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
+												<label for="IssuedByAgent" class="data-entry-label" id="IssuedByAgent_label">Issued By</label>
+												<input type="text" id="IssuedByAgent" name="IssuedByAgent" class="data-entry-input" value="#IssuedByAgent#" aria-labelledby="IssuedByAgent_label" >
 												<input type="hidden" id="issued_by_agent_id" name="issued_by_agent_id" value="#issued_by_agent_id#">
 											</div>
 											<div class="col-md-4">
-												<label for="IssuedToAgent" id="IssuedToAgent_label">Issued To</label>
-												<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="form-control-sm" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
+												<label for="IssuedToAgent" class="data-entry-label" id="IssuedToAgent_label">Issued To</label>
+												<input type="text" id="IssuedToAgent" name="IssuedToAgent" class="data-entry-input" value="#IssuedToAgent#" aria-labelledby="IssuedToAgent_label" >
 												<input type="hidden" id="issued_to_agent_id" name="issued_to_agent_id" value="#issued_to_agent_id#">
 											</div>
 											<div class="col-md-4">
-												<label for="ContactAgent" id="ContactAgent_label">Contact</label>
-												<input type="text" id="ContactAgent" name="ContactAgent" class="form-control-sm" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
+												<label for="ContactAgent" class="data-entry-label" id="ContactAgent_label">Contact</label>
+												<input type="text" id="ContactAgent" name="ContactAgent" class="data-entry-input" value="#ContactAgent#" aria-labelledby="ContactAgent_label" >
 												<input type="hidden" id="contact_agent_id" name="contact_agent_id" value="#contact_agent_id#">
 											</div>
 											<script>
@@ -214,8 +214,8 @@ limitations under the License.
 												</select>
 											</div>
 											<div class="col-md-4">
-												<label for="permit_remarks" id="permit_remarks_label">Remarks:</label>
-												<input type="text" id="permit_remarks" name="permit_remarks" class="form-control-sm" value="#permit_remarks#" aria-labelledby="permit_remarks_label" >					
+												<label for="permit_remarks" class="data-entry-label" id="permit_remarks_label">Remarks:</label>
+												<input type="text" id="permit_remarks" name="permit_remarks" class="data-entry-input" value="#permit_remarks#" aria-labelledby="permit_remarks_label" >					
 											</div>
 										</div>
 										<div class="form-row my-2 mx-0">
