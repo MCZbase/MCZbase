@@ -334,24 +334,13 @@ limitations under the License.
 										<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
 										<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >					
 									</div>
-									<div class="col-12 col-md-12">
+									<div class="col-12 col-md-6">
 										<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
 										<input type="text" id="pattern" name="pattern" class="data-entry-input" value="" aria-labelledby="pattern_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-12">
-										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
-										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
-											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
-											rows="3" aria-labelledby="remarks_label" ></textarea>
-									</div>
-								</div>
-								<script>
-									$('##remarks').keyup(autogrow);
-								</script>
-								<div class="form-row mb-5">
-									<div class="col-12 col-md-6">
+										<div class="col-12 col-md-6">
 										<span>
 											<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
 											<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -369,6 +358,18 @@ limitations under the License.
 											});
 										</script>
 									</div>
+									<div class="col-12 col-md-6">
+										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+											rows="3" aria-labelledby="remarks_label" ></textarea>
+									</div>
+								</div>
+								<script>
+									$('##remarks').keyup(autogrow);
+								</script>
+								<div class="form-row mb-5">
+								
 									<div class="col-12 col-md-12 px-2 my-3 px-sm-2 my-4">   								
 											<input type="button" 
 												value="Create" title="Create" aria-label="Create"
