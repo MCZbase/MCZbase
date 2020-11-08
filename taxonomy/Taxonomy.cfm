@@ -1069,12 +1069,11 @@ limitations under the License.
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
 		<main class="container py-3" id="content">
-				<h1 class="h2 ml-3">Create New Taxonomy Record
-					<span class="smaller">
-						(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
-					</span>
-				</h1>
-		
+			<h1 class="h2 ml-3">Create New Taxonomy Record
+				<span class="smaller">
+					(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
+				</span>
+			</h1>
 			<div class="row mx-0 py-3 mb-5 px-2 border rounded">
 				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12">
 					<input type="hidden" name="Action" value="saveNewTaxon">
