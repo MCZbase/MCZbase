@@ -1067,16 +1067,16 @@ limitations under the License.
 		<cfquery name="isSourceAuthorityCurrent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select count(*) as ct from CTTAXONOMIC_AUTHORITY where source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#getClonedFromTaxon.source_authority#">
 		</cfquery>
-		<main class="container-float px-xl-5 px-lg-4 px-md-3 py-3" id="content">
+		<main class="container py-3" id="content">
 			<div class="row mx-0">
 				<div class="col-12 col-sm-6 px-0 float-left my-2">
-					<h1 class="h2">Create New Taxonomy Record</h1>
-					<p class="px-3 float-left w-100">
+					<h1 class="h2 ml-3">Create New Taxonomy Record</h1>
+					<p class="float-left w-100">
 						(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 					</p>
 				</div>
 			</div>
-			<div class="row border rounded my-2 px-1 py-1">
+			<div class="row border rounded">
 				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12">
 					<input type="hidden" name="Action" value="saveNewTaxon">
 	
