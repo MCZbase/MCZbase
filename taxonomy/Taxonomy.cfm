@@ -1157,10 +1157,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-2 w-100 px-0 float-left"> 
+							<div class="col-6 col-xl-3 w-100 px-0 float-left"> 
 								<a href="#searchlink#" id="taxonid_search" style="font-size: 86%" target="_blank" #searchclass# >#searchtext# </a> 
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
 									class="px-2 border w-100 rounded py-0">
@@ -1229,10 +1229,10 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-6 col-xl-2 px-0 float-left">
+							<div class="col-6 col-xl-3 px-0 float-left">
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
-							<div class="col-12 col-xl-7 pl-0 float-left">
+							<div class="col-12 col-xl-6pl-0 float-left">
 								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
@@ -1486,7 +1486,7 @@ limitations under the License.
 						
 					<div class="form-row px-0 mb-3">
 						<div class="col-12 px-0 mt-0">
-							<label for="taxon_remarks" class="col-12 col-md-3 col-form-label mt-md-0 float-left text-right">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
+							<label for="taxon_remarks" class="col-12 col-md-3 data-entry-label mt-md-0 float-left text-right">Remarks (<span id="length_taxon_remarks">0 characters 4000 left</span>)</label>
 							<div class="col-12 col-md-9 float-left">
 							<textarea name="taxon_remarks" id="taxon_remarks" 
 								onkeyup="countCharsLeft('taxon_remarks', 4000, 'length_taxon_remarks');"
