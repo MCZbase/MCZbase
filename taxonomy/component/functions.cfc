@@ -690,12 +690,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfoutput>
-				<h4 class="mt-0">Common Names</h4>
+				<h2 class="h4 mt-0">Common Names</h2>
 				<cfset i=1>
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
 						<form name="common#i#" action="" onClick=" function(e){e.preventDefault();};">
-							<div class="form-row mx-0 my-1">
+							<ul><li class="form-row mx-0 my-1">
 								<label id="label_common_name_#i#" value="#common_name#" class="w-50 float-left" onclick=" toggleCommon#i#(); ">#common_name#</label>
 								<input id="common_name_#i#" type="text" name="common_name" value="#common_name#" 
 									class="data-entry-input w-50 float-left" style="display: none;">
@@ -718,12 +718,12 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 										$('##commonEditButton_#i#').toggle();
 									};
 								</script>
-							</div>
+								</li></ul>
 						</form>
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<p>No Common Names Entered</p>
+					<ul><li>No Common Names Entered</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
