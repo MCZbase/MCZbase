@@ -209,33 +209,39 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="transaction_type" type="string" required="yes">
 	<cfset relword="documents">
-	<cfset result="">
-	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
-			media.media_id as media_id,
-			preview_uri,
-			media.media_uri,
-			media.mime_type,
-			media.media_type as media_type,
-			MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-			nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
-		from
-			media_relations left join media on media_relations.media_id = media.media_id
-		where
-			media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
-			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-	</cfquery>
-	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul class='px-4 list-style-disc mt-2'>">
-		<cfloop query="query">
-			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfset result = result & "<li class='mb-2'><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-		</cfloop>
-		<cfset result= result & "</ul>">
-	<cfelse>
-		<cfset result=result & "<ul><li>None</li></ul>">
-	</cfif>
-	<cfreturn result>
+	<cfthread name="getMediaForTransHtmlThread">
+		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				media.media_id as media_id,
+				preview_uri,
+				media.media_uri,
+				media.mime_type,
+				media.media_type as media_type,
+				MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+				nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
+			from
+				media_relations left join media on media_relations.media_id = media.media_id
+			where
+				media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
+				and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfoutput>
+			<cfif query.recordcount gt 0>
+				<ul class='px-4 list-style-disc mt-2'>
+				<cfloop query="query">
+					<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<li class='mb-2'>
+						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove</a>
+					</li>
+				</cfloop>
+				</ul>
+			<cfelse>
+				<ul><li>None</li></ul>
+			</cfif>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getMediaForTransHtmlThread" />
+	<cfreturn getMediaForTransHtmlThread.output>
 </cffunction>
 
 <!---  Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
