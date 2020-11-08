@@ -1570,7 +1570,9 @@ input#readMore_check_id {display:none;}
     background-position: 50% 50%;
     background-repeat: no-repeat;
 }
-
+.list-style-disc {
+	list-style-type: disc;
+}
 #overlay {
   	position: absolute;
   	top: 0;
