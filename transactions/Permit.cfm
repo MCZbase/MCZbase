@@ -890,7 +890,7 @@ limitations under the License.
 					<div id="copyofpermit"><img src='images/indicator.gif'></div>
 					</div>
 				</section>
-				<section name="associatedMediaSection" class="row border rounded my-2">
+				<section name="associatedMediaSection" class="mx-0 row border rounded my-2">
 					<div class="col-12">
 					<!---  list/add media copy of associated documents (document for permit) --->
 					<div id="associateddocuments"><img src='images/indicator.gif'></div>
@@ -960,7 +960,7 @@ limitations under the License.
 					jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 				</script>
 
-				<section name="associatedMediaSection" class="row border rounded my-2">
+				<section name="associatedMediaSection" class="mx-0 row border rounded my-2">
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
