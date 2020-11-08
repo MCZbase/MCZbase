@@ -355,8 +355,8 @@ limitations under the License.
 								<div class="form-row mb-5">
 									<div class="col-12 col-md-6">
 										<span>
-											<label for="collector_agent_name" class="data-entry-label">Numbers in this series assigned by Agent</label>
-											<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
+											<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
