@@ -627,7 +627,7 @@ limitations under the License.
 									<small class="link-color">Add&nbsp;&##215;</small>
 								</span>
 							</label>
-							<div class="col-12 col-md-9 float-left pl-md-3 pr-md-2">
+							<div class="col-12 col-md-9 float-left px-3">
 								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
 							</div>
 						</div>
