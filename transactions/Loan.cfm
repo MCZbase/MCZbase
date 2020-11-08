@@ -911,10 +911,10 @@ limitations under the License.
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
-								<h3>
-									Media documenting this Loan: <br/>
-									<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
-								</h3>
+								<h2 class="h3">
+									Media documenting this Loan 
+									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</span>
+								</h2>
 								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 										media.media_id,
