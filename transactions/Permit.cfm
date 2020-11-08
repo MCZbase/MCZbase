@@ -891,8 +891,10 @@ limitations under the License.
 					</div>
 				</section>
 				<section name="associatedMediaSection" class="row border rounded my-2">
+					<div class="col-12">
 					<!---  list/add media copy of associated documents (document for permit) --->
 					<div id="associateddocuments"><img src='images/indicator.gif'></div>
+					</div>
 				</section>
 				<script>
 					function addMediaHere(targetid,title,permitLabel,permit_id,relationship){
@@ -1028,6 +1030,7 @@ limitations under the License.
 						where trans.transaction_type = 'deaccession'
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					</cfquery>
+						<div class="col-12">
 					<div id="permitsusedin" class="shippingBlock" >
 						<h3>Permit used for</h3>
 						<ul>
@@ -1043,9 +1046,10 @@ limitations under the License.
 						<form action="Permit.cfm" method="get">
 							<input type="hidden" name="permit_id" value="#permit_id#">
 							<input type="hidden" name="Action" value="PermitUseReport">
-							<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary">
+							<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary float-right">
 						</form>
 					</span>
+						</div>
 				</section>
 			</main>
 		</cfoutput>
