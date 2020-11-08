@@ -884,7 +884,7 @@ limitations under the License.
 						<input type="hidden" name="permit_id" value="#permit_id#">
 					</form>
 				</section>
-				<section name="permitMediaSection" class="row mx-0 border rounded my-2">
+				<section name="permitMediaSection" class="row mx-0 pb-3 border rounded my-2">
 					<div class="col-12">
 					<!---  Show/add media copy of permit  (shows permit) --->
 					<div id="copyofpermit"><img src='images/indicator.gif'></div>
@@ -1033,7 +1033,7 @@ limitations under the License.
 						<div class="col-12">
 							<div id="permitsusedin" class="shippingBlock" >
 						<h3>Permit used for</h3>
-						<ul>
+						<ul class="col-12 col-md-6 mx-3">
 							<cfloop query="permituse">
 								<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
 							</cfloop>
