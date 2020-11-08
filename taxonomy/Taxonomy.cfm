@@ -674,7 +674,7 @@ limitations under the License.
 					
 						<div class="col-12 col-md-6 col-xl-9 px-0 float-left">
 							<label for="author_text" class="col-12 col-md-2 col-xl-1 col-form-label align-left float-left">Author</label>
-							<div class="col-12 col-md-10 col-xl-11 float-left">
+							<div class="col-12 col-md-10 col-xl-11 mb-2 float-left">
 								<input type="text" name="author_text" id="author_text" value="#gettaxa.author_text#" class="data-entry-input mt-1">
 								<span class="infoLink botanical"
 									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val(),'_blank'); ">
