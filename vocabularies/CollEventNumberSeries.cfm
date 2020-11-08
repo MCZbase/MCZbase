@@ -370,7 +370,7 @@ limitations under the License.
 								</script>
 								<div class="form-row mb-5">
 								
-									<div class="col-12 col-md-12 px-2 my-3 px-sm-2 my-4">   								
+									<div class="col-12 col-md-12 my-3 my-4">   								
 											<input type="button" 
 												value="Create" title="Create" aria-label="Create"
 												class="btn btn-xs btn-primary"
