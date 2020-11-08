@@ -53,409 +53,408 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
-	<div id="overlaycontainer" style="position: relative;"> 
-		<!--- ensure fields have empty values present if not defined. --->
-		<cfif not isdefined("collection_name")>
-			<cfset collection_name="">
-		</cfif>
-		<cfif not isdefined("description")>
-			<cfset description="">
-		</cfif>
-		<cfif not isdefined("guid")>
-			<cfset guid="">
-		</cfif>
-		<!--- Search Form ---> 
-		<cfoutput>
-			<main id="content">
-				<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
-					<div class="row mx-0 mb-3">
-						<div class="search-box">
-							<div class="search-box-header">
-								<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
-							</div>
-							<div class="col-12 px-4 pt-3 pb-2">
-								<form name="searchForm" id="searchForm">
-									<input type="hidden" name="method" value="getCollections" class="keeponclear">
-									<div class="form-row mb-2">
-										<div class="col-md-6">
-											<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
-											<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
-											<script>
-												$(document).ready(function() {
-													makeNamedCollectionPicker('collection_name',null);
-												});
-											</script>
-										</div>
-										<div class="col-md-6">
-											<label for="description" class="data-entry-label" id="description_label">Description</label>
-											<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
-											<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
-										</div>
-									</div>
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 px-0 pt-2">
-											<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
-											</cfif>
-										</div>
-									</div>
-								</form>
-							</div><!--- col --->
-						</div><!--- search box --->
-					</div><!--- row --->
-				</section>
-	
-				<!--- Results table as a jqxGrid. --->
-				<section class="container-fluid">
-					<div class="row mx-0">
-						<div class="col-12">
-							<div class="mb-5">
-								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h1 class="h4">Results: </h1>
-									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-									<div id="columnPickDialog">
-										<div id="columnPick" class="px-1"></div>
-									</div>
-									<div id="columnPickDialogButton"></div>
-									<div id="resultDownloadButtonContainer"></div>
+		<div id="overlaycontainer" style="position: relative;"> 
+			<!--- ensure fields have empty values present if not defined. --->
+			<cfif not isdefined("collection_name")>
+				<cfset collection_name="">
+			</cfif>
+			<cfif not isdefined("description")>
+				<cfset description="">
+			</cfif>
+			<cfif not isdefined("guid")>
+				<cfset guid="">
+			</cfif>
+			<!--- Search Form ---> 
+			<cfoutput>
+				<main id="content">
+					<section class="container-fluid mt-2 mb-3" role="search" aria-labelledby="formheader">
+						<div class="row mx-0 mb-3">
+							<div class="search-box">
+								<div class="search-box-header">
+									<h1 class="h3 text-white" id="formheading">Find named groups of cataloged items</h1>
 								</div>
-								<div class="row mt-0"> 
-									<!--- Grid Related code is below along with search handlers --->
-									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-									<div id="enableselection"></div>
+								<div class="col-12 px-4 pt-3 pb-2">
+									<form name="searchForm" id="searchForm">
+										<input type="hidden" name="method" value="getCollections" class="keeponclear">
+										<div class="form-row mb-2">
+											<div class="col-md-6">
+												<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
+												<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
+												<script>
+													$(document).ready(function() {
+														makeNamedCollectionPicker('collection_name',null);
+													});
+												</script>
+											</div>
+											<div class="col-md-6">
+												<label for="description" class="data-entry-label" id="description_label">Description</label>
+												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+											</div>
+										</div>
+										<div class="form-row mb-2">
+											<div class="col-md-12">
+												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
+												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+											</div>
+										</div>
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 px-0 pt-2">
+												<button class="btn-xs btn-primary px-2 my-2 mr-1" id="searchButton" type="submit" aria-label="Search for named collections">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning my-2 mr-1" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="btn-xs btn-warning my-2 mr-1" aria-label="Start a new collection search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=search';" >New Search</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new named collection" onclick="window.location.href='#Application.serverRootUrl#/grouping/NamedCollection.cfm?action=new';" >Create new named group of cataloged items</button>
+												</cfif>
+											</div>
+										</div>
+									</form>
+								</div><!--- col --->
+							</div><!--- search box --->
+						</div><!--- row --->
+					</section>
+		
+					<!--- Results table as a jqxGrid. --->
+					<section class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12">
+								<div class="mb-5">
+									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+										<h1 class="h4">Results: </h1>
+										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+										<div id="columnPickDialog">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div id="columnPickDialogButton"></div>
+										<div id="resultDownloadButtonContainer"></div>
+									</div>
+									<div class="row mt-0"> 
+										<!--- Grid Related code is below along with search handlers --->
+										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+										<div id="enableselection"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</section>
-			</main>
-	
-			<script>
-					var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
-						return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
-					};
-
-
-					$(document).ready(function() {
-						/* Setup jqxgrid for Search */
-						$('##searchForm').bind('submit', function(evt){
-							evt.preventDefault();
-					
-							$("##overlay").show();
-					
-							$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
-							$('##resultCount').html('');
-							$('##resultLink').html('');
-					
-							var search =
-							{
-								datatype: "json",
-								datafields:
-								[
-									{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
-									{ name: 'COLLECTION_NAME', type: 'string' },
-									{ name: 'DESCRIPTION', type: 'string' },
-									{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
-									{ name: 'AGENTNAME', type: 'string' },
-									{ name: 'SPECIMEN_COUNT', type: 'string' }
-								],
-								updaterow: function (rowid, rowdata, commit) {
-									commit(true);
-								},
-								root: 'underscoreCollectionRecord',
-								id: 'underscore_collection_id',
-								url: '/grouping/component/search.cfc?' + $('##searchForm').serialize(),
-								timeout: 30000,  // units not specified, miliseconds? 
-								loadError: function(jqXHR, status, error) { 
-									$("##overlay").hide();
-									var message = "";
-									if (error == 'timeout') { 
-										message = ' Server took too long to respond.';
-									} else { 
-										message = jqXHR.responseText;
-									}
-									messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
-								},
-								async: true
-							};
-					
-							var dataAdapter = new $.jqx.dataAdapter(search);
-							var initRowDetails = function (index, parentElement, gridElement, datarecord) {
-								// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
-								var details = $($(parentElement).children()[0]);
-								details.html("<div id='rowDetailsTarget" + index + "'></div>");
-					
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
-								// Workaround, expansion sits below row in zindex.
-								var maxZIndex = getMaxZIndex();
-								$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
-							}
-					
-							$("##searchResultsGrid").jqxGrid({
-								width: '100%',
-								autoheight: 'true',
-								source: dataAdapter,
-								filterable: true,
-								sortable: true,
-								pageable: true,
-								editable: false,
-								pagesize: '50',
-								pagesizeoptions: ['50','100'],
-								showaggregates: true,
-								columnsresize: true,
-								autoshowfiltericon: true,
-								autoshowcolumnsmenubutton: false,
-								autoshowloadelement: false,  // overlay acts as load element for form+results
-								columnsreorder: true,
-								groupable: true,
-								selectionmode: 'none',
-								altrows: true,
-								showtoolbar: false,
-								columns: [
-									{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
-									{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
-									{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
-									{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
-									{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
-									{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
-								],
-								rowdetails: true,
-								rowdetailstemplate: {
-									rowdetails: "<div style='margin: 10px;'>Row Details</div>",
-									rowdetailsheight: 1 // row details will be placed in popup dialog
-								},
-								initrowdetails: initRowDetails
-							});
-							$("##searchResultsGrid").on("bindingcomplete", function(event) {
-								// add a link out to this search, serializing the form as http get parameters
-								$('##resultLink').html('<a href="/grouping/NamedCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
-								gridLoaded('searchResultsGrid','collection');
-							});
-							$('##searchResultsGrid').on('rowexpand', function (event) {
-								//  Create a content div, add it to the detail row, and make it into a dialog.
-								var args = event.args;
-								var rowIndex = args.rowindex;
-								var datarecord = args.owner.source.records[rowIndex];
-								createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
-							});
-							$('##searchResultsGrid').on('rowcollapse', function (event) {
-								// remove the dialog holding the row details
-								var args = event.args;
-								var rowIndex = args.rowindex;
-								$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
-							});
-						});
-						/* End Setup jqxgrid for Search ******************************/
+					</section>
+				</main>
 		
-						// If requested in uri, execute search immediately.
-						<cfif isdefined("execute")>
-							$('##searchForm').submit();
-						</cfif>
-					}); /* End document.ready */
+				<script>
+						var linkIdCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+							var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+							return '<span style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=' + rowData['UNDERSCORE_COLLECTION_ID'] + '">'+value+'</a></span>';
+						};
 	
-					function gridLoaded(gridId, searchType) { 
-						$("##overlay").hide();
-						var now = new Date();
-						var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
-						var filename = searchType + '_results_' + nowstring + '.csv';
-						// display the number of rows found
-						var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
-						var rowcount = datainformation.rowscount;
-						if (rowcount == 1) {
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
-						} else { 
-							$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
-						}
-						// set maximum page size
-						if (rowcount > 100) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
-						} else if (rowcount > 50) { 
-							$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
-						} else { 
-							$('##' + gridId).jqxGrid({ pageable: false });
-						}
-						// add a control to show/hide columns
-						var columns = $('##' + gridId).jqxGrid('columns').records;
-						var columnListSource = [];
-						for (i = 0; i < columns.length; i++) {
-							var text = columns[i].text;
-							var datafield = columns[i].datafield;
-							var hideable = columns[i].hideable;
-							var hidden = columns[i].hidden;
-							var show = ! hidden;
-							if (hideable == true) { 
-								var listRow = { label: text, value: datafield, checked: show };
-								columnListSource.push(listRow);
+	
+						$(document).ready(function() {
+							/* Setup jqxgrid for Search */
+							$('##searchForm').bind('submit', function(evt){
+								evt.preventDefault();
+						
+								$("##overlay").show();
+						
+								$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+								$('##resultCount').html('');
+								$('##resultLink').html('');
+						
+								var search =
+								{
+									datatype: "json",
+									datafields:
+									[
+										{ name: 'UNDERSCORE_COLLECTION_ID', type: 'string' },
+										{ name: 'COLLECTION_NAME', type: 'string' },
+										{ name: 'DESCRIPTION', type: 'string' },
+										{ name: 'UNDERSCORE_AGENT_ID', type: 'string' },
+										{ name: 'AGENTNAME', type: 'string' },
+										{ name: 'SPECIMEN_COUNT', type: 'string' }
+									],
+									updaterow: function (rowid, rowdata, commit) {
+										commit(true);
+									},
+									root: 'underscoreCollectionRecord',
+									id: 'underscore_collection_id',
+									url: '/grouping/component/search.cfc?' + $('##searchForm').serialize(),
+									timeout: 30000,  // units not specified, miliseconds? 
+									loadError: function(jqXHR, status, error) { 
+										$("##overlay").hide();
+										var message = "";
+										if (error == 'timeout') { 
+											message = ' Server took too long to respond.';
+										} else { 
+											message = jqXHR.responseText;
+										}
+										messageDialog('Error:' + message,'Error: ' + error.substring(0,50));
+									},
+									async: true
+								};
+						
+								var dataAdapter = new $.jqx.dataAdapter(search);
+								var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+									// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+									var details = $($(parentElement).children()[0]);
+									details.html("<div id='rowDetailsTarget" + index + "'></div>");
+						
+									createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+									// Workaround, expansion sits below row in zindex.
+									var maxZIndex = getMaxZIndex();
+									$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+								}
+						
+								$("##searchResultsGrid").jqxGrid({
+									width: '100%',
+									autoheight: 'true',
+									source: dataAdapter,
+									filterable: true,
+									sortable: true,
+									pageable: true,
+									editable: false,
+									pagesize: '50',
+									pagesizeoptions: ['50','100'],
+									showaggregates: true,
+									columnsresize: true,
+									autoshowfiltericon: true,
+									autoshowcolumnsmenubutton: false,
+									autoshowloadelement: false,  // overlay acts as load element for form+results
+									columnsreorder: true,
+									groupable: true,
+									selectionmode: 'none',
+									altrows: true,
+									showtoolbar: false,
+									columns: [
+										{text: 'ID', datafield: 'UNDERSCORE_COLLECTION_ID', width:100, hideable: true, hidden: true },
+										{text: 'Name', datafield: 'COLLECTION_NAME', width: 300, hidable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
+										{text: 'Agent', datafield: 'AGENTNAME', width: 150, hidable: true, hidden: false },
+										{text: 'AgentID', datafield: 'UNDERSCORE_AGENT_ID', width:100, hideable: true, hidden: true },
+										{text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width:150, hideable: true, hidden: false },
+										{text: 'Description', datafield: 'DESCRIPTION', hideable: true, hidden: false },
+									],
+									rowdetails: true,
+									rowdetailstemplate: {
+										rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+										rowdetailsheight: 1 // row details will be placed in popup dialog
+									},
+									initrowdetails: initRowDetails
+								});
+								$("##searchResultsGrid").on("bindingcomplete", function(event) {
+									// add a link out to this search, serializing the form as http get parameters
+									$('##resultLink').html('<a href="/grouping/NamedCollection.cfm?action=search&execute=true&' + $('##searchForm').serialize() + '">Link to this search</a>');
+									gridLoaded('searchResultsGrid','collection');
+								});
+								$('##searchResultsGrid').on('rowexpand', function (event) {
+									//  Create a content div, add it to the detail row, and make it into a dialog.
+									var args = event.args;
+									var rowIndex = args.rowindex;
+									var datarecord = args.owner.source.records[rowIndex];
+									createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+								});
+								$('##searchResultsGrid').on('rowcollapse', function (event) {
+									// remove the dialog holding the row details
+									var args = event.args;
+									var rowIndex = args.rowindex;
+									$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+								});
+							});
+							/* End Setup jqxgrid for Search ******************************/
+			
+							// If requested in uri, execute search immediately.
+							<cfif isdefined("execute")>
+								$('##searchForm').submit();
+							</cfif>
+						}); /* End document.ready */
+		
+						function gridLoaded(gridId, searchType) { 
+							$("##overlay").hide();
+							var now = new Date();
+							var nowstring = now.toISOString().replace(/[^0-9TZ]/g,'_');
+							var filename = searchType + '_results_' + nowstring + '.csv';
+							// display the number of rows found
+							var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
+							var rowcount = datainformation.rowscount;
+							if (rowcount == 1) {
+								$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+							} else { 
+								$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
 							}
-						} 
-						$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
-						$("##columnPick").on('checkChange', function (event) {
-							$("##" + gridId).jqxGrid('beginupdate');
-							if (event.args.checked) {
-								$("##" + gridId).jqxGrid('showcolumn', event.args.value);
-							} else {
-								$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+							// set maximum page size
+							if (rowcount > 100) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+							} else if (rowcount > 50) { 
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+							} else { 
+								$('##' + gridId).jqxGrid({ pageable: false });
 							}
-							$("##" + gridId).jqxGrid('endupdate');
-						});
-						$("##columnPickDialog").dialog({ 
-							height: 'auto', 
-							title: 'Show/Hide Columns',
-							autoOpen: false,
-							modal: true, 
-							reszable: true, 
-							buttons: { 
-								Ok: function(){ $(this).dialog("close"); }
-							},
-							open: function (event, ui) { 
-								var maxZIndex = getMaxZIndex();
-								// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
-								$('.ui-dialog').css({'z-index': maxZIndex + 4 });
-								$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+							// add a control to show/hide columns
+							var columns = $('##' + gridId).jqxGrid('columns').records;
+							var columnListSource = [];
+							for (i = 0; i < columns.length; i++) {
+								var text = columns[i].text;
+								var datafield = columns[i].datafield;
+								var hideable = columns[i].hideable;
+								var hidden = columns[i].hidden;
+								var show = ! hidden;
+								if (hideable == true) { 
+									var listRow = { label: text, value: datafield, checked: show };
+									columnListSource.push(listRow);
+								}
 							} 
-						});
-						$("##columnPickDialogButton").html(
-							"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-2 mx-3' >Show/Hide Columns</button>"
-						);
-						// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
-						// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
-						var maxZIndex = getMaxZIndex();
-						$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
-						$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
-						$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-						$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
-					}
-				</script> 
-		</cfoutput>
-		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
-			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
-				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
-				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>
+							$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
+							$("##columnPick").on('checkChange', function (event) {
+								$("##" + gridId).jqxGrid('beginupdate');
+								if (event.args.checked) {
+									$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+								} else {
+									$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+								}
+								$("##" + gridId).jqxGrid('endupdate');
+							});
+							$("##columnPickDialog").dialog({ 
+								height: 'auto', 
+								title: 'Show/Hide Columns',
+								autoOpen: false,
+								modal: true, 
+								reszable: true, 
+								buttons: { 
+									Ok: function(){ $(this).dialog("close"); }
+								},
+								open: function (event, ui) { 
+									var maxZIndex = getMaxZIndex();
+									// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
+									$('.ui-dialog').css({'z-index': maxZIndex + 4 });
+									$('.ui-widget-overlay').css({'z-index': maxZIndex + 3 });
+								} 
+							});
+							$("##columnPickDialogButton").html(
+								"<button id='columnPickDialogOpener' onclick=\" $('##columnPickDialog').dialog('open'); \" class='btn-xs btn-secondary px-3 py-1 mt-2 mx-3' >Show/Hide Columns</button>"
+							);
+							// workaround for menu z-index being below grid cell z-index when grid is created by a loan search.
+							// likewise for the popup menu for searching/filtering columns, ends up below the grid cells.
+							var maxZIndex = getMaxZIndex();
+							$('.jqx-grid-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
+							$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
+							$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 py-1 mt-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+						}
+					</script> 
+			</cfoutput>
+			<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
+				<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
+					<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
+					<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	<!--- overlay container --->
+		</div><!--- overlay container --->
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="new">
-	<!--- Add a new ____ collection, link to agent ---> 
-	<cfoutput>
-		<div class="container mt-2 my-3">
-			<div class="row">
-				<div class="col-12">
-					<h1 class="h2" id="formheading">New named group of cataloged items</h1>
-					<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
-						<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
-							<input type="hidden" id="action" name="action" value="saveNew" >
-							<div class="form-row mb-2">
-								<div class="col-md-12">
-									<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
-									<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
-								</div>
-							</div>
-							<div class="form-row mb-2">
-								<div class="col-md-12">
-									<label for="description" id="description_label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
-									<textarea id="description" name="description" class="data-entry-textarea mt-1"
-											onkeyup="countCharsLeft('description',4000,'length_description');"
-											rows="3" aria-labelledby="description_label" ></textarea>
-								</div>
-							</div>
-							<script>
-									$('##description').keyup(autogrow);
-								</script>
-							<div class="form-row mb-2">
-								<div class="col-12 col-md-6">
-									<span>
-										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
-										<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
-										</label>
-									</span>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text smaller bg-light" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
-										</div>
-										<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
-										<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+		<!--- Add a new ____ collection, link to agent ---> 
+		<cfoutput>
+			<div class="container mt-2 my-3">
+				<div class="row">
+					<div class="col-12">
+						<h1 class="h2" id="formheading">New named group of cataloged items</h1>
+						<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
+							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
+								<input type="hidden" id="action" name="action" value="saveNew" >
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
+										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
 									</div>
-									<script>
-										$(document).ready(function() {
-											$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
-										});
-									</script> 
 								</div>
-								<div class="col-12 row mx-0 px-1 my-3">
-									<input type="button" 
-												value="Create" title="Create" aria-label="Create"
-												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newUnderscoreCollection')[0])) { submit(); } " 
-												>
+								<div class="form-row mb-2">
+									<div class="col-md-12">
+										<label for="description" id="description_label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
+										<textarea id="description" name="description" class="data-entry-textarea mt-1"
+												onkeyup="countCharsLeft('description',4000,'length_description');"
+												rows="3" aria-labelledby="description_label" ></textarea>
+									</div>
 								</div>
-							</div>
-						</form>
+								<script>
+										$('##description').keyup(autogrow);
+									</script>
+								<div class="form-row mb-2">
+									<div class="col-12 col-md-6">
+										<span>
+											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+											<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+											</label>
+										</span>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller bg-light" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" value="" aria-label="Agent associated with this named collection:" aria-describedby="underscore_agent_name_label">
+											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="">
+										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', null));
+											});
+										</script> 
+									</div>
+									<div class="col-12 row mx-0 px-1 my-3">
+										<input type="button" 
+													value="Create" title="Create" aria-label="Create"
+													class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##newUnderscoreCollection')[0])) { submit(); } " 
+													>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--- region ---> 
 					</div>
-					<!--- region ---> 
+					<!--- col ---> 
 				</div>
-				<!--- col ---> 
+				<!--- row ---> 
 			</div>
-			<!--- row ---> 
-		</div>
-		<!--- container ---> 
-	</cfoutput>
+			<!--- container ---> 
+		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="saveNew">
-	<cftry>
-		<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
-			<cfthrow type="Application" message="Error: No value provided for required value collection_name">
-		</cfif>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
-			insert into underscore_collection (
-				collection_name
-				<cfif isdefined("description")>
-					,description
-				</cfif>
-				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
-					,underscore_agent_id
-				</cfif>
-			) values (
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
-				<cfif isdefined("description")>
-					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
-				</cfif>
-				<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
-					,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-				</cfif>
-			)
-		</cfquery>
-		<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
-				select underscore_collection_id from underscore_collection 
-				where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
-		</cfquery>
-		<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
-		<cfcatch>
-			<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
-		</cfcatch>
-	</cftry>
+		<cftry>
+			<cfif not isdefined("collection_name") OR len(trim(#collection_name#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value collection_name">
+			</cfif>
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+				insert into underscore_collection (
+					collection_name
+					<cfif isdefined("description")>
+						,description
+					</cfif>
+					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
+						,underscore_agent_id
+					</cfif>
+				) values (
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
+					<cfif isdefined("description")>
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#description#">
+					</cfif>
+					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+					</cfif>
+				)
+			</cfquery>
+			<cfquery name="savePK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="pkResult">
+					select underscore_collection_id from underscore_collection 
+					where ROWIDTOCHAR(rowid) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#insertResult.GENERATEDKEY#">
+			</cfquery>
+			<cflocation url="/grouping/NamedCollection.cfm?action=edit&underscore_collection_id=#savePK.underscore_collection_id#" addtoken="false">
+			<cfcatch>
+				<cfthrow type="Application" message="Error Saving new Named Collection: #cfcatch.Message# #cfcatch.Detail#">
+			</cfcatch>
+		</cftry>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
-	<cfif not isDefined("underscore_collection_id")>
-		<cfset underscore_collection_id = "">
-	</cfif>
-	<cfif len("underscore_collection_id") EQ 0>
-		<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
+		<cfif not isDefined("underscore_collection_id")>
+			<cfset underscore_collection_id = "">
+		</cfif>
+		<cfif len("underscore_collection_id") EQ 0>
+			<cfthrow type="Application" message="Error: No value provided for underscore_collection_id">
 		<cfelse>
-		<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
+			<cfquery name="undColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undColl_result">
 				select underscore_collection_id, collection_name, description, underscore_agent_id,
 					case 
 						when underscore_agent_id is null then '[No Agent]'
@@ -465,14 +464,14 @@ limitations under the License.
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-		<cfoutput query="undColl">
-			<cfset collname = collection_name>
-			<!--- save name for later use outside this output section --->
-			<main class="container">
-				<section class="row" aria-labelledby="formheading" class="border p-2 mb-3">
-					<div class="col-12">
-						<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
-						<form name="editUndColl" id="editUndColl">
+			<cfoutput query="undColl">
+				<cfset collname = collection_name>
+				<!--- save name for later use outside this output section --->
+				<main class="container">
+					<section class="row" aria-labelledby="formheading" class="border p-2 mb-3">
+						<div class="col-12">
+							<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
+							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
@@ -491,14 +490,14 @@ limitations under the License.
 									</div>
 								</div>
 								<script>
-										// make selected textareas autogrow as text is entered.
-										$(document).ready(function() {
-											// bind the autogrow function to the keyup event
-											$('textarea.autogrow').keyup(autogrow);
-											// trigger keyup event to size textareas to existing text
-											$('textarea.autogrow').keyup();
-										});
-									</script>
+									// make selected textareas autogrow as text is entered.
+									$(document).ready(function() {
+										// bind the autogrow function to the keyup event
+										$('textarea.autogrow').keyup(autogrow);
+										// trigger keyup event to size textareas to existing text
+										$('textarea.autogrow').keyup();
+									});
+								</script>
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
@@ -576,62 +575,62 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-					</div>
-				</section>
-				<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
-					<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
-								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
-								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
-								<div class="form-row mb-2">
-									<div class="col-md-10">
-										<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
-										<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
-												value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
-									</div>
-									<script>
-											function addCollectionObjects(){ 
-												$('##addResultDiv').html("Saving.... ");
-												jQuery.ajax({
-													url : "/grouping/component/functions.cfc",
-													type : "post",
-													dataType : "json",
-													data : $('##addCollObjectsUndColl').serialize(),
-													success : function (data) {
-														$.ajax({
-															url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
-															type : "get",
-															dataType : "html",
-															success : function(data2){
-																$('##divListOfContainedObjects').html(data2);
-															}
-														});
-														$('##addResultDiv').html("Added " + data[0].added);
-													},
-													error: function(jqXHR,textStatus,error){
-														var message = "";
-														if (error == 'timeout') {
-															message = ' Server took too long to respond.';
-														} else {
-															message = jqXHR.responseText;
-														}
-														messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
-														$('##addResultDiv').html("Error.");
+						</div>
+					</section>
+					<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
+						<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
+							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
+							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
+							<div class="form-row mb-2">
+								<div class="col-md-10">
+									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
+											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
+								</div>
+								<script>
+									function addCollectionObjects(){ 
+										$('##addResultDiv').html("Saving.... ");
+										jQuery.ajax({
+											url : "/grouping/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##addCollObjectsUndColl').serialize(),
+											success : function (data) {
+												$.ajax({
+													url : "/grouping/component/functions.cfc?method=getUndCollObjectsHTML&underscore_collection_id=#underscore_collection_id#",
+													type : "get",
+													dataType : "html",
+													success : function(data2){
+														$('##divListOfContainedObjects').html(data2);
 													}
 												});
-											};
-										</script>
-									<div class="col-md-2">
-										<div id="addResultDiv">&nbsp;</div>
-										<input type="button" id="addbutton"
-												value="Add" title="Add" aria-label="Add"
-												class="btn btn-xs btn-secondary"
-												onClick=" addCollectionObjects(); " 
-												>
-									</div>
+												$('##addResultDiv').html("Added " + data[0].added);
+											},
+											error: function(jqXHR,textStatus,error){
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error saving named collection: '+message, 'Error: ' + error.substring(0,50));
+												$('##addResultDiv').html("Error.");
+											}
+										});
+									};
+								</script>
+								<div class="col-md-2">
+									<div id="addResultDiv">&nbsp;</div>
+									<input type="button" id="addbutton"
+											value="Add" title="Add" aria-label="Add"
+											class="btn btn-xs btn-secondary"
+											onClick=" addCollectionObjects(); " 
+											>
 								</div>
-							</form>
-				</section>
-			</main>
+							</div>
+						</form>
+					</section>
+				</main>
 				<cfif undColl_result.recordcount GT 0>
 					<!--- list specimens in the collection, link out by guid --->
 					<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
@@ -641,7 +640,6 @@ limitations under the License.
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						order by guid
 					</cfquery>
-					<cfoutput>
 						<section class="container pt-0">
 							<script>
 								function removeUndRelation(id) { 
@@ -693,7 +691,7 @@ limitations under the License.
 												});
 											</script>
 										</form>
-										<cfelse>
+									<cfelse>
 										<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
 										<ul>
 											<cfloop query="undCollUse">
@@ -707,38 +705,35 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-					</cfoutput>
-				</cfif>
-			</main>
-			<!--- container ---> 
-		</cfoutput>
-	
-	</cfif>
+					</cfif>
+				</main><!--- container ---> 
+			</cfoutput>
+		</cfif>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="delete">
-	<cftry>
-		<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
-			<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
-		</cfif>
-		<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
-				delete from underscore_collection 
-				where
-				 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
+		<cftry>
+			<cfif not isdefined("underscore_collection_id") OR len(trim(#underscore_collection_id#)) EQ 0 >
+				<cfthrow type="Application" message="Error: No value provided for required value underscore_collection_id">
+			</cfif>
+			<cfquery name="save" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="insertResult">
+					delete from underscore_collection 
+					where
+					 	underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
-		<h1 class="h2">"Collection" successfully deleted.</h1>
-		<ul>
-			<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
-			<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
-		</ul>
+			<h1 class="h2">"Collection" successfully deleted.</h1>
+			<ul>
+				<li><a href="/grouping/NamedCollection.cfm">Search for Named groups of cataloged items</a>.</li>
+				<li><a href="/grouping/NamedCollection.cfm?action=new">Create a new named group of cataloged items</a>.</li>
+			</ul>
 		<cfcatch>
 			<cfthrow type="Application" message="Error deleting Named Collection: #cfcatch.Message# #cfcatch.Detail#">
 		</cfcatch>
-	</cftry>
+		</cftry>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
 	<cfdefaultcase>
-	<cfthrow type="Application" message="Unknown action.">
+		<cfthrow type="Application" message="Unknown action.">
 	</cfdefaultcase>
 </cfswitch>
 <!---------------------------------------------------------------------->
