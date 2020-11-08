@@ -260,7 +260,7 @@ limitations under the License.
 				taxonomy_publication.taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif tax_pub.recordcount gt 0>
-			<cfset result=result & "<div class='col-12 my-2 px-1'><ul clas="list-unstyled">">
+			<cfset result=result & "<div class='col-12 my-2 px-1'><ul clas='list-unstyled'>">
 			<cfloop query="tax_pub">
 				<!--- Create a link out of author year. in the publication, ensure that link closes. --->
 				<cfset publication = "<li><a href='SpecimenUsage.cfm?publication_id=#publication_id#' target='_blank'><img src='/images/noThumbGray.jpg' width='40' height='28' alt='document icon'>" & rereplace(formatted_publication,'([0-9]\.)','\1</a>') >
