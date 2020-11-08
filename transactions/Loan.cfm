@@ -955,7 +955,7 @@ limitations under the License.
 							</script>
 						</div> 
 					</section>
-					<section name="shipmentSection" class="row border rounded my-2" tabindex="0">
+					<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
 						<div class="col-12 pb-3">
 							<h3>Shipment Information:</h3>
 							<script>
@@ -987,7 +987,7 @@ limitations under the License.
 									left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
 								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 							</cfquery>
-								<div id="shipmentTable"> 
+								<div id="shipmentTable" class="bg-light"> 
 									<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
 								</div>
 							<!--- shippmentTable for ajax replace ---> 
@@ -1003,7 +1003,7 @@ limitations under the License.
 		
 					<cfinclude template="/transactions/shipmentDialog.cfm">
 					
-					<section name="countriesOfOriginSection" class="row border rounded my-2">
+					<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded my-2">
 						<div class="col-12 pb-3" tabindex="0">
 							<h3>Countries of Origin of items in this loan</h3>
 							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1162,7 +1162,7 @@ limitations under the License.
 							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row border rounded bg-light mt-2 mb-4" tabindex="0">
+					<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-4" tabindex="0">
 						<div class="col-12 pb-2 px-0">
 							<h3 class="px-3">
 								Projects associated with this loan: 
