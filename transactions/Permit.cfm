@@ -713,12 +713,12 @@ limitations under the License.
 				});
 			</script>
 			<main class="container pt-4 pb-5">
-				<h1 class="h2 wikilink my-3" id="editPermitFormSectionLabel" >
+				<h1 class="h2 wikilink my-3 ml-3" id="editPermitFormSectionLabel" >
 					Edit Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
 				</h1>
-				<section id="editPermitFormSection" class="row border rounded mt-2" aria-labeledby="editPermitFormSectionLabel" >
-					<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post" class="col-12">
+				<section id="editPermitFormSection" class="row mx-0 border rounded mt-2" aria-labeledby="editPermitFormSectionLabel" >
+					<form name="editPermitForm" id="editPermitForm" action="/transactions/Permit.cfm" method="post" class="col-12 px-3">
 						<input type="hidden" name="method" value="savePermit">
 						<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 						<!--- make permit number available as a element with a distinct id to grab with jquery --->
@@ -726,7 +726,7 @@ limitations under the License.
 						<cfif isdefined("headless") and headless EQ 'true'>
 							<input type="hidden" name="headless" value="true">
 						</cfif>
-						<div class="form-row mb-2">
+						<div class="form-row my-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="issued_by_agent_name" class="data-entry-label">Issued By:</label>
