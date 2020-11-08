@@ -1075,7 +1075,7 @@ limitations under the License.
 					</span>
 				</h1>
 		
-			<div class="row mx-0 p-3 border rounded">
+			<div class="row mx-0 py-3 px-2 border rounded">
 				<form name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12">
 					<input type="hidden" name="Action" value="saveNewTaxon">
 	
@@ -1503,7 +1503,7 @@ limitations under the License.
 						</script>
 					</div>
 
-					<div class="row mt-1 px-1 mb-1">
+					<div class="row my-1">
 						<div class="col-12">
 							<input type="submit" value="Create" title="Create" class="btn btn-xs btn-primary" aria-label="Save and create new taxon record">
 						</div>
