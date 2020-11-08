@@ -2553,7 +2553,7 @@ limitations under the License.
 											</select>
 										</td>
 										<td class="text-center">
-											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline position-relative left-0">
+											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline position-relative" style="left:0;">
 											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
 										</td>
 										<td>
