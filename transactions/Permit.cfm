@@ -95,7 +95,7 @@ limitations under the License.
 									<h1 class="h3 text-white" id="formheading">Find Permissions &amp; Rights Documents</h1>
 								</div>
 								<div class="col-12 px-4 py-1">
-									<p class="my-1 small" tabindex="0">Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
+									<p class="my-2 small" tabindex="0">Search for permits and other documents related to permissions and rights (access benefit sharing agreements,
 									material transfer agreements, collecting permits, salvage permits, etc.) Any part of names accepted, case isn't important.  
 									</p>
 									<form name="searchForm" id="searchForm"> 
@@ -220,9 +220,9 @@ limitations under the License.
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0">
-												<button class="btn-xs btn-primary px-2 mt-3" id="permitSearchButton" type="submit" aria-label="Search permits">Search<span class="fa fa-search pl-1"></span></button>
-												<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-												<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a permit search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/transactions/Permit.cfm?action=search';" >New Search</button>
+												<button class="btn-xs btn-primary px-2 mt-2" id="permitSearchButton" type="submit" aria-label="Search permits">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning mt-2" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="btn-xs btn-warning mt-2" aria-label="Start a permit search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/transactions/Permit.cfm?action=search';" >New Search</button>
 											</div>
 										</div>
 									</form>
