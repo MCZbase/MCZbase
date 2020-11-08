@@ -865,7 +865,7 @@ limitations under the License.
 								$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
 							</script>
 							<cfif loanDetails.loan_type EQ 'consumable'>
-								<h3>Disposition of material in loan:</h3>
+								<h2 class="h3">Disposition of material in loan:</h2>
 								<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 									from loan 
@@ -1006,7 +1006,7 @@ limitations under the License.
 
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
-								<h3>Countries of Origin of items in this loan</h3>
+								<h2 class="h3">Countries of Origin of items in this loan</h2>
 								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select count(*) as ct, sovereign_nation 
 									from loan_item 
@@ -1036,7 +1036,7 @@ limitations under the License.
 
 						<div class="row mx-md-1 mt-0 mb-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
-								<h3>Accessions of material in this loan:</h3>
+								<h2 class="h3">Accessions of material in this loan:</h2>
 								<!--- List Accessions for collection objects included in the Loan --->
 								<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
@@ -1047,7 +1047,7 @@ limitations under the License.
 										left join accn on ci.accn_id = accn.transaction_id
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 								</cfquery>
-								<ul class="accn">
+								<ul class="accn px-4 list-style-disc">
 									<cfloop query="getAccessions">
 										<li class="accn2">
 											<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
@@ -1095,11 +1095,11 @@ limitations under the License.
 							</section>	
 							<!--- Print permits associated with these accessions --->
 							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
-								<h3>
+								<h2 class="h3">
 									Permissions and Rights Documents: 
 									<br/>
 									<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
-								</h3>
+								</h2>
 								<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
 									from (
@@ -1165,10 +1165,10 @@ limitations under the License.
 						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
-								<h3 class="px-3">
+								<h2 class="h3 px-3">
 									Projects associated with this loan: 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
-								</h3>
+								</h2>
 								<div id="projectsDiv" class="mx-3">
 
 								</div>
@@ -1178,7 +1178,7 @@ limitations under the License.
 										loadProjects('projectsDiv',#loanDetails.transaction_id#);
 									} 
 								</script>
-								<div class="col-12 my-4">
+								<div class="col-12 my-2">
 									<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
 											class="btn btn-xs btn-secondary mr-2" value="Link to Project"
 											onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>

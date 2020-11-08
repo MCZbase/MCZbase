@@ -371,7 +371,7 @@ limitations under the License.
 										</ul>
 									</cfloop>
 									<cfif shippermit.recordcount eq 0>
-										<span>None</span>
+										<ul class="list-style-disc px-4 mt-1"><li class="my-2">None</li></ul>
 									</cfif>
 								</span>
 							</div>
