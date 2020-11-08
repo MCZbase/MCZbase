@@ -1004,7 +1004,7 @@ limitations under the License.
 
 						<cfinclude template="/transactions/shipmentDialog.cfm">
 
-						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded my-2">
+						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
 								<h3>Countries of Origin of items in this loan</h3>
 								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1164,7 +1164,7 @@ limitations under the License.
 							</section>
 						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-2" tabindex="0">
-							<div class="col-12 pb-2 px-0">
+							<div class="col-12 pb-0 px-0">
 								<h3 class="px-3">
 									Projects associated with this loan: 
 									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
