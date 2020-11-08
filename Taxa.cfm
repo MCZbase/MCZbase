@@ -866,7 +866,7 @@ limitations under the License.
 					$("##" + gridId).jqxGrid('endupdate');
 				});
 				var columnListSource1 = [];
-				for (i = halfcoulumns; i < columns.length; i++) {
+				for (i = halfcolumns; i < columns.length; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
