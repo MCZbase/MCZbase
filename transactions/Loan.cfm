@@ -1163,7 +1163,7 @@ limitations under the License.
 								</cfif>
 							</section>
 						</div>
-						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-2" tabindex="0">
+						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h3 class="px-3">
 									Projects associated with this loan: 
@@ -1178,7 +1178,7 @@ limitations under the License.
 										loadProjects('projectsDiv',#loanDetails.transaction_id#);
 									} 
 								</script>
-								<div class="col-12 my-2">
+								<div class="col-12 my-4">
 									<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
 											class="btn btn-xs btn-secondary mr-2" value="Link to Project"
 											onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
