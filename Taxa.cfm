@@ -549,12 +549,14 @@ limitations under the License.
 							<h1 class="h4">Results: </h1>
 							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
-								<div class="row">
-									<div class="col-12 col-md-6">
-										<div id="columnPick" class="px-1"></div>
-									</div>
-									<div class="col-12 col-md-6">
-										<div id="columnPick1" class="px-1"></div>
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-12 col-md-6">
+											<div id="columnPick" class="px-1"></div>
+										</div>
+										<div class="col-12 col-md-6">
+											<div id="columnPick1" class="px-1"></div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -889,6 +891,7 @@ limitations under the License.
 				});
 				$("##columnPickDialog").dialog({ 
 					height: 'auto', 
+					width: 620, 
 					title: 'Show/Hide Columns',
 					autoOpen: false,
 					modal: true, 
