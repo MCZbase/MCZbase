@@ -551,13 +551,17 @@ limitations under the License.
 												};
 											</script>
 										</div>
-										<div class="col-12 col-md-6"> 
-											<div id="saveResultDiv">&nbsp;</div>
-											<input type="button" 
-												value="Save" title="Save" aria-label="Save"
-												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } " 
-												>
+									</div>
+									<div class="form-row mb-5">	
+										<div class="col-12 col-md-12 my-3 my-2">   
+											<div class="col-12 col-md-6"> 
+												<div id="saveResultDiv">&nbsp;</div>
+												<input type="button" 
+													value="Save" title="Save" aria-label="Save"
+													class="btn btn-xs btn-primary"
+													onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } " 
+													>
+											</div>
 										</div>
 									</div>
 								</form>
