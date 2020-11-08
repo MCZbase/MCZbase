@@ -899,7 +899,7 @@ limitations under the License.
 
 					<section class="col-12 px-0">
 						<div class="p-3 border bg-light rounded mt-2">
-							<h2 class="h4 mt-0 mb-1">Related Taxa:</h4>
+							<h2 class="h4 mt-0 mb-1">Related Taxa</h2>
 							<div id="taxonRelationsDiv">Loading....</div>
 							<div id="editTaxonRelationDialog"></div>
 							<script>
@@ -997,7 +997,7 @@ limitations under the License.
 							</cfquery>
 						
 							<cfset usedHabitats = valueList(habitat.taxon_habitat)>
-							<h2 class="h4 mt-0">Habitat</h4>
+							<h2 class="h4 mt-0">Habitat</h2>
 							<div id="habitatsDiv">Loading....</div>
 							<script>
 								$(document).ready( loadHabitats(#getTaxa.taxon_name_id#,'habitatsDiv'));

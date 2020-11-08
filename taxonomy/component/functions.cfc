@@ -344,7 +344,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 						</cfloop>
 					</ul>
 				<cfelse>
-					<p>No Taxon Relationships</p>
+					<ul><li>No Taxon Relationships</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -425,7 +425,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 								</select>
 							</div>
 							<div class="col-12">
-								<label for="relatedName_EF#i#" class="data-entry-label">Related Taxon</label>
+								<label for="relatedName_EF#i#" class="data-entry-label">Related Taxno taxon relationshipson</label>
 								<input type="text" name="relatedName" class="reqdClr data-entry-input" required
 									value="#relations.targetname# #relations.targetauthor#" id="relatedName_EF#i#" >
 								<input type="hidden" name="newRelatedId" id="new_related_taxon_name_id_#i#" value="#related_taxon_name_id#">
