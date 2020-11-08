@@ -695,7 +695,7 @@ limitations under the License.
 									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
 									<small class="link-color">Find in IPNI</small> 
 								</span>
-								<span class="small line-height-sm d-block d-md-inline ml-2 text-secondary">(do not use for ICZN names)</span>
+								<span class="small line-height-sm d-block d-md-inline ml-2 text-secondary float-right">(do not use infraspecific author for ICZN names)</span>
 							</div>
 						</div>
 					</div>
