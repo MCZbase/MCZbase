@@ -890,7 +890,7 @@ limitations under the License.
 					<div id="copyofpermit"><img src='images/indicator.gif'></div>
 					</div>
 				</section>
-				<section name="associatedMediaSection" class="mx-0 row border rounded my-2">
+				<section name="associatedMediaSection" class="mx-0 row border pb-2 rounded my-2">
 					<div class="col-12">
 					<!---  list/add media copy of associated documents (document for permit) --->
 					<div id="associateddocuments"><img src='images/indicator.gif'></div>
@@ -960,7 +960,7 @@ limitations under the License.
 					jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 				</script>
 
-				<section name="associatedMediaSection" class="mx-0 row border rounded my-2">
+				<section name="associatedMediaSection" class="mx-0 pb-3 row border rounded my-2">
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
@@ -1031,7 +1031,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					</cfquery>
 						<div class="col-12">
-					<div id="permitsusedin" class="shippingBlock" >
+							<div id="permitsusedin" class="shippingBlock" >
 						<h3>Permit used for</h3>
 						<ul>
 							<cfloop query="permituse">
@@ -1042,7 +1042,7 @@ limitations under the License.
 							</cfif>
 						</ul>
 					</div>
-					<span>
+							<span>
 						<form action="Permit.cfm" method="get">
 							<input type="hidden" name="permit_id" value="#permit_id#">
 							<input type="hidden" name="Action" value="PermitUseReport">
