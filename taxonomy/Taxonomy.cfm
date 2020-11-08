@@ -819,7 +819,7 @@ limitations under the License.
 						<div class="form-row mx-0 mt-2 px-3 py-3 border bg-light rounded">	
 							<div class="col-12 px-0">
 								<h2 class="h4 mt-0 mb-1">Related Publications</h4>
-								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-3 float-left">Loading....</div>
+								<div id="taxonPublicationsDiv" class="col-12 mx-0 row mt-1 float-left">Loading....</div>
 							</div>
 							<div class="col-12 px-0">
 								<label for="new_pub_formatted" class="data-entry-label">Pick Publication</label>
