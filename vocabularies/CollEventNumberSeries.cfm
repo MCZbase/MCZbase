@@ -340,6 +340,14 @@ limitations under the License.
 									</div>
 								</div>
 								<div class="form-row mb-2">
+									<div class="col-12 col-md-12">
+										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+										<textarea id="remarks" name="remarks" class="data-entry-textarea"
+											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
+											rows="3" aria-labelledby="remarks_label" ></textarea>
+									</div>
+								</div>
+								<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 										<span>
 											<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
@@ -358,12 +366,7 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-6">
-										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
-										<textarea id="remarks" name="remarks" class="data-entry-textarea"
-											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
-											rows="3" aria-labelledby="remarks_label" ></textarea>
-									</div>
+									
 								</div>
 								<script>
 									$('##remarks').keyup(autogrow);
