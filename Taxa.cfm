@@ -891,7 +891,7 @@ limitations under the License.
 				});
 				$("##columnPickDialog").dialog({ 
 					height: 'auto', 
-					width: '60%', 
+					width: '50%', 
 					title: 'Show/Hide Columns',
 					autoOpen: false,
 					modal: true, 
@@ -985,7 +985,7 @@ limitations under the License.
 			}
 		</script>
 
-		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); opacity: 0.99; display: none; z-index: 2;">
+		<div id="overlay" style="position: absolute; top:0px; left:0px; width: 100%; height: 100%; background: rgba(0,0,0,0.5); border-color: transparent; opacity: 0.99; display: none; z-index: 2;">
 			<div class="jqx-rc-all jqx-fill-state-normal" style="position: absolute; left: 50%; top: 25%; width: 10em; height: 2.4em;line-height: 2.4em; padding: 5px; color: ##333333; border-color: ##898989; border-style: solid; margin-left: -10em; opacity: 1;">
 				<div class="jqx-grid-load" style="float: left; overflow: hidden; height: 32px; width: 32px;"></div>
 				<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
