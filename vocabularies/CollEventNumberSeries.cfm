@@ -461,7 +461,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
 											<label for="number_series" id="number_series_label" class="data-entry-label">Name for the Collector Number Series</label>
-											<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" aria-labelledby="number_series_label">	
+											<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="#number_series#" aria-labelledby="number_series_label">	
 										</div>
 										<div class="col-12 col-md-6">
 											<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
@@ -583,9 +583,9 @@ limitations under the License.
 						<div class="row">
 							<div class="col-12" aria-labelledby="existingvalues">
 								<cfif numSeriesUse_result.recordcount EQ 0>
-									<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
+									<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
 								<cfelse>
-									<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
+									<h2 class="h3" id="existingvalues">Instances of this Collecting Event Number Series</h2>
 									<ul>
 										<cfloop query="numSeriesUse">
 											<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
