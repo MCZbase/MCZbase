@@ -1012,15 +1012,16 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 				<cfset i=1>
 				<cfif habitat.recordcount gt 0>
 					<cfloop query="habitat">
-						<div class="form-row mx-0 my-1">
+						<ul><li class="mx-0 my-1">
 							<label id="label_taxon_habitat_#i#" value="#taxon_habitat#" class="w-50 float-left">#taxon_habitat#</label>
 							<button value="Remove" class="btn btn-xs btn-warning ml-1 mb-1 float-left" onClick=" confirmDialog('Remove <b>#taxon_habitat#</b> habitat entry from this taxon?','Remove Habitat?', function() { deleteHabitat(#taxon_habitat_id#,#taxon_name_id#,'#target#'); } ); " 
 								id="habitatDeleteButton_#i#">Remove</button>
-						</div>
+							</li>
+						</ul>
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<p>No Habitats Entered</p>
+					<ul><li>No Habitats Entered</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
