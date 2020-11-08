@@ -1075,7 +1075,7 @@ limitations under the License.
 				</span>
 			</h1>
 			<div class="row mx-0 py-3 mb-5 px-2 border rounded">
-				<form name="taxon_form" id="taxon_form2" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12">
+				<form name="taxon_form" id="taxon_form2" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12 px-2">
 					<input type="hidden" name="Action" value="saveNewTaxon">
 	
 					<div class="row">
