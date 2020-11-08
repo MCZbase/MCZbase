@@ -580,7 +580,7 @@ limitations under the License.
 				</cfquery>
 				<cfoutput>
 					<section class="container">
-						<div class="row">
+						<div class="row mx-0">
 							<div class="col-12" aria-labelledby="existingvalues">
 								<cfif numSeriesUse_result.recordcount EQ 0>
 									<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
