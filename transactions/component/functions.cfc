@@ -3757,7 +3757,7 @@ limitations under the License.
 									<cfset altText = query.media_descriptor>
 								</cfif>
 								<li>
-									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='50' alt='#media_descriptor#'></a>
+									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='50' width="31" alt='#media_descriptor#'></a>
 									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
 									<input class='btn btn-xs btn-warning'
