@@ -690,7 +690,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 			</cfquery>
 			<cfoutput>
-				<h2 class="h4 mt-0">Common Names</h2>
+				<h2 class="h3 mt-0">Common Names</h2>
 				<cfset i=1>
 				<cfif common.recordcount gt 0>
 					<cfloop query="common">
