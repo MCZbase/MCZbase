@@ -960,7 +960,7 @@ limitations under the License.
 					jQuery(document).ready(loadPermitMedia(#permit_id#));
 					jQuery(document).ready(loadPermitRelatedMedia(#permit_id#));
 				</script>
-					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded my-2">
+					<section name="associatedMediaSection" class="mx-0 pb-2 bg-light row border rounded mt-2">
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 							concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri
