@@ -469,11 +469,10 @@ limitations under the License.
 			<cfset collname = collection_name>
 			<!--- save name for later use outside this output section --->
 			<main class="container">
-				<div class="row">
+				<section class="row" aria-labelledby="formheading" class="border p-2 mb-3">
 					<div class="col-12">
-						<h1 class="h2" id="formheading"> Edit named group of cataloged items.</h1>
-						<section aria-labelledby="formheading" class="border p-2 mb-3">
-							<form name="editUndColl" id="editUndColl">
+						<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
+						<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
@@ -577,10 +576,10 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</section>
-						<!--- region --->
-						<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
-							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
+					</div>
+				</section>
+				<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
+					<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 								<div class="form-row mb-2">
@@ -631,11 +630,8 @@ limitations under the License.
 									</div>
 								</div>
 							</form>
-						</section>
-					</div>
-					<!--- col ---> 
-				</div>
-				<!--- row ---> 
+				</section>
+			</main>
 				<cfif undColl_result.recordcount GT 0>
 					<!--- list specimens in the collection, link out by guid --->
 					<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
@@ -646,7 +642,7 @@ limitations under the License.
 						order by guid
 					</cfquery>
 					<cfoutput>
-						<div class="container pt-0">
+						<section class="container pt-0">
 							<script>
 								function removeUndRelation(id) { 
 									jQuery.ajax({
@@ -681,38 +677,36 @@ limitations under the License.
 								}
 							</script>
 							<div class="row">
-								<div class="col-12 mb-5">
-									<div role="region" aria-labelledby="existingvalues" id="divListOfContainedObjects">
-										<cfif undCollUse_result.recordcount EQ 0>
-											<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
-											<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
-												<input type="hidden" name="action" value="delete">
-												<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-												<button class="btn btn-xs btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
-												<script>
-													$(document).ready(function() {
-														$('##deleteButton').bind('click', function(evt){
-															evt.preventDefault();
-															confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
-														});
+								<div class="col-12 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
+									<cfif undCollUse_result.recordcount EQ 0>
+										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
+										<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
+											<input type="hidden" name="action" value="delete">
+											<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
+											<button class="btn btn-xs btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+											<script>
+												$(document).ready(function() {
+													$('##deleteButton').bind('click', function(evt){
+														evt.preventDefault();
+														confirmDialog('Delete the #collname# collection? ', 'Delete?', function(){ $('##deleteForm').submit(); }); 
 													});
-												</script>
-											</form>
-											<cfelse>
-											<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
-											<ul>
-												<cfloop query="undCollUse">
-													<li>
-														<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
-														<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
-													</li>
-												</cfloop>
-											</ul>
-										</cfif>
-									</div>
+												});
+											</script>
+										</form>
+										<cfelse>
+										<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
+										<ul>
+											<cfloop query="undCollUse">
+												<li>
+													<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
+													<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
+												</li>
+											</cfloop>
+										</ul>
+									</cfif>
 								</div>
 							</div>
-						</div>
+						</section>
 					</cfoutput>
 				</cfif>
 			</main>
