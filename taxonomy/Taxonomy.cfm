@@ -1470,7 +1470,7 @@ limitations under the License.
 					<div class="form-row col-12 px-0 botanical">
 						<div class="col-12 col-md-6 col-xl-3 botanical">
 						</div>
-						<div class="col-12 col-md-6 col-xl-9 px-0 botanical">
+						<div class="col-12 col-md-6 col-xl-9 my-1 px-0 botanical">
 							<label for="infraspecific_author" id="infraspecific_author_label" class="py-0 py-xl-1 col-12 col-md-12 col-xl-1 col-form-label align-left float-left"> Infraspecific Author </label>
 							<div class="col-12 col-md-12 col-xl-11 float-left pr-1">
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#getClonedFromTaxon.infraspecific_author#">
