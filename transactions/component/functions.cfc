@@ -3757,12 +3757,12 @@ limitations under the License.
 									<cfset altText = query.media_descriptor>
 								</cfif>
 								<li>
-									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='65' alt='#media_descriptor#'></a>
+									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='50' alt='#media_descriptor#'></a>
 									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
 									<input class='btn btn-xs btn-warning'
 											onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
-											value='Remove' style='width: 5em; text-align: center;' >
+											value='Remove' style='width: 5em; text-align: center; padding: .15em .25em;' >
 								</li>
 							</cfloop>
 							</ul>
