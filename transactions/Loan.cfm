@@ -611,7 +611,7 @@ limitations under the License.
 						<strong>#loanDetails.collection# #loanDetails.loan_number#</strong> 
 						<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 					</h1>
-					<section class="row border rounded my-2 pt-2" title="Edit Loan" >
+					<section class="row mx-0 border rounded my-2 pt-2" title="Edit Loan" >
 						<form class="col-12" name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
 							<input type="hidden" name="method" value="saveLoan">
 							<input id="action" type="hidden" name="action" value="editLoan">
@@ -848,7 +848,7 @@ limitations under the License.
 							</script>
 						</form>
 					</section>
-					<section name="loanItemsSection" class="row border rounded my-2" title="Collection Objects in this loan" tabindex="0">
+					<section name="loanItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this loan" tabindex="0">
 						<div class="col-12 py-2">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
@@ -909,7 +909,7 @@ limitations under the License.
 						</div>
 					</section>
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="mediaSection" class="row border rounded bg-light my-2" tabindex="0">
+						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
 								<h3>
 									Media documenting this Loan: <br/>
