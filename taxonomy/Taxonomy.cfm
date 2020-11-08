@@ -1478,8 +1478,9 @@ limitations under the License.
 								<input type="text" name="infraspecific_author" id="infraspecific_author" class="data-entry-input mt-1" value="#getClonedFromTaxon.infraspecific_author#">
 								<span class="infoLink botanical" 
 									onclick=" window.open('https://ipni.org/?q='+$('##genus').val()+'%20'+$('##species').val()+'%20'+$('##subspecies').val(),'_blank'); ">
-									<small class="link-color">Find in IPNI</small> <small class="line-height-sm d-block d-md-inline ml-2 text-secondary">(do not use for ICZN names)</small>
+									<small class="link-color">Find in IPNI</small> 
 								</span>
+								<span class="small line-height-sm d-block d-md-inline ml-2 text-secondary">(do not use for ICZN names)</span>
 							</div>
 						</div>
 					</div>
