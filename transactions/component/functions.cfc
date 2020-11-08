@@ -3745,8 +3745,7 @@ limitations under the License.
 					and media_relations.related_primary_key = <cfqueryparam value="#permit_id#" CFSQLType="CF_SQL_DECIMAL">
 			</cfquery>
 			<cfoutput>
-				<section class="row">
-					<div class="col-12">
+				
 						<h3>#heading# Media</h3>
 						<cfif query.recordcount gt 0>
 							<ul>
@@ -3780,8 +3779,7 @@ limitations under the License.
 						</span>
 						<div id='addMediaDlg_#permit_id#_#rel#'></div>
 						<div id='addPermitDlg_#permit_id#_#rel#'></div>
-					</div>
-				</section>
+				
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
