@@ -1033,7 +1033,7 @@ limitations under the License.
 						<div class="col-12">
 							<div id="permitsusedin" class="shippingBlock" >
 						<h3>Permit used for</h3>
-						<ul class="col-12 col-md-6 mx-3">
+						<ul class="col-12 col-md-6 mx-3 float-left">
 							<cfloop query="permituse">
 								<li><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a> #ontype# #ttype# #dateformat(trans_date,'yyyy-mm-dd')# #guid_prefix#</li>
 							</cfloop>
