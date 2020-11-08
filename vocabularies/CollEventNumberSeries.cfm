@@ -465,7 +465,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-6">
 											<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
-											<input type="text" id="pattern" name="pattern" class="data-entry-label" value="#pattern#" aria-labelledby="pattern_label" >
+											<input type="text" id="pattern" name="pattern" class="data-entry-input" value="#pattern#" aria-labelledby="pattern_label" >
 										</div>
 									</div>
 									<div class="form-row mb-2">
