@@ -60,18 +60,18 @@ limitations under the License.
 										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
 										<div class="form-row mb-2">
 											<div class="col-md-6">
-												<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-												<input type="text" id="number_series" name="number_series" class="form-control-sm" value="#number_series#" aria-labelledby="number_series_label" >
+												<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
+												<input type="text" id="number_series" name="number_series" class="data-entry-input" value="#number_series#" aria-labelledby="number_series_label" >
 											</div>
 											<div class="col-md-6">
-												<label for="pattern" id="pattern_label">Pattern</label>
-												<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >					
+												<label for="pattern" class="data-entry-label" id="pattern_label">Pattern</label>
+												<input type="text" id="pattern" name="pattern" class="data-entry-input" value="#pattern#" aria-labelledby="pattern_label" >					
 											</div>
 										</div>
 										<div class="form-row mb-2">
 											<div class="col-md-12">
-												<label for="number" id="number_label">A number in the Series</label>
-												<input type="text" id="number" name="number" class="form-control-sm" value="#number#" aria-labelledby="number_label" >					
+												<label for="number" class="data-entry-label" id="number_label">A number in the Series</label>
+												<input type="text" id="number" name="number" class="data-entry-input" value="#number#" aria-labelledby="number_label" >					
 											</div>
 										</div>
 										<div class="form-row my-2 mx-0">
