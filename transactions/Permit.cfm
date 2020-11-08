@@ -726,7 +726,7 @@ limitations under the License.
 						<cfif isdefined("headless") and headless EQ 'true'>
 							<input type="hidden" name="headless" value="true">
 						</cfif>
-						<div class="form-row mb-2">
+						<div class="form-row my-2">
 							<div class="col-12 col-md-4">
 								<span>
 									<label for="issued_by_agent_name" class="data-entry-label">Issued By:</label>
