@@ -549,7 +549,14 @@ limitations under the License.
 							<h1 class="h4">Results: </h1>
 							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
 							<div id="columnPickDialog">
-								<div id="columnPick" class="px-1"></div>
+								<div class="row">
+									<div class="col-12 col-md-6">
+										<div id="columnPick" class="px-1"></div>
+									</div>
+									<div class="col-12 col-md-6">
+										<div id="columnPick1" class="px-1"></div>
+									</div>
+								</div>
 							</div>
 							<div id="columnPickDialogButton"></div>
 							<div id="resultDownloadButtonContainer"></div>
@@ -835,8 +842,9 @@ limitations under the License.
 				}
 				// add a control to show/hide columns
 				var columns = $('##' + gridId).jqxGrid('columns').records;
+				var halfcolumns = round(columns.length/2);
 				var columnListSource = [];
-				for (i = 0; i < columns.length; i++) {
+				for (i = 0; i < halfcolumns; i++) {
 					var text = columns[i].text;
 					var datafield = columns[i].datafield;
 					var hideable = columns[i].hideable;
@@ -849,6 +857,28 @@ limitations under the License.
 				} 
 				$("##columnPick").jqxListBox({ source: columnListSource, autoHeight: true, width: '260px', checkboxes: true });
 				$("##columnPick").on('checkChange', function (event) {
+					$("##" + gridId).jqxGrid('beginupdate');
+					if (event.args.checked) {
+						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
+					} else {
+						$("##" + gridId).jqxGrid('hidecolumn', event.args.value);
+					}
+					$("##" + gridId).jqxGrid('endupdate');
+				});
+				var columnListSource1 = [];
+				for (i = halfcoulumns; i < columns.length; i++) {
+					var text = columns[i].text;
+					var datafield = columns[i].datafield;
+					var hideable = columns[i].hideable;
+					var hidden = columns[i].hidden;
+					var show = ! hidden;
+					if (hideable == true) { 
+						var listRow = { label: text, value: datafield, checked: show };
+						columnListSource1.push(listRow);
+					}
+				} 
+				$("##columnPick1").jqxListBox({ source: columnListSource1, autoHeight: true, width: '260px', checkboxes: true });
+				$("##columnPick1").on('checkChange', function (event) {
 					$("##" + gridId).jqxGrid('beginupdate');
 					if (event.args.checked) {
 						$("##" + gridId).jqxGrid('showcolumn', event.args.value);
