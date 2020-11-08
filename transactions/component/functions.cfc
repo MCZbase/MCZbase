@@ -3756,7 +3756,7 @@ limitations under the License.
 								<cfelse>
 									<cfset altText = query.media_descriptor>
 								</cfif>
-								<li>
+								<li class="my-1 float-left">
 									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='50' width="31" alt='#media_descriptor#'></a>
 									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
@@ -3767,7 +3767,7 @@ limitations under the License.
 							</cfloop>
 							</ul>
 						</cfif>
-						<span>
+						<span class="float-left">
 							<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
 								<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
 									value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
