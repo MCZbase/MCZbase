@@ -94,22 +94,20 @@ limitations under the License.
 					<section class="container-fluid">
 						<div class="row mx-0">
 							<div class="col-12 mb-5">
-								
-									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-										<h1 class="h4">Results: </h1>
-										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-										<div id="columnPickDialog">
-											<div id="columnPick" class="px-1"></div>
-										</div>
-										<div id="columnPickDialogButton"></div>
-										<div id="resultDownloadButtonContainer"></div>
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h1 class="h4">Results: </h1>
+									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<div id="columnPickDialog">
+										<div id="columnPick" class="px-1"></div>
 									</div>
-									<div class="row mt-0">
-										<!--- Grid Related code is below along with search handlers --->
-										<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-										<div id="enableselection"></div>
-									</div>
-								</section>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+								</div>
+								<div class="row mt-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -332,7 +330,7 @@ limitations under the License.
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
 									<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
-									<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >					
+									<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >
 								</div>
 								<div class="col-12 col-md-6">
 									<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
@@ -372,13 +370,12 @@ limitations under the License.
 								$('##remarks').keyup(autogrow);
 							</script>
 							<div class="form-row mb-5">
-
 								<div class="col-12 col-md-12 my-3 my-2">   								
-										<input type="button" 
-											value="Create" title="Create" aria-label="Create"
-											class="btn btn-xs btn-primary"
-											onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
-											>
+									<input type="button" 
+										value="Create" title="Create" aria-label="Create"
+										class="btn btn-xs btn-primary"
+										onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
+										>
 								</div>
 							</div>
 						</form>
@@ -431,7 +428,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
-			<Cfset coll_event_num_series_id = "">
+			<cfset coll_event_num_series_id = "">
 		</cfif>
 		<cfif len("coll_event_num_series_id") EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for coll_event_num_series_id">
@@ -553,47 +550,45 @@ limitations under the License.
 									</div>
 									<div class="form-row mb-1">	
 										<div class="col-12">   
-												<div id="saveResultDiv">&nbsp;</div>
-												<input type="button" 
-													value="Save" title="Save" aria-label="Save"
-													class="btn btn-xs btn-primary"
-													onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } " 
-													>
+											<div id="saveResultDiv">&nbsp;</div>
+											<input type="button" 
+												value="Save" title="Save" aria-label="Save"
+												class="btn btn-xs btn-primary"
+												onClick="if (checkFormValidity($('##editNumSeries')[0])) { saveChanges();  } " 
+												>
 										</div>
 									</div>
 								</form>
 							</div><!--- col --->
 						</div><!--- row --->
 					</section>
-			</cfoutput>
-			<cfif numSeries_result.recordcount GT 0>
-				<!--- list instances of the collecting event number, link out to specimen search --->
-				<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
-					select coll_event_number, collecting_event_id 
-					from coll_event_number
-					where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
-					order by coll_event_number
-				</cfquery>
-				<cfoutput>
-					<section class="container">
-						<div class="row">
-							<div class="col-12" aria-labelledby="existingvalues">
-								<cfif numSeriesUse_result.recordcount EQ 0>
-									<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
-								<cfelse>
-									<h2 class="h3" id="existingvalues">Instances of this Collecting Event Number Series</h2>
-									<ul>
-										<cfloop query="numSeriesUse">
-											<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
-										</cfloop>
-									</ul>
-								</cfif>
+					<cfif numSeries_result.recordcount GT 0>
+						<!--- list instances of the collecting event number, link out to specimen search --->
+						<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
+							select coll_event_number, collecting_event_id 
+							from coll_event_number
+							where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
+							order by coll_event_number
+						</cfquery>
+						<section class="container">
+							<div class="row">
+								<div class="col-12" aria-labelledby="existingvalues">
+									<cfif numSeriesUse_result.recordcount EQ 0>
+										<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
+									<cfelse>
+										<h2 class="h3" id="existingvalues">Instances of this Collecting Event Number Series</h2>
+										<ul>
+											<cfloop query="numSeriesUse">
+												<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
 							</div>
-						</div>
-					</section>
+						</section>
+					</cfif>
 				</main>
-				</cfoutput>
-			</cfif>
+			</cfoutput>
 		</cfif>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
