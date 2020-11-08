@@ -1097,7 +1097,7 @@ limitations under the License.
 							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
 								<h2 class="h3">
 									Permissions and Rights Documents 
-									<span class="smaller">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
+									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
 								</h2>
 								<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
