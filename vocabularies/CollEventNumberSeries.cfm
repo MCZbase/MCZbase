@@ -450,7 +450,7 @@ limitations under the License.
 				<main id="content">
 					<section class="container py-3" aria-labelledby="formheading">
 						<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
-						<div class="row mx-0 pb-3 border rounded">
+						<div class="row pb-3 border rounded">
 							<div class="col-12">
 								<form name="editNumSeries" id="editNumSeries"> 
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
@@ -576,7 +576,7 @@ limitations under the License.
 				</cfquery>
 				<cfoutput>
 					<section class="container">
-						<div class="row mx-0">
+						<div class="row">
 							<div class="col-12" aria-labelledby="existingvalues">
 								<cfif numSeriesUse_result.recordcount EQ 0>
 									<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
