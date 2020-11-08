@@ -48,7 +48,7 @@ limitations under the License.
 			<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<main id=”content”>
+				<main  id="content">
 					<section class="container-fluid" role="search">
 						<div class="row mx-0 mb-3">
 							<div class="search-box">
@@ -91,10 +91,10 @@ limitations under the License.
 					</section>
 
 					<!--- Results table as a jqxGrid. --->
-					<div class="container-fluid">
+					<section class="container-fluid">
 						<div class="row mx-0">
 							<div class="col-12 mb-5">
-								<section>
+								
 									<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 										<h1 class="h4">Results: </h1>
 										<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
@@ -112,7 +112,7 @@ limitations under the License.
 								</section>
 							</div>
 						</div>
-					</div>
+					</section>
 				</main>
 		
 				<script>
@@ -322,7 +322,8 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<div class="container">
+			<main id="content">
+			<section class="container">
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labelledby="formheading">
@@ -385,7 +386,7 @@ limitations under the License.
 						</div><!--- region --->
 					</div><!--- col --->
 				</div><!--- row --->
-			</div><!--- container --->
+			</section><!--- container --->
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
@@ -448,10 +449,11 @@ limitations under the License.
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
 			<cfoutput query="numSeries">
-				<main class="container">
-					<section class="row" id="content">
-						<div class="col-12">
-							<div role="region" aria-labelledby="formheading">
+				<main id="content">
+					<section class="container py-3">
+						<div class="row mx-0">
+							<div class="col-12">
+							<div aria-labelledby="formheading">
 								<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
 								<form name="editNumSeries" id="editNumSeries"> 
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
@@ -565,8 +567,8 @@ limitations under the License.
 								</form>
 							</div><!--- region --->
 						</div><!--- col --->
-					</section><!--- row --->
-			
+						</div><!--- row --->
+					</section>
 			</cfoutput>
 			<cfif numSeries_result.recordcount GT 0>
 				<!--- list instances of the collecting event number, link out to specimen search --->
@@ -577,18 +579,20 @@ limitations under the License.
 					order by coll_event_number
 				</cfquery>
 				<cfoutput>
-					<section class="row">
-						<div class="col-12" aria-labelledby="existingvalues">
-							<cfif numSeriesUse_result.recordcount EQ 0>
-								<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
-							<cfelse>
-								<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
-								<ul>
-									<cfloop query="numSeriesUse">
-										<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
-									</cfloop>
-								</ul>
-							</cfif>
+					<section class="container">
+						<div class="row">
+							<div class="col-12" aria-labelledby="existingvalues">
+								<cfif numSeriesUse_result.recordcount EQ 0>
+									<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
+								<cfelse>
+									<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
+									<ul>
+										<cfloop query="numSeriesUse">
+											<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
+										</cfloop>
+									</ul>
+								</cfif>
+							</div>
 						</div>
 					</section>
 				</main>
