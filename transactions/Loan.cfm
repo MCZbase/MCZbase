@@ -1034,7 +1034,7 @@ limitations under the License.
 						</section>
 
 
-						<div class="row mx-md-1 mt-2 mb-3">
+						<div class="row mx-md-1 mt-0 mb-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
 								<h3>Accessions of material in this loan:</h3>
 								<!--- List Accessions for collection objects included in the Loan --->
