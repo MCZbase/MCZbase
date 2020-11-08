@@ -1123,7 +1123,7 @@ limitations under the License.
 					</div>
 					<div class="row mx-0 mx-md-1 mt-2 mb-3">
 						<div class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2">
-							<label for="taxonid" class=" col-form-label">GUID for Taxon (dwc:taxonID)</label>
+							<label for="taxonid" class="data-entry-label">GUID for Taxon (dwc:taxonID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
