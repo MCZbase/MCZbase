@@ -908,287 +908,289 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
-					<section name="mediaSection" class="row border rounded bg-light my-2" tabindex="0">
-						<div class="col-12">
-							<h3>
-								Media documenting this Loan: <br/>
-								<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
-							</h3>
-							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select
-									media.media_id,
-									preview_uri,
-									media_uri,
-									media_type,
-									label_value
-								from
-									media,
-									media_relations,
-									(select * from media_labels where media_label='description') media_labels
-								where
-									media.media_id=media_labels.media_id (+) and
-									media.media_id=media_relations.media_id and
-									media_relationship like '% loan' and
-									related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
-							</cfquery>
-							<span>
-								<cfset relation="documents loan">
-								<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
-								&nbsp; 
-								<span id='addMedia_#transaction_id#'>
-									<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
-								&nbsp; 
-								</span> 
-							</span>
-							<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
-							<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
-							<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-							<script>
-								// callback for ajax methods to reload from dialog
-								function reloadTransMedia() { 
-									loadTransactionFormMedia(#transaction_id#,"loan");
-									if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
-										$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
-									}
-								};
-								$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
-							</script>
-						</div> 
-					</section>
-					<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
-						<div class="col-12 pb-3">
-							<h3>Shipment Information:</h3>
-							<script>
-								function opendialog(page,id,title) {
-								var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-								var adialog = $(id)
-									.html(content)
-									.dialog({
-										title: title,
-										autoOpen: false,
-										dialogClass: 'dialog_fixed,ui-widget-header',
-										modal: true,
-										height: 900,
-										width: 1100,
-										minWidth: 400,
-										minHeight: 450,
-										draggable:true,
-										resizable:true,
-										buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-										close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
-									});
-									adialog.dialog('open');
-								};
-							</script>
-							<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
-								from shipment sh
-									left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
-									left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
-								where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-							</cfquery>
-								<div id="shipmentTable" class="bg-light"> 
-									<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
+					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+						<section name="mediaSection" class="row border rounded bg-light my-2" tabindex="0">
+							<div class="col-12">
+								<h3>
+									Media documenting this Loan: <br/>
+									<small>Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</small>
+								</h3>
+								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+										media.media_id,
+										preview_uri,
+										media_uri,
+										media_type,
+										label_value
+									from
+										media,
+										media_relations,
+										(select * from media_labels where media_label='description') media_labels
+									where
+										media.media_id=media_labels.media_id (+) and
+										media.media_id=media_relations.media_id and
+										media_relationship like '% loan' and
+										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
+								</cfquery>
+								<span>
+									<cfset relation="documents loan">
+									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
+									&nbsp; 
+									<span id='addMedia_#transaction_id#'>
+										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #loanDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
+									&nbsp; 
+									</span> 
+								</span>
+								<div id="addMediaDlg_#transaction_id#" class="my-2"></div>
+								<div id="newMediaDlg_#transaction_id#" class="my-2"></div>
+								<div id="transactionFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+								<script>
+									// callback for ajax methods to reload from dialog
+									function reloadTransMedia() { 
+										loadTransactionFormMedia(#transaction_id#,"loan");
+										if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+											$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
+										}
+									};
+									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+								</script>
+							</div> 
+						</section>
+						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
+							<div class="col-12 pb-3">
+								<h3>Shipment Information:</h3>
+								<script>
+									function opendialog(page,id,title) {
+									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+									var adialog = $(id)
+										.html(content)
+										.dialog({
+											title: title,
+											autoOpen: false,
+											dialogClass: 'dialog_fixed,ui-widget-header',
+											modal: true,
+											height: 900,
+											width: 1100,
+											minWidth: 400,
+											minHeight: 450,
+											draggable:true,
+											resizable:true,
+											buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+											close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+										});
+										adialog.dialog('open');
+									};
+								</script>
+								<cfquery name="ship" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select sh.*, toaddr.country_cde tocountry, toaddr.institution toinst, fromaddr.country_cde fromcountry, fromaddr.institution frominst
+									from shipment sh
+										left join addr toaddr on sh.shipped_to_addr_id  = toaddr.addr_id
+										left join addr fromaddr on sh.shipped_from_addr_id = fromaddr.addr_id
+									where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+								</cfquery>
+									<div id="shipmentTable" class="bg-light"> 
+										<div class="my-2 text-center"><img src='/shared/images/indicator.gif'> Loading Shipments</div>
+									</div>
+								<!--- shippmentTable for ajax replace ---> 
+								<script>
+									$( document ).ready(loadShipments(#transaction_id#));
+								</script>
+								<div class="addstyle">
+									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
+									<div class="shipmentnote float-left">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 								</div>
-							<!--- shippmentTable for ajax replace ---> 
-							<script>
-								$( document ).ready(loadShipments(#transaction_id#));
-							</script>
-							<div class="addstyle">
-								<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
-								<div class="shipmentnote float-left">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 							</div>
-						</div>
-					</section>
-		
-					<cfinclude template="/transactions/shipmentDialog.cfm">
-					
-					<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded my-2">
-						<div class="col-12 pb-3" tabindex="0">
-							<h3>Countries of Origin of items in this loan</h3>
-							<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(*) as ct, sovereign_nation 
-								from loan_item 
-									left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
-									left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-									left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-									left join locality on collecting_event.locality_id = locality.locality_id
-								where
-									loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-								group by sovereign_nation
-							</cfquery>
-							<cfset sep="">
-							<cfif ctSovereignNation.recordcount EQ 0>
-								<span>None</span>
-							<cfelse>
-								<cfloop query=ctSovereignNation>
-									<cfif len(sovereign_nation) eq 0>
-										<cfset sovereign_nation = '[no value set]'>
-									</cfif>
-									<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
-									<cfset sep="; ">
-								</cfloop>
-							</cfif>
-						</div>
-					</section>
+						</section>
 
-				
-					<div class="row mx-md-1 mt-2 mb-3">
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
-							<h3>Accessions of material in this loan:</h3>
-							<!--- List Accessions for collection objects included in the Loan --->
-							<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
-								from loan l
-									left join loan_item li on l.transaction_id = li.transaction_id
-									left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-									left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-									left join accn on ci.accn_id = accn.transaction_id
-								where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-							</cfquery>
-							<ul class="accn">
-								<cfloop query="getAccessions">
-									<li class="accn2">
-										<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
-										, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
-										<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
-											from (
-												select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
-													issuedBy.agent_name as IssuedByAgent
-												from permit_trans 
-													left join permit on permit_trans.permit_id = permit.permit_id
-													left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-													left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-												where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-													and ctspecific_permit_type.accn_show_on_shipment = 1
-											union
-												select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
-													issuedBy.agent_name as IssuedByAgent
-												from shipment
-													left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-													left join permit on permit_shipment.permit_id = permit.permit_id
-													left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-													left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-												where shipment.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-													and ctspecific_permit_type.accn_show_on_shipment = 1
-											)
-											where permit_id is not null
-											order by permit_type, issued_date
-										</cfquery>
-										<cfif getAccnPermits.recordcount gt 0>
-											<ul class="accnpermit">
-												<cfloop query="getAccnPermits">
-													<li>
-														<span style="font-weight:bold;">#permit_type#:</span> 
-														#specific_type# #permit_num#, 
-														<span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# 
-														<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">Edit</a>
-													</li>
-												</cfloop>
-											</ul>
+						<cfinclude template="/transactions/shipmentDialog.cfm">
+
+						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded my-2">
+							<div class="col-12 pb-3" tabindex="0">
+								<h3>Countries of Origin of items in this loan</h3>
+								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select count(*) as ct, sovereign_nation 
+									from loan_item 
+										left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+										left join locality on collecting_event.locality_id = locality.locality_id
+									where
+										loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+									group by sovereign_nation
+								</cfquery>
+								<cfset sep="">
+								<cfif ctSovereignNation.recordcount EQ 0>
+									<span>None</span>
+								<cfelse>
+									<cfloop query=ctSovereignNation>
+										<cfif len(sovereign_nation) eq 0>
+											<cfset sovereign_nation = '[no value set]'>
 										</cfif>
-									</li>
-								</cfloop>
-							</ul>
-						</section>	
-						<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
-							<h3>
-								Permissions and Rights Documents: 
-								<br/>
-								<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
-							</h3>
-							<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
-								from (
-									select 
-										mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
-										mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-										p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-										ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
-									from loan_item li
+										<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+										<cfset sep="; ">
+									</cfloop>
+								</cfif>
+							</div>
+						</section>
+
+
+						<div class="row mx-md-1 mt-2 mb-3">
+							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
+								<h3>Accessions of material in this loan:</h3>
+								<!--- List Accessions for collection objects included in the Loan --->
+								<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
+									from loan l
+										left join loan_item li on l.transaction_id = li.transaction_id
 										left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 										left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
 										left join accn on ci.accn_id = accn.transaction_id
-										left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-										left join permit p on permit_trans.permit_id = p.permit_id
-										left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-									union
-									select 
-										mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
-										mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-										p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-										ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
-									from loan_item li
-										left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-										left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-										left join shipment on ci.accn_id = shipment.transaction_id
-										left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-										left join permit p on permit_shipment.permit_id = p.permit_id
-										left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
-									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-									union
-									select 
-										mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
-										mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-										p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
-									from shipment s
-										left join permit_shipment ps on s.shipment_id = ps.shipment_id
-										left join permit p on ps.permit_id = p.permit_id
-									where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
-								) where permit_type is not null
-							</cfquery>
-							<cfset uriList = ''>
-							<div id="transPermitMediaListDiv">
-							<ul class="" tabindex-"0">
-								<cfloop query="getPermitMedia">
-									<cfif media_id is ''>
-										<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
-									<cfelse>
-										<cfif show_on_shipment EQ 1>
-											<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
-											<cfset uriList = ListAppend(uriList,uri)>
+								</cfquery>
+								<ul class="accn">
+									<cfloop query="getAccessions">
+										<li class="accn2">
+											<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
+											, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')#
+											<cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
+												from (
+													select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
+														issuedBy.agent_name as IssuedByAgent
+													from permit_trans 
+														left join permit on permit_trans.permit_id = permit.permit_id
+														left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
+														left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+													where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+														and ctspecific_permit_type.accn_show_on_shipment = 1
+												union
+													select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
+														issuedBy.agent_name as IssuedByAgent
+													from shipment
+														left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+														left join permit on permit_shipment.permit_id = permit.permit_id
+														left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
+														left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+													where shipment.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+														and ctspecific_permit_type.accn_show_on_shipment = 1
+												)
+												where permit_id is not null
+												order by permit_type, issued_date
+											</cfquery>
+											<cfif getAccnPermits.recordcount gt 0>
+												<ul class="accnpermit">
+													<cfloop query="getAccnPermits">
+														<li>
+															<span style="font-weight:bold;">#permit_type#:</span> 
+															#specific_type# #permit_num#, 
+															<span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# 
+															<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">Edit</a>
+														</li>
+													</cfloop>
+												</ul>
+											</cfif>
+										</li>
+									</cfloop>
+								</ul>
+							</section>	
+							<!--- Print permits associated with these accessions --->
+							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
+								<h3>
+									Permissions and Rights Documents: 
+									<br/>
+									<small>PDF copies of Permits from Accessions and the Shipments of this Loan</small>
+								</h3>
+								<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
+									from (
+										select 
+											mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+											mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+											p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+											ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+										from loan_item li
+											left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+											left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+											left join accn on ci.accn_id = accn.transaction_id
+											left join permit_trans on accn.transaction_id = permit_trans.transaction_id
+											left join permit p on permit_trans.permit_id = p.permit_id
+											left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+										where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+										union
+										select 
+											mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
+											mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+											p.permit_type, p.permit_num, p.permit_title, p.specific_type,
+											ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
+										from loan_item li
+											left join specimen_part sp on li.collection_object_id = sp.collection_object_id
+											left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
+											left join shipment on ci.accn_id = shipment.transaction_id
+											left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+											left join permit p on permit_shipment.permit_id = p.permit_id
+											left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
+										where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+										union
+										select 
+											mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
+											mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
+											p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
+										from shipment s
+											left join permit_shipment ps on s.shipment_id = ps.shipment_id
+											left join permit p on ps.permit_id = p.permit_id
+										where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
+									) where permit_type is not null
+								</cfquery>
+								<cfset uriList = ''>
+								<div id="transPermitMediaListDiv">
+								<ul class="" tabindex-"0">
+									<cfloop query="getPermitMedia">
+										<cfif media_id is ''>
+											<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
 										<cfelse>
-											<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+											<cfif show_on_shipment EQ 1>
+												<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
+												<cfset uriList = ListAppend(uriList,uri)>
+											<cfelse>
+												<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
+											</cfif>
 										</cfif>
-									</cfif>
-								</cfloop>
-							</ul>
+									</cfloop>
+								</ul>
+								</div>
+								<cfif ListLen(uriList,',',false) gt 0 >
+									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
+								</cfif>
+							</section>
+						</div>
+						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-4" tabindex="0">
+							<div class="col-12 pb-2 px-0">
+								<h3 class="px-3">
+									Projects associated with this loan: 
+									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
+								</h3>
+								<div id="projectsDiv" class="mx-3">
+
+								</div>
+								<script>
+									$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
+									function reloadTransProjects() {
+										loadProjects('projectsDiv',#loanDetails.transaction_id#);
+									} 
+								</script>
+								<div class="col-12 my-2">
+									<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
+											class="btn btn-xs btn-secondary mr-2" value="Link to Project"
+											onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
+									<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
+											class="btn btn-xs btn-secondary" value="New Project"
+											onClick=" openTransProjectCreateDialog(#transaction_id#, 'projectsAddDialog','projectsDiv');">New Project</button>
+								</div>
+								<div id="projectsLinkDialog"></div>
+								<div id="projectsAddDialog"></div>
 							</div>
-							<cfif ListLen(uriList,',',false) gt 0 >
-								<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
-							</cfif>
 						</section>
 					</div>
-					<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-4" tabindex="0">
-						<div class="col-12 pb-2 px-0">
-							<h3 class="px-3">
-								Projects associated with this loan: 
-								<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
-							</h3>
-							<div id="projectsDiv" class="mx-3">
-							
-							</div>
-							<script>
-								$(document).ready( loadProjects('projectsDiv',#loanDetails.transaction_id#) );
-								function reloadTransProjects() {
-									loadProjects('projectsDiv',#loanDetails.transaction_id#);
-								} 
-							</script>
-							<div class="col-12 my-2">
-								<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
-										class="btn btn-xs btn-secondary mr-2" value="Link to Project"
-										onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
-								<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
-										class="btn btn-xs btn-secondary" value="New Project"
-										onClick=" openTransProjectCreateDialog(#transaction_id#, 'projectsAddDialog','projectsDiv');">New Project</button>
-							</div>
-							<div id="projectsLinkDialog"></div>
-							<div id="projectsAddDialog"></div>
-						</div>
-					</section>
 				<cfcatch>
 					<h2>Error: #cfcatch.message#</h2>
 					<cfif cfcatch.detail NEQ ''>
