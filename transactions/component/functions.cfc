@@ -226,10 +226,10 @@ limitations under the License.
 			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul class='px-4 list-style-disc mt-1'>">
+		<cfset result=result & "<ul class='px-4 list-style-disc mt-2'>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfset result = result & "<li class='my-1'><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+			<cfset result = result & "<li class='mb-2'><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
 		</cfloop>
 		<cfset result= result & "</ul>">
 	<cfelse>
