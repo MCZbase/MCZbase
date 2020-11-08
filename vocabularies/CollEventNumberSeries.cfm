@@ -458,17 +458,17 @@ limitations under the License.
 									<input type="hidden" id="method" name="method" value="saveNumSeries" >
 									<div class="form-row mb-2">
 										<div class="col-12 col-md-6">
-											<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
+											<label for="number_series" id="number_series_label" class="data-entry-label">Name for the Collector Number Series</label>
 											<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" aria-labelledby="number_series_label">	
 										</div>
 										<div class="col-12 col-md-6">
-											<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
+											<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
 											<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >
 										</div>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
+											<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
 											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1 autogrow"
 												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
@@ -486,7 +486,7 @@ limitations under the License.
 									<div class="form-row mb-5">
 										<div class="col-12 col-md-6"> 
 											<span>
-												<label for="collector_agent_name" id="collector_agent_name_label">Numbers in this series assigned by Agent</label>
+												<label for="collector_agent_name" id="collector_agent_name_label" class="data-entry-label">Numbers in this series assigned by Agent</label>
 												<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
 											<div class="input-group">
