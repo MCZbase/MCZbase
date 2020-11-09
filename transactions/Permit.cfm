@@ -874,7 +874,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
+									onClick="if (checkFormValidity($('##editPermitForm')[0])) { saveChanges();  } " 
 									id="submitButton" >
 								<script>
 									function saveChanges(){ 
