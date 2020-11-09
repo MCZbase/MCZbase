@@ -247,7 +247,7 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content">
 			<h1 class="h2"><span class="font-weight-normal">Edit Taxon:</span>
-				<span id="scientificNameAndAuthor">#getTaxa.display_name# <span class="sm-caps">#getTaxa.author_text#</span></span>
+				<div id="scientificNameAndAuthor" class="d-inline"></div>
 				<i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 			</h1>
 			<!---  Check to see if this record currently has a GUID assigned, record so change on edit can be warned --->
@@ -256,10 +256,10 @@ limitations under the License.
 			<cfelse>
 				<cfset hasTaxonID = false>
 			</cfif>
-			<span>
+			<div>
 				<a class="btn btn-info btn-xs" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
-				<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
-			</span>
+				<span tabindex="0"><em> Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#</span>
+			</div>
 			<section class="row border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">

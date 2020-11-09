@@ -3,10 +3,6 @@
 </cfif>
 <!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
-	<!--- TODO: cases to refactor
-	"permitUseReport">
-	"saveChanges"> to backing method
-	--->
 	<cfcase value="search">
 		<cfset pageTitle = "Find Permissions/Rights Documents">
 	</cfcase>
@@ -500,8 +496,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_by_agent_name">Issued By:</label>
-									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_by_agent_name" class="data-entry-label">
+										Issued By:
+										<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -516,8 +514,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_to_agent_name">Issued To:</label>
-									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_to_agent_name" class="data-entry-label">
+										Issued To:
+										<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -532,8 +532,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="contact_agent_name">Contact Person:</label>
-									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="contact_agent_name" class="data-entry-label">
+										Contact Person:
+										<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -729,8 +731,10 @@ limitations under the License.
 						<div class="form-row my-2">
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_by_agent_name" class="data-entry-label">Issued By:</label>
-									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_by_agent_name" class="data-entry-label">
+										Issued By:
+										<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -738,15 +742,17 @@ limitations under the License.
 									</div>
 									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
 								</div>
-								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
+								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="#IssuedByAgentID#" >
 								<script>
-									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
+									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',#IssuedByAgentId#));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_to_agent_name" class="data-entry-label">Issued To:</label>
-									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_to_agent_name" class="data-entry-label">
+										Issued To:
+										<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -756,13 +762,15 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
 								<script>
-									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',#IssuedToAgentID#));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="contact_agent_name" class="data-entry-label">Contact Person:</label>
-									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="contact_agent_name" class="data-entry-label">
+										Contact Person:
+										<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -772,7 +780,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
 								<script>
-									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',#contact_agent_id#));
 								</script> 
 							</div>
 						</div>
@@ -856,14 +864,55 @@ limitations under the License.
 								// trigger keyup event to size textareas to existing text
 								$('textarea.autogrow').keyup();
 							});
+							function handleChange(){
+								$('##saveResultDiv').html('Unsaved changes.');
+								$('##saveResultDiv').addClass('text-danger');
+								$('##saveResultDiv').removeClass('text-success');
+								$('##saveResultDiv').removeClass('text-warning');
+							};
 						</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
-								<!--- TODO: Ajax action for save --->
 								<input type="button" value="Save" class="btn btn-xs btn-primary"
 									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
 									id="submitButton" >
-									<!--- TODO: Refactor/fix/remove Headless use --->
+								<script>
+									function saveChanges(){ 
+										$('##saveResultDiv').html('Saving....');
+										$('##saveResultDiv').addClass('text-warning');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-danger');
+										jQuery.ajax({
+											url : "/transactions/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##editPermitForm').serialize(),
+											success : function (data) {
+												$('##saveResultDiv').html('Saved.');
+												$('##saveResultDiv').addClass('text-success');
+												$('##saveResultDiv').removeClass('text-danger');
+												$('##saveResultDiv').removeClass('text-warning');
+											},
+											error: function(jqXHR,textStatus,error){
+												$('##saveResultDiv').html('Error.');
+												$('##saveResultDiv').addClass('text-danger');
+												$('##saveResultDiv').removeClass('text-success');
+												$('##saveResultDiv').removeClass('text-warning');
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error saving permit record: '+message, 'Error: '+error.substring(0,50));
+											}
+										});
+									};
+								</script>
+								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
+								<!--- TODO: Refactor/fix/remove Headless use --->
 								<cfif isdefined("headless") and headless EQ 'true' >
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
@@ -878,6 +927,11 @@ limitations under the License.
 									onClick=" confirmDialog('Delete this permissions and rights document record?','Confirm Delete Permit', submitDeletePermit ); ">
 							</div>
 						</div>
+						<script>
+							$(document).ready(function() {
+								monitorForChanges('editPermitForm',changeFunction);
+							});
+						</script>
 					</form>
 					<form id="deletePermitForm" action="/transactions/Permit.cfm" method="POST">
 						<input type="hidden" name="action" value="delete">
@@ -885,13 +939,13 @@ limitations under the License.
 					</form>
 				</section>
 				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-					<section name="permitMediaSection" class="row mx-0 bg-light border rounded my-2">
+					<section name="permitMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
 						<div class="col-12">
 							<!---  Show/add media copy of permit  (shows permit) --->
 							<div id="copyofpermit"><img src='images/indicator.gif'></div>
 						</div>
 					</section>
-					<section name="associatedMediaSection" class="mx-0 bg-light row border pb-3 rounded my-2">
+					<section name="associatedMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
 						<div class="col-12">
 							<!---  list/add media copy of associated documents (document for permit) --->
 							<div id="associateddocuments"><img src='images/indicator.gif'></div>
@@ -1224,7 +1278,7 @@ limitations under the License.
 					</cfloop>
 					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
@@ -1240,7 +1294,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1259,7 +1313,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
@@ -1276,7 +1330,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1296,7 +1350,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
@@ -1312,7 +1366,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -1331,7 +1385,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
@@ -1344,7 +1398,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,

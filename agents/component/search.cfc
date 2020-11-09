@@ -102,7 +102,7 @@ Function getAgentAutocomplete.  Search for agents by name with a substring match
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT 
-				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
+				searchname.agent_id, searchname.agent_name, 
 				agent.agent_type, agent.edited,
 				prefername.agent_name as preferred_agent_name
 			FROM 
@@ -168,7 +168,7 @@ Function getAgentAutocompleteMeta.  Search for agents by name with a substring m
       <cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			SELECT distinct
-				searchname.agent_id, searchname.agent_name, searchname.agent_name_type,
+				searchname.agent_id, searchname.agent_name,
 				agent.agent_type, agent.edited,
 				prefername.agent_name as preferred_agent_name
 			FROM 

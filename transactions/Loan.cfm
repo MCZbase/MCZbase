@@ -56,15 +56,21 @@ limitations under the License.
 <cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_status from ctloan_status order by loan_status
 </cfquery>
-<cfquery name="ctcoll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select collection_cde from ctcollection_cde order by collection_cde
-</cfquery>
 <!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'associated with agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
+	select distinct(trans_agent_role) from cttrans_agent_role  
+	where 
+		trans_agent_role != 'entered by' and 
+		trans_agent_role != 'associated with agency' and 
+		trans_agent_role != 'received from' and 
+		trans_agent_role != 'borrow overseen by' 
+	order by trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select * from collection order by collection
+	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
+		WEB_LINK_TEXT, CATNUM_PREF_FG, CATNUM_SUFF_FG, GENBANK_PRID, GENBANK_USERNAME,
+		GENBANK_PWD, LOAN_POLICY_URL, ALLOW_PREFIX_SUFFIX, GUID_PREFIX, INSTITUTION 
+	from collection order by collection
 </cfquery>
 <cfscript>
 	function isAllowedLoanStateChange(oldState, newState) {
@@ -715,7 +721,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() { 
 										$('##agentTableContainerDiv').on('domChanged',function() {
-											console.log("dom Cchange within agentTableContainerDiv");
+											console.log("dom change within agentTableContainerDiv");
 											monitorForChanges('editLoanForm',handleChange);
 										});
 									});
@@ -841,7 +847,7 @@ limitations under the License.
 											} else {
 												message = jqXHR.responseText;
 											}
-											messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+											messageDialog('Error saving transaction record: '+message, 'Error: '+error.substring(0,50));
 										}
 									});
 								};
@@ -997,7 +1003,7 @@ limitations under the License.
 								</script>
 								<div class="addstyle">
 									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
-									<div class="shipmentnote float-left">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
+									<div class="float-left mt-2 mt-md-0">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 								</div>
 							</div>
 						</section>
@@ -1035,7 +1041,7 @@ limitations under the License.
 
 
 						<div class="row mx-0 mx-md-1 mt-0 mb-0">
-							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
+							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 d-block form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
 								<h2 class="h3">Accessions of material in this loan</h2>
 								<!--- List Accessions for collection objects included in the Loan --->
 								<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1047,7 +1053,7 @@ limitations under the License.
 										left join accn on ci.accn_id = accn.transaction_id
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 								</cfquery>
-								<ul class="accn px-4 list-style-disc">
+								<ul class="pl-4 pr-0 list-style-disc">
 									<cfloop query="getAccessions">
 										<li class="accn2">
 											<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
@@ -1078,7 +1084,7 @@ limitations under the License.
 												order by permit_type, issued_date
 											</cfquery>
 											<cfif getAccnPermits.recordcount gt 0>
-												<ul class="accnpermit">
+												<ul class="list-style-circle pl-4 pr-0">
 													<cfloop query="getAccnPermits">
 														<li>
 															<span style="font-weight:bold;">#permit_type#:</span> 
@@ -1094,7 +1100,7 @@ limitations under the License.
 								</ul>
 							</section>	
 							<!--- Print permits associated with these accessions --->
-							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
+							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 d-block form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-3" tabindex="0">
 								<h2 class="h3">
 									Permissions and Rights Documents 
 									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
@@ -1142,7 +1148,7 @@ limitations under the License.
 								</cfquery>
 								<cfset uriList = ''>
 								<div id="transPermitMediaListDiv">
-								<ul class="" tabindex-"0">
+								<ul class="pl-4 pr-0 list-style-disc" tabindex="0">
 									<cfloop query="getPermitMedia">
 										<cfif media_id is ''>
 											<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
@@ -1158,7 +1164,7 @@ limitations under the License.
 								</ul>
 								</div>
 								<cfif ListLen(uriList,',',false) gt 0 >
-									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
+									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" class="font-weight-bold pl-2">PDF of All Permission and Rights documents</a>
 								</cfif>
 							</section>
 						</div>

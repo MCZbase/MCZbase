@@ -20,8 +20,8 @@
 				<cfoutput>
 					<div class="row mx-0 alert alert-danger border px-4">
 						<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
-						<p>These may be homonyms or duplicate taxon records.</p>
-						<div>
+						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
+						<div class="col-12">
 							<ul>
 								<cfset tnid = -1>
 								<cfloop query="getTID">
@@ -121,10 +121,10 @@
 					WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
 				</cfquery>
 				<cfoutput>
-					<div class="row border border-danger border bg-light px-2 ">
+					<div class="row mx-0 alert alert-danger border px-4">
 						<h1 class="h3">More than one taxonomy record in MCZbase matches the name string of the requested taxon.</h1>
-						<p>These may be homonyms or duplicate taxon records.</p>
-						<div>
+						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
+						<div class="col-12">
 							<ul>
 								<cfloop query="getHomonyms">
 									<cfif getHomonyms.taxon_name_id EQ tnid>
@@ -349,17 +349,16 @@
 					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 				</cfloop>
 
-				<div>
+				<div class="pb-2">
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps">#one.AUTHOR_TEXT#</span> <strong>#one.taxon_status#</strong></h1>
+						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
 						<cfif len(one.AUTHOR_TEXT) gt 0>
-							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
+							<span class="sm-caps font-weight-normal small90"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 						</cfif>
 					<cfelseif #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps">#one.AUTHOR_TEXT#</span> <strong>#one.taxon_status#</strong></h1>
-						<br>
-						<span class="text-danger">This name is not accepted for current identifications. </span>
+						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small90">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small90">#one.taxon_status#</span></h1>
+						<span class="text-danger h3" tabindex="0">This name is not accepted for current identifications. </span>
 					</cfif>
 				</div>
 			

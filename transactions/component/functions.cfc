@@ -227,7 +227,7 @@ limitations under the License.
 		</cfquery>
 		<cfoutput>
 			<cfif query.recordcount gt 0>
-				<ul class='px-4 list-style-disc mt-2'>
+				<ul class='pl-4 pr-0 list-style-disc mt-2'>
 				<cfloop query="query">
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<li class='mb-2'>
@@ -296,7 +296,7 @@ limitations under the License.
 					</script>
 						
 					<div class='shipments bg-white border my-2'>
-						<table class='table table-responsive d-table mb-0'>
+						<table class='table table-responsive d-md-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>
 								<tr>
@@ -307,7 +307,7 @@ limitations under the License.
 								</tr>
 							</tbody>
 						</table>
-						<table class='table table-responsive d-table'>
+						<table class='table table-responsive d-md-table'>
 							<thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
 							<tbody>
 								<tr>
@@ -317,7 +317,7 @@ limitations under the License.
 							</tbody>
 						</table>
 						<div class='form-row'>
-							<div class='col-12 col-md-2'>
+							<div class='col-12 col-md-3 mb-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
 							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-10'>
@@ -328,7 +328,7 @@ limitations under the License.
 						<div class='shippermitstyle' tabindex="0">
 							<h4 class='font-weight-bold mb-0'>Permits:</h4>
 							<div class='permitship pb-2'>
-								<span id='permits_ship_#shipment_id#' tabindex="0">
+								<ul id='permits_ship_#shipment_id#' tabindex="0" class="list-style-disc pl-4 pr-0">
 									<cfloop query="shippermit">
 										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media.media_id, media_uri, preview_uri, media_type,
@@ -349,35 +349,24 @@ limitations under the License.
 											</cfif>
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
-										<ul class='permitshipul mb-0'>
-											<li>
-												<span>#mediaLink# #permit_type# #permit_Num#</span>
-											</li>
-											<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li>
-										</ul>
-										<ul class='permitshipul2'>
-											<li>
-												<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
-											</li>
-											<li>
-												<button type='button' 
-													class='delBtn btn btn-xs btn-warning mr-1' 
-													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
-													value='Remove Permit'>Remove</button>
-											</li>
-											<cfif theResult.recordcount GT 1>
-												<!--- add the option to copy/move the permit if there is more than one shipment --->
-												<li>
+											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
+														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 													<button type='button' 
-														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
-														class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
-													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
-												</li>
-											</cfif>
-										</ul>
+														class='btn btn-xs btn-warning' 
+														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
+														value='Remove Permit'>Remove</button>
+													<cfif theResult.recordcount GT 1>
+													<!--- add the option to copy/move the permit if there is more than one shipment --->
+														<button type='button' 
+															onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
+															class='btn btn-xs btn-warning' value='Move'>Move</button>
+														<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+													</cfif>
+											</li>
 									</cfloop>
+									</ul>
 									<cfif shippermit.recordcount eq 0>
-										<ul class="list-style-disc px-4 mt-1"><li class="my-2">None</li></ul>
+										<ul class="list-style-disc pl-4 pr-0 mt-1"><li class="my-2">None</li></ul>
 									</cfif>
 								</span>
 							</div>
@@ -2686,10 +2675,10 @@ limitations under the License.
 					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<ul class="px-4 list-style-disc">
+				<ul class="pl-4 pr-0 list-style-disc">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="my-2">
+							<li class="my-1">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
@@ -3754,7 +3743,7 @@ limitations under the License.
 				
 						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul class="col-12 mx-0 px-4 float-left list-style-disc">
+							<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
@@ -3762,8 +3751,8 @@ limitations under the License.
 								<cfelse>
 									<cfset altText = query.media_descriptor>
 								</cfif>
-								<li class="my-1 float-left">
-									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
+								<li class="my-1">
+									<a href='#media_uri#' class="w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
 									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
 									<input class='btn btn-xs btn-warning'
@@ -3773,7 +3762,7 @@ limitations under the License.
 							</cfloop>
 							</ul>
 						</cfif>
-						<span class="float-left">
+						<span>
 							<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
 								<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
 									value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
@@ -3866,7 +3855,7 @@ limitations under the License.
 		<cfset rows = 0>
 		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
@@ -3882,7 +3871,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -3901,7 +3890,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'loan' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
@@ -3918,7 +3907,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'loan shipment' as ontype, loan_number as tnumber, loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -3938,7 +3927,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
@@ -3954,7 +3943,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'deaccession shipment' as ontype, deacc_number as tnumber, deacc_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
+						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
@@ -3973,7 +3962,7 @@ limitations under the License.
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
@@ -3986,7 +3975,7 @@ limitations under the License.
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'borrow shipment' as ontype, lenders_trans_num_cde as tnumber, lender_loan_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
@@ -4005,7 +3994,7 @@ limitations under the License.
 		<cfset i = 1>
 		<cfloop query="use">
 			<cfset row = StructNew()>
-			<cfset row["id_link"] = "<a href='uri'>#use.transaction_type# #use.tnumber#">
+			<cfset row["id_link"] = "<a href='#use.uri#'>#use.transaction_type# #use.tnumber#">
 			<cfset row["ontype"] = "#use.ontype#">
 			<cfset row["tnumber"] = "#use.tnumber#">
 			<cfset row["ttype"] = "#use.ttype#">
