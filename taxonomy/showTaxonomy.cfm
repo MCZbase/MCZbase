@@ -352,7 +352,7 @@
 				<div>
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal smaller">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
+						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
 						<cfif len(one.AUTHOR_TEXT) gt 0>
 							<span class="sm-caps font-weight-normal small"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 						</cfif>
