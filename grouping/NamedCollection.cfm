@@ -348,23 +348,23 @@ limitations under the License.
 	<cfcase value="new">
 		<!--- Add a new ____ collection, link to agent ---> 
 		<cfoutput>
-			<div class="container mt-2 my-3">
-				<div class="row">
+			<main class="container mt-2 my-3">
+				<section class="row">
 					<div class="col-12">
 						<h1 class="h2" id="formheading">New named group of cataloged items</h1>
-						<div role="region" class="border p-2 mb-3" aria-labelledby="formheading">
-							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post">
+						<div class="border rounded p-2" aria-labelledby="formheading">
+							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post" class="px-2">
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="collection_name" id="collection_name_label">Name for the Group of cataloged items</label>
+										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
 									<div class="col-md-12">
-										<label for="description" id="description_label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
-										<textarea id="description" name="description" class="data-entry-textarea mt-1"
+										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description">0 characters, 4000 left</span>)</label>
+										<textarea id="description" name="description" class="data-entry-textarea mt-0"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" ></textarea>
 									</div>
@@ -405,9 +405,9 @@ limitations under the License.
 						<!--- region ---> 
 					</div>
 					<!--- col ---> 
-				</div>
-				<!--- row ---> 
-			</div>
+				</section>
+				<!--- section ---> 
+			</main>
 			<!--- container ---> 
 		</cfoutput>
 	</cfcase>
