@@ -1206,7 +1206,7 @@ limitations under the License.
 				</cfquery>
 				
 				<section class="container-fluid">
-					<h1 class="h2 mt-2">Use Report for Permissions &amp; Rights Document</h1>
+					<h1 class="h4 mt-3 font-weight-normal">Use Report for Permissions &amp; Rights Document</h1>
 				<cfloop query="permitInfo">
 					<div class="form-row">
 						<div class="col-12">
