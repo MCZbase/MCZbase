@@ -578,7 +578,7 @@ limitations under the License.
 										<h2 class="h3" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
 									<cfelse>
 										<h2 class="h3" id="existingvalues">Instances of this Collecting Event Number Series</h2>
-										<ul>
+										<ul class="px-4 list-style-disc">
 											<cfloop query="numSeriesUse">
 												<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
 											</cfloop>
