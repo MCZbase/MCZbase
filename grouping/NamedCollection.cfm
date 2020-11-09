@@ -350,7 +350,7 @@ limitations under the License.
 		<cfoutput>
 			<main class="container mt-3">
 				<section class="row">
-					<div class="col-12">
+					<div class="col-12 mt-1">
 						<h1 class="h2 pl-2 ml-2" id="formheading">New named group of cataloged items</h1>
 						<div class="border rounded px-2 pt-2" aria-labelledby="formheading">
 							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post" class="px-2">
@@ -372,7 +372,7 @@ limitations under the License.
 								<script>
 										$('##description').keyup(autogrow);
 									</script>
-								<div class="form-row mb-2">
+								<div class="form-row mb-1">
 									<div class="col-12 col-md-6">
 										<span>
 											<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
