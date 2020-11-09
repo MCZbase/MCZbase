@@ -1212,7 +1212,7 @@ limitations under the License.
 							<h2 class="h3">#permit_Type# #permit_num# #permit_title#</h2>
 						</div>
 						<div class="col-12">
-							Issued:#issued_date# Expires:#exp_Date# Renewed:#renewed_Date# Issued By: #issuedByAgent# Issued To: #issuedToAgent# #permit_remarks#
+							Issued: #issued_date# | Expires: #exp_Date# | Renewed: #renewed_Date# | Issued By: #issuedByAgent# | Issued To: #issuedToAgent# | Remarks: #permit_remarks#
 						</div>
 						<div class="col-12">
 							<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
