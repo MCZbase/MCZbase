@@ -350,21 +350,19 @@ limitations under the License.
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
 											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
-														<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 													<button type='button' 
-														class='delBtn btn btn-xs btn-warning mr-1' 
+														class='btn btn-xs btn-warning' 
 														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
 														value='Remove Permit'>Remove</button>
 													<cfif theResult.recordcount GT 1>
 													<!--- add the option to copy/move the permit if there is more than one shipment --->
 														<button type='button' 
 															onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
-															class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
+															class='btn btn-xs btn-warning' value='Move'>Move</button>
 														<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
-												</cfif>
-												</li>
-											</ul>
-										</li>
+													</cfif>
+											</li>
 									</cfloop>
 									</ul>
 									<cfif shippermit.recordcount eq 0>
