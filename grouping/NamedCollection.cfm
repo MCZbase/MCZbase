@@ -580,13 +580,14 @@ limitations under the License.
 					</div>
 					</section>
 					<section role="search" aria-labelledby="guid_list_label" class="container my-2">
+						<h2 class="h3">Add Catalog Items to Named Group</h2>
 						<div class="row border rounded mb-2" >
 							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
-							<div class="form-row mb-2">
-								<div class="col-md-10">
-									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this collection (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+							<div class="col-12 col-md-12 form-row px-4 mb-2">
+								<div class="col-10 col-md-10">
+									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this group (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 								</div>
@@ -622,7 +623,7 @@ limitations under the License.
 										});
 									};
 								</script>
-								<div class="col-md-2">
+								<div class="col-2 col-md-2">
 									<div id="addResultDiv">&nbsp;</div>
 									<input type="button" id="addbutton"
 											value="Add" title="Add" aria-label="Add"
