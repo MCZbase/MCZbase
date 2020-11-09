@@ -116,7 +116,7 @@
 				</div>
 			</div><!--- accordion --->
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
-			<div class="col-12">
+			<div class="accordion w-100" id="accordionForSpecies">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
@@ -128,15 +128,38 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif d.recordcount gt 0>
-					<br>Included Species (#d.recordcount#):
+				<cfif d.recordcount LT 21 >
+					<cfset collapsed = "">
+					<cfset collapseshow = "collapse show">
+				<cfelse>
+					<cfset collapsed = "collapsed">
+					<cfset collapseshow = "collapse">
 				</cfif>
-				<ul>
-					<cfloop query="d">
-						<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
-					</cfloop>
-				</ul>
-			</div>
+				<div class="card mb-2">
+					<div class="card-header w-100" id="speciesHeadingPart">
+						<h2 class="h4 my-0 float-left">  
+							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseSpecies">
+								Included Species (#qsubspecies.recordcount# subspecies, #d.recordcount#): 
+							</a>
+						</h2>
+					</div>
+					<div class="card-body px-3 py-0">
+						<div id="collapseSpecies" class="#collapseshow#" aria-labelledby="headingPart" data-parent="##accordionForSpecies">
+							<div class="row">
+								<div class="col-12 col-lg-6">
+									<cfif d.recordcount EQ 0>No</cfif>
+									<br>Included Species:
+									<ul>
+										<cfloop query="d">
+											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div> <!--- collapseSpecies --->
+				</div>
+			</div><!--- accordion --->
 		</cfif>
 	</cfif>
 </cfoutput>
