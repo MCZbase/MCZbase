@@ -476,16 +476,16 @@ limitations under the License.
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
-									<div class="col-md-12">
+									<div class="col-12 col-md-12">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-12">
+									<div class="col-12 col-md-12">
 										<label for="description" id="description_label" class="data-entry-label">Description (<span id="length_description"></span>)</label>
-										<textarea id="description" name="description" class="data-entry-textarea mt-1 autogrow"
+										<textarea id="description" name="description" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('description',4000,'length_description');"
 												rows="3" aria-labelledby="description_label" >#description#</textarea>
 									</div>
