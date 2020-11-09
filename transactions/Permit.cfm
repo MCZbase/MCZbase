@@ -729,8 +729,10 @@ limitations under the License.
 						<div class="form-row my-2">
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_by_agent_name" class="data-entry-label">Issued By:</label>
-									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_by_agent_name" class="data-entry-label">
+										Issued By:
+										<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -740,7 +742,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
 								<script>
-									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',null));
+									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',#IssuedByAgent#));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4">
