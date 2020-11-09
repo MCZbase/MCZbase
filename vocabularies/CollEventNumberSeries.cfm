@@ -320,12 +320,12 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<main id="content">
-			<section class="container" aria-labelledby="formheading">
-				<div class="row">
+			<main class="container mt-3" id="content">
+				<section class="row" aria-labelledby="formheading">
 					<div class="col-12">
-						<h1 class="h2" id="formheading">New Collecting Event Number Series</h1>
-						<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
+						<h1 class="h2 pl-2 ml-2" id="formheading">New Collecting Event Number Series</h1>
+						<div class="border rounded px-2 pt-2">
+							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
 								<div class="col-12 col-md-6">
@@ -379,9 +379,10 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
+						</div>
 					</div><!--- col --->
-				</div><!--- row --->
-			</section><!--- container --->
+				</section>
+			</main>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
