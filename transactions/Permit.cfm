@@ -1174,7 +1174,7 @@ limitations under the License.
 			<cfthrow message="Error: permit use report invoked without a permit_id. Go back and try again">
  		</cfif>
 	 	<cfoutput>
-			<main id="content" class="container">
+			<main id="content">
 				<cfquery name="permitInfo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select permit.permit_id,
 					issuedBy.agent_name as IssuedByAgent,
@@ -1204,9 +1204,10 @@ limitations under the License.
 					and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					order by permit_id
 				</cfquery>
-				<h1 class="h3">Use Report for Permissions &amp; Rights Document</h1>
+				<h1 class="h2 mt-2">Use Report for Permissions &amp; Rights Document</h1>
+				<section class="container-fluid">
 				<cfloop query="permitInfo">
-					<div class="row">
+					<div class="form-row">
 						<div class="col-12">
 							<h2 class="h3">#permit_Type# #permit_num# #permit_title#</h2>
 						</div>
@@ -1217,10 +1218,10 @@ limitations under the License.
 							<button type="button" class="btn btn-xs btn-primary" id="displayReportButton" >Display Detailed Report</button>
 							<a class="btn btn-xs btn-secondary" href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#">Edit This Permissions &amp; Rights Document</a>
 							<a class="btn btn-xs btn-secondary ml-2" href="/Reports/permit.cfm?permit_id=#permit_id#">(Old) Permit Use Report</a>
+							</div>
 						</div>
-					</div>
-				</cfloop>
-				<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					</cfloop>
+					<cfquery name="permituse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
 						concat('editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
@@ -1357,32 +1358,31 @@ limitations under the License.
 						where trans.transaction_type = 'borrow'
 							and permit_shipment.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 				</cfquery>
-				
-					
+					</div>
+				</section>	
 
 				<!--- Results table as a jqxGrid. --->
-				<div class="container-fluid">
+				<section class="container-fluid">
 					<div class="row mx-0">
 						<div class="col-12 mb-5">
-							<section>
-								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-									<h2 class="h4">Report: </h2>
-									<span class="d-block px-3 p-2" tabindex="0" id="resultCount"></span> <span id="resultLink" tabindex="0" class="d-block p-2"></span>
-									<div id="columnPickDialog">
-										<div id="columnPick" class="px-1"></div>
-									</div>
-									<div id="columnPickDialogButton"></div>
-									<div id="resultDownloadButtonContainer"></div>
+							<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+								<h2 class="h4">Report: </h2>
+								<span class="d-block px-3 p-2" tabindex="0" id="resultCount"></span> <span id="resultLink" tabindex="0" class="d-block p-2"></span>
+								<div id="columnPickDialog">
+									<div id="columnPick" class="px-1"></div>
 								</div>
-								<div class="row mt-0">
-									<!--- Grid Related code is below along with search handlers --->
-									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-									<div id="enableselection"></div>
-								</div>
+								<div id="columnPickDialogButton"></div>
+								<div id="resultDownloadButtonContainer"></div>
+							</div>
+							<div class="row mt-0">
+								<!--- Grid Related code is below along with search handlers --->
+								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+								<div id="enableselection"></div>
+							</div>
 							</section>
 						</div>
 					</div>
-				</div>
+				</section>
 				<script>
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
@@ -1600,11 +1600,11 @@ limitations under the License.
 					}
 				</script>
 
-
-				<div id="permitsusedin" class="row">
-					<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
-					<table>
-						<tr>
+				<section class="container-fluid"
+					<div id="permitsusedin" class="row">
+						<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
+						<table class="table table-responsive d-table">
+						<thead class="thead-light">
 							<th>Transaction</th>
 							<th>Type</th>
 							<th>Date</th>
@@ -1620,7 +1620,8 @@ limitations under the License.
 							<th>Catalog&nbsp;Number</th>
 							<th>From&nbsp;Institution</th>
 							<th>To&nbsp;Institution</th>
-						</tr>
+						</thead>
+						<tbody>
 						<cfloop query="permituse">
 							<tr>
 								<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
@@ -1640,8 +1641,10 @@ limitations under the License.
 								<td>#toinstitution#</td>
 							</tr>
 						</cfloop>
+						</tbody>
 					</table>
-				</div>
+					</div>
+				</section>
 				<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						count(cataloged_item.collection_object_id) as cat_count,
@@ -1672,8 +1675,8 @@ limitations under the License.
 						<cfif permitsalvagereport.RecordCount eq 0>
 							<strong>No accessions for this Permissions &amp; Rights Document</strong>
 	 					<cfelse>
-							<table>
-								<tr>
+							<table class="table table-responsive d-table">
+								<thead class="thead-light">
 									<th>Specimen&nbsp;Count</th>
 									<th>Collection</th>
 									<th>Country</th>
@@ -1682,7 +1685,8 @@ limitations under the License.
 									<th>Scientific&nbsp;Name</th>
 									<th>Common&nbsp;Name</th>
 									<th>Parts</th>
-								</tr>
+								</thead>
+								<tbody>
 								<cfloop query="permitsalvagereport">
 									<tr>
 										<td>#spec_count#</td>
@@ -1695,6 +1699,7 @@ limitations under the License.
 										<td>#parts#</td>
 									</tr>
 								</cfloop>
+								</tbody>
 							</table>
 						</cfif>
 					</div>
