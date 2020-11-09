@@ -344,7 +344,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the relationships f
 						</cfloop>
 					</ul>
 				<cfelse>
-					<ul><li>No Taxon Relationships</li></ul>
+					<ul class="px-4 list-style-disc"><li>No Taxon Relationships</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -723,7 +723,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the common names fo
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<ul><li>No Common Names Entered</li></ul>
+					<ul class="px-4 list-style-disc"><li>No Common Names Entered</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
