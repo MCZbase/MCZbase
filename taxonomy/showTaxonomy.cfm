@@ -20,8 +20,8 @@
 				<cfoutput>
 					<div class="row mx-0 alert alert-danger border px-4">
 						<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
-						<p>These may be homonyms or duplicate taxon records.</p>
-						<div>
+						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
+						<div class="col-12">
 							<ul>
 								<cfset tnid = -1>
 								<cfloop query="getTID">
@@ -123,8 +123,8 @@
 				<cfoutput>
 					<div class="row border border-danger border bg-light px-2 ">
 						<h1 class="h3">More than one taxonomy record in MCZbase matches the name string of the requested taxon.</h1>
-						<p>These may be homonyms or duplicate taxon records.</p>
-						<div>
+						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
+						<div class="col-12">
 							<ul>
 								<cfloop query="getHomonyms">
 									<cfif getHomonyms.taxon_name_id EQ tnid>
