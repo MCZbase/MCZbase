@@ -467,9 +467,10 @@ limitations under the License.
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
 				<!--- save name for later use outside this output section --->
-				<main class="container py-3" id="content">
-						<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
-					<section class="row border rounded my-2 px-1 pt-1 pb-2" aria-labelledby="formheading">
+				<main id="content">
+					<section class="container my-2">
+						<h1 class="h2 ml-1" id="formheading"> Edit Named Group of Cataloged Items</h1>
+					<div class="row border rounded my-2 px-1 pt-1 pb-2" aria-labelledby="formheading">
 						<div class="col-12">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
@@ -507,7 +508,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text small bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control border-right data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
 										<script>
@@ -576,8 +577,9 @@ limitations under the License.
 								</div>
 							</form>
 						</div>
+					</div>
 					</section>
-					<section role="search" aria-labelledby="guid_list_label" class="row border p-2 mb-3" >
+					<section role="search" aria-labelledby="guid_list_label" class="row border rounded mb-2" >
 						<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
@@ -674,7 +676,7 @@ limitations under the License.
 									});
 								}
 							</script>
-							<section class="border rounded row">
+							<div class="border rounded row">
 								<div class="col-12 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 									<cfif undCollUse_result.recordcount EQ 0>
 										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
