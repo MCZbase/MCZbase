@@ -500,8 +500,10 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_by_agent_name">Issued By:</label>
-									<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_by_agent_name" class="data-entry-label">
+										Issued By:
+										<span id="issued_by_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -516,8 +518,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_to_agent_name">Issued To:</label>
-									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_to_agent_name" class="data-entry-label">
+										Issued To:
+										<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -532,8 +536,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="contact_agent_name">Contact Person:</label>
-									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="contact_agent_name" class="data-entry-label">
+										Contact Person:
+										<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -747,8 +753,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="issued_to_agent_name" class="data-entry-label">Issued To:</label>
-									<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="issued_to_agent_name" class="data-entry-label">
+										Issued To:
+										<span id="issued_to_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -763,8 +771,10 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<span>
-									<label for="contact_agent_name" class="data-entry-label">Contact Person:</label>
-									<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="contact_agent_name" class="data-entry-label">
+										Contact Person:
+										<span id="contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									</label>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -887,13 +897,13 @@ limitations under the License.
 					</form>
 				</section>
 				<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-					<section name="permitMediaSection" class="row mx-0 bg-light border rounded my-2">
+					<section name="permitMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
 						<div class="col-12">
 							<!---  Show/add media copy of permit  (shows permit) --->
 							<div id="copyofpermit"><img src='images/indicator.gif'></div>
 						</div>
 					</section>
-					<section name="associatedMediaSection" class="mx-0 bg-light row border pb-3 rounded my-2">
+					<section name="associatedMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
 						<div class="col-12">
 							<!---  list/add media copy of associated documents (document for permit) --->
 							<div id="associateddocuments"><img src='images/indicator.gif'></div>
