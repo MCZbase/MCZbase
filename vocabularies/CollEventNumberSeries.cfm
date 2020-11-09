@@ -466,7 +466,7 @@ limitations under the License.
 									<div class="form-row mb-2">
 										<div class="col-md-12">
 											<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
-											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1 autogrow"
+											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
 										</div>
