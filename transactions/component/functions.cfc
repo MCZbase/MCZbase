@@ -296,7 +296,7 @@ limitations under the License.
 					</script>
 						
 					<div class='shipments bg-white border my-2'>
-						<table class='table table-responsive d-table mb-0'>
+						<table class='table table-responsive d-md-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>
 								<tr>
@@ -307,7 +307,7 @@ limitations under the License.
 								</tr>
 							</tbody>
 						</table>
-						<table class='table table-responsive d-table'>
+						<table class='table table-responsive d-md-table'>
 							<thead class='thead-light'><tr><th>Shipped To:</th><th>Shipped From:</th></tr></thead>
 							<tbody>
 								<tr>
