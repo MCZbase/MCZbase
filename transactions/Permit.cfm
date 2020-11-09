@@ -740,9 +740,9 @@ limitations under the License.
 									</div>
 									<input name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required value="#IssuedByAgent#" >
 								</div>
-								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="IssuedByAgentID" >
+								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" value="#IssuedByAgentID#" >
 								<script>
-									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',#IssuedByAgent#));
+									$(makeRichTransAgentPicker('issued_by_agent_name','issued_by_agent_id','issued_by_agent_icon','issued_by_agent_view',#IssuedByAgentId#));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4">
@@ -758,7 +758,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" value="#IssuedToAgentID#" >
 								<script>
-									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',null));
+									$(makeRichTransAgentPicker('issued_to_agent_name','issued_to_agent_id','issued_to_agent_icon','issued_to_agent_view',#IssuedToAgentID#));
 								</script> 
 							</div>
 							<div class="col-12 col-md-4">
@@ -774,7 +774,7 @@ limitations under the License.
 								</div>
 								<input type="hidden" name="contact_agent_id" id="contact_agent_id" value="#contact_agent_id#" >
 								<script>
-									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',null));
+									$(makeRichTransAgentPicker('contact_agent_name','contact_agent_id','contact_agent_icon','contact_agent_view',#contact_agent_id#));
 								</script> 
 							</div>
 						</div>
