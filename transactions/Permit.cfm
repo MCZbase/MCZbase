@@ -1204,14 +1204,15 @@ limitations under the License.
 					and permit_id=<cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					order by permit_id
 				</cfquery>
-				<h1 class="h2 mt-2">Use Report for Permissions &amp; Rights Document</h1>
+				
 				<section class="container-fluid">
+					<h1 class="h2 mt-2">Use Report for Permissions &amp; Rights Document</h1>
 				<cfloop query="permitInfo">
 					<div class="form-row">
 						<div class="col-12">
-							<h2 class="h3">#permit_Type# #permit_num# #permit_title#</h2>
+							<h2 class="h3 mb-0">#permit_Type# #permit_num# #permit_title#</h2>
 						</div>
-						<div class="col-12">
+						<div class="col-12 mb-2">
 							Issued: #issued_date# | Expires: #exp_Date# | Renewed: #renewed_Date# | Issued By: #issuedByAgent# | Issued To: #issuedToAgent# | Remarks: #permit_remarks#
 						</div>
 						<div class="col-12">
