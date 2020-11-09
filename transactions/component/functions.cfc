@@ -227,7 +227,7 @@ limitations under the License.
 		</cfquery>
 		<cfoutput>
 			<cfif query.recordcount gt 0>
-				<ul class='px-4 list-style-disc mt-2'>
+				<ul class='pl-4 pr-0 list-style-disc mt-2'>
 				<cfloop query="query">
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<li class='mb-2'>
@@ -328,7 +328,7 @@ limitations under the License.
 						<div class='shippermitstyle' tabindex="0">
 							<h4 class='font-weight-bold mb-0'>Permits:</h4>
 							<div class='permitship pb-2'>
-								<ul id='permits_ship_#shipment_id#' tabindex="0" class="list-style-disc px-4">
+								<ul id='permits_ship_#shipment_id#' tabindex="0" class="list-style-disc pl-4 pr-0">
 									<cfloop query="shippermit">
 										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media.media_id, media_uri, preview_uri, media_type,
@@ -366,7 +366,7 @@ limitations under the License.
 									</cfloop>
 									</ul>
 									<cfif shippermit.recordcount eq 0>
-										<ul class="list-style-disc px-4 mt-1"><li class="my-2">None</li></ul>
+										<ul class="list-style-disc pl-4 pr-0 mt-1"><li class="my-2">None</li></ul>
 									</cfif>
 								</span>
 							</div>
@@ -3743,7 +3743,7 @@ limitations under the License.
 				
 						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul class="col-12 mx-0 px-4 list-style-disc">
+							<ul class="col-12 mx-0 pl-4 pr-0 list-style-disc">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
