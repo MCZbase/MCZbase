@@ -328,7 +328,7 @@ limitations under the License.
 						<div class='shippermitstyle' tabindex="0">
 							<h4 class='font-weight-bold mb-0'>Permits:</h4>
 							<div class='permitship pb-2'>
-								<span id='permits_ship_#shipment_id#' tabindex="0">
+								<ul id='permits_ship_#shipment_id#' tabindex="0" class="list-style-disc px-4">
 									<cfloop query="shippermit">
 										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select media.media_id, media_uri, preview_uri, media_type,
@@ -349,33 +349,34 @@ limitations under the License.
 											</cfif>
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
-										<ul class='permitshipul mb-0'>
-											<li>
-												<span>#mediaLink# #permit_type# #permit_Num#</span>
-											</li>
-											<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li>
-										</ul>
-										<ul class='permitshipul2'>
-											<li>
-												<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
-											</li>
-											<li>
-												<button type='button' 
-													class='delBtn btn btn-xs btn-warning mr-1' 
-													onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
-													value='Remove Permit'>Remove</button>
-											</li>
-											<cfif theResult.recordcount GT 1>
-												<!--- add the option to copy/move the permit if there is more than one shipment --->
+										<li class="my-1">
+											<ul class='permitshipul mb-0 '>
 												<li>
-													<button type='button' 
-														onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
-														class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
-													<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+													<span>#mediaLink# #permit_type# #permit_Num#</span>
 												</li>
-											</cfif>
-										</ul>
+												<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'> #IssuedByAgent#</li>
+											</ul>
+										</li>
+										<li class="my-1">
+											<ul class='permitshipul2'>
+												<li>
+													<button type='button' class='savBtn btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+													<button type='button' 
+														class='delBtn btn btn-xs btn-warning mr-1' 
+														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
+														value='Remove Permit'>Remove</button>
+													<cfif theResult.recordcount GT 1>
+													<!--- add the option to copy/move the permit if there is more than one shipment --->
+														<button type='button' 
+															onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
+															class='lnkBtn btn btn-xs btn-warning' value='Move'>Move</button>
+														<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+												</cfif>
+												</li>
+											</ul>
+										</li>
 									</cfloop>
+									</ul>
 									<cfif shippermit.recordcount eq 0>
 										<ul class="list-style-disc px-4 mt-1"><li class="my-2">None</li></ul>
 									</cfif>
