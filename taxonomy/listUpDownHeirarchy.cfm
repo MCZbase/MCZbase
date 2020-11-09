@@ -139,7 +139,7 @@
 					<div class="card-header w-100" id="speciesHeadingPart">
 						<h2 class="h4 my-0 float-left">  
 							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseSpecies">
-								Included Species (#qsubspecies.recordcount# subspecies, #d.recordcount#): 
+								Included Species (#d.recordcount#): 
 							</a>
 						</h2>
 					</div>
