@@ -256,10 +256,10 @@ limitations under the License.
 			<cfelse>
 				<cfset hasTaxonID = false>
 			</cfif>
-			<span tabindex="0">
+			<div>
 				<a class="btn btn-info btn-xs" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
-				<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
-			</span>
+				<span tabindex="0"><em> Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#</span>
+			</div>
 			<section class="row border rounded my-2 px-1 pt-1 pb-2">
 				<form class="col-12" name="taxon_form" method="post" action="/taxonomy/Taxonomy.cfm" id="taxon_form">
 					<div class="row my-1">
