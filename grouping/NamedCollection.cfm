@@ -586,7 +586,7 @@ limitations under the License.
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 							<div class="form-row mx-0 my-2">
-								<div class="col-10 col-md-10">
+								<div class="col-12 col-md-10">
 									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this group (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
@@ -623,7 +623,7 @@ limitations under the License.
 										});
 									};
 								</script>
-								<div class="col-2 col-md-2">
+								<div class="col-12 col-md-2">
 									<div id="addResultDiv">&nbsp;</div>
 									<input type="button" id="addbutton"
 											value="Add" title="Add" aria-label="Add"
