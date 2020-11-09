@@ -256,7 +256,7 @@ limitations under the License.
 			<cfelse>
 				<cfset hasTaxonID = false>
 			</cfif>
-			<span>
+			<span tabindex="0">
 				<a class="btn btn-info btn-xs" href="/name/#getTaxa.scientific_name#" target="_blank">View Details</a>
 				<em>Placed in:</em> #ListDeleteAt(getTaxa.full_taxon_name,ListLen(getTaxa.full_taxon_name," ")," ")#
 			</span>
