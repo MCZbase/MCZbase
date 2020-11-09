@@ -585,7 +585,7 @@ limitations under the License.
 							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl" class="col-12">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
-							<div class="form-row mx-0 mb-2">
+							<div class="form-row mx-0 my-2">
 								<div class="col-10 col-md-10">
 									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this group (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
