@@ -370,7 +370,7 @@ limitations under the License.
 								$('##remarks').keyup(autogrow);
 							</script>
 							<div class="form-row mb-0">
-								<div class="col-12 col-md-12 my-3 my-2">   								
+								<div class="col-12 col-md-12 my-2">   								
 									<input type="button" 
 										value="Create" title="Create" aria-label="Create"
 										class="btn btn-xs btn-primary"
