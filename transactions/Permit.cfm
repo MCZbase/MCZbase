@@ -1603,23 +1603,25 @@ limitations under the License.
 				<section class="container-fluid"
 					<div id="permitsusedin" class="row">
 						<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
-						<table class="table table-responsive d-table">
+						<table class="table table-responsive table-light d-table table-striped table-sm">
 						<thead class="thead-light">
-							<th>Transaction</th>
-							<th>Type</th>
-							<th>Date</th>
-							<th>Ship&nbsp;Date</th>
-							<th>Collection</th>
-							<th>Sovereign&nbsp;Nation</th>
-							<th>Country</th>
-							<th>State/Province</th>
-							<th>County</th>
-							<th>Scientific&nbsp;Name</th>
-							<th>Common&nbsp;Name</th>
-							<th>Preparations</th>
-							<th>Catalog&nbsp;Number</th>
-							<th>From&nbsp;Institution</th>
-							<th>To&nbsp;Institution</th>
+							<tr>
+								<th>Transaction</th>
+								<th>Type</th>
+								<th>Date</th>
+								<th>Ship&nbsp;Date</th>
+								<th>Collection</th>
+								<th>Sovereign&nbsp;Nation</th>
+								<th>Country</th>
+								<th>State/Province</th>
+								<th>County</th>
+								<th>Scientific&nbsp;Name</th>
+								<th>Common&nbsp;Name</th>
+								<th>Preparations</th>
+								<th>Catalog&nbsp;Number</th>
+								<th>From&nbsp;Institution</th>
+								<th>To&nbsp;Institution</th>
+							</tr>
 						</thead>
 						<tbody>
 						<cfloop query="permituse">
@@ -1677,14 +1679,16 @@ limitations under the License.
 	 					<cfelse>
 							<table class="table table-responsive d-table">
 								<thead class="thead-light">
-									<th>Specimen&nbsp;Count</th>
-									<th>Collection</th>
-									<th>Country</th>
-									<th>State</th>
-									<th>County</th>
-									<th>Scientific&nbsp;Name</th>
-									<th>Common&nbsp;Name</th>
-									<th>Parts</th>
+									<tr>
+										<th>Specimen&nbsp;Count</th>
+										<th>Collection</th>
+										<th>Country</th>
+										<th>State</th>
+										<th>County</th>
+										<th>Scientific&nbsp;Name</th>
+										<th>Common&nbsp;Name</th>
+										<th>Parts</th>
+									</tr>
 								</thead>
 								<tbody>
 								<cfloop query="permitsalvagereport">
