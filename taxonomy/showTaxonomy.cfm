@@ -352,14 +352,14 @@
 				<div>
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps">#one.AUTHOR_TEXT#</span> <strong>#one.taxon_status#</strong></h1>
+						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal smaller">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
 						<cfif len(one.AUTHOR_TEXT) gt 0>
-							<cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#">
+							<span class="sm-caps font-weight-normal small"><cfset metaDesc=metaDesc & "; Author: #one.AUTHOR_TEXT#"></span>
 						</cfif>
 					<cfelseif #one.VALID_CATALOG_TERM_FG# is 0>
-						<h1 class="h2 mt-3">#one.display_name# <span class="sm-caps">#one.AUTHOR_TEXT#</span> <strong>#one.taxon_status#</strong></h1>
+						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal smaller">#one.taxon_status#</span></h1>
 						<br>
-						<span class="text-danger">This name is not accepted for current identifications. </span>
+						<span class="text-danger h3" tabindex="0">This name is not accepted for current identifications. </span>
 					</cfif>
 				</div>
 			
