@@ -680,7 +680,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="border rounded row">
-								<div class="col-12 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
+								<div class="col-12 px-4 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 									<cfif undCollUse_result.recordcount EQ 0>
 										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
 										<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
