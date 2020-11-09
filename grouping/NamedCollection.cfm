@@ -467,10 +467,10 @@ limitations under the License.
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
 				<!--- save name for later use outside this output section --->
-				<main class="container">
-					<section class="row" aria-labelledby="formheading" class="border p-2 mb-3">
+				<main class="container py-3" id="content">
+						<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
+					<section class="row border rounded my-2 px-1 pt-1 pb-2" aria-labelledby="formheading">
 						<div class="col-12">
-							<h1 class="h2 ml-3" id="formheading"> Edit named group of cataloged items.</h1>
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
@@ -577,7 +577,7 @@ limitations under the License.
 							</form>
 						</div>
 					</section>
-					<section role="search" aria-labelledby="guid_list_label" class="border p-2 mb-3" >
+					<section role="search" aria-labelledby="guid_list_label" class="row border p-2 mb-3" >
 						<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
@@ -630,7 +630,7 @@ limitations under the License.
 							</div>
 						</form>
 					</section>
-				</main>
+				
 				<cfif undColl_result.recordcount GT 0>
 					<!--- list specimens in the collection, link out by guid --->
 					<cfquery name="undCollUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="undCollUse_result">
@@ -674,7 +674,7 @@ limitations under the License.
 									});
 								}
 							</script>
-							<div class="row">
+							<section class="border rounded row">
 								<div class="col-12 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 									<cfif undCollUse_result.recordcount EQ 0>
 										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
@@ -693,9 +693,9 @@ limitations under the License.
 										</form>
 									<cfelse>
 										<h2 class="h3" id="existingvalues">Cataloged items in this named collection (#undCollUse_result.recordcount#)</h2>
-										<ul>
+										<ul class="list-style-disc px-4">
 											<cfloop query="undCollUse">
-												<li>
+												<li class="my-1">
 													<a href="/guid/#undCollUse.guid#" target="_blank">#undCollUse.guid#</a>
 													<button class="btn-xs btn-warning mx-1" onclick="removeUndRelation(#undCollUse.underscore_relation_id#);">Remove</button>
 												</li>
