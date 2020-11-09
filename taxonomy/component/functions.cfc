@@ -236,7 +236,7 @@ limitations under the License.
 			taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 	</cfquery>
 	<cfloop query="getTaxon">
-		<cfset result="#getTaxon.display_name# <span class='sm-caps font-weight normal small'>#getTaxon.author_text#</span>">
+		<cfset result="#getTaxon.display_name# <span class='sm-caps font-weight normal small90'>#getTaxon.author_text#</span>">
 	</cfloop>
 	<cfreturn result>
 </cffunction>
