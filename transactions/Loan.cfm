@@ -721,7 +721,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() { 
 										$('##agentTableContainerDiv').on('domChanged',function() {
-											console.log("dom Cchange within agentTableContainerDiv");
+											console.log("dom change within agentTableContainerDiv");
 											monitorForChanges('editLoanForm',handleChange);
 										});
 									});
@@ -847,7 +847,7 @@ limitations under the License.
 											} else {
 												message = jqXHR.responseText;
 											}
-											messageDialog('Error saving taxon record: '+message, 'Error: '+error.substring(0,50));
+											messageDialog('Error saving transaction record: '+message, 'Error: '+error.substring(0,50));
 										}
 									});
 								};

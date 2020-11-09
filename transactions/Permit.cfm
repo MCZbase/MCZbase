@@ -868,14 +868,55 @@ limitations under the License.
 								// trigger keyup event to size textareas to existing text
 								$('textarea.autogrow').keyup();
 							});
+							function handleChange(){
+								$('##saveResultDiv').html('Unsaved changes.');
+								$('##saveResultDiv').addClass('text-danger');
+								$('##saveResultDiv').removeClass('text-success');
+								$('##saveResultDiv').removeClass('text-warning');
+							};
 						</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
-								<!--- TODO: Ajax action for save --->
 								<input type="button" value="Save" class="btn btn-xs btn-primary"
 									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
 									id="submitButton" >
-									<!--- TODO: Refactor/fix/remove Headless use --->
+								<script>
+									function saveEdits(){ 
+										$('##saveResultDiv').html('Saving....');
+										$('##saveResultDiv').addClass('text-warning');
+										$('##saveResultDiv').removeClass('text-success');
+										$('##saveResultDiv').removeClass('text-danger');
+										jQuery.ajax({
+											url : "/transactions/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##editPermitForm').serialize(),
+											success : function (data) {
+												$('##saveResultDiv').html('Saved.');
+												$('##saveResultDiv').addClass('text-success');
+												$('##saveResultDiv').removeClass('text-danger');
+												$('##saveResultDiv').removeClass('text-warning');
+											},
+											error: function(jqXHR,textStatus,error){
+												$('##saveResultDiv').html('Error.');
+												$('##saveResultDiv').addClass('text-danger');
+												$('##saveResultDiv').removeClass('text-success');
+												$('##saveResultDiv').removeClass('text-warning');
+												var message = "";
+												if (error == 'timeout') {
+													message = ' Server took too long to respond.';
+												} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+													message = ' Backing method did not return JSON.';
+												} else {
+													message = jqXHR.responseText;
+												}
+												messageDialog('Error saving permit record: '+message, 'Error: '+error.substring(0,50));
+											}
+										});
+									};
+								</script>
+								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
+								<!--- TODO: Refactor/fix/remove Headless use --->
 								<cfif isdefined("headless") and headless EQ 'true' >
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
@@ -890,6 +931,11 @@ limitations under the License.
 									onClick=" confirmDialog('Delete this permissions and rights document record?','Confirm Delete Permit', submitDeletePermit ); ">
 							</div>
 						</div>
+						<script>
+							$(document).ready(function() {
+								monitorForChanges('editPermitForm',changeFunction);
+							});
+						</script>
 					</form>
 					<form id="deletePermitForm" action="/transactions/Permit.cfm" method="POST">
 						<input type="hidden" name="action" value="delete">
