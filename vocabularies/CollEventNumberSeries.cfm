@@ -353,9 +353,9 @@ limitations under the License.
 									</span>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<span class="input-group-text small" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											<span class="input-group-text smaller" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
-										<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm rounded-right" value="" aria-label="This is a number series of collector: " >
+										<input name="collector_agent_name" id="collector_agent_name" class="form-control data-entry-input rounded-right" value="" aria-label="This is a number series of collector: " >
 										<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="" >
 									</div>
 									<script>
