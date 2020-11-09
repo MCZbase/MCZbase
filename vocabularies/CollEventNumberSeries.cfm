@@ -324,7 +324,7 @@ limitations under the License.
 				<section class="row" aria-labelledby="formheading">
 					<div class="col-12">
 						<h1 class="h2 pl-2 ml-2" id="formheading">New Collecting Event Number Series</h1>
-						<div class="border rounded px-2 pt-2">
+						<div class="border rounded px-3 py-2">
 							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 							<input type="hidden" id="action" name="action" value="saveNew" >
 							<div class="form-row mb-2">
@@ -369,7 +369,7 @@ limitations under the License.
 							<script>
 								$('##remarks').keyup(autogrow);
 							</script>
-							<div class="form-row mb-5">
+							<div class="form-row mb-0">
 								<div class="col-12 col-md-12 my-3 my-2">   								
 									<input type="button" 
 										value="Create" title="Create" aria-label="Create"
