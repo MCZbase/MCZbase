@@ -470,8 +470,8 @@ limitations under the License.
 				<main id="content">
 					<section class="container my-2">
 						<h1 class="h2 ml-1" id="formheading"> Edit Named Group of Cataloged Items</h1>
-					<div class="row border rounded my-2 px-1 pt-1 pb-2" aria-labelledby="formheading">
-						<div class="col-12">
+					<div class="row border rounded my-2 px-1 pt-1 pb-1" aria-labelledby="formheading">
+						<div class="col-12 mt-2">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
