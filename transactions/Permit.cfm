@@ -929,7 +929,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() {
-								monitorForChanges('editPermitForm',changeFunction);
+								monitorForChanges('editPermitForm',handleChange);
 							});
 						</script>
 					</form>
