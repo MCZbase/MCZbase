@@ -897,13 +897,13 @@ limitations under the License.
 					autoOpen: false,
 					modal: true, 
 					reszable: true, 
-					buttons: { 
-						[ {
+					buttons: [
+						{
 							text: "Ok",
 							click: function(){ $(this).dialog("close"); },
 							tabindex: 0
-						} ]
-					},
+						}
+					],
 					open: function (event, ui) { 
 						var maxZIndex = getMaxZIndex();
 						// force to lie above the jqx-grid-cell and related elements, see z-index workaround below
