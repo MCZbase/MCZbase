@@ -209,33 +209,39 @@ limitations under the License.
 	<cfargument name="transaction_id" type="string" required="yes">
 	<cfargument name="transaction_type" type="string" required="yes">
 	<cfset relword="documents">
-	<cfset result="">
-	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct
-			media.media_id as media_id,
-			preview_uri,
-			media.media_uri,
-			media.mime_type,
-			media.media_type as media_type,
-			MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-			nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
-		from
-			media_relations left join media on media_relations.media_id = media.media_id
-		where
-			media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
-			and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
-	</cfquery>
-	<cfif query.recordcount gt 0>
-		<cfset result=result & "<ul>">
-		<cfloop query="query">
-			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { removeMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-		</cfloop>
-		<cfset result= result & "</ul>">
-	<cfelse>
-		<cfset result=result & "<ul><li>None</li></ul>">
-	</cfif>
-	<cfreturn result>
+	<cfthread name="getMediaForTransHtmlThread">
+		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				media.media_id as media_id,
+				preview_uri,
+				media.media_uri,
+				media.mime_type,
+				media.media_type as media_type,
+				MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+				nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
+			from
+				media_relations left join media on media_relations.media_id = media.media_id
+			where
+				media_relationship like <cfqueryparam value="% #transaction_type#" cfsqltype="CF_SQL_VARCHAR">
+				and media_relations.related_primary_key = <cfqueryparam value="#transaction_id#" CFSQLType="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfoutput>
+			<cfif query.recordcount gt 0>
+				<ul class='px-4 list-style-disc mt-2'>
+				<cfloop query="query">
+					<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<li class='mb-2'>
+						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove</a>
+					</li>
+				</cfloop>
+				</ul>
+			<cfelse>
+				<ul><li>None</li></ul>
+			</cfif>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getMediaForTransHtmlThread" />
+	<cfreturn getMediaForTransHtmlThread.output>
 </cffunction>
 
 <!---  Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
@@ -289,7 +295,7 @@ limitations under the License.
 						} 
 					</script>
 						
-					<div class='shipments my-2'>
+					<div class='shipments bg-white border my-2'>
 						<table class='table table-responsive d-table mb-0'>
 							<thead class='thead-light'><th>Ship Date:</th><th>Method:</th><th>Packages:</th><th>Tracking Number:</th></thead>
 							<tbody>
@@ -371,7 +377,7 @@ limitations under the License.
 										</ul>
 									</cfloop>
 									<cfif shippermit.recordcount eq 0>
-										<span>None</span>
+										<ul class="list-style-disc px-4 mt-1"><li class="my-2">None</li></ul>
 									</cfif>
 								</span>
 							</div>
@@ -1731,7 +1737,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="">
+					<ul class="list-style-disc">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
@@ -2553,7 +2559,7 @@ limitations under the License.
 											</select>
 										</td>
 										<td class="text-center">
-											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline">
+											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline position-relative" style="left:0;">
 											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
 										</td>
 										<td>
@@ -2680,17 +2686,17 @@ limitations under the License.
 					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<ul class="list-group">
+				<ul class="px-4 list-style-disc">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="list-group-item py-1">
+							<li class="my-2">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
 							</li>
 						</cfloop>
 					<cfelse>
-						<li class="list-group-item">None</li>
+						<li class="">None</li>
 					</cfif>
 				</ul>
 			</cfoutput>
@@ -3389,7 +3395,7 @@ limitations under the License.
 				<div class="row">
 					<div class="alert alert-danger" role="alert">
 						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
+						<h2 class="h3">Internal Server Error.</h2>
 						<p>#message#</p>
 						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 					</div>
@@ -3587,7 +3593,7 @@ limitations under the License.
 				<div class="row">
 					<div class="alert alert-danger" role="alert">
 						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-						<h2>Internal Server Error.</h2>
+						<h2 class="h3">Internal Server Error.</h2>
 						<p>#message#</p>
 						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 					</div>
@@ -3689,7 +3695,7 @@ limitations under the License.
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
 							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
-							<h2>Internal Server Error.</h2>
+							<h2 class="h3">Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
@@ -3746,9 +3752,9 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 				
-						<h3>#heading# Media</h3>
+						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul>
+							<ul class="col-12 mx-0 px-4 float-left list-style-disc">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
@@ -3756,18 +3762,18 @@ limitations under the License.
 								<cfelse>
 									<cfset altText = query.media_descriptor>
 								</cfif>
-								<li>
-									<a href='#media_uri#'><img src='#puri#' height='50' alt='#media_descriptor#'></a>
-									#mime_type# #media_type# #label_value# 
+								<li class="my-1 float-left">
+									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
+									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
-									<input class='btn btn-xs btn-warning' 
+									<input class='btn btn-xs btn-warning'
 											onClick=' confirmDialog("Remove this media from this permit (#relation#)?", "Confirm Unlink Media", function() { deleteMediaFromPermit(#media_id#,#permit_id#,"#relation#"); } ); event.preventDefault(); ' 
-											value='Remove' style='width: 5em; text-align: center;' >
+											value='Remove' style='width: 5em; text-align: center; padding: .15em .25em;' >
 								</li>
 							</cfloop>
 							</ul>
 						</cfif>
-						<span>
+						<span class="float-left">
 							<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
 								<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
 									value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;

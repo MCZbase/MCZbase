@@ -40,7 +40,7 @@ limitations under the License.
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
-		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3'>Search for media.</h1>
+		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3'>Search for Media</h1>
 		<form id='findMediaForm' onsubmit='return searchformedia(event);' >
 			<input type='hidden' name='method' value='findMediaSearchResults'>
 			<input type='hidden' name='returnformat' value='plain'>
@@ -83,7 +83,7 @@ limitations under the License.
 			
 					<div class='col-12 col-md-12 col-xl-4 pt-xl-0 pt-2 pb-2'>
 						<span class=''>
-							<input type='checkbox' name='unlinked' id='unlinked' value='true'>
+							<input type='checkbox' name='unlinked' id='unlinked' value='true' style='position: relative; left:10px;'>
 							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
 						</span>
 					</div>
