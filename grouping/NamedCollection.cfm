@@ -645,7 +645,7 @@ limitations under the License.
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						order by guid
 					</cfquery>
-						<section class="container mb-3 pt-3">
+						<section class="container my-2">
 							<script>
 								function removeUndRelation(id) { 
 									jQuery.ajax({
