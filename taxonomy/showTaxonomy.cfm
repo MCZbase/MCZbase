@@ -121,7 +121,7 @@
 					WHERE upper(scientific_name) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(lookupNameFromID.scientific_name)#">
 				</cfquery>
 				<cfoutput>
-					<div class="row border border-danger border bg-light px-2 ">
+					<div class="row mx-0 alert alert-danger border px-4">
 						<h1 class="h3">More than one taxonomy record in MCZbase matches the name string of the requested taxon.</h1>
 						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
 						<div class="col-12">
