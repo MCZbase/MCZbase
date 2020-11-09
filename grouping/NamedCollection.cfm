@@ -581,7 +581,7 @@ limitations under the License.
 					</section>
 					<section role="search" aria-labelledby="guid_list_label" class="container my-2">
 						<h2 class="h3">Add Catalog Items to Named Group</h2>
-						<div class="row border rounded mb-2 py-" >
+						<div class="row border rounded mb-2 pb-2" >
 							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl" class="col-12">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
