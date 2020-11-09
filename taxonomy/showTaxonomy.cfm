@@ -349,7 +349,7 @@
 					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 				</cfloop>
 
-				<div>
+				<div class="pb-2">
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
 						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal small">#one.taxon_status#</span></h1>
@@ -358,7 +358,6 @@
 						</cfif>
 					<cfelseif #one.VALID_CATALOG_TERM_FG# is 0>
 						<h1 class="h2 mt-3" tabindex="0">#one.display_name# <span class="sm-caps font-weight-normal small">#one.AUTHOR_TEXT#</span> <span class="font-weight-normal smaller">#one.taxon_status#</span></h1>
-						<br>
 						<span class="text-danger h3" tabindex="0">This name is not accepted for current identifications. </span>
 					</cfif>
 				</div>
