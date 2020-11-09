@@ -796,7 +796,7 @@ limitations under the License.
 						};
 						$( document ).ready(loadTaxonName(#taxon_name_id#,'scientificNameAndAuthor'));
 					</script>
-					<div class="row mt-1 px-1 mb-1">
+					<div class="row mt-1 mb-2">
 						<div class="col-10">
 							<input type="button" 
 								value="Save" title="Save" aria-label="Save"
