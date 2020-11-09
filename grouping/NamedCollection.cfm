@@ -350,12 +350,12 @@ limitations under the License.
 		<cfoutput>
 			<main class="container mt-3">
 				<section class="row">
-					<div class="col-12 mt-1">
+					<div class="col-12">
 						<h1 class="h2 pl-2 ml-2" id="formheading">New named group of cataloged items</h1>
 						<div class="border rounded px-2 pt-2" aria-labelledby="formheading">
 							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post" class="px-2">
 								<input type="hidden" id="action" name="action" value="saveNew" >
-								<div class="form-row mb-2">
+								<div class="form-row mt-2 mb-2">
 									<div class="col-md-12">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
