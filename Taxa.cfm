@@ -898,7 +898,11 @@ limitations under the License.
 					modal: true, 
 					reszable: true, 
 					buttons: { 
-						Ok: function(){ $(this).dialog("close"); }
+						[ {
+							text: "Ok",
+							click: function(){ $(this).dialog("close"); },
+							tabindex: 0
+						} ]
 					},
 					open: function (event, ui) { 
 						var maxZIndex = getMaxZIndex();
