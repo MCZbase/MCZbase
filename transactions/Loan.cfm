@@ -1100,7 +1100,7 @@ limitations under the License.
 								</ul>
 							</section>	
 							<!--- Print permits associated with these accessions --->
-							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 d-block form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-2" tabindex="0">
+							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 d-block form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-3" tabindex="0">
 								<h2 class="h3">
 									Permissions and Rights Documents 
 									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
@@ -1164,7 +1164,7 @@ limitations under the License.
 								</ul>
 								</div>
 								<cfif ListLen(uriList,',',false) gt 0 >
-									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" >PDF of All Permission and Rights documents</a>
+									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" class="font-weight-bold pl-2">PDF of All Permission and Rights documents</a>
 								</cfif>
 							</section>
 						</div>
