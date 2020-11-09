@@ -3,10 +3,6 @@
 </cfif>
 <!--- TODO: Handle Headless (? for dialogs ?) --->
 <cfswitch expression="#action#">
-	<!--- TODO: cases to refactor
-	"permitUseReport">
-	"saveChanges"> to backing method
-	--->
 	<cfcase value="search">
 		<cfset pageTitle = "Find Permissions/Rights Documents">
 	</cfcase>
@@ -881,7 +877,7 @@ limitations under the License.
 									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
 									id="submitButton" >
 								<script>
-									function saveEdits(){ 
+									function saveChanges(){ 
 										$('##saveResultDiv').html('Saving....');
 										$('##saveResultDiv').addClass('text-warning');
 										$('##saveResultDiv').removeClass('text-success');
