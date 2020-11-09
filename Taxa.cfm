@@ -490,7 +490,7 @@ limitations under the License.
 											<label for="tribe" class="data-entry-label align-left-center">Tribe <a href="##" tabindex="-1" class="btn-link" aria-hidden="true" onclick="var e=document.getElementById('tribe');e.value='='+e.value;"> (=) </a></label>
 											<input type="text" class="data-entry-input" id="tribe" name="tribe" value="#tribe#" placeholder="tribe">
 										</div>
-										<div class="col-md-2">
+										<div class="col-md-4">
 											<label for="taxon_remarks" class="data-entry-label align-left-center">Remarks</label>
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
 										</div>
