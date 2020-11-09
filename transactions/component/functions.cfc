@@ -2675,10 +2675,10 @@ limitations under the License.
 					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<ul class="px-4 list-style-disc">
+				<ul class="pl-4 pr-0 list-style-disc">
 					<cfif projs.recordcount gt 0>
 						<cfloop query="projs">
-							<li class="my-2">
+							<li class="my-1">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
 								(#start_date#/#end_date#) #project_trans_remarks#
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
