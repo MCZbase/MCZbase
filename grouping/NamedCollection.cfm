@@ -581,11 +581,11 @@ limitations under the License.
 					</section>
 					<section role="search" aria-labelledby="guid_list_label" class="container my-2">
 						<h2 class="h3">Add Catalog Items to Named Group</h2>
-						<div class="row border rounded mb-2" >
-							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
+						<div class="row border rounded mb-2 py-" >
+							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl" class="col-12">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
-							<div class="col-12 col-md-12 form-row px-4 mb-2">
+							<div class="form-row mx-0 mb-2">
 								<div class="col-10 col-md-10">
 									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this group (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
