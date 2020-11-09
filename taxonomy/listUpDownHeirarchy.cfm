@@ -72,10 +72,15 @@
 					order by
 						scientific_name
 				</cfquery>
+				<cfif qsubspecies.recordcount LT 10 AND qspecies.recordcount LT 10>
+					<cfset collapsed = "">
+				<cfelse>
+					<cfset collapsed = "collapsed">
+				</cfif>
 				<div class="card mb-2">
 					<div class="card-header w-100" id="headingPart">
 						<h2 class="h4 my-0 float-left">  
-							<a class="btn-link text-black collapsed" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
+							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
 								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species): 
 							</a>
 						</h2>
@@ -83,6 +88,16 @@
 					<div class="card-body px-3 py-0">
 						<div id="collapseRelatedTaxa" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
 							<div class="row">
+								<div class="col-12 col-lg-6">
+									<br>
+									<cfif qspecies.recordcount EQ 0>No</cfif>
+									Related Species:
+									<ul>
+										<cfloop query="qspecies">
+											<li><a href="/name/#scientific_name#">#display_name#</a></li>
+										</cfloop>
+									</ul>
+								</div>
 								<div class="col-12 col-lg-6">
 									<br>
 									<cfif qsubspecies.recordcount EQ 0>No</cfif>
@@ -93,21 +108,11 @@
 										</cfloop>
 									</ul>
 								</div>
-								<div class="col-12 col-lg-6">
-									<br>
-									<cfif qsupecies.recordcount EQ 0>No</cfif>
-									Related Species:
-									<ul>
-										<cfloop query="qspecies">
-											<li><a href="/name/#scientific_name#">#display_name#</a></li>
-										</cfloop>
-									</ul>
-								</div>
 							</div>
 						</div><!--- collapseRelatedTaxa --->
 					</div>
 				</div>
-			</div>
+			</div><!--- accordion --->
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
 			<div class="col-12">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
