@@ -18,7 +18,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	font-size: .8em;
 	line-height: 1.02em;
 }
-.small90 {font-size: 90%}
+.small90 {font-size: 89%}
 
 /** Styling of external links out, shared with production **/
 .external:after {
