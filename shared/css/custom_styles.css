@@ -48,6 +48,9 @@ a.external:hover:visited:after {
 .bg-lightgreen {
 	background-color: #CAEAAD;
 }
+.border-white { 
+	border: 1px solid white;
+}
 /*********************************************/
 /* BELOW  Misc. Override of Bootstrap Styles */
 /*********************************************/
