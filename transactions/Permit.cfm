@@ -916,8 +916,6 @@ limitations under the License.
 								<cfif isdefined("headless") and headless EQ 'true' >
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
-								<input type="button" value="Permit Report" class="btn btn-xs btn-secondary"
-									onClick="document.location='/transactions/Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
 								<script>
 									function submitDeletePermit() { 
 										$('##deletePermitForm').submit();
@@ -1097,7 +1095,7 @@ limitations under the License.
 								</ul>
 							</div>
 							<span>
-								<form action="Permit.cfm" method="get">
+								<form action="/transactions/Permit.cfm" method="get">
 									<input type="hidden" name="permit_id" value="#permit_id#">
 									<input type="hidden" name="Action" value="PermitUseReport">
 									<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary float-right">
