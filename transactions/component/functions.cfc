@@ -3754,7 +3754,7 @@ limitations under the License.
 				
 						<h2 class="h3">#heading# Media</h2>
 						<cfif query.recordcount gt 0>
-							<ul class="col-12 mx-0 px-4 float-left list-style-disc">
+							<ul class="col-12 mx-0 px-4 list-style-disc">
 							<cfloop query="query">
 								<cfset puri=getMediaPreview(preview_uri,media_type) >
 								<cfif puri EQ "/images/noThumb.jpg">
@@ -3762,8 +3762,8 @@ limitations under the License.
 								<cfelse>
 									<cfset altText = query.media_descriptor>
 								</cfif>
-								<li class="my-1 float-left">
-									<a href='#media_uri#' class="float-left w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
+								<li class="my-1">
+									<a href='#media_uri#' class="w-auto mr-2"><img src='#puri#' height='40' width='28' alt='#media_descriptor#'></a>
 									<span class="d-inline">#mime_type#</span> | <span class="d-inline"> #media_type# </span> |  <span class="d-inline">#label_value#</span>
 									<a href='/media/#media_id#' target='_blank'>Media Details</a>
 									<input class='btn btn-xs btn-warning'
@@ -3773,7 +3773,7 @@ limitations under the License.
 							</cfloop>
 							</ul>
 						</cfif>
-						<span class="float-left">
+						<span>
 							<cfif query.recordcount EQ 0 or relation IS 'document for permit'>
 								<input type='button' onClick="opencreatemediadialog('addMediaDlg_#permit_id#_#rel#','permissions/rights document #permitInfo.permit_Type# - #jsescape(permitInfo.IssuedByAgent)# - #permitInfo.permit_Num#','#permit_id#','#relation#',reloadPermitMedia);" 
 									value='Create Media' class='btn btn-xs btn-secondary'>&nbsp;
