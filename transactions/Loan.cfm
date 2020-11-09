@@ -1053,7 +1053,7 @@ limitations under the License.
 										left join accn on ci.accn_id = accn.transaction_id
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 								</cfquery>
-								<ul class="accn pl-4 pr-2 list-style-disc">
+								<ul class="accn pl-4 pr-0 list-style-disc">
 									<cfloop query="getAccessions">
 										<li class="accn2">
 											<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span> #accn_number#</a>
@@ -1148,7 +1148,7 @@ limitations under the License.
 								</cfquery>
 								<cfset uriList = ''>
 								<div id="transPermitMediaListDiv">
-								<ul class="pl-4 pr-2 list-style-disc" tabindex-"0">
+								<ul class="pl-4 pr-0 list-style-disc" tabindex-"0">
 									<cfloop query="getPermitMedia">
 										<cfif media_id is ''>
 											<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
