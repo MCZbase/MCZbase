@@ -571,7 +571,7 @@ limitations under the License.
 							where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 							order by coll_event_number
 						</cfquery>
-						<section class="container">
+						<section class="container pb-4">
 							<div class="row">
 								<div class="col-12" aria-labelledby="existingvalues">
 									<cfif numSeriesUse_result.recordcount EQ 0>
