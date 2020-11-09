@@ -508,7 +508,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text small bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control border-right data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+											<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
 											<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 										</div>
 										<script>
@@ -579,8 +579,9 @@ limitations under the License.
 						</div>
 					</div>
 					</section>
-					<section role="search" aria-labelledby="guid_list_label" class="row border rounded mb-2" >
-						<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
+					<section role="search" aria-labelledby="guid_list_label" class="container my-2">
+						<div class="row border rounded mb-2" >
+							<form name="addCollObjectsUndColl" id="addCollObjectsUndColl">
 							<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 							<input type="hidden" id="method" name="method" value="addObjectsToUndColl" >
 							<div class="form-row mb-2">
@@ -631,6 +632,7 @@ limitations under the License.
 								</div>
 							</div>
 						</form>
+						</div>
 					</section>
 				
 				<cfif undColl_result.recordcount GT 0>
@@ -642,7 +644,7 @@ limitations under the License.
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						order by guid
 					</cfquery>
-						<section class="container pt-0">
+						<section class="container my-2">
 							<script>
 								function removeUndRelation(id) { 
 									jQuery.ajax({
