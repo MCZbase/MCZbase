@@ -46,16 +46,7 @@
 				</cfif>
 			</div>
 			<div class="accordion w-100" id="accordionForTaxa">
-					<div class="card mb-2">
-						<div class="card-header w-100" id="headingPart">
-							<h2 class="h4 my-0 float-left">  <a class="btn-link text-black collapsed" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">Related Taxon Records: </a></h2>
-						</div>
-						<div class="card-body px-3 py-0">
-					
-							<div id="collapseRelatedTaxa" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
-										<div class="row">
-			<div class="col-12 col-lg-6">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
 					from 
@@ -68,17 +59,7 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif d.recordcount gt 0>
-					<br><cfif len(t.subspecies) gt 0>Related </cfif>Subspecies:
-				</cfif>
-				<ul>
-					<cfloop query="d">
-						<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#d.author_text#</span></a></li>
-					</cfloop>
-				</ul>
-			</div>
-			<div class="col-12 col-lg-6">
-				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
+				<cfquery name="qspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name,
 						display_name 
@@ -91,18 +72,47 @@
 					order by
 						scientific_name
 				</cfquery>
-				<cfif d.recordcount gt 0>
-					<br>Related Species:
+				<cfif qsubspecies.recordcount LT 10 AND qspecies.recordcount LT 10>
+					<cfset collapsed = "">
+				<cfelse>
+					<cfset collapsed = "collapsed">
 				</cfif>
-				<ul>
-					<cfloop query="d">
-						<li><a href="/name/#scientific_name#">#display_name#</a></li>
-					</cfloop>
-				</ul>
-			</div>
+				<div class="card mb-2">
+					<div class="card-header w-100" id="headingPart">
+						<h2 class="h4 my-0 float-left">  
+							<a class="btn-link text-black #collapsed#" role="button" data-toggle="collapse" data-target="##collapseRelatedTaxa">
+								Related Taxon Records (#qsubspecies.recordcount# subspecies, #qspecies.recordcount# species): 
+							</a>
+						</h2>
 					</div>
+					<div class="card-body px-3 py-0">
+						<div id="collapseRelatedTaxa" class="collapse" aria-labelledby="headingPart" data-parent="##accordionForTaxa">
+							<div class="row">
+								<div class="col-12 col-lg-6">
+									<br>
+									<cfif qspecies.recordcount EQ 0>No</cfif>
+									Related Species:
+									<ul>
+										<cfloop query="qspecies">
+											<li><a href="/name/#scientific_name#">#display_name#</a></li>
+										</cfloop>
+									</ul>
+								</div>
+								<div class="col-12 col-lg-6">
+									<br>
+									<cfif qsubspecies.recordcount EQ 0>No</cfif>
+									<cfif len(t.subspecies) gt 0>Related </cfif>Subspecies:
+									<ul>
+										<cfloop query="qsubspecies">
+											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#qsubspecies.author_text#</span></a></li>
+										</cfloop>
+									</ul>
+								</div>
+							</div>
+						</div><!--- collapseRelatedTaxa --->
 					</div>
-					</div></div></div>
+				</div>
+			</div><!--- accordion --->
 		<cfelseif len(t.genus) gt 0 and len(t.species) is 0>
 			<div class="col-12">
 				<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -117,7 +127,7 @@
 						scientific_name
 				</cfquery>
 				<cfif d.recordcount gt 0>
-					<br>Included Species:
+					<br>Included Species (#d.recordcount#):
 				</cfif>
 				<ul>
 					<cfloop query="d">
