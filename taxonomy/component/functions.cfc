@@ -1021,7 +1021,7 @@ Given a taxon_name_id retrieve, as html, an editable list of the habitats for th
 						<cfset i=i+1>
 					</cfloop>
 				<cfelse>
-					<ul><li>No Habitats Entered</li></ul>
+					<ul class="px-4 list-style-disc"><li>No Habitats Entered</li></ul>
 				</cfif>
 			</cfoutput>
 		<cfcatch>
