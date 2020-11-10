@@ -236,7 +236,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 			<cfelse>
-				<ul><li>None</li></ul>
+				<ul class="pl-4 pr-0 list-style-disc"><li>None</li></ul>
 			</cfif>
 		</cfoutput>
 	</cfthread>
@@ -434,9 +434,9 @@ limitations under the License.
 						shipment_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_shipment_id#">
 				</cfquery>
 				<cfif queryShip.recordcount gt 0>
-					<ul>
+					<ul class="list-style-disc pl-4 pr-0">
 						<cfloop query="queryShip">
-							<li>
+							<li class="my-1">
 								<script>
 									function moveClickCallback(status) { 
 										if (status == 1) { 
@@ -791,7 +791,7 @@ limitations under the License.
 		order by permit_type, issued_date
 	</cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result="<ul>">
+		<cfset result="<ul class='list-style-disc pl-4 pr-2'>">
 		<cfloop query="query">
 			<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media.media_id, media_uri, preview_uri, media_type
@@ -803,7 +803,7 @@ limitations under the License.
 			<cfloop query="mediaQuery">
 				<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
 			</cfloop>
-			<cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
+			<cfset result = result & "<li class='my-1'><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
 		</cfloop>
 		<cfset result= result & "</ul>">
 	</cfif>
