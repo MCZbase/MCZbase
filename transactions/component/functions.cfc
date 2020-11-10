@@ -1396,7 +1396,7 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<div class='search-box px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='bg-light border px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
@@ -1423,7 +1423,7 @@ limitations under the License.
 			">
 			</cfif>
 			<cfset result = result & "
-			</div>
+			
 		</form>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
