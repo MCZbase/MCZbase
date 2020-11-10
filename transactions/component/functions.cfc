@@ -1398,11 +1398,11 @@ limitations under the License.
 		<cfset i=1>
 		<cfset result = result & "<div class='border rounded px-0 bg-blue-gray pt-2 pb-3 mt-3'><h2 class='h4 font-weight-bold my-2'>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
-			<cfset result = result & "<div">
+			<cfset result = result & "<div class='px-3'">
 			<cfif (i MOD 2) EQ 0> 
-				<cfset result = result & " class='list-even px-3 mb-1'"> 
+				<cfset result = result & " class='list-even'"> 
 			<cfelse> 
-				<cfset result = result & " class='list-odd px-3 mb-1'"> 
+				<cfset result = result & " class='list-odd'"> 
 			</cfif>
 			<cfset result = result & "> ">
 			<cfset result = result & "
