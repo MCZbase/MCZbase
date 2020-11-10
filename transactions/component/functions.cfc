@@ -1189,33 +1189,33 @@ limitations under the License.
 								<div class="form-row">
 									<div class="col-12 col-md-3">
 										<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
-										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
+										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-3">
 										<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
-										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
+										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="data-entry-input">
 									</div>
 									<div class="col-6 col-md-3">
 										<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
-										<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
+										<input type="text" name="issued_Date" id="pf_issued_date" class="data-entry-input">
 									</div>
 									<div class="col-6 col-md-3">
 										<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
-										<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
+										<input type="text" name="renewed_Date" id="pf_renewed_date" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
-										<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
+										<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label" for="permit_Num">Permit Number</label>
-										<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
+										<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
-										<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
+										<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
 											<option value=""></option>
 											<cfloop query="ctPermitType">
 												<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
@@ -1224,13 +1224,13 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
-										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
+										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row">
 									<div class="col-12 col-md-6">
 										<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
-										<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
+										<select name="specific_type" size="1" id="pf_specific_type" class="data-entry-select">
 											<option value=""></option>
 											<cfloop query="ctSpecificPermitType">
 												<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
@@ -1239,7 +1239,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-6">
 										<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
-										<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
+										<input type="text" name="permit_title" id="pf_permit_title" class="data-entry-input">
 									</div>
 								</div>
 								<div class="form-row my-2">
@@ -1396,7 +1396,7 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<div class='border bg-blue-gray px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='border rounded bg-blue-gray px-3 py-2 mt-3'><h2 class='h4 font-weight-bold my-2'>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
