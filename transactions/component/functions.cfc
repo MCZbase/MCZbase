@@ -1281,9 +1281,9 @@ limitations under the License.
 								};
 							</script>
 						</div>
-						<div class="bg-light border p-2">
+					
 							<div id="permitSearchResults"></div>
-						</div>
+					
 					</div>
 				</div>
 			</div>
@@ -1396,7 +1396,7 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<h2>Find permits to link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='search-box px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
@@ -1448,7 +1448,7 @@ limitations under the License.
 			});
 		};
 		</script>
-		</div>">
+			</div></div>">
 			<cfset i=i+1>
 		</cfloop>
 
