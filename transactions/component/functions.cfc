@@ -1415,7 +1415,7 @@ limitations under the License.
 			<cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
 			<div id='pickResponse#shipment_id#_#i#'>">
 				<cfif matchPermit.linkcount GT 0>
-					<cfset result = result & "<span class='text-success'> This Permit is already linked to #shipment_label# </span>">
+					<cfset result = result & "<span class='text-success'> This Permit is already linked to #shipment_label#. </span>">
 				<cfelse>
 			<cfset result = result & "
 				<input type='button' class='btn btn-xs mt-2 mb-2 btn-secondary'
