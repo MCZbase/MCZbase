@@ -1177,11 +1177,12 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-					<h1 class="h3 pl-3">Search for Permissions &amp; Rights Documents
-						<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
-					</h1>
+				
 					<div class="search-box px-3 py-2">
-							<form id="findPermitForm" onsubmit="searchforpermits(event);">
+						<h1 class="h3 pl-3 mt-2">Search for Permissions &amp; Rights Documents
+								<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
+						</h1>							
+						<form id="findPermitForm" onsubmit="searchforpermits(event);">
 								<input type="hidden" name="method" value="findPermitShipSearchResults">
 								<input type="hidden" name="returnformat" value="plain">
 								<input type="hidden" name="shipment_id" value="#shipment_id#">
