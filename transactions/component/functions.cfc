@@ -1177,7 +1177,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-					<h1 class="h3">Search for Permissions &amp; Rights documents
+					<h1 class="h3 pl-3">Search for Permissions &amp; Rights Documents
 						<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
 					</h1>
 					<div class="search-box px-3 py-2">
@@ -1242,7 +1242,7 @@ limitations under the License.
 										<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
 									</div>
 								</div>
-								<div class="form-row">
+								<div class="form-row my-2">
 									<div class="col-12 col-md-6">
 										<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
 										<script>
