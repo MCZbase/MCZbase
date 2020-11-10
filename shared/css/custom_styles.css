@@ -1019,6 +1019,7 @@ table.inputTable tr {
 	 border-top: none;
 	border-radius: 0 0 4px 4px;
 }
+.bg-blue-gray {background-color: #deebec;}
 /******************/
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f8f9fa;
@@ -1587,7 +1588,7 @@ input#readMore_check_id {display:none;}
 	opacity: 0.99;
 	display:none;
 }
-/****************end small form fields*********************/
+/****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
 /* Device styles below ***********/

@@ -1396,7 +1396,7 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<div class='bg-light border px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='border bg-blue-gray px-3 py-2'><h2 class='h3 '>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
