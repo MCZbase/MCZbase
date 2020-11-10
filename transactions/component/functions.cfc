@@ -1485,7 +1485,7 @@ limitations under the License.
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "<span class='text-success'>Permit added to shipment</span>", 1)>
 		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
