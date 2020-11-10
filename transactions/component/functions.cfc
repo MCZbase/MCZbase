@@ -1448,7 +1448,7 @@ limitations under the License.
 			});
 		};
 		</script>
-			</div>">
+		>">
 			<cfset i=i+1>
 		</cfloop>
 		<cfset result = result & "		</div>">
