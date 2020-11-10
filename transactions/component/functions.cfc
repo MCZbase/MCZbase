@@ -1181,7 +1181,7 @@ limitations under the License.
 						<h1 class="h3 mt-2">Search for Permissions &amp; Rights Documents
 								<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
 						</h1>							
-						<form id="findPermitForm" class="pb-2" onsubmit="searchforpermits(event);">
+						<form id="findPermitForm" onsubmit="searchforpermits(event);">
 								<input type="hidden" name="method" value="findPermitShipSearchResults">
 								<input type="hidden" name="returnformat" value="plain">
 								<input type="hidden" name="shipment_id" value="#shipment_id#">
@@ -1396,7 +1396,7 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<div class='border rounded bg-blue-gray px-3 py-2 mt-3'><h2 class='h4 font-weight-bold my-2'>Find Permits to Link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='border rounded bg-blue-gray px-3 pt-2 pb-3 mt-3'><h2 class='h4 font-weight-bold my-2'>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
