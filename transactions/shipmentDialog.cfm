@@ -11,7 +11,7 @@
 		$("##dialog-shipment").dialog({
 			autoOpen: false,
 			modal: true,
-			minWidth: 600,
+			minWidth: 'auto',
 			buttons: {
 				"Save": function() {  saveShipment(#transaction_id#); } ,
 				Cancel: function() { $(this).dialog( "close" ); }
@@ -67,7 +67,7 @@
 		return valid;
 	};
 </script>
-<dialog id="dialog-shipment" title="Create new Shipment">
+<dialog id="dialog-shipment" title="Create New Shipment">
 	<form name="shipmentForm" id="shipmentForm" >
 		<fieldset>
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >

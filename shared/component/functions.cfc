@@ -326,7 +326,7 @@ limitations under the License.
 	<cfset result = result & '
 		<div class="container-fluid">
 		<div class="row">
-			<h1 class="h3">Create Media</h1>
+			<h1 class="h3 pl-3 mb-0">Create Media</h1>
 			<div class="col-12 border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="method" value="createMedia">
