@@ -977,7 +977,7 @@ limitations under the License.
 											modal: true,
 											height: 900,
 											width: 1100,
-											minWidth: 400,
+											minWidth: 360,
 											minHeight: 450,
 											draggable:true,
 											resizable:true,

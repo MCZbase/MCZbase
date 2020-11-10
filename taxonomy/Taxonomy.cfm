@@ -1074,7 +1074,7 @@ limitations under the License.
 					(through cloning and editing) <i class="fas fa-info-circle mr-2" onClick="getMCZDocs('Edit_Taxonomy')" aria-label="help link"></i>
 				</span>
 			</h1>
-			<div class="row mx-0 py-3 mb-5 px-2 border rounded">
+			<div class="row mx-0 pt-2 pb-3 mt-1 mb-5 px-2 border rounded">
 				<form name="taxon_form" id="taxon_form2" method="post" action="/taxonomy/Taxonomy.cfm" class="float-left w-100 col-12 px-2">
 					<input type="hidden" name="Action" value="saveNewTaxon">
 	
@@ -1195,7 +1195,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-0">
-							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+							<label for="scientificnameid" class="mb-0">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -1502,7 +1502,7 @@ limitations under the License.
 						</script>
 					</div>
 
-					<div class="row my-1">
+					<div class="row mt-1">
 						<div class="col-12">
 							<input type="submit" value="Create" title="Create" class="btn btn-xs btn-primary" aria-label="Save and create new taxon record">
 						</div>
