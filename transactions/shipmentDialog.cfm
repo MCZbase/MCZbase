@@ -71,13 +71,17 @@
 	};
 </script>
 <dialog id="dialog-shipment" title="Create New Shipment">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12">
 	<form name="shipmentForm" id="shipmentForm" >
 		<fieldset>
 			<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
 			<input type="hidden" name="shipment_id" value="" id="shipment_id">
 			<input type="hidden" name="returnFormat" value="json" id="returnFormat">
-			<div class="container-fluid">
-				<div class="row">
+	
+						<div class="search-box px-3 py-2">
+						<div class="row">
 					<div class="col-12 col-md-4">
 						<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
 						<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr form-control-sm" required >
@@ -92,7 +96,7 @@
 						<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="form-control-sm" >
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12 col-md-4">
 						<label for="no_of_packages" class="data-entry-label">Number of Packages</label>
 						<input type="text" value="1" name="no_of_packages" id="no_of_packages" class="form-control-sm">
@@ -109,7 +113,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12 col-md-5">
 						<label for="package_weight" class="data-entry-label">Package Weight (TEXT, include units)</label>
 						<input type="text" value="" name="package_weight" id="package_weight" class="form-control-sm">
@@ -127,7 +131,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12">
 						<span class="data-entry-label">
 							<label for="packed_by_agent">Packed By Agent</label>
@@ -148,7 +152,7 @@
 						</script>
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12 my-1">
 						<span class="data-entry-label">
 							<label for="shipped_to_addr">Shipped To Address</label>
@@ -162,7 +166,7 @@
 						<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12 my-1">
 						<span class="data-entry-label">
 							<label for="shipped_from_addr">Shipped From Address</label>
@@ -176,20 +180,25 @@
 						<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12">
 						<label for="shipment_remarks" class="data-entry-label">Remarks</label>
 						<input type="text" value="" name="shipment_remarks" id="shipment_remarks" size="60" class="w-100">
 					</div>
 				</div>
-				<div class="row">
+						<div class="row">
 					<div class="col-12">
 						<label for="contents" class="data-entry-label">Contents</label>
 						<input type="text" value="" name="contents" id="contents" size="60" class="w-100">
 					</div>
 				</div>
+						</div>
+		
 		</fieldset>
 	</form>
+							</div>
+				</div>
+			</div>
 	<div id="shipmentFormPermits"></div>
 	<div id="shipmentFormStatus"></div>
 	<div id="addressDialog"></div>
