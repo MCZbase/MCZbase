@@ -452,8 +452,10 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									
-										<cfif targetMenu EQ "redesign">									
+										<cfif targetMenu EQ "production">									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+											<cfelse>
+											<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 										</cfif>
 									</div>
 									<div>
