@@ -1400,11 +1400,11 @@ limitations under the License.
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<hr><div">
 			<cfif (i MOD 2) EQ 0> 
-				<cfset result = result & "class='jqx-widget-content'"> 
+				<cfset result = result & " class='jqx-widget-content'"> 
 			<cfelse> 
-				<cfset result = result & "class='jqx-widget-content'"> 
+				<cfset result = result & " class='jqx-widget-content'"> 
 			</cfif>
-			<cfset result = result & " ">
+			<cfset result = result & "> ">
 			<cfset result = result & "
 		<form id='pp_#permit_id#_#shipment_id#_#i#' >
 			Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
