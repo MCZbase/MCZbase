@@ -468,10 +468,10 @@ limitations under the License.
 				<cfset collname = collection_name>
 				<!--- save name for later use outside this output section --->
 				<main id="content" class="pb-5">
-					<section class="container my-3">
-						<h1 class="h2 pb-0 ml-1 pt-2" id="formheading"> Edit Named Group of Cataloged Items</h1>
-					<div class="row border rounded my-2 px-1 pt-0 pb-1" aria-labelledby="formheading">
-						<div class="col-12 mt-2">
+					<section class="container pt-3">
+						<h1 class="h2" id="formheading"> Edit Named Group of Cataloged Items</h1>
+					<div class="row border rounded py-3" aria-labelledby="formheading">
+						<div class="col-12 px-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
