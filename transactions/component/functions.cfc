@@ -1179,7 +1179,7 @@ limitations under the License.
 					<div class="col-12">
 				
 					<div class="search-box px-3 py-2">
-						<h1 class="h3 pl-3 mt-2">Search for Permissions &amp; Rights Documents
+						<h1 class="h3 mt-2">Search for Permissions &amp; Rights Documents
 								<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
 						</h1>							
 						<form id="findPermitForm" onsubmit="searchforpermits(event);">
