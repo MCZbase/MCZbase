@@ -1424,7 +1424,7 @@ limitations under the License.
 			</cfif>
 			<cfset result = result & "
 			
-									  </form></div>
+									  </div></form></div>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
