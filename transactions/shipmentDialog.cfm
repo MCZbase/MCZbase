@@ -80,7 +80,7 @@
 			<input type="hidden" name="shipment_id" value="" id="shipment_id">
 			<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 	
-						<div class="search-box px-3 py-2">
+						<div class="border px-3 py-2">
 						<div class="row">
 					<div class="col-12 col-md-4">
 						<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
