@@ -1396,13 +1396,13 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<div class='border rounded px-0 bg-blue-gray pt-2 pb-3 mt-3'><h2 class='h4 font-weight-bold my-2'>Find Permits to Link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='border rounded px-0 bg-blue-gray pt-2 pb-3 mt-3'><h2 class='h4 font-weight-bold pl-3 my-2'>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
 			<cfset result = result & "<div">
 			<cfif (i MOD 2) EQ 0> 
-				<cfset result = result & " class='list-even'"> 
+				<cfset result = result & " class='list-even px-3'"> 
 			<cfelse> 
-				<cfset result = result & " class='list-odd'"> 
+				<cfset result = result & " class='list-odd px-3'"> 
 			</cfif>
 			<cfset result = result & "> ">
 			<cfset result = result & "
@@ -1418,13 +1418,13 @@ limitations under the License.
 					<cfset result = result & " This Permit is already linked to #shipment_label# ">
 				<cfelse>
 			<cfset result = result & "
-				<input type='button' class='btn btn-xs btn-secondary'
+				<input type='button' class='btn btn-xs my-2 btn-secondary'
 				onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
 			">
 			</cfif>
 			<cfset result = result & "
 			
-		</form>
+									  </form></div>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
