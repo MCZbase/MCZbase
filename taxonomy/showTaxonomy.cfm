@@ -348,7 +348,7 @@
 				<cfloop query="common_name">
 					<cfset thisSearch = "#thisSearch# OR %22#common_name#%22">
 				</cfloop>
-
+				
 				<div class="pb-2">
 					<!--- TODO: Review styling of this block --->
 					<cfif one.VALID_CATALOG_TERM_FG is 1>
@@ -574,15 +574,18 @@
 								select count(*) cnt from annotations
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 							</cfquery>
-	
-							<a href="javascript: openAnnotation('taxon_name_id=#tnid#')"> [ Annotate ] 
-								<cfif #existingAnnotations.cnt# gt 0>
-									(#existingAnnotations.cnt# existing)
-								</cfif>
+							<!--- TODO: Implement annotation dialog --->
+							<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
+								class="btn btn-xs btn-info" value="Annotate"
+								onClick=" openAnnotation('taxon_name_id=#tnid#');">Annotate</button>
+							<cfif #existingAnnotations.cnt# gt 0>
+								(#existingAnnotations.cnt# existing annotations)
+							</cfif>
 							</a>
 						</div>
 					</div>
 				</cfif>
+
 		
 			</cfoutput> 
 		</div> <!--- col --->
