@@ -805,11 +805,6 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Image List</a>
 											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/tools/imageList.cfm">
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Image List</a>
-											</cfif>
 										</cfif>
 									</div>
 									<div>
