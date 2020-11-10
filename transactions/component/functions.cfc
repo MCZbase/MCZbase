@@ -1177,8 +1177,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-				
-					<div class="search-box px-3 py-2">
+						<div class="search-box px-3 py-2">
 						<h1 class="h3 mt-2">Search for Permissions &amp; Rights Documents
 								<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
 						</h1>							
@@ -1281,7 +1280,10 @@ limitations under the License.
 									return false; 
 								};
 							</script>
+						</div>
+						<div class="bg-light border p-2">
 							<div id="permitSearchResults"></div>
+						</div>
 					</div>
 				</div>
 			</div>
