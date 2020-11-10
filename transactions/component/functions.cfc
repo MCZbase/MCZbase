@@ -1448,10 +1448,10 @@ limitations under the License.
 			});
 		};
 		</script>
-			</div></div>">
+			</div>">
 			<cfset i=i+1>
 		</cfloop>
-
+		<cfset result = result & "		</div>">
 	<cfcatch>
 		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
 	</cfcatch>
