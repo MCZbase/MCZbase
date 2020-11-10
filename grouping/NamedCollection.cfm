@@ -467,11 +467,11 @@ limitations under the License.
 			<cfoutput query="undColl">
 				<cfset collname = collection_name>
 				<!--- save name for later use outside this output section --->
-				<main id="content">
-					<section class="container my-2">
-						<h1 class="h2 ml-1 pt-2" id="formheading"> Edit Named Group of Cataloged Items</h1>
-					<div class="row border rounded my-2 px-1 pt-1 pb-1" aria-labelledby="formheading">
-						<div class="col-12 mt-2">
+				<main id="content" class="pb-5">
+					<section class="container pt-3">
+						<h1 class="h2" id="formheading"> Edit Named Group of Cataloged Items</h1>
+					<div class="row border rounded py-3" aria-labelledby="formheading">
+						<div class="col-12 px-3">
 							<form name="editUndColl" id="editUndColl">
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
@@ -645,7 +645,7 @@ limitations under the License.
 						where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 						order by guid
 					</cfquery>
-						<section class="container my-2">
+						<section class="container mt-2">
 							<script>
 								function removeUndRelation(id) { 
 									jQuery.ajax({
@@ -680,7 +680,7 @@ limitations under the License.
 								}
 							</script>
 							<div class="border rounded row">
-								<div class="col-12 px-4 mb-5" aria-labelledby="existingvalues" id="divListOfContainedObjects">
+								<div class="col-12 px-4" aria-labelledby="existingvalues" id="divListOfContainedObjects">
 									<cfif undCollUse_result.recordcount EQ 0>
 										<h2 class="h3" id="existingvalues">There are no collection objects in this named collection</h2>
 										<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">

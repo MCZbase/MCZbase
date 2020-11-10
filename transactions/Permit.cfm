@@ -478,17 +478,17 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<main class="container" id="content">
-				<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >
+			<main class="container py-3" id="content">
+				<h1 class="h2 ml-3" target="0" id="newPermitFormSectionLabel" >
 					Create New Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
-				</h2>
-    			<p>
+				</h1>
+    			<p class="ml-3" target="0">
 					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
       			material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
-				<section id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
-					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();" class="col-12">
+				<section class="col-12 border rounded mb-5 bg-white pt-3" id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
+					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
@@ -503,7 +503,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
 								</div>
@@ -521,7 +521,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
 								</div>
@@ -539,7 +539,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
 								</div>
@@ -662,7 +662,7 @@ limitations under the License.
 						<div class="alert alert-danger" role="alert">
 							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h1 class="h2">Delete Failed</h1>
-							<p>Permits cannot be deleted if they are used in a shipment, in a transaction, or have child permits.</p>
+							<p>Permissions and Rights records cannot be deleted if they are used in a shipment, in a transaction, have attached media, or have child permits.</p>
 							<p>#cfcatch.message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
@@ -874,7 +874,7 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newPermitForm')[0])) { saveChanges();  } " 
+									onClick="if (checkFormValidity($('##editPermitForm')[0])) { saveChanges();  } " 
 									id="submitButton" >
 								<script>
 									function saveChanges(){ 
@@ -916,8 +916,6 @@ limitations under the License.
 								<cfif isdefined("headless") and headless EQ 'true' >
 									<strong>Permit Added.  Click OK when done.</strong>
 								</cfif>
-								<input type="button" value="Permit Report" class="btn btn-xs btn-secondary"
-									onClick="document.location='/transactions/Permit.cfm?Action=PermitUseReport&permit_id=#permit_id#'" >
 								<script>
 									function submitDeletePermit() { 
 										$('##deletePermitForm').submit();
@@ -929,7 +927,7 @@ limitations under the License.
 						</div>
 						<script>
 							$(document).ready(function() {
-								monitorForChanges('editPermitForm',changeFunction);
+								monitorForChanges('editPermitForm',handleChange);
 							});
 						</script>
 					</form>
@@ -1097,7 +1095,7 @@ limitations under the License.
 								</ul>
 							</div>
 							<span>
-								<form action="Permit.cfm" method="get">
+								<form action="/transactions/Permit.cfm" method="get">
 									<input type="hidden" name="permit_id" value="#permit_id#">
 									<input type="hidden" name="Action" value="PermitUseReport">
 									<input type="submit" value="Detailed report on use of this Permit" class="btn btn-xs btn-secondary float-right">

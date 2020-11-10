@@ -40,7 +40,7 @@ limitations under the License.
 			select mime_type from ctmime_type order by mime_type
 		</cfquery>
 		<cfset result = result & "
-		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3'>Search for Media</h1>
+		<div class='container-fluid'><div class='row'><div class='col-12'><div id='mediaSearchForm' class='search-box px-3 py-2'><h1 class='h3 mt-2'>Search for Media</h1>
 		<form id='findMediaForm' onsubmit='return searchformedia(event);' >
 			<input type='hidden' name='method' value='findMediaSearchResults'>
 			<input type='hidden' name='returnformat' value='plain'>
@@ -84,11 +84,11 @@ limitations under the License.
 					<div class='col-12 col-md-12 col-xl-4 pt-xl-0 pt-2 pb-2'>
 						<span class=''>
 							<input type='checkbox' name='unlinked' id='unlinked' value='true' style='position: relative; left:10px;'>
-							<label style='display:contents;' for='unlinked'>Media not yet linked to any record</label>
+							<label class='pl-3' for='unlinked'>Media not yet linked to any record</label>
 						</span>
 					</div>
 				</div>
-				<div class='form-row'>
+				<div class='form-row mt-2'>
 					<div class=''>
 						<input type='submit' value='Search' class='btn-primary px-3 mb-2'>
 					</div>
@@ -326,7 +326,7 @@ limitations under the License.
 	<cfset result = result & '
 		<div class="container-fluid">
 		<div class="row">
-			<h1 class="h3">Create Media</h1>
+			<h1 class="h3 pl-3 mb-0">Create Media</h1>
 			<div class="col-12 border bg-light p-3 mt-2 mb-4">
 			<form name="newMedia" id="newMedia">
 				<input type="hidden" name="method" value="createMedia">

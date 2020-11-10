@@ -236,7 +236,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 			<cfelse>
-				<ul><li>None</li></ul>
+				<ul class="pl-4 pr-0 list-style-disc"><li>None</li></ul>
 			</cfif>
 		</cfoutput>
 	</cfthread>
@@ -317,11 +317,11 @@ limitations under the License.
 							</tbody>
 						</table>
 						<div class='form-row'>
-							<div class='col-12 col-md-3 mb-2'>
+							<div class='col-12 col-md-3 col-xl-2 mb-2'>
 								<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 							</div>
-							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-10'>
-								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment: #carriers_tracking_number#',reloadShipments); " >
+							<div id='addPermit_#shipment_id#' class='col-12 mt-2 mt-md-0 col-md-9 col-xl-10'>
+								<input type='button' value='Add Permit to this Shipment' class='btn btn-xs btn-secondary' onClick=" openlinkpermitshipdialog('addPermitDlg_#shipment_id#','#shipment_id#','Shipment #carriers_tracking_number#',reloadShipments); " >
 							</div>
 							<div id='addPermitDlg_#shipment_id#'></div>
 						</div>
@@ -434,9 +434,9 @@ limitations under the License.
 						shipment_id <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#current_shipment_id#">
 				</cfquery>
 				<cfif queryShip.recordcount gt 0>
-					<ul>
+					<ul class="list-style-disc pl-4 pr-0">
 						<cfloop query="queryShip">
-							<li>
+							<li class="my-1">
 								<script>
 									function moveClickCallback(status) { 
 										if (status == 1) { 
@@ -791,7 +791,7 @@ limitations under the License.
 		order by permit_type, issued_date
 	</cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result="<ul>">
+		<cfset result="<ul class='list-style-disc pl-4 pr-2 mt-2 mb-0'>">
 		<cfloop query="query">
 			<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media.media_id, media_uri, preview_uri, media_type
@@ -803,7 +803,7 @@ limitations under the License.
 			<cfloop query="mediaQuery">
 				<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#getMediaPreview(preview_uri,media_type)#' height='15'></a>" >
 			</cfloop>
-			<cfset result = result & "<li><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
+			<cfset result = result & "<li class='my-1'><span>#mediaLink# #permit_type# #permit_num# Issued:#dateformat(issued_date,'yyyy-mm-dd')# #IssuedByAgent#</span></li>">
 		</cfloop>
 		<cfset result= result & "</ul>">
 	</cfif>
@@ -1177,107 +1177,113 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-			<h1 class="h3">Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h1>
-			<form id="findPermitForm" onsubmit="searchforpermits(event);">
-				<input type="hidden" name="method" value="findPermitShipSearchResults">
-				<input type="hidden" name="returnformat" value="plain">
-				<input type="hidden" name="shipment_id" value="#shipment_id#">
-				<input type="hidden" name="shipment_label" value="#shipment_label#">
-				<div class="form-row">
-					<div class="col-12 col-md-3">
-						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
-						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
-					</div>
-					<div class="col-12 col-md-3">
-						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
-						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
-					</div>
-					<div class="col-6 col-md-3">
-						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
-						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
-					</div>
-					<div class="col-6 col-md-3">
-						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
-						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
-						<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="permit_Num">Permit Number</label>
-						<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
-						<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
-							<option value=""></option>
-							<cfloop query="ctPermitType">
-								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
-						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-6">
-						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
-						<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
-							<option value=""></option>
-							<cfloop query="ctSpecificPermitType">
-								<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-6">
-						<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
-						<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-6">
-						<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
-						<script>
-							function createPermitDialogDone () { 
-								$("##permit_Num").val($("##permit_number_passon").val()); 
-							};
-						</script>
-						<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
-					</div>
-					<div class="col-12 col-md-6">
-						<span id="createPermit_#shipment_id#_span">
-							<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
-						</span>
-						<div id="createPermitDlg_#shipment_id#"></div>
-					</div>
-				</div>
-			</form>
-			<script>
-				function searchforpermits(event) { 
-					event.preventDefault();
-					// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
-					// console.log($('##findPermitForm').serialize());
-					jQuery.ajax({
-						url: '/transactions/component/functions.cfc',
-						type: 'post',
-						data: $('##findPermitForm').serialize(),
-						success: function (data) {
-							$('##permitSearchResults').html(data);
-						},
-						error: function (jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error,'removing project from transaction record');
-							$('##permitSearchResults').html('Error:' + textStatus);
-						}
-					});
-					return false; 
-				};
-			</script>
-			<div id="permitSearchResults"></div>
+						<div class="search-box px-3 py-2">
+						<h1 class="h3 mt-2">Search for Permissions &amp; Rights Documents
+								<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
+						</h1>							
+						<form id="findPermitForm" onsubmit="searchforpermits(event);">
+								<input type="hidden" name="method" value="findPermitShipSearchResults">
+								<input type="hidden" name="returnformat" value="plain">
+								<input type="hidden" name="shipment_id" value="#shipment_id#">
+								<input type="hidden" name="shipment_label" value="#shipment_label#">
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
+										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="data-entry-input">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
+										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="data-entry-input">
+									</div>
+									<div class="col-6 col-md-3">
+										<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
+										<input type="text" name="issued_Date" id="pf_issued_date" class="data-entry-input">
+									</div>
+									<div class="col-6 col-md-3">
+										<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
+										<input type="text" name="renewed_Date" id="pf_renewed_date" class="data-entry-input">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
+										<input type="text" name="exp_Date" class="data-entry-input" id="pf_exp_date">
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="permit_Num">Permit Number</label>
+										<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
+										<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
+											<option value=""></option>
+											<cfloop query="ctPermitType">
+												<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
+										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="data-entry-input">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
+										<select name="specific_type" size="1" id="pf_specific_type" class="data-entry-select">
+											<option value=""></option>
+											<cfloop query="ctSpecificPermitType">
+												<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
+										<input type="text" name="permit_title" id="pf_permit_title" class="data-entry-input">
+									</div>
+								</div>
+								<div class="form-row my-2">
+									<div class="col-6 col-md-6">
+										<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
+										<script>
+											function createPermitDialogDone () { 
+												$("##permit_Num").val($("##permit_number_passon").val()); 
+											};
+										</script>
+										<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
+									</div>
+									<div class="col-6 col-md-6">
+										<span id="createPermit_#shipment_id#_span">
+											<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+										</span>
+										<div id="createPermitDlg_#shipment_id#"></div>
+									</div>
+								</div>
+							</form>
+							<script>
+								function searchforpermits(event) { 
+									event.preventDefault();
+									// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+									// console.log($('##findPermitForm').serialize());
+									jQuery.ajax({
+										url: '/transactions/component/functions.cfc',
+										type: 'post',
+										data: $('##findPermitForm').serialize(),
+										success: function (data) {
+											$('##permitSearchResults').html(data);
+										},
+										error: function (jqXHR, textStatus, error) {
+											handleFail(jqXHR,textStatus,error,'removing project from transaction record');
+											$('##permitSearchResults').html('Error:' + textStatus);
+										}
+									});
+									return false; 
+								};
+							</script>
+						</div>
+					
+							<div id="permitSearchResults"></div>
+					
 					</div>
 				</div>
 			</div>
@@ -1390,15 +1396,15 @@ limitations under the License.
 			ORDER BY permit_id
 		</cfquery>
 		<cfset i=1>
-		<cfset result = result & "<h2>Find permits to link to #shipment_label#</h2>">
+		<cfset result = result & "<div class='border rounded px-0 bg-blue-gray pt-2 pb-3 mt-3'><h2 class='h4 font-weight-bold pl-3 my-2'>Find Permits to Link to #shipment_label#</h2>">
 		<cfloop query="matchPermit" >
-			<cfset result = result & "<hr><div">
+			<cfset result = result & "<div">
 			<cfif (i MOD 2) EQ 0> 
-				<cfset result = result & "class='evenRow'"> 
+				<cfset result = result & " class='list-even px-3'"> 
 			<cfelse> 
-				<cfset result = result & "class='oddRow'"> 
+				<cfset result = result & " class='list-odd px-3'"> 
 			</cfif>
-			<cfset result = result & " >">
+			<cfset result = result & "> ">
 			<cfset result = result & "
 		<form id='pp_#permit_id#_#shipment_id#_#i#' >
 			Permit Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
@@ -1409,16 +1415,14 @@ limitations under the License.
 			<cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
 			<div id='pickResponse#shipment_id#_#i#'>">
 				<cfif matchPermit.linkcount GT 0>
-					<cfset result = result & " This Permit is already linked to #shipment_label# ">
+					<cfset result = result & "<span class='text-success'> This Permit is already linked to #shipment_label# </span>">
 				<cfelse>
 			<cfset result = result & "
-				<input type='button' class='btn btn-xs btn-secondary'
+				<input type='button' class='btn btn-xs mt-2 mb-2 btn-secondary'
 				onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
 			">
 			</cfif>
-			<cfset result = result & "
-			</div>
-		</form>
+					<cfset result = result & "</div></form></div>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
@@ -1441,11 +1445,10 @@ limitations under the License.
 				}
 			});
 		};
-		</script>
-		</div>">
+		</script>">
 			<cfset i=i+1>
 		</cfloop>
-
+				<cfset result = result & "</div>	">
 	<cfcatch>
 		<cfset result = "Error: #cfcatch.Message# #cfcatch.Detail#">
 	</cfcatch>
@@ -1482,7 +1485,7 @@ limitations under the License.
 			<cfset theResult=queryNew("status, message")>
 			<cfset t = queryaddrow(theResult,1)>
 			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-			<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "<span class='text-success'>Permit added to shipment</span>", 1)>
 		</cfif>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
@@ -1540,7 +1543,7 @@ limitations under the License.
 				<cfset theResult=queryNew("status, message")>
 				<cfset t = queryaddrow(theResult,1)>
 				<cfset t = QuerySetCell(theResult, "status", "1", 1)>
-				<cfset t = QuerySetCell(theResult, "message", "Permit added to shipment.", 1)>
+				<cfset t = QuerySetCell(theResult, "message", "<span class='text-success'>Permit added to shipment</span>", 1)>
 			</cfif>
 			<cftransaction action="commit">
 		<cfcatch>
@@ -1726,7 +1729,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="list-style-disc">
+					<ul class="list-style-disc pl-4 pr-0">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>

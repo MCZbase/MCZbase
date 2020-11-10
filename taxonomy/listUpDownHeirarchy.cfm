@@ -12,6 +12,7 @@
 			where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 		</cfquery>
 		<cfif len(t.species) gt 0 and len(t.genus) gt 0>
+			<!--- parent genus for subgenera, species, and subspecies --->
 			<div class="col-12 col-lg-6">
 				<cfquery name="genus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select scientific_name, display_name, author_text 
@@ -28,6 +29,7 @@
 					<p>There is no taxonomy record in MCZbase for the genus #t.genus#
 				</cfif>
 			</div>
+			<!--- parent species for subspecies --->
 			<div class="col-12 col-lg-6">
 				<cfif len(t.subspecies) gt 0>
 					<cfquery name="ssp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
@@ -46,6 +48,7 @@
 				</cfif>
 			</div>
 			<div class="accordion w-100" id="accordionForTaxa">
+				<!--- included subspecies --->
 				<cfquery name="qsubspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name, display_name, author_text
@@ -59,6 +62,7 @@
 					order by
 						scientific_name
 				</cfquery>
+				<!--- congeneric species --->
 				<cfquery name="qspecies" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 					select 
 						scientific_name,
@@ -68,7 +72,8 @@
 					where
 						 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and 
 						 species != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.species#"> and
-						 subspecies is null
+						 subspecies is null and 
+						 scientific_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.scientific_name#">
 					order by
 						scientific_name
 				</cfquery>
@@ -93,7 +98,7 @@
 								<div class="col-12 col-lg-6">
 									<br>
 									<cfif qspecies.recordcount EQ 0>No</cfif>
-									Related Species:
+									Congeneric Species:
 									<ul>
 										<cfloop query="qspecies">
 											<li><a href="/name/#scientific_name#">#display_name#</a></li>
@@ -103,7 +108,7 @@
 								<div class="col-12 col-lg-6">
 									<br>
 									<cfif qsubspecies.recordcount EQ 0>No</cfif>
-									<cfif len(t.subspecies) gt 0>Related </cfif>Subspecies:
+									<cfif len(t.subspecies) gt 0>Included </cfif>Subspecies:
 									<ul>
 										<cfloop query="qsubspecies">
 											<li><a href="/name/#scientific_name#">#display_name# <span class="sm-caps">#qsubspecies.author_text#</span></a></li>
@@ -124,7 +129,8 @@
 					where
 						 genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.genus#"> and
 						 species is not null and
-						 subspecies is null
+						 subspecies is null and
+						 scientific_name != <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#t.scientific_name#">
 					order by
 						scientific_name
 				</cfquery>

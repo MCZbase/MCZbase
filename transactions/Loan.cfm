@@ -855,7 +855,7 @@ limitations under the License.
 						</form>
 					</section>
 					<section name="loanItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this loan" tabindex="0">
-						<div class="col-12 py-2">
+						<div class="col-12 pt-3 pb-1">
 							<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 								onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
 							<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
@@ -975,9 +975,9 @@ limitations under the License.
 											autoOpen: false,
 											dialogClass: 'dialog_fixed,ui-widget-header',
 											modal: true,
-											height: 900,
-											width: 1100,
-											minWidth: 400,
+											height: 'auto',
+											width: 'auto',
+											minWidth: 360,
 											minHeight: 450,
 											draggable:true,
 											resizable:true,
@@ -1001,7 +1001,7 @@ limitations under the License.
 								<script>
 									$( document ).ready(loadShipments(#transaction_id#));
 								</script>
-								<div class="addstyle">
+								<div>
 									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 									<div class="float-left mt-2 mt-md-0">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 								</div>

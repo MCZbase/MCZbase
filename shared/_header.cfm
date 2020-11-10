@@ -431,7 +431,9 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Collecting Event</a>
 										</cfif>
-										<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -452,8 +454,10 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									
-										<cfif targetMenu EQ "redesign">									
+										<cfif targetMenu EQ "production">									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
+											<cfelse>
+											<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 										</cfif>
 									</div>
 									<div>
@@ -797,11 +801,6 @@ limitations under the License.
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<cfelse>
 												<a class="dropdown-item"  href="">Scheduled Tasks</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/tools/imageList.cfm">
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Image List</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/tools/imageList.cfm">
