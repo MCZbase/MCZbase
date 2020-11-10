@@ -159,7 +159,7 @@
 													onClick="openfindaddressdialog('shipped_to_addr','shipped_to_addr_id','addressDialog',#transaction_id#); return false;">
 											</span>
 											<div class="form-group">
-												<textarea name="shipped_to_addr" id="shipped_to_addr" cols="65" rows="5" required class="height: 5rem;"
+												<textarea name="shipped_to_addr" id="shipped_to_addr" cols="65" rows="5" required style="height: 5rem;"
 													readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
 											</div>
 											<input type="hidden" name="shipped_to_addr_id" id="shipped_to_addr_id" value="">
@@ -173,7 +173,7 @@
 													onClick="openfindaddressdialog('shipped_from_addr','shipped_from_addr_id','addressDialog',#transaction_id#); return false;">
 											</span>
 											<div class="form-group">
-												<textarea name="shipped_from_addr" id="shipped_from_addr" cols="65" rows="5" required class="height: 5rem"
+												<textarea name="shipped_from_addr" id="shipped_from_addr" cols="65" rows="5" required style="height: 5rem;"
 													readonly="yes" class="reqdClr w-100"></textarea><!--- not autogrow --->
 											</div>
 											<input type="hidden" name="shipped_from_addr_id" id="shipped_from_addr_id" value="">
