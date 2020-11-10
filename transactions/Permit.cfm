@@ -662,7 +662,7 @@ limitations under the License.
 						<div class="alert alert-danger" role="alert">
 							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 							<h1 class="h2">Delete Failed</h1>
-							<p>Permits cannot be deleted if they are used in a shipment, in a transaction, or have child permits.</p>
+							<p>Permissions and Rights records cannot be deleted if they are used in a shipment, in a transaction, have attached media, or have child permits.</p>
 							<p>#cfcatch.message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 						</div>
