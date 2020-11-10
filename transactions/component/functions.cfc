@@ -791,7 +791,7 @@ limitations under the License.
 		order by permit_type, issued_date
 	</cfquery>
 	<cfif query.recordcount gt 0>
-		<cfset result="<ul class='list-style-disc pl-4 pr-2 mt-1'>">
+		<cfset result="<ul class='list-style-disc pl-4 pr-2 mt-2'>">
 		<cfloop query="query">
 			<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media.media_id, media_uri, preview_uri, media_type
