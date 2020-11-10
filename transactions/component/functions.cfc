@@ -1729,7 +1729,7 @@ limitations under the License.
 			</cfquery>
 			<cfoutput>
 					<cfset uriList = ''>
-					<ul class="list-style-disc">
+					<ul class="list-style-disc pl-4 pr-0">
 						<cfloop query="getPermitMedia">
 							<cfif media_id is ''>
 								<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
