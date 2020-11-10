@@ -487,7 +487,7 @@ limitations under the License.
 					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
       			material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
-				<section class="col-12 col-sm-8 border bg-white pt-3" id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
+				<section class="col-12 border bg-white pt-3" id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
 					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
