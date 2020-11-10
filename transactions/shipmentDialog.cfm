@@ -73,7 +73,7 @@
 	<dialog id="dialog-shipment" title="Create New Shipment">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 px-0">
 					<form name="shipmentForm" id="shipmentForm" >
 						<fieldset>
 							<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
