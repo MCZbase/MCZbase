@@ -1422,9 +1422,7 @@ limitations under the License.
 				onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
 			">
 			</cfif>
-			<cfset result = result & "
-			
-									  </div></form></div>
+					<cfset result = result & "</div></form></div>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
@@ -1447,8 +1445,7 @@ limitations under the License.
 				}
 			});
 		};
-		</script>
-			</div>">
+		</script>">
 			<cfset i=i+1>
 		</cfloop>
 				<cfset result = result & "</div>	">
