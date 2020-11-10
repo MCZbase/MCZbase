@@ -1418,7 +1418,7 @@ limitations under the License.
 					<cfset result = result & " This Permit is already linked to #shipment_label# ">
 				<cfelse>
 			<cfset result = result & "
-				<input type='button' class='btn btn-xs my-2 btn-secondary'
+				<input type='button' class='btn btn-xs mt-2 mb-2 btn-secondary'
 				onclick='linkpermittoship(#matchPermit.permit_id#,#shipment_id#,""#shipment_label#"",""pickResponse#shipment_id#_#i#"");' value='Add this permit'>
 			">
 			</cfif>
