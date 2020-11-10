@@ -483,7 +483,7 @@ limitations under the License.
 					Create New Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
 				</h1>
-    			<p target="0">
+    			<p class="ml-3" target="0">
 					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
       			material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
