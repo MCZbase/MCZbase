@@ -478,17 +478,17 @@ limitations under the License.
 					$("##exp_date").datepicker({ dateFormat: 'yy-mm-dd'});
 				});
 			</script>
-			<main class="container" id="content">
-				<h2 class="wikilink mt-2 mb-0" id="newPermitFormSectionLabel" >
+			<main class="container py-3" id="content">
+				<h1 class="h2 ml-3" target="0" id="newPermitFormSectionLabel" >
 					Create New Permissions &amp; Rights Document 
 					<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Permit##Create_a_Permissions_and_Rights_.28Permit.29_record')" aria-label="help link"></i>
-				</h2>
-    			<p>
+				</h1>
+    			<p class="ml-3" target="0">
 					Enter a new record for a permit or similar document related to permissions and rights (access benefit sharing agreements,
       			material transfer agreements, collecting permits, salvage permits, etc.)
 				</p>
-				<section id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
-					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();" class="col-12">
+				<section class="col-12 border rounded mb-5 bg-white pt-3" id="newPermitFormSection" class="row" aria-labeledby="newPermitFormSectionLabel" >
+					<form name="newPermitForm" id="newPermitForm" action="/transactions/Permit.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="create">
         							<cfif isdefined("headless") and headless EQ 'true'>
 	    								<input type="hidden" name="headless" value="true">
@@ -503,7 +503,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
 								</div>
@@ -521,7 +521,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
 								</div>
@@ -539,7 +539,7 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text small" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
 									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
 								</div>
