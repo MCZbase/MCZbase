@@ -1001,7 +1001,7 @@ limitations under the License.
 								<script>
 									$( document ).ready(loadShipments(#transaction_id#));
 								</script>
-								<div class="addstyle">
+								<div>
 									<input type="button" class="btn btn-xs btn-secondary float-left mr-4" value="Add Shipment" onClick="$('##dialog-shipment').dialog('open'); setupNewShipment(#transaction_id#);">
 									<div class="float-left mt-2 mt-md-0">Note: please check the <a href="https://code.mcz.harvard.edu/wiki/index.php/Country_Alerts">Country Alerts</a> page for special instructions or restrictions associated with specific countries</div>
 								</div>

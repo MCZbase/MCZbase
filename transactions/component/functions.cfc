@@ -1177,107 +1177,110 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-			<h1 class="h3">Search for Permissions &amp; Rights documents. Any part of dates and names accepted, case isn't important.</h1>
-			<form id="findPermitForm" onsubmit="searchforpermits(event);">
-				<input type="hidden" name="method" value="findPermitShipSearchResults">
-				<input type="hidden" name="returnformat" value="plain">
-				<input type="hidden" name="shipment_id" value="#shipment_id#">
-				<input type="hidden" name="shipment_label" value="#shipment_label#">
-				<div class="form-row">
-					<div class="col-12 col-md-3">
-						<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
-						<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
-					</div>
-					<div class="col-12 col-md-3">
-						<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
-						<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
-					</div>
-					<div class="col-6 col-md-3">
-						<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
-						<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
-					</div>
-					<div class="col-6 col-md-3">
-						<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
-						<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
-						<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="permit_Num">Permit Number</label>
-						<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
-						<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
-							<option value=""></option>
-							<cfloop query="ctPermitType">
-								<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-3">
-						<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
-						<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-6">
-						<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
-						<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
-							<option value=""></option>
-							<cfloop query="ctSpecificPermitType">
-								<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
-							</cfloop>
-						</select>
-					</div>
-					<div class="col-12 col-md-6">
-						<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
-						<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
-					</div>
-				</div>
-				<div class="form-row">
-					<div class="col-12 col-md-6">
-						<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
-						<script>
-							function createPermitDialogDone () { 
-								$("##permit_Num").val($("##permit_number_passon").val()); 
-							};
-						</script>
-						<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
-					</div>
-					<div class="col-12 col-md-6">
-						<span id="createPermit_#shipment_id#_span">
-							<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
-						</span>
-						<div id="createPermitDlg_#shipment_id#"></div>
-					</div>
-				</div>
-			</form>
-			<script>
-				function searchforpermits(event) { 
-					event.preventDefault();
-					// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
-					// console.log($('##findPermitForm').serialize());
-					jQuery.ajax({
-						url: '/transactions/component/functions.cfc',
-						type: 'post',
-						data: $('##findPermitForm').serialize(),
-						success: function (data) {
-							$('##permitSearchResults').html(data);
-						},
-						error: function (jqXHR, textStatus, error) {
-							handleFail(jqXHR,textStatus,error,'removing project from transaction record');
-							$('##permitSearchResults').html('Error:' + textStatus);
-						}
-					});
-					return false; 
-				};
-			</script>
-			<div id="permitSearchResults"></div>
+					<h1 class="h3">Search for Permissions &amp; Rights documents
+						<span class="smaller d-block mt-1">Any part of dates and names accepted, case isn't important</span>
+					</h1>
+					<div class="search-box px-3 py-2">
+							<form id="findPermitForm" onsubmit="searchforpermits(event);">
+								<input type="hidden" name="method" value="findPermitShipSearchResults">
+								<input type="hidden" name="returnformat" value="plain">
+								<input type="hidden" name="shipment_id" value="#shipment_id#">
+								<input type="hidden" name="shipment_label" value="#shipment_label#">
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label for="pf_issuedByAgent" class="data-entry-label">Issued By</label>
+										<input type="text" name="IssuedByAgent" id="pf_issuedByAgent" class="form-control data-entry-input">
+									</div>
+									<div class="col-12 col-md-3">
+										<label for="pf_issuedToAgent" class="data-entry-label">Issued To</label>
+										<input type="text" name="IssuedToAgent" id="pf_issuedToAgent" class="form-control data-entry-input">
+									</div>
+									<div class="col-6 col-md-3">
+										<label for="pf_issued_date" class="data-entry-label">Issued Date</label>
+										<input type="text" name="issued_Date" id="pf_issued_date" class="form-control data-entry-input">
+									</div>
+									<div class="col-6 col-md-3">
+										<label for="pf_renewed_date" class="data-entry-label">Renewed Date</label>
+										<input type="text" name="renewed_Date" id="pf_renewed_date" class="form-control data-entry-input">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_exp_date">Expiration Date</label>
+										<input type="text" name="exp_Date" class="form-control data-entry-input" id="pf_exp_date">
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="permit_Num">Permit Number</label>
+										<input type="text" name="permit_Num" id="permit_Num" class="form-control data-entry-input">
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
+										<select name="permit_Type" size="1" class="data-entry-input" id="pf_permit_type">
+											<option value=""></option>
+											<cfloop query="ctPermitType">
+												<option value = "#ctPermitType.permit_type#">#ctPermitType.permit_type# (#ctPermitType.uses#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label" for="pf_permit_remarks">Remarks</label>
+										<input type="text" name="permit_remarks" id="pf_permit_remarks" class="form-control data-entry-input">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label" for="pf_specific_type">Specific Type</label>
+										<select name="specific_type" size="1" id="pf_specific_type" class="form-control form-control-sm">
+											<option value=""></option>
+											<cfloop query="ctSpecificPermitType">
+												<option value="#ctSpecificPermitType.specific_type#" >#ctSpecificPermitType.specific_type# (#ctSpecificPermitType.uses#)</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-6">
+										<label class="data-entry-label" for="pf_permit_title">Permit Title</label>
+										<input type="text" name="permit_title" id="pf_permit_title" class="form-control data-entry-input">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="col-12 col-md-6">
+										<input type="button" value="Search" class="btn btn-xs btn-primary mt-2 mr-2" onclick="$('##findPermitForm').submit()">	
+										<script>
+											function createPermitDialogDone () { 
+												$("##permit_Num").val($("##permit_number_passon").val()); 
+											};
+										</script>
+										<input type="reset" value="Clear" class="btn btn-xs btn-warning mt-2 mr-4">
+									</div>
+									<div class="col-12 col-md-6">
+										<span id="createPermit_#shipment_id#_span">
+											<input type='button' value='New Permit' class='btn btn-xs btn-secondary mt-2' onClick='opencreatepermitdialog("createPermitDlg_#shipment_id#","#shipment_label#", #shipment_id#, "shipment", createPermitDialogDone);' >
+										</span>
+										<div id="createPermitDlg_#shipment_id#"></div>
+									</div>
+								</div>
+							</form>
+							<script>
+								function searchforpermits(event) { 
+									event.preventDefault();
+									// to debug ajax call on component getting entire page redirected to blank page uncomment to create submission
+									// console.log($('##findPermitForm').serialize());
+									jQuery.ajax({
+										url: '/transactions/component/functions.cfc',
+										type: 'post',
+										data: $('##findPermitForm').serialize(),
+										success: function (data) {
+											$('##permitSearchResults').html(data);
+										},
+										error: function (jqXHR, textStatus, error) {
+											handleFail(jqXHR,textStatus,error,'removing project from transaction record');
+											$('##permitSearchResults').html('Error:' + textStatus);
+										}
+									});
+									return false; 
+								};
+							</script>
+							<div id="permitSearchResults"></div>
 					</div>
 				</div>
 			</div>
