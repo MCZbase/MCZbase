@@ -1415,7 +1415,7 @@ limitations under the License.
 			<cfset result = result & " (ID## #matchPermit.permit_id#) #matchPermit.permit_title#
 			<div id='pickResponse#shipment_id#_#i#'>">
 				<cfif matchPermit.linkcount GT 0>
-					<cfset result = result & " <span class='text-success'>This Permit is already linked to #shipment_label#">
+					<cfset result = result & " This Permit is already linked to #shipment_label# ">
 				<cfelse>
 			<cfset result = result & "
 				<input type='button' class='btn btn-xs mt-2 mb-2 btn-secondary'
@@ -1424,7 +1424,7 @@ limitations under the License.
 			</cfif>
 			<cfset result = result & "
 			
-								</span> 	  </div></form></div>
+									  </div></form></div>
 		<script language='javascript' type='text/javascript'>
 		$('##pp_#permit_id#_#shipment_id#_#i#').removeClass('ui-widget-content');
 		function linkpermittoship(permit_id, shipment_id, shipment_label, div_id) { 
