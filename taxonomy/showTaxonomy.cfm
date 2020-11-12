@@ -491,8 +491,10 @@
 					<div class="row" id="taxSpecimenMedia">
 						<div class="col-12">
 							<h2 class="h4">Media</h2>
+							<cfset hasSpecimenMedia = true>
 							<cfif media.recordcount EQ 0>
 								<p>No MCZbase specimens identified as this taxon have images</p>
+								<cfset hasSpecimenMedia = false>
 							</cfif>
 							<cfloop query="media">
 								<cfset altText = media.media_descriptor>
@@ -519,9 +521,12 @@
 								from identification_taxonomy where 
 								taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 							</cfquery>
-							<cfif usedInIndentifications.c gt 0>
+							<cfif usedInIndentifications.c GT 0>
 								<li>
-									<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> <a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
+									<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> 
+									<cfif hasSpecimenMedia EQ true>
+										<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
+									</cfif>
 								</li>
 								<li>
 									<a href="/bnhmMaps/kml.cfm?method=gmap&amp;ampaction=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
