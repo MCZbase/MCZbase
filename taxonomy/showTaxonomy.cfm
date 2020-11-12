@@ -494,7 +494,7 @@
 							<cfloop query="media">
 								<cfset altText = media.media_descriptor>
 								<cfset puri=getMediaPreview(media.preview_uri,media.media_type)>
-								<div class="float-left bg-light p-1">
+								<div class="float-left bg-light text-center p-1" style="width: 170px;">
 									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" style="max-width: 120px; max-height: 120px;"></a>
 									<div style="font-size: 86%" class="text-dark">
 										#media.media_type# (#media.mime_type#)
