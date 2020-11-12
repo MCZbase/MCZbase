@@ -914,6 +914,7 @@ limitations under the License.
 							</cfif>
 						</div>
 					</section>
+					<div class="row">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
@@ -1007,9 +1008,7 @@ limitations under the License.
 								</div>
 							</div>
 						</section>
-
 						<cfinclude template="/transactions/shipmentDialog.cfm">
-
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
 								<h2 class="h3">Countries of Origin of items in this loan</h2>
@@ -1038,11 +1037,10 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
-
-
-						<div class="row mx-0 mx-md-1 mt-0 mb-0">
-							<section title="Accessions associated with material in this loan" name="accessionsSection" class="col-12 col-md-6 d-block form-row mr-md-1 border bg-light pb-2 pt-1 rounded mt-2" tabindex="0">
-								<h2 class="h3">Accessions of material in this loan</h2>
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 pl-0 pr-md-1" tabindex="0">
+						<div class="border bg-light float-left pl-2 py-3 w-100 rounded">
+							<div>
+							<h2 class="h3">Accessions of material in this loan</h2>
 								<!--- List Accessions for collection objects included in the Loan --->
 								<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
@@ -1053,6 +1051,7 @@ limitations under the License.
 										left join accn on ci.accn_id = accn.transaction_id
 									where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#loanDetails.transaction_id#">
 								</cfquery>
+								
 								<ul class="pl-4 pr-0 list-style-disc">
 									<cfloop query="getAccessions">
 										<li class="accn2">
@@ -1098,9 +1097,12 @@ limitations under the License.
 										</li>
 									</cfloop>
 								</ul>
+							</div>
 							</section>	
 							<!--- Print permits associated with these accessions --->
-							<section title="Permissions And Rights Documents from Accessions and Shipments" class="col-12 col-md-6 d-block form-row ml-md-1 border bg-light rounded mt-2 mb-0 pt-1 pb-3" tabindex="0">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0 mb-0 pt-1 pb-3" tabindex="0">
+								<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+								<div>
 								<h2 class="h3">
 									Permissions and Rights Documents 
 									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
@@ -1163,11 +1165,12 @@ limitations under the License.
 									</cfloop>
 								</ul>
 								</div>
+								</div>
 								<cfif ListLen(uriList,',',false) gt 0 >
 									<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" class="font-weight-bold pl-2">PDF of All Permission and Rights documents</a>
 								</cfif>
+									</div>
 							</section>
-						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
@@ -1195,18 +1198,16 @@ limitations under the License.
 								<div id="projectsAddDialog"></div>
 							</div>
 						</section>
-					</div>
-				<cfcatch>
+						</div>
+						<cfcatch>
 					<h2>Error: #cfcatch.message#</h2>
 					<cfif cfcatch.detail NEQ ''>
 						#cfcatch.detail#
 					</cfif>
 				</cfcatch>
-				</cftry>
-
+						</cftry>
 				</div>
 			</div>
-
 		</main>
 	</cfoutput> 
 </cfif>
