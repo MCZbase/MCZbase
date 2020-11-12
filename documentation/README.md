@@ -305,7 +305,7 @@ Whenever possible, use Bootstrap classes instead of directly using css styles.
 
 Use `<h1 class=”h3”>` **not** `<h1 style=”font-size: medium;”>`
 
-See: [Styling Pages](#styling-pages) **In Progress** for details on which bootstrap classes to use where.
+See: [Styling Pages](#styling-pages) for details on which bootstrap classes to use where.
 
 Avoid using inline styling whenever possible, except in early development and testing.
 
@@ -391,7 +391,9 @@ Use this pattern for areas that are to have content loaded by ajax on page load:
 
 WARNING: The spinner is deceptive, it implies that an action is ongoing, if this area remains spinning it is likely that javascript is broken and nothing is happening.
 
-## Styling Pages [In Progress]
+## Styling Pages 
+
+**This Section In Progress**
 
 ### Types of Pages
 
