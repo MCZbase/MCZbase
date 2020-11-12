@@ -546,8 +546,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-							<h1 class="h4">Results: </h1>
-							<span class="d-block px-3 p-2" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> <span id="resultLink" class="d-block p-2"></span>
+						<h1 class="h4">Results: <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
 									<div class="row">
@@ -912,11 +911,11 @@ limitations under the License.
 					} 
 				});
 				$("##columnPickDialogButton").html(
-					`<span class="border rounded p-1 mx-lg-2">Show/Hide 
-						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary px-1 py-1 my-2" >Select Columns</button>
-						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Common Names</button>
-						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Super/Sub/Infra</button>
-						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary px-1 py-1 my-2" >Scientific Name</button>
+					`<span class="border d-inline-block rounded px-2 mx-lg-1">Show/Hide 
+						<button id="columnPickDialogOpener" onclick=" $('##columnPickDialog').dialog('open'); " class="btn-xs btn-secondary my-1 mr-1" >Select Columns</button>
+						<button id="commonNameToggle" onclick=" toggleCommon(); " class="btn-xs btn-secondary m-1" >Common Names</button>
+						<button id="superSubToggle" onclick=" toggleSuperSub(); " class="btn-xs btn-secondary m-1" >Super/Sub/Infra</button>
+						<button id="sciNameToggle" onclick=" toggleScientific(); " class="btn-xs btn-secondary my-1 ml-1" >Scientific Name</button>
 					</span>
 					<button id="pinTaxonToggle" onclick=" togglePinTaxonColumn(); " class="btn-xs btn-secondary mx-1 px-1 py-1 my-2" >Pin Taxon Column</button>
 					`
@@ -929,7 +928,7 @@ limitations under the License.
 				$('.jqx-grid-group-cell').css({'z-index': maxZIndex + 1});
 				$('.jqx-grid-group-cell').css({'border-color': '##aaa'});
 				$('.jqx-menu-wrapper').css({'z-index': maxZIndex + 2});
-				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 mx-1 py-1 my-2 mx-0" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
+				$('##resultDownloadButtonContainer').html('<button id="loancsvbutton" class="btn-xs btn-secondary px-3 pb-1 mx-1 mb-1 my-md-2" aria-label="Export results to csv" onclick=" exportGridToCSV(\'searchResultsGrid\', \''+filename+'\'); " >Export to CSV</button>');
 			}
 
 			function togglePinTaxonColumn() { 

@@ -26,11 +26,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 	* [Search/Results](#Search/Results)
 	* [Saving-Changes](#Saving-Changes)
 	* [Ajax-Feedback](#Ajax-Feedback)
-* [Styling-Pages-[In-Progress]](#Styling-Pages-[In-Progress])
+* [Styling-Pages](#Styling-Pages)
 	* [Types-of-Pages](#Types-of-Pages)
 		* [Edit-Pages](#Edit-Pages)
 		* [Search-Pages](#Search-Pages)
-	* [Headers](#Headers)
+	* [Section Headings](#Section Headings)
 	* [Responsive-Styles](#Responsive-Styles)
 	* [Whitespace](#Whitespace)
 	* [Colors](#Colors)
@@ -305,7 +305,7 @@ Whenever possible, use Bootstrap classes instead of directly using css styles.
 
 Use `<h1 class=”h3”>` **not** `<h1 style=”font-size: medium;”>`
 
-See: [Styling Pages - In Progress](#styling-pages-in-progress) for details on which bootstrap classes to use where.
+See: [Styling Pages](#styling-pages) for details on which bootstrap classes to use where.
 
 Avoid using inline styling whenever possible, except in early development and testing.
 
@@ -391,7 +391,9 @@ Use this pattern for areas that are to have content loaded by ajax on page load:
 
 WARNING: The spinner is deceptive, it implies that an action is ongoing, if this area remains spinning it is likely that javascript is broken and nothing is happening.
 
-## Styling Pages [In Progress]
+## Styling Pages 
+
+**This Section In Progress**
 
 ### Types of Pages
 
@@ -498,18 +500,18 @@ SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
 
 ![]( documentation/screenshot_taxon_search_radio_buttons_ipad.png "documentation/screenshot_taxon_search_radio_buttons_ipad.png")
 
-### Headers
+### Section Headings
 
-Headers MUST reflect actual nesting of content, and SHOULD use bootstrap classes and custom size classes with the same name (e.g., class="h2") to control appearance, e.g. for a top level header, use h1 styled with class="h2". The order of headings (h1 to h6) MUST be nested successively throughout the page content.  Headings MUST start at h1 and heading levels MUST NOT be skipped  (e.g. each h2 must be beneath an h1, and each h3 must be beneath an h2, that is, <h1>Heading</h1><h2>Heading</h2><h2>Heading</h2> is allowed, but <h1>Heading</h1><h3>Heading</h3><h3>Heading</h3> is not). The tags, <h2>, <h3>, <h4>, and so on, can have any class that makes sense for the size needed.  In most cases, the section headers below the page/section header should be <h2  class="h3">.
+Headings MUST reflect actual nesting of content, and SHOULD use bootstrap classes and custom size classes with the same name (e.g., class="h2") to control appearance, e.g. for a top level heading, use h1 styled with class="h2". The order of headings (h1 to h6) MUST be nested successively throughout the page content.  Headings MUST start at h1 and heading levels MUST NOT be skipped  (e.g. each h2 must be beneath an h1, and each h3 must be beneath an h2, that is, `<h1>Heading</h1><h2>Heading</h2><h2>Heading</h2>` is allowed, but `<h1>Heading</h1><h3>Heading</h3><h3>Heading</h3>` is not). The tags, `<h2>, <h3>, <h4>`, and so on, can have any class that makes sense for the size needed.  In most cases, the section heading below the page/section heading should be `<h2  class="h3">`.
 
-EDIT PAGE HEADERS
+EDIT PAGE HEADINGS
 
 	<h1 class="h2">
 		< i class="fas fas-info fa-info-circle mr-2” onClick="getMCZDocs('Edit\_Taxonomy')" aria-label="help link"\></i>
 	</h1>
 
 
-SEARCH PAGE HEADERS (NO TABS)
+SEARCH PAGE HEADINGS (NO TABS)
 
 	<div class="search-box-header ">
 		<h1 class="h3 smallcaps text-white" tabindex="0">
@@ -517,13 +519,41 @@ SEARCH PAGE HEADERS (NO TABS)
 		</h1>
 	</div>
 
-Header titles for record searches are inside dark teal tab-cards with outer container as class=”container-fluid”. See Taxonomy search page.
+Heading titles for record searches are inside dark teal tab-cards with outer container as class=”container-fluid”. See Taxonomy search page.
 
-SEARCH PAGE HEADERS FOR RECORD METADATA
+SEARCH PAGE HEADINGS FOR RECORD METADATA
 
 	<h1 class=”h3”>…
 
 Use on pages that hold metadata for records (e.g., encumbrances, named groups). These are usually short search forms inside “container” and with input fields as control-input-sm (longer forms should use data-entry-input field, data-entry-select, data-entry-label, etc. See custom\_styles.css).
+
+The following legal form of nesting section headings is not used: 
+
+    <section>
+       <h1>Heading</h1>
+       <section>
+         <h1>Subheading</h1>
+			 ...
+       </section>
+       <section>
+         <h1>Subheading</h1>
+			 ...
+       </section>
+    </section>
+
+Instead, nest headings successively h1 to h6 with nesting depth.
+
+    <section>
+       <h1>Heading</h1>
+       <section>
+         <h2>Subheading</h2>
+			 ...
+       </section>
+       <section>
+         <h2>Subheading</h2>
+			 ...
+       </section>
+    </section>
 
 ### Responsive Styles
 

@@ -466,6 +466,49 @@
 
 				<div id="specTaxMedia">
 					<!--- TODO: Lookup media --->
+					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct
+							flattable.guid,
+							flattable.typestatus, 
+							media_relationship,
+							media_uri, preview_uri, media_type, mime_type,
+							mczbase.get_media_descriptor(media.media_id) as media_descriptor 
+						from media_relations
+							left join #session.flatTableName# flattable on related_primary_key = flattable.collection_object_id
+							left join media on media_relations.media_id = media.media_id
+							left join identification on flattable.collection_object_id = identification.collection_object_id
+							left join identification_taxonomy on identification.identification_id = identification_taxonomy.identification_id
+							left join citation on flattable.collection_object_id = citation.collection_object_id
+						where
+							media_relationship = 'shows cataloged_item'
+							and (
+								identification_taxonomy.taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#"> OR
+								citation.cited_taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+							)
+							and rownum < 20
+						order by typestatus
+					</cfquery>
+					<div class="row" id="taxSpecimenMedia">
+						<div class="col-12">
+							<h2 class="h4">Media</h2>
+							<cfset hasSpecimenMedia = true>
+							<cfif media.recordcount EQ 0>
+								<p>No MCZbase specimens identified as this taxon have images</p>
+								<cfset hasSpecimenMedia = false>
+							</cfif>
+							<cfloop query="media">
+								<cfset altText = media.media_descriptor>
+								<cfset puri=getMediaPreview(media.preview_uri,media.media_type)>
+								<div class="float-left bg-light text-center p-1" style="width: 170px;">
+									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" style="max-width: 120px; max-height: 120px;"></a>
+									<div style="font-size: 86%" class="text-dark">
+										#media.media_type# (#media.mime_type#)
+										<br><a href="/guid/#media.guid#" target="_blank">#media.guid#</a>
+									</div>
+								</div>
+							</cfloop>
+						</div>
+					</div>
 				</div>
 								
 				<div class="row" id="internalExternalLinksLists">
@@ -478,9 +521,12 @@
 								from identification_taxonomy where 
 								taxon_name_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.taxon_name_id#">
 							</cfquery>
-							<cfif usedInIndentifications.c gt 0>
+							<cfif usedInIndentifications.c GT 0>
 								<li>
-									<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> <a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
+									<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#"> Specimens currently identified as #one.display_name# </a> <a href="/SpecimenResults.cfm?anyTaxId=#one.taxon_name_id#"> [ include unaccepted IDs ] </a> <a href="/SpecimenResults.cfm?taxon_name_id=#one.taxon_name_id#"> [ exact matches only ] </a> 
+									<cfif hasSpecimenMedia EQ true>
+										<a href="/SpecimenResults.cfm?scientific_name=#one.scientific_name#&media_type=any"> [ with Media ] </a>
+									</cfif>
 								</li>
 								<li>
 									<a href="/bnhmMaps/kml.cfm?method=gmap&amp;ampaction=newReq&next=colorBySpecies&scientific_name=#one.scientific_name#" class="external" target="_blank"> Google Map of MCZbase specimens </a>
