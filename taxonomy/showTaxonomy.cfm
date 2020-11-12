@@ -491,6 +491,9 @@
 					<div class="row" id="taxSpecimenMedia">
 						<div class="col-12">
 							<h2 class="h4">Media</h2>
+							<cfif media.recordcount EQ 0>
+								<p>No MCZbase specimens identified as this taxon have images</p>
+							</cfif>
 							<cfloop query="media">
 								<cfset altText = media.media_descriptor>
 								<cfset puri=getMediaPreview(media.preview_uri,media.media_type)>
