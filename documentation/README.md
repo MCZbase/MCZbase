@@ -26,7 +26,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 	* [Search/Results](#Search/Results)
 	* [Saving-Changes](#Saving-Changes)
 	* [Ajax-Feedback](#Ajax-Feedback)
-* [Styling-Pages-[In-Progress]](#Styling-Pages-[In-Progress])
+* [Styling-Pages](#Styling-Pages)
 	* [Types-of-Pages](#Types-of-Pages)
 		* [Edit-Pages](#Edit-Pages)
 		* [Search-Pages](#Search-Pages)
@@ -305,7 +305,7 @@ Whenever possible, use Bootstrap classes instead of directly using css styles.
 
 Use `<h1 class=”h3”>` **not** `<h1 style=”font-size: medium;”>`
 
-See: [Styling Pages - In Progress](#styling-pages-in-progress) for details on which bootstrap classes to use where.
+See: [Styling Pages](#styling-pages) **In Progress** for details on which bootstrap classes to use where.
 
 Avoid using inline styling whenever possible, except in early development and testing.
 
@@ -500,7 +500,7 @@ SEARCH FORM RADIO BOX MEDIUM SCREEN (Example of Taxa.cfm -- iPad screen):
 
 ### Headers
 
-Headers MUST reflect actual nesting of content, and SHOULD use bootstrap classes and custom size classes with the same name (e.g., class="h2") to control appearance, e.g. for a top level header, use h1 styled with class="h2". The order of headings (h1 to h6) MUST be nested successively throughout the page content.  Headings MUST start at h1 and heading levels MUST NOT be skipped  (e.g. each h2 must be beneath an h1, and each h3 must be beneath an h2, that is, <h1>Heading</h1><h2>Heading</h2><h2>Heading</h2> is allowed, but <h1>Heading</h1><h3>Heading</h3><h3>Heading</h3> is not). The tags, <h2>, <h3>, <h4>, and so on, can have any class that makes sense for the size needed.  In most cases, the section headers below the page/section header should be <h2  class="h3">.
+Headers MUST reflect actual nesting of content, and SHOULD use bootstrap classes and custom size classes with the same name (e.g., class="h2") to control appearance, e.g. for a top level header, use h1 styled with class="h2". The order of headings (h1 to h6) MUST be nested successively throughout the page content.  Headings MUST start at h1 and heading levels MUST NOT be skipped  (e.g. each h2 must be beneath an h1, and each h3 must be beneath an h2, that is, `<h1>Heading</h1><h2>Heading</h2><h2>Heading</h2>` is allowed, but `<h1>Heading</h1><h3>Heading</h3><h3>Heading</h3>` is not). The tags, `<h2>, <h3>, <h4>`, and so on, can have any class that makes sense for the size needed.  In most cases, the section headers below the page/section header should be `<h2  class="h3">`.
 
 EDIT PAGE HEADERS
 
