@@ -497,7 +497,7 @@
 								<div class="one_thumb_small">
 									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" class="theThumbSmall"></a>
 									<div class="detailCellSmall">
-										#media.media_type# (#mediamime_type#)
+										#media.media_type# (#media.mime_type#)
 										<br><a href="/guid/#media.guid#" target="_blank">#media.guid#</a>
 									</div>
 								</div>
