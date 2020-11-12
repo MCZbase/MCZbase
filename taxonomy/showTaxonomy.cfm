@@ -494,9 +494,9 @@
 							<cfloop query="media">
 								<cfset altText = media.media_descriptor>
 								<cfset puri=getMediaPreview(media.preview_uri,media.media_type)>
-								<div class="one_thumb_small">
-									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" class="theThumbSmall"></a>
-									<div class="detailCellSmall">
+								<div class="float-left bg-light p-1">
+									<a href="#media_uri#" target="_blank"><img src="#puri#" alt="#altText#" style="max-width: 120px; max-height: 120px;"></a>
+									<div style="font-size: 86%" class="text-dark">
 										#media.media_type# (#media.mime_type#)
 										<br><a href="/guid/#media.guid#" target="_blank">#media.guid#</a>
 									</div>
