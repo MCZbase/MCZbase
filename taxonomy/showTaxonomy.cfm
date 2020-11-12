@@ -467,11 +467,12 @@
 				<div id="specTaxMedia">
 					<!--- TODO: Lookup media --->
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select flattable.guid,
+						select distinct
+							flattable.guid,
 							flattable.typestatus, 
 							media_relationship,
 							media_uri, preview_uri, media_type, mime_type,
-							mczbase.get_media_descriptor(m.media_id) as media_descriptor 
+							mczbase.get_media_descriptor(media.media_id) as media_descriptor 
 						from media_relations
 							left join #session.flatTableName# flattable on related_primary_key = flattable.collection_object_id
 							left join media on media_relations.media_id = media.media_id
