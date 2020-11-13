@@ -2496,9 +2496,9 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-											<div class="form-row list-even pt-1 my-1 border">
+									<div class="form-row list-even pt-1 my-1 border">
 										<cfelse> 
-											<div class="form-row list-odd my-1 pt-1 border">
+									<div class="form-row list-odd my-1 pt-1 border">
 										</cfif>
 										<div class="form-group col-12 col-md-5 mb-0">
 											<div class="input-group">
@@ -2557,7 +2557,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 										</div>
-														</div>
+									</div>
 									<cfset i=i+1>
 								</cfloop>
 								<cfset na=i-1>
