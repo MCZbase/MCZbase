@@ -2502,7 +2502,7 @@ limitations under the License.
 							</div>
 						  </div>  		
 						<div class="form-row">
-						  <div class="col-12 alert alert-success my-2">
+						  <div class="col-12 alert alert-success py-0">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 							<cfelse>
