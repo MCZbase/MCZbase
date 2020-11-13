@@ -2497,7 +2497,6 @@ limitations under the License.
 										<cfelse> 
 								<div class="form-row list-odd my-1 pt-1 border">
 										</cfif>
-									<div class="col-12">
 										<div class="form-group col-12 col-md-5 mb-0">
 											<div class="input-group">
 												<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
@@ -2555,7 +2554,6 @@ limitations under the License.
 													</cfloop>
 												</select>
 										</div>
-									</div>
 								</div>
 									<cfset i=i+1>	
 								</cfloop>
