@@ -2484,7 +2484,7 @@ limitations under the License.
 							<h2 class="h4">Loan Agents 				<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 										</span></h2>		  <div class="col alert alert-success float-right rounded-0 px-3 mt-0 mb-0 py-0">
 									<cfif okToPrint >
-										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
+										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success  text-center small px-1">OK to print</span>
 									<cfelse>
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
