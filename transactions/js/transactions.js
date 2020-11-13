@@ -721,7 +721,7 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d='<cfif (i MOD 2) EQ 0><div class="form-row list-even pt-1 my-1 border"><cfelse><div class="form-row list-odd my-1 pt-1 border"></cfif>';
+			var d='</div><cfif (i MOD 2) EQ 0><div class="form-row list-even pt-1 my-1 border"><cfelse><div class="form-row list-odd my-1 pt-1 border"></cfif>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
