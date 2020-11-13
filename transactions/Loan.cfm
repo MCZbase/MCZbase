@@ -1108,7 +1108,7 @@ limitations under the License.
 								<div>
 									<h2 class="h3">
 									Permissions and Rights Documents 
-									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and the Shipments of this Loan</span>
+									<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and Shipments of this Loan</span>
 								</h2>
 									<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
