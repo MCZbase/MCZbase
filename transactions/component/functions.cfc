@@ -2483,7 +2483,7 @@ limitations under the License.
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 						<div class="form-row">
 							<div class="form-group mb-0 col-md-5">
-							  <label for="" class="data-entry-label">Agent Name</label>
+							  <label for="" class="form-control">Agent Name</label>
 								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
 							  <div class="form-group mb-0 col-md-3">
