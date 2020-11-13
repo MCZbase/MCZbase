@@ -2481,35 +2481,27 @@ limitations under the License.
 				<div class="form-row my-1">
 					<div class="col-12 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
-							<form>
-								<div class="form-row">	
-									<div class="form-group col-md-1">
-						  				<label for="button_add_trans_agent">Add Agent</label>
-						  				<button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Sign in</button>
-									</div>
-								</div>
-								  <div class="form-row">
-									<div class="form-group col-md-4">
-									  <label for="">Agent Name</label>
-									 
-									  </div>
-									  <div class="form-group col-md-3">
-										<label for="">Role</label>
-							
-									  </div>
-								  <div class="form-group col-md-2">
-									<div class="form-check">
-									  <input class="form-check-input" type="checkbox" id="gridCheck">
-									  <label class="form-check-label" for="gridCheck">
-									   Delete?
-									  </label>
-									  </div></div>
-									<div class="form-group col-md-3">
-									  <label for="">Clone As</label>
-									</div>
-								  </div>
-						  		</div>
-							<div class="form-row">
+						<div class="form-row">
+							<div class="form-group col-md-4">
+							  <label for="">Agent Name</label>
+								<button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
+							  </div>
+							  <div class="form-group col-md-3">
+								<label for="">Role</label>
+
+							  </div>
+						  <div class="form-group col-md-2">
+							<div class="form-check">
+							  <input class="form-check-input" type="checkbox" id="gridCheck">
+							  <label class="form-check-label" for="gridCheck">
+							   Delete?
+							  </label>
+							  </div></div>
+							<div class="form-group col-md-3">
+							  <label for="">Clone As</label>
+							</div>
+						  </div>  		
+						<div class="form-row">
 						  <div class="col-12">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
@@ -2517,12 +2509,12 @@ limitations under the License.
 								<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 							</cfif>
 						  </div>
-								</div>
-<div class="form-row"> 
-							  
-				<div class="col-12">
+						</div>
+						<div class="form-row"> 			  
+							<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
+									<div class="form-row">
 									<div class="form-group col-md-4">
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
@@ -2547,7 +2539,7 @@ limitations under the License.
 												</cfif>
 											</span>
 										</div>
-										<div class="form-group col-md-4">
+									<div class="form-group col-md-4">
 											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
 													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
@@ -2574,20 +2566,15 @@ limitations under the License.
 													<option value="#trans_agent_role#">#trans_agent_role#</option>
 												</cfloop>
 											</select>
-										</td>
-									</tr>
+									</div>
 									<cfset i=i+1>
+									</div>
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+							</div>		
 						</div>
-												</div>
-					</form>
-
-			
-
-						
-						<!-- end agents table ---> 
+						</div>
 					</div>
 				</div>
 			</cfoutput>
