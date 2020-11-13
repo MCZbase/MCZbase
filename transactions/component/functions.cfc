@@ -2481,28 +2481,46 @@ limitations under the License.
 				<div class="form-row my-1">
 					<div class="col-12 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
-							<div class="col-4">
-								<div class="form-row">
-									<label>Agent&nbsp;Name&nbsp;</label>
-									<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
-								</div>
-							</div>
-								<div class="col-4">
-									<h3>Role</h3>
-								</div>
-								<div class="col-1"><h3>Delete?</h3></div>
-								<div class="col-3"><h3>Clone As</h3></div>
+							<form>
+					  <div class="form-row">
+						<div class="form-group col-md-4">
+						  <label for="">Agent Name</label>
+						  <input type="text" class="form-control" id="">
 						</div>
-						
-<!---									<td colspan="5" tabindex="0">
-										<cfif okToPrint >
-											<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
-										<cfelse>
-											<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
-										</cfif>
-									</td>
-								</tr>--->
-						<div class="col-12">
+						<div class="form-group col-md-1">
+						  <label for="button_add_trans_agent">Add Agent</label>
+						  <button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Sign in</button>
+						</div>
+					  </div>
+					  <div class="form-group col-md-3">
+						<label for="">Role</label>
+						<input type="text" class="form-control" id="" placeholder="">
+					  </div>
+					  <div class="form-group">
+						<div class="form-check">
+						  <input class="form-check-input" type="checkbox" id="gridCheck">
+						  <label class="form-check-label" for="gridCheck">
+						   Delete?
+						  </label>
+						</div>
+					  <div class="form-row">
+						<div class="form-group col-md-3">
+						  <label for="">Clone As</label>
+						  <input type="text" class="form-control" id="">
+						</div>
+
+					  </div>
+						  <div class="col-12">
+							<cfif okToPrint >
+								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
+							<cfelse>
+								<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
+							</cfif>
+						  </div>
+							  
+							 <div class="row"> 
+							  
+				<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
 								
@@ -2564,6 +2582,12 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 						</div>
+												</div>
+					</form>
+
+			
+
+						
 						<!-- end agents table ---> 
 					</div>
 				</div>
