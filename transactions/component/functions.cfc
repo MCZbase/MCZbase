@@ -2482,21 +2482,18 @@ limitations under the License.
 					<div class="col-12 px-0 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 							<h2 class="h4">Loan Agents 				<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
-										</span></h2>
-						<div class="form-row"> 			  
-							<div class="col-12 bg-light py-2 mt-2 border">
-								<div class="form-row">
-								  <div class="col-12 alert alert-success rounded-0 px-3 mt-0 mb-0 py-0">
+										</span></h2>		  <div class="col alert alert-success float-right rounded-0 px-3 mt-0 mb-0 py-0">
 									<cfif okToPrint >
 										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 									<cfelse>
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
 								  </div>
-								</div>
+						<div class="form-row"> 			  
+							<div class="col-12 bg-light py-2 mt-2 border">
 								<cfset i=1>
 								<cfloop query="transAgents">
-									<div class="form-row mt-3">
+									<div class="form-row mt-3" id="agentTableDiv">
 										<div class="form-group col-md-4 mb-2">
 										<div class="input-group">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
