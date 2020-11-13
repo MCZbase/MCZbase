@@ -2562,8 +2562,8 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">								
 						</div>
-					</div>
-				</div>
+					</section>
+			
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
