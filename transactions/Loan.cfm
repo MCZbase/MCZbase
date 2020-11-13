@@ -1039,7 +1039,7 @@ limitations under the License.
 							</div>
 						</section>
 					<div class="row mx-0">
-						<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 mb-2 col-md-6 pl-0 pr-0 pr-md-1" tabindex="0">
+						<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 mb-0 col-md-6 pl-0 pr-0 pr-md-1" tabindex="0">
 						<div class="border bg-light float-left pl-2 pb-2 w-100 rounded">
 							<div>
 							<h2 class="h3 pl-2">Accessions of material in this loan</h2>
@@ -1104,7 +1104,7 @@ limitations under the License.
 						</section>	
 							<!--- Print permits associated with these accessions --->
 						<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0 mb-0 pt-0 pb-3" tabindex="0">
-							<div class="border bg-light float-left pl-3 py-0 w-100 rounded">
+							<div class="border bg-light float-left pl-3 py-0 h-100 w-100 rounded">
 								<div>
 									<h2 class="h3">
 									Permissions and Rights Documents 
