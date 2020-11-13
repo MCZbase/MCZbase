@@ -2478,7 +2478,7 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<div class="form-row my-1 bg-grayish p-2 border">
+				<div class="form-row my-1 bg-grayish px-2 border">
 					<div class="col-12 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 						<div class="form-row">
