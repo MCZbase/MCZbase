@@ -2506,7 +2506,7 @@ limitations under the License.
 													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 												});
 											</script>
-											<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
 													&nbsp;
 												<cfelseif transAgents.worstagentrank EQ 'F'>
