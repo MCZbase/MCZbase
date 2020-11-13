@@ -725,12 +725,11 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+= '<cfif (i MOD 2) EQ 0>';
 			d+= '<div class="form-row list-even mt-2 border">';
 			d+= '<cfelse>';
-			d+= '<div class="form-row list-odd mt-2 border">';
-			d+= '<div class="form-row list-odd mt-2 border">';						 
+			d+= '<div class="form-row list-odd mt-2 border">';					 
 			d+= '</cfif>';	
 			d+= '<div class="form-group col-12 col-md-5 mb-2">';
 			d+= '<div class="input-group">';
-			d+= '<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name ';
+			d+= '<label for="trans_agent_id_' + i + '" class="data-entry-label">Agent Name ';
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<script>';
@@ -738,10 +737,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='   $(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
 			d+=' });';
 			d+='</script>';
-			d+= '<span id="agentViewLink_' + i + '" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>';
-			d+= '<cfif transAgents.worstagentrank EQ \'A\'>&nbsp;<cfelseif transAgents.worstagentrank EQ \'F\'>';
-			d+= '<img src="/shared/images/flag-red.svg.png" width="16" alt="flag-red"><cfelse>';
-			d+= '<img src="/shared/images/flag-yellow.svg.png" width="16" alt="flag-yellow"></cfif></span></label>';
+			d+= '<span id="agentViewLink_' + i + '" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a></span>';
 			d+= '<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+= '<div class="input-group-prepend">';
 			d+= '<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span>';
@@ -758,7 +754,7 @@ function addTransAgentToForm (id,name,role,formid) {
 					d+=' selected="selected"';
 				}
 			d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
-			}
+			d+= '}';
 			d+= '</div>';
 			d+= '<div class="form-group col-2 col-md-1 mb-2">';
 			d+= '<label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>';
