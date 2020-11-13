@@ -2484,7 +2484,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-md-4">
 							  <label for="">Agent Name</label>
-								<button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
+								<button type="submit" class="btn-xs py-0 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
 							  <div class="form-group col-md-3">
 								<label for="">Role</label>
