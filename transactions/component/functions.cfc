@@ -2491,17 +2491,17 @@ limitations under the License.
 								  </div>
 						<div class="form-row"> 	
 								
-	
+		
 
-							
+							<div class="col-12 bg-light rounded py-0 mt-2 border" id="agentTableDiv">
 								<cfset i=1>
-											<cfif (i MOD 2) EQ 0> 
-				<div class="col-12 bg-light rounded py-0 mt-2 border">
-			<cfelse> 
-				<div class="col-12 bg-dark rounded py-0 mt-2 border">
-			</cfif>
 								<cfloop query="transAgents">
-									<div class="form-row mt-2" id="agentTableDiv">
+										<cfif (i MOD 2) EQ 0> 
+			<div class="form-row list-even mt-2">
+			<cfelse> 
+				<div class="form-row list-odd mt-2">
+			</cfif>
+								
 										<div class="form-group col-12 col-md-5 mb-2">
 										<div class="input-group">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
