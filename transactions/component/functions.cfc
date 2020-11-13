@@ -2481,7 +2481,7 @@ limitations under the License.
 				<div class="form-row my-1 bg-grayish pt-3 border">
 					<div class="col-12 px-0 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
-
+							<h2 class="h4">Loan Agents</h2>
 						<div class="form-row"> 			  
 							<div class="col-12 bg-light py-2 mt-2 border">
 								<div class="form-row">
