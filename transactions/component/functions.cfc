@@ -2503,9 +2503,9 @@ limitations under the License.
 						  </div>  		
 		
 						<div class="form-row"> 			  
-							<div class="col-12 bg-light px-4 py-2 mt-2 border">
+							<div class="col-12 bg-light py-2 mt-2 border">
 								<div class="form-row">
-								  <div class="col-12 alert alert-success mt-0 mb-0 py-0">
+								  <div class="col-12 alert alert-success  px-0 mt-0 mb-0 py-0">
 									<cfif okToPrint >
 										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 									<cfelse>
