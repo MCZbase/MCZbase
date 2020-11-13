@@ -2489,8 +2489,15 @@ limitations under the License.
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
 								  </div>
-						<div class="form-row"> 			  
-							<div class="col-12 bg-light rounded py-0 mt-2 border">
+						<div class="form-row"> 	
+								
+			<cfif (i MOD 2) EQ 0> 
+				<div class="col-12 bg-light rounded py-0 mt-2 border">
+			<cfelse> 
+				<div class="col-12 bg-dark rounded py-0 mt-2 border">
+			</cfif>
+
+							
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-2" id="agentTableDiv">
