@@ -2493,7 +2493,7 @@ limitations under the License.
 								
 		
 
-							<div class="col-12 bg-light rounded py-0 mt-2 border" id="agentTableDiv">
+							<div class="col-12 py-0 mt-1" id="agentTableDiv">
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
