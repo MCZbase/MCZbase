@@ -2540,7 +2540,7 @@ limitations under the License.
 											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 				
 									<div class="form-group col-md-1 mb-2">
-												  <label class="form-check-label data-entry-label" for="gridCheck">Delete? </label>
+												  <label class="form-check-label data-entry-label pl-0" for="gridCheck">Delete? </label>
 									<div class="form-check">
 									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
 									  </div>
