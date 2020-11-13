@@ -2498,8 +2498,8 @@ limitations under the License.
 									<div class="form-row mt-3">
 										<div class="form-group col-md-4 mb-2">
 										<div class="input-group">
-											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name</label>				
-											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
+												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
 												$(document).ready(function() {
@@ -2515,6 +2515,8 @@ limitations under the License.
 													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
 												</cfif>
 											</span>
+											</label>				
+								
 									
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
