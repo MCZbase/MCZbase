@@ -2525,7 +2525,7 @@ limitations under the License.
 											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 										</div>
 											</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-1">
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
@@ -2543,7 +2543,7 @@ limitations under the License.
 												</cfif>
 											</span>
 										</div>
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-3">
 											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
 													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
@@ -2557,13 +2557,13 @@ limitations under the License.
 									  </div>
 											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 				
-									<div class="form-group col-md-2">
+									<div class="form-group col-md-1">
 									<div class="form-check">
 									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline form-check-input position-relative" style="left:0;">
 									  </div>
 									</div>		
 												
-									<div class="form-group col-md-4">
+									<div class="form-group col-md-3">
 											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="cttrans_agent_role">
