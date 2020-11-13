@@ -2490,7 +2490,7 @@ limitations under the License.
 									</cfif>
 								  </div>
 						<div class="form-row"> 			  
-							<div class="col-12 bg-light py-2 mt-2 border">
+							<div class="col-12 bg-light py-0 mt-2 border">
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-3" id="agentTableDiv">
