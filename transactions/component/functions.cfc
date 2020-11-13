@@ -2480,34 +2480,32 @@ limitations under the License.
 			<cfoutput>
 				<div class="form-row my-1">
 					<div class="col-12 mt-1">
-						<table id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan	" class="table table-responsive d-table mb-0">
-							<thead class="thead-light">
-								<tr>
-									<th colspan="2"> 
-										<span>
-											Agent&nbsp;Name&nbsp;
-											<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
-										</span>
-									</th>
-									<th>Role</th>
-									<th>Delete?</th>
-									<th>Clone As</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td colspan="5" tabindex="0">
+						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
+							<div class="col-4">
+								<div class="form-row">
+									<label>Agent&nbsp;Name&nbsp;</label>
+									<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+								</div>
+							</div>
+								<div class="col-4">
+									<h3>Role</h3>
+								</div>
+								<div class="col-1"><h3>Delete?</h3></div>
+								<div class="col-3"><h3>Clone As</h3></div>
+						</div>
+						
+<!---									<td colspan="5" tabindex="0">
 										<cfif okToPrint >
 											<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 										<cfelse>
 											<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 										</cfif>
 									</td>
-								</tr>
+								</tr>--->
+						<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
-									<tr>
-										<td>
+								
 											<!--- trans_agent_id_{i} identifies the row in trans_agent table holding this agent for this transaction in this role --->
 											<!--- trans_agent_id_{i} is not touched by makeRichTransAgentPicker or selection of an agent. --->
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
@@ -2526,8 +2524,6 @@ limitations under the License.
 													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 												});
 											</script>
-										</td>
-										<td style=" min-width: 3.5em; ">
 											<span id="agentViewLink_#i#" class="px-2"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
 												<cfif transAgents.worstagentrank EQ 'A'>
 													&nbsp;
@@ -2567,8 +2563,7 @@ limitations under the License.
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-							</tbody>
-						</table>
+						</div>
 						<!-- end agents table ---> 
 					</div>
 				</div>
