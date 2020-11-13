@@ -733,7 +733,11 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+= '<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name ';
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+= '<script>$(document).ready(function() {$(makeRichTransAgentPicker(\'trans_agent_#i#\',\'agent_id_#i#\',\'agent_icon_#i#\',\'agentViewLink_#i#\',#agent_id#));});</script>';
+			d+='<script>';
+			d+=' $(document).ready(function() {';
+			d+='   $(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
+			d+=' });';
+			d+='</script>';
 			d+= '<span id="agentViewLink_' + i + '" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>';
 			d+= '<cfif transAgents.worstagentrank EQ \'A\'>&nbsp;<cfelseif transAgents.worstagentrank EQ \'F\'>';
 			d+= '<img src="/shared/images/flag-red.svg.png" width="16" alt="flag-red"><cfelse>';
