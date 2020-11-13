@@ -2501,17 +2501,18 @@ limitations under the License.
 							  <label for="" class="data-entry-label">Clone As</label>
 							</div>
 						  </div>  		
-						<div class="form-row">
-						  <div class="col-12 alert alert-success mt-2 mb-0 py-0">
-							<cfif okToPrint >
-								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
-							<cfelse>
-								<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
-							</cfif>
-						  </div>
-						</div>
+		
 						<div class="form-row"> 			  
 							<div class="col-12 bg-light p-2 border">
+								<div class="form-row">
+								  <div class="col-12 alert alert-success mt-2 mb-0 py-0">
+									<cfif okToPrint >
+										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
+									<cfelse>
+										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
+									</cfif>
+								  </div>
+								</div>
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-2">
