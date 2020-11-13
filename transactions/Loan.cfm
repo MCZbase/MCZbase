@@ -720,7 +720,7 @@ limitations under the License.
 								</div>
 								<script>
 									$(document).ready(function() { 
-										$('##agentTableContainerDiv').on('domChanged',function() {
+										$('##agentTableDiv').on('domChanged',function() {
 											console.log("dom change within agentTableContainerDiv");
 											monitorForChanges('editLoanForm',handleChange);
 										});
