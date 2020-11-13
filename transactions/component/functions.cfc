@@ -2497,14 +2497,13 @@ limitations under the License.
 										<label for="">Role</label>
 										<input type="text" class="form-control" id="" placeholder="">
 									  </div>
-								  <div class="form-group">
+								  <div class="form-group col-md-2">
 									<div class="form-check">
 									  <input class="form-check-input" type="checkbox" id="gridCheck">
 									  <label class="form-check-label" for="gridCheck">
 									   Delete?
 									  </label>
-									</div>
-								  <div class="form-row">
+									  </div></div>
 									<div class="form-group col-md-3">
 									  <label for="">Clone As</label>
 									</div>
