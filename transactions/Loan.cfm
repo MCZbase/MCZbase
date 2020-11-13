@@ -1103,8 +1103,8 @@ limitations under the License.
 						</div>
 						</section>	
 							<!--- Print permits associated with these accessions --->
-						<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0 mb-0 pt-1 pb-3" tabindex="0">
-							<div class="border bg-light float-left pl-3 py-3 w-100 rounded">
+						<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 pl-0 pr-0 mb-0 pt-0 pb-3" tabindex="0">
+							<div class="border bg-light float-left pl-3 py-0 w-100 rounded">
 								<div>
 									<h2 class="h3">
 									Permissions and Rights Documents 
