@@ -2478,7 +2478,7 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<div class="form-row my-1 bg-grayish py-2 border">
+				<div class="form-row my-1 bg-grayish pb-2 border rounded">
 					<div class="col-12 px-0 mt-0">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 							<h2 class="h4">Loan Agents 				<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
@@ -2490,7 +2490,7 @@ limitations under the License.
 									</cfif>
 								  </div>
 						<div class="form-row"> 			  
-							<div class="col-12 bg-light py-0 mt-2 border">
+							<div class="col-12 bg-light rounded py-0 mt-2 border">
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-3" id="agentTableDiv">
