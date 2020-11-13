@@ -2486,7 +2486,7 @@ limitations under the License.
 							  <label for="">Agent Name</label>
 								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
-							  <div class="form-group col-md-3">
+							  <div class="form-group mb-0 col-md-3">
 								<label for="">Role</label>
 
 							  </div>
@@ -2511,7 +2511,7 @@ limitations under the License.
 						  </div>
 						</div>
 						<div class="form-row"> 			  
-							<div class="col-12">
+							<div class="col-12 bg-light p-2 border">
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-2">
