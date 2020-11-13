@@ -2480,7 +2480,7 @@ limitations under the License.
 			<cfoutput>
 				<div class="form-row my-1 bg-grayish pb-2 border rounded">
 					<div class="col-12 px-0 mt-0">
-						<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
+						<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="form-row col-12 py-0 mt-1">
 							<h2 class="h4">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 							</h2>		  
@@ -2491,8 +2491,8 @@ limitations under the License.
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
 							</div>
-							<div class="form-row"> 	
-								<div class="col-12 py-0 mt-1" id="agentTableDiv">
+							
+								
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
@@ -2563,8 +2563,8 @@ limitations under the License.
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-								</div><!-- col-12 -->
-							</div><!-- form-row -->
+								<!-- col-12 -->
+							<!-- form-row -->
 						</section>
 					</div>
 				</div>
