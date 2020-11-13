@@ -2555,7 +2555,7 @@ limitations under the License.
 									  </div>
 									</div>		
 												
-									<div class="form-group col-12 col-md-3 mb-2">
+									<div class="form-group col-6 col-md-3 mb-2">
 										  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
 											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
