@@ -2505,7 +2505,7 @@ limitations under the License.
 						<div class="form-row"> 			  
 							<div class="col-12 bg-light py-2 mt-2 border">
 								<div class="form-row">
-								  <div class="col-12 alert alert-success  px-0 mt-0 mb-0 py-0">
+								  <div class="col-12 alert alert-success rounded-0 px-3 mt-0 mb-0 py-0">
 									<cfif okToPrint >
 										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 									<cfelse>
@@ -2515,7 +2515,7 @@ limitations under the License.
 								</div>
 								<cfset i=1>
 								<cfloop query="transAgents">
-									<div class="form-row mt-2">
+									<div class="form-row mt-4">
 										<div class="form-group col-md-4 mb-2">
 										<div class="input-group">
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
