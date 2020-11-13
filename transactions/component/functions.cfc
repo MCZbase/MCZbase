@@ -2482,7 +2482,7 @@ limitations under the License.
 					<div class="col-12 px-0 mt-0">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 							<h2 class="h4">Loan Agents 				
-								<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 							</h2>		  
 							<div class="col alert alert-success text-center float-right rounded-0 px-3 mt-0 mb-0 py-0">
 									<cfif okToPrint >
