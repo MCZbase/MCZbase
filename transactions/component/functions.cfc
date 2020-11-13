@@ -2483,11 +2483,11 @@ limitations under the License.
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 						<div class="form-row">
 							<div class="form-group mb-0 col-md-5">
-							  <label for="">Agent Name</label>
+							  <label for="" class="data-entry-label">Agent Name</label>
 								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
 							  <div class="form-group mb-0 col-md-3">
-								<label for="">Role</label>
+								<label for="" class="data-entry-label">Role</label>
 
 							  </div>
 						  <div class="form-group mb-0 col-md-1">
@@ -2498,11 +2498,11 @@ limitations under the License.
 							  </label>
 							  </div></div>
 							<div class="form-group mb-0 col-md-3">
-							  <label for="">Clone As</label>
+							  <label for="" class="data-entry-label">Clone As</label>
 							</div>
 						  </div>  		
 						<div class="form-row">
-						  <div class="col-12 alert alert-success py-0">
+						  <div class="col-12 alert alert-success mt-2 mb-0 py-0">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 							<cfelse>
@@ -2526,7 +2526,7 @@ limitations under the License.
 											</div>
 										<div class="form-group col-md-1 mb-2">
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
 												$(document).ready(function() {
 													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
