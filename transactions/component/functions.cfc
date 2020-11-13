@@ -2494,7 +2494,7 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row mt-3" id="agentTableDiv">
-										<div class="form-group col-md-5 mb-2">
+										<div class="form-group col-12 col-md-5 mb-2">
 										<div class="input-group">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
@@ -2525,7 +2525,7 @@ limitations under the License.
 											</div>
 									
 							
-									<div class="form-group col-md-3 mb-2">
+									<div class="form-group col-10 col-md-3 mb-2">
 										<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>
 											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
@@ -2540,14 +2540,14 @@ limitations under the License.
 									  </div>
 											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 				
-									<div class="form-group col-md-1 mb-2">
+									<div class="form-group col-2 col-md-1 mb-2">
 												  <label class="form-check-label data-entry-label pl-0" for="gridCheck">Delete? </label>
 									<div class="form-check">
 									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
 									  </div>
 									</div>		
 												
-									<div class="form-group col-md-3 mb-2">
+									<div class="form-group col-12 col-md-3 mb-2">
 										  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
 											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
