@@ -2498,7 +2498,7 @@ limitations under the License.
 									<div class="form-row mt-3">
 										<div class="form-group col-md-4 mb-2">
 										<div class="input-group">
-											<label for="trans_agent_id_#i#" class="">Agent Name</label>
+											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name</label>
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
 												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -2540,7 +2540,7 @@ limitations under the License.
 											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
 				
 									<div class="form-group col-md-1 mb-2">
-									<div class="form-check text-center">
+									<div class="form-check">
 											  <label class="form-check-label data-entry-label" for="gridCheck">Delete? </label>
 									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline form-check-input position-relative" style="left:0;">
 									  </div>
