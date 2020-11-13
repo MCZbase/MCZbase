@@ -2559,9 +2559,10 @@ limitations under the License.
 										</div>
 									</div>
 									<cfset i=i+1>
-										</div>
+										
 								</cfloop>
 								<cfset na=i-1>
+									</div>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 							</div>
 								
