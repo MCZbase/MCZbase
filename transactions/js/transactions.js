@@ -721,7 +721,7 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d='<div class="form-row"><div class="form-group col-12 col-md-5 mb-0"><div class="input-group">';
+			var d='<div class="form-row list-even pt-1 my-1 border"><div class="form-group col-12 col-md-5 mb-0"><div class="input-group">';
 			d+='<label class="data-entry-label">Agent Name <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
