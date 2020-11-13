@@ -2478,11 +2478,11 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<div class="form-row my-1">
+				<div class="form-row my-1 bg-grayish p-2 border">
 					<div class="col-12 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 						<div class="form-row">
-							<div class="form-group col-md-4">
+							<div class="form-group mb-0 col-md-5">
 							  <label for="">Agent Name</label>
 								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
@@ -2490,19 +2490,19 @@ limitations under the License.
 								<label for="">Role</label>
 
 							  </div>
-						  <div class="form-group col-md-2">
+						  <div class="form-group mb-0 col-md-1">
 							<div class="form-check">
 							  <input class="form-check-input" type="checkbox" id="gridCheck">
 							  <label class="form-check-label" for="gridCheck">
 							   Delete?
 							  </label>
 							  </div></div>
-							<div class="form-group col-md-3">
+							<div class="form-group mb-0 col-md-3">
 							  <label for="">Clone As</label>
 							</div>
 						  </div>  		
 						<div class="form-row">
-						  <div class="col-12 border bg-light text-success my-2">
+						  <div class="col-12 alert alert-success my-2">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
 							<cfelse>
@@ -2510,7 +2510,7 @@ limitations under the License.
 							</cfif>
 						  </div>
 						</div>
-						<div class="form-row bg-grayish p-2 border"> 			  
+						<div class="form-row"> 			  
 							<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
