@@ -2484,7 +2484,7 @@ limitations under the License.
 						<div class="form-row">
 							<div class="form-group col-md-4">
 							  <label for="">Agent Name</label>
-								<button type="submit" class="btn-xs py-0 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
+								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
 							  <div class="form-group col-md-3">
 								<label for="">Role</label>
@@ -2515,13 +2515,17 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row">
+										<div class="input-group">
 									<div class="form-group col-md-4">
+										<div class="input-group">
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
 												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 										</div>
 											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
-									  
+										</div>
+											</div>
+										<div class="form-group col-md-4">
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
