@@ -2491,11 +2491,11 @@ limitations under the License.
 								  <div class="form-row">
 									<div class="form-group col-md-4">
 									  <label for="">Agent Name</label>
-									  <input type="text" class="form-control" id="">
+									 
 									  </div>
 									  <div class="form-group col-md-3">
 										<label for="">Role</label>
-										<input type="text" class="form-control" id="" placeholder="">
+							
 									  </div>
 								  <div class="form-group col-md-2">
 									<div class="form-check">
@@ -2509,6 +2509,7 @@ limitations under the License.
 									</div>
 								  </div>
 						  		</div>
+							<div class="form-row">
 						  <div class="col-12">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
@@ -2516,24 +2517,19 @@ limitations under the License.
 								<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 							</cfif>
 						  </div>
-							  
-							 <div class="row"> 
+								</div>
+<div class="form-row"> 
 							  
 				<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
-								
-											<!--- trans_agent_id_{i} identifies the row in trans_agent table holding this agent for this transaction in this role --->
-											<!--- trans_agent_id_{i} is not touched by makeRichTransAgentPicker or selection of an agent. --->
-											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-											<div class="input-group">
-												<div class="input-group-prepend">
-													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
-												</div>
-												<!--- trans_agent_{i} is the human readable agent --->
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
-											</div>
-											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
+									<div class="form-group col-md-4">
+									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+									 	<div class="input-group-prepend">
+												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										</div>
+											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
+									  
 											<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 												onchange=" updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 											<script>
@@ -2550,8 +2546,8 @@ limitations under the License.
 													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
 												</cfif>
 											</span>
-										</td>
-										<td>
+										</div>
+										<div class="form-group col-md-4">
 											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
 													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
@@ -2562,12 +2558,16 @@ limitations under the License.
 													<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
 												</cfloop>
 											</select>
-										</td>
-										<td class="text-center">
-											<input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline position-relative" style="left:0;">
-											<!--- uses i and the trans_agent_id to delete a row from trans_agent --->
-										</td>
-										<td>
+									  </div>
+											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
+				
+									<div class="form-group col-md-2">
+									<div class="form-check">
+									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline form-check-input position-relative" style="left:0;">
+									  </div>
+									</div>		
+												
+									<div class="form-group col-md-4">
 											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="cttrans_agent_role">
