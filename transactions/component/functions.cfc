@@ -2483,7 +2483,7 @@ limitations under the License.
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 						<div class="form-row">
 							<div class="form-group mb-0 col-md-5">
-							  <label for="" class="form-control">Agent Name</label>
+							  <label for="" class="">Agent Name</label>
 								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
 							  </div>
 							  <div class="form-group mb-0 col-md-3">
@@ -2493,7 +2493,7 @@ limitations under the License.
 						  <div class="form-group mb-0 col-md-1">
 							<div class="form-check">
 							  <input class="form-check-input" type="checkbox" id="gridCheck">
-							  <label class="form-check-label" for="gridCheck">
+							  <label class="form-check-label data-entry-label" for="gridCheck">
 							   Delete?
 							  </label>
 							  </div></div>
