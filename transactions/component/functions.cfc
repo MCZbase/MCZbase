@@ -2510,7 +2510,7 @@ limitations under the License.
 							</cfif>
 						  </div>
 						</div>
-						<div class="form-row"> 			  
+						<div class="form-row bg-grayish p-2 border"> 			  
 							<div class="col-12">
 								<cfset i=1>
 								<cfloop query="transAgents">
