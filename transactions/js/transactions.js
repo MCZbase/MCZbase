@@ -725,11 +725,11 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='<label class="data-entry-label">Agent Name<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
-			d+='<div class="col-12 col-md-5"><input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
+			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control form-control-sm data-entry-input" size="30" value="' + name + '" >';
-			d+='</div></div><class="form-group col-10 col-md-3 mb-0">';
+			d+='</div></div><div class="form-group col-10 col-md-3 mb-0">';
 			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '" class="data-entry-select">';
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
