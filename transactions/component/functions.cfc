@@ -2493,7 +2493,7 @@ limitations under the License.
 							<div class="col-12 bg-light rounded py-0 mt-2 border">
 								<cfset i=1>
 								<cfloop query="transAgents">
-									<div class="form-row mt-3" id="agentTableDiv">
+									<div class="form-row mt-2" id="agentTableDiv">
 										<div class="form-group col-12 col-md-5 mb-2">
 										<div class="input-group">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
