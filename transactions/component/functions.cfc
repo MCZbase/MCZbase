@@ -2548,7 +2548,7 @@ limitations under the License.
 											  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
 										  </div>
 										</div>						
-										<div class="form-group col-6 col-md-3 mb-0">
+										<div class="form-group col-10 col-md-3 mb-0">
 											  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
 												<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 													<option value=""></option>
