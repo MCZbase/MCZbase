@@ -721,15 +721,15 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d='<div class="col-12 mt-1">';
-			d+='<label>Agent Name<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			var d='<div class="form-row"><div class="form-group col-12 col-md-5 mb-0"><div class="input-group">';
+			d+='<label class="data-entry-label">Agent Name<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
 			d+='<div class="col-12 col-md-5"><input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control form-control-sm data-entry-input" size="30" value="' + name + '" >';
-			d+='</div><div class="col-10 col-md-3">';
+			d+='</div></div><class="form-group col-10 col-md-3 mb-0">';
 			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '" class="data-entry-select">';
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
@@ -738,9 +738,9 @@ function addTransAgentToForm (id,name,role,formid) {
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</div><div class="col-2 text-center">';
+			d+='</div><div class="form-group col-2 col-md-1 mb-0">';
 			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1" class="checkbox-inline">';
-			d+='</div><div class="col-10 col-md-3">';
+			d+='</div><div class="form-group col-10 col-md-3 mb-0">';
 			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" class="data-entry-select">';
 			d+='<option value=""></option>';
 			for (a=0; a<data.ROWCOUNT; ++a) {
