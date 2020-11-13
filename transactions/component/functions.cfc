@@ -2515,8 +2515,7 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 									<div class="form-row">
-										<div class="input-group">
-									<div class="form-group col-md-4">
+										<div class="form-group col-md-4">
 										<div class="input-group">
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
