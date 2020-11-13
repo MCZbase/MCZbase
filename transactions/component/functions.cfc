@@ -2481,27 +2481,7 @@ limitations under the License.
 				<div class="form-row my-1 bg-grayish pt-3 border">
 					<div class="col-12 px-0 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
-						<div class="form-row">
-							<div class="form-group mb-0 col-md-5">
-							  <label for="" class="">Agent Name</label>
-								<button type="submit" class="btn-xs py-1 btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Add Agent</button>
-							  </div>
-							  <div class="form-group mb-0 col-md-3">
-								<label for="" class="data-entry-label">Role</label>
 
-							  </div>
-						  <div class="form-group mb-0 col-md-1">
-							<div class="form-check">
-							  <input class="form-check-input" type="checkbox" id="gridCheck">
-							  <label class="form-check-label data-entry-label" for="gridCheck">
-							   Delete?
-							  </label>
-							  </div></div>
-							<div class="form-group mb-0 col-md-3">
-							  <label for="" class="data-entry-label">Clone As</label>
-							</div>
-						  </div>  		
-		
 						<div class="form-row"> 			  
 							<div class="col-12 bg-light py-2 mt-2 border">
 								<div class="form-row">
@@ -2518,6 +2498,7 @@ limitations under the License.
 									<div class="form-row mt-3">
 										<div class="form-group col-md-4 mb-2">
 										<div class="input-group">
+											<label for="trans_agent_id_#i#" class="">Agent Name</label>
 									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 									 	<div class="input-group-prepend">
 												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
@@ -2544,6 +2525,7 @@ limitations under the License.
 											</span>
 										</div>
 									<div class="form-group col-md-3 mb-2">
+										<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>
 											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 												<cfloop query="cttrans_agent_role">
 													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
@@ -2559,11 +2541,13 @@ limitations under the License.
 				
 									<div class="form-group col-md-1 mb-2">
 									<div class="form-check text-center">
+											  <label class="form-check-label data-entry-label" for="gridCheck">Delete? </label>
 									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline form-check-input position-relative" style="left:0;">
 									  </div>
 									</div>		
 												
 									<div class="form-group col-md-3 mb-2">
+										  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
 											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="cttrans_agent_role">
