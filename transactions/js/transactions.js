@@ -721,11 +721,11 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d='<div class="col-12 col-md-5 mt-1">';
-			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			var d='<div class="col-12 mt-1">';
+			d+='<label>Agent Name<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='</div><div class=""><span id="agentViewLink_' + i + '" class="px-2"></span></div><div>';
-			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
+			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
+			d+='<div class="col-12 col-md-5"><input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control form-control-sm data-entry-input" size="30" value="' + name + '" >';
@@ -747,7 +747,7 @@ function addTransAgentToForm (id,name,role,formid) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</select>';
-			d+='</div>';
+			d+='</div></div>';
 			d+='<script>';
 			d+=' $(document).ready(function() {';
 			d+='$(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
