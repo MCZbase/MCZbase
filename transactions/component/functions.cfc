@@ -2542,7 +2542,7 @@ limitations under the License.
 									<div class="form-group col-md-1 mb-2">
 									<div class="form-check">
 											  <label class="form-check-label data-entry-label" for="gridCheck">Delete? </label>
-									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline form-check-input position-relative" style="left:0;">
+									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
 									  </div>
 									</div>		
 												
