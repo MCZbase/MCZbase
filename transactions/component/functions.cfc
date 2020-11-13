@@ -2482,34 +2482,34 @@ limitations under the License.
 					<div class="col-12 mt-1">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
 							<form>
-					  <div class="form-row">
-						<div class="form-group col-md-4">
-						  <label for="">Agent Name</label>
-						  <input type="text" class="form-control" id="">
-						</div>
-						<div class="form-group col-md-1">
-						  <label for="button_add_trans_agent">Add Agent</label>
-						  <button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Sign in</button>
-						</div>
-					  </div>
-					  <div class="form-group col-md-3">
-						<label for="">Role</label>
-						<input type="text" class="form-control" id="" placeholder="">
-					  </div>
-					  <div class="form-group">
-						<div class="form-check">
-						  <input class="form-check-input" type="checkbox" id="gridCheck">
-						  <label class="form-check-label" for="gridCheck">
-						   Delete?
-						  </label>
-						</div>
-					  <div class="form-row">
-						<div class="form-group col-md-3">
-						  <label for="">Clone As</label>
-						  <input type="text" class="form-control" id="">
-						</div>
-
-					  </div>
+								<div class="form-row">	
+									<div class="form-group col-md-1">
+						  				<label for="button_add_trans_agent">Add Agent</label>
+						  				<button type="submit" class="btn btn-secondary" onclick="addTransAgentToForm('','','','editLoanForm'); handleChange();">Sign in</button>
+									</div>
+								</div>
+								  <div class="form-row">
+									<div class="form-group col-md-4">
+									  <label for="">Agent Name</label>
+									  <input type="text" class="form-control" id="">
+									  </div>
+									  <div class="form-group col-md-3">
+										<label for="">Role</label>
+										<input type="text" class="form-control" id="" placeholder="">
+									  </div>
+								  <div class="form-group">
+									<div class="form-check">
+									  <input class="form-check-input" type="checkbox" id="gridCheck">
+									  <label class="form-check-label" for="gridCheck">
+									   Delete?
+									  </label>
+									</div>
+								  <div class="form-row">
+									<div class="form-group col-md-3">
+									  <label for="">Clone As</label>
+									</div>
+								  </div>
+						  		</div>
 						  <div class="col-12">
 							<cfif okToPrint >
 								<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success small px-1">OK to print</span>
