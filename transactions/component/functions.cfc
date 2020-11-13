@@ -2481,19 +2481,18 @@ limitations under the License.
 				<div class="form-row my-1 bg-grayish pb-2 border rounded">
 					<div class="col-12 px-0 mt-0">
 						<div id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="col-12">
-							<h2 class="h4">Loan Agents 				<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
-										</span></h2>		  <div class="col alert alert-success text-center float-right rounded-0 px-3 mt-0 mb-0 py-0">
+							<h2 class="h4">Loan Agents 				
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+							</h2>		  
+							<div class="col alert alert-success text-center float-right rounded-0 px-3 mt-0 mb-0 py-0">
 									<cfif okToPrint >
 										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success  text-center small px-1">OK to print</span>
 									<cfelse>
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
-								  </div>
-						<div class="form-row"> 	
-								
-		
-
-							<div class="col-12 py-0 mt-1" id="agentTableDiv">
+							</div>
+							<div class="form-row"> 	
+								<div class="col-12 py-0 mt-1" id="agentTableDiv">
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
@@ -2502,75 +2501,69 @@ limitations under the License.
 											<div class="form-row list-odd mt-2 border">
 										</cfif>
 										<div class="form-group col-12 col-md-5 mb-2">
-										<div class="input-group">
-											<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
-												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
-											<script>
-												$(document).ready(function() {
-													$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
-												});
-											</script>
-											<span id="agentViewLink_#i#" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
-												<cfif transAgents.worstagentrank EQ 'A'>
-													&nbsp;
-												<cfelseif transAgents.worstagentrank EQ 'F'>
-													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-												<cfelse>
-													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-												</cfif>
-											</span>
-											</label>				
-								
-									
-									  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-									 	<div class="input-group-prepend">
-												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
-										</div>
-											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
-										</div>
-											</div>
-									
-							
-									<div class="form-group col-10 col-md-3 mb-2">
-										<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>
-											<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
-												<cfloop query="cttrans_agent_role">
-													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
-														<cfset sel = 'selected="selected"'>
+											<div class="input-group">
+												<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
+													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+												<script>
+													$(document).ready(function() {
+														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+													});
+												</script>
+												<span id="agentViewLink_#i#" class="px-2 d-inline-block mb-1"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+													<cfif transAgents.worstagentrank EQ 'A'>
+														&nbsp;
+													<cfelseif transAgents.worstagentrank EQ 'F'>
+														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
 													<cfelse>
-														<cfset sel = ''>
+														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
 													</cfif>
-													<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
-												</cfloop>
-											</select>
-									  </div>
-											<!--- agent_id_{i} is the link to the agent record, the agent to save in this role for this transaction, and the agent to link out to --->
-				
-									<div class="form-group col-2 col-md-1 mb-2">
-												  <label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>
-									<div class="form-check">
-									 	  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
-									  </div>
-									</div>		
-												
-									<div class="form-group col-6 col-md-3 mb-2">
-										  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
-											<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="cttrans_agent_role">
-													<option value="#trans_agent_role#">#trans_agent_role#</option>
-												</cfloop>
-											</select>
-									</div>
-													</div>
-									<cfset i=i+1>
+												</span>
+												</label>				
+
+
+										  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+											<div class="input-group-prepend">
+													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
+											</div>
+										</div>						
+										<div class="form-group col-10 col-md-3 mb-2">
+											<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>
+												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
+													<cfloop query="cttrans_agent_role">
+														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+															<cfset sel = 'selected="selected"'>
+														<cfelse>
+															<cfset sel = ''>
+														</cfif>
+														<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+													</cfloop>
+												</select>
+										  </div>				
+										<div class="form-group col-2 col-md-1 mb-2">
+													  <label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>
+										<div class="form-check">
+											  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
+										  </div>
+										</div>						
+										<div class="form-group col-6 col-md-3 mb-2">
+											  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
+												<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="cttrans_agent_role">
+														<option value="#trans_agent_role#">#trans_agent_role#</option>
+													</cfloop>
+												</select>
+										</div>
 									
+									<cfset i=i+1>
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+							</div>
 							</div>		
-						</div>
 						</div>
 					</div>
 				</div>
