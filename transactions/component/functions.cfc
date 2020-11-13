@@ -2497,10 +2497,10 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-			<div class="form-row list-even mt-2">
-			<cfelse> 
-				<div class="form-row list-odd mt-2">
-			</cfif>
+											<div class="form-row list-even mt-2 border">
+										<cfelse> 
+											<div class="form-row list-odd mt-2 border">
+										</cfif>
 								
 										<div class="form-group col-12 col-md-5 mb-2">
 										<div class="input-group">
