@@ -722,7 +722,7 @@ function addTransAgentToForm (id,name,role,formid) {
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
 			var d='<div class="form-row"><div class="form-group col-12 col-md-5 mb-0"><div class="input-group">';
-			d+='<label class="data-entry-label">Agent Name<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+='<label class="data-entry-label">Agent Name <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
@@ -754,7 +754,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+=' });';
 			d+='</script>';
 			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable div:last').after(d);
+			jQuery('#transactionAgentsTable div div:last').after(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";

@@ -2557,14 +2557,14 @@ limitations under the License.
 													</cfloop>
 												</select>
 										</div>
-									</div>
+									</div><!-- form-row -->
 									<cfset i=i+1>
-										</div>
+											
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-									</div>
-							</div>
+									</div><!-- col-12 -->
+								</div><!-- form-row -->
 								
 						</div>
 					</div>
