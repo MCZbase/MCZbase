@@ -2498,8 +2498,8 @@ limitations under the License.
 										<cfelse> 
 									<section class="form-row list-odd my-1 pt-1 border">
 										</cfif>
-										<ul class="form-group col-12 col-md-5 mb-0">
-											<li class="input-group">
+										<ul class="list-group  list-group-horizontal-sm col-12 col-md-5 mb-0">
+											<li class="input-group list-group-item">
 												<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
 													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
@@ -2527,7 +2527,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</li>
 																
-										<li class="form-group col-10 col-md-3 mb-0">
+										<li class="list-group-item form-group col-10 col-md-3 mb-0">
 											<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
@@ -2540,13 +2540,13 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </li>				
-										<li class="form-group col-2 col-md-1 mb-0">
+										<li class="form-group list-group-item col-2 col-md-1 mb-0">
 													<label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>
 										<div class="form-check">
 											  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
 										  </div>
 										</div>						
-										<li class="form-group col-10 col-md-3 mb-0">
+										<li class="form-group list-group-item col-10 col-md-3 mb-0">
 											  <label for="cloneTransAgent_#i#" class="data-entry-label">Clone As</label>
 												<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 													<option value=""></option>
@@ -2554,7 +2554,7 @@ limitations under the License.
 														<option value="#trans_agent_role#">#trans_agent_role#</option>
 													</cfloop>
 												</select>
-													</li>
+											</li>
 										</ul>
 									</section>
 									<cfset i=i+1>		
