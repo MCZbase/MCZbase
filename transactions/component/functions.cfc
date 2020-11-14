@@ -2478,7 +2478,7 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
+				<article id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
 				<div class="row my-1 bg-grayish pb-1 border rounded">
 					<div class="col-12 px-0 mt-0">
 							<h2 class="h4 pl-3">Loan Agents 				
@@ -2496,7 +2496,7 @@ limitations under the License.
 										<cfif (i MOD 2) EQ 0> 
 									<article class="list-even pt-1 my-1 border-top border-bottom">
 										<cfelse> 
-									<article class="list-odd my-1 pt-1 border-top border-bottom">
+									<section class="list-odd my-1 pt-1 border-top border-bottom">
 										</cfif>
 										<div class="input-group">
 										<div class="col-12 col-md-5 mb-0">
@@ -2559,13 +2559,13 @@ limitations under the License.
 										</div>
 									
 									<cfset i=i+1>	
-										</article>
+										</section>
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
 				</div>
-				</section>
+				</article>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>

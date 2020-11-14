@@ -721,7 +721,7 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d='<article class="alert alert-warning px-0 pt-1 pb-2 my-1 border-top border-bottom"><div class="input-group"><div class="col-12 col-md-5 mb-0"><div class="input-group">';
+			var d='<section class="alert alert-warning px-0 pt-1 pb-2 my-1 border-top border-bottom"><div class="input-group"><div class="col-12 col-md-5 mb-0"><div class="input-group">';
 			d+='<label class="data-entry-label pb-1">Agent Name <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
@@ -747,14 +747,14 @@ function addTransAgentToForm (id,name,role,formid) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</select>';
-			d+='</div></article>';
+			d+='</div></section>';
 			d+='<script>';
 			d+=' $(document).ready(function() {';
 			d+='$(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
 			d+=' });';
 			d+='</script>';
 			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable article:last').after(d);
+			jQuery('#transactionAgentsTable section:last').after(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
