@@ -2490,12 +2490,15 @@ limitations under the License.
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
 							</div>
-							<cfset i=1>
+							</div>
+							<div class="form-row"> 	
+								<div class="col-12 py-0 mt-1">
+								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-								<div class="form-row list-even pt-1 my-1 border">
+									<div class="form-row list-even pt-1 my-1 border">
 										<cfelse> 
-								<div class="form-row list-odd my-1 pt-1 border">
+									<div class="form-row list-odd my-1 pt-1 border">
 										</cfif>
 										<div class="form-group col-12 col-md-5 mb-0">
 											<div class="input-group">
@@ -2555,14 +2558,16 @@ limitations under the License.
 												</select>
 										</div>
 									</div>
-								</div>
 									<cfset i=i+1>	
 								</cfloop>
 								<cfset na=i-1>
-								<input type="hidden" id="numAgents" name="numAgents" value="#na#">								
+								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+									</div><!-- col-12 -->
+								</div><!-- form-row -->
+								
 						</div>
-					</section>
-			
+					</div>
+				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
