@@ -2554,19 +2554,16 @@ limitations under the License.
 														<option value="#trans_agent_role#">#trans_agent_role#</option>
 													</cfloop>
 												</select>
-													</li></ul>
-														</section>
-									<cfset i=i+1>
-										
+													</li>
+										</ul>
+									</section>
+									<cfset i=i+1>		
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-									</div>
-							</div>
-								
 						</div>
 					</div>
-				</div>
+				</section>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
