@@ -2541,7 +2541,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>				
-										<div class="col-2 col-md-1 mb-0">
+										<div class="col-2 col-md-1 px-0 mb-0">
 													  <label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>
 										<div class="form-check">
 											  <input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
