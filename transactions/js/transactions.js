@@ -738,9 +738,9 @@ function addTransAgentToForm (id,name,role,formid) {
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</div><div class="col-2 col-md-1 mb-0"><label class="data-entry-label smaller">Delete?</label>';
-			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1" class="checkbox-inline">';
-			d+='</div><div class="col-10 col-md-3 mb-0"><label class="data-entry-label">Clone</label>';
+			d+='</div><div class="col-2 col-md-1 mb-0"><label class="form-check-label data-entry-label pl-0 smaller">Delete?</label>';
+			d+='<div class="form-check"><input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1" class="checkbox-inline">';
+			d+='</div></div><div class="col-10 col-md-3 mb-0"><label class="data-entry-label">Clone</label>';
 			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" class="data-entry-select">';
 			d+='<option value=""></option>';
 			for (a=0; a<data.ROWCOUNT; ++a) {
