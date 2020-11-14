@@ -754,7 +754,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+=' });';
 			d+='</script>';
 			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable section:last').after(d);
+			jQuery('#transactionAgentsTable article:last').after(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";

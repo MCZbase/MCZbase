@@ -2478,9 +2478,9 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<div class="form-row my-1 bg-grayish pb-2 border rounded">
+				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
+				<div class="row my-1 bg-grayish pb-2 border rounded">
 					<div class="col-12 px-0 mt-0">
-						<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan">
 							<h2 class="h4">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 							</h2>		  
@@ -2491,15 +2491,14 @@ limitations under the License.
 										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
 									</cfif>
 							</div>
-							<div class="form-row"> 	
-								<div class="col-12 py-0 mt-1" id="agentTableDiv">
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-									<div class="form-row list-even pt-1 my-1 border">
+									<article class="form-row list-even pt-1 my-1 border">
 										<cfelse> 
-									<div class="form-row list-odd my-1 pt-1 border">
+									<article class="form-row list-odd my-1 pt-1 border">
 										</cfif>
+										<div class="col-12">
 										<div class="form-group col-12 col-md-5 mb-0">
 											<div class="input-group">
 												<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
@@ -2557,18 +2556,15 @@ limitations under the License.
 													</cfloop>
 												</select>
 										</div>
-									</div>
-								
+										</div>
+									</article>
 									<cfset i=i+1>	
 								</cfloop>
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-									</div>
-							</div>
-								
-						</section>
 					</div>
 				</div>
+				</section>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
