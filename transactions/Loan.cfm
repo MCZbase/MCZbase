@@ -805,7 +805,7 @@ limitations under the License.
 										onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
 										id="submitButton" >
 									<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
-										class="btn btn-xs btn-info" value="Print..."
+										class="btn btn-xs btn-info mr-2" value="Print..."
 										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
 									<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 									<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
