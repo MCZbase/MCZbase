@@ -2481,7 +2481,7 @@ limitations under the License.
 				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
 				<div class="row my-1 bg-grayish pb-2 border rounded">
 					<div class="col-12 px-0 mt-0">
-							<h2 class="h4">Loan Agents 				
+							<h2 class="h4 pl-3">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 							</h2>		  
 							<div class="col alert alert-success text-center float-right rounded-0 px-3 mt-0 mb-0 py-0">
@@ -2494,9 +2494,9 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-									<article class="form-row list-even pt-1 my-1 border">
+									<article class="list-even pt-1 my-1 border">
 										<cfelse> 
-									<article class="form-row list-odd my-1 pt-1 border">
+									<article class="list-odd my-1 pt-1 border">
 										</cfif>
 										<div class="input-group">
 										<div class="col-12 col-md-5 mb-0">
