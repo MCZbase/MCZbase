@@ -2498,7 +2498,7 @@ limitations under the License.
 										<cfelse> 
 									<section class="form-row list-odd my-1 pt-1 border">
 										</cfif>
-										<ul class="list-group  list-group-horizontal-sm col-12 col-md-5 mb-0">
+										<ul class="form-group col-12 col-md-5 mb-0">
 											<li class="input-group list-group-item">
 												<label for="trans_agent_id_#i#" class="data-entry-label">Agent Name 			
 													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
