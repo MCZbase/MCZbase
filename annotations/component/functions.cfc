@@ -58,7 +58,7 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name# <span class='sm-caps'>#author_text#</span>">
-						<cfloop>
+						</cfloop>
 						<!--- TODO: Change from fixed foreign key fields to primarykey/targettable pair to generalize annotations to any object type --->
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
@@ -101,7 +101,7 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Taxon <strong>#display_name# <span class='sm-caps'>#author_text#</span></strong>">
-						<cfloop>
+						</cfloop>
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
@@ -143,7 +143,7 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Project <strong>#project_name#</strong>">
-						<cfloop>
+						</cfloop>
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
@@ -186,7 +186,7 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Publication <strong>#formatted_publication#</strong>">
-						<cfloop>
+						</cfloop>
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select annotations.ANNOTATION_ID ANNOTATION_ID,
 								annotations.ANNOTATE_DATE ANNOTATE_DATE,
