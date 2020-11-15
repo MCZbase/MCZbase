@@ -34,7 +34,7 @@ limitations under the License.
 					cf_users.username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 				</cfquery>
 				<cfif hasEmail.recordcount is 0 OR len(hasEmail.email) is 0>
-					<cfthrow message="You must provide an email address to annotate specimens.">
+					<cfthrow message="You must be an authenticated user and have provided an email address to view annotations or annotate specimens.">
 				</cfif>
 				<cfset found = FALSE>
 				<cfswitch expression="#target_type#">
@@ -305,27 +305,17 @@ limitations under the License.
 </cffunction>
 
 
-<cffunction name="insertSpecimenIDAnnotation" access="remote">
-	<cfargument name="collection_object_id" type="numeric" required="yes">
-<!--- TODO: Unused??? --->
-<cfoutput>
-	<cfquery name="insAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	insert into specimen_annotations (
-		collection_object_id,
-		scientific_name)
-	values (
-		#collection_object_id#,
-		'#scientific_name#')
-	</cfquery>
-	<cflocation url="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#&showAnnotation=true">
-</cfoutput>
-</cffunction>
-
+<!--- Given an entity and id to annotate and the text of an annotation, save the annotation of the data record.
+  * @param idType the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+  * @param idvalue the surrogate numeric primary key value for the row in the table specified by idType to be annotated.
+  * @param annotation the text body of an annotation to associate with the record specified by idtype and idvalue.
+--->
 <cffunction name="addAnnotation" access="remote">
 	<cfargument name="idType" type="string" required="yes">
 	<cfargument name="idvalue" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
-	<cfif idType NEQ "collection_object_id">
+
+	<cfif idType NEQ "collection_object">
         <cfset result="Only annotation of collection objects is supported at this time">
     <cfelse>
     	<cftry>
@@ -339,15 +329,12 @@ limitations under the License.
                      from cataloged_item
                      where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
            </cfquery>
-                <cfif idType EQ 'collection_object_id'>
-                   <cfset targetType = 'collection_object_id'>
-                <cfelse>
-                   <cfset targetType = 'not_supported_field_query_fails'>
-                </cfif>
     		<cfquery name="insAnn" datasource="uam_god">
     			insert into annotations (
     				cf_username,
-    				#targetType#,
+                <cfif idType EQ 'collection_object'>
+                   'collection_object_id',
+                </cfif>
     				annotation
     			) values (
     				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
