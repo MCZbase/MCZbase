@@ -300,7 +300,7 @@ limitations under the License.
 		</cfcatch>
 		</cftry>
 	</cfthread>
-	<cfthread action="join" name="getAnnotationDialogHtmlThread">
+	<cfthread action="join" name="getAnnotationDialogHtmlThread" />
 	<cfreturn getAnnotationDialogHtmlThread.output>
 </cffunction>
 
