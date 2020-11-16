@@ -29,9 +29,13 @@
 		select max(c) as maxc
 		from 
 			( 
-			select count(*) c from cf_form_permissions where form_path = '/SpecimenSearch.cfm'
+			select count(*) c from cf_form_permissions 
+			where form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/#name#">
+				 and role_name='public'
 			union
-			select count(*) c from cf_form_permissions_r where form_path = '/SpecimenSearch.cfm'
+			select count(*) c from cf_form_permissions_r where 
+			where form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/#name#">
+				 and role_name='public'
  			)
 	</cfquery>
 	<cfif current.maxc is 0 and right(name,7) is not ".xml.gz" and not listfindnocase(allowedFileList,name)>
