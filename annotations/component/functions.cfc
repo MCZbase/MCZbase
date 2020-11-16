@@ -230,8 +230,8 @@ limitations under the License.
 						<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
 						<form name="annotate" method="post" action="/info/annotate.cfm">
 							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="idtype" id="idtype" value="#t#">
-							<input type="hidden" name="idvalue" id="idvalue" value="#v#">
+							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
+							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
 							<label for="annotation">Annotation (<span id="length_annotation"></span>)</label>
 							<div class="row">
 								<div class="col-12">
