@@ -325,7 +325,7 @@ limitations under the License.
 			<cfcase value="collection_object">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 'MCZ:' || collection_cde || ':' || cat_num as annotatatedrecord
+					select 'MCZ:' || collection_cde || ':' || cat_num as annorecord
 					from cataloged_item
 					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
 				</cfquery>
@@ -350,7 +350,7 @@ limitations under the License.
 			<cfcase value="taxon_name">
 				<cfset annotatable = true>
 				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select 'Taxon:' || scientific_name || ' ' || author_text as annotatatedrecord
+					select 'Taxon:' || scientific_name || ' ' || author_text as annorecord
 					from taxonomy
 					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
 				</cfquery>
@@ -400,7 +400,7 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
 					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annotatedrecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annorecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
 					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
 					'New'
@@ -429,7 +429,7 @@ limitations under the License.
 		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annotatedrecord#.
+An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annorecord#.
     
     			<blockquote>
     				#annotation#
@@ -457,7 +457,7 @@ Bug report by: #reported_name# (Username: #session.username#)
 Email: #annotator.email#
 Complaint: #annotation#
 #newline##newline#
-Annotation to report problematic data concerning #annotated.annotatedrecord#
+Annotation to report problematic data concerning #annotated.annorecord#
 			</cfmail>
 			<cfset result = "success saving annotatation and sending notification email">
 		<cfcatch>
