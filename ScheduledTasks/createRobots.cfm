@@ -26,7 +26,7 @@
 <cfset allowedFileList="favicon.ico,robots.txt">
 <cfloop query="q">
 	<cfquery name="current" datasource="cf_dbuser">
-		select max(c) 
+		select max(c) as maxc
 		from 
 			( 
 			select count(*) c from cf_form_permissions where form_path = '/SpecimenSearch.cfm'
@@ -34,7 +34,7 @@
 			select count(*) c from cf_form_permissions_r where form_path = '/SpecimenSearch.cfm'
  			)
 	</cfquery>
-	<cfif current.c is 0 and right(name,7) is not ".xml.gz" and not listfindnocase(allowedFileList,name)>
+	<cfif current.maxc is 0 and right(name,7) is not ".xml.gz" and not listfindnocase(allowedFileList,name)>
 		<cfscript>
 			a='Disallow: /' & name;
 			variables.joFileWriter.writeLine(a);
