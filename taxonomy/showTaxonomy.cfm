@@ -612,7 +612,7 @@
 					</div>
 				</div>
 
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"public")>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<div class="row">
 						<div class="col-12">
 							<h2 class="h4">Annotations:</h2>
