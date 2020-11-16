@@ -33,7 +33,7 @@
 			where form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/#name#">
 				 and role_name='public'
 			union
-			select count(*) c from cf_form_permissions_r where 
+			select count(*) c from cf_form_permissions_r
 			where form_path = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="/#name#">
 				 and role_name='public'
  			)
