@@ -315,53 +315,77 @@ limitations under the License.
 	<cfargument name="idvalue" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
 
-	<cfif idType NEQ "collection_object">
-        <cfset result="Only annotation of collection objects is supported at this time">
-    <cfelse>
-    	<cftry>
-    	   <cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                 select username, first_name, last_name, affiliation, email 
-                     from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
-                     where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
-           </cfquery>
-    	   <cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-                 select 'MCZ:' || collection_cde || ':' || cat_num as guid
-                     from cataloged_item
-                     where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
-           </cfquery>
-    		<cfquery name="insAnn" datasource="uam_god">
-    			insert into annotations (
-    				cf_username,
-                <cfif idType EQ 'collection_object'>
-                   'collection_object_id',
-                </cfif>
-    				annotation
-    			) values (
-    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-    				<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
-    				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.guid# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
-    			)
-    		</cfquery>
-    		<cfquery name="whoTo" datasource="uam_god">
-    			select
-    				address
-    			FROM
-    				cataloged_item,
-    				collection,
-    				collection_contacts,
-    				electronic_address
-    			WHERE
-    				cataloged_item.collection_id = collection.collection_id AND
-    				collection.collection_id = collection_contacts.collection_id AND
-    				collection_contacts.contact_agent_id = electronic_address.agent_id AND
-    				collection_contacts.CONTACT_ROLE = 'data quality' and
-    				electronic_address.ADDRESS_TYPE='e-mail' and
-    				cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >
-    		</cfquery>
-    		<cfset mailTo = valuelist(whoTo.address)>
-    		<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
-    		<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
-    			An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.guid#.
+	<cfset annotatable = false>
+	<cfset mailTo = "">
+	<cfswitch expression="#target_type#">
+		<cfcase value="collection_object">
+			<cfset annotatable = true>
+			<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select 'MCZ:' || collection_cde || ':' || cat_num as annotatatedrecord
+				from cataloged_item
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
+			</cfquery>
+			<cfquery name="whoTo" datasource="uam_god">
+				select distinct
+					address
+				FROM
+					cataloged_item,
+					collection,
+					collection_contacts,
+					electronic_address
+				WHERE
+					cataloged_item.collection_id = collection.collection_id AND
+					collection.collection_id = collection_contacts.collection_id AND
+					collection_contacts.contact_agent_id = electronic_address.agent_id AND
+					collection_contacts.CONTACT_ROLE = 'data quality' and
+					electronic_address.ADDRESS_TYPE='e-mail' and
+					cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >
+			</cfquery>
+			<cfset mailTo = valuelist(whoTo.address)>
+		</cfcase>
+		<cfcase value="taxon_name">
+			<cfset annotatable = true>
+			<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select 'Taxon:' || scientific_name || ' ' || author_text as annotatatedrecord
+				from taxonomy
+				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
+			</cfquery>
+		</cfcase>
+		<cfdefaultcase>
+			<cfset result="Only annotation of collection objects is supported at this time">
+		</cfdefaultcase>
+	</cfswitch>
+	<cfif annotatable>
+		<cftry>
+			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select username, first_name, last_name, affiliation, email 
+				from cf_users u left join cf_user_data ud on u.user_id = ud.user_id
+				where username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
+			</cfquery>
+			<cfquery name="insAnn" datasource="uam_god">
+				insert into annotations (
+					cf_username,
+					<cfif idType EQ 'collection_object'>
+						collection_object_id,
+					<cfelseif idType EQ 'taxon_name'>
+						taxon_name_id,
+					</cfif>
+					annotation,
+					target_table, 
+					target_primary_key,
+					state
+				) values (
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
+					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annotatedrecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#idtype#' >,
+					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
+					'New'
+				)
+			</cfquery>
+			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
+			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
+An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annotatedrecord#.
     
     			<blockquote>
     				#annotation#
@@ -371,13 +395,13 @@ limitations under the License.
     			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#idType#&id=#idvalue#">
     			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#idType#&id=#idvalue#
     			</a>
-    		</cfmail>
-                <cfset newline= Chr(13) & Chr(10)>
-                <cfset reported_name = "#annotator.first_name# #annotator.last_name# #annotator.affiliation#">
-                <cfset summary=left("#annotated.guid# #annotation#",60)><!--- obtain the begining of the complaint as a bug summary --->
-                <cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
-                <cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
-                <cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
+			</cfmail>
+			<cfset newline= Chr(13) & Chr(10)>
+			<cfset reported_name = "#annotator.first_name# #annotator.last_name# #annotator.affiliation#">
+			<cfset summary=left("#annotated.guid# #annotation#",60)><!--- obtain the begining of the complaint as a bug summary --->
+			<cfset bugzilla_mail="#Application.bugzillaToEmail#"><!--- address to access email_in.pl script --->
+			<cfset bugzilla_user="#Application.bugzillaFromEmail#"><!--- bugs submitted by email can only come from a registered bugzilla user --->
+			<cfmail to="#bugzilla_mail#" subject="#summary#" from="#bugzilla_user#" type="text">@rep_platform = PC
 @op_sys = Linux
 @product = MCZbase
 @component = Data
@@ -389,16 +413,14 @@ Bug report by: #reported_name# (Username: #session.username#)
 Email: #annotator.email#
 Complaint: #annotation#
 #newline##newline#
-Annotation to report problematic data concerning #annotated.guid#
-                </cfmail>
-
-
-    	    <cfset result = "success">
-    	<cfcatch>
-    		<cfset result = "A database error occured: #cfcatch.message# #cfcatch.detail#">
-    	</cfcatch>
-    	</cftry>
-    </cfif>
+Annotation to report problematic data concerning #annotated.annotatedrecord#
+			</cfmail>
+			<cfset result = "success">
+		<cfcatch>
+			<cfset result = "A database error occured: #cfcatch.message# #cfcatch.detail#">
+		</cfcatch>
+		</cftry>
+	</cfif>
 	<cfreturn result>
 </cffunction>
 </cfcomponent>
