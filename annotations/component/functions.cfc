@@ -288,7 +288,7 @@ limitations under the License.
 								</cfloop>
 							</table>
 							<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-								<a href="#manage#" target="_blank">Manage Annotations</a>
+								<a href="#manageIRI#" target="_blank">Manage Annotations</a>
 							</cfif>
 						<cfelse>
 							<h2 class="h3">There are no annotations for this record.</h2>
