@@ -88,6 +88,7 @@ limitations under the License.
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
 							where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+							order by annotations.STATE, annotate_date
 						</cfquery>
 					</cfcase>
 					<cfcase value="taxon_name">
@@ -131,6 +132,7 @@ limitations under the License.
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
+							order by annotations.STATE, annotate_date
 						</cfquery>
 					</cfcase>
 					<cfcase value="project">
@@ -174,6 +176,7 @@ limitations under the License.
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
 							where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
+							order by annotations.STATE, annotate_date
 						</cfquery>
 					</cfcase>
 					<cfcase value="publication">
@@ -218,6 +221,7 @@ limitations under the License.
 								left outer join cf_users on annotations.cf_username = cf_users.username
 								left outer join cf_user_data annotator on cf_users.user_id = annotator.user_id
 							where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+							order by annotations.STATE, annotate_date
 						</cfquery>
 					</cfcase>
 					<cfdefaultcase>
