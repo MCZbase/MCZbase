@@ -631,7 +631,14 @@
 							</cfif>
 							<div id="annotationDialog"></div>
 							<cfif #existingAnnotations.cnt# gt 0>
-								<p>There are #existingAnnotations.cnt# annotations on this taxon record</p>
+								<cfif #existingAnnotations.cnt# EQ 1>
+									<cfset are = "is">
+									<cfset s = "">
+								<cfelse>
+									<cfset are = "are">
+									<cfset s = "s">
+								</cfif>
+								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
 								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select count(*) statecount, state from annotations
 									where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">

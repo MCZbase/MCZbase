@@ -37,6 +37,7 @@ limitations under the License.
 					<cfthrow message="You must be an authenticated user and have provided an email address to view annotations or annotate specimens.">
 				</cfif>
 				<cfset found = FALSE>
+				<cfset manageIRI = "">
 				<cfswitch expression="#target_type#">
 					<cfcase value="collection_object">
 						<cfset collection_object_id = target_id>
@@ -58,6 +59,8 @@ limitations under the License.
 						</cfquery>
 						<cfloop query="d">
 							<cfset summary="Cataloged Item <strong><a href='/guid/MCZ:#collection_cde#:#cat_num#' target='_blank'>MCZ:#collection#:#cat_num#</a></strong> #display_name# <span class='sm-caps'>#author_text#</span>">
+							<!--- TODO: Manage dialog for individual annotations --->
+							<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=collection_object_id&collection=#d.collection#">
 						</cfloop>
 						<!--- TODO: Change from fixed foreign key fields to primarykey/targettable pair to generalize annotations to any object type --->
 						<cfquery name="prevAnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -134,6 +137,8 @@ limitations under the License.
 							where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#taxon_name_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
+						<!--- TODO: Manage dialog for individual annotations --->
+						<cfset manageIRI = "info/reviewAnnotation.cfm?action=show&type=taxon_name_id">
 					</cfcase>
 					<cfcase value="project">
 						<cfset project_id = target_id>
@@ -246,6 +251,7 @@ limitations under the License.
 								<script>
 									$(document).ready(function() { 
 										$("##annotation").keyup(autogrow);  
+										$("##annotation").keyup();  
 									});
 								</script>
 								<div class="col-12">
@@ -281,9 +287,12 @@ limitations under the License.
 									</tr>
 								</cfloop>
 							</table>
+							<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+								<a href="#manage#" target="_blank">Manage Annotations</a>
+							</cfif>
 						<cfelse>
 							<h2 class="h3">There are no annotations for this record.</h2>
-						</cfif>	
+						</cfif>
 					</div>
 				<section>
 			</cfoutput>
@@ -360,7 +369,7 @@ limitations under the License.
 				</cfquery>
 			</cfcase>
 			<cfdefaultcase>
-				<cfthrow message="Only annotation of collection objects is supported at this time">
+				<cfthrow message="Only annotation of collection objects and taxa are supported at this time">
 			</cfdefaultcase>
 		</cfswitch>
 	<cfcatch>
