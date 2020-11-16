@@ -91,6 +91,7 @@ limitations under the License.
 						</cfquery>
 					</cfcase>
 					<cfcase value="taxon_name">
+						<cfset taxon_name_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								display_name, author_text
@@ -133,6 +134,7 @@ limitations under the License.
 						</cfquery>
 					</cfcase>
 					<cfcase value="project">
+						<cfset project_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								PROJECT_NAME
@@ -175,6 +177,7 @@ limitations under the License.
 						</cfquery>
 					</cfcase>
 					<cfcase value="publication">
+						<cfset publication_id = target_id>
 						<cfquery name="d" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select 
 								formatted_publication
