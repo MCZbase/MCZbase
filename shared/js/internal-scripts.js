@@ -473,17 +473,17 @@ function saveThisAnnotation() {
 	}
 	jQuery.ajax({
 		url: "/annotations/component/functions.cfc",
-		type: "get",
+		type: "post",
 		data: {
 			method : "addAnnotation",
-			idType : idType,
-			idvalue : idvalue,
+			target_type : idType,
+			target_id : idvalue,
 			annotation : annotation,
 			returnformat : "json",
 			queryformat : 'column'
 		},
 		success: function(data) {
-			messageDialog("Your annotations have been saved, and the appropriate collections staff will be alerted. \n Thank you for helping improve MCZbase!");
+			messageDialog("<p>Your Annotation has been saved, and the appropriate collections staff will be alerted. Thank you for helping improve MCZbase!</p><p>"+data+"</p><p>You may close the annotation dialog.</p>","Annotation Saved");
 		},
 		error: function (jqXHR, textStatus, error) {
 			handleFail(jqXHR,textStatus,error,"saving annotation");

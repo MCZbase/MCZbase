@@ -245,7 +245,7 @@ limitations under the License.
 									});
 								</script>
 								<div class="col-12">
-									<input type="button" class="savBtn" value="Save Annotations" onclick="saveThisAnnotation()">
+									<input type="button" class="savBtn" value="Save Annotation" onclick="saveThisAnnotation()">
 								</div>
 							</div>
 						</form>
@@ -309,55 +309,75 @@ limitations under the License.
 
 
 <!--- Given an entity and id to annotate and the text of an annotation, save the annotation of the data record.
-  * @param idType the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
-  * @param idvalue the surrogate numeric primary key value for the row in the table specified by idType to be annotated.
-  * @param annotation the text body of an annotation to associate with the record specified by idtype and idvalue.
+  * @param target_type the entity to be annotated (e.g. collection_object, taxon_name, publication, permit, annotation)
+  * @param target_id the surrogate numeric primary key value for the row in the table specified by target_type to be annotated.
+  * @param annotation the text body of an annotation to associate with the record specified by target_type and target_id.
 --->
 <cffunction name="addAnnotation" access="remote">
-	<cfargument name="idType" type="string" required="yes">
-	<cfargument name="idvalue" type="numeric" required="yes">
+	<cfargument name="target_type" type="string" required="yes">
+	<cfargument name="target_id" type="numeric" required="yes">
 	<cfargument name="annotation" type="string" required="yes">
 
 	<cfset annotatable = false>
 	<cfset mailTo = "">
-	<cfswitch expression="#target_type#">
-		<cfcase value="collection_object">
-			<cfset annotatable = true>
-			<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 'MCZ:' || collection_cde || ':' || cat_num as annotatatedrecord
-				from cataloged_item
-				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
-			</cfquery>
-			<cfquery name="whoTo" datasource="uam_god">
-				select distinct
-					address
-				FROM
-					cataloged_item,
-					collection,
-					collection_contacts,
-					electronic_address
-				WHERE
-					cataloged_item.collection_id = collection.collection_id AND
-					collection.collection_id = collection_contacts.collection_id AND
-					collection_contacts.contact_agent_id = electronic_address.agent_id AND
-					collection_contacts.CONTACT_ROLE = 'data quality' and
-					electronic_address.ADDRESS_TYPE='e-mail' and
-					cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >
-			</cfquery>
-			<cfset mailTo = valuelist(whoTo.address)>
-		</cfcase>
-		<cfcase value="taxon_name">
-			<cfset annotatable = true>
-			<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select 'Taxon:' || scientific_name || ' ' || author_text as annotatatedrecord
-				from taxonomy
-				where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#idvalue#">
-			</cfquery>
-		</cfcase>
-		<cfdefaultcase>
-			<cfset result="Only annotation of collection objects is supported at this time">
-		</cfdefaultcase>
-	</cfswitch>
+	<cftry>
+		<cfswitch expression="#target_type#">
+			<cfcase value="collection_object">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 'MCZ:' || collection_cde || ':' || cat_num as annotatatedrecord
+					from cataloged_item
+					where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+				</cfquery>
+				<cfquery name="whoTo" datasource="uam_god">
+					select distinct
+						address
+					FROM
+						cataloged_item,
+						collection,
+						collection_contacts,
+						electronic_address
+					WHERE
+						cataloged_item.collection_id = collection.collection_id AND
+						collection.collection_id = collection_contacts.collection_id AND
+						collection_contacts.contact_agent_id = electronic_address.agent_id AND
+						collection_contacts.CONTACT_ROLE = 'data quality' and
+						electronic_address.ADDRESS_TYPE='e-mail' and
+						cataloged_item.collection_object_id= <cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >
+				</cfquery>
+				<cfset mailTo = valuelist(whoTo.address)>
+			</cfcase>
+			<cfcase value="taxon_name">
+				<cfset annotatable = true>
+				<cfquery name="annotated" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select 'Taxon:' || scientific_name || ' ' || author_text as annotatatedrecord
+					from taxonomy
+					where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_NUMERIC" value="#target_id#">
+				</cfquery>
+			</cfcase>
+			<cfdefaultcase>
+				<cfthrow message="Only annotation of collection objects is supported at this time">
+			</cfdefaultcase>
+		</cfswitch>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
 	<cfif annotatable>
 		<cftry>
 			<cfquery name="annotator" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -368,9 +388,9 @@ limitations under the License.
 			<cfquery name="insAnn" datasource="uam_god">
 				insert into annotations (
 					cf_username,
-					<cfif idType EQ 'collection_object'>
+					<cfif target_type EQ 'collection_object'>
 						collection_object_id,
-					<cfelseif idType EQ 'taxon_name'>
+					<cfelseif target_type EQ 'taxon_name'>
 						taxon_name_id,
 					</cfif>
 					annotation,
@@ -379,13 +399,34 @@ limitations under the License.
 					state
 				) values (
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#session.username#' >,
-					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
+					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
 					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='For #annotated.annotatedrecord# #annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email# reported: #urldecode(annotation)#' >
-					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#idtype#' >,
-					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#idvalue#' >,
+					<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#target_type#' >,
+					<cfqueryparam cfsqltype='CF_SQL_NUMERIC' value='#target_id#' >,
 					'New'
 				)
 			</cfquery>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+
+		<cftry>
 			<cfset mailTo=listappend(mailTo,Application.bugReportEmail,",")>
 			<cfmail to="#mailTo#" from="annotation@#Application.fromEmail#" subject="Annotation Submitted" type="html">
 An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name# #annotator.affiliation# #annotator.email#) has submitted an annotation to report problematic data concerning #annotated.annotatedrecord#.
@@ -395,8 +436,8 @@ An MCZbase User: #session.username# (#annotator.first_name# #annotator.last_name
     			</blockquote>
     
     			View details at
-    			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#idType#&id=#idvalue#">
-    			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#idType#&id=#idvalue#
+    			<a href="#Application.ServerRootUrl#/info/reviewAnnotation.cfm?action=show&type=#target_type#&id=#target_id#">
+    			#Application.ServerRootUrl#/info/annotate.cfm?action=show&type=#target_type#&id=#target_id#
     			</a>
 			</cfmail>
 			<cfset newline= Chr(13) & Chr(10)>
@@ -418,9 +459,9 @@ Complaint: #annotation#
 #newline##newline#
 Annotation to report problematic data concerning #annotated.annotatedrecord#
 			</cfmail>
-			<cfset result = "success">
+			<cfset result = "success saving annotatation and sending notification email">
 		<cfcatch>
-			<cfset result = "A database error occured: #cfcatch.message# #cfcatch.detail#">
+			<cfset result = "success saving annotation, error sending notification email">
 		</cfcatch>
 		</cftry>
 	</cfif>
