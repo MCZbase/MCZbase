@@ -138,7 +138,7 @@ limitations under the License.
 							order by annotations.STATE, annotate_date
 						</cfquery>
 						<!--- TODO: Manage dialog for individual annotations --->
-						<cfset manageIRI = "info/reviewAnnotation.cfm?action=show&type=taxon_name_id">
+						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=taxon_name_id">
 					</cfcase>
 					<cfcase value="project">
 						<cfset project_id = target_id>
@@ -183,6 +183,8 @@ limitations under the License.
 							where project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 							order by annotations.STATE, annotate_date
 						</cfquery>
+						<!--- TODO: Manage dialog for individual annotations --->
+						<cfset manageIRI = "/info/reviewAnnotation.cfm?action=show&type=project_id">
 					</cfcase>
 					<cfcase value="publication">
 						<cfset publication_id = target_id>
