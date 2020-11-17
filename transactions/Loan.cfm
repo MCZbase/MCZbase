@@ -914,7 +914,7 @@ limitations under the License.
 						</cfif>
 					</div>
 				</section>
-				<section class="row">
+				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
