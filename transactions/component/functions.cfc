@@ -350,7 +350,7 @@ limitations under the License.
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
 											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
-														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 													<button type='button' 
 														class='btn btn-xs btn-warning' 
 														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
@@ -2084,7 +2084,7 @@ limitations under the License.
 		</cfquery>
 		<cfif newPermitResult.recordcount eq 1>
 			<cfset result = result & "<span>Created new Permissons/Rights record. ">
-			<cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+			<cfset result = result & "<a id='permitEditLink' href='/transactions/Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
 			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
 			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
 		</cfif>
@@ -3855,6 +3855,9 @@ limitations under the License.
 						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, ' ' as frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -3871,6 +3874,9 @@ limitations under the License.
 						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
@@ -3890,6 +3896,9 @@ limitations under the License.
 						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, ' ' as frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -3907,6 +3916,9 @@ limitations under the License.
 						concat('/transactions/Loan.cfm?Action=editLoan&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
@@ -3927,6 +3939,9 @@ limitations under the License.
 						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						TO_DATE(null) as shipped_date, ' ' as toinstitution, 'Museum of Comparative Zoology' as frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -3943,6 +3958,9 @@ limitations under the License.
 						concat('/Deaccession.cfm?action=editDeacc&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
+						(case when flat.began_date > '1700-01-01' then 
+     						 ( case when flat.began_date = flat.ended_date then flat.began_date else flat.began_date || '/' || flat.ended_date end)
+    					else '' end) as eventDate,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, flat.parts,
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id)) as common_name
 					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
@@ -3962,6 +3980,7 @@ limitations under the License.
 						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						'' as eventDate,
 						TO_DATE(null) as shipped_date,'Museum of Comparative Zoology' as toinstitution, '' as frominstitution, borrow_item.spec_prep as parts,
 						' ' as common_name
 					from permit_trans left join trans on permit_trans.transaction_id = trans.transaction_id
@@ -3975,6 +3994,7 @@ limitations under the License.
 						concat('/Borrow.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						borrow_item.country_of_origin as sovereign_nation,
 						borrow_item.country_of_origin as country, '' as state_prov, '' as county, '' as island, borrow_item.sci_name as scientific_name, borrow_item.catalog_number as guid,
+						'' as eventDate,
 						shipped_date, toaddr.institution toinstitution, fromaddr.institution frominstitution, borrow_item.spec_prep as parts,
 						' ' as common_name
 					from permit_shipment left join shipment on permit_shipment.shipment_id = shipment.shipment_id
@@ -4007,6 +4027,7 @@ limitations under the License.
 			<cfset row["island"] = "#use.island#">
 			<cfset row["scientific_name"] = "#use.scientific_name#">
 			<cfset row["guid"] = "#use.guid#">
+			<cfset row["eventdate"] = "#use.eventDate#">
 			<cfset row["toinstitution"] = "#use.toinstitution#">
 			<cfset row["frominstitution"] = "#use.frominstitution#">
 			<cfset row["parts"] = "#use.parts#">

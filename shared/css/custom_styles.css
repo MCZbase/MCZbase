@@ -1503,6 +1503,10 @@ textarea {
 .jqx-grid-column-menubutton {
 	border-left: 0;
 }
+/* TODO: This is causing the Link heading on permit search results to be invisible.  
+ * Whatever it is intended as a fix for is breaking that, and probably other tables.
+ * Need to fix this .
+*/
 #columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
 	color: transparent !important;
 }
