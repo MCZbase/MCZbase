@@ -3,8 +3,10 @@
 <cfinclude template="/shared/_header.cfm">
 <cfif not isdefined("table") OR len(table) EQ 0>
 	<div class="container my-3">
-	   <h2>MCZbase controlled vocabulary tables</h2>
-   	<cfquery name="getCTName" datasource="uam_god">
+		<div class="row">
+			<div class="col-12">
+	   			<h2>MCZbase controlled vocabulary tables</h2>
+   				<cfquery name="getCTName" datasource="uam_god">
       	select
          	distinct(table_name) table_name
 	      from
@@ -13,7 +15,7 @@
 	         table_name like 'CT%'
    	    order by table_name
 	   </cfquery>
-		<ul>
+				<ul>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<li><a href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a></li>
 			</cfif>
@@ -27,6 +29,8 @@
 				</cfif>
 		   </cfloop>
 		</ul>
+			</div>
+		</div>
 	</div>
 <cfelse>
 	<cfif refind('^CT[A-Z_]+$',ucase(table)) EQ 0>
@@ -45,19 +49,23 @@
 	</cfquery>
 	
 	<div class="container my-3">
-		<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
-
-		<cfif table is "ctmedia_license">
-			<table border="1">
+		<div class="row">
+			<div class="col-12">
+			<h3>Documentation for code table <strong>#tableName#</strong>:</h3>
+			<cfif table is "ctmedia_license">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
-					<td>
-						<strong>License</strong>
-					</td>
-					<td><strong>Description</strong></td>
-					<td>
-						<strong>URI</strong>
-					</td>
+					<th>
+						License
+					</th>
+					<th>Description</td>
+					<th>
+						URI
+					</th>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#display#</td>
@@ -65,26 +73,30 @@
 						<td><a href="#uri#" target="_blank" class="external">#uri#</a></td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelseif table is "ctguid_type">
-			<table border="1">
+			<table class="table table-responsive table-striped d-xl-table">
+				<thead class="thead-light">
 				<tr>
-					<td>
-						<strong>GUID Type</strong>
-					</td>
-					<td>
-						<strong>Applies To</strong>
-					</td>
-					<td>
-						<strong>Description</strong>
-					</td>
-					<td>
-						<strong>Placeholder</strong>
-					</td>
-					<td>
-						<strong>Search URI</strong>
-					</td>
+					<th>
+						GUID Type
+					</th>
+					<th>
+						Applies To
+					</th>
+					<th>
+						Description
+					</th>
+					<th>
+						Placeholder
+					</th>
+					<th>
+						Search URI
+					</th>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#guid_type#</td>
@@ -94,20 +106,24 @@
 						<td>#search_uri#</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelseif table is "ctspecific_permit_type">
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
-					<td>
-						<strong>Specific Type</strong>
-					</td>
-					<td>
-						<strong>Permit Type</strong>
-					</td>
-					<td>
-						<strong>Inherit to Shipments</strong>
-					</td>
+					<th>
+						Specific Type
+					</th>
+					<th>
+						Permit Type
+					</th>
+					<th>
+						Inherit to Shipments
+					</th>
 				</tr>
+				</thead>
+				<tbody>
 				<cfloop query="docs">
 					<tr>
 						<td>#specific_type#</td>
@@ -115,6 +131,7 @@
 						<td>#accn_show_on_shipment#</td>
 					</tr>
 				</cfloop>
+				</tbody>
 			</table>
 		<cfelse>
 
@@ -173,19 +190,22 @@
 			</cfif>
 			<cfset columnArr = ListToArray(columnList)>
 
-			<table border="1">
+			<table class="table table-responsive table-striped d-lg-table">
+				<thead class="thead-light">
 				<tr>
 					<cfloop array="#columnArr#" index="colName">
 						<th>
-							<strong>#colName#</strong>
+							#colName#
 						</th>
 					</cfloop>
 					<cfif NOT #columnList# contains "collection_cde">
 						<th>
-							<strong>Collection</strong>
+							Collection
 						</th>
 					</cfif>
 				</tr>
+				</thead>
+				<tbody>
 				<cfset i=1>
 				<cfloop query="orderedDocs">
 					<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
@@ -201,8 +221,11 @@
 						</cfif>
 					</tr>
 				</cfloop>
+					</tbody>
 			</table>
 		</cfif>
+			</div>
+		</div>
 	</div>
 	
 </cfif>

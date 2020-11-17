@@ -173,16 +173,17 @@ limitations under the License.
 	<cfif not isdefined("specimen_guid")>
 		<cfset specimen_guid="">
 	</cfif>
-	
+	<cfif not isdefined("parent_loan_number")>
+		<cfset parent_loan_number="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
-	<!--- Search form --->
-	<div id="search-form-div" class="pb-3 px-3">
-		<div class="container-fluid">
+	<main>
+		<!--- Search form --->
+		<section class="container-fluid" role="search" id="content">
 			<div class="row">
-				<div class="col-12">
+				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-					<div class="tab-card-main mt-1 pb-2 tab-card"> 
-						
+					<div class="tab-card-main mt-1 tab-card"> 
 						<!--- Set Active Tab --->
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
@@ -198,28 +199,24 @@ limitations under the License.
 							<cfset loanTabShow = "">
 							</cfdefaultcase>
 						</cfswitch>
-						
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0 w-100" id="content">
-							<ul class="nav nav-tabs card-header-tabs pt-1" id="tabHeaders" role="tablist">
+						<div class="card-header tab-card-header pb-0" id="content">
+							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-5 col-lg-3 px-1"> 
 									<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
-									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions')" aria-label="help link"></i>
 								</li>
 								<li class="nav-item col-5 col-lg-3 px-1"> 
-									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 
-									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i>
+									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loan tab" aria-selected="false" >Loans</a> 	
 								</li>
 							</ul>
 						</div>
 						<!--- End tab header div ---> 
-						
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
-							<div class="tab-pane fade #allTabShow# #allTabActive# py-0 mx-sm-3 mb-1" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title px-0 mx-1 mb-0" aria-activedescendant="all-tab">Search All Transactions</h2>
-								<form id="searchForm">
+							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
@@ -260,7 +257,7 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="bg-light border rounded pt-2 mx-0 mr-1 my-2">
+									<div class="bg-light border rounded pt-2 mx-0 mr-1 my-2 px-2">
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
@@ -316,9 +313,9 @@ limitations under the License.
 										</div>
 										<script>
 											$(document).ready(function() {
-												$(makeAgentPicker('all_agent_1','all_agent_1_id'));
-												$(makeAgentPicker('all_agent_2','all_agent_2_id'));
-												$(makeAgentPicker('all_agent_3','all_agent_3_id'));
+												$(makeConstrainedAgentPicker('all_agent_1','all_agent_1_id','transaction_agent'));
+												$(makeConstrainedAgentPicker('all_agent_2','all_agent_2_id','transaction_agent'));
+												$(makeConstrainedAgentPicker('all_agent_3','all_agent_3_id','transaction_agent'));
 											});
 										</script> 
 									</div>
@@ -331,11 +328,9 @@ limitations under the License.
 									</div>
 								</form>
 							</div>
-							
 							<!--- Loan search tab panel --->
-							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-0 mx-sm-2 mb-1 px-2 px-md-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="wikilink h3 card-title mb-0 mt-2">Find Loans </h2>
-								
+							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-2 mx-sm-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
+								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -378,7 +373,7 @@ limitations under the License.
 								<cfif not isdefined("loan_number")>
 									<cfset loan_number="">
 								</cfif>
-								<form id="loanSearchForm">
+								<form id="loanSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
@@ -437,8 +432,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded p-1 mx-1 my-2">
-									<div class="form-row mb-2 mx-0 my-2">
-									
+										<div class="form-row mb-2 mx-0 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -492,9 +486,9 @@ limitations under the License.
 										</div>
 										<script>
 									$(document).ready(function() {
-										$(makeAgentPicker('loan_agent_1','loan_agent_1_id'));
-										$(makeAgentPicker('loan_agent_2','loan_agent_2_id'));
-										$(makeAgentPicker('loan_agent_3','loan_agent_3_id'));
+										$(makeConstrainedAgentPicker('loan_agent_1','loan_agent_1_id','transaction_agent'));
+										$(makeConstrainedAgentPicker('loan_agent_2','loan_agent_2_id','transaction_agent'));
+										$(makeConstrainedAgentPicker('loan_agent_3','loan_agent_3_id','transaction_agent'));
 									});
 									</script> 
 									</div>
@@ -535,7 +529,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
-											<div class="border bg-light rounded pt-1 mb-2 pb-3 px-4">
+											<div class="border bg-light rounded py-3 mb-2 px-4">
 												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
@@ -549,8 +543,8 @@ limitations under the License.
 													<div id="permitpickerdialog"></div>
 												</div>
 											</div>
-											<div class="border bg-light rounded px-2 pt-1 mb-2 pb-1">
-												<div class="form-row mx-0 mb-1 px-3">
+											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
+												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<div class="col-3 px-0">
 														<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
 														<cfif part_name_oper IS "is">
@@ -570,7 +564,7 @@ limitations under the License.
 														<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 													</div>
 												</div>
-												<div class="form-row mx-0 px-3">
+												<div class="form-row mx-0 px-2 px-sm-3">
 													<div class="col-3 px-0">
 														<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
@@ -611,7 +605,7 @@ limitations under the License.
 														</script> 
 													</div>
 												</div>
-												<div class="form-row mx-0 mb-1 px-3">
+												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
@@ -635,7 +629,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12">
+													<div class="col-md-12 px-0">
 														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -648,7 +642,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-2 pt-1 mb-0 pb-3">
+											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
@@ -665,9 +659,13 @@ limitations under the License.
 													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
+												<div class="col-md-12">
+													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (find exhibition-subloans): </label>
+													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+												</div>
 											</div>
-										</div>
-									</div>
+											</div>
+									</div>	
 									<div class="form-row my-2 mx-0">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
@@ -676,44 +674,36 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							</div>
+							</div><!---tab-pane loan search---> 
 						</div>
+						<!--- End tab-content div ---> 
 					</div>
-					<!---tab-pane loan search---> 
-					
 				</div>
-				<!--- End tab-content div ---> 
-				
-			</div>
-		</div>
-	</div>
-	
-	<!--- Results table as a jqxGrid. --->
-	<div class="container-fluid">
-		<div class="row mx-0">
-			<div class="col-12">
-				<main role="main">
-					<div class="mb-5"> 
-						<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
-							<h4>Results: </h4>
-							<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-							<div id="columnPickDialog">
-								<div id="columnPick" class="px-1"></div>
-							</div>
-							<div id="columnPickDialogButton"></div>
-							<div id="resultDownloadButtonContainer"></div>
+			</div>	
+		</section>													
+		<!--- Results table as a jqxGrid. --->
+		<section class="container-fluid">
+			<div class="row">
+				<div class="col-12 mb-5">
+					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
+						<h1 class="h4">Results: </h1>
+						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<div id="columnPickDialog">
+							<div id="columnPick" class="px-1"></div>
 						</div>
-						<div class="row mt-0 mx-0">
-							<!--- div id="searchText"></div  not needed?  --->
-							<!--Grid Related code is below along with search handlers-->
-							<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-							<div id="enableselection"></div>
-						</div>
+						<div id="columnPickDialogButton"></div>
+						<div id="resultDownloadButtonContainer"></div>
 					</div>
-				</main>
+					<div class="row mt-0 mx-0">
+						<!--- div id="searchText"></div  not needed?  --->
+						<!--Grid Related code is below along with search handlers-->
+						<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+						<div id="enableselection"></div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
+		</section>															
+	</main>
 	<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 	<script>
 	/** createLoanRowDetailsDialog, create a custom loan specific popup dialog to show details for
@@ -740,7 +730,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -783,10 +773,10 @@ limitations under the License.
 	   }
 	   content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
-		content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
+		content = content + "<a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
 		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
 		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
-		content = content + "<a href='/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
+		content = content + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
@@ -906,8 +896,8 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Number', datafield: 'number', width:110, hideable: true, hidden: true },
-				{text: 'Transaction', datafield: 'id_link', width: 110},
+				{text: 'Number', datafield: 'number', width:120, hideable: true, hidden: true },
+				{text: 'Transaction', datafield: 'id_link', width: 120},
 				{text: 'transactionID', datafield: 'transaction_id', width: 50, hideable: true, hidden: true },
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', width: 80, hideable: true, hidden: true },
@@ -1097,8 +1087,8 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Loan Number', datafield: 'loan_number', width: 100, hideable: true, hidden: true },
-				{text: 'Loan', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Loan Number', datafield: 'loan_number', width: 120, hideable: true, hidden: true },
+				{text: 'Loan', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Type', datafield: 'loan_type', width: 100},
@@ -1244,6 +1234,6 @@ function gridLoaded(gridId, searchType) {
 			<div style="float: left; display: block; margin-left: 1em;" >Searching...</div>	
 		</div>
 	</div>	
-	</div>
+	</div><!--- overlaycontainer --->
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">

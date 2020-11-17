@@ -273,7 +273,7 @@
 		<p>Some possibilities include:</p>
 		<ul>
 			<li>
-				If you searched by taxonomy, please consult <a href="/TaxonomySearch.cfm" class="novisit">The MCZbase Taxonomy</a>.
+				If you searched by taxonomy, please consult the <a href="/Taxa.cfm" class="novisit">MCZbase Taxonomy</a>.
 			</li>
 			<li>
 				Try broadening your search criteria. Try the next-higher geographic element, remove criteria, etc. Don't assume we've accurately or predictably recorded data!
@@ -423,7 +423,7 @@ document.getElementById('saveme').submit();
 		</form>
 		</cfif>
 <cfif #Action# is "dispCollObj">
-	<br><a href="Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
+	<br><a href="/transactions/Loan.cfm?transaction_id=#transaction_id#&Action=editLoan">Back to Loan</a>
 </cfif>
 
 <form name="browse" action="SpecimenResultsHTML.cfm" method="post">

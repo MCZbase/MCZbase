@@ -51,7 +51,7 @@
 		identification.accepted_id_fg = 1 AND
 		cataloged_item.collection_object_id = 
 		<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-			#collection_object_id#
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 		<cfelse>
 			#session.SpecSrchTab#.collection_object_id
 		</cfif>
@@ -115,7 +115,9 @@
 		<td><a href="/SpecimenResults.cfm?Accn_trans_id=#transaction_id#" target="_top">#accnColln# #Accn_number#</a></td>
 		<td style="width: 200px;">
 			<cfquery name="getAgent" dbtype="query">
-				select agent_name, coll_order from getItems where collection_object_id = #getItems.collection_object_id#
+				select agent_name, coll_order 
+				from getItems 
+				where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 				order by coll_order
 			</cfquery>
 			<cfset colls = "">
@@ -145,14 +147,14 @@
 			SELECT accn.TRANSACTION_ID FROM accn,trans WHERE
 			accn.TRANSACTION_ID=trans.TRANSACTION_ID AND
 			accn_number = '#accn_number#' 
-			and collection_id = #collection_id#			
+			and collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfquery>
 		<cfif accn.recordcount is 1 and accn.transaction_id gt 0>
 			<cftransaction>
                                 <cfquery name="upAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                                         UPDATE cataloged_item SET accn_id = #accn.transaction_id# where collection_object_id  in (
                                         <cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
-                                                #collection_object_id#
+                                                <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
                                         <cfelse>
                                                 select collection_object_id from #session.SpecSrchTab#
                                         </cfif>

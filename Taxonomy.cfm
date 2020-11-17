@@ -194,7 +194,7 @@
 <!------------------------------------------------>
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
-	<cfheader name="Location" value="TaxonomySearch.cfm">
+	<cfheader name="Location" value="/Taxa.cfm">
 	<cfabort>
 </cfif>
 <!---------------------------------------------------------------------------------------------------->

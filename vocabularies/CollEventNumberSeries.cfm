@@ -48,71 +48,71 @@ limitations under the License.
 			<cfif not isdefined("remarks")><cfset remarks=""></cfif>
 			<!--- Search Form --->
 			<cfoutput>
-				<div class="container pt-0 mt-2 mb-3">
-					<div class="row">
-						<div class="col-12">
-							<section role="search" aria-labelledby="formheading">
-								<h1 class="h3" id="formheading">Find Collecting Event Number Series</h1>
-								<form name="searchForm" id="searchForm"> 
-									<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
-									<div class="form-row mb-2">
-										<div class="col-md-6">
-											<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-											<input type="text" id="number_series" name="number_series" class="form-control-sm" value="#number_series#" aria-labelledby="number_series_label" >					
-										</div>
-										<div class="col-md-6">
-											<label for="pattern" id="pattern_label">Pattern</label>
-											<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >					
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="number" id="number_label">A number in the Series</label>
-											<input type="text" id="number" name="number" class="form-control-sm" value="#number#" aria-labelledby="number_label" >					
-										</div>
-									</div>
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 px-0">
-											<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
-											<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
-											<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
-												<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
-											</cfif>
-										</div>
-									</div>
-								</form>
-							</section>
-						</div>
-					</div>
-				</div>
-			</cfoutput>
-	
-			<!--- Results table as a jqxGrid. --->
-			<div class="container-fluid">
-				<div class="row mx-0">
-					<div class="col-12 mb-5">
-						<section role="main">
-							<div class="row mx-0 mt-1 mb-0 pb-0 jqx-widget-header border px-2">
-								<h4>Results: </h4>
-								<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
-								<div id="columnPickDialog">
-									<div id="columnPick" class="px-1"></div>
+				<main  id="content">
+					<section class="container-fluid" role="search">
+						<div class="row mx-0 mb-3">
+							<div class="search-box">
+								<div class="search-box-header">
+									<h1 class="h3 text-white" id="formheading">Find Collecting Event Number Series</h1>
 								</div>
-								<div id="columnPickDialogButton"></div>
-								<div id="resultDownloadButtonContainer"></div>
+								<div class="col-12 px-4 mt-3 py-1">
+									<form name="searchForm" id="searchForm"> 
+										<input type="hidden" name="method" value="getCollEventNumberSeries" class="keeponclear">
+										<div class="form-row mb-2">
+											<div class="col-md-6">
+												<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
+												<input type="text" id="number_series" name="number_series" class="data-entry-input" value="#number_series#" aria-labelledby="number_series_label" >
+											</div>
+											<div class="col-md-6">
+												<label for="pattern" class="data-entry-label" id="pattern_label">Pattern</label>
+												<input type="text" id="pattern" name="pattern" class="data-entry-input" value="#pattern#" aria-labelledby="pattern_label" >					
+											</div>
+										</div>
+										<div class="form-row mb-2">
+											<div class="col-md-12">
+												<label for="number" class="data-entry-label" id="number_label">A number in the Series</label>
+												<input type="text" id="number" name="number" class="data-entry-input" value="#number#" aria-labelledby="number_label" >					
+											</div>
+										</div>
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 px-0">
+												<button class="btn-xs btn-primary px-2 mt-3" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning mt-3" aria-label="Reset search form to inital values" onclick="">Reset</button>
+												<button type="button" class="btn-xs btn-warning mt-3" aria-label="Start a new collecting event number series search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=findAll';" >New Search</button>
+												<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_specimens")>
+													<button type="button" class="btn-xs btn-secondary my-2" aria-label="Create a new collecting event number series" onclick="window.location.href='#Application.serverRootUrl#/vocabularies/CollEventNumberSeries.cfm?action=new';" >Create New Number Series</button>
+												</cfif>
+											</div>
+										</div>
+									</form>
+								</div>
 							</div>
-							<div class="row mt-0">
-								<!--- Grid Related code is below along with search handlers --->
-								<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
-								<div id="enableselection"></div>
+						</div>
+					</section>
+
+					<!--- Results table as a jqxGrid. --->
+					<section class="container-fluid">
+						<div class="row mx-0">
+							<div class="col-12 mb-5">
+								<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+									<h1 class="h4">Results: </h1>
+									<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+									<div id="columnPickDialog">
+										<div id="columnPick" class="px-1"></div>
+									</div>
+									<div id="columnPickDialogButton"></div>
+									<div id="resultDownloadButtonContainer"></div>
+								</div>
+								<div class="row mt-0">
+									<!--- Grid Related code is below along with search handlers --->
+									<div id="searchResultsGrid" class="jqxGrid" role="table" aria-label="Search Results Table"></div>
+									<div id="enableselection"></div>
+								</div>
 							</div>
-						</section>
-					</div>
-				</div>
-			</div>
+						</div>
+					</section>
+				</main>
 		
-			<cfoutput>
 				<script>
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
@@ -320,48 +320,43 @@ limitations under the License.
 	<cfcase value="new">
 		<!---  Add a new collecting event number series, link to agent --->
 		<cfoutput>
-			<div class="container">
-				<div class="row">
+			<main class="container mt-3" id="content">
+				<section class="row" aria-labelledby="formheading">
 					<div class="col-12">
-						<div role="region" aria-labelledby="formheading">
-							<h2 id="formheading">New Collecting Event Number Series</h2>
+						<h1 class="h2 pl-3 ml-2" id="formheading">New Collecting Event Number Series</h1>
+						<div class="border rounded px-3 py-2">
 							<form name="newNumSeries" id="newNumSeries" action="/vocabularies/CollEventNumberSeries.cfm" method="post"> 
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mb-2">
-									<div class="col-md-12">
-										<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-										<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="" aria-labelledby="number_series_label" >					
+									<div class="col-12 col-md-6">
+										<label for="number_series" class="data-entry-label" id="number_series_label">Name for the Collector Number Series</label>
+										<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="" aria-labelledby="number_series_label" >
+									</div>
+									<div class="col-12 col-md-6">
+										<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
+										<input type="text" id="pattern" name="pattern" class="data-entry-input" value="" aria-labelledby="pattern_label" >
 									</div>
 								</div>
 								<div class="form-row mb-2">
-									<div class="col-md-12">
-										<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
-										<input type="text" id="pattern" name="pattern" class="form-control-sm" value="" aria-labelledby="pattern_label" >
-									</div>
-								</div>
-								<div class="form-row mb-2">
-									<div class="col-md-12">
-										<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
-										<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1"
+									<div class="col-12 col-md-12">
+										<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks">0 characters 4000 left</span>)</label>
+										<textarea id="remarks" name="remarks" class="data-entry-textarea"
 											onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 											rows="3" aria-labelledby="remarks_label" ></textarea>
 									</div>
 								</div>
-								<script>
-									$('##remarks').keyup(autogrow);
-								</script>
-								<div class="form-row mb-5">
-									<div class="col-12 col-md-6">
+								<div class="form-row mb-2">
+										<div class="col-12 col-md-6">
 										<span>
-											<label for="collector_agent_name">Numbers in this series assigned by Agent</label>
-											<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											<label for="collector_agent_name" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
+											<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+												<span class="input-group-text smaller" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="" aria-label="This is a number series of collector: " >
-											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value=""  >
+											<input name="collector_agent_name" id="collector_agent_name" class="form-control data-entry-input rounded-right" value="" aria-label="This is a number series of collector: " >
+											<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="" >
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -369,19 +364,25 @@ limitations under the License.
 											});
 										</script>
 									</div>
-									<div class="col-12 col-md-6 px-2 my-3 px-sm-2 my-4">   								
-											<input type="button" 
-												value="Create" title="Create" aria-label="Create"
-												class="btn btn-xs btn-primary"
-												onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
-												>
+	
+								</div>
+								<script>
+									$('##remarks').keyup(autogrow);
+								</script>
+								<div class="form-row mb-0">
+									<div class="col-12 col-md-12 my-2">   								
+										<input type="button" 
+											value="Create" title="Create" aria-label="Create"
+											class="btn btn-xs btn-primary"
+											onClick="if (checkFormValidity($('##newNumSeries')[0])) { submit();  } " 
+											>
 									</div>
 								</div>
 							</form>
-						</div><!--- region --->
+						</div>
 					</div><!--- col --->
-				</div><!--- row --->
-			</div><!--- container --->
+				</section>
+			</main>
 		</cfoutput>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->
@@ -428,7 +429,7 @@ limitations under the License.
 	<!---------------------------------------------------------------------------------->
 	<cfcase value="edit">
 		<cfif not isDefined("coll_event_num_series_id")>
-			<Cfset coll_event_num_series_id = "">
+			<cfset coll_event_num_series_id = "">
 		</cfif>
 		<cfif len("coll_event_num_series_id") EQ 0>
 			<cfthrow type="Application" message="Error: No value provided for coll_event_num_series_id">
@@ -444,30 +445,28 @@ limitations under the License.
 				where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
 			</cfquery>
 			<cfoutput query="numSeries">
-				<div class="container">
-					<div class="row">
-						<div class="col-12">
-							<div role="region" aria-labelledby="formheading">
-								<h2 id="formheading">Edit Collecting Event Number Series</h2>
+				<main id="content">
+					<section class="container py-3" aria-labelledby="formheading">
+						<h1 class="h2" id="formheading">Edit Collecting Event Number Series</h1>
+						<div class="row py-3 border rounded">
+							<div class="col-12 px-3">
 								<form name="editNumSeries" id="editNumSeries"> 
 									<input type="hidden" id="coll_event_num_series_id" name="coll_event_num_series_id" value="#coll_event_num_series_id#" >
 									<input type="hidden" id="method" name="method" value="saveNumSeries" >
 									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="number_series" id="number_series_label">Name for the Collector Number Series</label>
-											<input type="text" id="number_series" name="number_series" class="reqdClr form-control-sm" required value="#number_series#" aria-labelledby="number_series_label">	
+										<div class="col-12 col-md-6">
+											<label for="number_series" id="number_series_label" class="data-entry-label">Name for the Collector Number Series</label>
+											<input type="text" id="number_series" name="number_series" class="reqdClr data-entry-input" required value="#number_series#" aria-labelledby="number_series_label">	
+										</div>
+										<div class="col-12 col-md-6">
+											<label for="pattern" id="pattern_label" class="data-entry-label">Pattern for numbers in this series</label>
+											<input type="text" id="pattern" name="pattern" class="data-entry-input" value="#pattern#" aria-labelledby="pattern_label" >
 										</div>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-md-12">
-											<label for="pattern" id="pattern_label">Pattern for numbers in this series</label>
-											<input type="text" id="pattern" name="pattern" class="form-control-sm" value="#pattern#" aria-labelledby="pattern_label" >
-										</div>
-									</div>
-									<div class="form-row mb-2">
-										<div class="col-md-12">
-											<label for="remarks" id="remarks_label">Remarks (<span id="length_remarks"></span>)</label>
-											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-1 autogrow"
+											<label for="remarks" id="remarks_label" class="data-entry-label">Remarks (<span id="length_remarks"></span>)</label>
+											<textarea id="remarks" name="remarks" class="data-entry-textarea mt-0 autogrow"
 												onkeyup="countCharsLeft('remarks',4000,'length_remarks');"
 												rows="3" aria-labelledby="remarks_label" >#remarks#</textarea>
 										</div>
@@ -481,17 +480,17 @@ limitations under the License.
 											$('textarea.autogrow').keyup();
 										});
 									</script>
-									<div class="form-row mb-5">
+									<div class="form-row mb-0">
 										<div class="col-12 col-md-6"> 
 											<span>
-												<label for="collector_agent_name" id="collector_agent_name_label">Numbers in this series assigned by Agent</label>
-												<span id="collector_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<label for="collector_agent_name" id="collector_agent_name_label" class="data-entry-label w-auto">Numbers in this series assigned by Agent</label>
+												<span id="collector_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 											</span>
 											<div class="input-group">
 												<div class="input-group-prepend">
-													<span class="input-group-text" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													<span class="input-group-text smaller" id="collector_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 												</div>
-												<input name="collector_agent_name" id="collector_agent_name" class="form-control form-control-sm" value="#agentname#" aria-labelledby="collector_agent_name_label" >
+												<input name="collector_agent_name" id="collector_agent_name" class="form-control data-entry-input rounded-right" value="#agentname#" aria-labelledby="collector_agent_name_label" >
 												<input type="hidden" name="collector_agent_id" id="collector_agent_id" value="#collector_agent_id#"  >
 											</div>
 											<script>
@@ -549,7 +548,9 @@ limitations under the License.
 												};
 											</script>
 										</div>
-										<div class="col-12 col-md-6"> 
+									</div>
+									<div class="form-row mb-1">	
+										<div class="col-12">   
 											<div id="saveResultDiv">&nbsp;</div>
 											<input type="button" 
 												value="Save" title="Save" aria-label="Save"
@@ -559,36 +560,36 @@ limitations under the License.
 										</div>
 									</div>
 								</form>
-							</div><!--- region --->
-						</div><!--- col --->
-					</div><!--- row --->
-				</div><!--- container --->
+							</div><!--- col --->
+						</div><!--- row --->
+					</section>
+					<cfif numSeries_result.recordcount GT 0>
+						<!--- list instances of the collecting event number, link out to specimen search --->
+						<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
+							select coll_event_number, collecting_event_id 
+							from coll_event_number
+							where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
+							order by coll_event_number
+						</cfquery>
+						<section class="container pb-4">
+							<div class="row">
+								<div class="col-12" aria-labelledby="existingvalues">
+									<cfif numSeriesUse_result.recordcount EQ 0>
+										<h2 class="h3 mt-0" id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
+									<cfelse>
+										<h2 class="h3 mt-0" id="existingvalues">Instances of this Collecting Event Number Series</h2>
+										<ul class="px-4 list-style-disc">
+											<cfloop query="numSeriesUse">
+												<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
+											</cfloop>
+										</ul>
+									</cfif>
+								</div>
+							</div>
+						</section>
+					</cfif>
+				</main>
 			</cfoutput>
-			<cfif numSeries_result.recordcount GT 0>
-				<!--- list instances of the collecting event number, link out to specimen search --->
-				<cfquery name="numSeriesUse" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="numSeriesUse_result">
-					select coll_event_number, collecting_event_id 
-					from coll_event_number
-					where coll_event_num_series_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_num_series_id#">
-					order by coll_event_number
-				</cfquery>
-				<cfoutput>
-					<div class="container">
-						<div role="region" aria-labelledby="existingvalues">
-							<cfif numSeriesUse_result.recordcount EQ 0>
-								<h2 id="existingvalues">There are no Instances of this Collecting Event Number Series</h2>
-							<cfelse>
-								<h2 id="existingvalues">Instances of this Collecting Event Number Series</h2>
-								<ul>
-									<cfloop query="numSeriesUse">
-										<li><a href="/SpecimenResults.cfm?collecting_event_id=#numSeriesUse.collecting_event_id#" target="_blank">#coll_event_number#</a>
-									</cfloop>
-								</ul>
-							</cfif>
-						</div>
-					</div>
-				</cfoutput>
-			</cfif>
 		</cfif>
 	</cfcase>
 	<!---------------------------------------------------------------------------------->

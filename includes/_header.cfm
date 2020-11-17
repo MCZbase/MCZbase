@@ -66,10 +66,7 @@
               <ul>
                  <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
                  <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-                 <li><a target="_top" href="/TaxonomySearch.cfm">Taxonomy</a></li>
-                 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-                    <li><a target="_top" href="/Taxa.cfm">Taxonomy (new)</a></li>
-                 </cfif>
+                 <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
              </ul>
@@ -179,23 +176,6 @@
                   </ul>
                     </li>
               </cfif>
-                <cfif listfind(formList,"/Loan.cfm")>
-                <li><a target="_top" href="##">Transactions</a>
-                      <ul>
-                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
-                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
-                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
-                        <li><a target="_top" href="/Loan.cfm?Action=newLoan">Create Loan</a></li>
-                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
-                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
-                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
-                        <li><a target="_top" href="/Permit.cfm?action=newPermit">Create Permit</a></li>
-                        <li><a target="_top" href="/Permit.cfm">Find Permit</a></li>
-                     </ul>
-               </li>
-               </cfif>
                   <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
@@ -225,6 +205,23 @@
                     </li>
               </cfif>
                 </ul>
+                <cfif listfind(formList,"/newAccn.cfm")>
+                <li><a target="_top" href="##">Transactions</a>
+                      <ul>
+                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
+                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
+                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
+                        <li><a target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a></li>
+                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
+                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
+                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
+                        <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
+                        <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
+                     </ul>
+               </li>
+               </cfif>
           <li><a target="_top" href="##">Manage MCZbase</a>
             <ul>
               <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
@@ -302,7 +299,9 @@
                 <li><a target="_blank" href="https://sites.google.com/site/arctosdb/" class="external">More Info</a></li>
                 <li><a target="_top" href="/home.cfm">About</a></li>
                 <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>
-                <li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+                <cfif len(session.username) gt 0>
+                	<li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
+                </cfif>
                 <li><a target="_top" href="/info/api.cfm">API</a></li>
               </ul>
             </li>

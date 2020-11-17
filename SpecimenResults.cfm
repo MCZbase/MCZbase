@@ -302,7 +302,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 			<h3>Taxonomy Searches</h3>
 			<ul>
 			<li>
-				If you searched by taxonomy, consult <a href="/TaxonomySearch.cfm">The Taxonomy List</a>.
+				If you searched by taxonomy, consult the <a href="/Taxa.cfm">MCZbase Taxonomy</a>.
 				Taxa are often synonymized and revised and may not be consistent across collections. Previous Identifications,
 				which are separate from the taxonomy used in Identifications, may be located using the scientific name
 				"is/was/cited/related" option.
@@ -405,7 +405,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
+	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
     <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
     <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>
