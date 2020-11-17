@@ -773,7 +773,7 @@ limitations under the License.
 	   }
 	   content = content + "</ul>";
 		var transaction_id = datarecord['transaction_id'];
-		content = content + "<a href='/a_loanItemReview?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
+		content = content + "<a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a>";
 		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
 		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
 		content = content + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
