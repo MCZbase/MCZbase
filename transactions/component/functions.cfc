@@ -350,7 +350,7 @@ limitations under the License.
 											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
 										</cfloop>
 											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
-														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 													<button type='button' 
 														class='btn btn-xs btn-warning' 
 														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
@@ -2084,7 +2084,7 @@ limitations under the License.
 		</cfquery>
 		<cfif newPermitResult.recordcount eq 1>
 			<cfset result = result & "<span>Created new Permissons/Rights record. ">
-			<cfset result = result & "<a id='permitEditLink' href='Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
+			<cfset result = result & "<a id='permitEditLink' href='/transactions/Permit.cfm?permit_id=#nextPermit.nextPermit#&action=editPermit' target='_blank'>Edit</a></span>">
 			<cfset result = result & "<form><input type='hidden' value='#permit_num#' id='permit_number_passon'></form>">
 			<cfset result = result & "<script>$('##permitEditLink).removeClass(ui-widget-content);'</script>">
 		</cfif>

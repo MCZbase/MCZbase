@@ -581,7 +581,6 @@ limitations under the License.
 		</cfquery>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfset targetform = "Permit.cfm?action=edit&">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
@@ -593,7 +592,7 @@ limitations under the License.
 			<cfif len(label) EQ 0>
 				<cfset label = trim(search.specific_type)>
 			</cfif>
-			<cfset row["id_link"] = "<a href='/transactions/#targetform#permit_id=#search.permit_id#' target='_blank'>#label#</a>">
+			<cfset row["id_link"] = "<a href='/transactions/Permit.cfm?action=edit&permit_id=#search.permit_id#' target='_blank'>#label#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
