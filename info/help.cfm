@@ -1063,7 +1063,7 @@ Substrings will return records containing the specified substring in any of thes
 		<li>Related scientific names, such as synonomies</li>
 	</ul>
 </p>
-<p>For information on the taxonomy used here, including common names and synonomies, see <a href="/TaxonomySearch.cfm" target="_blank">MCZbase Taxonomy</a>.
+<p>For information on the taxonomy used here, including common names and synonomies, see <a href="/Taxa.cfm" target="_blank">MCZbase Taxonomy</a>.
 </cfif>
 <!----------------------------------------------------------------------------------------------------->
 <!-------------------------------                t              --------------------------------------->

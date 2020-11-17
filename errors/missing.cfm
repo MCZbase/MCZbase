@@ -109,7 +109,7 @@
 		<cftry>
 			<cfset gPos=listfindnocase(rdurl,"name","/")>
 			<cfset scientific_name = listgetat(rdurl,gPos+1,"/")>
-			<cfinclude template="/TaxonomyDetails.cfm">
+			<cfinclude template="/taxonomy/showTaxonomy.cfm">
 			<cfcatch>
 				<cfset errorMessage = cfcatch.message>
 				<cfset errorDetail = cfcatch.detail>

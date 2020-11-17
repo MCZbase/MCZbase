@@ -219,7 +219,7 @@
 			<cfloop query="md">
 				<tr>
 					<td>
-					<a href="#Application.ServerRootUrl#/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">#craps#</a>
+					<a href="#Application.ServerRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">#craps#</a>
 					</td>
 					<td>#used#</td>
 				</tr>
@@ -272,7 +272,7 @@
 			<cfloop query="md">
 				<tr>
 					<td>
-					<a href="#Application.ServerRootUrl#/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">#scientific_name#</a>
+					<a href="#Application.ServerRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">#scientific_name#</a>
 					</td>
 					<cfloop list="#taxaReturns#" index="n">
 						<td>#evaluate("md." & n)#</td>

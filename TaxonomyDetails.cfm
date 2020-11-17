@@ -301,7 +301,7 @@
 	</div>
             </div>
 	<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
-        <p style="margin-bottom: 1em;">	<a href="/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
+        <p style="margin-bottom: 1em;">	<a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#one.taxon_name_id#">[ Edit Taxonomy ]</a></p>
 	</cfif>
 	<table border>
 		<tr>

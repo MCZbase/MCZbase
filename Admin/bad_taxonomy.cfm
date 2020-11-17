@@ -87,7 +87,7 @@ alter table bad_taxonomy add family varchar2(255);
 			</tr>
 			<cfloop query="d">
 				<tr>
-					<td><a href="/Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">edit</a></td>
+					<td><a href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">edit</a></td>
 					<td><a href="/name/#scientific_name#">#scientific_name#</a></td>
 					<td>#probcode#</td>
 					<td>

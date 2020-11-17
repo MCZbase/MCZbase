@@ -1,5 +1,5 @@
 <!---
-transaction/component/search.cfc
+specimens/component/search.cfc
 
 Copyright 2019 President and Fellows of Harvard College
 
@@ -122,10 +122,11 @@ limitations under the License.
 		<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfif isdefined("Application.header_image")>
+			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 				<!--- Links for integration on production --->
 				<cfswitch expression="#search.transaction_type#">
-					<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+					<!--- NOTE: Leading / is included below in id_link assembly --->
+					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
 					<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
 					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
 					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
@@ -133,7 +134,7 @@ limitations under the License.
 			<cfelse>
 				<!--- Links for redesign --->
 				<cfswitch expression="#search.transaction_type#">
-					<cfcase value="loan"><cfset targetform = "Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
 					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -156,20 +157,14 @@ limitations under the License.
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
-			<cfif isdefined("Application.header_image")>
-				<!--- Links for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
-			<cfelse>
-				<!--- Links for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing #GetFunctionCalledName()#:: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
@@ -205,30 +200,8 @@ limitations under the License.
     <cfargument name="trans_agent_role_3" type="string" required="no">
     <cfargument name="agent_3" type="string" required="no">
     <cfargument name="agent_3_id" type="string" required="no">
-    <cfargument name="collection_object_id" type="string" required="no">
-    <cfargument name="specimen_guid" type="string" required="no">
+    <cfargument name="parent_loan_number" type="string" required="no">
 
-	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
-	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
-	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
-		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
-			select specimen_part.collection_object_id as part_coll_obj_id 
-			from 
-				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-			where
-				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
-		</cfquery>
-		<cfloop query="guidSearch">
-			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
-				<cfif len(collection_object_id) EQ 0>
-					<cfset collection_object_id = guidSearch.part_coll_obj_id>
-				<cfelse>
-					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
-				</cfif>
-			</cfif>
-		</cfloop>
-	</cfif>
-	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
@@ -244,7 +217,6 @@ limitations under the License.
 			<cfset to_trans_date=trans_date>
 		</cfif>
 	</cfif>
-	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -253,12 +225,12 @@ limitations under the License.
 				trans.transaction_id,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
 				trans_remarks,
-				loan_number,
+				loan.loan_number,
 				loan.loan_type loan_type,
 				ctloan_type.scope loan_type_scope,
-				loan_status,
-				loan_instructions,
-				loan_description,
+				loan.loan_status,
+				loan.loan_instructions,
+				loan.loan_description,
 				concattransagent(trans.transaction_id,'authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
@@ -268,9 +240,9 @@ limitations under the License.
 				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent,
 				concattransagent(trans.transaction_id,'recipient institution') recip_inst,
 				nature_of_material,
-				to_char(return_due_date,'YYYY-MM-DD') return_due_date,
-				return_due_date - trunc(sysdate) dueindays,
-				to_char(closed_date, 'YYYY-MM-DD') closed_date,
+				to_char(loan.return_due_date,'YYYY-MM-DD') return_due_date,
+				loan.return_due_date - trunc(sysdate) dueindays,
+				to_char(loan.closed_date, 'YYYY-MM-DD') closed_date,
 				project_name,
 				project.project_id pid,
 				collection.collection,
@@ -308,10 +280,8 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-					left join loan_item on loan.transaction_id = loan_item.transaction_id
-				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id=loan_item.transaction_id 
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
@@ -319,10 +289,14 @@ limitations under the License.
 					left join shipment on loan.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
+				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
+					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
+					left join loan parent_loan on loan_relations.transaction_id = parent_loan.transaction_id
+				</cfif>
 			where
 				trans.transaction_id is not null
 				<cfif isdefined("loan_number") AND len(#loan_number#) gt 0>
-					AND upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
+					AND upper(loan.loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(loan_number)#%">
 				</cfif>
 				<cfif isdefined("collection_id") AND collection_id gt 0>
 					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
@@ -339,30 +313,30 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("loan_status") AND len(#loan_status#) gt 0>
 					<cfif loan_status eq "not closed">
-						AND loan_status <> 'closed'
+						AND loan.loan_status <> 'closed'
 					<cfelse>
-						 AND loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
+						 AND loan.loan_status = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#loan_status#'>
 					</cfif>
 				</cfif>
 				<cfif isdefined("loan_instructions") AND len(#loan_instructions#) gt 0>
-					AND upper(loan_instructions) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_instructions)#%'>
+					AND upper(loan.loan_instructions) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_instructions)#%'>
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
 					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
 				</cfif>
 				<cfif isdefined("loan_description") AND len(#loan_description#) gt 0>
-					AND upper(loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
+					AND upper(loan.loan_description) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(loan_description)#%'>
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
 				<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
-					AND return_due_date between 
+					AND loan.return_due_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_due_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_due_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("closed_date") and len(closed_date) gt 0>
-					AND closed_date between 
+					AND loan.closed_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
 				</cfif>
@@ -413,10 +387,11 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
+					AND loan_relations.relation_type = 'Subloan'
+					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
 				</cfif>
-			ORDER BY to_number(regexp_substr (loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan_number, '[0-9]+', 1, 2)), loan_number
+			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 
 <!--- 
@@ -430,6 +405,10 @@ limitations under the License.
 	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
 	</cfif>
+	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
+		<cfset frm="#frm#, loan_item">
+		<cfset sql = "#sql# AND loan.transaction_id=loan_item.transaction_id AND loan_item.collection_object_id IN (#collection_object_id#)">
+	</cfif>
 	<cfif isdefined("notClosed") AND len(#notClosed#) gt 0>
 		<cfset sql = "#sql# AND loan_status <> 'closed'">
 	</cfif>
@@ -440,30 +419,399 @@ limitations under the License.
       <cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
-			<cfset targetform = "Loan.cfm?action=editLoan&">
 			<cfset row = StructNew()>
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfif isdefined("Application.header_image")>
-				<!--- Link for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
-			<cfelse>
-				<!--- Link for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=#search.transaction_id#' target='_blank'>#search.loan_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
       <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-      <cfset message = trim("Error processing #GetFunctionCalledName()#:: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
       <cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
+
+<cffunction name="getPermits" access="remote" returntype="any" returnformat="json">
+	<cfargument name="IssuedByAgent" default="">
+	<cfargument name="IssuedToAgent" default="">
+	<cfargument name="issued_Date" default="">
+	<cfargument name="renewed_Date" default="">
+	<cfargument name="exp_Date" default="">
+	<cfargument name="permit_Num" default="">
+	<cfargument name="permit_Type" default="">
+	<cfargument name="specific_type" default="">
+	<cfargument name="permit_title" default="">
+	<cfargument name="permit_remarks" default="">
+	<cfargument name="permit_id" default="">
+	<cfargument name="ContactAgent" default="">
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select permit.permit_id,
+				issuedBy.agent_name as IssuedByAgent,
+				issuedTo.agent_name as IssuedToAgent,
+				Contact.agent_name as ContactAgent,
+				issued_Date,
+				renewed_Date,
+				exp_Date,
+				permit_Num,
+				permit_Type,
+				specific_type,
+				permit_title,
+				permit_remarks
+			from
+				permit  
+				left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				left join preferred_agent_name Contact on permit.contact_agent_id = Contact.agent_id
+			where
+				permit.permit_id is not null 
+				<cfif isdefined("ISSUED_BY_AGENT_ID") and len(#ISSUED_BY_AGENT_ID#) gt 0>
+					AND ISSUED_BY_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_BY_AGENT_ID#">
+				<cfelseif isdefined("IssuedByAgent") AND len(#IssuedByAgent#) gt 0>
+					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+				</cfif>
+				<cfif isdefined("ISSUED_TO_AGENT_ID") and len(#ISSUED_TO_AGENT_ID#) gt 0>
+					AND ISSUED_TO_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#ISSUED_TO_AGENT_ID#">
+				<cfelseif isdefined("IssuedToAgent") AND len(#IssuedToAgent#) gt 0>
+					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+				</cfif>
+				<cfif isdefined("CONTACT_AGENT_ID") and len(#CONTACT_AGENT_ID#) gt 0>
+					AND CONTACT_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#CONTACT_AGENT_ID#">
+				<cfelseif isdefined("ContactAgent") AND len(#ContactAgent#) gt 0>
+					AND upper(Contact.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(ContactAgent)#%">
+				</cfif>
+				<cfif isdefined("issued_date") AND len(#issued_date#) gt 0>
+					<cfif len(#issued_date#) EQ 4>
+						<cfif NOT isdefined("issued_until_date") OR len(#issued_until_date#) EQ 0>
+							<cfset issued_until_date = "#issued_date#-12-31">
+						</cfif>
+						<cfset issued_date = "#issued_date#-01-01">
+						<cfif isdefined("issued_until_date") AND  len(#issued_until_date#) EQ 4>
+							<cfset issued_until_date = "#issued_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
+						AND upper(issued_date) 
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(issued_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_date#">, 'yyyy-mm-dd')
+					</cfif>
+				<cfelse>
+					<cfif isdefined("issued_until_date") AND len(#issued_until_date#) gt 0>
+						AND issued_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#issued_until_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("renewed_date") AND len(#renewed_date#) gt 0>
+					<cfif len(#renewed_date#) EQ 4>
+						<cfif NOT isdefined("renwewed_until_date") OR len(#renewed_until_date#) EQ 0>
+							<cfset renewed_until_date = "#renewed_date#-12-31">
+						</cfif>
+						<cfset renewed_date = "#renewed_date#-01-01">
+						<cfif ifdefined("renewed_until_date") AND len(#renewed_until_date#) EQ 4>
+							<cfset renewed_until_date = "#renewed_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("renewed_until_date") OR len(#renewed_until_date#) gt 0>
+						AND upper(renewed_date)
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(renewed_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_date#">, 'yyyy-mm-dd')
+					</cfif>
+				<cfelse>
+					<cfif isdefined("renewed_until_date") AND len(#renewed_until_date#) gt 0>
+						AND renewed_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#renewed_until_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("exp_date") AND len(#exp_date#) gt 0>
+					<cfif len(#exp_date#) EQ 4>
+						<cfif NOT isdefined("exp_until_date") OR len(#exp_until_date#) EQ 0>
+							<cfset exp_until_date = "#exp_date#-12-31">
+						</cfif>
+						<cfset exp_date = "#exp_date#-01-01">
+						<cfif isdefined("exp_until_date") AND len(#exp_until_date#) EQ 4>
+							<cfset exp_until_date = "#exp_until_date#-12-31">
+						</cfif>
+					</cfif>
+					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
+						AND upper(exp_date) 
+							between to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
+							and to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
+					<cfelse>
+						AND upper(exp_date) like to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_date#">, 'yyyy-mm-dd')
+					</cfif>
+				<cfelse>
+					<cfif isdefined("exp_until_date") AND len(#exp_until_date#) gt 0>
+						AND exp_date <= to_date(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#exp_until_date#">, 'yyyy-mm-dd')
+					</cfif>
+				</cfif>
+				<cfif isdefined("permit_Num") AND len(#permit_Num#) gt 0>
+					AND upper(permit_Num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_Num)#%">
+				</cfif>
+				<cfif isdefined("permit_type") AND  len(#permit_type#) gt 0>
+					AND permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				</cfif>
+				<cfif isdefined("permit_title") AND len(#permit_title#) gt 0>
+					AND upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_title)#%">
+				</cfif>
+				<cfif isdefined("specific_type") AND len(#specific_type#) gt 0>
+					AND specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+				</cfif>
+				<cfif isdefined("permit_remarks") AND len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+				</cfif>
+		</cfquery>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset label = trim(search.permit_num)>
+			<cfif len(label) EQ 0>
+				<cfset label = trim(search.permit_title)>
+			</cfif>
+			<cfif len(label) EQ 0>
+				<cfset label = trim(search.specific_type)>
+			</cfif>
+			<cfset row["id_link"] = "<a href='/transactions/Permit.cfm?action=edit&permit_id=#search.permit_id#' target='_blank'>#label#</a>">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+      <cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a accession autocomplete control --->
+<cffunction name="getAccessionAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct
+				trans.transaction_id,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				accn_number,
+				accn_status,
+				concattransagent(trans.transaction_id,'received from') rec_agent
+			from 
+				accn left join trans on accn.transaction_id = trans.transaction_id
+			where upper(accn_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			order by accn_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.transaction_id#">
+			<cfset row["value"] = "#search.accn_number#" >
+			<cfset row["meta"] = "#search.accn_number# (#search.accn_status# #search.trans_date# #search.rec_agent#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a loan autocomplete control --->
+<cffunction name="getLoanAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct
+				trans.transaction_id,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				loan_number,
+				loan_status,
+				concattransagent(trans.transaction_id,'received by') rec_agent
+			from 
+				loan left join trans on loan.transaction_id = trans.transaction_id
+			where upper(loan_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
+			order by loan_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.transaction_id#">
+			<cfset row["value"] = "#search.loan_number#" >
+			<cfset row["meta"] = "#search.loan_number# (#search.loan_status# #search.trans_date# #search.rec_agent#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!--- backing for a borrow autocomplete control --->
+<cffunction name="getBorrowAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct
+				trans.transaction_id,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				borrow_number,
+				borrow_status,
+				lenders_trans_num_cde,
+				concattransagent(trans.transaction_id,'received from') rec_agent
+			from 
+				borrow left join trans on borrow.transaction_id = trans.transaction_id
+			where upper(borrow_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+				OR upper(lenders_trans_num_cde) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			order by borrow_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.transaction_id#">
+			<cfset row["value"] = "#search.borrow_number#" >
+			<cfset row["meta"] = "#search.borrow_number# (#search.borrow_status# #search.trans_date# #search.rec_agent# #search.lenders_trans_num_cde#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+
+<!--- backing for a deaccession autocomplete control --->
+<cffunction name="getDeaccessionAutocomplete" access="remote" returntype="any" returnformat="json">
+	<cfargument name="term" type="string" required="yes">
+	<cfset data = ArrayNew(1)>
+
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			select distinct
+				trans.transaction_id,
+				to_char(trans_date,'YYYY-MM-DD') trans_date,
+				deacc_number,
+				deacc_status,
+				deacc_reason
+			from 
+				deaccession left join trans on deaccession.transaction_id = trans.transaction_id
+			where upper(deacc_number) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(term)#%">
+			order by deacc_number
+		</cfquery>
+		<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfset row["id"] = "#search.transaction_id#">
+			<cfset row["value"] = "#search.deacc_number#" >
+			<cfset row["meta"] = "#search.deacc_number# (#search.deacc_status# #search.trans_date# #search.deacc_reason#)" >
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
 
 </cfcomponent>
