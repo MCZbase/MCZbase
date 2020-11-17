@@ -75,7 +75,6 @@
 					<cfabort>
 				</cfif>
 			<cfelseif listlen(scientific_name," ") is 4>
-				<!--- TODO: Evaluate this, intent appears to be to match provided Aus bus var. sus against Aus bus sus record, but might fail against subgenera --->
 				<cfset checkSql(scientific_name)>
 				<cfquery name="getTID" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
@@ -91,6 +90,26 @@
 					<cfheader statuscode="301" statustext="Moved permanently">
 					<cfheader name="Location" value="/name/#EncodeForURL(getTID.scientific_name)#">
 					<cfabort>
+				<cfelseif getTID.recordcount is 0>
+					<!--- block above matchs provided Aus bus var. sus against Aus bus sus record, but 4 part name may be subgenus e.g. Aus (Aus) bus sus. --->
+					<cfset subgenusCandidate = listgetat(scientific_name,2," ")>
+					<cfset subgenusCandidate = mid(subgenusCandidate,2,len(subgenusCandidate)-1)>
+					<cfquery name="getTIDsg" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						SELECT
+							scientific_name
+						FROM
+							taxonomy
+						WHERE
+							upper(genus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,1," "))#"> and
+							upper(subgenus) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(subgenusCandidate)#"> and
+							upper(species) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,3," "))#"> and
+							upper(subspecies) = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(listgetat(scientific_name,4," "))#">
+					</cfquery>
+					<cfif getTIDsg.recordcount is 1>
+						<cfheader statuscode="301" statustext="Moved permanently">
+						<cfheader name="Location" value="/name/#EncodeForURL(getTID.scientific_name)#">
+						<cfabort>
+					</cfif>
 				</cfif>
 			</cfif>
 		</cfif>
@@ -465,7 +484,6 @@
 				</div>
 
 				<div id="specTaxMedia">
-					<!--- TODO: Lookup media --->
 					<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct
 							flattable.guid,
