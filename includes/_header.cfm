@@ -176,23 +176,6 @@
                   </ul>
                     </li>
               </cfif>
-                <cfif listfind(formList,"/Loan.cfm")>
-                <li><a target="_top" href="##">Transactions</a>
-                      <ul>
-                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
-                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
-                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
-                        <li><a target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a></li>
-                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
-                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
-                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
-                        <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
-                        <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
-                     </ul>
-               </li>
-               </cfif>
                   <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
@@ -222,6 +205,23 @@
                     </li>
               </cfif>
                 </ul>
+                <cfif listfind(formList,"/Loan.cfm")>
+                <li><a target="_top" href="##">Transactions</a>
+                      <ul>
+                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
+                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
+                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
+                        <li><a target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a></li>
+                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
+                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
+                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
+                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
+                        <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
+                        <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
+                     </ul>
+               </li>
+               </cfif>
           <li><a target="_top" href="##">Manage MCZbase</a>
             <ul>
               <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
