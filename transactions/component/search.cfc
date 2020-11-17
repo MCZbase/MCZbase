@@ -125,7 +125,8 @@ limitations under the License.
 			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
 				<!--- Links for integration on production --->
 				<cfswitch expression="#search.transaction_type#">
-					<cfcase value="loan"><cfset targetform = "/transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<!--- NOTE: Leading / is included below in id_link assembly --->
+					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
 					<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
 					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
 					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
@@ -133,7 +134,7 @@ limitations under the License.
 			<cfelse>
 				<!--- Links for redesign --->
 				<cfswitch expression="#search.transaction_type#">
-					<cfcase value="loan"><cfset targetform = "/transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
 					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
 				</cfswitch>
 			</cfif>
@@ -156,13 +157,7 @@ limitations under the License.
 			<cfset row["additional_inhouse_contact"] = "#search.addInHouse_agent#">
 			<cfset row["additional_outside_contact"] = "#search.addOutside_agent#">
 			<cfset row["recipient_institution"] = "#search.recip_inst#">
-			<cfif findNoCase('redesign',Session.gitBranch) EQ 0>
-				<!--- Links for integration on production --->
-				<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
-			<cfelse>
-				<!--- Links for redesign --->
-				<cfset row["id_link"] = "<a href='/transactions/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/#targetform#transaction_id=#search.transaction_id#' target='_blank'>#search.specific_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
