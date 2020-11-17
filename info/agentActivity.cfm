@@ -452,7 +452,7 @@
 				PACKED_BY_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="shipment">
-			<li>Packed Shipment for <a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a></li>
+			<li>Packed Shipment for <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a></li>
 		</cfloop>
 		<cfquery name="ship_to" datasource="uam_god">
 			select 
@@ -473,7 +473,7 @@
 				addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="ship_to">
-			<li><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped to addr</li>
+			<li><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped to addr</li>
 		</cfloop>
 		<cfquery name="ship_from" datasource="uam_god">
 			select 
@@ -494,7 +494,7 @@
 				addr.agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		</cfquery>
 		<cfloop query="ship_from">
-			<li><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped from</li>
+			<li><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a> shipped from</li>
 		</cfloop>
 		<cfquery name="trans_agent_l" datasource="uam_god">
 			select 
@@ -523,7 +523,7 @@
 				TRANS_AGENT_ROLE
 		</cfquery>
 		<cfloop query="trans_agent_l">
-			<li>#TRANS_AGENT_ROLE# for Loan <a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a></li>
+			<li>#TRANS_AGENT_ROLE# for Loan <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a></li>
 		</cfloop>
 		<cfquery name="trans_agent_a" datasource="uam_god">
 			select 
@@ -577,7 +577,7 @@
 		</cfquery>
 		<cfloop query="loan_item">
 			<li>Reconciled #cnt# items for Loan 
-				<a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+				<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 			</li>		
 		</cfloop>
 		<cfquery name="trans_agent_d" datasource="uam_god">

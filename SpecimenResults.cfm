@@ -405,7 +405,7 @@ If your item needs to be sorted in a special way, then do that here. --->
 			<a class="infoLink" href="/info/reportBadData.cfm?collection_object_id=#collObjIdList#">Report Bad Data</a>	</p>
 <div class="topBlock" id="ssControl">
 <cfif isdefined("transaction_id") and #action# is "dispCollObj">
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
+	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Loan</a>
     <cfelseif isdefined("transaction_id") and #action# is "dispCollObjDeacc">
     <a href="Deaccession.cfm?action=editDeacc&transaction_id=#transaction_id#">Back to Deaccession</a>
 </cfif>

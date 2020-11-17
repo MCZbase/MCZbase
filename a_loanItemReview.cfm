@@ -307,7 +307,7 @@
 <cfif prtItemCnt.c eq ''><cfset partCount = 'no'><cfelse><cfset partCount = prtItemCnt.c></cfif>
 
 Review items in loan<b>
-	<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
+	<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#aboutLoan.loan_number#</a></b>.
 	<p>There are #partCount# items from #catCount# specimens in this loan.</p>
 <div class="shippingBlock">
 	<h3>Countries of Origin</h3>
@@ -466,7 +466,7 @@ Review items in loan<b>
 </cfoutput>
 </table>
 <cfoutput>
-	<br><a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
+	<br><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">Back to Edit Loan</a>
 </cfoutput>
 </cfif>
                             </div>

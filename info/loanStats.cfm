@@ -36,7 +36,7 @@
 	</tr>
 	<cfloop query="loanData">
 		<tr>
-			<td nowrap="nowrap">#collection# <a href="/Loan.cfm?action=editLoan&TRANSACTION_ID=#TRANSACTION_ID#">#loan_number#</a></td>
+			<td nowrap="nowrap">#collection# <a href="/transactions/Loan.cfm?action=editLoan&TRANSACTION_ID=#TRANSACTION_ID#">#loan_number#</a></td>
 			<td nowrap="nowrap">#loaned_to#</td>
 			<td>#LOAN_STATUS#</td>
 			<td nowrap="nowrap">#dateformat(TRANS_DATE,"dd mmm yyyy")#&nbsp;</td>

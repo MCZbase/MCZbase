@@ -22,7 +22,7 @@
 		<h2>Loans without Specimens</h2>
 		<cfset i=1>
 		<cfloop query="data">
-			<br><a href="/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
+			<br><a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">#collection# #loan_number#</a>
 		</cfloop>
 	</cfoutput>
 </cfif>

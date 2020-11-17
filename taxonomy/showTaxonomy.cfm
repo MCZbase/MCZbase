@@ -612,7 +612,7 @@
 					</div>
 				</div>
 
-				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+				<cfif isdefined("session.username") and len(#session.username#) gt 0>
 					<div class="row">
 						<div class="col-12">
 							<h2 class="h4">Annotations:</h2>
@@ -620,14 +620,38 @@
 								select count(*) cnt from annotations
 								where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
 							</cfquery>
-							<!--- TODO: Implement annotation dialog --->
-							<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
-								class="btn btn-xs btn-info" value="Annotate"
-								onClick=" openAnnotation('taxon_name_id=#tnid#');">Annotate</button>
-							<cfif #existingAnnotations.cnt# gt 0>
-								(#existingAnnotations.cnt# existing annotations)
+							<cfif #existingAnnotations.cnt# GT 0>
+								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+									class="btn btn-xs btn-info" value="Annotate this record and view existing annotations"
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#);">Annotate/View Annotations</button>
+							<cfelse>
+								<button type="button" aria-label="Annotate" id="annotationDialogLauncher"
+									class="btn btn-xs btn-info" value="Annotate this record"
+									onClick=" openAnnotationsDialog('annotationDialog','taxon_name',#tnid#);">Annotate</button>
 							</cfif>
-							</a>
+							<div id="annotationDialog"></div>
+							<cfif #existingAnnotations.cnt# gt 0>
+								<cfif #existingAnnotations.cnt# EQ 1>
+									<cfset are = "is">
+									<cfset s = "">
+								<cfelse>
+									<cfset are = "are">
+									<cfset s = "s">
+								</cfif>
+								<p>There #are# #existingAnnotations.cnt# annotation#s# on this taxon record</p>
+								<cfquery name="AnnotationStates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select count(*) statecount, state from annotations
+									where taxon_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#tnid#">
+									group by state
+								</cfquery>
+								<ul>
+									<cfloop query="AnnotationStates">
+										<li>#state#: #statecount#</li>
+									</cfloop>
+								</ul>
+							<cfelse>
+								<p>There are no annotations on this taxon record</p>
+							</cfif>
 						</div>
 					</div>
 				</cfif>

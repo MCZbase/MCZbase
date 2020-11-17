@@ -565,7 +565,7 @@
 				<cfset i=1>
 				<cfloop query="getLoans">
 		 			<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-						<a href="Loan.cfm?action=editLoan&transaction_id=#transaction_id#">
+						<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#transaction_id#">
 							<strong>#collection# #loan_number#</strong>
 						</a>
 						<a href="Project.cfm?Action=delTrans&transaction_id=#transaction_id#&project_id=#getDetails.project_id#">
