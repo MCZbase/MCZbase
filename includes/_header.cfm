@@ -205,7 +205,7 @@
                     </li>
               </cfif>
                 </ul>
-                <cfif listfind(formList,"/Loan.cfm")>
+                <cfif listfind(formList,"/newAccn.cfm")>
                 <li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>

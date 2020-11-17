@@ -261,7 +261,7 @@
 			ra.innerHTML=recagnt;
 			aa.innerHTML=authagnt;
 			nom.innerHTML=natofma;
-			var theLink = '<a href="/Loan.cfm?Action=editLoan&transaction_id=' + tid + '">Edit This Loan</a>';
+			var theLink = '<a href="/transactions/Loan.cfm?Action=editLoan&transaction_id=' + tid + '">Edit This Loan</a>';
 			el.innerHTML=theLink;
 			var theTab = document.getElementById('loanDetails');
 			theTab.style.display='';
