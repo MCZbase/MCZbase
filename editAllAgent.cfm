@@ -597,7 +597,7 @@ function opendialogrank(page,id,title,agentId) {
 	</cfif>
 	<cfoutput>
 <!---------------------------- group handling ------------------------------>
-		<cfif #person.agent_type# is "group">
+		<cfif #person.agent_type# IS "group" OR #person.agent_type# IS "expedition" OR #person.agent_type# IS "vessel">
 			<cfquery name="grpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
 					MEMBER_AGENT_ID,
