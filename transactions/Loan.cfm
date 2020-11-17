@@ -793,27 +793,27 @@ limitations under the License.
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
 							</div>
-							<script>
-								// make selected textareas autogrow as text is entered.
-								$(document).ready(function() {
-									// bind the autogrow function to the keyup event
-									$('textarea.autogrow').keyup(autogrow);
-									// trigger keyup event to size textareas to existing text
-									$('textarea.autogrow').keyup();
-								});
-							</script> 
-							<div class="form-row mb-1">
-								<div class="form-group col-12">
-									<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-										onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
-										id="submitButton" >
-									<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
-										class="btn btn-xs btn-info mr-2" value="Print..."
-										onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
-									<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
-									<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
-										onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
-								</div>
+						</div>
+						<script>
+							// make selected textareas autogrow as text is entered.
+							$(document).ready(function() {
+								// bind the autogrow function to the keyup event
+								$('textarea.autogrow').keyup(autogrow);
+								// trigger keyup event to size textareas to existing text
+								$('textarea.autogrow').keyup();
+							});
+						</script> 
+						<div class="form-row mb-1">
+							<div class="form-group col-12">
+								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
+									onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
+									id="submitButton" >
+								<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
+									class="btn btn-xs btn-info mr-2" value="Print..."
+									onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
+								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
+								<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
+									onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
 							</div>
 						</div>
 						<div id="loanPrintDialog"></div>
