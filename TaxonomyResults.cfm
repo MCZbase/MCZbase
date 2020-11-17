@@ -409,7 +409,7 @@ Found #summary.cnt# records.
 						value="1,#summary.cnt#">1 - #summary.cnt#</option>
 		</select>
 		<a href="SpecimenResultsDownload.cfm?tableName=#session.TaxSrchTab#">[ Download ]</a>
-		<a href="TaxonomySearch.cfm">[ Search Again ]</a>
+		<a href="/Taxa.cfm">[ Search Again ]</a>
 </h4>   </div>
 </CFOUTPUT>
 <div class="resultsGoHere">
@@ -483,17 +483,17 @@ function toggleColumn(n) {
 				<ul>
 					<li><h2
 							<cfif #VALID_CATALOG_TERM_FG# is 0> style="color:red;" </cfif>
-							onclick="document.location='TaxonomyDetails.cfm?&taxon_name_id=#taxon_name_id#';">
+							onclick="document.location='/taxonomy/showTaxonomy.cfm?&taxon_name_id=#taxon_name_id#';">
 								#display_name# #author_text#
 							</h2>
 						<ul>
 							<cfif isdefined("session.roles") and listfindnocase(session.roles,"manage_taxonomy")>
 								<li>
-									<a target="_blank" href="Taxonomy.cfm?Action=edit&taxon_name_id=#taxon_name_id#">Edit</a>
+									<a target="_blank" href="/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">Edit</a>
 								</li>
 							</cfif>
 							<li>
-								<a href="TaxonomyDetails.cfm?&taxon_name_id=#taxon_name_id#">Details</a>
+								<a href="/taxonomy/showTaxonomy.cfm?&taxon_name_id=#taxon_name_id#">Details</a>
 							</li>
 							<li>
 								<a href="SpecimenResults.cfm?&taxon_name_id=#taxon_name_id#">Specimens</a>

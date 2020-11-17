@@ -120,7 +120,8 @@ limitations under the License.
 										<td style="width: 200px;">#scientific_name#</td>
 										<td style="width: 200px;">
 											<cfquery name="getAgent" dbtype="query">
-												select agent_name, coll_order from getItems where collection_object_id = #getItems.collection_object_id#
+												select agent_name, coll_order 
+												from getItems where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#getItems.collection_object_id#">
 												order by coll_order
 											</cfquery>
 											<cfset colls = "">

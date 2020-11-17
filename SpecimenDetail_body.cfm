@@ -1182,10 +1182,10 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 											<cfloop query="partonloan">
 												<cfif partonloan.loan_status EQ 'open' and mPart.part_disposition EQ 'on loan'>
 													<!--- normal case --->
-													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
 												<cfelse>
 													<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-													<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+													<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
 												</cfif>
 											</cfloop>
 										</cfif>
@@ -1261,10 +1261,10 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 												<cfloop query="partonloan">
 													<cfif partonloan.loan_status EQ 'open' and sPart.part_disposition EQ 'on loan'>
 														<!--- normal case --->
-														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number#</a>
 													<cfelse>
 														<!--- partial returns, in process, historical, in-house, or in open loan but part disposition in collection--->
-														<a href="/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
+														<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#partonloan.transaction_id#">#partonloan.loan_number# (#partonloan.loan_status#)</a>
 													</cfif>
 												</cfloop>
 											</cfif>

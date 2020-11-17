@@ -101,14 +101,14 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 					$('#'+searchControl).addClass("editGuidButton"); 
 					$('#'+searchControl).removeClass("findGuidButton external"); 
 				} else { 
-					$('#'+searchControl).html("Find GUID"); 
+					$('#'+searchControl).html("Find GUID");
 					$('#'+searchControl).removeClass("editGuidButton"); 
 					$('#'+searchControl).addClass("findGuidButton external"); 
 				}
-				$('#'+searchControl).addClass("smallBtn");
+				$('#'+searchControl).addClass("btn btn-xs btn-secondary");
 			} else {
 				$('#'+searchControl).html(""); 
-				$('#'+searchControl).removeClass("smallBtn external");
+				$('#'+searchControl).removeClass("btn btn-xs btn-secondary external");
 			}
 		},
 		error : function (jqXHR, status, error) {
@@ -124,7 +124,7 @@ function getGuidTypeInfo(guid_type, inputControl, linkControl, searchControl, se
 				console.log(status);
 				console.log("ajax request for getGuidTypeInfo failed with no error or message");
 			} else { 
-			   messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
+				messageDialog('Error:' + message ,'Error: ' + error.substring(0,50));
 			}
 		}
 	});

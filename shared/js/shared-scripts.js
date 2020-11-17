@@ -9,30 +9,39 @@
  * @prarm dialogTitle
  */
 function messageDialog(dialogText, dialogTitle) {
-	var titleTrimmed = dialogTitle.substring(0,50);
-	var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
-		modal: true,
-		resizable: false,
-		draggable: true,
-		width: 'auto',
-		minHeight: 80,
-		title: titleTrimmed,
-		buttons: {
-			OK: function () {
-				$(this).dialog('destroy');
-			}
-		},
-		close: function() {
-			$(this).dialog( "destroy" );
-		},
-		open: function (event, ui) { 
-			// force the dialog to lay above any other elements in the page.
-			var maxZindex = getMaxZIndex();
-			$('.ui-dialog').css({'z-index': maxZindex + 6 });
-			$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
-		} 
-	});
-	messageDialog.dialog('moveToTop');
+	if (!dialogTitle) { dialogTitle = "Error"; } 
+	console.log(dialogTitle);
+	if (dialogTitle=="Internal Server Error" && dialogText=="") { 
+		// internal server errors cause duplicate copies of message dialog to launch, one containing the message, one without
+		// supress the one without, but log to console.
+		console.log("messageDialog invoked with no message text");
+	} else { 
+		// normal case, display a dialog with the message.
+		var titleTrimmed = dialogTitle.substring(0,50);
+		var messageDialog = $('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+			modal: true,
+			resizable: false,
+			draggable: true,
+			width: 'auto',
+			minHeight: 80,
+			title: titleTrimmed,
+			buttons: {
+				OK: function () {
+					$(this).dialog('destroy');
+				}
+			},
+			close: function() {
+				$(this).dialog( "destroy" );
+			},
+			open: function (event, ui) { 
+				// force the dialog to lay above any other elements in the page.
+				var maxZindex = getMaxZIndex();
+				$('.ui-dialog').css({'z-index': maxZindex + 6 });
+				$('.ui-widget-overlay').css({'z-index': maxZindex + 5 });
+			} 
+		});
+		messageDialog.dialog('moveToTop');
+	}
 };
 
 /** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
@@ -66,6 +75,49 @@ function confirmDialog(dialogText, dialogTitle, okFunction) {
 	});
 };
 
+/** Creates a simple confirm dialog with OK and cancel buttons.  Creates a new div, 
+ * types it as a jquery-ui modal dialog styled as a warning and displays it, invokes 
+ * the specified callback function when OK is pressed.
+ *
+ * @param dialogText the text to place in the dialog.
+ * @prarm dialogTitle for the dialog header.
+ * @param okFunction callback function to invoke upon a press of the OK button.
+ */
+function confirmWarningDialog(dialogText, dialogTitle, okFunction) {
+	$('<div style="padding: 10px; max-width: 500px; word-wrap: break-word;">' + dialogText + '</div>').dialog({
+		modal: true,
+		resizable: false,
+		draggable: true,
+		width: 'auto',
+		minHeight: 80,
+		title: dialogTitle,
+		classes: {
+			"ui-dialog-titlebar": "bg-danger",
+			"ui-dialog-title": "text-light"
+		},
+		buttons: {
+			OK: function () {
+				setTimeout(okFunction, 30);
+				$(this).dialog('destroy');
+			},
+			Cancel: function () {
+				$(this).dialog('destroy');
+			}
+		},
+		close: function() {
+			 $(this).dialog( "destroy" );
+		}
+	});
+};
+
+
+function confirmDelete(formName,msg){
+	console.log('TODO: use confirmDialog instead of confirmDelete.');
+	// TODO: Old code, don't use, rewrite invocations to use confirmDialog instead. 
+	// var formName;var msg=msg||"this record";
+	// confirmWin=windowOpener("/includes/abort.cfm?formName="+formName+"&msg="+msg,"confirmWin","width=200,height=150,resizable")
+}
+
 
 // Create a generic jquery-ui dialog that loads content from some page in an iframe and binds a callback
 // function to the ok button.
@@ -90,7 +142,7 @@ function opendialogcallback(page,id,title,okcallback,dialogHeight,dialogWidth) {
     zindex: 2000,
     height: dialogHeight,
     width: dialogWidth,
-    minWidth: 400,
+    minWidth: 375,
     minHeight: 450,
     draggable:true,
     buttons: {
@@ -180,6 +232,41 @@ function makeAgentPicker(nameControl, idControl) {
 	});
 };
 
+/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker that displays meta 
+ *  on picklist and value on selection.
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ */
+function makeAgentAutocompleteMeta(nameControl, idControl) { 
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { term: request.term, method: 'getAgentAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
 
 /** Make a set of hidden agent_id and text agent_name, agent link control, and agent icon controls into an 
  *  autocomplete agent picker.  Not intended for use to pick agents for transaction roles where agent flags may apply.
@@ -261,6 +348,55 @@ function makeRichAgentPicker(nameControl, idControl, iconControl, linkControl, a
 	};
 };
 
+/** Make a paired hidden agent_id and text agent_name control into an autocomplete agent picker, intended for use
+ *  with agent controls on searches, to limit selections to relevant agent names.
+ *
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected agent_id (without a leading # selector).
+ *  @param constraint to limit the agents returned, see getAgentAutcomplete for supported values
+ */
+function makeConstrainedAgentPicker(nameControl, idControl, constraint) { 
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/agents/component/search.cfc",
+				data: { 
+					term: request.term, 
+					method: 'getAgentAutocompleteMeta',
+					constraint: constraint
+					 },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			// Handle case of a selection from the pick list, set value in id control
+			$('#'+idControl).val(result.item.id);
+		},
+		change: function(event,ui) { 
+			if(!ui.item){
+				// handle a change that isn't a selection from the pick list, clear the id control.
+				$('#'+idControl).val("");
+			}
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta "matched name * (preferred name)" instead of value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
 /**
  * Determine the largest z-index value currently on an element in the DOM.
  * 
@@ -323,12 +459,8 @@ function getMaxZIndex() {
  *@param rowIndex the row index for the selected grid row, available as index in initRowDetails() or event.args.rowIndex in rowexpand event handler.
  */
 function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord,rowIndex) {
+	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
 	var columns = $('#' + gridId).jqxGrid('columns').records;
-	var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
-	if (columns.length < 21) { 
-		// don't split into columns for shorter sets of columns.
-		content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
-	}
 	var gridWidth = $('#' + gridId).width();
 	var dialogWidth = Math.round(gridWidth/2);
 	if (dialogWidth < 150) { dialogWidth = 150; }
@@ -415,3 +547,280 @@ function makeNamedCollectionPicker(nameControl,idControl) {
 		return $("<li>").append("<span>" + item.value + " (" + item.meta + ")</span>").appendTo(ul);
 	};
 };
+
+/** Make a paired hidden publication_id and text publication_name control into an autocomplete publication picker
+ *  @param nameControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected publication_id (without a leading # selector).
+ */
+function makePublicationPicker(nameControl, idControl) { 
+	$('#'+nameControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/publications/component/search.cfc",
+				data: { term: request.term, method: 'getPublicationAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+
+	})._renderItem = function(ul, item) {
+		// lets lines wrap so that each full citation is visible in dropdown
+		return $("<li>").append("<span>" + item.value + "</span>").appendTo(ul);
+	};
+};
+
+/** 
+ * function handleFail general handler for ajax fail methods.
+ *	fail: function(jqXHR,textStatus,error){
+ *		handleFail(jqXHR,textStatus,error,"removing media from transaction record");
+ *	}
+ * @param jqXHR error object from ajax fail invocation
+ * @param textStatus error status value from ajax fail invocation
+ * @param error error value from ajax fail invocation
+ * @param contect text added by calling fail implementation to indicate the origin of the message. 
+ */
+function handleFail(jqXHR,textStatus,error,context) { 
+	var message = "";
+	if (error == 'timeout') {
+		message = ' Server took too long to respond.';
+	} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+		message = ' Backing method did not return JSON.';
+	} else {
+		message = jqXHR.responseText;
+	}
+	console.log('Error:' + context + ': ' + message);
+	if (!error) { error = ""; } 
+	messageDialog('Error '+context+': '+message, 'Error: '+error.substring(0,50));
+}
+
+/** Make a paired hidden id and text name control into an autocomplete publication picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected publication_id (without a leading # selector).
+ */
+function makePublicationAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/publications/component/search.cfc",
+				data: { term: request.term, method: 'getPublicationAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete project picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected publication_id (without a leading # selector).
+ */
+function makeProjectAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/projects/component/search.cfc",
+				data: { term: request.term, method: 'getProjectAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete specimen (cataloged item, by guid)  picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeCatalogedItemAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getCatalogedItemAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete locality picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeLocalityAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getLocalityAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete collecting event picker.
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeCollectingEventAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/specimens/component/search.cfc",
+				data: { term: request.term, method: 'getCollectingEventAutocompleteMeta' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+
+/** Make a paired hidden id and text name control into an autocomplete scientific name picker
+ *
+ *  @param valueControl the id for a text input that is to be the autocomplete field (without a leading # selector).
+ *  @param idControl the id for a hidden input that is to hold the selected collection_object_id (without a leading # selector).
+ */
+function makeScientificNameAutocompleteMeta(valueControl, idControl) { 
+	$('#'+valueControl).autocomplete({
+		source: function (request, response) { 
+			$.ajax({
+				url: "/taxonomy/component/search.cfc",
+				data: { term: request.term, method: 'getScientificNameAutocomplete' },
+				dataType: 'json',
+				success : function (data) { response(data); },
+				error : function (jqXHR, status, error) {
+					var message = "";
+					if (error == 'timeout') { 
+						message = ' Server took too long to respond.';
+               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+                  message = ' Backing method did not return JSON.';
+					} else { 
+						message = jqXHR.responseText;
+					}
+					messageDialog('Error:' + message ,'Error: ' + error);
+				}
+			})
+		},
+		select: function (event, result) {
+			$('#'+idControl).val(result.item.id);
+		},
+		minLength: 3
+	}).autocomplete("instance")._renderItem = function(ul,item) { 
+		// override to display meta with additional information instead of minimal value in picklist.
+		return $("<li>").append("<span>" + item.meta + "</span>").appendTo(ul);
+	};
+};
+

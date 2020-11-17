@@ -907,7 +907,7 @@ $( document ).ready(loadShipments(#transaction_id#));
              <cfif getAccnPermits.recordcount gt 0>
 	      <ul class="accnpermit">
               <cfloop query="getAccnPermits">
-                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
+                 <li><span style="font-weight:bold;">Permit:</span> #permit_type# #permit_num#, <span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# <a href="/transactions/Permit.cfm?Action=editPermit&permit_id=#permit_id#" target="_blank">Edit</a></li>
 
               </cfloop>
               </ul>

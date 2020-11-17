@@ -100,17 +100,16 @@
 				return_due_date,
 				trans.collection_id,
 				collection.collection,
-				concattransagent(trans.transaction_id,'entered by') enteredby
+				concattransagent(trans.transaction_id,'entered by') enteredby,
+				trans.transaction_id
 			 from 
-				loan, 
-				trans,
-				collection
+				loan
+				left join trans on loan.transaction_id = trans.transaction_id
+				left join collection on trans.collection_id=collection.collection_id
 			where 
-				loan.transaction_id = trans.transaction_id AND
-				trans.collection_id=collection.collection_id and
-				trans.transaction_id = #transaction_id#
+				trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery> 
-		Adding parts to loan #l.collection# #l.loan_number#.
+		Adding parts to loan #l.collection# <a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#l.transaction_id#">#l.loan_number#</a>.
 		
 		<br>loan_status: #l.loan_status#
 		<br>loan_instructions: #l.loan_instructions#
@@ -163,7 +162,7 @@
 				specimen_part.collection_object_id = coll_obj_cont_hist.collection_object_id (+) AND
 				coll_obj_cont_hist.container_id=p.container_id (+) and
 				p.parent_container_id=p1.container_id (+) and
-			  	loan_item.transaction_id = #transaction_id#
+			  	loan_item.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			ORDER BY cat_num
 		</cfquery>
 		<cfif getPartLoanRequests.recordcount is 0>
