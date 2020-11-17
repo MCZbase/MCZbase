@@ -668,7 +668,7 @@
 									</cfloop>
 								</ul>
 							<cfelse>
-								<p>There are no annotations on this taxon record</p>
+								<p class="my-2">There are no annotations on this taxon record</p>
 							</cfif>
 						</div>
 					</div>

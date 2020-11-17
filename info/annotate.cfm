@@ -101,7 +101,7 @@
 	</form>
 	<cfif prevAnn.recordcount gt 0>
 		<label for="tbl">Previous Annotations</label>
-		<table id="tbl" border>
+		<table id="tbl" class="table table-responsive table-striped">
 			<th>Annotation</th>
 			<th>Made Date</th>
 			<th>Status</th>
