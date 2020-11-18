@@ -711,7 +711,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan'>(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
