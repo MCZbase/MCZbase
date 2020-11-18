@@ -194,7 +194,7 @@ function autogrow (event) {
 		($(this).outerHeight() < this.scrollHeight +
 		parseFloat($(this).css("borderTopWidth")) +
 		parseFloat($(this).css("borderBottomWidth"))
-		) && this.height()<1000 ) 
+		) && $(this).height()<1000 ) 
 	{
 		// increase the height until the text fits into the scroll bar height, taking borders into account.
 		$(this).height($(this).height()+2);
