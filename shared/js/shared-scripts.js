@@ -190,12 +190,14 @@ function exportToCSV (csvStringData, filename) {
 */
 function autogrow (event) {
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
-	while($(this).outerHeight() < this.scrollHeight +
+	while( 
+		($(this).outerHeight() < this.scrollHeight +
 		parseFloat($(this).css("borderTopWidth")) +
-		parseFloat($(this).css("borderBottomWidth"))) 
+		parseFloat($(this).css("borderBottomWidth"))
+		) && this.height()<1000 ) 
 	{
-	// increase the height until the text fits into the scroll bar height, taking borders into account.
-	$(this).height($(this).height()+1);
+		// increase the height until the text fits into the scroll bar height, taking borders into account.
+		$(this).height($(this).height()+2);
 	}
 	$(this).css('overflow-y','auto');
 };
