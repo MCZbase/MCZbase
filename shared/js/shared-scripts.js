@@ -191,7 +191,7 @@ function exportToCSV (csvStringData, filename) {
 function autogrow (event) {
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
 	while( 
-		($(this).outerHeight() < this.scrollHeight +
+		($(this).outerHeight() < $(this)[0].scrollHeight +
 		parseFloat($(this).css("borderTopWidth")) +
 		parseFloat($(this).css("borderBottomWidth"))
 		) && $(this).height()<400 ) 
