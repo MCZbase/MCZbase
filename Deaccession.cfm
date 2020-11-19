@@ -492,7 +492,7 @@
 			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='received by'
 		</cfquery>
 		<cfquery name="authorized" dbtype="query">
-			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='authorized by'
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='in-house authorized by'
 		</cfquery>
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='recipient institution'
@@ -509,7 +509,7 @@
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "authorized by" and one "in-house contact" are required to print Deaccessions.
+							One "in-house authorized by" and one "in-house contact" are required to print Deaccessions.
 						</span>
 					</cfif>
 				</td>

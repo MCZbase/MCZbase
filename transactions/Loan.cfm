@@ -146,7 +146,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="auth_agent_name">Authorized By</label>
+									<label for="auth_agent_name">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -1380,7 +1380,7 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'authorized by')
+					'in-house authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (

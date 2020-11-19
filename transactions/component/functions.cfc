@@ -2285,7 +2285,7 @@ limitations under the License.
 			select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 		</cfquery>
 		<cfquery name="authorized" dbtype="query">
-			select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 		</cfquery>
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2295,7 +2295,7 @@ limitations under the License.
 			<cfset okToPrintMessage = "">
 		<cfelse>
 			<cfset okToPrint = false>
-			<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+			<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
 		</cfif>
 		<cfset row = StructNew()>
 		<cfset row["okToPrint"] = "#okToPrint#">
@@ -2350,7 +2350,7 @@ limitations under the License.
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 			</cfquery>
 			<cfquery name="authorized" dbtype="query">
-				select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 			</cfquery>
 			<cfquery name="recipientinstitution" dbtype="query">
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2454,7 +2454,7 @@ limitations under the License.
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 					</cfquery>
 					<cfquery name="authorized" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 					</cfquery>
 					<cfquery name="recipientinstitution" dbtype="query">
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2464,7 +2464,7 @@ limitations under the License.
 						<cfset okToPrintMessage = "">
 					<cfelse>
 						<cfset okToPrint = false>
-						<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+						<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
 					</cfif>
 				</cfcase>
 				<cfdefaultcase>

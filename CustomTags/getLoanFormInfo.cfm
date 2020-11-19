@@ -6,7 +6,7 @@
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
-			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+			    concattransagent(trans.transaction_id, 'in-house authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
 			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
@@ -218,7 +218,7 @@ select
       SELECT * from (
       SELECT distinct
 		replace(to_char(trans_date, 'dd-Month-yyyy'),' ','') as trans_date,
-			    concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+			    concattransagent(trans.transaction_id, 'in-house authorized by') authAgentName,
 			    concattransagent(trans.transaction_id, 'received by')   recAgentName,
 			    concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
 			    concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
@@ -414,7 +414,7 @@ select
 		replace(to_char(received_date, 'dd-Month-yyyy'),' ','') as received_date,
 
 		-- inside
-		concattransagent(trans.transaction_id, 'authorized by') authAgentName,
+		concattransagent(trans.transaction_id, 'in-house authorized by') authAgentName,
 		concattransagent(trans.transaction_id, 'in-house contact')   internalContactName,
 		concattransagent(trans.transaction_id, 'additional in-house contact')   addInHouseContactNames,
 		concattransagent(trans.transaction_id, 'for use by')   foruse_by_name,
