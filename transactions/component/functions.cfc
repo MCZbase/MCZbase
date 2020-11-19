@@ -2543,12 +2543,13 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>				
-<!---										<div class="col-2 col-md-2 mt-1">
+<!---										
 											<div class="form-check">
 											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input">
 										  	</div>
 										</div>	
 													--->	
+										<div class="col-2 col-md-2 mt-1">
 										<div class="input-group mb-3">
 													  <div class="input-group-prepend">
 														<div class="input-group-text">
@@ -2557,7 +2558,7 @@ limitations under the License.
 													  </div>
 													  Delete?
 													</div>
-
+												</div>
 									<cfset i=i+1>	
 										</section>
 								</cfloop>
