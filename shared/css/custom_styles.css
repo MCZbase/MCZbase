@@ -1671,7 +1671,7 @@ div span.ilt:hover {
   height: auto;
   border-top: 0;
 }
-[type="checkbox"] {
+#searchHelpTextBlock[type="checkbox"] {
   position: absolute;
   left:  -9999px;            
 }
