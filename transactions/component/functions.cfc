@@ -2393,7 +2393,7 @@ limitations under the License.
 					<cfif inhouse.c is 1 and outside.c is 1 >
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary" target="_blank">MCZ Loan Summary Report</a></li>
 					</cfif>
-					<li><a href="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
+					<li><a href="/Reports/MCZDrawerTags.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
 				</ul>
 			</cfoutput>
