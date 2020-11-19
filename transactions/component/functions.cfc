@@ -967,7 +967,7 @@ limitations under the License.
 					order by ct.specific_type
 			</cfquery>
 			<cfoutput>
-				<div class="container-fluid">
+				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<div id="mediaSearchForm" class="search-box px-3 py-2">
@@ -1043,8 +1043,10 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
+				</section>
+				<section class="container-fluid">
 					<div class="row">
-						<div class="col-12">
+					<div class="col-12">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
@@ -1125,7 +1127,7 @@ limitations under the License.
 								});
 							});
 						</script>
-						</div>
+
 						</div>
 					</div>
 				</div>
