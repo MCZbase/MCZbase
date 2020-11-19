@@ -2520,18 +2520,8 @@ limitations under the License.
 														<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
 													</cfloop>
 												</select>
-										  </div>					
-										<div class="col-12 col-md-3">
-										<div class="input-group">
-													  <div class="input-group-prepend">
-														<div class="input-group-text bg-transparent border-0">
-														  <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
-														</div>
-													  </div>
-													  Delete?
-													</div>
-												</div>
-																				<div class="col-12 col-md-1">
+										  </div>
+															<div class="col-12 col-md-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
 												<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
@@ -2552,6 +2542,17 @@ limitations under the License.
 												</span>
 											</div></label>
 										</div>
+										<div class="col-12 col-md-3">
+										<div class="input-group">
+													  <div class="input-group-prepend">
+														<div class="input-group-text bg-transparent border-0">
+														  <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
+														</div>
+													  </div>
+													  Delete?
+													</div>
+												</div>
+									
 									<cfset i=i+1>	
 										</section>
 								</cfloop>
