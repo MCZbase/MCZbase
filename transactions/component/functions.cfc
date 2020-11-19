@@ -967,7 +967,7 @@ limitations under the License.
 					order by ct.specific_type
 			</cfquery>
 			<cfoutput>
-				<section class="container-fluid" role="search">
+				<div class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 							<div id="mediaSearchForm" class="search-box px-3 py-2">
@@ -1043,8 +1043,6 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</section>
-				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
@@ -1130,7 +1128,7 @@ limitations under the License.
 						</div>
 						</div>
 					</div>
-				</section>
+				</div>
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
