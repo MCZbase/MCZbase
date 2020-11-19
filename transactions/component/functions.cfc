@@ -2542,7 +2542,7 @@ limitations under the License.
 												</select>
 										  </div>					
 										<div class="col-12 col-md-3">
-										<div class="input-group">
+										<div class="input-group smaller">
 													  <div class="input-group-prepend">
 														<div class="input-group-text bg-transparent border-0">
 														  <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
