@@ -690,13 +690,13 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
  * looks up agent id, agent name, and role to clone into.
  * @param i the i incrementing counter for the agent_id_{i}, trans_agent_{i}, etc controls.
  */
-//function cloneTransAgent(i){
-//	var id=jQuery('#agent_id_' + i).val();
-//	var name=jQuery('#trans_agent_' + i).val();
-//	var role=jQuery('#cloneTransAgent_' + i).val();
-//	jQuery('#cloneTransAgent_' + i).val('');
-//	addTransAgentToForm(id,name,role,'editLoan');
-//}
+function cloneTransAgent(i){
+	var id=jQuery('#agent_id_' + i).val();
+	var name=jQuery('#trans_agent_' + i).val();
+	var role=jQuery('#cloneTransAgent_' + i).val();
+	jQuery('#cloneTransAgent_' + i).val('');
+	addTransAgentToForm(id,name,role,'editLoan');
+}
 
 /** Add an agent to a transaction edit form, appends row to table with id transactionAgentsTable.
  *
@@ -740,7 +740,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			}
 			d+='</select></div><div class="col-2 col-md-1 px-0 mb-0"><label class="form-check-label data-entry-label pl-0 smaller">Delete?</label>';
 			d+='<div class="form-check"><input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1" class="checkbox-inline">';
-			d+='</div></div><div class="col-10 col-md-3 mb-0"><label class="data-entry-label">Clone As</label>';
+			d+='</div></div><div class="col-10 col-md-3 mb-0">';
 			d+='</div></section>';
 			d+='<script>';
 			d+=' $(document).ready(function() {';
@@ -808,6 +808,13 @@ function addTransAgentDeacc (id,name,role) {
 			}
 			d+='</td><td>';
 			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
+			d+='</td><td>';
+			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
+			d+='<option value=""></option>';
+			for (a=0; a<data.ROWCOUNT; ++a) {
+				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+			}
+			d+='</select>';
  			d+='</td><td>-</td></tr>';
 			document.getElementById('numAgents').value=i;
 			jQuery('#deaccAgents tr:last').after(d);
