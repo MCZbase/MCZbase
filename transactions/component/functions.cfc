@@ -967,10 +967,11 @@ limitations under the License.
 					order by ct.specific_type
 			</cfquery>
 			<cfoutput>
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col-12">
-						<h1 class="h3">Search for permits.</h1>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<div id="mediaSearchForm" class="search-box px-3 py-2">
+								<h1 class="h3 mt-2">Search for Permits</h1>
 						<form id="findPermitSearchForm" name="findPermit">
 							<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
 							<div class="form-row mb-2">
@@ -1119,9 +1120,10 @@ limitations under the License.
 								});
 							});
 						</script>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
 			</cfoutput>
 		<cfcatch>
 			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ""></cfif>
