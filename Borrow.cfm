@@ -1335,7 +1335,7 @@ $(function() {
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#AUTH_AGENT_ID#">,
-				'authorized by')
+				'outside authorized by')
 		</cfquery>
 		<cfquery name="overBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO trans_agent (
