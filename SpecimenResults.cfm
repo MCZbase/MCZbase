@@ -224,7 +224,7 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 <cftry>
 	<cftransaction>
 	<cfquery name="tableexistscheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select count(*) into ct from user_tables where table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">)
+		select count(*) as ct from user_tables where table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">)
 	</cfquery>
 	<cfif tableexistscheck.ct EQ 0>
 		<!--- not there, so what? --->
