@@ -736,17 +736,14 @@ function addTransAgentToForm (id,name,role,formid) {
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</select></div><input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+='</select></div><div class="col-12 col-md-1"><label for="trans_agent_id_#i#" class="data-entry-label">';
+			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='<span id="agentViewLink_' + i + '" class="">'+ i +'</span><div class="col-12 col-md-3">';
+			d+='<span id="agentViewLink_' + i + '" class="">'+ i +'</span></label></div><div class="col-12 col-md-3">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<div class="input-group-text bg-transparent border-0"><input class="position-relative" type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1"> Delete?';
 			d+='</div></div></div></div>';
 			d+='</section>';
-		
-		
-		
-		
 			d+='<script>';
 			d+=' $(document).ready(function() {';
 			d+='$(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
