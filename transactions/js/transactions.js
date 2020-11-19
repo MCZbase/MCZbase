@@ -690,13 +690,13 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
  * looks up agent id, agent name, and role to clone into.
  * @param i the i incrementing counter for the agent_id_{i}, trans_agent_{i}, etc controls.
  */
-function cloneTransAgent(i){
-	var id=jQuery('#agent_id_' + i).val();
-	var name=jQuery('#trans_agent_' + i).val();
-	var role=jQuery('#cloneTransAgent_' + i).val();
-	jQuery('#cloneTransAgent_' + i).val('');
-	addTransAgentToForm(id,name,role,'editLoan');
-}
+//function cloneTransAgent(i){
+//	var id=jQuery('#agent_id_' + i).val();
+//	var name=jQuery('#trans_agent_' + i).val();
+//	var role=jQuery('#cloneTransAgent_' + i).val();
+//	jQuery('#cloneTransAgent_' + i).val('');
+//	addTransAgentToForm(id,name,role,'editLoan');
+//}
 
 /** Add an agent to a transaction edit form, appends row to table with id transactionAgentsTable.
  *
@@ -722,14 +722,14 @@ function addTransAgentToForm (id,name,role,formid) {
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
 			var d='<section class="alert alert-warning px-0 pt-1 pb-2 my-1 border-top border-bottom"><div class="input-group"><div class="col-12 col-md-5 mb-0"><div class="input-group">';
-			d+='<label class="data-entry-label pb-1">Agent Name <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='<span id="agentViewLink_' + i + '" class="px-2"></span></label>';
+			d+='<span id="agentViewLink_' + i + '" class="px-2"></span>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
 			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control form-control-sm data-entry-input" size="30" value="' + name + '" >';
-			d+='</div></div></div><div class="col-10 col-md-3 mb-0"><label class="data-entry-label">Role</label>';
+			d+='</div></div></div><div class="col-10 col-md-3 mb-0">';
 			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '" class="data-entry-select">';
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
@@ -738,7 +738,7 @@ function addTransAgentToForm (id,name,role,formid) {
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</select></div><div class="col-2 col-md-1 px-0 mb-0"><label class="form-check-label data-entry-label pl-0 smaller">Delete?</label>';
+			d+='</select></div><div class="col-2 col-md-1 px-0 mb-0">';
 			d+='<div class="form-check"><input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1" class="checkbox-inline">';
 			d+='</div></div><div class="col-10 col-md-3 mb-0">';
 			d+='</div></section>';
