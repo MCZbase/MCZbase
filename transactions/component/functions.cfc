@@ -2502,7 +2502,7 @@ limitations under the License.
 										<div class="col-12 col-md-2 mt-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
 										</div>
-										<div class="col-10 col-md-3 mt-1">
+										<div class="col-9 col-md-3 mt-1">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2511,7 +2511,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 										</div>
-										<div class="col-12 col-md-1 mt-1">
+										<div class="col-3 col-md-1 mt-1">
 											<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
@@ -2531,7 +2531,7 @@ limitations under the License.
 												</span>
 											</div>
 										</div>							
-										<div class="col-10 col-md-3 mt-1">
+										<div class="col-9 col-md-3 mt-1">
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
@@ -2542,17 +2542,11 @@ limitations under the License.
 														<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
 													</cfloop>
 												</select>
-										  </div>				
-<!---										
-											<div class="form-check">
-											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input">
-										  	</div>
-										</div>	
-													--->	
-										<div class="col-2 col-md-2 mt-1">
+										  </div>					
+										<div class="col-3 col-md-2 mt-1">
 										<div class="input-group mb-3">
 													  <div class="input-group-prepend">
-														<div class="input-group-text">
+														<div class="input-group-text bg-transparent">
 														  <input type="checkbox"  aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
 														</div>
 													  </div>
