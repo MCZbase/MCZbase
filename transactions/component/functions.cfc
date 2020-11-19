@@ -2531,7 +2531,7 @@ limitations under the License.
 														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 													});
 												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">#i# View</a>
+												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">View</a>
 													<cfif transAgents.worstagentrank EQ 'A'>
 														&nbsp;
 													<cfelseif transAgents.worstagentrank EQ 'F'>
@@ -2549,7 +2549,7 @@ limitations under the License.
 														  <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
 														</div>
 													  </div>
-													  Delete?
+											<label class="data-entry-label"> Delete?</label>
 													</div>
 												</div>
 									
