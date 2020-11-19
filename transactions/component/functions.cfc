@@ -2499,7 +2499,7 @@ limitations under the License.
 									<section class="row list-odd my-1 pt-1 border-top border-bottom">
 										</cfif>
 										
-										<div class="col-12 col-md-2 mb-0">
+										<div class="col-12 col-md-1 mb-0">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
 										</div>
 										<div class="col-12 col-md-3">
@@ -2511,7 +2511,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 										</div>
-										<div class="col-12 col-md-2">
+										<div class="col-12 col-md-1">
 											<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
