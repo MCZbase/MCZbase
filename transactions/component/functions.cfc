@@ -2500,9 +2500,9 @@ limitations under the License.
 										</cfif>
 										
 										
-											#i#
+											
 										
-										<div class="col-9 col-md-4">
+										<div class="col-9 col-md-4">#i#
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
