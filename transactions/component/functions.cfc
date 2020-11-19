@@ -2500,7 +2500,7 @@ limitations under the License.
 										</cfif>
 										
 				
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2509,7 +2509,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 										</div>							
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
