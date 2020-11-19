@@ -2499,10 +2499,10 @@ limitations under the License.
 									<section class="row list-odd my-1 py-1 border-top border-bottom">
 										</cfif>
 										
-										
-											
-										
-										<div class="col-9 col-md-4">#i#
+										<div class="col-12 col-md-1">
+											<label for="trans_agent_id_#i#" class="data-entry-label">#i#</label>
+										</div>
+										<div class="col-9 col-md-3">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2531,7 +2531,7 @@ limitations under the License.
 												</span>
 											</div>
 										</div>							
-										<div class="col-9 col-md-4">
+										<div class="col-9 col-md-3">
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
