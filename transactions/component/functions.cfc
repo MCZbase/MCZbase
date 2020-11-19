@@ -2499,10 +2499,19 @@ limitations under the License.
 									<section class="list-odd my-1 pt-1 border-top border-bottom">
 										</cfif>
 										<div class="input-group">
-										<div class="col-12 col-md-5 mb-0">
+										<div class="col-12 col-md-1 mb-0">
+											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
+										</div>
+										<div class="col-12 col-md-4">
+										  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+											<div class="input-group-prepend">
+													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
+										</div>
+										<div class="col-12 col-md-1">
 											<div class="input-group">
-												<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#			
-													<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 												<script>
 													$(document).ready(function() {
@@ -2518,17 +2527,12 @@ limitations under the License.
 														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
 													</cfif>
 												</span>
-												</label>				
+											</div>
+										</div>				
 
 
-										  <input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-											<div class="input-group-prepend">
-													<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
-											</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
-											</div>
-										</div>						
-										<div class="col-10 col-md-5 mb-0">
+														
+										<div class="col-10 col-md-4 mb-0">
 					<!---						<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>--->
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
