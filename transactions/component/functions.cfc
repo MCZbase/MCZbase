@@ -2480,11 +2480,11 @@ limitations under the License.
 			<cfoutput>
 				<article id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
 				<div class="row my-1 bg-grayish pb-1 border rounded">
-					<div class="col-12 px-0 mt-0">
+					<div class="col-12 mt-0">
 							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
 							</h2>		  
-							<div class="col alert alert-success text-center float-right rounded-0 px-3 mt-0 mb-0 py-0" tabindex="0">
+							<div class="col alert alert-success text-center float-right rounded-0 mt-0 mb-0 py-0" tabindex="0">
 									<cfif okToPrint >
 										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success  text-center small px-1">OK to print</span>
 									<cfelse>
@@ -2499,10 +2499,10 @@ limitations under the License.
 									<section class="row list-odd my-1 pt-1 border-top border-bottom">
 										</cfif>
 										
-										<div class="col-12 col-md-1 mb-0">
+										<div class="col-12 col-md-2 my-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-3 my-1">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2511,7 +2511,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 										</div>
-										<div class="col-12 col-md-1">
+										<div class="col-12 col-md-1 my-1">
 											<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
@@ -2531,7 +2531,7 @@ limitations under the License.
 												</span>
 											</div>
 										</div>							
-										<div class="col-10 col-md-3 mb-0">
+										<div class="col-10 col-md-3 my-1">
 					<!---						<label for="trans_agent_role_#i#" class="data-entry-label">Role</label>--->
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
@@ -2544,10 +2544,10 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>				
-										<div class="col-2 col-md-2 px-0 mb-0">
+										<div class="col-2 col-md-2 my-1">
 									<!---	<label class="form-check-label data-entry-label pl-0 smaller" for="gridCheck">Delete? </label>--->
 											<div class="form-check">
-											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative" style="left:0;">
+											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-left form-check-input position-relative">
 										  	</div>
 										</div>						
 <!---										<div class="col-10 col-md-3 mb-0">
