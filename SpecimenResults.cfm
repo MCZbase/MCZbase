@@ -220,12 +220,29 @@ they also need special handling at TAG:SORTRESULT (do find in this document)--->
 		<cfabort>
 	</cfif>
 <cfset thisTableName = "SearchResults_#cfid#_#cftoken#">
-<!--- try to kill any old tables that they may have laying around --->
+<!--- try to drop an existing temp table with this name --->
 <cftry>
-	<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		drop table #session.SpecSrchTab#
+	<cftransaction>
+	<cfquery name="tableexistscheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		select count(*) into ct from user_tables where table_name = upper(<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.SpecSrchTab#">)
 	</cfquery>
-	<cfcatch><!--- not there, so what? --->
+	<cfif tableexistscheck.ct EQ 0>
+		<!--- not there, so what? --->
+		<!--- expected condition for first search after login, no session search table. No action needed --->
+	<cfelseif tableexistscheck.ct EQ 1>
+		<!--- session search table exists, drop it to recreate with new search below --->
+		<cfquery name="die" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			drop table #session.SpecSrchTab#
+		</cfquery>
+	<cfelse>
+		<!--- shouldn't be able to reach this block.  --->
+		<cfthrow message="Error: More than one match to session.SpecSrchTab.">
+	</cfif>
+	</cftransaction>
+	<cfcatch>
+		<!--- if the session search table exists, the user should be able to delete it, if not, there is a problem --->
+		<!--- Note: ORA-21561 would suggest a network name problem --->
+		<cfrethrow> 
 	</cfcatch>
 </cftry>
 <!---- build a temp table --->
