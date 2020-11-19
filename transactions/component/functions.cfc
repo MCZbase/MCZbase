@@ -1051,7 +1051,7 @@ limitations under the License.
 						<script>
 							$("##findPermitSearchForm").bind("submit", function(evt){
 								evt.preventDefault();
-								$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
+								$("##permitPickResultsGrid").replaceWith("<div id='permitPickResultsGrid' class='jqxGrid'></div>");
 								$("##permitPickResultCount").html("");
 								$("##permitPickResultLink").html("");
 								$("##permitPickSearchText").jqxGrid("showloadelement");
