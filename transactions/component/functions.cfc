@@ -2499,8 +2499,8 @@ limitations under the License.
 									<section class="row list-odd my-1 py-1 border-top border-bottom">
 										</cfif>
 										
-										<div class="col-12 col-md-2">
-											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
+										<div class="col-12 col-md-1">
+											<label for="trans_agent_id_#i#" class="data-entry-label">#i#</label>
 										</div>
 										<div class="col-9 col-md-3">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
@@ -2520,7 +2520,7 @@ limitations under the License.
 														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 													});
 												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" target="_blank">View</a>
+												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="small" target="_blank">View</a>
 													<cfif transAgents.worstagentrank EQ 'A'>
 														&nbsp;
 													<cfelseif transAgents.worstagentrank EQ 'F'>
@@ -2543,7 +2543,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>					
-										<div class="col-3 col-md-2">
+										<div class="col-12 col-md-3">
 										<div class="input-group">
 													  <div class="input-group-prepend">
 														<div class="input-group-text bg-transparent border-0">
