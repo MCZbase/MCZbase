@@ -1049,27 +1049,27 @@ limitations under the License.
 							<div id="enableselection"></div>
 						</div>
 						<script>
-						$("##findPermitSearchForm").bind("submit", function(evt){
-							evt.preventDefault();
+							$("##findPermitSearchForm").bind("submit", function(evt){
+								evt.preventDefault();
 								$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
 								$("##permitPickResultCount").html("");
 								$("##permitPickResultLink").html("");
 								$("##permitPickSearchText").jqxGrid("showloadelement");
 
-							   var permitSearch = {
+								var permitSearch = {
 									datatype: "json",
 									datafields: [
 										{ name: "permit_id", type: "string" },
-								{ name: "permit_num", type: "string" }, 
-								{ name: "permit_type", type: "string" }, 
-								{ name: "specific_type", type: "string" }, 
-								{ name: "permit_title", type: "string" }, 
-								{ name: "issued_date", type: "string" }, 
-								{ name: "renewed_date", type: "string" },
-								{ name: "exp_date", type: "string" },
-								{ name: "permit_remarks", type: "string" },
-								{ name: "IssuedByAgent", type: "string" },
-								{ name: "IssuedToAgent", type: "string" }
+										{ name: "permit_num", type: "string" }, 
+										{ name: "permit_type", type: "string" }, 
+										{ name: "specific_type", type: "string" }, 
+										{ name: "permit_title", type: "string" }, 
+										{ name: "issued_date", type: "string" }, 
+										{ name: "renewed_date", type: "string" },
+										{ name: "exp_date", type: "string" },
+										{ name: "permit_remarks", type: "string" },
+										{ name: "IssuedByAgent", type: "string" },
+										{ name: "IssuedToAgent", type: "string" }
 									],
 									root: "permitRecord",
 									id: "permit_id",
@@ -1079,8 +1079,8 @@ limitations under the License.
 								var dataAdapter = new $.jqx.dataAdapter(permitSearch);
 
 								var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-									var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+									var pvalue = rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 									return result;
 								};
 
@@ -1115,7 +1115,7 @@ limitations under the License.
 										{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
 										{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
 										{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
-								]
+									]
 								});
 							});
 						</script>
