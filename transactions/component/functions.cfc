@@ -2500,7 +2500,7 @@ limitations under the License.
 										</cfif>
 										
 										<div class="col-12 col-md-1">
-											<label for="trans_agent_id_#i#" class="data-entry-label">#i# 						
+											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
 												<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
@@ -2509,7 +2509,7 @@ limitations under the License.
 														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 													});
 												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="small" target="_blank">View</a>
+												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="small" target="_blank">#i# View</a>
 													<cfif transAgents.worstagentrank EQ 'A'>
 														&nbsp;
 													<cfelseif transAgents.worstagentrank EQ 'F'>
@@ -2520,7 +2520,7 @@ limitations under the License.
 												</span>
 											</div></label>
 										</div>
-										<div class="col-9 col-md-3">
+										<div class="col-12 col-md-3">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2529,7 +2529,7 @@ limitations under the License.
 												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input" value="#agent_name#">
 											</div>
 										</div>							
-										<div class="col-9 col-md-3">
+										<div class="col-12 col-md-3">
 												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>

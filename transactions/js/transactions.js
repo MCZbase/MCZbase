@@ -721,10 +721,10 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d=  '<section class="row alert alert-warning my-1 py-1 border-top border-bottom">'+ i +'<div class="col-12 col-md-4"><div class="input-group">';
+			var d=  '<section class="row alert alert-warning my-1 py-1 border-top border-bottom"><div class="col-12 col-md-4"><div class="input-group">';
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='<span id="agentViewLink_' + i + '" class="px-2"></span>';
+			d+='<span id="agentViewLink_' + i + '" class="">'+ i +'</span>';
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
