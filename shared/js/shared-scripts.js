@@ -210,8 +210,8 @@ function autogrow (event) {
  *  $("textarea").keyup(autogrow);
 */
 function autogrow (event) {
-	var tb = parseFloat($(this).css("borderTopWidth")) +
-	var bb = parseFloat($(this).css("borderBottomWidth"))
+	var tb = parseFloat($(this).css("borderTopWidth"));
+	var bb = parseFloat($(this).css("borderBottomWidth"));
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
 	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
 	{
