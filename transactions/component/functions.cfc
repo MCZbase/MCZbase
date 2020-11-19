@@ -2502,7 +2502,7 @@ limitations under the License.
 										<div class="col-12 col-md-2 mt-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label">Agent #i#</label>
 										</div>
-										<div class="col-12 col-md-3 mt-1">
+										<div class="col-10 col-md-3 mt-1">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
 											<div class="input-group-prepend">
@@ -2543,11 +2543,20 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>				
-										<div class="col-2 col-md-2 mt-1">
+<!---										<div class="col-2 col-md-2 mt-1">
 											<div class="form-check">
-											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input position-relative">
+											<label class="d-inline">Delete?</label><input type="checkbox" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" class="checkbox-inline text-center form-check-input">
 										  	</div>
-										</div>						
+										</div>	
+													--->	
+										<div class="input-group mb-3">
+													  <div class="input-group-prepend">
+														<div class="input-group-text">
+														  <input type="checkbox"  aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
+														</div>
+													  </div>
+													  Delete?
+													</div>
 
 									<cfset i=i+1>	
 										</section>
