@@ -2499,27 +2499,7 @@ limitations under the License.
 									<section class="row list-odd my-1 py-1 border-top border-bottom">
 										</cfif>
 										
-										<div class="col-12 col-md-1">
-											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
-												<div class="input-group">
-												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
-												<script>
-													$(document).ready(function() {
-														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
-													});
-												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="small" target="_blank">#i# View</a>
-													<cfif transAgents.worstagentrank EQ 'A'>
-														&nbsp;
-													<cfelseif transAgents.worstagentrank EQ 'F'>
-														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-													<cfelse>
-														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-													</cfif>
-												</span>
-											</div></label>
-										</div>
+				
 										<div class="col-12 col-md-3">
 											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 											<div class="input-group">
@@ -2542,7 +2522,7 @@ limitations under the License.
 												</select>
 										  </div>					
 										<div class="col-12 col-md-3">
-										<div class="input-group smaller">
+										<div class="input-group">
 													  <div class="input-group-prepend">
 														<div class="input-group-text bg-transparent border-0">
 														  <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" >
@@ -2551,6 +2531,27 @@ limitations under the License.
 													  Delete?
 													</div>
 												</div>
+																				<div class="col-12 col-md-1">
+											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
+												<div class="input-group">
+												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
+												<script>
+													$(document).ready(function() {
+														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+													});
+												</script>
+												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="small" target="_blank">#i# View</a>
+													<cfif transAgents.worstagentrank EQ 'A'>
+														&nbsp;
+													<cfelseif transAgents.worstagentrank EQ 'F'>
+														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+													<cfelse>
+														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+													</cfif>
+												</span>
+											</div></label>
+										</div>
 									<cfset i=i+1>	
 										</section>
 								</cfloop>
