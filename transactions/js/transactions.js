@@ -810,7 +810,7 @@ function addTransAgentDeacc (id,name,role) {
 			d+='<input type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1">';
 			d+='</td><td>';
 			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
-			d+='<option value=""></option>';
+			d+='<option value="">Deacc</option>';
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
