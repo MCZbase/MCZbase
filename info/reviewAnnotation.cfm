@@ -374,16 +374,16 @@
 											<input type="hidden" name="type" value="project_id">
 											<input type="hidden" name="id" value="#project_id#">
 											<input type="hidden" name="annotation_id" value="#annotation_id#">
-											<td><label for="reviewed_fg">Reviewed?</label>
-												<select name="reviewed_fg" id="reviewed_fg">
+											<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span style="font-size:small"><br>
+													<span class="small"><br>
 													Last review by #reviewer#</span>
 												</cfif></td>
-											<td><label for="reviewer_comment">Review Comments</label>
+											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
 											<td><input type="submit" value="save review" class="btn btn-primary btn-xs"></td>
 										</form>
@@ -409,7 +409,8 @@
 		update annotations set
 			REVIEWER_AGENT_ID=#session.myAgentId#,
 			REVIEWED_FG=#REVIEWED_FG#,
-			REVIEWER_COMMENT='#REVIEWER_COMMENT#'
+			REVIEWER_COMMENT='#(REVIEWER_COMMENT)#'
+<!---				REVIEWER_COMMENT='#stripQuotes(REVIEWER_COMMENT)#'--->
 		where
 			annotation_id=#annotation_id#
 	</cfquery>
