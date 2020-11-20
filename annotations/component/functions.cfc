@@ -241,7 +241,8 @@ limitations under the License.
 						<div class="col-12">
 							<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
 						</div>
-						
+					</div>
+					<div class="row">
 						<form name="annotate" method="post" action="/info/annotate.cfm">
 							<div class="col-12">
 								<input type="hidden" name="action" value="insert">
@@ -251,7 +252,7 @@ limitations under the License.
 								<label for="annotation">Annotation (<span id="length_annotation"></span>)</label>
 										<textarea rows="2" name="annotation" id="annotation" 
 											onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
-											class="autogrow reqdClr form-control form-control-sm" required></textarea>
+											class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
 
 									<script>
 										$(document).ready(function() { 
