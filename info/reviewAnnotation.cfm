@@ -289,24 +289,24 @@
 							<table class="table table-responsive table-striped">
 								<cfloop query="itemAnno">
 									<tr>
-										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-										<td>#annotation#</td>
+										<td><label class="data-entry-label">Annotation by</label> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td><label class="data-entry-label">#annotation#</label></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="taxon_name_id">
 											<input type="hidden" name="id" value="#taxon_name_id#">
 											<input type="hidden" name="annotation_id" value="#annotation_id#">
-											<td><label for="reviewed_fg">Reviewed?</label>
-												<select name="reviewed_fg" id="reviewed_fg">
+											<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span style="font-size:small"><br>
+													<span class="small"><br>
 													Last review by #reviewer#</span>
 												</cfif></td>
-											<td><label for="reviewer_comment">Review Comments</label>
-												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
+											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
 											<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
 										</form>
 									</tr>
