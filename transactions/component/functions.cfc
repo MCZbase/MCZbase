@@ -970,7 +970,7 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h3">Search for permits.</h1>
+						<h1 class="h3">Search for Permits</h1>
 						<form id="findPermitSearchForm" name="findPermit">
 							<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
 							<div class="form-row mb-2">
@@ -1051,7 +1051,7 @@ limitations under the License.
 						<script>
 						$("##findPermitSearchForm").bind("submit", function(evt){
 							evt.preventDefault();
-								$("##permitPickResultsGrid").replaceWith("<div id="permitPickResultsGrid" class="jqxGrid"></div>");
+								$("##permitPickResultsGrid").replaceWith("<div id='permitPickResultsGrid' class='jqxGrid'></div>");
 								$("##permitPickResultCount").html("");
 								$("##permitPickResultLink").html("");
 								$("##permitPickSearchText").jqxGrid("showloadelement");
