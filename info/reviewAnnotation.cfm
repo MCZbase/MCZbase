@@ -12,11 +12,11 @@
 
 <div class="form-row">
 	<div class="col-2">
-		<h3 class="text-right pr-3">Filter For: </h3>
+		<h3 class="h4 text-right pr-3">Filter For: </h3>
 	</div>
 	<div class="col-4">
 		
-	<h3>Specimens</h3>
+	<h3 class="h4">Specimens</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<input type="hidden" name="type" value="collection_object_id">
@@ -32,7 +32,7 @@
 				</form>
 	</div>
 	<div class="col-4">
-	<h3>The Rest</h3>
+	<h3 class="h4">The Rest</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<label for="type">Type</label>
@@ -121,7 +121,7 @@
 				higher_geog,
 				spec_locality
 		</cfquery>
-			<h2 class="h3">Locality Annotations</h2>
+			<h2 class="h3">Annotations for #collection#</h2>
 			<table class="table border table-responsive table-striped">
 				<Cfset i=1>
 				<cfloop query="catitem">
