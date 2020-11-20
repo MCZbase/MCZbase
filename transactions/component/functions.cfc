@@ -2482,7 +2482,12 @@ limitations under the License.
 				<div class="row my-1 bg-grayish pb-1 border rounded">
 					<div class="col-12 mt-0">
 							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
-								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();"> Add Agent</button>			<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
+												<option value=""></option>
+												<cfloop query="cttrans_agent_role">
+													<option value="#trans_agent_role#">#trans_agent_role#</option>
+												</cfloop>
+											</select>
 							</h2>		  
 							<div class="col alert alert-success text-center float-right rounded-0 mt-0 mb-0 py-0" tabindex="0">
 									<cfif okToPrint >
