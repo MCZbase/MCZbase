@@ -128,7 +128,7 @@ Filter for:
 				higher_geog,
 				spec_locality
 		</cfquery>
-			<h2>Taxon Annotations</h2>
+			<h2>Locality Annotations</h2>
 		<table class="table border table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="catitem">
@@ -228,7 +228,7 @@ Filter for:
 						<cfquery name="itemAnno" dbtype="query">
 							select * from tax where publication_id = #publication_id#
 						</cfquery>
-						<table border width="100%">
+						<table class="table table-responsive table-striped border">
 							<cfloop query="itemAnno">
 								<tr>
 									<td>
@@ -309,7 +309,7 @@ Filter for:
 				scientific_name,
 				display_name
 		</cfquery>
-		<h2>Taxonomy</h2>
+		<h2>Taxonomic Annotations</h2>
 		<table class="border table table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="t">
@@ -399,9 +399,9 @@ Filter for:
 				project_name,
 				project_id
 		</cfquery>
-		<h2>Projects</h2
+		<h2>Project Annotations</h2>
 		<table class="table border table-responsive table-striped">
-			<Cfset i=1>
+			<cfset i=1>
 			<cfloop query="t">
 				<tr>
 					<td>
