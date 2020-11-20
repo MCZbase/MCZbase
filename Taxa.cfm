@@ -630,7 +630,48 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
+function createTaxaRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+	   var columns = $('##' + gridId).jqxGrid('columns').records;
+	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns px-md-2'>";
+	   if (columns.length < 21) {
+	      // don't split into columns for shorter sets of columns.
+	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	   }
+		
+	   	var gridWidth = $('##' + gridId).width();
+	   	var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
+		var taxon_name_id = datarecord['taxon_name_id'];
+	   if (dialogWidth < 299) { dialogWidth = 300; }
+	   for (i = 1; i < columns.length; i++) {
+	      var text = columns[i].text;
+	      var datafield = columns[i].datafield;
+			if (datafield == 'taxon_name_id') { 
+				if (taxon_name_id) {
+	      		content = content + "<li><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id="+taxon_name_id+"' target='_blank'>" + datarecord[datafield] +  "</button></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+	   }
+	   content = content + "</ul>";
+		var taxon_name_id = datarecord['taxon_name_id'];
+		content = content + "<ul class='list-group list-group-horizontal'><li  class='list-group-item'><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
+		content = content + "<li class='list-group-item'><a href='/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=" + taxon_name_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li></ul>";
 
+	   content = content + "</div>";
+	   $("##" + rowDetailsTargetId + rowIndex).html(content);
+	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+	      {
+	         autoOpen: true,
+	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+	         width: dialogWidth,
+	         title: 'Taxon Details'
+	      }
+	   );
+	   // Workaround, expansion sits below row in zindex.
+	   var maxZIndex = getMaxZIndex();
+	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	};
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
