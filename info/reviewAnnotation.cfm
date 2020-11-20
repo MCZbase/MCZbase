@@ -134,24 +134,24 @@
 					</tr>
 					<cfloop query="itemAnno">
 						<tr>
-							<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-							<td>#annotation#</td>
+							<td><label class="data-entry-label"> Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+							<td><span class="small">#annotation#</span></td>
 							<form name="r" method="post" action="reviewAnnotation.cfm">
 								<input type="hidden" name="action" value="saveReview">
 								<input type="hidden" name="type" value="collection_object_id">
 								<input type="hidden" name="id" value="#collection_object_id#">
 								<input type="hidden" name="annotation_id" value="#annotation_id#">
-								<td><label for="reviewed_fg" data-entry-label>Reviewed?</label>
+								<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
 									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 										<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 									</select>
 									<cfif len(reviewer) gt 0>
-										<span class="d-block">
+										<span class="d-block small">
 										Last review by #reviewer#</span>
 									</cfif></td>
 								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-									<textarea rows="3" class="autogrow form-control form-control-sm data-entry-textarea" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+									<textarea rows="3" class="" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
 								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-4"></td>
 							</form>
 						</tr>
@@ -210,25 +210,25 @@
 							<table class="table table-responsive border">
 								<cfloop query="itemAnno">
 									<tr>
-										<td> <label class="data-entry-label">Annotation by</label <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-										<td>#annotation#</td>
+										<td> <label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td><span class="small">#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="publication_id">
 											<input type="hidden" name="id" value="#publication_id#">
-											<input type="hidden" name="annotation_id" value="#annotation_id#">
-											<td><label for="reviewed_fg">Reviewed?</label>
-												<select name="reviewed_fg" id="reviewed_fg">
+											<input type="hidden" name="annotation_id" value="#annotation_id#" class="data-entry-input">
+											<td><label for="reviewed_fg" class="data-entry-label">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span style="font-size:small"><br>
+													<span class="d-block small">
 													Last review by #reviewer#</span>
 												</cfif></td>
-											<td><label for="reviewer_comment">Review Comments</label>
-												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
-											<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
+											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
+											<td><input type="submit" value="save review" class="btn btn-xs mt-4 btn-primary"></td>
 										</form>
 									</tr>
 								</cfloop>
@@ -290,7 +290,7 @@
 								<cfloop query="itemAnno">
 									<tr>
 										<td><label class="data-entry-label px-0">Annotation by</label> <span class="small"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td><label class="data-entry-label">#annotation#</label></td>
+										<td><span class="small">#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="taxon_name_id">
@@ -367,8 +367,8 @@
 							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td width="350"><span class="small"> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td>#annotation#</td>
+										<td width="350"><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td><span class="small">#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
@@ -384,7 +384,7 @@
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
 											<td><input type="submit" value="save review" class="btn mt-4 btn-primary btn-xs"></td>
 										</form>
 									</tr>
