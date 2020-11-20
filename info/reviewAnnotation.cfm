@@ -21,16 +21,8 @@
 						</cfloop>
 					</select>
 					<br>
-					<input type="submit" 
-					class="lnkBtn"
-					onmouseover="this.className='lnkBtn btnhov'" 
-					onmouseout="this.className='lnkBtn'"
-					value="Filter">
-					<input type="reset" 
-					class="clrBtn"
-					onmouseover="this.className='clrBtn btnhov'" 
-					onmouseout="this.className='clrBtn'"
-					value="Clear Form">
+					<input type="submit" class="btn btn-xs btn-primary"	value="Filter">
+					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form></td>
 			<td align="center"><label>The Rest</label>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
@@ -44,13 +36,9 @@
 						<option value="taxon_name_id">Taxonomy</option>
 						
 					</select>
-					<br>
-					<input type="submit" 
-					class="btn btn-xs btn-secondary"
-					value="Filter">
-					<input type="reset" 
-					class="btn btn-xs btn-warning"
-					value="Clear Form">
+					
+					<input type="submit"  class="btn btn-xs btn-secondary" value="Filter">
+					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form></td>
 		</tr>
 	</table>
@@ -125,7 +113,7 @@
 				higher_geog,
 				spec_locality
 		</cfquery>
-			<h2>Locality Annotations</h2>
+			<h2 class="h3">Locality Annotations</h2>
 			<table class="table border table-responsive table-striped">
 				<Cfset i=1>
 				<cfloop query="catitem">
@@ -202,7 +190,7 @@
 				publication_title,
 				publication_id
 		</cfquery>
-			<h2>Publication Annotations</h2>
+			<h2 class="h3">Publication Annotations</h2>
 			<table class="table border table-responsive table-striped">
 				<cfset i=1>
 				<cfloop query="t">
@@ -281,7 +269,7 @@
 				scientific_name,
 				display_name
 		</cfquery>
-			<h2>Taxonomic Annotations</h2>
+			<h2 class="h4">Taxonomic Annotations</h2>
 			<table class="border table table-responsive table-striped">
 				<cfset i=1>
 				<cfloop query="t">
@@ -359,7 +347,7 @@
 				project_name,
 				project_id
 		</cfquery>
-			<h2>Project Annotations</h2>
+			<h2 class="h4">Project Annotations</h2>
 			<table class="table border table-responsive table-striped">
 				<cfset i=1>
 				<cfloop query="t">
