@@ -776,7 +776,7 @@ limitations under the License.
 		content = content + "<ul class='list-group list-group-horizontal'><li  class='list-group-item'><a href='/a_loanItemReview.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Review Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a></li>";
 		content = content + "<li class='list-group-item'><a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a></li>";
-		content = content + "<li class='list-group-item'><a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li>";
+		content = content + "<li class='list-group-item'><a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a></li></ul>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
