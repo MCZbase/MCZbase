@@ -316,7 +316,7 @@ Filter for:
 						<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
-						<table border width="100%">
+						<table class="table table-responsive table-striped">
 							<cfloop query="itemAnno">
 								<tr>
 									<td>
