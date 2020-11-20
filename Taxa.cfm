@@ -740,7 +740,6 @@ limitations under the License.
 						selectionmode: 'singlerow',
 						altrows: true,
 						showtoolbar: false,
-						adaptive: true,
 						columns: [
 							{ text: 'Taxon', datafield: 'display_name_author', width:300, hideable: true, hidden: false, cellsrenderer: linkIdCellRenderer },
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
