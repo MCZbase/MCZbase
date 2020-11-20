@@ -249,7 +249,7 @@ limitations under the License.
 								<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 								<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
 
-								<label for="annotation">Annotation (<span id="length_annotation"></span>)</label>
+								<label for="annotation" class="data-entry-label">Annotation (<span id="length_annotation"></span>)</label>
 										<textarea rows="2" name="annotation" id="annotation" 
 											onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
 											class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
@@ -270,13 +270,16 @@ limitations under the License.
 						<div class="col-12">
 							<cfif prevAnn.recordcount gt 0>
 								<h2 class="h3">Annotations on this record.</h2>
-								<table id="tbl" border>
-									<th>Annotation</th>
-									<th>Made Date</th>
-									<th>Reviewed</th>
-									<th>State</th>
-									<th>Resolution</th>
-									<cfloop query="prevAnn">
+								<table id="tbl" class="table table-responsive table-striped">
+									<thead class="thead-light">
+										<th>Annotation</th>
+										<th>Made Date</th>
+										<th>Reviewed</th>
+										<th>State</th>
+										<th>Resolution</th>
+									</thead>
+									<tbody>
+										<cfloop query="prevAnn">
 										<tr>
 											<td>#annotation#</td>
 											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
@@ -293,6 +296,7 @@ limitations under the License.
 											<td>#resolution#</td>
 										</tr>
 									</cfloop>
+									</tbody>
 								</table>
 								<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
 									<a href="#manageIRI#" target="_blank">Manage Annotations</a>
