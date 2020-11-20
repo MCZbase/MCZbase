@@ -1,70 +1,67 @@
 <cfinclude template="/includes/_header.cfm">
 <cfset title="Review Annotations">
+
 <cfoutput>
-<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection cln from collection order by collection
 </cfquery>
-Filter for:
-<table class="table table-responsive table-striped">
-	<tr>
-		<td align="center">
-			<label>Specimens</label>
-			<form name="filter" method="get" action="reviewAnnotation.cfm">
-				<input type="hidden" name="action" value="show">
-				<input type="hidden" name="type" value="collection_object_id">
-				<label for="collection">Collection</label>
-				<select name="collection" size="1">
-					<option value=""></option>
-					<cfloop query="c">
-						<option value="#cln#">#cln#</option>
-					</cfloop>
-				</select>
-				<br>
-				<input type="submit" 
+	<h1 class="h2">Annotation Review</h1>
+	<h2 class="h3">Filter for:</h2>
+	<table class="table border table-responsive table-striped">
+		<tr>
+			<td align="center"><label>Specimens</label>
+				<form name="filter" method="get" action="reviewAnnotation.cfm">
+					<input type="hidden" name="action" value="show">
+					<input type="hidden" name="type" value="collection_object_id">
+					<label for="collection">Collection</label>
+					<select name="collection" size="1">
+						<option value=""></option>
+						<cfloop query="c">
+							<option value="#cln#">#cln#</option>
+						</cfloop>
+					</select>
+					<br>
+					<input type="submit" 
 					class="lnkBtn"
 					onmouseover="this.className='lnkBtn btnhov'" 
 					onmouseout="this.className='lnkBtn'"
 					value="Filter">
-				<input type="reset" 
+					<input type="reset" 
 					class="clrBtn"
 					onmouseover="this.className='clrBtn btnhov'" 
 					onmouseout="this.className='clrBtn'"
 					value="Clear Form">
-			</form>
-		</td>
-		<td align="center">
-			<label>The Rest</label>
-			<form name="filter" method="get" action="reviewAnnotation.cfm">
-				<input type="hidden" name="action" value="show">
-				<label for="type">Type</label>
-				<select name="type" size="1">
-					<option value="taxon_name_id">Taxonomy</option>
-					<option value="project_id">Project</option>
-					<option value="publication_id">Publication</option>
-				</select>
-				<br>
-				<input type="submit" 
-					class="lnkBtn"
-					onmouseover="this.className='lnkBtn btnhov'" 
-					onmouseout="this.className='lnkBtn'"
+				</form></td>
+			<td align="center"><label>The Rest</label>
+				<form name="filter" method="get" action="reviewAnnotation.cfm">
+					<input type="hidden" name="action" value="show">
+					<label for="type">Type</label>
+					<select name="type" size="1">
+						<option value=""></option>
+						<option value="geog_auth_rec_id">Geography</option>
+						<option value="project_id">Project</option>
+						<option value="publication_id">Publication</option>
+						<option value="taxon_name_id">Taxonomy</option>
+						
+					</select>
+					<br>
+					<input type="submit" 
+					class="btn btn-xs btn-secondary"
 					value="Filter">
-				<input type="reset" 
-					class="clrBtn"
-					onmouseover="this.className='clrBtn btnhov'" 
-					onmouseout="this.className='clrBtn'"
+					<input type="reset" 
+					class="btn btn-xs btn-warning"
 					value="Clear Form">
-			</form>
-		</td>
-	</tr>
-</table>
+				</form></td>
+		</tr>
+	</table>
 </cfoutput>
 <cfif action is "show">
-<cfoutput>
-	<cfif type is "collection_object_id">
-		<cfif isdefined("id") and len(id) gt 0>
-			<cfset collection_object_id=id>
-		</cfif>
-		<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfif type is "collection_object_id">
+			<cfif isdefined("id") and len(id) gt 0>
+				<cfset collection_object_id=id>
+			</cfif>
+			<cfquery name="ci" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
 				 annotations.ANNOTATION_ID,
 				 annotations.ANNOTATE_DATE,
@@ -110,7 +107,7 @@ Filter for:
 					AND collection.collection = '#collection#'
 				</cfif>
 		</cfquery>
-		<cfquery name="catitem" dbtype="query">
+			<cfquery name="catitem" dbtype="query">
 			select
 				COLLECTION_OBJECT_ID,
 				collection,
@@ -129,58 +126,45 @@ Filter for:
 				spec_locality
 		</cfquery>
 			<h2>Locality Annotations</h2>
-		<table class="table border table-responsive table-striped">
-			<Cfset i=1>
-			<cfloop query="catitem">
-				<cfquery name="itemAnno" dbtype="query">
+			<table class="table border table-responsive table-striped">
+				<Cfset i=1>
+				<cfloop query="catitem">
+					<cfquery name="itemAnno" dbtype="query">
 					select * from ci where collection_object_id = #collection_object_id#
 				</cfquery>
-				<tr>
-					<td colspan="5">
-						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
-						&nbsp;&nbsp;&nbsp;<em>#idAs#</em>
-						<br>#higher_geog#: #spec_locality#
-					</td>
-				</tr>
-				<cfloop query="itemAnno">
 					<tr>
-						<td>
-							Annotation by <strong>#CF_USERNAME#</strong> 
-							(#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
-						</td>
-						<td>
-							#annotation#
-						</td>
-						<form name="r" method="post" action="reviewAnnotation.cfm">
-							<input type="hidden" name="action" value="saveReview">
-							<input type="hidden" name="type" value="collection_object_id">
-							<input type="hidden" name="id" value="#collection_object_id#">
-							<input type="hidden" name="annotation_id" value="#annotation_id#">
-							<td>
-								<label for="reviewed_fg">Reviewed?</label>
-								<select name="reviewed_fg" id="reviewed_fg">
-									<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-									<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-								</select>
-								<cfif len(reviewer) gt 0>
-									<span style="font-size:small"><br>Last review by #reviewer#</span>
-								</cfif>
-							</td>
-							<td>
-								<label for="reviewer_comment">Review Comments</label>
-								<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea>
-							</td>
-							<td>
-								<input type="submit" value="save review" class="savBtn">
-							</td>
-						</form>
+						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> &nbsp;&nbsp;&nbsp;<em>#idAs#</em> <br>
+							#higher_geog#: #spec_locality#</td>
 					</tr>
+					<cfloop query="itemAnno">
+						<tr>
+							<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+							<td>#annotation#</td>
+							<form name="r" method="post" action="reviewAnnotation.cfm">
+								<input type="hidden" name="action" value="saveReview">
+								<input type="hidden" name="type" value="collection_object_id">
+								<input type="hidden" name="id" value="#collection_object_id#">
+								<input type="hidden" name="annotation_id" value="#annotation_id#">
+								<td><label for="reviewed_fg">Reviewed?</label>
+									<select name="reviewed_fg" id="reviewed_fg">
+										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+										<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+									</select>
+									<cfif len(reviewer) gt 0>
+										<span style="font-size:small"><br>
+										Last review by #reviewer#</span>
+									</cfif></td>
+								<td><label for="reviewer_comment">Review Comments</label>
+									<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+								<td><input type="submit" value="save review" class="savBtn"></td>
+							</form>
+						</tr>
+					</cfloop>
+					<cfset i=i+1>
 				</cfloop>
-				<cfset i=i+1>
-			</cfloop>
-		</table>
-	<cfelseif type is "publication_id">
-		<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			</table>
+			<cfelseif type is "publication_id">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
 				publication.publication_title,
 				annotations.ANNOTATION_ID,
@@ -208,7 +192,7 @@ Filter for:
 					AND annotations.publication_id = #publication_id#
 				</cfif>
 		</cfquery>
-		<cfquery name="t" dbtype="query">
+			<cfquery name="t" dbtype="query">
 			select
 				publication_title,
 				publication_id
@@ -218,59 +202,47 @@ Filter for:
 				publication_title,
 				publication_id
 		</cfquery>
-		<h2>Publication Annotations</h2>
-		<table class="table border table-responsive table-striped">
-			<cfset i=1>
-			<cfloop query="t">
-				<tr>
-					<td>
-						<a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#publication_title#</a>
-						<cfquery name="itemAnno" dbtype="query">
+			<h2>Publication Annotations</h2>
+			<table class="table border table-responsive table-striped">
+				<cfset i=1>
+				<cfloop query="t">
+					<tr>
+						<td><a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#publication_title#</a>
+							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where publication_id = #publication_id#
 						</cfquery>
-						<table class="table table-responsive table-striped border">
-							<cfloop query="itemAnno">
-								<tr>
-									<td>
-										Annotation by <strong>#CF_USERNAME#</strong> 
-										(#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
-									</td>
-									<td>
-										#annotation#
-									</td>
-									<form name="r" method="post" action="reviewAnnotation.cfm">
-										<input type="hidden" name="action" value="saveReview">
-										<input type="hidden" name="type" value="publication_id">
-										<input type="hidden" name="id" value="#publication_id#">
-										<input type="hidden" name="annotation_id" value="#annotation_id#">
-										<td>
-											<label for="reviewed_fg">Reviewed?</label>
-											<select name="reviewed_fg" id="reviewed_fg">
-												<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-												<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-											</select>
-											<cfif len(reviewer) gt 0>
-												<span style="font-size:small"><br>Last review by #reviewer#</span>
-											</cfif>
-										</td>
-										<td>
-											<label for="reviewer_comment">Review Comments</label>
-											<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#">
-										</td>
-										<td>
-											<input type="submit" value="save review" class="savBtn">
-										</td>
-									</form>
-								</tr>
-							</cfloop>
-						</table>
-					</td>
-				</tr>
-				<cfset i=#i#+1>
-			</cfloop>
-		</table>
-	<cfelseif type is "taxon_name_id">
-		<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<table class="table table-responsive table-striped border">
+								<cfloop query="itemAnno">
+									<tr>
+										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td>#annotation#</td>
+										<form name="r" method="post" action="reviewAnnotation.cfm">
+											<input type="hidden" name="action" value="saveReview">
+											<input type="hidden" name="type" value="publication_id">
+											<input type="hidden" name="id" value="#publication_id#">
+											<input type="hidden" name="annotation_id" value="#annotation_id#">
+											<td><label for="reviewed_fg">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg">
+													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+												</select>
+												<cfif len(reviewer) gt 0>
+													<span style="font-size:small"><br>
+													Last review by #reviewer#</span>
+												</cfif></td>
+											<td><label for="reviewer_comment">Review Comments</label>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
+											<td><input type="submit" value="save review" class="savBtn"></td>
+										</form>
+									</tr>
+								</cfloop>
+							</table></td>
+					</tr>
+					<cfset i=#i#+1>
+				</cfloop>
+			</table>
+			<cfelseif type is "taxon_name_id">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
 				taxonomy.scientific_name, 
 				taxonomy.display_name,
@@ -299,7 +271,7 @@ Filter for:
 					AND annotations.taxon_name_id = #taxon_name_id#
 				</cfif>
 		</cfquery>
-		<cfquery name="t" dbtype="query">
+			<cfquery name="t" dbtype="query">
 			select
 				scientific_name,
 				display_name
@@ -309,59 +281,47 @@ Filter for:
 				scientific_name,
 				display_name
 		</cfquery>
-		<h2>Taxonomic Annotations</h2>
-		<table class="border table table-responsive table-striped">
-			<Cfset i=1>
-			<cfloop query="t">
-				<tr>
-					<td>
-						<a href="/name/#scientific_name#">#display_name#</a>
-						<cfquery name="itemAnno" dbtype="query">
+			<h2>Taxonomic Annotations</h2>
+			<table class="border table table-responsive table-striped">
+				<cfset i=1>
+				<cfloop query="t">
+					<tr>
+						<td><a href="/name/#scientific_name#">#display_name#</a>
+							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
-						<table class="table table-responsive table-striped">
-							<cfloop query="itemAnno">
-								<tr>
-									<td>
-										Annotation by <strong>#CF_USERNAME#</strong> 
-										(#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
-									</td>
-									<td>
-										#annotation#
-									</td>
-									<form name="r" method="post" action="reviewAnnotation.cfm">
-										<input type="hidden" name="action" value="saveReview">
-										<input type="hidden" name="type" value="taxon_name_id">
-										<input type="hidden" name="id" value="#taxon_name_id#">
-										<input type="hidden" name="annotation_id" value="#annotation_id#">
-										<td>
-											<label for="reviewed_fg">Reviewed?</label>
-											<select name="reviewed_fg" id="reviewed_fg">
-												<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-												<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-											</select>
-											<cfif len(reviewer) gt 0>
-												<span style="font-size:small"><br>Last review by #reviewer#</span>
-											</cfif>
-										</td>
-										<td>
-											<label for="reviewer_comment">Review Comments</label>
-											<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#">
-										</td>
-										<td>
-											<input type="submit" value="save review" class="savBtn">
-										</td>
-									</form>
-								</tr>
-							</cfloop>
-						</table>
-					</td>
-				</tr>
-				<cfset i=#i#+1>
-			</cfloop>
-		</table>
-	<cfelseif type is "project_id">
-		<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<table class="table table-responsive table-striped">
+								<cfloop query="itemAnno">
+									<tr>
+										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td>#annotation#</td>
+										<form name="r" method="post" action="reviewAnnotation.cfm">
+											<input type="hidden" name="action" value="saveReview">
+											<input type="hidden" name="type" value="taxon_name_id">
+											<input type="hidden" name="id" value="#taxon_name_id#">
+											<input type="hidden" name="annotation_id" value="#annotation_id#">
+											<td><label for="reviewed_fg">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg">
+													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+												</select>
+												<cfif len(reviewer) gt 0>
+													<span style="font-size:small"><br>
+													Last review by #reviewer#</span>
+												</cfif></td>
+											<td><label for="reviewer_comment">Review Comments</label>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
+											<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
+										</form>
+									</tr>
+								</cfloop>
+							</table></td>
+					</tr>
+					<cfset i=#i#+1>
+				</cfloop>
+			</table>
+			<cfelseif type is "project_id">
+			<cfquery name="tax" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select 
 				project.project_name,
 				annotations.ANNOTATION_ID,
@@ -389,7 +349,7 @@ Filter for:
 					AND annotations.project_id = #project_id#
 				</cfif>
 		</cfquery>
-		<cfquery name="t" dbtype="query">
+			<cfquery name="t" dbtype="query">
 			select
 				project_name,
 				project_id
@@ -399,65 +359,54 @@ Filter for:
 				project_name,
 				project_id
 		</cfquery>
-		<h2>Project Annotations</h2>
-		<table class="table border table-responsive table-striped">
-			<cfset i=1>
-			<cfloop query="t">
-				<tr>
-					<td>
-						<a href="/ProjectDetail?project_id=#project_id#">#project_name#</a>
-						<cfquery name="itemAnno" dbtype="query">
+			<h2>Project Annotations</h2>
+			<table class="table border table-responsive table-striped">
+				<cfset i=1>
+				<cfloop query="t">
+					<tr>
+						<td><a href="/ProjectDetail?project_id=#project_id#">#project_name#</a>
+							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where project_id = #project_id#
 						</cfquery>
-						<table class="table table-responsive table-striped">
-							<cfloop query="itemAnno">
-								<tr>
-									<td>
-										Annotation by <strong>#CF_USERNAME#</strong> 
-										(#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
-									</td>
-									<td>
-										#annotation#
-									</td>
-									<form name="r" method="post" action="reviewAnnotation.cfm">
-										<input type="hidden" name="action" value="saveReview">
-										<input type="hidden" name="type" value="project_id">
-										<input type="hidden" name="id" value="#project_id#">
-										<input type="hidden" name="annotation_id" value="#annotation_id#">
-										<td>
-											<label for="reviewed_fg">Reviewed?</label>
-											<select name="reviewed_fg" id="reviewed_fg">
-												<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
-												<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
-											</select>
-											<cfif len(reviewer) gt 0>
-												<span style="font-size:small"><br>Last review by #reviewer#</span>
-											</cfif>
-										</td>
-										<td>
-											<label for="reviewer_comment">Review Comments</label>
-											<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#">
-										</td>
-										<td>
-											<input type="submit" value="save review" class="savBtn">
-										</td>
-									</form>
-								</tr>
-							</cfloop>
-						</table>
-					</td>
-				</tr>
-				<cfset i=#i#+1>
-			</cfloop>
-		</table>
-	<cfelse>
-		fail.
-	</cfif><!--- end collection_object_id --->
-</cfoutput>
+							<table class="table border table-responsive table-striped">
+								<cfloop query="itemAnno">
+									<tr>
+										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td>#annotation#</td>
+										<form name="r" method="post" action="reviewAnnotation.cfm">
+											<input type="hidden" name="action" value="saveReview">
+											<input type="hidden" name="type" value="project_id">
+											<input type="hidden" name="id" value="#project_id#">
+											<input type="hidden" name="annotation_id" value="#annotation_id#">
+											<td><label for="reviewed_fg">Reviewed?</label>
+												<select name="reviewed_fg" id="reviewed_fg">
+													<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
+													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
+												</select>
+												<cfif len(reviewer) gt 0>
+													<span style="font-size:small"><br>
+													Last review by #reviewer#</span>
+												</cfif></td>
+											<td><label for="reviewer_comment">Review Comments</label>
+												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
+											<td><input type="submit" value="save review" class="btn btn-primary btn-xs"></td>
+										</form>
+									</tr>
+								</cfloop>
+							</table></td>
+					</tr>
+					<cfset i=#i#+1>
+				</cfloop>
+			</table>
+			<cfelse>
+			fail.
+		</cfif>
+		<!--- end collection_object_id ---> 
+	</cfoutput>
 </cfif>
 <cfif action is "saveReview">
-<cfoutput>
-	<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput>
+		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		update annotations set
 			REVIEWER_AGENT_ID=#session.myAgentId#,
 			REVIEWED_FG=#REVIEWED_FG#,
@@ -465,7 +414,7 @@ Filter for:
 		where
 			annotation_id=#annotation_id#
 	</cfquery>
-	<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
-</cfoutput>
+		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
+	</cfoutput>
 </cfif>
 <cfinclude template="/includes/_footer.cfm">
