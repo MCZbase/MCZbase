@@ -129,8 +129,8 @@
 					select * from ci where collection_object_id = #collection_object_id#
 				</cfquery>
 					<tr>
-						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> &nbsp;&nbsp;&nbsp;<em>#idAs#</em> <br>
-							#higher_geog#: #spec_locality#</td>
+						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> <span class="mr-3">ID:<em>#idAs#</em></span> 
+							<span class="ml-1">Locality: #higher_geog#: #spec_locality#</span></td>
 					</tr>
 					<cfloop query="itemAnno">
 						<tr>
