@@ -713,7 +713,7 @@ limitations under the License.
 	 */
 	function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
 	   var columns = $('##' + gridId).jqxGrid('columns').records;
-	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns px-2 mx-3'>";
 	   if (columns.length < 21) {
 	      // don't split into columns for shorter sets of columns.
 	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
@@ -730,7 +730,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-outline-primary btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <button class='btn btn-outline-primary btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</button></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
