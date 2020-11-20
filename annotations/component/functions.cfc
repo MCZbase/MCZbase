@@ -242,7 +242,7 @@ limitations under the License.
 							<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row d-block">
 						<form name="annotate" method="post" action="/info/annotate.cfm">
 							<div class="col-12">
 								<input type="hidden" name="action" value="insert">
