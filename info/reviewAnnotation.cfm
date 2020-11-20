@@ -282,14 +282,14 @@
 				<cfset i=1>
 				<cfloop query="t">
 					<tr>
-						<td><a href="/name/#scientific_name#">#display_name#</a>
+						<td><h4><a href="/name/#scientific_name#">#display_name#</a></h4
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
 							<table class="table table-responsive table-striped">
 								<cfloop query="itemAnno">
 									<tr>
-										<td><label class="data-entry-label">Annotation by</label> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td><label class="data-entry-label px-0">Annotation by</label> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
 										<td><label class="data-entry-label">#annotation#</label></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
@@ -302,7 +302,7 @@
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span class="small"><br>
+													<span class="small d-block">
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
