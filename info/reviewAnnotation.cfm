@@ -9,9 +9,13 @@
 		<div class="row">
 			<div class="col-12">
 	<h1 class="h2">Annotation Review</h1>
-	<h2 class="h3">Filter for:</h2>
+
 <div class="form-row">
-	<div class="col-6">
+	<div class="col-2">
+		<h3>Filter For: </h3>
+	</div>
+	<div class="col-4">
+		
 	<h3>Specimens</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
@@ -27,7 +31,7 @@
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form>
 	</div>
-	<div class="col-6">
+	<div class="col-4">
 	<h3>The Rest</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
