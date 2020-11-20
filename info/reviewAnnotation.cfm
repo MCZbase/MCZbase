@@ -129,8 +129,8 @@
 					select * from ci where collection_object_id = #collection_object_id#
 				</cfquery>
 					<tr>
-						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> <span class="mr-3">ID:<em>#idAs#</em></span> 
-							<span class="ml-1">Locality: #higher_geog#: #spec_locality#</span></td>
+						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> <span class="mr-3">ID: <em>#idAs#</em></span> 
+							<span class="ml-1"> Locality: #higher_geog#: #spec_locality#</span></td>
 					</tr>
 					<cfloop query="itemAnno">
 						<tr>
@@ -141,17 +141,17 @@
 								<input type="hidden" name="type" value="collection_object_id">
 								<input type="hidden" name="id" value="#collection_object_id#">
 								<input type="hidden" name="annotation_id" value="#annotation_id#">
-								<td><label for="reviewed_fg">Reviewed?</label>
-									<select name="reviewed_fg" id="reviewed_fg">
+								<td><label for="reviewed_fg" data-entry-label>Reviewed?</label>
+									<select name="reviewed_fg" id="reviewed_fg" class="data-entry-select">
 										<option value="0" <cfif reviewed_fg is 0>selected="selected"</cfif>>No</option>
 										<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 									</select>
 									<cfif len(reviewer) gt 0>
-										<span style="font-size:small"><br>
+										<span class="d-block">
 										Last review by #reviewer#</span>
 									</cfif></td>
 								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
-									<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
+									<textarea rows="3" class="autogrow form-control form-control-sm data-entry-textarea" name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
 								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-4"></td>
 							</form>
 						</tr>
