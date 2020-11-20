@@ -739,7 +739,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='</select></div><div class="col-12 col-md-1"><label for="trans_agent_id_#i#" class="data-entry-label">';
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='<span id="agentViewLink_' + i + '" class="">'+ i +'</span></label></div><div class="col-12 col-md-3">';
+			d+='<span id="agentViewLink_' + i + '" class="px-2 inline-block">'+ i +'</span></label></div><div class="col-12 col-md-3">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
 			d+='<div class="input-group-text bg-transparent border-0"><input class="position-relative" type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1"><label class="data-entry-label"> Delete?</label>';
 			d+='</div></div></div></div>';
