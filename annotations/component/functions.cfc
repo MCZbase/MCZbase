@@ -269,7 +269,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h3">Annotations on this record.</h2>
+								<h2 class="h3 mt-3">Annotations on this Record</h2>
 								<table id="tbl" class="table table-responsive table-striped">
 									<thead class="thead-light">
 										<th>Annotation</th>
