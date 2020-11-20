@@ -21,7 +21,7 @@
 					<input type="hidden" name="action" value="show">
 					<input type="hidden" name="type" value="collection_object_id">
 					<label for="collection">Collection</label>
-					<select name="collection" size="1" class="data-entry-select col-3">
+					<select name="collection" size="1" class="data-entry-select col-9">
 						<option value=""></option>
 						<cfloop query="c">
 							<option value="#cln#">#cln#</option>
@@ -36,7 +36,7 @@
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<label for="type">Type</label>
-					<select name="type" size="1" class="col-3 data-entry-select">
+					<select name="type" size="1" class="col-9 data-entry-select">
 						<option value=""></option>
 						<option value="geog_auth_rec_id">Geography</option>
 						<option value="project_id">Project</option>
@@ -49,6 +49,7 @@
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 		</form>
 	</div>
+				</div>
 </cfoutput>
 <cfif action is "show">
 	<cfoutput>
