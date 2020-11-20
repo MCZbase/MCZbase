@@ -125,7 +125,7 @@
 				<Cfset i=1>
 				<cfloop query="catitem">
 					<cfquery name="itemAnno" dbtype="query">
-					select * from ci where collection_object_id = #collection_object_id#
+					select * from collection ci where collection_object_id = #collection_object_id#
 				</cfquery>
 					<tr>
 						<td colspan="5"><a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a> <span class="mr-3">ID: <em>#idAs#</em></span> 
