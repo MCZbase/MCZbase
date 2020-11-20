@@ -630,32 +630,7 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
-	function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
-	   var columns = $('##' + gridId).jqxGrid('columns').records;
-	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns px-md-2'>";
-	   if (columns.length < 21) {
-	      // don't split into columns for shorter sets of columns.
-	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
-	   }
 
-	   if (dialogWidth < 299) { dialogWidth = 300; }
-	   for (i = 1; i < columns.length; i++) {
-	      var text = columns[i].text;
-	      var datafield = columns[i].datafield;
-			} else {
-	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
-			}
-	   }
-	   content = content + "</ul>";
-	   $("##" + rowDetailsTargetId + rowIndex).html(content);
-	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
-	      {
-	         autoOpen: true,
-	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
-	         width: dialogWidth,
-	         title: 'Taxon Details'
-	      }
-	   );
 
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
