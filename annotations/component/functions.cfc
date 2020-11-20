@@ -236,65 +236,70 @@ limitations under the License.
 						<cfthrow message="Annotation on an unsupported target type.">
 					</cfdefaultcase>
 				</cfswitch>
-				<section class="row">
-					<div class="col-12">
-						<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
+				<section class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
+						</div>
+						
 						<form name="annotate" method="post" action="/info/annotate.cfm">
-							<input type="hidden" name="action" value="insert">
-							<input type="hidden" name="idtype" id="idtype" value="#target_type#">
-							<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
-							<label for="annotation">Annotation (<span id="length_annotation"></span>)</label>
-							<div class="row">
-								<div class="col-12">
-									<textarea rows="2" name="annotation" id="annotation" 
-										onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
-										class="autogrow reqdClr form-control form-control-sm" required></textarea>
-								</div>
-								<script>
-									$(document).ready(function() { 
-										$("##annotation").keyup(autogrow);  
-										$("##annotation").keyup();  
-									});
-								</script>
-								<div class="col-12">
-									<input type="button" class="savBtn" value="Save Annotation" onclick="saveThisAnnotation()">
-								</div>
+							<div class="col-12">
+								<input type="hidden" name="action" value="insert">
+								<input type="hidden" name="idtype" id="idtype" value="#target_type#">
+								<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
+
+								<label for="annotation">Annotation (<span id="length_annotation"></span>)</label>
+										<textarea rows="2" name="annotation" id="annotation" 
+											onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
+											class="autogrow reqdClr form-control form-control-sm" required></textarea>
+
+									<script>
+										$(document).ready(function() { 
+											$("##annotation").keyup(autogrow);  
+											$("##annotation").keyup();  
+										});
+									</script>
+							</div>
+							<div class="col-12">
+								<input type="button" class="btn btn-xs btn-primary mt-2" value="Save Annotation" onclick="saveThisAnnotation()">
 							</div>
 						</form>
 					</div>
-					<div class="col-12">
-						<cfif prevAnn.recordcount gt 0>
-							<h2 class="h3">Annotations on this record.</h2>
-							<table id="tbl" border>
-								<th>Annotation</th>
-								<th>Made Date</th>
-								<th>Reviewed</th>
-								<th>State</th>
-								<th>Resolution</th>
-								<cfloop query="prevAnn">
-									<tr>
-										<td>#annotation#</td>
-										<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
-										<td>
-											<cfif len(REVIEWER_COMMENT) gt 0>
-												#REVIEWER_COMMENT#
-											<cfelseif REVIEWED_FG is 0>
-												Not Reviewed
-											<cfelse>
-												Reviewed
-											</cfif>
-										</td>
-										<td>#state#</td>
-										<td>#resolution#</td>
-									</tr>
-								</cfloop>
-							</table>
-							<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
-								<a href="#manageIRI#" target="_blank">Manage Annotations</a>
+					<div class="row">
+						<div class="col-12">
+							<cfif prevAnn.recordcount gt 0>
+								<h2 class="h3">Annotations on this record.</h2>
+								<table id="tbl" border>
+									<th>Annotation</th>
+									<th>Made Date</th>
+									<th>Reviewed</th>
+									<th>State</th>
+									<th>Resolution</th>
+									<cfloop query="prevAnn">
+										<tr>
+											<td>#annotation#</td>
+											<td>#dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+											<td>
+												<cfif len(REVIEWER_COMMENT) gt 0>
+													#REVIEWER_COMMENT#
+												<cfelseif REVIEWED_FG is 0>
+													Not Reviewed
+												<cfelse>
+													Reviewed
+												</cfif>
+											</td>
+											<td>#state#</td>
+											<td>#resolution#</td>
+										</tr>
+									</cfloop>
+								</table>
+								<cfif len(manageIRI) GT 0 AND isdefined("session.roles") AND listfindnocase(session.roles,"coldfusion_user")>
+									<a href="#manageIRI#" target="_blank">Manage Annotations</a>
+								</cfif>
+							<cfelse>
+								<h2 class="h3">There are no annotations for this record.</h2>
 							</cfif>
-						<cfelse>
-							<h2 class="h3">There are no annotations for this record.</h2>
-						</cfif>
+						</div>
 					</div>
 				<section>
 			</cfoutput>
