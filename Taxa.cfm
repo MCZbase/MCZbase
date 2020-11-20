@@ -630,7 +630,7 @@ limitations under the License.
 			</script>
 		</cfif>
 		<script>
-function createTaxaRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+function createRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
 	   var columns = $('##' + gridId).jqxGrid('columns').records;
 	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns px-md-2'>";
 	   if (columns.length < 21) {
