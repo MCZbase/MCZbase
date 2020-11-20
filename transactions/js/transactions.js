@@ -721,7 +721,7 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d=  '<section class="row px-0 alert alert-warning mt-1 py-1 border-top border-bottom"><div class="col-12 col-md-4"><div class="input-group">';
+			var d=  '<section class="row px-0 alert alert-warning my-0 pt-1 pb-0 border-top border-bottom"><div class="col-12 col-md-4"><div class="input-group">';
 			
 			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
@@ -741,7 +741,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2 inline-block">'+ i +'</span></label></div><div class="col-12 col-md-3">';
 			d+='<div class="input-group"><div class="input-group-prepend">';
-			d+='<div class="input-group-text bg-transparent border-0 pl-3"><input class="position-relative" type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1"><label class="data-entry-label"> Delete?</label>';
+			d+='<div class="input-group-text bg-transparent border-0 pt-1 pl-3"><input class="position-relative" type="checkbox" name="del_agnt_' + i + '" name="del_agnt_' + i + '" value="1"><label class="data-entry-label"> Delete?</label>';
 			d+='</div></div></div></div>';
 			d+='</section>';
 			d+='<script>';
