@@ -207,10 +207,10 @@
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where publication_id = #publication_id#
 						</cfquery>
-							<table class="table table-responsive table-striped border">
+							<table class="table table-responsive border">
 								<cfloop query="itemAnno">
 									<tr>
-										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td> <label class="data-entry-label">Annotation by</label <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
 										<td>#annotation#</td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
@@ -289,7 +289,7 @@
 							<table class="table table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td><label class="data-entry-label px-0">Annotation by</label> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td><label class="data-entry-label px-0">Annotation by</label> <span class="small"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
 										<td><label class="data-entry-label">#annotation#</label></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
@@ -367,7 +367,7 @@
 							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
+										<td width="350"><span class="small"> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
 										<td>#annotation#</td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
