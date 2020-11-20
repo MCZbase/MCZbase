@@ -38,7 +38,6 @@
 					<label for="type">By Type</label>
 					<select name="type" size="1" class="col-9 data-entry-select">
 						<option value=""></option>
-						<option value="geog_auth_rec_id">Geography</option>
 						<option value="project_id">Project</option>
 						<option value="publication_id">Publication</option>
 						<option value="taxon_name_id">Taxonomy</option>
@@ -277,7 +276,7 @@
 				scientific_name,
 				display_name
 		</cfquery>
-			<h2 class="h4">Taxonomic Annotations</h2>
+			<h2 class="h3">Taxonomic Annotations</h2>
 			<table class="border table table-responsive table-striped">
 				<cfset i=1>
 				<cfloop query="t">
@@ -367,8 +366,8 @@
 							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td width="350"><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td><span class="small">#annotation#</span></td>
+										<td class=><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td class="col-4"><span class="small">#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
