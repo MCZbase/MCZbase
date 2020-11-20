@@ -128,13 +128,14 @@ Filter for:
 				higher_geog,
 				spec_locality
 		</cfquery>
-		<table class="table table-responsive table-striped">
+			<h2>Taxon Annotations</h2>
+		<table class="table border table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="catitem">
 				<cfquery name="itemAnno" dbtype="query">
 					select * from ci where collection_object_id = #collection_object_id#
 				</cfquery>
-				<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
+				<tr>
 					<td colspan="5">
 						<a href="/SpecimenDetail.cfm?collection_object_id=#collection_object_id#">#collection# #cat_num#</a>
 						&nbsp;&nbsp;&nbsp;<em>#idAs#</em>
@@ -142,8 +143,8 @@ Filter for:
 					</td>
 				</tr>
 				<cfloop query="itemAnno">
-					<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>
-						<td style="padding-left:2em;">
+					<tr>
+						<td>
 							Annotation by <strong>#CF_USERNAME#</strong> 
 							(#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#
 						</td>
@@ -217,10 +218,11 @@ Filter for:
 				publication_title,
 				publication_id
 		</cfquery>
-		<table class="table table-responsive table-striped">
-			<Cfset i=1>
+		<h2>Publication Annotations</h2>
+		<table class="table border table-responsive table-striped">
+			<cfset i=1>
 			<cfloop query="t">
-				<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
+				<tr>
 					<td>
 						<a href="/SpecimenUsage.cfm?publication_id=#publication_id#">#publication_title#</a>
 						<cfquery name="itemAnno" dbtype="query">
@@ -307,10 +309,11 @@ Filter for:
 				scientific_name,
 				display_name
 		</cfquery>
-		<table>
+		<h2>Taxonomy</h2>
+		<table class="border table table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="t">
-				<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
+				<tr>
 					<td>
 						<a href="/name/#scientific_name#">#display_name#</a>
 						<cfquery name="itemAnno" dbtype="query">
@@ -396,10 +399,11 @@ Filter for:
 				project_name,
 				project_id
 		</cfquery>
-		<table class="table table-responsive table-striped">
+		<h2>Projects</h2
+		<table class="table border table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="t">
-				<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
+				<tr>
 					<td>
 						<a href="/ProjectDetail?project_id=#project_id#">#project_name#</a>
 						<cfquery name="itemAnno" dbtype="query">
