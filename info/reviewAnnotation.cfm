@@ -12,12 +12,12 @@
 	<h2 class="h3">Filter for:</h2>
 <div class="form-row">
 	<div class="col-6">
-	<label>Specimens</label>
+	<h3>Specimens</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<input type="hidden" name="type" value="collection_object_id">
 					<label for="collection">Collection</label>
-					<select name="collection" size="1">
+					<select name="collection" size="1" class="data-entry-select">
 						<option value=""></option>
 						<cfloop query="c">
 							<option value="#cln#">#cln#</option>
@@ -28,7 +28,7 @@
 				</form>
 	</div>
 	<div class="col-6">
-	<label>The Rest</label>
+	<h3>The Rest</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<label for="type">Type</label>
