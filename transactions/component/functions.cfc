@@ -1041,7 +1041,7 @@ limitations under the License.
 							</div>
 						</form>
 						</div>
-						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
+						<div class="row mt-3 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
 						</div>
