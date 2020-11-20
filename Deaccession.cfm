@@ -128,7 +128,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="auth_agent_name">Authorized By</label>
+						<label for="auth_agent_name">In-House Authorized By</label>
 						<input type="text" name="auth_agent_name" id="auth_agent_name"
 						  class="reqdClr" size="40" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newDeacc',this.value); return false;"
@@ -1145,7 +1145,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				) values (
 					sq_transaction_id.currval,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'authorized by')
+					'in-house authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
