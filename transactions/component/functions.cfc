@@ -2494,9 +2494,9 @@ limitations under the License.
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
-									<section class="row list-even py-1 my-1 border-top border-bottom">
+									<section class="row list-even pt-1 pb-0 my-0 border-top border-bottom">
 										<cfelse> 
-									<section class="row list-odd my-1 py-1 border-top border-bottom">
+									<section class="row list-odd my-0 pt-1 pb-0 border-top border-bottom">
 										</cfif>
 										
 				
@@ -2545,7 +2545,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 										<div class="input-group">
 													  <div class="input-group-prepend">
-														<div class="input-group-text bg-transparent border-0">
+														<div class="input-group-text pt-1 bg-transparent border-0">
 														 <label class="data-entry-label"> <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > Delete?</label>
 														</div>
 													  </div>
