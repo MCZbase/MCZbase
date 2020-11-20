@@ -5,6 +5,9 @@
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection cln from collection order by collection
 </cfquery>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
 	<h1 class="h2">Annotation Review</h1>
 	<h2 class="h3">Filter for:</h2>
 	<table class="table border table-responsive table-striped">
@@ -20,7 +23,7 @@
 							<option value="#cln#">#cln#</option>
 						</cfloop>
 					</select>
-					<input type="submit" class="btn btn-xs btn-primary"	value="Filter">
+					<input type="submit" class="btn btn-xs btn-secondary"	value="Filter">
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form></td>
 			<td align="center"><label>The Rest</label>
@@ -143,7 +146,7 @@
 									</cfif></td>
 								<td><label for="reviewer_comment">Review Comments</label>
 									<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
-								<td><input type="submit" value="save review" class="savBtn"></td>
+								<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
 							</form>
 						</tr>
 					</cfloop>
@@ -219,7 +222,7 @@
 												</cfif></td>
 											<td><label for="reviewer_comment">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
-											<td><input type="submit" value="save review" class="savBtn"></td>
+											<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
 										</form>
 									</tr>
 								</cfloop>
@@ -389,6 +392,9 @@
 			fail.
 		</cfif>
 		<!--- end collection_object_id ---> 
+</div>
+</div>
+</div>
 	</cfoutput>
 </cfif>
 <cfif action is "saveReview">
@@ -404,4 +410,4 @@
 		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
 	</cfoutput>
 </cfif>
-<cfinclude template="/includes/_footer.cfm">
+<cfinclude template="/shared/_footer.cfm">
