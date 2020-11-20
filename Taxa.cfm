@@ -656,10 +656,7 @@ limitations under the License.
 	         title: 'Taxon Details'
 	      }
 	   );
-	   // Workaround, expansion sits below row in zindex.
-	   var maxZIndex = getMaxZIndex();
-	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
-	};
+
 			$(document).ready(function() {
 				/* Setup jqxgrid for Search */
 				$('##searchForm').bind('submit', function(evt){
