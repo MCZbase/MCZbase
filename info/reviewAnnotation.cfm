@@ -1,4 +1,4 @@
-<cfinclude template="/includes/_header.cfm">
+<cfinclude template="/shared/_header.cfm">
 <cfset title="Review Annotations">
 
 <cfoutput>
@@ -20,7 +20,6 @@
 							<option value="#cln#">#cln#</option>
 						</cfloop>
 					</select>
-					<br>
 					<input type="submit" class="btn btn-xs btn-primary"	value="Filter">
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form></td>
