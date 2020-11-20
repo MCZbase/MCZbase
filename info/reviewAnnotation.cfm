@@ -10,9 +10,9 @@
 			<div class="col-12">
 	<h1 class="h2">Annotation Review</h1>
 	<h2 class="h3">Filter for:</h2>
-	<table class="table border table-responsive table-striped">
-		<tr>
-			<td align="center"><label>Specimens</label>
+<div class="form-row">
+	<div class="col-6">
+	<label>Specimens</label>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<input type="hidden" name="type" value="collection_object_id">
@@ -25,8 +25,10 @@
 					</select>
 					<input type="submit" class="btn btn-xs btn-secondary"	value="Filter">
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-				</form></td>
-			<td align="center"><label>The Rest</label>
+				</form>
+	</div>
+	<div class="col-6">
+	<label>The Rest</label>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<label for="type">Type</label>
@@ -41,9 +43,8 @@
 					
 					<input type="submit"  class="btn btn-xs btn-secondary" value="Filter">
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-				</form></td>
-		</tr>
-	</table>
+		</form>
+	</div>
 </cfoutput>
 <cfif action is "show">
 	<cfoutput>
@@ -146,7 +147,7 @@
 									</cfif></td>
 								<td><label for="reviewer_comment">Review Comments</label>
 									<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
-								<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
+								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-4"></td>
 							</form>
 						</tr>
 					</cfloop>
