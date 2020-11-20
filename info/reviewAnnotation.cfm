@@ -286,7 +286,7 @@
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
-							<table class="table table-responsive table-striped">
+							<table class="table table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
 										<td><label class="data-entry-label px-0">Annotation by</label> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
@@ -307,7 +307,7 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-											<td><input type="submit" value="save review" class="btn btn-xs btn-primary"></td>
+											<td><input type="submit" value="save review" class="btn mt-4 btn-xs btn-primary"></td>
 										</form>
 									</tr>
 								</cfloop>
@@ -364,7 +364,7 @@
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where project_id = #project_id#
 						</cfquery>
-							<table class="table border table-responsive table-striped">
+							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
 										<td> Annotation by <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</td>
@@ -380,12 +380,12 @@
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span class="small"><br>
+													<span class="small d-block">
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#"></td>
-											<td><input type="submit" value="save review" class="btn btn-primary btn-xs"></td>
+											<td><input type="submit" value="save review" class="btn mt-4 btn-primary btn-xs"></td>
 										</form>
 									</tr>
 								</cfloop>
