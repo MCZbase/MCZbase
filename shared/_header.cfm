@@ -626,7 +626,7 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/addAccn.cfm">Accession</a> 
+											<a class="dropdown-item" href="/newAccn.cfm">Accession</a> 
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Accession</a> 
 										</cfif>
