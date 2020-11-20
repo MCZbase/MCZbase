@@ -405,7 +405,7 @@ Filter for:
 						<cfquery name="itemAnno" dbtype="query">
 							select * from tax where project_id = #project_id#
 						</cfquery>
-						<table border width="100%">
+						<table class="table table-responsive table-striped">
 							<cfloop query="itemAnno">
 								<tr>
 									<td>
