@@ -239,12 +239,12 @@ limitations under the License.
 				<section class="container-fluid">
 					<div class="row">
 						<div class="col-12">
-							<h2 class="h3" tabindex="0">Annotations for #summary#</h2>
+							<h1 class="h3" tabindex="0">Annotations for #summary#</h2>
 						</div>
 					</div>
 					<div class="row d-block">
 						<form name="annotate" method="post" action="/info/annotate.cfm">
-							<div class="col-12">
+							<div class="col-12 col-md-6">
 								<input type="hidden" name="action" value="insert">
 								<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 								<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
@@ -269,7 +269,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h3 mt-3">Annotations on this Record</h2>
+								<h2 class="h4 mt-3">Annotations on this Record</h2>
 								<table id="tbl" class="table table-responsive table-striped">
 									<thead class="thead-light">
 										<th>Annotation</th>
