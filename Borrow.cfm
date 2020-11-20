@@ -1103,7 +1103,7 @@ $(function() {
 			</tr>
 			<tr>
 				<td colspan="3">
-					<label for="AuthorizedBy">Authorized By (external)</label>
+					<label for="AuthorizedBy">Outside Authorized By</label>
 					<input type="text"
 						name="AuthorizedBy" id="AuthorizedBy"
 						class="reqdClr" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
