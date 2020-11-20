@@ -5,7 +5,7 @@
 	select collection cln from collection order by collection
 </cfquery>
 Filter for:
-<table border>
+<table class="table table-responsive table-striped">
 	<tr>
 		<td align="center">
 			<label>Specimens</label>
@@ -128,7 +128,7 @@ Filter for:
 				higher_geog,
 				spec_locality
 		</cfquery>
-		<table>
+		<table class="table table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="catitem">
 				<cfquery name="itemAnno" dbtype="query">
