@@ -396,7 +396,7 @@ Filter for:
 				project_name,
 				project_id
 		</cfquery>
-		<table>
+		<table class="table table-responsive table-striped">
 			<Cfset i=1>
 			<cfloop query="t">
 				<tr	#iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#	>
