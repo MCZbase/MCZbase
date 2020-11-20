@@ -643,9 +643,17 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
+								<!--- enforce pattern for non-historical loans, but allow save of non-matching historical loan numbers --->
+								<cfif NOT ArrayIsEmpty(REMatch(LOANNUMBERPATTERN, loanDetails.loan_number)) >
+									<!--- current loan number matches pattern, enforce pattern on save --->
+									<cfset pattern = 'pattern="#LOANNUMBERPATTERN#"' >
+								<cfelse>
+									<!--- current loan number is in a historical form, don't enforce pattern on save --->
+									<cfset pattern = "" >
+								</cfif>
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr data-entry-input" 
-									required  pattern="#LOANNUMBERPATTERN#"  >
+									required  #pattern#  >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
