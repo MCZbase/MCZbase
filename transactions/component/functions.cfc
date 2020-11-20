@@ -970,7 +970,8 @@ limitations under the License.
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-12">
-						<h1 class="h3">Search for Permits</h1>
+						<div class="search-box px-3 py-2">
+						<h1 class="h3 mt-2">Search for Permits</h1>
 						<form id="findPermitSearchForm" name="findPermit">
 							<input type="hidden" name="method" value="getPermitsJSON" class="keeponclear">
 							<div class="form-row mb-2">
@@ -1042,6 +1043,7 @@ limitations under the License.
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2">
 							<h4>Results: </h4>
 							<span class="d-block px-3 p-2" id="permitPickResultCount"></span> <span id="permitPickResultLink" class="d-block p-2"></span>
+						</div>
 						</div>
 						<div class="row mt-0">
 							<div id="permitPickSearchText"></div>
