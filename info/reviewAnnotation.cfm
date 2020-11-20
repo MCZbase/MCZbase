@@ -282,7 +282,7 @@
 				<cfset i=1>
 				<cfloop query="t">
 					<tr>
-						<td><h4><a href="/name/#scientific_name#">#display_name#</a></h4
+						<td><h4><a href="/name/#scientific_name#">#display_name#</a></h4>
 							<cfquery name="itemAnno" dbtype="query">
 							select * from tax where scientific_name = '#scientific_name#'
 						</cfquery>
