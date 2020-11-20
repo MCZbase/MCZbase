@@ -724,7 +724,7 @@ limitations under the License.
 	   var dialogWidth = Math.round(gridWidth/2);
 		var pid = datarecord['pid'];
 		var transaction_id = datarecord['transaction_id'];
-	   if (dialogWidth < 150) { dialogWidth = 300; }
+	   if (dialogWidth < 299) { dialogWidth = 300; }
 	   for (i = 1; i < columns.length; i++) {
 	      var text = columns[i].text;
 	      var datafield = columns[i].datafield;
