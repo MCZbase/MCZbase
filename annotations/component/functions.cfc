@@ -249,7 +249,7 @@ limitations under the License.
 								<input type="hidden" name="idtype" id="idtype" value="#target_type#">
 								<input type="hidden" name="idvalue" id="idvalue" value="#target_id#">
 
-								<label for="annotation" class="data-entry-label">Annotation (<span id="length_annotation"></span>)</label>
+								<label for="annotation" class="data-entry-label">Create Annotation (<span id="length_annotation"></span>)</label>
 										<textarea rows="2" name="annotation" id="annotation" 
 											onkeyup="countCharsLeft('annotation', 4000, 'length_annotation');"
 											class="autogrow reqdClr form-control data-entry-textarea" required></textarea>
@@ -269,7 +269,7 @@ limitations under the License.
 					<div class="row">
 						<div class="col-12">
 							<cfif prevAnn.recordcount gt 0>
-								<h2 class="h4 mt-3">Annotations on this Record</h2>
+								<h2 class="h4 mt-5">Annotations on this Record</h2>
 								<table id="tbl" class="table table-responsive table-striped">
 									<thead class="thead-light">
 										<th>Annotation</th>
