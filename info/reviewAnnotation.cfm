@@ -12,7 +12,7 @@
 
 <div class="form-row">
 	<div class="col-2">
-		<h3>Filter For: </h3>
+		<h3 class="text-right pr-3">Filter For: </h3>
 	</div>
 	<div class="col-4">
 		
