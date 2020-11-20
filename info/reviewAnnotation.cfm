@@ -14,13 +14,13 @@
 	<div class="col-2">
 		<h3 class="h4 text-right pr-3">Filter For: </h3>
 	</div>
-	<div class="col-4">
+	<div class="col-12 col-md-3">
 		
 	<h3 class="h4">Specimens</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
 					<input type="hidden" name="type" value="collection_object_id">
-					<label for="collection">Collection</label>
+					<label for="collection">By Collection</label>
 					<select name="collection" size="1" class="data-entry-select col-9">
 						<option value=""></option>
 						<cfloop query="c">
@@ -31,11 +31,11 @@
 					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
 				</form>
 	</div>
-	<div class="col-4">
+	<div class="col-3">
 	<h3 class="h4">The Rest</h3>
 				<form name="filter" method="get" action="reviewAnnotation.cfm">
 					<input type="hidden" name="action" value="show">
-					<label for="type">Type</label>
+					<label for="type">By Type</label>
 					<select name="type" size="1" class="col-9 data-entry-select">
 						<option value=""></option>
 						<option value="geog_auth_rec_id">Geography</option>
@@ -121,7 +121,7 @@
 				higher_geog,
 				spec_locality
 		</cfquery>
-			<h2 class="h3">Annotations for #collection#</h2>
+			<h2 class="h3 mt-3">Annotations for #collection#</h2>
 			<table class="table border table-responsive table-striped">
 				<Cfset i=1>
 				<cfloop query="catitem">
@@ -150,7 +150,7 @@
 										<span style="font-size:small"><br>
 										Last review by #reviewer#</span>
 									</cfif></td>
-								<td><label for="reviewer_comment">Review Comments</label>
+								<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 									<textarea rows="4" cols="30"  name="reviewer_comment" id="reviewer_comment">#reviewer_comment#</textarea></td>
 								<td><input type="submit" value="save review" class="btn btn-xs btn-primary mt-4"></td>
 							</form>
