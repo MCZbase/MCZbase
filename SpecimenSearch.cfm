@@ -14,7 +14,7 @@
 	select SEARCH_NAME,URL
 	from cf_canned_search,cf_users
 	where cf_users.user_id=cf_canned_search.user_id
-	and username='#session.username#'
+	and username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
 	and URL like '%SpecimenResults.cfm%'
 	order by search_name
 </cfquery>
@@ -36,7 +36,7 @@
 				<cfquery name="coll" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select collection
 					from collection where
-					collection_id=#session.exclusive_collection_id#
+					collection_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
 				</cfquery>
 				<strong>#coll.collection#</strong>
 			records. <a href="searchAll.cfm">Search all collections</a>.
@@ -188,17 +188,17 @@
 	<cfquery name="ctInst" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT institution_acronym, collection, collection_id FROM collection
 	    <cfif len(#session.exclusive_collection_id#) gt 0>
-			WHERE collection_id = #session.exclusive_collection_id#
+			WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
 		</cfif>
 		order by collection
 	</cfquery>
 
-                    <cfquery name="hasPrefSuff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT max(CATNUM_PREF_FG) as prefFG, max(CATNUM_SUFF_FG) as suffFG from collection
-						<cfif len(#session.exclusive_collection_id#) gt 0>
-							WHERE collection_id = #session.exclusive_collection_id#
-						</cfif>
-					</cfquery>
+   <cfquery name="hasPrefSuff" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		SELECT max(CATNUM_PREF_FG) as prefFG, max(CATNUM_SUFF_FG) as suffFG from collection
+		<cfif len(#session.exclusive_collection_id#) gt 0>
+			WHERE collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.exclusive_collection_id#">
+		</cfif>
+	</cfquery>
 
 	<cfif isdefined("collection_id") and len(#collection_id#) gt 0>
 		<cfset thisCollId = #collection_id#>
