@@ -14,7 +14,7 @@
 	<cfabort>
 </cfif>
 <cfset checkedTableName = "">
-<cfif isdefined(tableName)>
+<cfif isdefined("tableName")>
 	<!--- allow table to only be specimen search or taxonomy search results table --->
 	<cfif tableName EQ session.SpecSrchTab OR tableName EQ session.TaxSrchTab >
 	 	<cfset checkedTableName = tableName>
