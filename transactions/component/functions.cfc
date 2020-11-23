@@ -2513,7 +2513,7 @@ limitations under the License.
 											</div>
 										</div>							
 										<div class="col-12 col-md-4">
-												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
+												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select data-height">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
 															<cfset sel = 'selected="selected"'>
@@ -2548,7 +2548,7 @@ limitations under the License.
 										<div class="col-12 col-md-3">
 										<div class="input-group">
 													  <div class="input-group-prepend">
-														<div class="input-group-text pt-1 bg-transparent border-0">
+														<div class="input-group-text py-1 bg-transparent border-0">
 														 <label class="data-entry-label"> <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > Delete?</label>
 														</div>
 													  </div>
