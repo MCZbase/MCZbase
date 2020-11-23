@@ -177,9 +177,9 @@ limitations under the License.
 		<cfset parent_loan_number="">
 	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
-	<main>
+	<main id="content">
 		<!--- Search form --->
-		<section class="container-fluid" role="search" id="content">
+		<section class="container-fluid" role="search">
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
@@ -200,7 +200,7 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0" id="content">
+						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-5 col-lg-3 px-1"> 
 									<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
