@@ -182,7 +182,7 @@ limitations under the License.
 		<section class="container-fluid" role="search">
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
-					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<h1 class="h3 smallcaps pl-1" tabindex="0">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 tab-card"> 
 						<!--- Set Active Tab --->
 						<cfswitch expression="#action#">
@@ -215,7 +215,7 @@ limitations under the License.
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-2 mx-sm-3" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
@@ -330,7 +330,7 @@ limitations under the License.
 							</div>
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-2 mx-sm-3" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
+								<h2 class="h3 card-title my-0" tabindex="0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
