@@ -1720,7 +1720,6 @@ content: '⇡';
 		width: 300px;
 	}
 }
-
 @media (min-width: 1600px) {
 	.container {
 		max-width: 1540px;
@@ -1743,7 +1742,6 @@ content: '⇡';
 		text-align: right;
 	}
 }
-
 @media(max-width:576px) {
 	.count {
 		display: block;
