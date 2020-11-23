@@ -687,7 +687,7 @@ limitations under the License.
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
 						<h1 class="h4">Results: </h1>
-						<span class="d-block px-3 p-2" id="resultCount"></span> <span id="resultLink" class="d-block p-2"></span>
+						<span class="d-block px-3 p-2" id="resultCount" tabindex="0"></span> <span id="resultLink" class="d-block p-2" tabindex="0"></span>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
