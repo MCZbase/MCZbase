@@ -1242,7 +1242,7 @@ table#pairs, th, td {
 /*	line-height: 1em;*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
-/*	height: calc(1.25em + .43rem + 2px);*/
+	height: calc(1.5em + .12rem + 2px);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
