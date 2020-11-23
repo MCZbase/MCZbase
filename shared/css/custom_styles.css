@@ -1177,7 +1177,7 @@ table#pairs, th, td {
 	width: 100%;
 }
 .custom-select-sm {
-	height: calc(1.5em + .5rem + 2px);
+	height: calc(1.5em + .15rem + 2px);
 	padding-top: .25rem;
 	padding-bottom: .25rem;
 	color: rgba(0, 0, 0, .67);
@@ -1239,10 +1239,9 @@ table#pairs, th, td {
 	display: block;
 	width: 100%;
 	font-size: .875em;
-/*	line-height: 1em;*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
-	height: calc(1.5em + .12rem + 2px);
+/*	height: calc(1.5em + .12rem + 2px);*/
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
@@ -1262,7 +1261,7 @@ select.data-entry-select option:focus {
 }
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 450;
-	line-height: 1.5em;
+/*	line-height: 1.5em;*/
 	color: silver;
 	font-size: 14px;
 }
@@ -1296,7 +1295,7 @@ select.data-entry-select {
 	display: block;
 	width: 100%;
 	font-size: .875em;	
-	height: calc(1.5em + .12em + 2px);
+/*	height: calc(1.5em + .12em + 2px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
@@ -1342,7 +1341,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: white;
 	border-radius: .2em 0 0 .2em;
 	font-size: .875em;
-	height: calc(1.5em + .12em + 2px);
+/*	height: calc(1.5em + .12em + 2px);*/
 	padding: .12em .5em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
@@ -1358,7 +1357,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	height: calc(1.5em + .12rem + 2px);
+/*	height: calc(1.5em + .12rem + 2px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
