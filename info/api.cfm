@@ -23,6 +23,9 @@
 					<li>
 						Example: #Application.serverRootUrl#/guid/MCZ:Mamm:1
 					</li>
+					<li>
+						This URI returns html by default, but can return RDF via content negotiation, include an http accept header for 'text/turtle' or 'application/rdf+xml' or 'application/ld+json'
+					</li>
 				</ul>
 				<br>
 			</li>
@@ -41,6 +44,20 @@
 					<li>
 						Example: #Application.serverRootUrl#/SpecimenDetail.cfm?guid=MCZ:Mamm:1
 					</li>
+					<li>
+						This URI is deprecated and is expected to move.
+					</li>
+				</ul>
+				<br>
+			</li>
+			<li>
+				#Application.serverRootUrl#/rdf/Occurrence.cfm?guid={institution}:{collection}:{catnum}
+				<ul>
+					<li>
+						Example: #Application.serverRootUrl#/rdf/Occurrence.cfm?guid=MCZ:Mamm:1
+					</li>
+					<li>
+						This URI returns rdf-xml by default, but can deliver turtle or json-ld via content negotiation, include an http accept header for 'text/turtle' or 'application/ld+json'.
 				</ul>
 				<br>
 			</li>
@@ -48,7 +65,7 @@
 	or through Saved Searches (find specimens, click Save Search, provide a name, then click My Stuff/Saved Searches, then 
 	copy/paste/email/click the links.)
 	<p>
-		You may search taxonomy using the <a href="/api/taxsrch">TaxonomyResults.cfm API</a>. 
+		You may search taxonomy using the <a href="/api/taxsrch">Taxonomy API</a>. 
 	</p>
 	<p>
 		You may link to taxon detail pages with URLs of the format:
@@ -175,75 +192,117 @@
 	</table>
 </cfif>
 <cfif action is "taxsrch">
-	Base URL: #Application.serverRootUrl#/TaxonomyResults.cfm
+	<h1>NAME API:</h1>
+	<p>name api: <a href="#Application.serverRootUrl#/name/Murex">#Application.serverRootUrl#/name/Scientific+Name</a>
+	<p>RDF is planned, but not yet supported.</p>
+	<h1>HTML Search API:</h1>
+	<p>Taxon search Base URL: #Application.serverRootUrl#/Taxa.cfm  Accepts http GET or http POST</p>
+	<p>Example: <a href="#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex">#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex</a></p>
+	<p>Returns an HTML page with results in a grid widget</p>
+	<h1>JSON API:</h1>
+	<p>Taxon search Base URL: #Application.serverRootUrl#/taxonomy/component/search.cfc?method=getTaxa Accepts http GET.</p>
+	<p>Example: <a href="#Application.serverRootUrl#/taxonomy/component/search.cfc?method=getTaxa&genus=Murex">#Application.serverRootUrl#/Taxa.cfm?execute=true&genus=Murex</a></p>
+	<p>Returns JSON in the form [{"PHYLUM":"Mollusca","TAXON_NAME_ID":273735,"TAXON_STATUS":"","SCIENTIFIC_NAME":"Maclurites magnus","GENUS":"Maclurites","SPECIES":"magnus","TRIBE":"","INFRASPECIFIC_RANK":"","DIVISION":"","FAMILY":"Macluritidae","SUPERORDER":"","SUBSPECIES":"","display_name_author":"Maclurites magnus Le Sueur. 1818","KINGDOM":"Animalia","SUBORDER":"","SUBDIVISION":"","TAXON_REMARKS":"PaleoDB taxon number: 68614\r\n\r\nhttps://www.biodiversitylibrary.org/page/24680580","INFRASPECIFIC_AUTHOR":"","SPECIMEN_COUNT":4,"SUBCLASS":"","PHYLCLASS":"Gastropoda","SUPERCLASS":"","SCIENTIFICNAMEID":"","DISPLAY_NAME":"Maclurites magnus","SUBPHYLUM":"","VALID_CATALOG_TERM":"Yes ","PHYLORDER":"Euomphalina","SUBGENUS":"","COMMON_NAMES":"","NOMENCLATURAL_CODE":"ICZN","SOURCE_AUTHORITY":"Paleobiology Database","TAXONID":"","INFRAORDER":"","AUTHOR_TEXT":"Le Sueur. 1818","SUPERFAMILY":"","FULL_TAXON_NAME":"Animalia Mollusca Gastropoda Euomphalina Macluritidae Maclurites magnus","SUBFAMILY":""}]</p>
 	<table border>
 		<tr>
 			<th>term</th>
+			<th>api</th>
 			<th>comment</th>
 		</tr>
 		<tr>
+			<td>execute</td>
+			<td>html</td>
+			<td><strong>true</strong> executes the search and displays the search results, no value populates the search form, but does not run the search</td>
+		</tr>
+		<tr>
 			<td>common_name</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match</td>
 		</tr>
 		<tr>
 			<td>scientific_name</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match</td>
 		</tr>
 		<tr>
 			<td>genus</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>species</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subspecies</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>full_taxon_name</td>
+			<td>both</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td>phylum</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>phylclass</td>
-			<td></td>
+			<td>both</td>
+			<td>Class</td>
 		</tr>
 		<tr>
 			<td>phylorder</td>
-			<td></td>
+			<td>both</td>
+			<td>Order</td>
 		</tr>
 		<tr>
 			<td>suborder</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>family</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subfamily</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>tribe</td>
-			<td></td>
+			<td>both</td>
+			<td>prefix with <strong>=</strong> for exact match, prefix with <strong>!</strong> for NOT search, <strong>NULL</strong> finds blanks.</td>
 		</tr>
 		<tr>
 			<td>subgenus</td>
-			<td></td>
+			<td>both</td>
+			<td>Not including parenthesies</td>
 		</tr>
 		<tr>
 			<td>author_text</td>
-			<td></td>
+			<td>both</td>
+			<td>Authorship string, may include year, includes parenthesies for changed combinations.</td>
 		</tr>
 		<tr>
 			<td>we_have_some</td>
-			<td>Boolean. True=limits returns to taxonomy that have been used for identifications in Arctos.</td>
+			<td>both</td>
+			<td><strong>1</strong>  Show only taxa for which cataloged items exist.  <strong>0</strong> Show only not used in identifications.  Omit/no value for all.</td>
+		</tr>
+		<tr>
+			<td>valid_catalog_term_fg</td>
+			<td>both</td>
+			<td><strong>1</strong>  Show only taxa currently accepted for data entry.  <strong>0</strong> Show only taxa not accepted for data entry.  Omit/no value for all.</td>
+		</tr>
+		<tr>
+			<td>method</td>
+			<td>JSON</td>
+			<td><strong>getTaxa</strong> Required for search to run.</td>
 		</tr>
 	</table>
 </cfif>
