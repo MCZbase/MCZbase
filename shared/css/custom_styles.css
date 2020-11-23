@@ -1351,8 +1351,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: .2em 0 0 .2em;
 	font-size: .875em;
 	line-height: 1em;
-	padding: .25em .5em;
-	height: calc(1em + .35rem + .5em);
+	padding: 0em .5em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
