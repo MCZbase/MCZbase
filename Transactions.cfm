@@ -713,7 +713,7 @@ limitations under the License.
 	 */
 	function createLoanRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
 	   var columns = $('##' + gridId).jqxGrid('columns').records;
-	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns px-md-2'>";
+	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns pl-md-3'>";
 	   if (columns.length < 21) {
 	      // don't split into columns for shorter sets of columns.
 	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
