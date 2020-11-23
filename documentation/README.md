@@ -30,7 +30,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 	* [Types-of-Pages](#Types-of-Pages)
 		* [Edit-Pages](#Edit-Pages)
 		* [Search-Pages](#Search-Pages)
-	* [Section Headings](#Section Headings)
+	* [Section Headings](#Section-Headings)
 	* [Responsive-Styles](#Responsive-Styles)
 	* [Whitespace](#Whitespace)
 	* [Colors](#Colors)
@@ -436,7 +436,7 @@ Also see GUID search boxes on Taxonomy.cfm?action=edit&taxon\_name\_id=3449 and 
 Example: EDIT FORM LARGE SCREEN
 
 
-![](/documentation/screenshot_taxon_details_large.png "/documentation/screenshot_taxon_details_large.png")
+![](/documentation/screenshot_taxon_details_large.png "/documentation/screenshot_taxon_details.png")
 
 Example: EDIT FORM MEDIUM SCREEN
 
