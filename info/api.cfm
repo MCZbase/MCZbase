@@ -1,5 +1,5 @@
 <cfinclude template="/includes/_header.cfm">
-<cfset title="Arctos API">
+<cfset title="MCZbase API">
        
 <cfoutput>
     <div style="width: 54em; margin:0 auto; padding: 0 0 3em 0;" class="barcodes">
@@ -7,7 +7,7 @@
 <cfif action is "nothing">
  
 	<h2>
-		Partial list of ways to talk to MCZbase/Arctos
+		Partial list of ways to talk to MCZbase
 	</h2>
 	<p>
 		You may search specimens using the <a href="/api/specsrch">SpecimenResults.cfm API</a>. 
@@ -112,8 +112,6 @@
 			</li>
 		</ul>
 	</p>
-	A few "composite portals" also exist. For example, #Application.serverRootUrl#/mvz_all access all MVZ collections
-	in Arctos.
 	<p>
 		The default all-access portal is #Application.serverRootUrl#/all_all
 	</p>
