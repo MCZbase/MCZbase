@@ -38,8 +38,8 @@
 		theSpan.setAttribute('onclick',theOnclickString);
 	}
 </script>
-<cfset title="Arctos Home">
-<cfset metaDesc="Frequently-asked questions (FAQ), Arctos description, participation guidelines, usage policies, suggestions, and requirements for using Arctos or participating in the Arctos community.">
+<cfset title="MCZbase Home">
+<cfset metaDesc="Frequently-asked questions (FAQ), MCZbase description, participation guidelines, usage policies, suggestions, and requirements for using Arctos or participating in the Arctos community.">
 <cfinclude template="/includes/_header.cfm">
 <cfquery  name="coll" datasource="uam_god">
 	select * from cf_collection,collection
@@ -51,28 +51,8 @@
 	select * from coll where cf_collection_id=0
 </cfquery>
 <cfset gotem=valuelist(pub.cf_collection_id)>
-<!---cfquery name="uam" dbtype="query">
-	select * from coll where collection like 'UAM %' order by collection
-</cfquery>
-<cfset gotem=listappend(gotem,valuelist(uam.cf_collection_id))>
-<cfquery name="msb" dbtype="query">
-	select * from coll where collection like 'MSB %' order by collection
-</cfquery>
-<cfset gotem=listappend(gotem,valuelist(msb.cf_collection_id))>
-<cfquery name="mvz" dbtype="query">
-	select * from coll where collection like 'MVZ %' and lower(portal_name) != 'mvz_all' order by collection
-</cfquery>
-<cfset gotem=listappend(gotem,valuelist(mvz.cf_collection_id))>
-<cfquery name="mvz_all" dbtype="query">
-	select * from coll where collection like 'MVZ %' and lower(portal_name) = 'mvz_all' order by collection
-</cfquery>
-<cfset gotem=listappend(gotem,valuelist(mvz_all.cf_collection_id))>
-<cfquery name="wnmu" dbtype="query">
-	select * from coll where collection like 'WNMU %' order by collection
-</cfquery>
-<cfset gotem=listappend(gotem,valuelist(wnmu.cf_collection_id))--->
 <cfquery name="rem" dbtype="query">
-	select * from coll where cf_collection_id not in (#gotem#)
+	select * from coll where cf_collection_id not in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#gotem#" list="yes">)
 </cfquery>
 <table width="100%" border="0" cellpadding="10" cellspacing="10">
 	<tr>

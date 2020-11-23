@@ -74,7 +74,7 @@
 			identification.accepted_id_fg = 1 AND
 			citation.cited_taxon_name_id = taxonomy.taxon_name_id
 			<cfif isdefined("collection_id") and len(collection_id) gt 0>
-				and cataloged_item.collection_id=#collection_id#
+				and cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 			</cfif>
 			<cfif isdefined("ismatch") and ismatch is 0>
 				and identification.scientific_name != taxonomy.scientific_name
@@ -116,8 +116,8 @@
 						citation.collection_object_id = identification.collection_object_id AND
 						identification.accepted_id_fg = 1 AND
 						citation.cited_taxon_name_id = taxonomy.taxon_name_id and
-						identification.scientific_name='#scientific_name#' and 
-						taxonomy.scientific_name='#CitName#'
+						identification.scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#"> and 
+						taxonomy.scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitName#">
 				</cfquery>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(wtf.collection_object_id)#">#cnt#</a>
 			</td>

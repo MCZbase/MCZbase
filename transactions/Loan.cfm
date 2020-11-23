@@ -18,7 +18,7 @@
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
-<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
+<cfset LOANNUMBERPATTERN = '^[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 transactions/Loan.cfm
 
@@ -146,7 +146,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="auth_agent_name">Authorized By</label>
+									<label for="auth_agent_name">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -645,7 +645,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" id="loan_number" value="#loanDetails.loan_number#" class="reqdClr data-entry-input" 
-									required  pattern="#LOANNUMBERPATTERN#"  >
+									required pattern="#LOANNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="loan_type" class="data-entry-label">Loan Type</label>
@@ -711,7 +711,7 @@ limitations under the License.
 							</script>
 							<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
-								Loading Agents....  <span id='agentWarningSpan'>(if agents don't appear here, there is an error).</span>
+								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
 								<script>
 								$(document).ready(function() { 
 									$('##agentWarningSpan').delay(1000).fadeIn(300);
@@ -1384,7 +1384,7 @@ limitations under the License.
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'authorized by')
+					'in-house authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
