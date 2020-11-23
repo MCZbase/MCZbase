@@ -1456,9 +1456,10 @@ textarea {
  * Whatever it is intended as a fix for is breaking that, and probably other tables.
  * Need to fix this .
 */
-#columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
+/****TO DO:  Need to find a way to display/hide column headers when it is an ID or other header that doesn't explain contents ***/
+/*#columntablesearchResultsGrid .jqx-widget-header:nth-child(3) {
 	color: transparent !important;
-}
+}*/
 .custom-file-label {
 	position: absolute;
 	top: 0;
