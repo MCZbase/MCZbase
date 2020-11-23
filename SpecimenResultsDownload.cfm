@@ -9,7 +9,7 @@
 	<cfoutput>
 		<span style="color: ##FF0000">You must be a registered user to download data!</span>  <br>
 		Click <a href="/login.cfm">here</a> to log in or create a user account.
-	<cfoutput>
+	</cfoutput>
 	<cfinclude template="/includes/_footer.cfm">
 	<cfabort>
 </cfif>
