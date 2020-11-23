@@ -730,9 +730,9 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'loan_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</button></li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> <button class='btn btn-outline-primary pt-1 px-2 btn-xs' href='/transactions/Loan.cfm?action=editLoan&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</button></li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
 			} else if (datafield == 'dueindays') { 
 				var daysoverdue = -(datarecord[datafield]);
@@ -745,21 +745,21 @@ limitations under the License.
 	 				} else {
 						overdue = daysoverdue + " days";
 					} 
-	      		content = content + "<li class='text-danger'><strong>Overdue:</strong> <strong>by " + overdue +  "</strong></li>";
+	      		content = content + "<li class='text-danger pr-4'><strong>Overdue:</strong> <strong>by " + overdue +  "</strong></li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
 			} else if (datafield == 'return_due_date') { 
 				if (daysdue < 0 && loanstatus != 'closed') {
-	      		content = content + "<li class='text-danger'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class='text-danger pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
 			} else if (datafield == 'project_name') { 
 				if (pid) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
-	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      		content = content + "<li class='pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
 			} else if (datafield == 'id_link') {
 				// don't show to user (duplicates loan number)
@@ -768,7 +768,7 @@ limitations under the License.
 				// don't show to user
 				console.log(datarecord[datafield]);  
 			} else {
-	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+	      	content = content + "<li class='pr-4'><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 			}
 	   }
 	   content = content + "</ul>";
