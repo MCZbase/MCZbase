@@ -117,7 +117,7 @@
 						identification.accepted_id_fg = 1 AND
 						citation.cited_taxon_name_id = taxonomy.taxon_name_id and
 						identification.scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#scientific_name#"> and 
-						taxonomy.scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitName#"<
+						taxonomy.scientific_name=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#CitName#">
 				</cfquery>
 				<a href="/SpecimenResults.cfm?collection_object_id=#valuelist(wtf.collection_object_id)#">#cnt#</a>
 			</td>
