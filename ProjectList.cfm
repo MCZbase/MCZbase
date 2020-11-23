@@ -9,7 +9,7 @@
 		SELECT project.project_id,project_name,start_date,end_date,agent_name,project_agent_role,
 		agent_position 
 		FROM project,project_agent,agent_name,project_publication 
-		WHERE project_publication.publication_id = #publication_id# AND 
+		WHERE project_publication.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> AND 
 		project_publication.project_id = project.project_id AND project.project_id = project_agent.project_id AND
 		project_agent.agent_name_id = agent_name.agent_name_id ORDER BY project_id,agent_name
 	</cfquery>
@@ -186,7 +186,7 @@
 		FROM
 			proj
 		WHERE 
-			project_id=#project_id#
+			project_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#project_id#">
 		ORDER BY
 			agent_position
 		</cfquery>
