@@ -538,7 +538,7 @@
 				from
 					data
 				where
-					locality_id = #locality_id#
+					locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				group by
 					collection_object_id,
 					cat_num,

@@ -1,5 +1,5 @@
 <!---
-specimens/component/search.cfc
+/transactions/component/search.cfc
 
 Copyright 2019 President and Fellows of Harvard College
 
@@ -175,33 +175,57 @@ limitations under the License.
 
 <!---   Function getLoans  --->
 <cffunction name="getLoans" access="remote" returntype="any" returnformat="json">
-    <cfargument name="number" type="string" required="no">
-    <cfargument name="loan_type" type="string" required="no">
-    <cfargument name="loan_status" type="string" required="no">
-    <cfargument name="loan_instructions" type="string" required="no">
-    <cfargument name="loan_description" type="string" required="no">
-    <cfargument name="trans_remarks" type="string" required="no">
-    <cfargument name="nature_of_material" type="string" required="no">
-    <cfargument name="collection_id" type="numeric" required="no">
-    <cfargument name="permit_num" type="string" required="no">
-    <cfargument name="permit_id" type="string" required="no">
-    <cfargument name="return_due_date" type="string" required="no">
-    <cfargument name="to_return_due_date" type="string" required="no">
-    <cfargument name="closed_date" type="string" required="no">
-    <cfargument name="to_closed_date" type="string" required="no">
-    <cfargument name="trans_date" type="string" required="no">
-    <cfargument name="to_trans_date" type="string" required="no">
-    <cfargument name="trans_agent_role_1" type="string" required="no">
-    <cfargument name="agent_1" type="string" required="no">
-    <cfargument name="agent_1_id" type="string" required="no">
-    <cfargument name="trans_agent_role_2" type="string" required="no">
-    <cfargument name="agent_2" type="string" required="no">
-    <cfargument name="agent_2_id" type="string" required="no">
-    <cfargument name="trans_agent_role_3" type="string" required="no">
-    <cfargument name="agent_3" type="string" required="no">
-    <cfargument name="agent_3_id" type="string" required="no">
-    <cfargument name="parent_loan_number" type="string" required="no">
+	<cfargument name="number" type="string" required="no">
+	<cfargument name="loan_type" type="string" required="no">
+	<cfargument name="loan_status" type="string" required="no">
+	<cfargument name="loan_instructions" type="string" required="no">
+	<cfargument name="loan_description" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="nature_of_material" type="string" required="no">
+	<cfargument name="collection_id" type="numeric" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
+	<cfargument name="return_due_date" type="string" required="no">
+	<cfargument name="to_return_due_date" type="string" required="no">
+	<cfargument name="closed_date" type="string" required="no">
+	<cfargument name="to_closed_date" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="trans_agent_role_1" type="string" required="no">
+	<cfargument name="agent_1" type="string" required="no">
+	<cfargument name="agent_1_id" type="string" required="no">
+	<cfargument name="trans_agent_role_2" type="string" required="no">
+	<cfargument name="agent_2" type="string" required="no">
+	<cfargument name="agent_2_id" type="string" required="no">
+	<cfargument name="trans_agent_role_3" type="string" required="no">
+	<cfargument name="agent_3" type="string" required="no">
+	<cfargument name="agent_3_id" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="specimen_guid" type="string" required="no">
+	<cfargument name="parent_loan_number" type="string" required="no">
 
+	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
+	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+
+	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("return_due_date") and len(return_due_date) gt 0>
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
@@ -217,6 +241,8 @@ limitations under the License.
 			<cfset to_trans_date=trans_date>
 		</cfif>
 	</cfif>
+
+	<!--- do the search --->
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfset rows = 0>
@@ -279,6 +305,9 @@ limitations under the License.
 					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
+				</cfif>
+				<cfif (isdefined("collection_object_id") AND len(#collection_object_id#) gt 0) OR (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id = loan_item.transaction_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
 					left join loan_item on loan.transaction_id=loan_item.transaction_id 
@@ -387,6 +416,9 @@ limitations under the License.
 						</cfif>
 					</cfif>
 				</cfif>
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					AND loan_relations.relation_type = 'Subloan'
 					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
@@ -405,18 +437,13 @@ limitations under the License.
 	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
 	</cfif>
-	<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0>
-		<cfset frm="#frm#, loan_item">
-		<cfset sql = "#sql# AND loan.transaction_id=loan_item.transaction_id AND loan_item.collection_object_id IN (#collection_object_id#)">
-	</cfif>
 	<cfif isdefined("notClosed") AND len(#notClosed#) gt 0>
 		<cfset sql = "#sql# AND loan_status <> 'closed'">
 	</cfif>
 
-
 --->
 
-      <cfset rows = search_result.recordcount>
+	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
 			<cfset row = StructNew()>
@@ -429,9 +456,9 @@ limitations under the License.
 		</cfloop>
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
-      <cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
 		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
-      <cfheader statusCode="500" statusText="#message#">
+		<cfheader statusCode="500" statusText="#message#">
 	   <cfabort>
 	</cfcatch>
 	</cftry>

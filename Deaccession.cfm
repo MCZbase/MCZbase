@@ -128,7 +128,7 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="auth_agent_name">Authorized By</label>
+						<label for="auth_agent_name">In-House Authorized By</label>
 						<input type="text" name="auth_agent_name" id="auth_agent_name"
 						  class="reqdClr" size="40" required readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						  onchange="getAgent('auth_agent_id','auth_agent_name','newDeacc',this.value); return false;"
@@ -492,7 +492,7 @@
 			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='received by'
 		</cfquery>
 		<cfquery name="authorized" dbtype="query">
-			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='authorized by'
+			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='in-house authorized by'
 		</cfquery>
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from deaccAgents where trans_agent_role='recipient institution'
@@ -509,7 +509,7 @@
 						<span style="color:green;font-size:small">OK to print</span>
 					<cfelse>
 						<span style="color:red;font-size:small">
-							One "authorized by" and one "in-house contact" are required to print Deaccessions.
+							One "in-house authorized by" and one "in-house contact" are required to print Deaccessions.
 						</span>
 					</cfif>
 				</td>
@@ -1145,7 +1145,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				) values (
 					sq_transaction_id.currval,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
-					'authorized by')
+					'in-house authorized by')
 			</cfquery>
 			<cfquery name="in_house_contact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (

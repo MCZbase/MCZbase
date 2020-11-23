@@ -529,27 +529,6 @@
 		</ul>
 	</p>
 	<p id="taxRelatedNames"></p>
-	<!-------
-	<cfif len(one.genus) gt 0>
-		<cfquery name="samegen" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select scientific_name,display_name from taxonomy where genus='#one.genus#'
-			and scientific_name != '#one.scientific_name#'
-			order by scientific_name
-		</cfquery>
-		<div>
-			<cfif len(one.scientific_name) gt 0>
-				Additional Arctos entries for <a href="/TaxonomyResults.cfm?genus==#one.genus#">genus=#one.genus#</a>
-				<ul>
-					<cfloop query="samegen">
-						<li><a href="/name/#scientific_name#">#display_name#</a></li>
-					</cfloop>
-				</ul>
-			<cfelse>
-				There are no other Arctos records in this genera.
-			</cfif>
-		</div>
-	</cfif>
-	----->
     </div>
 </cfoutput>
 <cfinclude template = "includes/_footer.cfm">

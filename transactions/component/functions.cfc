@@ -1052,27 +1052,27 @@ limitations under the License.
 							<div id="enableselection"></div>
 						</div>
 						<script>
-						$("##findPermitSearchForm").bind("submit", function(evt){
-							evt.preventDefault();
+							$("##findPermitSearchForm").bind("submit", function(evt){
+								evt.preventDefault();
 								$("##permitPickResultsGrid").replaceWith("<div id='permitPickResultsGrid' class='jqxGrid'></div>");
 								$("##permitPickResultCount").html("");
 								$("##permitPickResultLink").html("");
 								$("##permitPickSearchText").jqxGrid("showloadelement");
 
-							   var permitSearch = {
+								var permitSearch = {
 									datatype: "json",
 									datafields: [
 										{ name: "permit_id", type: "string" },
-								{ name: "permit_num", type: "string" }, 
-								{ name: "permit_type", type: "string" }, 
-								{ name: "specific_type", type: "string" }, 
-								{ name: "permit_title", type: "string" }, 
-								{ name: "issued_date", type: "string" }, 
-								{ name: "renewed_date", type: "string" },
-								{ name: "exp_date", type: "string" },
-								{ name: "permit_remarks", type: "string" },
-								{ name: "IssuedByAgent", type: "string" },
-								{ name: "IssuedToAgent", type: "string" }
+										{ name: "permit_num", type: "string" }, 
+										{ name: "permit_type", type: "string" }, 
+										{ name: "specific_type", type: "string" }, 
+										{ name: "permit_title", type: "string" }, 
+										{ name: "issued_date", type: "string" }, 
+										{ name: "renewed_date", type: "string" },
+										{ name: "exp_date", type: "string" },
+										{ name: "permit_remarks", type: "string" },
+										{ name: "IssuedByAgent", type: "string" },
+										{ name: "IssuedToAgent", type: "string" }
 									],
 									root: "permitRecord",
 									id: "permit_id",
@@ -1082,8 +1082,8 @@ limitations under the License.
 								var dataAdapter = new $.jqx.dataAdapter(permitSearch);
 
 								var linkcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
-									var pvalue =  rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
-									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" +  value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
+									var pvalue = rowdata.permit_num + " " + rowdata.permit_title + " (" + $.trim(rowdata.specific_type + " " + rowdata.issued_date) + ")";
+									var result = "<button class=\"btn btn-xs btn-primary\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 									return result;
 								};
 
@@ -1118,7 +1118,7 @@ limitations under the License.
 										{text: "permit_remarks", datafield: "permit_remarks", width: 100, hideable: true, hidden: false }, 
 										{text: "IssuedByAgent", datafield: "IssuedByAgent", width: 100, hideable: true, hidden: false },
 										{text: "IssuedToAgent", datafield: "IssuedToAgent", width: 100, hideable: true, hidden: false }
-								]
+									]
 								});
 							});
 						</script>
@@ -2288,7 +2288,7 @@ limitations under the License.
 			select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 		</cfquery>
 		<cfquery name="authorized" dbtype="query">
-			select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+			select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 		</cfquery>
 		<cfquery name="recipientinstitution" dbtype="query">
 			select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2298,7 +2298,7 @@ limitations under the License.
 			<cfset okToPrintMessage = "">
 		<cfelse>
 			<cfset okToPrint = false>
-			<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+			<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
 		</cfif>
 		<cfset row = StructNew()>
 		<cfset row["okToPrint"] = "#okToPrint#">
@@ -2353,7 +2353,7 @@ limitations under the License.
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 			</cfquery>
 			<cfquery name="authorized" dbtype="query">
-				select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+				select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 			</cfquery>
 			<cfquery name="recipientinstitution" dbtype="query">
 				select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2396,7 +2396,7 @@ limitations under the License.
 					<cfif inhouse.c is 1 and outside.c is 1 >
 						<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_loan_summary" target="_blank">MCZ Loan Summary Report</a></li>
 					</cfif>
-					<li><a href="/Reports/MVZLoanInvoice.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
+					<li><a href="/Reports/MCZDrawerTags.cfm?transaction_id=#transaction_id#&Action=itemLabels&format=Malacology" target="_blank">MCZ Drawer Tags</a></li>
 					<li><a href="/edecView.cfm?transaction_id=#transaction_id#" target="_blank">USFWS eDec</a></li>
 				</ul>
 			</cfoutput>
@@ -2457,7 +2457,7 @@ limitations under the License.
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received by'
 					</cfquery>
 					<cfquery name="authorized" dbtype="query">
-						select count(distinct(agent_id)) c from transAgents where trans_agent_role='authorized by'
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house authorized by'
 					</cfquery>
 					<cfquery name="recipientinstitution" dbtype="query">
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='recipient institution'
@@ -2467,7 +2467,7 @@ limitations under the License.
 						<cfset okToPrintMessage = "">
 					<cfelse>
 						<cfset okToPrint = false>
-						<cfset okToPrintMessage = 'One "authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
+						<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
 					</cfif>
 				</cfcase>
 				<cfdefaultcase>

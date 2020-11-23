@@ -44,7 +44,7 @@
 		FROM
 			lat_long
 		WHERE
-			lat_long_id=#lat_long_id#
+			lat_long_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#lat_long_id#">
 	</cfquery>
 </cfoutput>
 
@@ -149,7 +149,7 @@
 				collection_contacts
 			WHERE
 				electronic_address.agent_id = collection_contacts.contact_agent_id AND
-				collection_contacts.collection_id IN (#valuelist(collID.collection_id)#) AND
+				collection_contacts.collection_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valuelist(collID.collection_id)#" list="yes">) AND
 				address_type='e-mail' AND
 				contact_role='data quality'
 			GROUP BY address
@@ -223,9 +223,10 @@
 		<cfquery name="species" dbtype="query">
 			select distinct(scientific_name) from getMapData
 		</cfquery>
+		<cfset nameList = ListQualify(valuelist(species.scientific_name), "'")>
 		<cfquery name="getClass" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select phylclass,genus || ' ' || species scientific_name from taxonomy where scientific_name in
-			 (#ListQualify(valuelist(species.scientific_name), "'")#)
+			 (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nameList#" list="yes">)
 			 group by
 			 phylclass,genus || ' ' || species
 		</cfquery>

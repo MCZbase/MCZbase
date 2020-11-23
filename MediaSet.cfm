@@ -237,7 +237,7 @@ decode(continent_ocean, null,'',' '|| continent_ocean) || decode(country, null,'
 			media_relationship,
 			1 as sortorder
        from media_relations
-	       left join #session.flatTableName# on related_primary_key = collection_object_id
+	       left join  <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif> on related_primary_key = collection_object_id
 	   where media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#m.media_id#"> 
 			and ( media_relationship = 'shows cataloged_item')
 	   union

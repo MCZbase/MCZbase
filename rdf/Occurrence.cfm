@@ -40,7 +40,7 @@
           scientific_name, author_text,
           collectors,
           last_edit_date
-    from #session.flatTableName#
+    from <cfif ucase(#session.flatTableName#) EQ 'FLAT'>FLAT<cfelse>FILTERED_FLAT</cfif>
     where guid = <cfqueryparam CFSQLTYPE="CF_SQL_VARCHAR" value="#guid#">
           and rownum < 2
 </cfquery>
