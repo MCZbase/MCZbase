@@ -1239,7 +1239,7 @@ table#pairs, th, td {
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	line-height: 1em;
+/*	line-height: 1em;*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
 /*	height: calc(1.25em + .43rem + 2px);*/
@@ -1364,7 +1364,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	line-height: 1em;
+/*	line-height: 1em;*/
 /*	height: calc(.875em + .8rem + 1px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
@@ -1400,7 +1400,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 82%;
 	font-size: .875em;
-	line-height: 1em;
+	/*line-height: 1em;*/
 /*	height: calc(.875em + .8rem + 1px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
@@ -1415,7 +1415,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	line-height: 1em;
+	/*line-height: 1em;*/
 /*	height: calc(.875em + .8rem + 1px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .6);
