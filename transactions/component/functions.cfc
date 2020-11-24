@@ -178,7 +178,7 @@ limitations under the License.
 				</div>
 				<div class="col-12">
 					<cfif potentialChildLoans.recordcount EQ 0>
-						<h3>No subloans available to add</h3>
+						<p class="mt-1">No subloans available to add</p>
 					<cfelse>
 						<label for="possible_subloans">Subloans that can be added to this exhibition-master loan:</label>
 						<div class="input-group">
@@ -236,7 +236,7 @@ limitations under the License.
 				</cfloop>
 				</ul>
 			<cfelse>
-				<ul class="pl-4 pr-0 list-style-disc"><li>None</li></ul>
+				<p>None</p>
 			</cfif>
 		</cfoutput>
 	</cfthread>
@@ -366,7 +366,7 @@ limitations under the License.
 									</cfloop>
 									</ul>
 									<cfif shippermit.recordcount eq 0>
-										<ul class="list-style-disc pl-4 pr-0 mt-1"><li class="my-2">None</li></ul>
+										<p class="mt-2">None</p>
 									</cfif>
 								</span>
 							</div>
@@ -384,11 +384,11 @@ limitations under the License.
 				</cfloop> <!--- theResult --->
 							
 				<cfif theResult.recordcount eq 0>
-					<ul tabindex="0" class="list-style-disc pl-4 pr-0"><li>No shipments found for this transaction.</li></ul>
+					<p class="mt-2">No shipments found for this transaction.</p>
 				</cfif>
 					</div><!--- shipments div --->
 			<cfcatch>
-				  <ul tabindex="0" class="list-unstyled text-danger pl-4 pr-0"><li>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</li></ul>
+				  <p class="mt-2 text-danger">Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</p>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
@@ -2681,7 +2681,7 @@ limitations under the License.
 							</li>
 						</cfloop>
 					<cfelse>
-						<li class="">None</li>
+						<li class="list-unstyled">None</li>
 					</cfif>
 				</ul>
 			</cfoutput>
