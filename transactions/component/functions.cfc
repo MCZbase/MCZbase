@@ -2671,8 +2671,9 @@ limitations under the License.
 					transaction_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfoutput>
-				<ul class="pl-4 pr-0 list-style-disc">
+			
 					<cfif projs.recordcount gt 0>
+						<ul class="pl-4 pr-0 list-style-disc">
 						<cfloop query="projs">
 							<li class="my-1">
 								<a href="/Project.cfm?Action=editProject&project_id=#project_id#" target="_blank"><strong>#project_name#</strong></a> 
