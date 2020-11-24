@@ -2680,10 +2680,10 @@ limitations under the License.
 								<a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this project from this transaction?", "Confirm Unlink Project", function() { removeProjectFromTrans(#project_id#,#transaction_id#); } ); '>Remove</a>
 							</li>
 						</cfloop>
+						</ul>
 					<cfelse>
-						<li class="list-unstyled">None</li>
+						<p class="mt-2">None</p>
 					</cfif>
-				</ul>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
