@@ -169,7 +169,7 @@ limitations under the License.
 							<cfloop query="childLoans">
 								#childseparator#
 	 							<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#childLoans.child_transaction_id#">#childLoans.loan_number#</a>
-								<button type="button" class="btn btn-xs btn-warning" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
+								<button type="button" class="btn btn-xs btn-warning py-0" id="button_remove_subloan_#childLoanCounter#" onclick=" removeSubloanFromParent(#transaction_id#,#childLoans.child_transaction_id#); ">-</button>
 								<cfset childLoanCounter = childLoanCounter + 1 >
 								<cfset childseparator = ";&nbsp;">
 							</cfloop>
