@@ -750,8 +750,8 @@ limitations under the License.
 									</cfif>
 								</span>
 							</div>
-							<div class="col-12">
-								<span class="form-row" id="subloan_section">
+							<div class="col-12 mt-2">
+								<span class="form-row" class="px-2" id="subloan_section">
 									<img src='/shared/images/indicator.gif'>
 									Loading subloans...
 								</span><!--- end subloan section ---> 
