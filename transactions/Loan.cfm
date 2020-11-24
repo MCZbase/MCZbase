@@ -709,7 +709,7 @@ limitations under the License.
 							<script>
 								$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
 							</script>
-							<div class="col-12 table-responsive mt-1" id="agentTableContainerDiv">
+							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>
 								Loading Agents....  <span id='agentWarningSpan' style="display:none;">(if agents don't appear here, there is an error).</span>
 								<script>
