@@ -384,11 +384,11 @@ limitations under the License.
 				</cfloop> <!--- theResult --->
 							
 				<cfif theResult.recordcount eq 0>
-					 <span>No shipments found for this transaction.</span>
+					<ul tabindex="0" class="list-style-disc pl-4 pr-0"><li>No shipments found for this transaction.</li></ul>
 				</cfif>
 					</div><!--- shipments div --->
 			<cfcatch>
-				 <span>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</span>
+				  <ul tabindex="0" class="list-unstyled text-danger pl-4 pr-0"><li>Error: #cfcatch.type# #cfcatch.message# #cfcatch.detail#</li></ul>
 			</cfcatch>
 			</cftry>
 		</cfoutput>

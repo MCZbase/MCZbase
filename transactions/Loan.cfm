@@ -1097,6 +1097,11 @@ limitations under the License.
 																</li>
 															</cfloop>
 														</ul>
+														<cfelse>
+															<ul class="list-style-circle pl-4 pr-2">
+																<li>
+																	Accessions not listed
+																</li></ul>
 													</cfif>
 												</li>
 											</cfloop>
