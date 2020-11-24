@@ -1396,6 +1396,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 textarea {
 	padding-left: .5em;
 	padding-right: .5em;
+	font-size: .875em;
 }
 .data-entry-textarea {
 	width: 100%;
