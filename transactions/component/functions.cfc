@@ -2483,11 +2483,11 @@ limitations under the License.
 			<cfoutput>
 				<article id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
 				<div class="row my-1 bg-grayish pb-1 border rounded">
-					<div class="w-100 text-center rounded-0 m-0 p-0" tabindex="0">
+					<div class="w-100 text-center m-0 p-0" tabindex="0">
 						<cfif okToPrint >
-							<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small p-1 m-0">OK to print</div>
+							<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
 						<cfelse>
-							<div class="alert alert-danger small p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
+							<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
 						</cfif>
 					</div>
 					<div class="col-12 mt-0">
