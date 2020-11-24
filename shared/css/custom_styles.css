@@ -1225,6 +1225,7 @@ table#pairs, th, td {
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .2em;
+	line-height: 1.5em !important;
 	vertical-align: middle;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
@@ -1333,6 +1334,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2em .2em 0;
+	line-height: 1.5em !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
@@ -1361,7 +1363,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 82%;
 	font-size: .875em;
-	height: calc(1.5em + .12em + 2px);
+/*	height: calc(1.5em + .12em + 2px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
@@ -1375,7 +1377,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	height: calc(1.5em + .12rem + 2px);
+/*	height: calc(1.5em + .12rem + 2px);*/
 	padding: .12em .5em;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
