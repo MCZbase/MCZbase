@@ -5,7 +5,7 @@
 		from
 			pt_ctspecimen_part_name
 		where 
-			upper(part_name) like '%#ucase(q)#%'
+			upper(part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(q)#%">
 		group by
 			part_name
 		order by

@@ -9,8 +9,9 @@
 		<cfquery name="s" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select SEARCH_NAME
 			from cf_canned_search
-			where canned_id=#canned_id#
+			where canned_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#canned_id#">
 		</cfquery>
+		<!--- TODO: Obtain email address from profile, instead of in user input --->
 		<form name="mailMe" method="post" action="mailSaveSearch.cfm">
 			<input type="hidden" name="action" value="preview">
 			<input type="hidden" name="canned_id" value="#canned_id#">
@@ -32,7 +33,7 @@
 		</cfif>
 			From: savedSearch@#Application.fromEmail#<br>
 			To: #address#<br>
-			Subject: Arctos saved search: #SEARCH_NAME#<br>
+			Subject: MCZbase saved search: #SEARCH_NAME#<br>
 			<p>
 				#msg#<br>
 				To view specimens, click the following link:<br>				
@@ -41,7 +42,7 @@
 				#Application.ServerRootUrl#/saved/#search_name#<br>
 				-------------------------------------------------<br>
 				<span style="font-size:small">
-				This message was sent from #Application.ServerRootUrl# at the request of an Arctos user. Please report
+				This message was sent from #Application.ServerRootUrl# at the request of an MCZbase user. Please report
 				problems to #Application.PageProblemEmail#
 				</span>
 			</p>
