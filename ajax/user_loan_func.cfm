@@ -224,8 +224,10 @@
 	<cfargument name="rack" type="numeric" required="yes">
 	
 	<cfquery name="result" datasource="#Application.uam_dbo#">
-		select box from dgr_locator where freezer = #freezer#
-		and rack = #rack#
+		select box 
+		from dgr_locator 
+		where freezer = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#freezer#">
+			and rack = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#rack#">
 		group by box order by box
 	</cfquery>
 	<cfreturn result>
@@ -385,11 +387,11 @@
 	<cfset theCollObjId = mid(theName,hPos + 2,len(theName) - hPos)>
 	<cfset result="#theName#">
 	<cftry>
-		<cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<!--- cfquery name="upBulk" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			UPDATE bulkloader 
 			SET <cfif 1=0>#theField#</cfif> = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#theValue#">
 			WHERE collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#theCollObjId#">
-		</cfquery>
+		</cfquery --->
 	<cfcatch>
 		<cfset result = "QUERY FAILED">
 	</cfcatch>
