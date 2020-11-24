@@ -1043,7 +1043,7 @@ limitations under the License.
 						</section>
 						<div class="row mx-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
-								<div class="border bg-light float-left pl-2 pb-0 w-100 rounded">
+								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
 									<div>
 										<h2 class="h3 pl-2">Accessions of material in this loan</h2>
 										<!--- List Accessions for collection objects included in the Loan --->
@@ -1097,11 +1097,6 @@ limitations under the License.
 																</li>
 															</cfloop>
 														</ul>
-														<cfelse>
-															<ul class="list-style-circle pl-4 pr-2">
-																<li>
-																	Accessions not listed
-																</li></ul>
 													</cfif>
 												</li>
 											</cfloop>
