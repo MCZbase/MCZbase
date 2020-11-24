@@ -212,7 +212,7 @@
 			preferred_agent_name.agent_name
 		end collectors,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then ''
+			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then NULL
 		else
 			preferred_agent_name.agent_id
 		end collector_id
@@ -235,7 +235,7 @@
 			preferred_agent_name.agent_name
 		end preparators,
 		case when
-			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then ''
+			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then NULL
 		else
 			preferred_agent_name.agent_id
 		end preparator_id
