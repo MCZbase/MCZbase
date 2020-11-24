@@ -407,7 +407,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input mb-2" id="common_name" name="common_name" value="#common_name#" placeholder="common name">
 										</div>
 									</div>
-									<div class="form-row mt-2">
+									<div class="form-row mt-1">
 										<div class="form-group col-md-2">
 											<label for="genus" class="data-entry-label align-left-center">Genus <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('genus');e.value='='+e.value;" > (=) </a></label>
 											<input type="text" class="data-entry-input" id="genus" name="genus" value="#genus#" placeholder="generic name">
@@ -429,7 +429,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="author_text" name="author_text" value="#author_text#" placeholder="author text">
 										</div>
 									</div>
-									<div class="form-row mb-1">
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="kingdom" class="data-entry-label align-left-center">Kingdom <a href="##" aria-hidden="true" tabindex="-1"  class="btn-link" onclick="var e=document.getElementById('kingdom');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="kingdom" name="kingdom" value="#kingdom#" placeholder="kingdom">
@@ -455,7 +455,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="subclass" id="subclass" name="subclass" value="#subclass#" placeholder="subclass">
 										</div>
 									</div>
-									<div class="form-row mb-1">
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="superorder" class="data-entry-label align-left-center">Superorder <a href="##" aria-hidden="true" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('superorder');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superorder" name="superorder" value="#superorder#" placeholder="superorder">
@@ -473,7 +473,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="infraorder" name="infraorder" value="#infraorder#" placeholder="infraorder">
 										</div>
 									</div>
-									<div class="form-row mb-1">
+									<div class="form-row mb-0">
 										<div class="col-md-2">
 											<label for="superfamily" class="data-entry-label align-left-center">Superfamily <a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="var e=document.getElementById('superfamily');e.value='='+e.value;">(=) </a></label>
 											<input type="text" class="data-entry-input" id="superfamily" name="superfamily" value="#superfamily#" placeholder="superfamily">
@@ -495,7 +495,7 @@ limitations under the License.
 											<input type="text" class="data-entry-input" id="taxon_remarks" name="taxon_remarks" value="#taxon_remarks#"  placeholder="taxon remarks">
 										</div>
 									</div>
-									<div class="form-row mb-3 mt-2">
+									<div class="form-row mb-3 mt-1">
 										<div class="col-md-3">
 											<label for="nomenclatural_code" class="data-entry-label align-left-center">Nomenclatural Code</label>
 											<select name="nomenclatural_code" class="data-entry-select" id="nomenclatural_code">
