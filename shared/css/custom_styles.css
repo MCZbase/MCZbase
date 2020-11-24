@@ -1013,6 +1013,9 @@ table.inputTable tr {
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f8f9fa;
 }
+.table-responsive {
+	font-size: .875em;
+}
 .card-header:first-child {
     border-radius: .25em .25em 0 0;
 }
