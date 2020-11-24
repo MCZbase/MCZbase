@@ -210,14 +210,19 @@
 			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
-		end collectors
+		end collectors,
+		case when
+			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then NULL
+		else
+			preferred_agent_name.agent_id
+		end collector_id
 	from
 		collector,
 		preferred_agent_name
 	where
 		collector.collector_role='c' and
 		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = #collection_object_id#
+		collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY
 		coll_order
 </cfquery>
@@ -228,14 +233,19 @@
 			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
 		else
 			preferred_agent_name.agent_name
-		end preparators
+		end preparators,
+		case when
+			#oneOfUs# != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then NULL
+		else
+			preferred_agent_name.agent_id
+		end preparator_id
 	from
 		collector,
 		preferred_agent_name
 	where
 		collector.collector_role='p' and
 		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = #collection_object_id#
+		collector.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	ORDER BY
 		coll_order
 </cfquery>
@@ -253,7 +263,7 @@
 		preferred_agent_name attribute_determiner
 	where
 		attributes.determined_by_agent_id = attribute_determiner.agent_id and
-		attributes.collection_object_id = #collection_object_id#
+		attributes.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 <cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 SELECT distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
@@ -271,7 +281,7 @@ FROM
          on collection.collection_id = rcat.collection_id
      left join ctbiol_relations ctrel
       on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-WHERE rel.collection_object_id=#collection_object_id#
+WHERE rel.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
       and ctrel.rel_type <> 'functional'
 UNION
 SELECT
@@ -288,7 +298,7 @@ FROM
       on irel.collection_object_id = rcat.collection_object_id
      left join collection
       on collection.collection_id = rcat.collection_id
-WHERE irel.related_coll_object_id=#collection_object_id#
+WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
       and ctrel.rel_type <> 'functional'
 )
 </cfquery>
@@ -314,7 +324,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 		citation.publication_id = formatted_publication.publication_id AND
 		format_style='short' and
 		citation.publication_id = publication.publication_id and
-		citation.collection_object_id = #collection_object_id#
+		citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
@@ -371,7 +381,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									(select * from formatted_publication where format_style='short') formatted_publication
 								WHERE
 									identification.publication_id=formatted_publication.publication_id (+) and
-									identification.collection_object_id = #collection_object_id#
+									identification.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 								ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 							</cfquery>
 							<cfloop query="identification">
@@ -390,7 +400,7 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 									WHERE
 										identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id and
 										taxonomy.taxon_name_id=common_name.taxon_name_id (+) and
-										identification_id=#identification_id#
+										identification_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#identification_id#">
 								</cfquery>
 								<cfquery name="getTaxa" dbtype="query">
 									select
@@ -892,10 +902,20 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 					</cfif>
 				</div>
 				<cfloop query="colls">
+					<cfset collectorLink ="">
+					<cfset collectorLinkEnd ="">
+					<cfif len(collector_id) GT 0>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+							<cfset collectorLink = "<a href='/agents.cfm?agent_id=#collector_id#' target='_blank'>" >
+						<cfelse>
+							<cfset collectorLink = "<a href='/agents/Agent.cfm?agent_id=#collector_id#' target='_blank'>" >
+						</cfif>
+						<cfset collectorLinkEnd ="</a>">
+					</cfif>
 					<div class="detailBlock">
 						<span class="detailData">
 							<span class="innerDetailLabel"></span>
-							#collectors#
+							#collectorLink##collectors##collectorLinkEnd#
 						</span>
 					</div>
 				</cfloop>
@@ -909,10 +929,20 @@ WHERE irel.related_coll_object_id=#collection_object_id#
 						</cfif>
 					</div>
 					<cfloop query="preps">
+						<cfset preparatorLink ="">
+						<cfset preparatorLinkEnd ="">
+						<cfif len(preparator_id) GT 0>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+								<cfset preparatorLink = "<a href='/agents.cfm?agent_id=#preparator_id#' target='_blank'>" >
+							<cfelse>
+								<cfset preparatorLink = "<a href='/agents/Agent.cfm?agent_id=#preparator_id#' target='_blank'>" >
+							</cfif>
+							<cfset preparatorLinkEnd ="</a>">
+						</cfif>
 						<div class="detailBlock">
 							<span class="detailData">
 								<span class="innerDetailLabel"></span>
-								#preparators#
+								#preparatorLink##preparators##preparatorLinkEnd#
 							</span>
 						</div>
 					</cfloop>
