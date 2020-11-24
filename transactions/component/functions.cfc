@@ -2483,17 +2483,18 @@ limitations under the License.
 			<cfoutput>
 				<article id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
 				<div class="row my-1 bg-grayish pb-1 border rounded">
+					<div class="w-100 text-center float-right rounded-0 mt-0 mb-0 py-0" tabindex="0">
+						<cfif okToPrint >
+							<span id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small px-1">OK to print</span>
+						<cfelse>
+							<span class="alert alert-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
+						</cfif>
+					</div>
 					<div class="col-12 mt-0">
 							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>			
 							</h2>		  
-							<div class="col alert alert-success text-center float-right rounded-0 mt-0 mb-0 py-0" tabindex="0">
-									<cfif okToPrint >
-										<span id="printStatus" aria-label="This record has the minimum requirements to print" class="text-success  text-center small px-1">OK to print</span>
-									<cfelse>
-										<span class="text-danger small px-1" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</span>
-									</cfif>
-							</div>
+
 								<cfset i=1>
 								<cfloop query="transAgents">
 										<cfif (i MOD 2) EQ 0> 
