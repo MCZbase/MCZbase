@@ -204,13 +204,13 @@
 		<cfelseif collection_id is -1>
 			<cfset w=w & " and identification_taxonomy.identification_id is null">
 		</cfif>
-		<cfset sql="select * from (" & s & ' ' & f & ' ' & w & ' group by
+		<cfset sql="select * from (" & s & " " & f & " " & w & " group by
 				taxonomy.taxon_name_id,
 				taxonomy.scientific_name,
 				taxonomy.subgenus
 			order by taxonomy.scientific_name) where 
 				subgenus is null or (not scientific_name = replace(matches,'<b>(</b>'|| subgenus || '<b>)</b>','('||subgenus||')') )
-			rownum < #limit#'>
+			rownum < #limit# " >
 			
 		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#			
