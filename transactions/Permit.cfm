@@ -1727,7 +1727,7 @@ limitations under the License.
 						mczbase.get_part_prep(specimen_part.collection_object_id),
 						decode(mczbase.concatcommonname(taxon_name_id),null,'none recorded',mczbase.concatcommonname(taxon_name_id))
 				</cfquery>
-				<div id="permitaccessionsummary" class="row">
+				<div id="permitaccessionsummary" class="row pb-3">
 					<div class="col-12">
 						<h3 class="h5">Accession Summary (Salvage Permit Reporting)</h3>
 					</div>
