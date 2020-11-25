@@ -368,7 +368,7 @@
 			<cfelse>
 				<cfloop query="related">
 					<li>
-						#TAXON_RELATIONSHIP# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><i><b>#related_name#</b></i></a>
+						#TAXON_RELATIONSHIP# of <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><i><b>#related_name#</b></i></a>
 						<cfif len(RELATION_AUTHORITY) gt 0>
 							(Authority: #RELATION_AUTHORITY#)
 						</cfif>
@@ -376,7 +376,7 @@
 				</cfloop>
 				<cfloop query="imp_related">
 					<li>
-						<a href="/TaxonomyDetails.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><i><b>#imp_related_name#</b></i></a>
+						<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><i><b>#imp_related_name#</b></i></a>
 						is #imp_TAXON_RELATIONSHIP#
 						<cfif len(imp_RELATION_AUTHORITY) gt 0>
 							(Authority: #imp_RELATION_AUTHORITY#)

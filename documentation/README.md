@@ -53,7 +53,7 @@ Filenames for search and results pages for objects SHOULD be plural nouns starti
 
 File names that represent actions that can be taken with objects SHOULD be a lower case verb composed with noun starting with an upper case letter: /taxonomy/showTaxonomy.cfm
 
-In general, use filenames and organization of directories such that redesign files can coexist with the files they will replace. For example, /shared/ replaces /includes/, and /Taxa.cfm replaces /Taxonomy.cfm (while TaxonomyDetails.cfm and other top level Taxonomy... pages move to /taxonomy/
+In general, use filenames and organization of directories such that redesign files can coexist with the files they will replace. For example, /shared/ replaces /includes/, and /Taxa.cfm replaces /Taxonomy.cfm (while TaxonomyDetails.cfm and other top level Taxonomy... pages move to /taxonomy/ as showTaxonomy.cfm etc.)
 
 ### Core Pages For an Object
 
@@ -61,9 +61,9 @@ For a given database concept (e.g. Taxonomy, Publication, Media), there SHOULD, 
 
 (1) Search with Results page – a search form with a grid that ajax loads and displays the search results in tabular form, often access is allowed for role=public. These forms support an http-get API where providing the page with query parameters and the parameter ''execute=true ''will cause the search form to be filled in and the search to execute, so that other pages may directly link to search results.
 
-(2) Details page – read only details of a specific record, often access is allowed for role=public. The details page may be the target of a redirect in the reqest object/guid API managed by missing.cfm (e.g. /guid/, /name/, etc).
+(2) Details page – read only details of a specific record, often access is allowed for role=public. The details page may be the target of a redirect in the reqest object/guid API managed by missing.cfm (e.g. /guid/, /name/, etc).   These pages should be named with a lowercase verb show e.g. /taxonomy/showTaxonomy.cfm.
 
-(3) Edit and Create pages – contains forms to create a new record and to edit an existing record, access usually controlled to a role=manage\_x.
+(3) Edit and Create pages – contains forms to create a new record and to edit an existing record, access usually controlled to a role=manage\_x.   If multiple create/replace/update actions are carried out by a single file it SHOULD be named with just the upper case noun, e.g. /taxonomy/Taxonomy.cfm, however, if the file carries out only a single action, it SHOULD be composed with a lower case verb for that action e.g. /foo/editFoo.cfm.   
 
 ### Directory Organization
 
@@ -83,11 +83,11 @@ Accompany top level pages about objects (nouns, in upper case), with a lower cas
 
 	Taxa.cfm (search with results page (plural) role=public)
 	taxonomy/
-	taxonomy/Taxonomy.cfm (taxonomy editor (singular), role=manage\_taxonomy)
-	taxonomy/showTaxonomy.cfm (display taxonomy details (verbSingularNoun) role=public)
-	taxonomy/js/taxonomy.js (supporting javascript files)
-	taxonomy/component/search.cfc backing methods for /Taxa.cfm search
-	taxonomy/component/functions.cfc other backing methods particular to taxa.
+	taxonomy/Taxonomy.cfm (taxonomy editor (singular), role=manage\_taxonomy, create and edit functionality).
+	taxonomy/showTaxonomy.cfm (display taxonomy details (verbSingularNoun) role=public).
+	taxonomy/js/taxonomy.js (supporting javascript files).
+	taxonomy/component/search.cfc (backing methods for /Taxa.cfm search role=public).
+	taxonomy/component/functions.cfc (other backing methods particular to taxa, backing functions for create/edit, role=manage\_taxonomy).
 
 Place javascript functions that will be widely used outside their concept in /shared/, e.g. /shared/js/vocabularies.js for ajax lookups of controlled vocabulary terms. If a javascript function will be used outside of its concept, place it in a file in /shared/js/ and include this file in /shared/\_header.cfm. If a javascript function is only used within a concept, place it in a file in /{concept}/js/, include this file in /shared/\_header.cfm, but in a section that checks for the /concept/ path in the request (or in rare cases, where the code isn’t reused include directly from a .cfm file, or more likely place inline in that file).
 
