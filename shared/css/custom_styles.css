@@ -1543,6 +1543,31 @@ input#readMore_check_id {display:none;}
 .list-style-disc {
 	list-style-type: disc;
 }
+input[type=radio] { 
+	display:none;
+} 
+
+label {
+    display: block;
+    padding-left: 1.5em;
+    text-indent: -.7em;
+}
+
+input[type=radio] + label:before {
+	font-family: FontAwesome;
+	display: inline-block;
+	content: "\f096";
+	letter-spacing: 10px;
+	cursor: pointer;
+}
+
+input[type=radio]:checked + label:before { 
+	content: "\f046";
+} 
+
+input[type=radio]:checked + label:before { 
+	letter-spacing: 8px;
+} 
 #overlay {
   	position: absolute;
   	top: 0;
