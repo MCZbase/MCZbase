@@ -494,7 +494,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 										</cfif>
 								</cfif>
 								#type_status# of
-								<a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 								<cfif find("(ms)", #type_status#) NEQ 0>
 									<!--- Type status with (ms) is used to mark to be published types,
 `										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.

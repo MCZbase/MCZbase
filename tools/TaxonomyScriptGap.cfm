@@ -241,7 +241,7 @@ end;
 					taxupfail
 				where
 					taxonomy.phylum=taxupfail.phylum and
-					taxupfail.phylum like '#l#%'
+					taxupfail.phylum like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#l#%">
 				group by
 					taxonomy.phylum,
 					taxonomy.kingdom,
@@ -250,7 +250,10 @@ end;
 					taxonomy.phylum
 		</cfquery>
 		<cfquery name="g" dbtype="query">
-			select phylum,fail from d group by phylum,fail order by phylum
+			select phylum, fail 
+			from d 
+			group by phylum,fail 
+			order by phylum
 		</cfquery>
 		<table border>
 			<tr>
@@ -260,18 +263,21 @@ end;
 			</tr>
 			<cfloop query="g">
 				<cfquery name="f" dbtype="query">
-					select kingdom,count(*) n from d where phylum='#g.phylum#' group by kingdom order by kingdom
+					select kingdom,count(*) n 
+					from d 
+					where phylum = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#g.phylum#"> 
+					group by kingdom 
+					order by kingdom
 				</cfquery>
 				<tr>
 					<td>
-						<a href="/TaxonomyResults.cfm?phylum==#phylum#">#phylum#</a>
+						<a href="/Taxa.cfm?execute=true&phylum==#phylum#">#phylum#</a>
 					</td>
 					<td>#f.n#</td>
 					<td>
-						
 						<cfloop query="f">
 							<div>
-								<a href="/TaxonomyResults.cfm?kingdom==#kingdom#&phylum==#g.phylum#">#kingdom#</a>
+								<a href="/Taxa.cfm?execute=true&kingdom==#kingdom#&phylum==#g.phylum#">#kingdom#</a>
 							</div>
 						</cfloop>
 					</td>
@@ -300,33 +306,38 @@ end;
 					taxupfail
 				where
 					taxonomy.phylorder=taxupfail.phylorder and
-					taxupfail.phylorder like '#l#%'
+					taxupfail.phylorder like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#l#%">
 				order by
 					taxonomy.phylorder
 		</cfquery>
 		<cfquery name="g" dbtype="query">
-			select phylorder,fail from d group by phylorder,fail order by phylorder
+			select phylorder, fail 
+			from d 
+			group by phylorder, fail 
+			order by phylorder
 		</cfquery>
 		<table border>
 			<tr>
-				<th>phylorder</th>
+				<th>Order</th>
 				<th>##</th>
 				<th>phylum</th>
 			</tr>
 			<cfloop query="g">
 				<cfquery name="f" dbtype="query">
-					select phylum,count(*) n from d where phylorder='#phylorder#' group by phylum order by phylum
+					select phylum, count(*) n 
+					from d 
+					where phylorder = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#phylorder#">
+					group by phylum order by phylum
 				</cfquery>
 				<tr>
 					<td>
-						<a href="/TaxonomyResults.cfm?phylorder==#phylorder#">#phylorder#</a>
+						<a href="/Taxa.cfm?execute=true&phylorder==#phylorder#">#phylorder#</a>
 					</td>
 					<td>#f.n#</td>
 					<td>
-						
 						<cfloop query="f">
 							<div>
-								<a href="/TaxonomyResults.cfm?phylorder==#g.phylorder#&phylum=#phylum#">#phylum#</a>
+								<a href="/Taxa.cfm?execute=true&phylorder==#g.phylorder#&phylum=#phylum#">#phylum#</a>
 							</div>
 						</cfloop>
 					</td>
@@ -336,7 +347,6 @@ end;
 	</cfoutput>
 </cfif>
 <cfif action is 'duFam'>
-	
 	<br>Letter-links are first letter of family
 	<cfoutput>
 		<cfif not isdefined("l")>
@@ -355,12 +365,15 @@ end;
 					taxupfail
 				where
 					taxonomy.family=taxupfail.family and
-					taxupfail.family like '#l#%'
+					taxupfail.family like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#l#%">
 				order by
 					taxonomy.family
 		</cfquery>
 		<cfquery name="g" dbtype="query">
-			select family,fail from d group by family,fail order by family
+			select family, fail 
+			from d 
+			group by family, fail 
+			order by family
 		</cfquery>
 		<table border>
 			<tr>
@@ -370,18 +383,22 @@ end;
 			</tr>
 			<cfloop query="g">
 				<cfquery name="f" dbtype="query">
-					select phylorder,count(*) n from d where family='#family#' group by phylorder order by phylorder
+					select phylorder, count(*) n 
+					from d 
+					where family = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#family#">
+					group by phylorder 
+					order by phylorder
 				</cfquery>
 				<tr>
 					<td>
-						<a href="/TaxonomyResults.cfm?family==#family#">#family#</a>
+						<a href="/Taxa.cfm?execute=true&family==#family#">#family#</a>
 					</td>
 					<td>#f.n#</td>
 					<td>
 						
 						<cfloop query="f">
 							<div>
-								<a href="/TaxonomyResults.cfm?family==#g.family#&phylorder=#phylorder#">#phylorder#</a>
+								<a href="/Taxa.cfm?execute=true&family==#g.family#&phylorder=#phylorder#">#phylorder#</a>
 							</div>
 						</cfloop>
 					</td>
@@ -410,12 +427,15 @@ end;
 					taxupfail
 				where
 					taxonomy.genus=taxupfail.genus and
-					taxupfail.genus like '#l#%'
+					taxupfail.genus like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#l#%">
 				order by
 					taxonomy.genus
 		</cfquery>
 		<cfquery name="g" dbtype="query">
-			select genus,fail from d group by genus,fail order by genus
+			select genus, fail 
+			from d 
+			group by genus, fail 
+			order by genus
 		</cfquery>
 		<table border>
 			<tr>
@@ -425,18 +445,22 @@ end;
 			</tr>
 			<cfloop query="g">
 				<cfquery name="f" dbtype="query">
-					select family,count(*) n from d where genus='#genus#' group by family order by family
+					select family, count(*) n 
+					from d 
+					where genus = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#genus#">
+					group by family 
+					order by family
 				</cfquery>
 				<tr>
 					<td>
-						<a href="/TaxonomyResults.cfm?genus==#genus#">#genus#</a>
+						<a href="/Taxa.cfm?execute=true&genus==#genus#">#genus#</a>
 					</td>
 					<td>#f.n#</td>
 					<td>
 						
 						<cfloop query="f">
 							<div>
-								<a href="/TaxonomyResults.cfm?genus==#g.genus#&family=#family#">#family#</a>
+								<a href="/Taxa.cfm?execute=true&genus==#g.genus#&family=#family#">#family#</a>
 							</div>
 						</cfloop>
 					</td>
@@ -471,7 +495,7 @@ end;
 				<tr>
 					<td>#fail#</td>
 					<td>
-						<a href="/TaxonomyResults.cfm?genus==#genus#">#genus#</a>
+						<a href="/Taxa.cfm?execute=true&genus==#genus#">#genus#</a>
 					</td>
 					<td>
 						<cfquery name="f" datasource="uam_god">
@@ -479,7 +503,7 @@ end;
 						</cfquery>
 						<cfloop query="f">
 							<div>
-								<a href="/TaxonomyResults.cfm?genus==#g.genus#&family=#family#">#family#</a>
+								<a href="/Taxa.cfm?execute=true&genus==#g.genus#&family=#family#">#family#</a>
 							</div>
 						</cfloop>
 					</td>
