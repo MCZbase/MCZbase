@@ -39,15 +39,15 @@
 </script>
 <cfoutput>	
 	<form name="cf" method="get" action="TaxonomyGaps.cfm">
-		<label for="action">Action</label>
+		<label for="action">Check Taxonomy records for</label>
 		<select name="action" id="action" onchange="showOptions(this.value);";>
 			<option value=""></option>
 			<option <cfif action is "gap"> selected="selected" </cfif> 
-				value="gap">Missing values</option>
+				value="gap">Missing higher taxon values</option>
 			<option <cfif action is "funkyChar"> selected="selected" </cfif> 
-				value="funkyChar">scientific name contains unexpected characters</option>
+				value="funkyChar">Scientific names containing unexpected characters</option>
 			<option <cfif action is "higherCrash"> selected="selected" </cfif> 
-				value="higherCrash">Lower taxon placed in multiple Higher Taxa</option>
+				value="higherCrash">Lower taxon placed in multiple higher taxa</option>
 		</select>
 		<div id="higherCrash" style="display:none;">
 			<label for="lterm">Term....</label>
