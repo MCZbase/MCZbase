@@ -503,9 +503,9 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text small" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller" id="issued_by_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input" required >
+									<input  name="issued_by_agent_name" id="issued_by_agent_name" class="reqdClr form-control data-entry-input data-height" required >
 								</div>
 								<input type="hidden" name="issued_by_agent_id" id="issued_by_agent_id" >
 								<script>
@@ -521,9 +521,9 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text small" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller" id="issued_to_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input" required >
+									<input  name="issued_to_agent_name" id="issued_to_agent_name" class="reqdClr form-control data-entry-input data-height" required >
 								</div>
 								<input type="hidden" name="issued_to_agent_id" id="issued_to_agent_id" >
 								<script>
@@ -539,9 +539,9 @@ limitations under the License.
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text small" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller" id="contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input">
+									<input  name="contact_agent_name" id="contact_agent_name" class="form-control data-entry-input data-height">
 								</div>
 								<input type="hidden" name="contact_agent_id" id="contact_agent_id" >
 								<script>
