@@ -227,7 +227,7 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-											<td><input type="submit" value="save review" class="btn btn-xs mt-4 btn-primary"></td>
+											<td><input type="submit" value="save review" class="btn btn-xs mb-2 mt-4 btn-primary"></td>
 										</form>
 									</tr>
 								</cfloop>
@@ -306,7 +306,7 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-											<td><input type="submit" value="save review" class="btn mt-4 btn-xs btn-primary"></td>
+											<td><input type="submit" value="save review" class="btn mt-4 mb-2 btn-xs btn-primary"></td>
 										</form>
 									</tr>
 								</cfloop>
@@ -384,7 +384,7 @@
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
 												<input type="text" name="reviewer_comment" id="reviewer_comment" value="#reviewer_comment#" class="data-entry-input"></td>
-											<td><input type="submit" value="save review" class="btn mt-4 btn-primary btn-xs"></td>
+											<td><input type="submit" value="save review" class="btn mt-4 mb-2 btn-primary btn-xs"></td>
 										</form>
 									</tr>
 								</cfloop>
