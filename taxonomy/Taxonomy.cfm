@@ -637,9 +637,7 @@ limitations under the License.
 							</cfif>
 							<label for="subgenus" class="col-12 col-md-3 col-form-label align-left float-left">Subgenus</label>
 							<div class="col-12 col-md-9 float-left">
-								<span class="float-left d-inline brackets mt-1">( </span>
-								<input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input m-1 w-75 float-left">
-								<span class="float-left d-inline brackets mt-1">)</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> 
+								<span class="float-left d-inline brackets mt-1">( </span><input type="text" name="subgenus" id="subgenus" value="#gettaxa.subgenus#" class="data-entry-input m-1 w-75 float-left"><span class="float-left d-inline brackets mt-1"> )</span><small class="text-danger float-left mx-3"> #subgenus_message# </small> 
 							</div>
 						</div>
 			
