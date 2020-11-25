@@ -160,15 +160,15 @@
 	<cfoutput>
 		<cfquery name="ctINFRASPECIFIC_RANK" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select INFRASPECIFIC_RANK from ctINFRASPECIFIC_RANK
-			where infraspecific_rank in ('forma','subsp.','var.')
+			where infraspecific_rank in ('forma','subsp.','var.','ab.','fo.')
 		</cfquery>
 		<hr> Showing the top #limit# records which have characters other than:
 		<ul>
 			<li>A-Za-z (upper or lower case Roman characters)</li>
 			<li>[a-z]-[a-z] (lower-case character followed by a dash followed by another lower-case character)</li>
-			<li>&##215; (hybrid or multiplication character)</li>
+			<li>&##215; (multiplication sign to mark hybrids)</li>
 			<li>
-				Unstoopidified values in ctinfraspecific_rank
+				Allowed values in ctinfraspecific_rank
 				<ul>
 					<cfloop query="ctINFRASPECIFIC_RANK">
 						<li>#INFRASPECIFIC_RANK#</li>
@@ -176,11 +176,12 @@
 				</ul>
 			</li>
 		</ul>
-		Note: Combinations are goofy. Some records which have >1 excluded characters show up here anyway. 
-		"Orchis &##215; semisaccata nothosubsp. murgiana" was valid as of this writing, but still makes the list. Ignore it.
+		Note: Some records which have more than one excluded character will show up here anyway. 
 		<cfset s="select 
 				taxonomy.taxon_name_id,
-				regexp_replace(taxonomy.scientific_name, '([^a-zA-Z ])','<b>\1</b>') craps,
+				taxonomy.subgenus,
+				taxonomy.scientific_name,
+				regexp_replace(taxonomy.scientific_name, '([^a-zA-Z ])','<b>\1</b>') matches,
 				count(identification_taxonomy.identification_id) used">
 		<cfset f="from 
 				taxonomy,
@@ -205,8 +206,11 @@
 		</cfif>
 		<cfset sql="select * from (" & s & ' ' & f & ' ' & w & ' group by
 				taxonomy.taxon_name_id,
-				taxonomy.scientific_name
-			order by taxonomy.scientific_name) where rownum < #limit#'>
+				taxonomy.scientific_name,
+				taxonomy.subgenus
+			order by taxonomy.scientific_name) where 
+				subgenus is null or (not scientific_name = replace(matches,'<b>(</b>'|| subgenus || '<b>)</b>','('||subgenus||')') )
+			rownum < #limit#'>
 			
 		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#			
@@ -219,7 +223,8 @@
 			<cfloop query="md">
 				<tr>
 					<td>
-					<a href="#Application.ServerRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">#craps#</a>
+					<cfset matches = replace(matches,'<b> </b>','<b>_</b>','all')>
+					<a href="#Application.ServerRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=#taxon_name_id#">#matches#</a>
 					</td>
 					<td>#used#</td>
 				</tr>
