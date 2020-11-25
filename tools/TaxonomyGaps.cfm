@@ -1,7 +1,7 @@
 <cfinclude template="/includes/_header.cfm">
     <div style="width: 100%;">
         <div style="width: 50em; margin: 0 auto;padding: 2em 0;">
-<cfset title="Taxonomy is a mess">
+<cfset title="Taxonomy quality control">
 <cfif not isdefined("limit")>
 	<cfset limit=1000>
 </cfif>
@@ -45,9 +45,9 @@
 			<option <cfif action is "gap"> selected="selected" </cfif> 
 				value="gap">Missing values</option>
 			<option <cfif action is "funkyChar"> selected="selected" </cfif> 
-				value="funkyChar">scientific name contains funky characters</option>
+				value="funkyChar">scientific name contains unexpected characters</option>
 			<option <cfif action is "higherCrash"> selected="selected" </cfif> 
-				value="higherCrash">Higher Taxonomy crash</option>
+				value="higherCrash">Lower taxon placed in multiple Higher Taxa</option>
 		</select>
 		<div id="higherCrash" style="display:none;">
 			<label for="lterm">Term....</label>
@@ -138,16 +138,16 @@
 		<table border>
 			<tr>
 				<td>#lterm#</td>
-				<td>#lterm#</td>
+				<td>#hterm#</td>
 				<td>nomenclatural_code</td>
 			</tr>
 			<cfloop query="termCrash">
 				<tr>
 					<td>
-						<a href="/TaxonomyResults.cfm?#lterm#==#l#">#l#</a>
+						<a href="/Taxa.cfm?execute=true&#lterm#==#l#">#l#</a>
 					</td>
 					<td>
-						<a href="/TaxonomyResults.cfm?#hterm#==#h#">#h#</a>
+						<a href="/Taxa.cfm?execute=true&#hterm#==#h#&#lterm#==#l#">#h#</a>
 					</td>
 					<td>#nomenclatural_code#</td>
 				</tr>
