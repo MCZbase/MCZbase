@@ -331,7 +331,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
-								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
+								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select data-height">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -354,7 +354,7 @@ limitations under the License.
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="#gettaxa.taxonid#" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="px-2 border w-100 rounded py-0">
+									class="data-entry-input">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(gettaxa.taxonid,regex,replacement)>
 								<cfelse>
@@ -418,7 +418,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
-								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
+								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select data-height" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -439,7 +439,7 @@ limitations under the License.
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
-								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="#gettaxa.scientificnameid#" 
+								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="#gettaxa.scientificnameid#" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
@@ -1139,7 +1139,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
-								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
+								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select data-height">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -1162,7 +1162,7 @@ limitations under the License.
 							<div class="col-12 col-xl-6 pl-0 float-left">
 								<input type="text" name="taxonid" id="taxonid" value="" 
 									placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#" 
-									class="px-2 border w-100 rounded py-0">
+									class="data-entry-input">
 								<a id="taxonid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
 								<script>
 									$(document).ready(function () { 
@@ -1195,7 +1195,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="col-12 col-md-6 form-row ml-md-1 border bg-light pb-2 pt-1 rounded mt-2">
-							<label for="scientificnameid" class="mb-0">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
+							<label for="scientificnameid" class="data-entry-label">GUID for Nomenclatural Act (dwc:scientificNameID)</label>
 							<cfset pattern = "">
 							<cfset placeholder = "">
 							<cfset regex = "">
@@ -1211,7 +1211,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
-								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select" >
+								<select name="scientificnameid_guid_type" id="scientificnameid_guid_type" class="data-entry-select data-height" >
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
@@ -1232,7 +1232,7 @@ limitations under the License.
 								<a href="#searchlink#" id="scientificnameid_search" style="font-size: 86%;" target="_blank" #searchclass#>#searchtext# </a>
 							</div>
 							<div class="col-12 col-xl-6 pl-0 float-left">
-								<input type="text" name="scientificnameid" class="px-2 border w-100 rounded py-0" id="scientificnameid" value="" 
+								<input type="text" name="scientificnameid" class="data-entry-input" id="scientificnameid" value="" 
 									placeholder="#placeholder#" 
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<a id="scientificnameid_link" href="" target="_blank" class="px-1 py-0 d-block line-height-sm mt-1" style="font-size: 86%;"></a> 
