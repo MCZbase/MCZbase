@@ -1702,6 +1702,7 @@ limitations under the License.
 					</table>
 					</div>
 				</section>
+				<section class="container-fluid">
 				<cfquery name="permitsalvagereport" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						count(cataloged_item.collection_object_id) as cat_count,
@@ -1732,7 +1733,7 @@ limitations under the License.
 						<cfif permitsalvagereport.RecordCount eq 0>
 							<strong>No accessions for this Permissions &amp; Rights Document</strong>
 	 					<cfelse>
-							<table class="table table-responsive border">
+							<table class="table d-table table-responsive border">
 								<thead class="thead-light">
 									<tr>
 										<th>Specimen&nbsp;Count</th>
@@ -1763,6 +1764,7 @@ limitations under the License.
 						</cfif>
 					</div>
 				</div>
+					</section>
 			</main>
 		</cfoutput>
 	</cfcase>
