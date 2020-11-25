@@ -1287,6 +1287,7 @@ select.data-entry-select {
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
+	height: calc(1.5em + .12em + 2px)!important;
 }
 data-entry-select:after {
 	position: absolute;
