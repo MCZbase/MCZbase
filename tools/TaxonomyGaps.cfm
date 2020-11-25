@@ -208,9 +208,10 @@
 				taxonomy.taxon_name_id,
 				taxonomy.scientific_name,
 				taxonomy.subgenus
-			order by taxonomy.scientific_name) where 
+			order by taxonomy.scientific_name) 
+			where 
 				subgenus is null or (not scientific_name = replace(matches,'<b>(</b>'|| subgenus || '<b>)</b>','('||subgenus||')') )
-			rownum < #limit# " >
+				and rownum < #limit# " >
 			
 		<cfquery name="md" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			#preservesinglequotes(sql)#			
