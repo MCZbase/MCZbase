@@ -1543,31 +1543,6 @@ input#readMore_check_id {display:none;}
 .list-style-disc {
 	list-style-type: disc;
 }
-input.taxaOptions[type=radio] { 
-	display:none;
-} 
-
-label.taxaOptions {
-    display: block;
-    padding-left: 1.5em;
-    text-indent: -.7em;
-}
-
-input.taxaOptions[type=radio] + label.taxaOptions:before {
-	font-family: FontAwesome;
-	display: inline-block;
-	content: "\f096";
-	letter-spacing: 10px;
-	cursor: pointer;
-}
-
-input.taxaOptions[type=checkbox]:checked + label.taxaOptions:before { 
-	content: "\f046";
-} 
-
-input.taxaOptions[type=checkbox]:checked + label.taxaOptions:before { 
-	letter-spacing: 8px;
-} 
 #overlay {
   	position: absolute;
   	top: 0;

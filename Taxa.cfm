@@ -344,16 +344,16 @@ limitations under the License.
 													<cfset validFlagNotSelected = ''>
 												</cfif>
 												<li class="list-group-item px-0 pb-0 pt-1">
-													<input class="taxaOptions" type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
-													<label for="validFGChecked" class="taxaOptions btn-link smaller-text d-inline">Show all matches.</label>
+													<input type="radio" name="valid_catalog_term_fg" id="validFGChecked" #validFlagAllSelected# value="">
+													<label for="validFGChecked" class="btn-link smaller-text d-inline">Show all matches.</label>
 												</li>
 												<li class="list-group-item px-0 pb-0 pt-1">
-													<input class="taxaOptions" type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
-													<label for="validFGUnchecked" class="taxaOptions btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
+													<input type="radio" name="valid_catalog_term_fg" id="validFGUnchecked" #validFlagOnlySelected# value="1">
+													<label for="validFGUnchecked" class="btn-link smaller-text d-inline">Show only taxa currently accepted for data entry.</label>
 												</li>
 												<li class="list-group-item px-0 py-1">
-													<input class="taxaOptions" type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
-													<label for="validFGNot" class="taxaOptions btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
+													<input type="radio" name="valid_catalog_term_fg" id="validFGNot" #validFlagNotSelected# value="0">
+													<label for="validFGNot" class="btn-link smaller-text d-inline">Show only taxa not accepted for data entry.</label>
 												</li>
 											</ul>
 										</fieldset>
@@ -374,16 +374,16 @@ limitations under the License.
 													<cfset usedInIdNotSelected = ''>
 												</cfif>
 												<li class="list-group-item px-0 pb-0 pt-1">
-													<input class="taxaOptions" type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
-													<label for="wehavesomeAll" class="taxaOptions btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
+													<input type="radio" name="we_have_some" id="wehavesomeAll" #usedInIdAllSelected# value="">
+													<label for="wehavesomeAll" class="btn-link smaller-text d-inline">Show all taxa without regard for use.</label>
 												</li>
 												<li class="list-group-item px-0 pb-0 pt-1">
-													<input class="taxaOptions" type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
-													<label for="wehavesomeHave" class="taxaOptions btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
+													<input type="radio" name="we_have_some" id="wehavesomeHave" #usedInIdOnlySelected# value="1">
+													<label for="wehavesomeHave" class="btn-link smaller-text d-inline">Show only taxa for which cataloged items exist.</label>
 												</li>
 												<li class="list-group-item px-0 py-1">
-													<input class="taxaOptions" type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
-													<label for="wehavesomeNot" class="taxaOptions btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
+													<input type="radio" name="we_have_some" id="wehavesomeNot" #usedInIdNotSelected# value="0">
+													<label for="wehavesomeNot" class="btn-link smaller-text d-inline">Show only taxa not used in identifications.</label>
 												</li>
 											</ul>
 										</fieldset>
