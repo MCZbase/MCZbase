@@ -209,8 +209,8 @@
 							<table class="table table-responsive border">
 								<cfloop query="itemAnno">
 									<tr>
-										<td> <label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td><span class="small">#annotation#</span></td>
+										<td> <label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td><span>#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="publication_id">
@@ -222,7 +222,7 @@
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span class="d-block small">
+													<span class="d-block">
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
@@ -288,8 +288,8 @@
 							<table class="table table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td><label class="data-entry-label px-0">Annotation by</label> <span class="small"><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td><span class="small">#annotation#</span></td>
+										<td><label class="data-entry-label px-0">Annotation by</label> <span><strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td><span>#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="taxon_name_id">
@@ -301,7 +301,7 @@
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span class="small d-block">
+													<span class="d-block">
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
@@ -366,8 +366,8 @@
 							<table class="table border table-responsive">
 								<cfloop query="itemAnno">
 									<tr>
-										<td class=><label class="data-entry-label">Annotation by</label><span class="small"> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
-										<td class="col-4"><span class="small">#annotation#</span></td>
+										<td><label class="data-entry-label">Annotation by</label><span> <strong>#CF_USERNAME#</strong> (#email#) on #dateformat(ANNOTATE_DATE,"yyyy-mm-dd")#</span></td>
+										<td class="col-4"><span>#annotation#</span></td>
 										<form name="r" method="post" action="reviewAnnotation.cfm">
 											<input type="hidden" name="action" value="saveReview">
 											<input type="hidden" name="type" value="project_id">
@@ -379,7 +379,7 @@
 													<option value="1" <cfif reviewed_fg is 1>selected="selected"</cfif>>Yes</option>
 												</select>
 												<cfif len(reviewer) gt 0>
-													<span class="small d-block">
+													<span class="d-block">
 													Last review by #reviewer#</span>
 												</cfif></td>
 											<td><label for="reviewer_comment" class="data-entry-label">Review Comments</label>
