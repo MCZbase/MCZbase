@@ -1657,9 +1657,10 @@ limitations under the License.
 
 				<section class="container-fluid">
 					<div id="permitsusedin" class="row">
+						<div class="col-12">
 						<h3 class="h4">This Permissions &amp; Rights Document Used for/Linked to:</h3>
-						<table class="table table-responsive border table-striped table-sm">
-						<thead class="thead-light">
+							<table class="table table-responsive border table-striped table-sm">
+							<thead class="thead-light">
 							<tr>
 								<th>Transaction</th>
 								<th>Type</th>
@@ -1678,7 +1679,7 @@ limitations under the License.
 								<th>To&nbsp;Institution</th>
 							</tr>
 						</thead>
-						<tbody>
+							<tbody>
 						<cfloop query="permituse">
 							<tr>
 								<td><a href="#uri#" target="_blank">#transaction_type# #tnumber#</a></td>
@@ -1699,7 +1700,8 @@ limitations under the License.
 							</tr>
 						</cfloop>
 						</tbody>
-					</table>
+							</table>
+						</div>
 					</div>
 				</section>
 				<section class="container-fluid">
