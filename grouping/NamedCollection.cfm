@@ -566,7 +566,7 @@ limitations under the License.
 												};
 											</script> 
 									</div>
-									<div class="col-12 row mx-0 px-1 my-3">
+									<div class="col-12 row mx-0 px-1 mt-3">
 										<input type="button" 
 												value="Save" title="Save" aria-label="Save"
 												class="btn btn-xs btn-primary"
@@ -686,7 +686,7 @@ limitations under the License.
 										<form action="/grouping/NamedCollection.cfm" method="post" id="deleteForm">
 											<input type="hidden" name="action" value="delete">
 											<input type="hidden" name="underscore_collection_id" value="#underscore_collection_id#">
-											<button class="btn btn-xs btn-danger" id="deleteButton" aria-label="Delete this collection.">Delete</button>
+											<button class="btn btn-xs btn-danger mb-3" id="deleteButton" aria-label="Delete this collection.">Delete</button>
 											<script>
 												$(document).ready(function() {
 													$('##deleteButton').bind('click', function(evt){
