@@ -77,12 +77,16 @@ h1, .h1 {
 p, dl, ol, ul {
 	margin-top: 0;
 	margin-bottom: 1rem;
+	font-size: .875em;
 }
 legend {
-	font-size: 14px;
+	font-size: .875em;
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: .7em;
+}
+p {
+	font-size: .875em;
 }
 [hidden] {
 	display: none;
@@ -174,6 +178,9 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 .non-field-text {
 	padding: .12em .5em;
 	border-radius: .2em;
+	font-size: .875em;
+}
+.text-other {
 	font-size: .875em;
 }
 #loanAgents tr {
@@ -1288,7 +1295,6 @@ select.data-entry-select {
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
-/*	height: calc(1.5em + .12em + 2px)!important;*/
 }
 data-entry-select:after {
 	position: absolute;
