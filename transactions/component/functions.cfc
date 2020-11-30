@@ -2536,6 +2536,11 @@ limitations under the License.
 														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 													});
 												</script>
+												<script>
+													$(document).ready(function() {
+														$(makeRichTransAgentClone('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','#trans_agent_role#',#agent_id#)); 
+													});
+												</script>
 												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">View</a>
 													<cfif transAgents.worstagentrank EQ 'A'>
 														&nbsp;
@@ -2566,16 +2571,12 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
-					<div class="col-4">
-						<select>
-							<option value="trans_agent_id_#i#">trans_agent_#i# #trans_agent_role#</option>
-						</select>			
-				</div>
+	
 					<div class="col-4">	
-						<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
+						<select id="transAgentClone_#i#" aria-label="clone as" onchange="makeRichTransAgentClone(#i#);" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="cttrans_agent_role">
-								<option value="trans_agent_id_#i#">agent_#i#</option>
+								<option value="#trans_agent_role#">#trans_agent_role#</option>
 							</cfloop>
 						</select>	
 					</div>
