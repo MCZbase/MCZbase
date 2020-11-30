@@ -2562,7 +2562,16 @@ limitations under the License.
 											 
 													</div>
 												</div>
-									
+											<button name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
+												<cfloop query="cttrans_agent_role">
+													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+														<cfset sel = 'selected="selected"'>
+													<cfelse>
+														<cfset sel = ''>
+													</cfif>
+													<span #sel# value="#trans_agent_role#">#trans_agent_role#</span>
+												</cfloop>
+											</button>
 									<cfset i=i+1>	
 										
 										</section>
@@ -2571,12 +2580,7 @@ limitations under the License.
 		
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-											<select name="trans_agent_#i#" aria-label="agent to clone" id="trans_agent_id_#i#" class="data-entry-select data-height" onchange="cloneTransAgent_#i#">
-													<cfloop query="transAgents">
-												
-														<option value="trans_agent_id_#i#">trans_agent_id_#i#</option>
-													</cfloop>
-												</select>
+											
 					</div>
 	
 			
