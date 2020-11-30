@@ -700,6 +700,7 @@ Dialog content boxes should be laid out similarly to a main page when data captu
 ### Agent Pick fields
 Agent fields MUST have the bust icon from fontawesome as a prepend to the input field.  The background is gray before the agent is verified as one from the database then it switches to green. It includes a hidden field and requires JavaScript to match the entry to the database and validate it.
 The code:
+
         `<input type="hidden" name="trans_agent_id_1" id="trans_agent_id_1" value="1017544">
         <div class="input-group">
             <div class="input-group-prepend">
