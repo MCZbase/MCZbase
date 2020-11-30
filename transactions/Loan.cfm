@@ -1029,13 +1029,13 @@ limitations under the License.
 								</cfquery>
 								<cfset sep="">
 								<cfif ctSovereignNation.recordcount EQ 0>
-									<span>None</span>
+									<span class="var-display">None</span>
 								<cfelse>
 									<cfloop query=ctSovereignNation>
 										<cfif len(sovereign_nation) eq 0>
 											<cfset sovereign_nation = '[no value set]'>
 										</cfif>
-										<span>#sep##sovereign_nation#&nbsp;(#ct#)</span>
+										<span class="var-display">#sep##sovereign_nation#&nbsp;(#ct#)</span>
 										<cfset sep="; ">
 									</cfloop>
 								</cfif>

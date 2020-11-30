@@ -79,6 +79,9 @@ p, dl, ol, ul {
 	margin-bottom: 1rem;
 	font-size: .875em;
 }
+span.var-display {
+	font-size: .875em;
+}
 legend {
 	font-size: .875em;
 	margin-bottom: 0;
