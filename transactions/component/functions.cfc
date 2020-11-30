@@ -2492,7 +2492,8 @@ limitations under the License.
 					</div>
 					<div class="col-12 mt-0">
 							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
-								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>			
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>		
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" cloneTransAgent('','','','editLoanForm'); handleChange();" class="col-5"> Clone Agent</button>		
 							</h2>		  
 
 								<cfset i=1>
