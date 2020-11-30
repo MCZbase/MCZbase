@@ -2568,14 +2568,15 @@ limitations under the License.
 										</section>
 								
 								</cfloop>
-				<select name="trans_agent_#i#" aria-label="agent to clone" id="trans_agent_id_#i#" class="data-entry-select data-height">
+		
+								<cfset na=i-1>
+								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+											<select name="trans_agent_#i#" aria-label="agent to clone" id="trans_agent_id_#i#" class="data-entry-select data-height" onchange="cloneTransAgent_#i#">
 													<cfloop query="transAgents">
 												
 														<option value="trans_agent_id_#i#">trans_agent_id_#i#</option>
 													</cfloop>
 												</select>
-								<cfset na=i-1>
-								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
 	
 			
