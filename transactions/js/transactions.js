@@ -740,9 +740,6 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='<span id="agentViewLink_' + i + '" class="px-2 inline-block">'+ i +'</span></label></div><div class="col-12 col-md-3">';
-			d+='<div class="input-group"><div class="input-group-prepend">';
-			d+='<div class="input-group-text bg-transparent border-0 py-1 pb-0 pl-3"><input class="position-relative" type="checkbox" name="del_agnt_' + i + '" value="1"><label class="data-entry-label"> Delete?</label>';
-			d+='</div></div></div></div>';
 			d+='</section>';
 			d+='<script>';
 			d+=' $(document).ready(function() {';
@@ -809,7 +806,7 @@ function addTransAgentDeacc (id,name,role) {
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
 			d+='</td><td>';
-			//d+='<input type="checkbox" name="del_agnt_' + i + '" value="1">';
+			d+='<input type="checkbox" name="del_agnt_' + i + '" value="1">';
 			d+='</td><td>';
 			d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
 			d+='<option value=""></option>';
