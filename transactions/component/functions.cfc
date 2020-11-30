@@ -2497,8 +2497,9 @@ limitations under the License.
 			<script>d+='<option value=""></option>
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
-			}	
-									</script></select>
+			}
+			d+='</select>';		
+									</script>
 							</h2>		  
 
 								<cfset i=1>
