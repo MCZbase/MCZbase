@@ -2575,7 +2575,7 @@ limitations under the License.
 						<select id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">
 							<option value=""></option>
 							<cfloop query="cttrans_agent_role">
-								<option value="#trans_agent_role#">#trans_agent_role#</option>
+								<option value="trans_agent_id_#i#">agent_#i#</option>
 							</cfloop>
 						</select>	
 					</div>
