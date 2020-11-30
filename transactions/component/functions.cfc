@@ -2566,14 +2566,14 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
-																																<script>
-											d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
-			d+='<option value=""></option>';
-			for (a=0; a<data.ROWCOUNT; ++a) {
-				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
-			}
-			d+='</select>';				
-																</script>
+					<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')">
+					<option value=""></option>
+						<script>
+							for (a=0; a<data.ROWCOUNT; ++a) {
+							d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
+							}
+						</script>
+					</select>			
 				</div>
 				</article>
 			</cfoutput>
