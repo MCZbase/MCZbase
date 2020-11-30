@@ -2562,7 +2562,11 @@ limitations under the License.
 										
 										</section>
 								</cfloop>
-																<script>
+
+								<cfset na=i-1>
+								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
+					</div>
+																																<script>
 											d+='<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">';
 			d+='<option value=""></option>';
 			for (a=0; a<data.ROWCOUNT; ++a) {
@@ -2570,9 +2574,6 @@ limitations under the License.
 			}
 			d+='</select>';				
 																</script>
-								<cfset na=i-1>
-								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-					</div>
 				</div>
 				</article>
 			</cfoutput>
