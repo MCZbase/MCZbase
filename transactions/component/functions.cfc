@@ -2536,11 +2536,6 @@ limitations under the License.
 														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
 													});
 												</script>
-												<script>
-													$(document).ready(function() {
-														$(makeRichTransAgentClone('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','#trans_agent_role#',#agent_id#)); 
-													});
-												</script>
 												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">View</a>
 													<cfif transAgents.worstagentrank EQ 'A'>
 														&nbsp;
@@ -2562,15 +2557,7 @@ limitations under the License.
 											 
 													</div>
 												</div>
-											<button name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
-												<cfloop query="cttrans_agent_role">
-													<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
-														<cfset sel = 'selected="selected"'>
-													<cfelse>
-														<cfset sel = ''>
-													</cfif>
-													<span #sel# value="#trans_agent_role#">#trans_agent_role#</span>
-												</cfloop>
+											<button id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">Clone
 											</button>
 									<cfset i=i+1>	
 										
