@@ -2526,7 +2526,7 @@ limitations under the License.
 													</cfloop>
 												</select>
 										  </div>
-															<div class="col-12 col-md-1">
+										<div class="col-12 col-md-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
 												<div class="input-group">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
@@ -2566,14 +2566,10 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
-					<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')">
-					<option value=""></option>
-						<script>
-							for (a=0; a<data.ROWCOUNT; ++a) {
-							d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
-							}
-						</script>
-					</select>			
+						<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(' + i + ')">
+							<option value=""></option>
+							<option value="trans_agent_id_#i#">trans_agent_#i# #trans_agent_role#</option>'
+						</select>			
 				</div>
 				</article>
 			</cfoutput>
