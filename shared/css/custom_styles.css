@@ -1247,7 +1247,7 @@ table#pairs, th, td {
 	vertical-align: middle;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
-	height: calc(1.5em + .12em + 2px)!important;
+/*	height: calc(1.5em + .12em + 2px)!important;*/
 }
 select.data-entry-select option {
 	background-color: white !important;
