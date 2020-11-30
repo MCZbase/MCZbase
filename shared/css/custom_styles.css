@@ -1217,11 +1217,11 @@ table#pairs, th, td {
 }
 .data-entry-label {
 	width: 100%;
-	font-size: .875em;
+	font-size: 80%;
 	border: none;
 	padding: 0em .25em;
 	margin-top: .25em;
-	font-weight: 470;
+	font-weight: 600;
 }
 .data-entry-input {
 	display: block;
