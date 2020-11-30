@@ -2556,9 +2556,10 @@ limitations under the License.
 													  </div>
 											 
 													</div>
+											<button id="cloneTransAgent_#i#" aria-label="clone as" onClick="cloneTransAgent(#i#);" class="btn btn-xs btn-secondary">Clone
+													</button>
 												</div>
-											<button id="cloneTransAgent_#i#" aria-label="clone as" onchange="cloneTransAgent(#i#);" class="data-entry-select">Clone
-											</button>
+									
 									<cfset i=i+1>	
 										
 										</section>
