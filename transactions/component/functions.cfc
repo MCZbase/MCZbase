@@ -2566,9 +2566,8 @@ limitations under the License.
 								<cfset na=i-1>
 								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
-						<select id="cloneTransAgent_#i#" onchange="cloneTransAgent(' + i + ')">
-							<option value=""></option>
-							<option value="trans_agent_id_#i#">trans_agent_#i# #trans_agent_role#</option>'
+						<select onchange="cloneTransAgent(' + i + ')">
+							<option value="trans_agent_id_#i#">trans_agent_#i# #trans_agent_role#</option>
 						</select>			
 				</div>
 				</article>
