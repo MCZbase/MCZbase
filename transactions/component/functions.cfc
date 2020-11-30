@@ -2493,13 +2493,12 @@ limitations under the License.
 					<div class="col-12 mt-0">
 							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>		
-								<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" style="width:8em">
+								<select id="cloneTransAgent_' + i + '" onchange="cloneTransAgent(' + i + ')" class="data-entry-select w-25">
 			<script>d+='<option value=""></option>
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
-			}
-			d+='</select>';		
-									</script>
+			}	
+									</script></select>
 							</h2>		  
 
 								<cfset i=1>
