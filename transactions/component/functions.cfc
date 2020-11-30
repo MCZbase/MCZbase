@@ -2556,8 +2556,6 @@ limitations under the License.
 													  </div>
 											 
 													</div>
-											<button id="cloneTransAgent_#i#" aria-label="clone as" onClick="cloneTransAgent(#i#);" class="btn btn-xs btn-secondary">Clone
-													</button>
 												</div>
 									
 									<cfset i=i+1>	
