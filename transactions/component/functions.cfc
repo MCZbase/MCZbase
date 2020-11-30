@@ -2548,15 +2548,14 @@ limitations under the License.
 											</div></label>
 										</div>
 										<div class="col-12 col-md-3">
-										<div class="input-group">
-													  <div class="input-group-prepend">
-														<div class="input-group-text py-1 bg-transparent border-0">
-														 <label class="data-entry-label"> <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > Delete?</label>
-														</div>
-													  </div>
-											 
+											<div class="input-group">
+											  	<div class="input-group-prepend">
+													<div class="input-group-text py-1 bg-transparent border-0">
+												 		<label class="data-entry-label"> <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > Delete?</label>
 													</div>
-												</div>
+											  	</div>
+											</div>
+										</div>
 									
 									<cfset i=i+1>	
 										
