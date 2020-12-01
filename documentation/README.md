@@ -34,6 +34,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 	* [Responsive-Styles](#Responsive-Styles)
 	* [Whitespace](#Whitespace)
 	* [Colors](#Colors)
+	* [Typography(#Typography)
 	* [Buttons](#Buttons)
 	* [Content-Boxes](#Content-Boxes)
 	* [Agent Pick Fields](#Agent-Pick-Fields)
@@ -608,6 +609,10 @@ From left to right.
 1. Teal = \#3e6f7d
 1. Good pick = rgba(173, 236, 199, 0.3)
 1. Border = \#dee2e6
+
+### Typography
+
+Font size for displayed data should be .875em.  The font-weight is 500 and font-style is normal.  Label font-weight is 450 and font-style is normal. As was described in the Section Heading part of this document, the headings should be listed by their tag in order with style being controlled with a class of the same name (see css: custom_styles.css) and in some cases margins, padding, and smallcaps are added (e.g., Search Transactions page has many headers so the overarching title is styled a little differently <h1 class="h3 smallcaps pl-1">). The font-family listed for the <body> of the site is apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";.
 
 ### Buttons
 
