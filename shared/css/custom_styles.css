@@ -17,6 +17,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 #taxon_form label, #taxon_form2 label{
 	font-size: .8em;
 	line-height: 1.02em;
+	font-weight: 450;
 }
 .small90 {font-size: 89%}
 
@@ -179,9 +180,11 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	padding: .12em .5em;
 	border-radius: .2em;
 	font-size: .875em;
+	font-weight: 500;
 }
 .text-other {
 	font-size: .875em;
+	font-weight: 500;
 }
 #loanAgents tr {
 	line-height: 1em;
@@ -1228,7 +1231,7 @@ table#pairs, th, td {
 	border: none;
 	padding: 0em .25em;
 	margin-top: .25em;
-	font-weight: 500;
+	font-weight: 450;
 }
 .data-entry-input {
 	display: block;
@@ -1243,7 +1246,7 @@ table#pairs, th, td {
 	line-height: 1.5em !important;
 	vertical-align: middle;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 /*	height: calc(1.5em + .12em + 2px)!important;*/
 }
 select.data-entry-select option {
@@ -1294,7 +1297,7 @@ select.data-entry-select {
 	vertical-align: middle;
 	border-radius: .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 data-entry-select:after {
 	position: absolute;
@@ -1352,7 +1355,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: 0 .2em .2em 0;
 	line-height: 1.5em !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-select-input:active {
 	color: #495057;
@@ -1387,7 +1390,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: .2em 0 0 .2em;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font-weight: 500;
 }
 .data-entry-addon {
 	display: block;
@@ -1408,6 +1411,7 @@ textarea {
 	padding-left: .5em;
 	padding-right: .5em;
 	font-size: .875em;
+	font-weight: 500;
 }
 .data-entry-textarea {
 	width: 100%;
@@ -1418,7 +1422,7 @@ textarea {
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
-	font-weight: 450;
+	font-weight: 500;
 }
 .align-left-center {
 	text-align: left;
