@@ -34,9 +34,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 	* [Responsive-Styles](#Responsive-Styles)
 	* [Whitespace](#Whitespace)
 	* [Colors](#Colors)
-	* [Typography(#Typography)
+	* [Typography](#Typography)
 	* [Buttons](#Buttons)
 	* [Content-Boxes](#Content-Boxes)
+	* [Dialog-Boxes](#Dialog-Boxes)
+	* [Alert-Boxes](#Alert-Boxes)
 	* [Agent Pick Fields](#Agent-Pick-Fields)
 * [Accessibility:](#Accessibility:)
 	* [Use-Semantic-tags](#Use-Semantic-tags)
@@ -700,7 +702,12 @@ Use a single gray line surrounding them with class=”border”. Use fieldset wh
 
 Put a bg-light (gray background) border-rounded box with an outline around them `<div class=”bg-light border-rounded p-2”>`. Include “row” or “form-row” if each form group is enclosed in a col-{n}.
 
+### Dialog Boxes
 Dialog content boxes should be laid out similarly to a main page when data captured is the same (e.g., create media page appear as a dialog box). The buttons follow the same rules as listed in the button section of this document when in the content area.  The close button for the dialog and any button along the bottom will have the standard jquery gray buttonface background (difficult to style separately without changing the library files). The borders and background should be different from the main page so it is easy to recognize it as a dialog box. Searches in dialog boxes will have the class "search-box", which has following styles:  background-color: #f5f5f5; margin-top: 1em; padding-bottom: .25em; width: 100%; border-radius: 8px; border: 2px solid #3E6F7D; to make a dark teal outline with a gray background around the search fields. Small search/create dialog boxes which do not replicate a main page, can have a white background (e.g., add shipment dialog box). The search results should repeat the jqxwidget grid style when possible.  The form fields to create a records should have the classes "p-3 border bg-light" in the column div around them (see create media for an example).  The dialog boxes should be repsonsive based on the screen size when launched.  Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
+
+### Alert Boxes
+Other dialog boxes for alerts should also be styled with white background and gray header bar and appropriate text for the message. Currently, they do not have customized styling dependent on the message type. For instance, if there is a danger of mistakenly changing many records, part of the alert message should look like a delete button in color with a background in pinkish-red with red text and red border.
+
 
 ### Agent Pick fields
 Agent fields MUST have the bust icon from fontawesome as a prepend to the input field.  The background is gray before the agent is verified as one from the database then it switches to green. It includes a hidden field and requires JavaScript to match the entry to the database and validate it.
