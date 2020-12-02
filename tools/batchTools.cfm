@@ -7,7 +7,7 @@
 			<h1 class="h2">Batch Tools</h1>
 				<div class="accordion" id="accordionExample">
 					<div class="card">
-					<div class="card-header" id="headingOne">
+					<div class="card-header py-0" id="headingOne">
 					  <h2 class=" h3 my-0">
 						<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						  Add New Parts to Specimen Records
