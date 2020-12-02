@@ -24,9 +24,9 @@
 										<div class="card mb-2">
 											<div class="card-header w-100" id="headingPart1">
 												<h2 class="h4 my-0 float-left">  
-													<a class="btn-link text-black" role="button" data-toggle="collapse" data-target="##collapseForNewParts">
+												
 														Bulk Add New Parts 
-													</a>
+													
 												</h2>
 											</div>
 											<div class="card-body px-3 py-0">
