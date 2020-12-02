@@ -4,6 +4,7 @@
 <main class="container py-3">
 	<section class="row">
 		<div class="col-12">
+			<h1 class="h2">Batch Tools</h1>
 			<div class="accordion w-100" id="accordionForTaxa">
 				<cfif qsubspecies.recordcount LT 10 AND qspecies.recordcount LT 10>
 					<cfset collapsed = "">
