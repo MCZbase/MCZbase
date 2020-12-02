@@ -88,14 +88,16 @@
 					</div>
 					<div class="card">
 					<div class="card-header" id="headingTwo">
-					  <h2 class="my-0">
+					  <h2 class="h3 my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-						  Edited Parts on Existing Specimen Records
+						  Edited Parts on Existing Specimen Records <span class="smaller">(update existing part and/or append remark to existing remarks)</span>
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 					  <div class="card-body">
+						  	<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
+							<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method </textarea>
 						  <div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">institution_acronym</li>
