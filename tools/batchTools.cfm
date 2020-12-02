@@ -1,6 +1,6 @@
 <cfset pageTitle = "Batch Tools">
 <cfinclude template = "/shared/_header.cfm">
-
+<cfoutput>
 <main class="container py-3">
 	<section class="row">
 		<div class="col-12">
@@ -88,4 +88,5 @@
 		</div>
 	</section>
 </main>
+	</cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
