@@ -8,7 +8,7 @@
 				<div class="accordion" id="accordionExample">
 					<div class="card">
 					<div class="card-header" id="headingOne">
-					  <h2 class="my-0">
+					  <h2 class=" h3 my-0">
 						<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						  Add New Parts to Specimen Records
 						</button>
@@ -20,7 +20,7 @@
 							<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
 							<label class="data-entry-label">Copy the existing code and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2 </textarea>
 							
-								<p>Columns in red are required; others are optional:</p>
+								<p class="mt-3">Columns in red are required; others are optional:</p>
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">institution_acronym</li>
 									<li class="text-danger">collection_cde</li>
