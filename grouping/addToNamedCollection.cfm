@@ -56,8 +56,7 @@ limitations under the License.
 						left outer join #session.SpecSrchTab# on cataloged_item.collection_object_id = #session.SpecSrchTab#.collection_object_id
 					</cfif>
 				WHERE
-					identification.accepted_id_fg = 1 
-					cataloged_item.collection_object_id
+					identification.accepted_id_fg = 1 AND
 					<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 						cataloged_item.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 					<cfelseif  isdefined("collection_object_id") and listlen(collection_object_id) gt 1>
