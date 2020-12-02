@@ -74,9 +74,10 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12">
 						<div role="region" aria-labeled-by="formheading">
-							<h1 class="h2" id="formheading">Add all the items listed below to the selected named group of cataloged items.</h1>
+							<h1 class="h2" id="formheading">Add all the items (#getItems.recordcount#) listed below to the selected named group of cataloged items.</h1>
 							<form name="addItems" method="post" action="addToNamedCollection.cfm">
 								<input type="hidden" name="Action" value="addItems">
+								<input type="hidden" name="recordcount" value="#getItems.recordcount#">
 								<cfif isdefined("collection_object_id") and listlen(collection_object_id) is 1>
 									<input type="hidden" name="collection_object_id" value="#collection_object_id#">
 								</cfif>
@@ -152,7 +153,16 @@ limitations under the License.
 		<cfif NOT isdefined("underscore_collection_id")>
 			<cfthrow message="No named grouping selected, unable to add cataloged items">
 		</cfif>
+		<cfif NOT isdefined("recordcount") OR recordcount EQ 0>
+			<cfthrow message="No cataloged items to add to named group.">
+		</cfif>
 		<cftransaction>
+			<cfquery name="countToAdd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select count(*) as ct from #session.SpecSrchTab# 
+			</cfquery>
+			<cfif countToAdd.ct NEQ recordcount>
+				<cfthrow message="Add failed.  Discrepancy between the expected and actual number of records to add, user ran a new search before completing add to group.">
+			</cfif>
 			<cfquery name="unColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT underscore_collection.underscore_collection_id as id
 				FROM underscore_collection
