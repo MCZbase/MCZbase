@@ -1,5 +1,5 @@
 <cfset pageTitle = "Batch Tools">
-<cfinclude template = "_header.cfm">
+<cfinclude template = "/shared/_header.cfm">
 
 <main class="container py-3">
 	<section class="row">
@@ -106,4 +106,4 @@
 		</div>
 	</section>
 </main>
-<cfinclude template = "_footer.cfm">
+<cfinclude template = "/shared/_footer.cfm">
