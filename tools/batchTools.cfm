@@ -14,8 +14,8 @@
 							</a>
 						</h2>
 					</div>
+					<div id="collapseForNewParts" class="" aria-labelledby="headingPart1" data-parent="##accordionForNewParts">
 					<div class="card-body px-3 py-0">
-						<div id="collapseForNewParts" class="" aria-labelledby="headingPart1" data-parent="##accordionForNewParts">
 							<div class="row">
 								<div class="col-12 col-lg-6">
 									<div class="accordion w-100" id="accordionForNewParts">
@@ -24,9 +24,9 @@
 										<div class="card mb-2">
 											<div class="card-header w-100" id="headingPart1">
 												<h2 class="h4 my-0 float-left">  
-												
+													<a class="btn-link text-black" role="button" data-toggle="collapse" data-target="##collapseForNewParts">
 														Bulk Add New Parts 
-													
+													</a>
 												</h2>
 											</div>
 											<div class="card-body px-3 py-0">
@@ -34,10 +34,10 @@
 													<div class="row">
 														<div class="col-12">Hello again</div>
 													</div>
-												</div><!--- collapseRelatedTaxa --->
+												</div>
 											</div>
 										</div>
-									</div><!--- accordion --->
+									</div>
 								</div>
 							</div>
 						</div>
