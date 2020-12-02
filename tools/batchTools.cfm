@@ -16,13 +16,9 @@
 					</div>
 
 					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
-						<div class="card-body">
+						<div class="card-body px-4">
 							<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
-							<p>view template</p>
-								<div id="template">
-									<label for="t">Copy the existing code and save as a .csv file</label>
-									<textarea rows="2" cols="80" d="t">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2</textarea>
-								</div>
+							<label>Copy the existing code and save as a .csv file</label><textarea>institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2 </textarea>
 							
 								<p>Columns in red are required; others are optional:</p>
 								<ul class="list-style-disc px-4">
