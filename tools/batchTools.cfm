@@ -89,7 +89,7 @@
 			<div class="accordion" id="accordionExample">
   <div class="card">
     <div class="card-header" id="headingOne">
-      <h2 class="mb-0">
+      <h2 class="my-0">
         <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
           Collapsible Group Item
         </button>
@@ -104,7 +104,7 @@
   </div>
   <div class="card">
     <div class="card-header" id="headingTwo">
-      <h2 class="mb-0">
+      <h2 class="my-0">
         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
           Collapsible Group Item
         </button>
@@ -118,7 +118,7 @@
   </div>
   <div class="card">
     <div class="card-header" id="headingThree">
-      <h2 class="mb-0">
+      <h2 class="my-0">
         <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
           Collapsible Group Item 
         </button>
