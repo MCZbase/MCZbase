@@ -90,13 +90,58 @@
 					<div class="card-header" id="headingTwo">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-						  Collapsible Group Item
+						  Edited Parts on Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 					  <div class="card-body">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						  <div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">institution_acronym</li>
+									<li class="text-danger">collection_cde</li>
+									<li class="text-danger">other_id_type ("catalog number" is OK)</li>
+									<li class="text-danger">other_id_number</li>
+									<li class="text-danger">part_name</li>
+									<li class="text-danger">preserve_method</li>
+									<li class="text-danger">disposition</li>
+									<li>lot_count_modifier</li>
+									<li class="text-danger">lot_count</li>
+									<li>current_remarks
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>remarks to be added with the new part</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+									<li class="text-danger">condition</li>
+									<li>current_remarks
+										<ul>
+											<li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible. They must match the remarks on the record.</li>
+										</ul>
+									</li>
+									<li>append_to_remarks
+										<ul>
+											<li>Anything in this field will be appended to the current remarks. It will be automatically separated by a semicolon.</li>
+										</ul>
+									</li>
+									<li>changed_date
+										<ul>
+											<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
+										</ul>
+									</li>
+										
+									<li>new_preserve_method
+										<ul>
+											<li>The value in this field will replace the current preserve method for this part</li>
+										</ul>
+									</li>
+							  </ul>
+						  </div>
 					  </div>
 					</div>
 					</div>
@@ -157,7 +202,7 @@
 						</div>
 					 </div>
 					
-									  <div class="card">
+				<div class="card">
 					<div class="card-header" id="headingThree">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
