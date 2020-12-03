@@ -52,7 +52,7 @@
 				];
 				var attribute_value =
 				[
-					 "length"
+					 "worker"
 				];
 
 				var attribute_units =
@@ -116,6 +116,7 @@
 								{ name: 'other_id_type', type: 'string' },
 								{ name: 'other_id_number', type: 'string' },
 								{ name: 'attribute', type: 'string' },
+								{ name: 'attribute_value', type: 'string' },
 								{ name: 'attribute_unit', type: 'string' },
 								{ name: 'attribute_date', type: 'string' },
 								{ name: 'attribute_meth', type: 'string' },
@@ -133,7 +134,7 @@
 							autoheight: 'true',
 							source: dataAdapter,                
 							altrows: true,
-							sortable: true,
+							sortable: false,
 							selectionmode: 'multiplecellsextended',
 							columns: [
 							  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
@@ -141,6 +142,7 @@
 							  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
 							  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
 							  { text: 'attribute', datafield: 'attribute', width: 80 },
+							  { text: 'attribute_value', datafield: 'attribute_value', width: 90 },
 							  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
 							  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
 							  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
