@@ -186,75 +186,36 @@
 				</div>	<!---3--->
 				<div class="card">
 					<div class="card-header py-0" id="headingOne">
-					  <h2 class="h4 my-1 px-3">
+					 <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						  Add New Parts to Specimen Records
+						  &nbsp;Add New Parts
 						</a>
 					  </h2>
 					</div>
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 						<div class="card-body px-4">
-							<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 							
 								<script>
 	function generatedata2(rowscount, hasNullValues) {
     // prepare the data
     var data = new Array();
     if (rowscount == undefined) rowscount = 1;
-    var collection_cde =
-    [
-        "Herp"
-    ];
-
-    var institution_acronym =
-    [
-        "MCZ"
-    ];
-
-    var other_id_type =
-    [
-        "catalog item"
-    ];
-
-    var other_id_number =
-    [
-         "1234"
-    ];
-		
-	    var attribute =
-    [
-         "caste"
-    ];
-	var attribute_value =
-    [
-         "length"
-    ];
-
-	var attribute_units =
-    [
-         ""
-    ];
-	var attribute_date =
-    [
-         "2000-01-01"
-    ];
-	var attribute_meth =
-    [
-         ""
-    ];
-			var determiner =
-    [
-         "Joe White"
-    ];
-	var remarks =
-    [
-         "This is temporary data."
-    ];
+    var collection_cde = [ "Herp" ];
+    var institution_acronym =  [  "MCZ" ];
+    var other_id_type = [ "catalog item" ];
+    var other_id_number = [ "1234" ];
+	var attribute = ["caste"];
+	var attribute_value =[ "length"];
+	var attribute_units = [  "" ];
+	var attribute_date = ["2000-01-01"];
+	var attribute_meth = [ ""];
+	var determiner =[ "Joe White" ];
+	var remarks =["This is temporary data."];
     for (var i = 0; i < rowscount; i++) {
         var row = {};       
-
         row["id"] = i;
-
         row["collection_cde"] = collection_cde;
         row["institution_acronym"] = institution_acronym;
         row["other_id_type"] = other_id_type;
@@ -266,21 +227,15 @@
 		row["attribute_meth"] = attribute_meth;
 		row["determiner"] = determiner;
         row["remarks"] = remarks;
-
-  
-       
         data[i] = row;
     }
-
     return data;
 }
-
 	</script>				     	
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
             var data = generatedata2(1);
-
             var source =
             {
                 localdata: data,
@@ -291,17 +246,30 @@
                     { name: 'institution_acronym', type: 'string' },
                     { name: 'other_id_type', type: 'string' },
                     { name: 'other_id_number', type: 'string' },
-                    { name: 'attribute', type: 'string' },
-                    { name: 'attribute_unit', type: 'string' },
-                    { name: 'attribute_date', type: 'string' },
-					{ name: 'attribute_meth', type: 'string' },
-                    { name: 'determiner', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
 					{ name: 'remarks', type: 'string'}
                 ]                     
             };
-
             var dataAdapter = new $.jqx.dataAdapter(source);
-
             // initialize jqxGrid
             $("##grid2").jqxGrid(
             {
@@ -312,16 +280,30 @@
                 sortable: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-                  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  { text: 'attribute', datafield: 'attribute', width: 80 },
-                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
-                  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
-				  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
-                  { text: 'determiner', datafield: 'determiner', width: 120 },
-					{ text: 'remarks', datafield: 'remarks', width:220 }
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+				  	{ text: 'remarks', datafield: 'remarks', width:220 }
                 ]
             });
 
@@ -335,7 +317,7 @@
     </script>
 
         <div id="grid2"></div>
-							<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2 </textarea>
+					
 
 								<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
 							<div class="card-columns mb-3">
