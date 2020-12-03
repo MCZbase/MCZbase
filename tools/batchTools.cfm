@@ -7,6 +7,36 @@
 			<h1 class="h2">Batch Tools</h1>
 			<div class="accordion" id="accordionExample">
 				<div class="card">
+					<div class="card-header" id="headingThree">
+					  <h2 class="my-0">
+						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						 Bulk Add Attributes
+						</a>
+					  </h2>
+					</div>
+					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
+						 <div class="card-body px-4">
+							<h3>Add Attributes to Existing Specimen Records</h3>
+							<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
+							 <p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
+							<p>Columns in red are required; others are optional:</p>
+							<ul>
+								<li class="text-danger">COLLECTION_CDE</li>
+								<li class="text-danger">INSTITUTION_ACRONYM</li>
+								<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+								<li class="text-danger">OTHER_ID_NUMBER</li>
+								<li class="text-danger">ATTRIBUTE</li>
+								<li class="text-danger">ATTRIBUTE_VALUE</li>
+								<li>ATTRIBUTE_UNITS</li>
+								<li class="text-danger">ATTRIBUTE_DATE</li>
+								<li>ATTRIBUTE_METH</li>
+								<li class="text-danger">DETERMINER</li>
+								<li>REMARKS</li>
+							</ul>
+						 </div>
+					</div>
+				</div>	<!---3--->
+				<div class="card">
 					<div class="card-header py-0" id="headingOne">
 					  <h2 class="h4 my-0">
 						<a class="btn btn-link btn-block text-left" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -151,36 +181,7 @@
 				  </div>
 				</div>
 				</div>	<!---2--->
-				<div class="card">
-					<div class="card-header" id="headingThree">
-					  <h2 class="my-0">
-						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-						 Bulk Add Attributes
-						</a>
-					  </h2>
-					</div>
-				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-					 <div class="card-body px-4">
-						<h3>Add Attributes to Existing Specimen Records</h3>
-						<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
-						<p>Attribute List</p>
-						<p>Columns in red are required; others are optional:</p>
-						<ul>
-							<li>COLLECTION_CDE</li>
-							<li>INSTITUTION_ACRONYM</li>
-							<li>OTHER_ID_TYPE ("catalog number" is OK)</li>
-							<li>OTHER_ID_NUMBER</li>
-							<li>ATTRIBUTE</li>
-							<li>ATTRIBUTE_VALUE</li>
-							<li>ATTRIBUTE_UNITS</li>
-							<li>ATTRIBUTE_DATE</li>
-							<li>ATTRIBUTE_METH</li>
-							<li>DETERMINER</li>
-							<li>REMARKS</li>
-						</ul>
-					 </div>
-				</div>
-				</div>	<!---3--->
+			
 				<div class="card">
 				<div class="card-header" id="headingFour">
 				  <h2 class="my-0">
