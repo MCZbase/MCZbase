@@ -92,7 +92,7 @@
 			<div class="accordion" id="accordionExample">
 				<div class="card">
 					<div class="card-header" id="headingThree">
-					  <h2 class="my-0">
+					  <h2 class="h4 my-0">
 						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
 						 Bulk Add Attributes
 						</a>
@@ -161,7 +161,7 @@
     </script>
 
         <div id="grid"></div>
-        <div class="mt-3 d-block float-left w-100">
+        <div class="mt-3 mb-2 d-block float-left w-100">
 			<div class="ml-0 float-left">
                 <input type="button" value="Export to CSV" id='csvExport' />
 			</div>
