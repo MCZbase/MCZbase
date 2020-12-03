@@ -20,6 +20,7 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	font-weight: 450;
 }
 .small90 {font-size: 89%}
+a {cursor: pointer}
 
 /** Styling of external links out, shared with production **/
 .external:after {
