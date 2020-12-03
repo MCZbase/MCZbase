@@ -5,7 +5,7 @@
 	function generatedata(rowscount, hasNullValues) {
     // prepare the data
     var data = new Array();
-    if (rowscount == undefined) rowscount = 5;
+    if (rowscount == undefined) rowscount = 1;
     var collection_cde =
     [
         "Herp"
@@ -123,16 +123,16 @@
                 sortable: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  { text: 'collection_cde', datafield: 'collection_cde', width: 130 },
-                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 130 },
-                  { text: 'other_id_type', datafield: 'other_id_type', width: 200 },
-                  { text: 'other_id_number', datafield: 'other_id_number', width: 100 },
-                  { text: 'attribute', datafield: 'attribute', width: 120 },
-                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 70 },
+                  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  { text: 'attribute', datafield: 'attribute', width: 80 },
+                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
                   { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
 				  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
                   { text: 'determiner', datafield: 'determiner', width: 120 },
-					{ text: 'remarks', datafield: 'remarks', width: 120 }
+					{ text: 'remarks', datafield: 'remarks', width:220 }
                 ]
             });
 
