@@ -102,7 +102,7 @@
 							<textarea class="data-entry-textarea"> institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method </textarea>
 						</div>
 					  	<div class="card-columns mb-3">
-							<p> These are the column headers that are possible on the .csv</p>
+							<p>Columns in red are required; others are optional:</p>
 							<ul class="list-style-disc px-4">
 								<li class="text-danger">institution_acronym</li>
 								<li class="text-danger">collection_cde</li>
@@ -184,9 +184,9 @@
 				<div class="card">
 				<div class="card-header" id="headingFour">
 				  <h2 class="my-0">
-					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
+					<a class="btn btn-link btn-block text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
 					  Add Citations to Existing Specimen Records
-					</button>
+					</a>
 				  </h2>
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
@@ -198,9 +198,9 @@
 				<div class="card">
 					<div class="card-header" id="headingFive">
 					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
+						<a class="btn btn-link btn-block text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
 						 Add Identifiers to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
