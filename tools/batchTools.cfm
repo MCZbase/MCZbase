@@ -6,26 +6,55 @@
     // prepare the data
     var data = new Array();
     if (rowscount == undefined) rowscount = 100;
-    var firstNames =
+    var collection_cde =
     [
         "Andrew", "Nancy"
     ];
 
-    var lastNames =
+    var institution_acronym =
     [
         "Fuller", "Davolio"
     ];
 
-    var productNames =
+    var other_id_type =
     [
         "Black Tea", "Green Tea"
     ];
 
-    var priceValues =
+    var other_id_number =
+    [
+         "2.25", "1.5"
+    ];
+		
+	    var attribute =
+    [
+         "2.25", "1.5"
+    ];
+	var attribute_value =
     [
          "2.25", "1.5"
     ];
 
+	var attribute_units =
+    [
+         "2.25", "1.5"
+    ];
+	var attribute_date =
+    [
+         "2.25", "1.5"
+    ];
+	var attribute_meth =
+    [
+         "2.25", "1.5"
+    ];
+			var determiner =
+    [
+         "2.25", "1.5"
+    ];
+	var remarks =
+    [
+         "2.25", "1.5"
+    ];
     for (var i = 0; i < rowscount; i++) {
         var row = {};       
 
