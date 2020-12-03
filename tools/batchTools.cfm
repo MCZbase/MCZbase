@@ -405,9 +405,9 @@
                 ]
             });
 
-            $("##csvExport").jqxButton();
+            $("##csvExport2").jqxButton();
 
-            $("##csvExport").click(function () {
+            $("##csvExport2").click(function () {
                 $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
             });
            
@@ -415,6 +415,11 @@
     </script>
 
         <div id="grid2"></div>
+		<div class="mt-3 mb-2 d-block float-left w-100">
+			<div class="ml-0 float-left">
+                <input type="button" value="Export to CSV" id='csvExport2' />
+			</div>
+        </div>
 					
 
 								<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
