@@ -150,15 +150,31 @@
 				<div class="card">
 					<div class="card-header" id="headingThree">
 				  <h2 class="my-0">
-					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					 Add Attributes to Existing Specimen Records
-					</button>
+					<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					 Bulk Add Attributes
+					</a>
 				  </h2>
 				</div>
-					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-				  <div class="card-body px-4">
-					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-				  </div>
+				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
+					  <div class="card-body px-4">
+						<h3>Add Attributes to Existing Specimen Records</h3>
+						<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
+						<p>Attribute List</p>
+						<p>Columns in red are required; others are optional:</p>
+						<ul>
+							<li>COLLECTION_CDE</li>
+							<li>INSTITUTION_ACRONYM</li>
+							<li>OTHER_ID_TYPE ("catalog number" is OK)</li>
+							<li>OTHER_ID_NUMBER</li>
+							<li>ATTRIBUTE</li>
+							<li>ATTRIBUTE_VALUE</li>
+							<li>ATTRIBUTE_UNITS</li>
+							<li>ATTRIBUTE_DATE</li>
+							<li>ATTRIBUTE_METH</li>
+							<li>DETERMINER</li>
+							<li>REMARKS</li>
+						</ul>
+					 </div>
 				</div>
 				</div>	<!---3--->
 				<div class="card">
