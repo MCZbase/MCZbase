@@ -214,6 +214,11 @@ limitations under the License.
 			where
 				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
 		</cfquery>
+		<cfif guidSearch.recordcount EQ 0 and len(collection_object_id) EQ 0)>
+			<!--- handle case of a search for a guid which does not exist --->
+			<!--- this collection object id won't exist, so including it will include an AND clause with no match, preventing all records from being returned. --->
+			<cfset collection_object_id = "-1">
+		</cfif>
 		<cfloop query="guidSearch">
 			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
 				<cfif len(collection_object_id) EQ 0>
