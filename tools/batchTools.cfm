@@ -99,13 +99,16 @@
                 datatype: "array",
                 datafields:
                 [
-                    { name: 'firstname', type: 'string' },
-                    { name: 'lastname', type: 'string' },
-                    { name: 'productname', type: 'string' },
-                    { name: 'available', type: 'bool' },
-                    { name: 'date', type: 'date' },
-                    { name: 'quantity', type: 'number' },
-                    { name: 'price', type: 'number' }
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'attribute', type: 'string' },
+                    { name: 'attribute_unit', type: 'string' },
+                    { name: 'attribute_date', type: 'string' },
+					{ name: 'attribute_meth', type: 'string' },
+                    { name: 'determiner', type: 'string' },
+					{ name: 'remarks', type: 'string'}
                 ]                     
             };
 
