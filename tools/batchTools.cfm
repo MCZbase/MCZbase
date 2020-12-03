@@ -22,8 +22,8 @@
                 };
                 var dataAdapter = new $.jqx.dataAdapter(source);
                 // Create a jqxListBox
-                $("#jqxWidget").jqxListBox({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 250, height: 300});
-                $("#jqxWidget").on('select', function (event) {
+                $("##jqxWidget").jqxListBox({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 250, height: 300});
+                $("##jqxWidget").on('select', function (event) {
                     if (event.args) {
                         var item = event.args.item;
                         if (item) {
