@@ -10,7 +10,7 @@
 
 
 
-			<div class="accordion" id="accordionExample">
+			<div class="accordion mb-4" id="accordionExample">
 				<div class="card">
 					<div class="card-header" id="headingThree">
 					  <h2 class="h4 my-1 px-3">
@@ -21,143 +21,142 @@
 					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
 						 <div class="card-body px-4">
 							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
-	<script>
-	function generatedata(rowscount, hasNullValues) {
-    // prepare the data
-    var data = new Array();
-    if (rowscount == undefined) rowscount = 1;
-    var collection_cde =
-    [
-        "Herp"
-    ];
+				<script>
+					function generatedata(rowscount, hasNullValues) {
+				// prepare the data
+				var data = new Array();
+				if (rowscount == undefined) rowscount = 1;
+				var collection_cde =
+				[
+					"Herp"
+				];
 
-    var institution_acronym =
-    [
-        "MCZ"
-    ];
+				var institution_acronym =
+				[
+					"MCZ"
+				];
 
-    var other_id_type =
-    [
-        "catalog item"
-    ];
+				var other_id_type =
+				[
+					"catalog item"
+				];
 
-    var other_id_number =
-    [
-         "1234"
-    ];
-		
-	    var attribute =
-    [
-         "caste"
-    ];
-	var attribute_value =
-    [
-         "length"
-    ];
+				var other_id_number =
+				[
+					 "1234"
+				];
 
-	var attribute_units =
-    [
-         ""
-    ];
-	var attribute_date =
-    [
-         "2000-01-01"
-    ];
-	var attribute_meth =
-    [
-         ""
-    ];
-			var determiner =
-    [
-         "Joe White"
-    ];
-	var remarks =
-    [
-         "This is temporary data."
-    ];
-    for (var i = 0; i < rowscount; i++) {
-        var row = {};       
+					var attribute =
+				[
+					 "caste"
+				];
+				var attribute_value =
+				[
+					 "length"
+				];
 
-        row["id"] = i;
+				var attribute_units =
+				[
+					 ""
+				];
+				var attribute_date =
+				[
+					 "2000-01-01"
+				];
+				var attribute_meth =
+				[
+					 ""
+				];
+						var determiner =
+				[
+					 "Joe White"
+				];
+				var remarks =
+				[
+					 "This is temporary data."
+				];
+				for (var i = 0; i < rowscount; i++) {
+					var row = {};       
 
-        row["collection_cde"] = collection_cde;
-        row["institution_acronym"] = institution_acronym;
-        row["other_id_type"] = other_id_type;
-        row["other_id_number"] = other_id_number;
-        row["attribute"] = attribute;
-        row["attribute_value"] = attribute_value;
-		row["attribute_units"] = attribute_units;
-        row["attribute_date"] = attribute_date;
-		row["attribute_meth"] = attribute_meth;
-		row["determiner"] = determiner;
-        row["remarks"] = remarks;
+					row["id"] = i;
 
-  
-       
-        data[i] = row;
-    }
+					row["collection_cde"] = collection_cde;
+					row["institution_acronym"] = institution_acronym;
+					row["other_id_type"] = other_id_type;
+					row["other_id_number"] = other_id_number;
+					row["attribute"] = attribute;
+					row["attribute_value"] = attribute_value;
+					row["attribute_units"] = attribute_units;
+					row["attribute_date"] = attribute_date;
+					row["attribute_meth"] = attribute_meth;
+					row["determiner"] = determiner;
+					row["remarks"] = remarks;
 
-    return data;
-}
 
-	</script>				     	
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // prepare the data
-            var data = generatedata(1);
 
-            var source =
-            {
-                localdata: data,
-                datatype: "array",
-                datafields:
-                [
-                    { name: 'collection_cde', type: 'string' },
-                    { name: 'institution_acronym', type: 'string' },
-                    { name: 'other_id_type', type: 'string' },
-                    { name: 'other_id_number', type: 'string' },
-                    { name: 'attribute', type: 'string' },
-                    { name: 'attribute_unit', type: 'string' },
-                    { name: 'attribute_date', type: 'string' },
-					{ name: 'attribute_meth', type: 'string' },
-                    { name: 'determiner', type: 'string' },
-					{ name: 'remarks', type: 'string'}
-                ]                     
-            };
+					data[i] = row;
+				}
 
-            var dataAdapter = new $.jqx.dataAdapter(source);
+				return data;
+			}
+				</script>				     	
+				<script type="text/javascript">
+					$(document).ready(function () {
+						// prepare the data
+						var data = generatedata(1);
 
-            // initialize jqxGrid
-            $("##grid").jqxGrid(
-            {
-                width: '100%',
-				autoheight: 'true',
-                source: dataAdapter,                
-                altrows: true,
-                sortable: true,
-                selectionmode: 'multiplecellsextended',
-                columns: [
-                  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-                  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  { text: 'attribute', datafield: 'attribute', width: 80 },
-                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
-                  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
-				  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
-                  { text: 'determiner', datafield: 'determiner', width: 120 },
-					{ text: 'remarks', datafield: 'remarks', width:220 }
-                ]
-            });
+						var source =
+						{
+							localdata: data,
+							datatype: "array",
+							datafields:
+							[
+								{ name: 'collection_cde', type: 'string' },
+								{ name: 'institution_acronym', type: 'string' },
+								{ name: 'other_id_type', type: 'string' },
+								{ name: 'other_id_number', type: 'string' },
+								{ name: 'attribute', type: 'string' },
+								{ name: 'attribute_unit', type: 'string' },
+								{ name: 'attribute_date', type: 'string' },
+								{ name: 'attribute_meth', type: 'string' },
+								{ name: 'determiner', type: 'string' },
+								{ name: 'remarks', type: 'string'}
+							]                     
+						};
 
-            $("##csvExport").jqxButton();
+						var dataAdapter = new $.jqx.dataAdapter(source);
 
-            $("##csvExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
-            });
-           
-        });
-    </script>
+						// initialize jqxGrid
+						$("##grid").jqxGrid(
+						{
+							width: '100%',
+							autoheight: 'true',
+							source: dataAdapter,                
+							altrows: true,
+							sortable: true,
+							selectionmode: 'multiplecellsextended',
+							columns: [
+							  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+							  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+							  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+							  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+							  { text: 'attribute', datafield: 'attribute', width: 80 },
+							  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
+							  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
+							  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
+							  { text: 'determiner', datafield: 'determiner', width: 120 },
+								{ text: 'remarks', datafield: 'remarks', width:220 }
+							]
+						});
+
+						$("##csvExport").jqxButton();
+
+						$("##csvExport").click(function () {
+							$("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+						});
+
+					});
+				</script>
 
         <div id="grid"></div>
         <div class="mt-3 mb-2 d-block float-left w-100">
