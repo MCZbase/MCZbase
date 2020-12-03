@@ -151,7 +151,7 @@
         });
     </script>
 
-        <div id="grid" style="height:100px!important;"></div>
+        <div id="grid" style="max-height:100px!important;overflow-x:scroll"></div>
         <div class="my-3 d-block ">
             <div class="float-left">
                 <input type="button" value="Export to Excel" id='excelExport' />
