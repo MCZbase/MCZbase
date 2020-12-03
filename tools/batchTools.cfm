@@ -73,7 +73,7 @@
 				];
 				var remarks =
 				[
-					 "This is temporary data."
+					 "This is sample data."
 				];
 				for (var i = 0; i < rowscount; i++) {
 					var row = {};       
