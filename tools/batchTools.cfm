@@ -87,7 +87,21 @@
 		<div class="col-12">
 			<h1 class="h2">Batch Tools</h1>
 
-    	
+
+
+			<div class="accordion" id="accordionExample">
+				<div class="card">
+					<div class="card-header" id="headingThree">
+					  <h2 class="my-0">
+						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						 Bulk Add Attributes
+						</a>
+					  </h2>
+					</div>
+					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
+						 <div class="card-body px-4">
+							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
+							     	
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
@@ -164,19 +178,6 @@
             </div>
    
         </div>
-
-			<div class="accordion" id="accordionExample">
-				<div class="card">
-					<div class="card-header" id="headingThree">
-					  <h2 class="my-0">
-						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-						 Bulk Add Attributes
-						</a>
-					  </h2>
-					</div>
-					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-						 <div class="card-body px-4">
-							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
 							<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
 							<p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
 							<p>Columns in red are required; others are optional:</p>
