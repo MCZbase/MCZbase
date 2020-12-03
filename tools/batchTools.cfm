@@ -556,8 +556,7 @@
 				<div class="card">
 				<div class="card-header" id="headingFour">
 				  <h2 class="h4 my-1 px-3">
-					<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
-					  Bulk Add Citations
+					<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour"> &nbsp;Bulk Add Citations
 					</a>
 				  </h2>
 				</div>
@@ -584,8 +583,7 @@
 				<div class="card">
 					<div class="card-header" id="headingFive">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
-						 Add Identifiers to Existing Specimen Records
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive"> &nbsp;Bulk Add Identifiers
 						</a>
 					  </h2>
 					</div>
@@ -598,9 +596,7 @@
 				<div class="card">
 					<div class="card-header" id="headingSix">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
-						 Add Loans to Existing Specimen Records
-						</a>
+						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans		</a>
 					  </h2>
 					</div>
 					<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
@@ -612,8 +608,7 @@
 				<div class="card">
 					<div class="card-header" id="headingSeven">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-						  Add Data Loans to Existing Specimen Records
+						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> &nbsp;Add Data Loans
 						</a>
 					  </h2>
 					</div>
@@ -627,7 +622,7 @@
 					<div class="card-header" id="headingEight">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
-						  Add Agents to Existing Specimen Records
+						  &nbsp;Bulk Add Agents
 						</a>
 					  </h2>
 					</div>
@@ -641,7 +636,7 @@
 					<div class="card-header" id="headingNine">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
-						  Add Part Containers to Existing Specimen Records
+						  &nbsp;Add Part Containers
 						</a>
 					  </h2>
 					</div>
@@ -655,7 +650,7 @@
 					<div class="card-header" id="headingTen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
-						 Add Identifications to Existing Specimen Records
+						 &nbsp;Bulk Add Identifications
 						</a>
 					  </h2>
 					</div>
@@ -669,8 +664,7 @@
 					<div class="card-header" id="headingEleven">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
-						 Edit or Move Parts Associated with Specimen Records in Bulk
-						</a>
+						 &nbsp;Edit or Move Parts 	</a>
 					  </h2>
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
@@ -682,8 +676,7 @@
 				<div class="card">
 				<div class="card-header" id="headingThree">
 				  <h2 class="h4 my-1 px-3">
-					<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					  Add Media to Existing Specimen Records
+					<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree"> &nbsp;Add Media 
 					</a>
 				  </h2>
 				</div>
@@ -696,8 +689,7 @@
 				<div class="card">
 					<div class="card-header" id="headingThirteen">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
-						 Add Biological or Administrative Record Relationships to Existing Specimen Records
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen"> &nbsp;Add Biological or Administrative Record Relationships
 						</a>
 					  </h2>
 					</div>
@@ -711,7 +703,7 @@
 					<div class="card-header" id="headingFourteen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
-						  Add Georeferences to Existing Specimen Records
+						  &nbsp;Bulk Add Georeferences 
 						</a>
 					  </h2>
 					</div>
@@ -725,7 +717,7 @@
 					<div class="card-header" id="headingFifteen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
-						 Add or Edit Taxonomy
+						 &nbsp;Add or Edit Taxonomy
 						</a>
 					  </h2>
 					</div>
