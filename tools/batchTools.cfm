@@ -1,7 +1,27 @@
 <cfset pageTitle = "Batch Tools">
 <cfinclude template = "/shared/_header.cfm">
 <script type="text/javascript" src="/lib/JQWidgets/jqwidgets_ver9.1.6/scripts/demos.js"></script> 
-<script>
+
+<cfoutput>
+<main class="container py-3">
+	<section class="row">
+		<div class="col-12">
+			<h1 class="h2">Batch Tools</h1>
+
+
+
+			<div class="accordion" id="accordionExample">
+				<div class="card">
+					<div class="card-header" id="headingThree">
+					  <h2 class="h4 my-1 px-3">
+						<a class="btn-link text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree"> &nbsp;Bulk Add Attributes
+						</a>
+					  </h2>
+					</div>
+					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
+						 <div class="card-body px-4">
+							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
+	<script>
 	function generatedata(rowscount, hasNullValues) {
     // prepare the data
     var data = new Array();
@@ -80,27 +100,7 @@
     return data;
 }
 
-	</script>
-<cfoutput>
-<main class="container py-3">
-	<section class="row">
-		<div class="col-12">
-			<h1 class="h2">Batch Tools</h1>
-
-
-
-			<div class="accordion" id="accordionExample">
-				<div class="card">
-					<div class="card-header" id="headingThree">
-					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree"> &nbsp;Bulk Add Attributes
-						</a>
-					  </h2>
-					</div>
-					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-						 <div class="card-body px-4">
-							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
-							     	
+	</script>				     	
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
@@ -195,6 +195,146 @@
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 						<div class="card-body px-4">
 							<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
+							
+								<script>
+	function generatedata2(rowscount, hasNullValues) {
+    // prepare the data
+    var data = new Array();
+    if (rowscount == undefined) rowscount = 1;
+    var collection_cde =
+    [
+        "Herp"
+    ];
+
+    var institution_acronym =
+    [
+        "MCZ"
+    ];
+
+    var other_id_type =
+    [
+        "catalog item"
+    ];
+
+    var other_id_number =
+    [
+         "1234"
+    ];
+		
+	    var attribute =
+    [
+         "caste"
+    ];
+	var attribute_value =
+    [
+         "length"
+    ];
+
+	var attribute_units =
+    [
+         ""
+    ];
+	var attribute_date =
+    [
+         "2000-01-01"
+    ];
+	var attribute_meth =
+    [
+         ""
+    ];
+			var determiner =
+    [
+         "Joe White"
+    ];
+	var remarks =
+    [
+         "This is temporary data."
+    ];
+    for (var i = 0; i < rowscount; i++) {
+        var row = {};       
+
+        row["id"] = i;
+
+        row["collection_cde"] = collection_cde;
+        row["institution_acronym"] = institution_acronym;
+        row["other_id_type"] = other_id_type;
+        row["other_id_number"] = other_id_number;
+        row["attribute"] = attribute;
+        row["attribute_value"] = attribute_value;
+		row["attribute_units"] = attribute_units;
+        row["attribute_date"] = attribute_date;
+		row["attribute_meth"] = attribute_meth;
+		row["determiner"] = determiner;
+        row["remarks"] = remarks;
+
+  
+       
+        data[i] = row;
+    }
+
+    return data;
+}
+
+	</script>				     	
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'attribute', type: 'string' },
+                    { name: 'attribute_unit', type: 'string' },
+                    { name: 'attribute_date', type: 'string' },
+					{ name: 'attribute_meth', type: 'string' },
+                    { name: 'determiner', type: 'string' },
+					{ name: 'remarks', type: 'string'}
+                ]                     
+            };
+
+            var dataAdapter = new $.jqx.dataAdapter(source);
+
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+                sortable: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  { text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  { text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  { text: 'attribute', datafield: 'attribute', width: 80 },
+                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 90 },
+                  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
+				  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
+                  { text: 'determiner', datafield: 'determiner', width: 120 },
+					{ text: 'remarks', datafield: 'remarks', width:220 }
+                ]
+            });
+
+            $("##csvExport").jqxButton();
+
+            $("##csvExport").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+
+        <div id="grid2"></div>
 							<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2 </textarea>
 
 								<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
