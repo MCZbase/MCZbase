@@ -151,7 +151,7 @@
         });
     </script>
 
-        <div id="grid"></div>
+        <div id="grid" style="max-height:100px!important;"></div>
         <div style='margin-top: 20px;'>
             <div style='float: left;'>
                 <input type="button" value="Export to Excel" id='excelExport' />
