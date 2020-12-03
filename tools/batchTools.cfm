@@ -598,9 +598,9 @@
 				<div class="card">
 					<div class="card-header" id="headingSix">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
+						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
 						 Add Loans to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
@@ -612,9 +612,9 @@
 				<div class="card">
 					<div class="card-header" id="headingSeven">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
 						  Add Data Loans to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##accordionExample">
@@ -626,9 +626,9 @@
 				<div class="card">
 					<div class="card-header" id="headingEight">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
 						  Add Agents to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
@@ -640,9 +640,9 @@
 				<div class="card">
 					<div class="card-header" id="headingNine">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
 						  Add Part Containers to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
@@ -654,9 +654,9 @@
 				<div class="card">
 					<div class="card-header" id="headingTen">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
 						 Add Identifications to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
@@ -668,9 +668,9 @@
 				<div class="card">
 					<div class="card-header" id="headingEleven">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
 						 Edit or Move Parts Associated with Specimen Records in Bulk
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
@@ -682,9 +682,9 @@
 				<div class="card">
 				<div class="card-header" id="headingThree">
 				  <h2 class="h4 my-1 px-3">
-					<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+					<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
 					  Add Media to Existing Specimen Records
-					</button>
+					</a>
 				  </h2>
 				</div>
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
@@ -696,9 +696,9 @@
 				<div class="card">
 					<div class="card-header" id="headingThirteen">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
 						 Add Biological or Administrative Record Relationships to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##accordionExample">
@@ -710,9 +710,9 @@
 				<div class="card">
 					<div class="card-header" id="headingFourteen">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
 						  Add Georeferences to Existing Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##accordionExample">
@@ -724,9 +724,9 @@
 				<div class="card">
 					<div class="card-header" id="headingFifteen">
 					  <h2 class="h4 my-1 px-3">
-						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
 						 Add or Edit Taxonomy
-						</button>
+						</a>
 					  </h2>
 					</div>
 					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##accordionExample">
