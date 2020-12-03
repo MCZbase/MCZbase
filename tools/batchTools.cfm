@@ -9,12 +9,12 @@
 				<div class="card">
 					<div class="card-header py-0" id="headingOne">
 					  <h2 class=" h3 my-0">
-						<button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						<a class="btn btn-link btn-block text-left" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						  Add New Parts to Specimen Records
-						</button>
+						</a>
 					  </h2>
 					</div>
-					<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample">
+					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 						<div class="card-body px-4">
 							<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
 							<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,condition,part_att_name_1,part_att_val_1,part_att_units_1,part_att_detby_1,part_att_madedate_1,part_att_rem_1,part_att_name_2,part_att_val_2,part_att_units_2,part_att_detby_2,part_att_madedate_2,part_att_rem_2 </textarea>
@@ -95,9 +95,11 @@
 				</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 				  <div class="card-body px-4">
+					  <div class="p-3 text-secondary border">
 					  <h3 class="h4">Update existing part and/or append remark to existing remarks.</h3>
-						<h4>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h4>
+						<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 						<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method </textarea>
+					  </div>
 					  <div class="card-columns mb-3">
 							<ul class="list-style-disc px-4">
 								<li class="text-danger">institution_acronym</li>
@@ -149,14 +151,14 @@
 				</div>	<!---2--->
 				<div class="card">
 					<div class="card-header" id="headingThree">
-				  <h2 class="my-0">
-					<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					 Bulk Add Attributes
-					</a>
-				  </h2>
-				</div>
+					  <h2 class="my-0">
+						<a class="btn btn-link btn-block text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						 Bulk Add Attributes
+						</a>
+					  </h2>
+					</div>
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-					  <div class="card-body px-4">
+					 <div class="card-body px-4">
 						<h3>Add Attributes to Existing Specimen Records</h3>
 						<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
 						<p>Attribute List</p>
