@@ -44,12 +44,8 @@
                 ]
             });
             $("##excelExport").jqxButton();
-            $("##xmlExport").jqxButton();
             $("##csvExport").jqxButton();
-            $("##tsvExport").jqxButton();
-            $("##htmlExport").jqxButton();
-            $("##jsonExport").jqxButton();
-            $("##pdfExport").jqxButton();
+           
             $("##excelExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'xlsx', 'jqxGrid');           
             });
