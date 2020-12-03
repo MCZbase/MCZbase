@@ -196,142 +196,141 @@
 						<div class="card-body px-4">
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
-							
-								<script>
-	function generatedata2(rowscount, hasNullValues) {
-    // prepare the data
-    var data = new Array();
-    if (rowscount == undefined) rowscount = 1;
-    var collection_cde = 
-		[ 
-			"Herp" 
-		];
-    var institution_acronym = 
-		[  
-			"MCZ" 
-		];
-    var other_id_type = 
-		[ 
-			"catalog item" 
-		];
-    var other_id_number = 
-		[ 
-			"1234" 
-		];
-	var part_name = 
-		[
-			"whole animal"
-		];
-	var preserve_method =
-		[ 
-			"ethanol"
-		];
-	var disposition = 
-		[  
-			"in collection" 
-		];
-	var lot_count_modifier = 
-		[
-			">"
-		];
-	var lot_count = 
-		[ 
-			"1"
-		];
-	var current_remarks =
-		[ 
-			"good" 
-		];
-	var container_unique_id =
-		[ 
-			"" 
-		];
-	var condition =
-		[ 
-			"" 
-		];
-	var part_att_name_1 =
-		[ 
-			"" 
-		];
-	var part_att_val_1 =
-		[ 
-			"" 
-		];
-	var part_att_units_1 =
-		[ 
-			"" 
-		];
-	var part_att_detby_1 =
-		[ 
-			"" 
-		];
-	var part_att_madedate_1 =
-		[ 
-			"" 
-		];
-	var part_att_rem_1 =
-		[ 
-			"" 
-		];
-	var part_att_name_2 =
-		[ 
-			"" 
-		];
-	var part_att_val_2 =
-		[ 
-			"" 
-		];
-	var part_att_units_2 =
-		[ 
-			"" 
-		];
-	var part_att_detby_2 =
-		[ 
-			"" 
-		];
-	var part_att_madedate_2 =
-		[ 
-			"" 
-		];
-	var part_att_rem_2 =
-		[ 
-			"" 
-		];
-    for (var i = 0; i < rowscount; i++) {
-        var row = {};       
-        row["id"] = i;
-        row["collection_cde"] = collection_cde;
-        row["institution_acronym"] = institution_acronym;
-        row["other_id_type"] = other_id_type;
-        row["other_id_number"] = other_id_number;
-        row["part_name"] = part_name;
-        row["preserve_method"] = preserve_method;
-		row["disposition"] = disposition;
-        row["lot_count_modifier"] = lot_count_modifier;
-		row["lot_count"] = lot_count;
-		row["current_remarks"] = current_remarks;
-        row["container_unique_id"] = container_unique_id;
-		row["condition"] = condition;
-		row["part_att_name_1"] = part_att_name_1;
-		row["part_att_val_1"] = part_att_val_1;
-		row["part_att_units_1"] = part_att_units_1;
-		row["part_att_detby_1"] = part_att_detby_1;
-		row["part_att_madedate_1"] = part_att_madedate_1;
-		row["part_att_rem_1"] = part_att_rem_1;
-		row["part_att_name_2"] = part_att_name_2;
-		row["part_att_val_2"] = part_att_val_2;
-		row["part_att_units_2"] = part_att_units_2;
-		row["part_att_detby_2"] = part_att_detby_2;
-		row["part_att_madedate_2"] = part_att_madedate_2;
-		row["part_att_rem_2"] = part_att_rem_2;
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"good" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
 
-        data[i] = row;
-    }
-    return data;
-}
-	</script>				     	
-    <script type="text/javascript">
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
             var data = generatedata2(1);
@@ -413,16 +412,15 @@
            
         });
     </script>
-
-        <div id="grid2"></div>
-		<div class="mt-3 mb-2 d-block float-left w-100">
-			<div class="ml-0 float-left">
-                <input type="button" value="Export to CSV" id='csvExport2' />
-			</div>
-        </div>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
 					
 
-								<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
+							<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">institution_acronym</li>
@@ -486,7 +484,7 @@
 								</ul>
 							</div>
 						</div>
-						</div>
+					</div>
 				</div>	<!---1--->
 				<div class="card">
 					<div class="card-header" id="headingTwo">
@@ -557,8 +555,8 @@
 			
 				<div class="card">
 				<div class="card-header" id="headingFour">
-				  <h2 class="my-0">
-					<a class="btn btn-link btn-block text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
+				  <h2 class="h4 my-1 px-3">
+					<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
 					  Bulk Add Citations
 					</a>
 				  </h2>
@@ -585,8 +583,8 @@
 				</div>	<!---4--->
 				<div class="card">
 					<div class="card-header" id="headingFive">
-					  <h2 class="my-0">
-						<a class="btn btn-link btn-block text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
+					  <h2 class="h4 my-1 px-3">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
 						 Add Identifiers to Existing Specimen Records
 						</a>
 					  </h2>
@@ -599,8 +597,8 @@
 				</div>	<!---5--->
 				<div class="card">
 					<div class="card-header" id="headingSix">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
 						 Add Loans to Existing Specimen Records
 						</button>
 					  </h2>
@@ -613,8 +611,8 @@
 				 </div>	<!---6--->
 				<div class="card">
 					<div class="card-header" id="headingSeven">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
 						  Add Data Loans to Existing Specimen Records
 						</button>
 					  </h2>
@@ -627,8 +625,8 @@
 			  </div>	<!---7--->
 				<div class="card">
 					<div class="card-header" id="headingEight">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
 						  Add Agents to Existing Specimen Records
 						</button>
 					  </h2>
@@ -641,8 +639,8 @@
 			  </div>	<!---8--->					
 				<div class="card">
 					<div class="card-header" id="headingNine">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
 						  Add Part Containers to Existing Specimen Records
 						</button>
 					  </h2>
@@ -655,8 +653,8 @@
 			  </div>	<!---9--->
 				<div class="card">
 					<div class="card-header" id="headingTen">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
 						 Add Identifications to Existing Specimen Records
 						</button>
 					  </h2>
@@ -669,8 +667,8 @@
 			  </div>	<!---10--->
 				<div class="card">
 					<div class="card-header" id="headingEleven">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
 						 Edit or Move Parts Associated with Specimen Records in Bulk
 						</button>
 					  </h2>
@@ -683,8 +681,8 @@
 			  </div>	<!---11--->
 				<div class="card">
 				<div class="card-header" id="headingThree">
-				  <h2 class="my-0">
-					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
+				  <h2 class="h4 my-1 px-3">
+					<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
 					  Add Media to Existing Specimen Records
 					</button>
 				  </h2>
@@ -697,8 +695,8 @@
 			  </div>	<!---12--->	
 				<div class="card">
 					<div class="card-header" id="headingThirteen">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
 						 Add Biological or Administrative Record Relationships to Existing Specimen Records
 						</button>
 					  </h2>
@@ -711,8 +709,8 @@
 			  </div>	<!---13--->			
 				<div class="card">
 					<div class="card-header" id="headingFourteen">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
 						  Add Georeferences to Existing Specimen Records
 						</button>
 					  </h2>
@@ -725,8 +723,8 @@
 			  </div>	<!---14--->				
 				<div class="card">
 					<div class="card-header" id="headingFifteen">
-					  <h2 class="my-0">
-						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
+					  <h2 class="h4 my-1 px-3">
+						<button class="btn-link text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
 						 Add or Edit Taxonomy
 						</button>
 					  </h2>
