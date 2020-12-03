@@ -490,7 +490,7 @@
 					<div class="card-header" id="headingTwo">
 				  <h2 class="h3 my-0">
 					<a class="btn btn-link btn-block text-left collapsed" name="editParts" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-					  Edit Parts
+					  &nbsp;Edit Parts
 					</a>
 				  </h2>
 				</div>
@@ -621,8 +621,7 @@
 				<div class="card">
 					<div class="card-header" id="headingEight">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
-						  &nbsp;Bulk Add Agents
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight"> &nbsp;Bulk Add Agents
 						</a>
 					  </h2>
 					</div>
@@ -635,8 +634,7 @@
 				<div class="card">
 					<div class="card-header" id="headingNine">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
-						  &nbsp;Add Part Containers
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine"> &nbsp;Add Part Containers
 						</a>
 					  </h2>
 					</div>
@@ -649,8 +647,7 @@
 				<div class="card">
 					<div class="card-header" id="headingTen">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
-						 &nbsp;Bulk Add Identifications
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen"> &nbsp;Bulk Add Identifications
 						</a>
 					  </h2>
 					</div>
@@ -663,8 +660,7 @@
 				<div class="card">
 					<div class="card-header" id="headingEleven">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
-						 &nbsp;Edit or Move Parts 	</a>
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven"> &nbsp;Edit or Move Parts 	</a>
 					  </h2>
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
