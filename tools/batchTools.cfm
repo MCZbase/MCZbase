@@ -131,7 +131,8 @@
             // initialize jqxGrid
             $("##grid").jqxGrid(
             {
-                width: getWidth('Grid'),
+                width: '100%',
+				autoheight: 'true',
                 source: dataAdapter,                
                 altrows: true,
                 sortable: true,
