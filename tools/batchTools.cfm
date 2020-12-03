@@ -151,13 +151,13 @@
         });
     </script>
 
-        <div id="grid" style="max-height:100px!important;"></div>
-        <div style='margin-top: 20px;'>
-            <div style='float: left;'>
+        <div id="grid" style="height:100px!important;"></div>
+        <div class="my-3 d-block ">
+            <div class="float-left">
                 <input type="button" value="Export to Excel" id='excelExport' />
                 <br /><br />
                            </div>
-            <div style='margin-left: 10px; float: left;'>
+            <div class="ml-2 float-left">
                 <input type="button" value="Export to CSV" id='csvExport' />
                 <br /><br />
             
