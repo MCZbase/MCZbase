@@ -488,7 +488,7 @@
 				</div>	<!---1--->
 				<div class="card">
 					<div class="card-header" id="headingTwo">
-				  <h2 class="h3 my-0">
+				  <h2 class="h4 my-1 px-3">
 					<a class="btn btn-link btn-block text-left collapsed" name="editParts" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 					  &nbsp;Edit Parts
 					</a>
