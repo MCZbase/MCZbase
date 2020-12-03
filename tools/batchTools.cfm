@@ -8,52 +8,52 @@
     if (rowscount == undefined) rowscount = 5;
     var collection_cde =
     [
-        "Andrew", "Nancy"
+        "Herp"
     ];
 
     var institution_acronym =
     [
-        "Fuller", "Davolio"
+        "MCZ"
     ];
 
     var other_id_type =
     [
-        "Black Tea", "Green Tea"
+        "catalog item"
     ];
 
     var other_id_number =
     [
-         "2.25", "1.5"
+         "1234"
     ];
 		
 	    var attribute =
     [
-         "2.25", "1.5"
+         "caste"
     ];
 	var attribute_value =
     [
-         "2.25", "1.5"
+         "length"
     ];
 
 	var attribute_units =
     [
-         "2.25", "1.5"
+         ""
     ];
 	var attribute_date =
     [
-         "2.25", "1.5"
+         "2000-01-01"
     ];
 	var attribute_meth =
     [
-         "2.25", "1.5"
+         ""
     ];
 			var determiner =
     [
-         "2.25", "1.5"
+         "Joe White"
     ];
 	var remarks =
     [
-         "2.25", "1.5"
+         "This is temporary data."
     ];
     for (var i = 0; i < rowscount; i++) {
         var row = {};       
@@ -91,7 +91,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
-            var data = generatedata(100);
+            var data = generatedata(1);
 
             var source =
             {
