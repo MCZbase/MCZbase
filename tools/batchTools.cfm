@@ -5,6 +5,45 @@
 	<section class="row">
 		<div class="col-12">
 			<h1 class="h2">Batch Tools</h1>
+			   <div id='content'>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var url = "../sampledata/customers.txt";
+                // prepare the data
+                var source =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'CompanyName' },
+                        { name: 'ContactName' }
+                    ],
+                    id: 'id',
+                    url: url
+                };
+                var dataAdapter = new $.jqx.dataAdapter(source);
+                // Create a jqxListBox
+                $("#jqxWidget").jqxListBox({ source: dataAdapter, displayMember: "ContactName", valueMember: "CompanyName", width: 250, height: 300});
+                $("#jqxWidget").on('select', function (event) {
+                    if (event.args) {
+                        var item = event.args.item;
+                        if (item) {
+                            var valueelement = $("<div></div>");
+                            valueelement.text("Value: " + item.value);
+                            var labelelement = $("<div></div>");
+                            labelelement.text("Label: " + item.label);
+                            $("#selectionlog").children().remove();
+                            $("#selectionlog").append(labelelement);
+                            $("#selectionlog").append(valueelement);
+                        }
+                    }
+                });
+            });
+        </script>
+        <div id='jqxWidget'>
+        </div>
+        <div style="font-size: 13px; font-family: Verdana;" id="selectionlog">
+        </div>
+    </div>
 			<div class="accordion" id="accordionExample">
 				<div class="card">
 					<div class="card-header py-0" id="headingOne">
