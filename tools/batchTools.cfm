@@ -5,10 +5,13 @@
 	<section class="row">
 		<div class="col-12">
 			<h1 class="h2">Batch Tools</h1>
-			<script type="text/javascript">
+	 <script type="text/javascript" src="../../scripts/jszip.min.js"></script>
+    	
+    <script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
             var data = generatedata(100);
+
             var source =
             {
                 localdata: data,
@@ -24,7 +27,9 @@
                     { name: 'price', type: 'number' }
                 ]                     
             };
+
             var dataAdapter = new $.jqx.dataAdapter(source);
+
             // initialize jqxGrid
             $("##grid").jqxGrid(
             {
@@ -43,25 +48,61 @@
                   { text: 'Price', datafield: 'price', cellsalign: 'right', align: 'right', cellsformat: 'c2' }
                 ]
             });
+
             $("##excelExport").jqxButton();
+            $("##xmlExport").jqxButton();
             $("##csvExport").jqxButton();
-           
+            $("##tsvExport").jqxButton();
+            $("##htmlExport").jqxButton();
+            $("##jsonExport").jqxButton();
+            $("##pdfExport").jqxButton();
+
             $("##excelExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'xlsx', 'jqxGrid');           
+            });
+            $("##xmlExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'xml', 'jqxGrid');
             });
             $("##csvExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
             });
-
+            $("##tsvExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'tsv', 'jqxGrid');
+            });
+            $("##htmlExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'html', 'jqxGrid');
+            });
+            $("##jsonExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'json', 'jqxGrid');
+            });
+            $("##pdfExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
+            });
         });
     </script>
-			   <div id="grid"></div>
-			  <div style='margin-left: 10px; float: left;'>
+
+        <div id="grid"></div>
+        <div style='margin-top: 20px;'>
+            <div style='float: left;'>
+                <input type="button" value="Export to Excel" id='excelExport' />
+                <br /><br />
+                <input type="button" value="Export to XML" id='xmlExport' />
+            </div>
+            <div style='margin-left: 10px; float: left;'>
                 <input type="button" value="Export to CSV" id='csvExport' />
                 <br /><br />
-               <input type="button" value="Export to Excel" id='excelExport' />
+                <input type="button" value="Export to TSV" id='tsvExport' />
             </div>
-			
+            <div style='margin-left: 10px; float: left;'>
+                <input type="button" value="Export to HTML" id='htmlExport' />
+                <br /><br />
+                <input type="button" value="Export to JSON" id='jsonExport' />
+            </div>
+            <div style='margin-left: 10px; float: left;'>
+                <input type="button" value="Export to PDF" id='pdfExport' />
+            </div>
+        </div>
+</body>
 			<div class="accordion" id="accordionExample">
 				<div class="card">
 					<div class="card-header" id="headingThree">
