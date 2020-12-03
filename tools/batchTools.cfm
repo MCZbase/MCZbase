@@ -166,8 +166,8 @@
         });
     </script>
 
-        <div id="grid" style="float:left;"></div>
-        <div class="my-3 d-block float-left;">
+        <div id="grid"></div>
+        <div class="my-3 d-block float-left w-100">
             <div class="float-left">
                 <input type="button" value="Export to Excel" id='excelExport' />
                 <br /><br />
@@ -179,10 +179,10 @@
             </div>
    
         </div>
-							<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</p>
+							<h4>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
 							<p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
-							<p>Columns in red are required; others are optional:</p>
-							<ul>
+							<h4>Columns in red are required; others are optional:</h4>
+							<ul class="px-4 list-style-disc">
 								<li class="text-danger">COLLECTION_CDE</li>
 								<li class="text-danger">INSTITUTION_ACRONYM</li>
 								<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
