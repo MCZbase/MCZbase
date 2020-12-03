@@ -161,10 +161,9 @@
     </script>
 
         <div id="grid"></div>
-        <div class="my-3 d-block float-left w-100">
-			<div class="ml-2 float-left">
+        <div class="mt-3 d-block float-left w-100">
+			<div class="ml-0 float-left">
                 <input type="button" value="Export to CSV" id='csvExport' />
-                <br /><br />
 			</div>
         </div>
 		<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
