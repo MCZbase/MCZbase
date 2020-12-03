@@ -5,7 +5,7 @@
 	<section class="row">
 		<div class="col-12">
 			<h1 class="h2">Batch Tools</h1>
-	 <script type="text/javascript" src="../../scripts/jszip.min.js"></script>
+
     	
     <script type="text/javascript">
         $(document).ready(function () {
