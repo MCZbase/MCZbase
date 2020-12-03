@@ -94,7 +94,7 @@
 				  </h2>
 				</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
-				  <div class="card-body">
+				  <div class="card-body px-4">
 					  <h3 class="h4">(update existing part and/or append remark to existing remarks)</h3>
 						<h3 class="h4">Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</h3>
 						<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label><textarea class="data-entry-textarea">institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method </textarea>
@@ -151,12 +151,12 @@
 					<div class="card-header" id="headingThree">
 				  <h2 class="my-0">
 					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					  Collapsible Group Item 
+					 Add Attributes to Existing Specimen Records
 					</button>
 				  </h2>
 				</div>
 					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-				  <div class="card-body">
+				  <div class="card-body px-4">
 					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 				  </div>
 				</div>
@@ -165,12 +165,12 @@
 				<div class="card-header" id="headingFour">
 				  <h2 class="my-0">
 					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
-					  Collapsible Group Item 
+					  Add Citations to Existing Specimen Records
 					</button>
 				  </h2>
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
-				  <div class="card-body">
+				  <div class="card-body px-4">
 					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 				  </div>
 				</div>
@@ -179,12 +179,12 @@
 					<div class="card-header" id="headingFive">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive">
-						  Collapsible Group Item 
+						 Add Identifiers to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -193,12 +193,12 @@
 					<div class="card-header" id="headingSix">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix">
-						  Collapsible Group Item 
+						 Add Loans to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -207,12 +207,12 @@
 					<div class="card-header" id="headingSeven">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-						  Collapsible Group Item 
+						  Add Data Loans to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -221,12 +221,12 @@
 					<div class="card-header" id="headingEight">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight">
-						  Collapsible Group Item 
+						  Add Agents to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -235,12 +235,12 @@
 					<div class="card-header" id="headingNine">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine">
-						  Collapsible Group Item 
+						  Add Part Containers to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -249,12 +249,12 @@
 					<div class="card-header" id="headingTen">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen">
-						  Collapsible Group Item 
+						 Add Identifications to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -263,12 +263,12 @@
 					<div class="card-header" id="headingEleven">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
-						  Collapsible Group Item 
+						 Edit or Move Parts Associated with Specimen Records in Bulk
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -277,12 +277,12 @@
 				<div class="card-header" id="headingThree">
 				  <h2 class="my-0">
 					<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree">
-					  Collapsible Group Item 
+					  Add Media to Existing Specimen Records
 					</button>
 				  </h2>
 				</div>
 				<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
-				  <div class="card-body">
+				  <div class="card-body px-4">
 					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 				  </div>
 				</div>
@@ -291,12 +291,12 @@
 					<div class="card-header" id="headingThirteen">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
-						  Collapsible Group Item 
+						 Add Biological or Administrative Record Relationships to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -305,12 +305,12 @@
 					<div class="card-header" id="headingFourteen">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
-						  Collapsible Group Item 
+						  Add Georeferences to Existing Specimen Records
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
@@ -319,12 +319,12 @@
 					<div class="card-header" id="headingFifteen">
 					  <h2 class="my-0">
 						<button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
-						  Collapsible Group Item 
+						 Add or Edit Taxonomy
 						</button>
 					  </h2>
 					</div>
 					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##accordionExample">
-					  <div class="card-body">
+					  <div class="card-body px-4">
 						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
 					  </div>
 					</div>
