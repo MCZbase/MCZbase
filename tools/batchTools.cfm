@@ -5,7 +5,7 @@
 	function generatedata(rowscount, hasNullValues) {
     // prepare the data
     var data = new Array();
-    if (rowscount == undefined) rowscount = 100;
+    if (rowscount == undefined) rowscount = 5;
     var collection_cde =
     [
         "Andrew", "Nancy"
@@ -79,27 +79,7 @@
 
     return data;
 }
-function generatecarsdata() {
-     var makes = [{ value:"", label: "Any"}, 
-        {value:"140", label: "Abarth"},             
-        { value: "25650", label: "Wiesmann" }];
 
-      var fuelType = ["Any", "Diesel"];
-      var vehicleType = ["Saloon", "Small Car"];
-      var power =
-      [
-        {value:"24", label: "24 kW (33 PS)"},
-        {value:"36", label: "36 kW (49 PS)"}
-      ];
-
-      var data = new Array();
-      for (var i = 0; i < makes.length; i++) {
-          var row = {};
-          row.make = makes[i].label;
-          data.push(row);
-      }
-      return data;
-}
 	</script>
 <cfoutput>
 <main class="container py-3">
