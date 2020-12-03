@@ -186,13 +186,27 @@
 				<div class="card-header" id="headingFour">
 				  <h2 class="my-0">
 					<a class="btn btn-link btn-block text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour">
-					  Add Citations to Existing Specimen Records
+					  Bulk Add Citations
 					</a>
 				  </h2>
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
 				  <div class="card-body px-4">
-					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					  <h3 class="h5">Bulkload Citations</h3>
+						<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
+						<ul>
+							<li class="text-danger">INSTITUTION_ACRONYM</li>
+							<li class="text-danger">COLLECTION_CDE
+							<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+							<li class="text-danger">OTHER_ID_NUMBER</li>
+							<li>PUBLICATION_TITLE (You must include either a Publication Title OR a Publication ID)</li>
+							<li>PUBLICATION_ID</li>
+							<li class="text-danger">CITED_SCIENTIFIC_NAME</li>
+							<li>OCCURS_PAGE_NUMBER</li>
+							<li>CITATION_PAGE_URI</li>
+							<li class="text-danger">TYPE_STATUS</li>
+							<li class="text-danger">CITATION_REMARKS</li>
+						</ul>
 				  </div>
 				</div>
 				</div>	<!---4--->
