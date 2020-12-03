@@ -1525,7 +1525,7 @@ textarea {
 .smaller {
 	font-size: .7em!important;
 }
-.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button:before {
+.card-header h3 a.collapsed:before, .card-header h2 a.collapsed:before, .card-header h2 button.collapsed:before {
 	font-family: "Font Awesome 5 Free"; font-weight: 900;
     float:left !important;
     content:"\f067";
