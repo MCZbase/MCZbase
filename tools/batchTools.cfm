@@ -5,6 +5,67 @@
 	<section class="row">
 		<div class="col-12">
 			<h1 class="h2">Batch Tools</h1>
+			<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata(100);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'firstname', type: 'string' },
+                    { name: 'lastname', type: 'string' },
+                    { name: 'productname', type: 'string' },
+                    { name: 'available', type: 'bool' },
+                    { name: 'date', type: 'date' },
+                    { name: 'quantity', type: 'number' },
+                    { name: 'price', type: 'number' }
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid").jqxGrid(
+            {
+                width: getWidth('Grid'),
+                source: dataAdapter,                
+                altrows: true,
+                sortable: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  { text: 'First Name', datafield: 'firstname', width: 130 },
+                  { text: 'Last Name', datafield: 'lastname', width: 130 },
+                  { text: 'Product', datafield: 'productname', width: 200 },
+                  { text: 'Available', datafield: 'available', columntype: 'checkbox', width: 67, cellsalign: 'center', align: 'center' },
+                  { text: 'Ship Date', datafield: 'date', width: 120, align: 'right', cellsalign: 'right', cellsformat: 'd' },
+                  { text: 'Quantity', datafield: 'quantity', width: 70, align: 'right', cellsalign: 'right' },
+                  { text: 'Price', datafield: 'price', cellsalign: 'right', align: 'right', cellsformat: 'c2' }
+                ]
+            });
+            $("##excelExport").jqxButton();
+            $("##xmlExport").jqxButton();
+            $("##csvExport").jqxButton();
+            $("##tsvExport").jqxButton();
+            $("##htmlExport").jqxButton();
+            $("##jsonExport").jqxButton();
+            $("##pdfExport").jqxButton();
+            $("##excelExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'xlsx', 'jqxGrid');           
+            });
+            $("##csvExport").click(function () {
+                $("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+
+        });
+    </script>
+			   <div id="grid"></div>
+			  <div style='margin-left: 10px; float: left;'>
+                <input type="button" value="Export to CSV" id='csvExport' />
+                <br /><br />
+               <input type="button" value="Export to Excel" id='excelExport' />
+            </div>
+			
 			<div class="accordion" id="accordionExample">
 				<div class="card">
 					<div class="card-header" id="headingThree">
