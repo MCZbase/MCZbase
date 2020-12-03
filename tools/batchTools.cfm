@@ -31,9 +31,9 @@
                             valueelement.text("Value: " + item.value);
                             var labelelement = $("<div></div>");
                             labelelement.text("Label: " + item.label);
-                            $("#selectionlog").children().remove();
-                            $("#selectionlog").append(labelelement);
-                            $("#selectionlog").append(valueelement);
+                            $("##selectionlog").children().remove();
+                            $("##selectionlog").append(labelelement);
+                            $("##selectionlog").append(valueelement);
                         }
                     }
                 });
