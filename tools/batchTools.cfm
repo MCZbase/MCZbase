@@ -151,13 +151,7 @@
                 ]
             });
 
-            $("##excelExport").jqxButton();
             $("##csvExport").jqxButton();
-  
-
-            $("##excelExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'xlsx', 'jqxGrid');           
-            });
 
             $("##csvExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
@@ -168,20 +162,14 @@
 
         <div id="grid"></div>
         <div class="my-3 d-block float-left w-100">
-            <div class="float-left">
-                <input type="button" value="Export to Excel" id='excelExport' />
-                <br /><br />
-                           </div>
-            <div class="ml-2 float-left">
+			<div class="ml-2 float-left">
                 <input type="button" value="Export to CSV" id='csvExport' />
                 <br /><br />
-            
-            </div>
-   
+			</div>
         </div>
-							<h4>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
-							<p><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></p>
-							<h4>Columns in red are required; others are optional:</h4>
+		<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
+							<h5><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></h5>
+							<p>Columns in red are required; others are optional:</p>
 							<ul class="px-4 list-style-disc">
 								<li class="text-danger">COLLECTION_CDE</li>
 								<li class="text-danger">INSTITUTION_ACRONYM</li>
