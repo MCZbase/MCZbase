@@ -135,6 +135,7 @@
 							source: dataAdapter,                
 							altrows: true,
 							sortable: false,
+							columnsresize: true,
 							selectionmode: 'multiplecellsextended',
 							columns: [
 							  { text: 'collection_cde', datafield: 'collection_cde', width: 115 },
@@ -375,7 +376,8 @@
 				autoheight: 'true',
                 source: dataAdapter,                
                 altrows: true,
-                sortable: true,
+          		sortable: false,
+				columnsresize: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
                   	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
