@@ -186,8 +186,8 @@
 				</div>	<!---3--->
 				<div class="card">
 					<div class="card-header py-0" id="headingOne">
-					  <h2 class="h4 my-0">
-						<a class="btn btn-link btn-block text-left" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					  <h2 class="h4 my-1 px-3">
+						<a class="btn-link text-left collapsed" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						  Add New Parts to Specimen Records
 						</a>
 					  </h2>
