@@ -123,45 +123,31 @@
                 sortable: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  { text: 'First Name', datafield: 'firstname', width: 130 },
-                  { text: 'Last Name', datafield: 'lastname', width: 130 },
-                  { text: 'Product', datafield: 'productname', width: 200 },
-                  { text: 'Available', datafield: 'available', columntype: 'checkbox', width: 67, cellsalign: 'center', align: 'center' },
-                  { text: 'Ship Date', datafield: 'date', width: 120, align: 'right', cellsalign: 'right', cellsformat: 'd' },
-                  { text: 'Quantity', datafield: 'quantity', width: 70, align: 'right', cellsalign: 'right' },
-                  { text: 'Price', datafield: 'price', cellsalign: 'right', align: 'right', cellsformat: 'c2' }
+                  { text: 'collection_cde', datafield: 'collection_cde', width: 130 },
+                  { text: 'institution_acronym', datafield: 'institution_acronym', width: 130 },
+                  { text: 'other_id_type', datafield: 'other_id_type', width: 200 },
+                  { text: 'other_id_number', datafield: 'other_id_number', width: 100 },
+                  { text: 'attribute', datafield: 'attribute', width: 120 },
+                  { text: 'attribute_unit', datafield: 'attribute_unit', width: 70 },
+                  { text: 'attribute_date', datafield: 'attribute_date', width: 70 },
+				  { text: 'attribute_meth', datafield: 'attribute_meth', width: 70 },
+                  { text: 'determiner', datafield: 'determiner', width: 120 },
+					{ text: 'remarks', datafield: 'remarks', width: 120 }
                 ]
             });
 
             $("##excelExport").jqxButton();
-            $("##xmlExport").jqxButton();
             $("##csvExport").jqxButton();
-            $("##tsvExport").jqxButton();
-            $("##htmlExport").jqxButton();
-            $("##jsonExport").jqxButton();
-            $("##pdfExport").jqxButton();
+  
 
             $("##excelExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'xlsx', 'jqxGrid');           
             });
-            $("##xmlExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'xml', 'jqxGrid');
-            });
+
             $("##csvExport").click(function () {
                 $("##grid").jqxGrid('exportdata', 'csv', 'jqxGrid');
             });
-            $("##tsvExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'tsv', 'jqxGrid');
-            });
-            $("##htmlExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'html', 'jqxGrid');
-            });
-            $("##jsonExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'json', 'jqxGrid');
-            });
-            $("##pdfExport").click(function () {
-                $("##grid").jqxGrid('exportdata', 'pdf', 'jqxGrid');
-            });
+           
         });
     </script>
 
@@ -170,21 +156,13 @@
             <div style='float: left;'>
                 <input type="button" value="Export to Excel" id='excelExport' />
                 <br /><br />
-                <input type="button" value="Export to XML" id='xmlExport' />
-            </div>
+                           </div>
             <div style='margin-left: 10px; float: left;'>
                 <input type="button" value="Export to CSV" id='csvExport' />
                 <br /><br />
-                <input type="button" value="Export to TSV" id='tsvExport' />
+            
             </div>
-            <div style='margin-left: 10px; float: left;'>
-                <input type="button" value="Export to HTML" id='htmlExport' />
-                <br /><br />
-                <input type="button" value="Export to JSON" id='jsonExport' />
-            </div>
-            <div style='margin-left: 10px; float: left;'>
-                <input type="button" value="Export to PDF" id='pdfExport' />
-            </div>
+   
         </div>
 
 			<div class="accordion" id="accordionExample">
