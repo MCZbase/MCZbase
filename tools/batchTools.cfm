@@ -202,17 +202,102 @@
     // prepare the data
     var data = new Array();
     if (rowscount == undefined) rowscount = 1;
-    var collection_cde = [ "Herp" ];
-    var institution_acronym =  [  "MCZ" ];
-    var other_id_type = [ "catalog item" ];
-    var other_id_number = [ "1234" ];
-	var attribute = ["caste"];
-	var attribute_value =[ "length"];
-	var attribute_units = [  "" ];
-	var attribute_date = ["2000-01-01"];
-	var attribute_meth = [ ""];
-	var determiner =[ "Joe White" ];
-	var remarks =["This is temporary data."];
+    var collection_cde = 
+		[ 
+			"Herp" 
+		];
+    var institution_acronym = 
+		[  
+			"MCZ" 
+		];
+    var other_id_type = 
+		[ 
+			"catalog item" 
+		];
+    var other_id_number = 
+		[ 
+			"1234" 
+		];
+	var part_name = 
+		[
+			"whole animal"
+		];
+	var preserve_method =
+		[ 
+			"ethanol"
+		];
+	var disposition = 
+		[  
+			"in collection" 
+		];
+	var lot_count_modifier = 
+		[
+			">"
+		];
+	var lot_count = 
+		[ 
+			"1"
+		];
+	var current_remarks =
+		[ 
+			"good" 
+		];
+	var container_unique_id =
+		[ 
+			"" 
+		];
+	var condition =
+		[ 
+			"" 
+		];
+	var part_att_name_1 =
+		[ 
+			"" 
+		];
+	var part_att_val_1 =
+		[ 
+			"" 
+		];
+	var part_att_units_1 =
+		[ 
+			"" 
+		];
+	var part_att_detby_1 =
+		[ 
+			"" 
+		];
+	var part_att_madedate_1 =
+		[ 
+			"" 
+		];
+	var part_att_rem_1 =
+		[ 
+			"" 
+		];
+	var part_att_name_2 =
+		[ 
+			"" 
+		];
+	var part_att_val_2 =
+		[ 
+			"" 
+		];
+	var part_att_units_2 =
+		[ 
+			"" 
+		];
+	var part_att_detby_2 =
+		[ 
+			"" 
+		];
+	var part_att_madedate_2 =
+		[ 
+			"" 
+		];
+	var part_att_rem_2 =
+		[ 
+			"" 
+		];
     for (var i = 0; i < rowscount; i++) {
         var row = {};       
         row["id"] = i;
@@ -220,13 +305,27 @@
         row["institution_acronym"] = institution_acronym;
         row["other_id_type"] = other_id_type;
         row["other_id_number"] = other_id_number;
-        row["attribute"] = attribute;
-        row["attribute_value"] = attribute_value;
-		row["attribute_units"] = attribute_units;
-        row["attribute_date"] = attribute_date;
-		row["attribute_meth"] = attribute_meth;
-		row["determiner"] = determiner;
-        row["remarks"] = remarks;
+        row["part_name"] = part_name;
+        row["preserve_method"] = preserve_method;
+		row["disposition"] = disposition;
+        row["lot_count_modifier"] = lot_count_modifier;
+		row["lot_count"] = lot_count;
+		row["current_remarks"] = current_remarks;
+        row["container_unique_id"] = container_unique_id;
+		row["condition"] = condition;
+		row["part_att_name_1"] = part_att_name_1;
+		row["part_att_val_1"] = part_att_val_1;
+		row["part_att_units_1"] = part_att_units_1;
+		row["part_att_detby_1"] = part_att_detby_1;
+		row["part_att_madedate_1"] = part_att_madedate_1;
+		row["part_att_rem_1"] = part_att_rem_1;
+		row["part_att_name_2"] = part_att_name_2;
+		row["part_att_val_2"] = part_att_val_2;
+		row["part_att_units_2"] = part_att_units_2;
+		row["part_att_detby_2"] = part_att_detby_2;
+		row["part_att_madedate_2"] = part_att_madedate_2;
+		row["part_att_rem_2"] = part_att_rem_2;
+
         data[i] = row;
     }
     return data;
@@ -266,7 +365,6 @@
                     { name: 'part_att_detby_2', type: 'string' },
 					{ name: 'part_att_madedate_2', type: 'string' },
 					{ name: 'part_att_rem_2', type: 'string' },
-					{ name: 'remarks', type: 'string'}
                 ]                     
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -301,9 +399,9 @@
 					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
 					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
 					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-				  	{ text: 'remarks', datafield: 'remarks', width:220 }
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
                 ]
             });
 
