@@ -67,7 +67,7 @@
 				[
 					 ""
 				];
-						var determiner =
+				var determiner =
 				[
 					 "Joe White"
 				];
@@ -643,7 +643,7 @@
 											{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
 											{ text: 'condition', datafield: 'condition', width: 120 },
 											{ text: 'changed_date', datafield: 'changed_date', width: 120 },
-											{ text: 'new_preserved_method', datafield: 'condition', width: 120 }
+											{ text: 'new_preserved_method', datafield: 'new_preserved_method', width: 120 }
 
 										]
 									});
@@ -659,44 +659,44 @@
 							<div id="grid3"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
-									<input type="button" value="Export to CSV" id='csvExport3' />
+									<input type="button" value="Export to CSV" id="csvExport3" />
 								</div>
 							</div>
-					  	<div class="card-columns mb-3">
-							<p>Columns in red are required; others are optional:</p>
-							<ul class="list-style-disc px-4">
-								<li class="text-danger">INSTITUTION_ACRONYM</li>
-								<li class="text-danger">COLLECTION_CDE</li>
-								<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
-								<li class="text-danger">OTHER_ID_NUMBER</li>
-								<li class="text-danger">PART_NAME</li>
-								<li class="text-danger">PRESERVE_METHOD</li>
-								<li class="text-danger">DISPOSITION</li>
-								<li>LOT_COUNT_MODIFIER</li>
-								<li class="text-danger">LOT_COUNT</li>
-								<li>CONTAINER_UNIQUE_ID
-									<ul><li>Container unique ID in which to place this part</li></ul>
-								</li>
-								<li>CURRENT_REMARKS
-									<ul>
-										<li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible. They must match the remarks on the record.</li>
-									</ul>
-								</li>
-								<li>APPEND_TO_REMARKS
-									<ul><li>Anything in this field will be appended to the current remarks.  It will automatically be separated by a colon.</li></ul>
-								</li>
-								<li>CONTAINER_UNIQUE_ID
-									<ul><li>Container unique ID in which to place this part</li></ul>
-								</li>
-								<li class="text-danger">CONDITION</li>						
-								<li>CHANGED_DATE
-									<ul><li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li></ul>
-								</li>
-								<li>NEW_PRESERVE_METHOD
-									<ul><li>The value in this field will replace the current preserve method for this part</li></ul>
-								</li>
-						  	</ul>
-					  	</div>
+							<div class="card-columns mb-3">
+								<p>Columns in red are required; others are optional:</p>
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CONTAINER_UNIQUE_ID
+										<ul><li>Container unique ID in which to place this part</li></ul>
+									</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible. They must match the remarks on the record.</li>
+										</ul>
+									</li>
+									<li>APPEND_TO_REMARKS
+										<ul><li>Anything in this field will be appended to the current remarks.  It will automatically be separated by a colon.</li></ul>
+									</li>
+									<li>CONTAINER_UNIQUE_ID
+										<ul><li>Container unique ID in which to place this part</li></ul>
+									</li>
+									<li class="text-danger">CONDITION</li>						
+									<li>CHANGED_DATE
+										<ul><li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li></ul>
+									</li>
+									<li>NEW_PRESERVE_METHOD
+										<ul><li>The value in this field will replace the current preserve method for this part</li></ul>
+									</li>
+								</ul>
+							</div>
 				  </div>
 				</div>
 				</div>	<!---2--->
