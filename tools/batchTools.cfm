@@ -619,7 +619,7 @@
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
-            $("##grid2").jqxGrid(
+            $("##grid3").jqxGrid(
             {
                 width: '100%',
 				autoheight: 'true',
