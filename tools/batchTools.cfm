@@ -1079,6 +1079,7 @@
 						</div>
 						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Add Loans</h2>
 								<h3 class="h5">Add Loans to Existing Specimen Records</h3>
 								<p>The following must all be true to use this form:</p>
 								<ul>
