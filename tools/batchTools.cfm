@@ -484,7 +484,7 @@
 									<li>part_att_madedate_6</li>
 									<li>part_att_rem_6</li>
 								</ul>
-															<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadParts.cfm">
+							<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadParts.cfm">
 									<input type="hidden" name="Action" value="getFile">
 									<input type="file" name="FiletoUpload" size="45">
 									<input type="submit" value="Upload this file" class="savBtn"
@@ -501,7 +501,7 @@
 							
 						  </cfform>
 
-			<cfif #action# is "getFile">
+	
 			<cfoutput>
 
 				<!---
@@ -555,7 +555,7 @@
 				</cfloop>
 				<cflocation url="BulkloadParts.cfm?action=validate">
 			</cfoutput>
-			</cfif>
+	
 			<!------------------------------------------------------->
 			<!------------------------------------------------------->
 			<cfif #action# is "validate">
