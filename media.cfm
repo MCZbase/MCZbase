@@ -447,8 +447,33 @@
 		</cfquery>
       <cfset media_id=mid.nv>
       <cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			insert into media (media_id,media_uri,mime_type,media_type,preview_uri <cfif len(media_license_id) gt 0>,media_license_id</cfif>)
-            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#'<cfif len(media_license_id) gt 0>,#media_license_id#</cfif>)
+			insert into media 
+				(
+					media_id
+					,media_uri
+					,mime_type
+					,media_type
+					,preview_uri
+					,mask_media_fg
+					<cfif len(media_license_id) gt 0>
+						,media_license_id
+					</cfif>
+				)
+            values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#escapeQuotes(media_uri)#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">
+					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
+					<cfif len(mask_media_fg) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">
+					<cfelse>
+						,0
+					</cfif>
+					<cfif len(media_license_id) gt 0>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
+					</cfif>
+				)
 		</cfquery>
       <cfloop from="1" to="#number_of_relations#" index="n">
         <cfset thisRelationship = #evaluate("relationship__" & n)#>
@@ -458,9 +483,14 @@
           <cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					insert into 
 						media_relations (
-						media_id,media_relationship,related_primary_key
+							media_id
+							,media_relationship
+							,related_primary_key
 						)values (
-						#media_id#,'#thisRelationship#',#thisRelatedId#)
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+							,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisRelationship#">
+							,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRelatedId#">
+						)
 				</cfquery>
         </cfif>
       </cfloop>
@@ -469,8 +499,16 @@
         <cfset thisLabelValue = #evaluate("label_value__" & n)#>
         <cfif len(#thisLabel#) gt 0 and len(#thisLabelValue#) gt 0>
           <cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					insert into media_labels (media_id,media_label,label_value)
-					values (#media_id#,'#thisLabel#','#thisLabelValue#')
+					insert into media_labels (
+						media_id
+						,media_label
+						,label_value
+					)
+					values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabel#">
+						,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLabelValue#">
+					)
 				</cfquery>
         </cfif>
       </cfloop>
