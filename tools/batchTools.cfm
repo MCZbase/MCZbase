@@ -915,7 +915,7 @@
 							<li class="text-danger">CITATION_REMARKS</li>
 						</ul>
 					  	<cfform name="atts" method="post" class="py-0 mb-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
-								<div class="my-3 row">
+								<div class="my-4 row">
 								<div class="col-12 col-md-4">
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
