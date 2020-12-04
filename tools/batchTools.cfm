@@ -528,7 +528,7 @@
 					</div>
 				</div>	<!---1--->
 				<div class="card">
-					<div class="card-header" id="headingTwo">
+					<div class="card-header py-0" id="headingTwo">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" name="editParts" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 						  &nbsp;Edit Parts
@@ -759,7 +759,7 @@
 					</div>
 				</div>	<!---2--->
 				<div class="card">
-				<div class="card-header" id="headingFour">
+				<div class="card-header py-0" id="headingFour">
 				  <h2 class="h4 my-1 px-3">
 					<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour"> &nbsp;Bulk Add Citations
 					</a>
@@ -938,7 +938,7 @@
 				</div>
 				</div>	<!---4--->
 				<div class="card">
-					<div class="card-header" id="headingFive">
+					<div class="card-header py-0" id="headingFive">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive"> &nbsp;Bulk Add Identifiers
 						</a>
@@ -951,7 +951,7 @@
 					</div>
 				</div>	<!---5--->
 				<div class="card">
-					<div class="card-header" id="headingSix">
+					<div class="card-header py-0" id="headingSix">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans		</a>
 					  </h2>
@@ -963,7 +963,7 @@
 					</div>
 				 </div>	<!---6--->
 				<div class="card">
-					<div class="card-header" id="headingSeven">
+					<div class="card-header py-0" id="headingSeven">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> &nbsp;Add Data Loans
 						</a>
@@ -976,7 +976,7 @@
 					</div>
 			  </div>	<!---7--->
 				<div class="card">
-					<div class="card-header" id="headingEight">
+					<div class="card-header py-0" id="headingEight">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight"> &nbsp;Bulk Add Agents
 						</a>
@@ -989,7 +989,7 @@
 					</div>
 			  </div>	<!---8--->					
 				<div class="card">
-					<div class="card-header" id="headingNine">
+					<div class="card-header py-0" id="headingNine">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine"> &nbsp;Add Part Containers
 						</a>
@@ -1002,7 +1002,7 @@
 					</div>
 			  </div>	<!---9--->
 				<div class="card">
-					<div class="card-header" id="headingTen">
+					<div class="card-header py-0" id="headingTen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen"> &nbsp;Bulk Add Identifications
 						</a>
@@ -1015,7 +1015,7 @@
 					</div>
 			  </div>	<!---10--->
 				<div class="card">
-					<div class="card-header" id="headingEleven">
+					<div class="card-header py-0" id="headingEleven">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven"> &nbsp;Edit or Move Parts 	</a>
 					  </h2>
@@ -1027,7 +1027,7 @@
 					</div>
 			  </div>	<!---11--->
 				<div class="card">
-				<div class="card-header" id="headingSeventeen">
+				<div class="card-header py-0" id="headingSeventeen">
 				  <h2 class="h4 my-1 px-3">
 					<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen"> &nbsp;Add Media 
 					</a>
@@ -1040,7 +1040,7 @@
 				</div>
 			  </div>	<!---12--->	
 				<div class="card">
-					<div class="card-header" id="headingThirteen">
+					<div class="card-header py-0" id="headingThirteen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen"> &nbsp;Add Biological or Administrative Record Relationships
 						</a>
@@ -1053,7 +1053,7 @@
 					</div>
 			  </div>	<!---13--->			
 				<div class="card">
-					<div class="card-header" id="headingFourteen">
+					<div class="card-header py-0" id="headingFourteen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen">
 						  &nbsp;Bulk Add Georeferences 
@@ -1067,7 +1067,7 @@
 					</div>
 			  </div>	<!---14--->				
 				<div class="card">
-					<div class="card-header" id="headingFifteen">
+					<div class="card-header py-0" id="headingFifteen">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen">
 						 &nbsp;Add or Edit Taxonomy
