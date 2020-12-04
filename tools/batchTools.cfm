@@ -200,7 +200,7 @@
 							</div>
 						</div>
 					</div>
-					<!---1--->
+					<!---1 attributes--->
 					<div class="card">
 						<div class="card-header py-0" id="headingOne">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" name="addNewParts" data-toggle="collapse" data-target="##collapseOne" aria-expanded="true" aria-controls="collapseOne"> &nbsp;Add New Parts </a> </h2>
@@ -517,7 +517,7 @@
 							</div>
 						</div>
 					</div>
-					<!---2--->
+					<!---2 new parts--->
 					<div class="card">
 						<div class="card-header py-0" id="headingTwo">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" name="editParts" data-toggle="collapse" data-target="##collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> &nbsp;Edit Parts </a> </h2>
@@ -756,7 +756,7 @@
 							</div>
 						</div>
 					</div>
-					<!---3--->
+					<!---3 edit parts--->
 					<div class="card">
 						<div class="card-header py-0" id="headingFour">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseFour" aria-expanded="false" aria-controls="collapseFour"> &nbsp;Bulk Add Citations </a> </h2>
@@ -936,13 +936,14 @@
 							</div>
 						</div>
 					</div>
-					<!---4--->
+					<!---4 citations--->
 					<div class="card">
 						<div class="card-header py-0" id="headingFive">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFive" aria-expanded="false" aria-controls="collapseFive"> &nbsp;Bulk Add Identifiers </a> </h2>
 						</div>
 						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Add Identifiers</h2>
 								<h3 class="h5">Add Identifiers (other IDs) to Existing Specimen Records</h3>
 								<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 								<script>
@@ -1076,7 +1077,7 @@
 							</div>
 						</div>
 					</div>
-					<!---5--->
+					<!---5 identifiers--->
 					<div class="card">
 						<div class="card-header py-0" id="headingSix">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans </a> </h2>
@@ -1262,7 +1263,7 @@
 							</div>
 						</div>
 					</div>
-					<!---6--->
+					<!---6 add loans--->
 					<div class="card">
 						<div class="card-header py-0" id="headingSeven">
 							<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> &nbsp;Add Data Loans </a> </h2>
@@ -1578,7 +1579,7 @@
 							</div>
 						</div>
 					</div>
-					<!---7--->
+					<!---7 add data loans--->
 					<div class="card">
 					<div class="card-header py-0" id="headingEight">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight"> &nbsp;Bulk Add Agents </a> </h2>
@@ -1894,13 +1895,14 @@
 						</div>
 					</div>
 				</div>
-					<!---8--->
+					<!---8 add agents--->
 					<div class="card">
 					<div class="card-header py-0" id="headingNine">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseNine" aria-expanded="false" aria-controls="collapseNine"> &nbsp;Add Part Containers </a> </h2>
 					</div>
 					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk 
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
@@ -2210,324 +2212,324 @@
 						</div>
 					</div>
 				</div>
-					<!---9--->
-				<div class="card">
-					<div class="card-header py-0" id="headingTen">
-						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen"> &nbsp;Bulk Add Identifications </a> </h2>
-					</div>
-					<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
-						<div class="card-body px-4">
-							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
-							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
-							<script>
-									function generatedata2(rowscount, hasNullValues) {
-							// prepare the data
-							var data = new Array();
-							if (rowscount == undefined) rowscount = 1;
-							var collection_cde = 
-								[ 
-									"Herp" 
-								];
-							var institution_acronym = 
-								[  
-									"MCZ" 
-								];
-							var other_id_type = 
-								[ 
-									"catalog item" 
-								];
-							var other_id_number = 
-								[ 
-									"1234" 
-								];
-							var part_name = 
-								[
-									"whole animal"
-								];
-							var preserve_method =
-								[ 
-									"ethanol"
-								];
-							var disposition = 
-								[  
-									"in collection" 
-								];
-							var lot_count_modifier = 
-								[
-									">"
-								];
-							var lot_count = 
-								[ 
-									"1"
-								];
-							var current_remarks =
-								[ 
-									"Part has a crack" 
-								];
-							var container_unique_id =
-								[ 
-									"" 
-								];
-							var condition =
-								[ 
-									"" 
-								];
-							var part_att_name_1 =
-								[ 
-									"" 
-								];
-							var part_att_val_1 =
-								[ 
-									"" 
-								];
-							var part_att_units_1 =
-								[ 
-									"" 
-								];
-							var part_att_detby_1 =
-								[ 
-									"" 
-								];
-							var part_att_madedate_1 =
-								[ 
-									"" 
-								];
-							var part_att_rem_1 =
-								[ 
-									"" 
-								];
-							var part_att_name_2 =
-								[ 
-									"" 
-								];
-							var part_att_val_2 =
-								[ 
-									"" 
-								];
-							var part_att_units_2 =
-								[ 
-									"" 
-								];
-							var part_att_detby_2 =
-								[ 
-									"" 
-								];
-							var part_att_madedate_2 =
-								[ 
-									"" 
-								];
-							var part_att_rem_2 =
-								[ 
-									"" 
-								];
-							for (var i = 0; i < rowscount; i++) {
-								var row = {};       
-								row["id"] = i;
-								row["collection_cde"] = collection_cde;
-								row["institution_acronym"] = institution_acronym;
-								row["other_id_type"] = other_id_type;
-								row["other_id_number"] = other_id_number;
-								row["part_name"] = part_name;
-								row["preserve_method"] = preserve_method;
-								row["disposition"] = disposition;
-								row["lot_count_modifier"] = lot_count_modifier;
-								row["lot_count"] = lot_count;
-								row["current_remarks"] = current_remarks;
-								row["container_unique_id"] = container_unique_id;
-								row["condition"] = condition;
-								row["part_att_name_1"] = part_att_name_1;
-								row["part_att_val_1"] = part_att_val_1;
-								row["part_att_units_1"] = part_att_units_1;
-								row["part_att_detby_1"] = part_att_detby_1;
-								row["part_att_madedate_1"] = part_att_madedate_1;
-								row["part_att_rem_1"] = part_att_rem_1;
-								row["part_att_name_2"] = part_att_name_2;
-								row["part_att_val_2"] = part_att_val_2;
-								row["part_att_units_2"] = part_att_units_2;
-								row["part_att_detby_2"] = part_att_detby_2;
-								row["part_att_madedate_2"] = part_att_madedate_2;
-								row["part_att_rem_2"] = part_att_rem_2;
+					<!---9 add part containers--->
+					<div class="card">
+								<div class="card-header py-0" id="headingTen">
+									<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseTen" aria-expanded="false" aria-controls="collapseTen"> &nbsp;Bulk Add Identifications </a> </h2>
+								</div>
+								<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
+									<div class="card-body px-4">
+										<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+										<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+										<script>
+												function generatedata2(rowscount, hasNullValues) {
+										// prepare the data
+										var data = new Array();
+										if (rowscount == undefined) rowscount = 1;
+										var collection_cde = 
+											[ 
+												"Herp" 
+											];
+										var institution_acronym = 
+											[  
+												"MCZ" 
+											];
+										var other_id_type = 
+											[ 
+												"catalog item" 
+											];
+										var other_id_number = 
+											[ 
+												"1234" 
+											];
+										var part_name = 
+											[
+												"whole animal"
+											];
+										var preserve_method =
+											[ 
+												"ethanol"
+											];
+										var disposition = 
+											[  
+												"in collection" 
+											];
+										var lot_count_modifier = 
+											[
+												">"
+											];
+										var lot_count = 
+											[ 
+												"1"
+											];
+										var current_remarks =
+											[ 
+												"Part has a crack" 
+											];
+										var container_unique_id =
+											[ 
+												"" 
+											];
+										var condition =
+											[ 
+												"" 
+											];
+										var part_att_name_1 =
+											[ 
+												"" 
+											];
+										var part_att_val_1 =
+											[ 
+												"" 
+											];
+										var part_att_units_1 =
+											[ 
+												"" 
+											];
+										var part_att_detby_1 =
+											[ 
+												"" 
+											];
+										var part_att_madedate_1 =
+											[ 
+												"" 
+											];
+										var part_att_rem_1 =
+											[ 
+												"" 
+											];
+										var part_att_name_2 =
+											[ 
+												"" 
+											];
+										var part_att_val_2 =
+											[ 
+												"" 
+											];
+										var part_att_units_2 =
+											[ 
+												"" 
+											];
+										var part_att_detby_2 =
+											[ 
+												"" 
+											];
+										var part_att_madedate_2 =
+											[ 
+												"" 
+											];
+										var part_att_rem_2 =
+											[ 
+												"" 
+											];
+										for (var i = 0; i < rowscount; i++) {
+											var row = {};       
+											row["id"] = i;
+											row["collection_cde"] = collection_cde;
+											row["institution_acronym"] = institution_acronym;
+											row["other_id_type"] = other_id_type;
+											row["other_id_number"] = other_id_number;
+											row["part_name"] = part_name;
+											row["preserve_method"] = preserve_method;
+											row["disposition"] = disposition;
+											row["lot_count_modifier"] = lot_count_modifier;
+											row["lot_count"] = lot_count;
+											row["current_remarks"] = current_remarks;
+											row["container_unique_id"] = container_unique_id;
+											row["condition"] = condition;
+											row["part_att_name_1"] = part_att_name_1;
+											row["part_att_val_1"] = part_att_val_1;
+											row["part_att_units_1"] = part_att_units_1;
+											row["part_att_detby_1"] = part_att_detby_1;
+											row["part_att_madedate_1"] = part_att_madedate_1;
+											row["part_att_rem_1"] = part_att_rem_1;
+											row["part_att_name_2"] = part_att_name_2;
+											row["part_att_val_2"] = part_att_val_2;
+											row["part_att_units_2"] = part_att_units_2;
+											row["part_att_detby_2"] = part_att_detby_2;
+											row["part_att_madedate_2"] = part_att_madedate_2;
+											row["part_att_rem_2"] = part_att_rem_2;
 
-								data[i] = row;
-							}
-							return data;
-						}
-							</script> 
-							<script type="text/javascript">
-        $(document).ready(function () {
-            // prepare the data
-            var data = generatedata2(1);
-            var source =
-            {
-                localdata: data,
-                datatype: "array",
-                datafields:
-                [
-                    { name: 'collection_cde', type: 'string' },
-                    { name: 'institution_acronym', type: 'string' },
-                    { name: 'other_id_type', type: 'string' },
-                    { name: 'other_id_number', type: 'string' },
-                    { name: 'part_name', type: 'string' },
-                    { name: 'preserve_method', type: 'string' },
-                    { name: 'disposition', type: 'string' },
-					{ name: 'lot_count_modifier', type: 'string' },
-                    { name: 'lot_count', type: 'string' },
-					{ name: 'current_remarks', type: 'string' },
-                    { name: 'container_unique_id', type: 'string' },
-                    { name: 'condition', type: 'string' },
-					{ name: 'part_att_name_1', type: 'string' },
-                    { name: 'part_att_val_1', type: 'string' },
-					{ name: 'part_att_units_1', type: 'string' },
-                    { name: 'part_att_detby_1', type: 'string' },
-					{ name: 'part_att_madedate_1', type: 'string' },
-                    { name: 'part_att_rem_1', type: 'string' },
-					{ name: 'part_att_name_2', type: 'string' },
-                    { name: 'part_att_val_2', type: 'string' },
-					{ name: 'part_att_units_2', type: 'string' },
-                    { name: 'part_att_detby_2', type: 'string' },
-					{ name: 'part_att_madedate_2', type: 'string' },
-					{ name: 'part_att_rem_2', type: 'string' },
-                ]                     
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            // initialize jqxGrid
-            $("##grid2").jqxGrid(
-            {
-                width: '100%',
-				autoheight: 'true',
-                source: dataAdapter,                
-                altrows: true,
-          		sortable: false,
-				columnsresize: true,
-                selectionmode: 'multiplecellsextended',
-                columns: [
-                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
-                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
-                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
-				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
-                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
-					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
-				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
-                  	{ text: 'condition', datafield: 'condition', width: 120 },
-					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
-					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
-					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
-					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
-					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
-					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
-					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
-					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
-					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
-					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
-					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
-                ]
-            });
+											data[i] = row;
+										}
+										return data;
+									}
+										</script> 
+										<script type="text/javascript">
+					$(document).ready(function () {
+						// prepare the data
+						var data = generatedata2(1);
+						var source =
+						{
+							localdata: data,
+							datatype: "array",
+							datafields:
+							[
+								{ name: 'collection_cde', type: 'string' },
+								{ name: 'institution_acronym', type: 'string' },
+								{ name: 'other_id_type', type: 'string' },
+								{ name: 'other_id_number', type: 'string' },
+								{ name: 'part_name', type: 'string' },
+								{ name: 'preserve_method', type: 'string' },
+								{ name: 'disposition', type: 'string' },
+								{ name: 'lot_count_modifier', type: 'string' },
+								{ name: 'lot_count', type: 'string' },
+								{ name: 'current_remarks', type: 'string' },
+								{ name: 'container_unique_id', type: 'string' },
+								{ name: 'condition', type: 'string' },
+								{ name: 'part_att_name_1', type: 'string' },
+								{ name: 'part_att_val_1', type: 'string' },
+								{ name: 'part_att_units_1', type: 'string' },
+								{ name: 'part_att_detby_1', type: 'string' },
+								{ name: 'part_att_madedate_1', type: 'string' },
+								{ name: 'part_att_rem_1', type: 'string' },
+								{ name: 'part_att_name_2', type: 'string' },
+								{ name: 'part_att_val_2', type: 'string' },
+								{ name: 'part_att_units_2', type: 'string' },
+								{ name: 'part_att_detby_2', type: 'string' },
+								{ name: 'part_att_madedate_2', type: 'string' },
+								{ name: 'part_att_rem_2', type: 'string' },
+							]                     
+						};
+						var dataAdapter = new $.jqx.dataAdapter(source);
+						// initialize jqxGrid
+						$("##grid2").jqxGrid(
+						{
+							width: '100%',
+							autoheight: 'true',
+							source: dataAdapter,                
+							altrows: true,
+							sortable: false,
+							columnsresize: true,
+							selectionmode: 'multiplecellsextended',
+							columns: [
+								{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+								{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+								{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+								{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+								{ text: 'part_name', datafield: 'part_name', width: 80 },
+								{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+								{ text: 'disposition', datafield: 'disposition', width: 70 },
+								{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+								{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+								{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+								{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+								{ text: 'condition', datafield: 'condition', width: 120 },
+								{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+								{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+								{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+								{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+								{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+								{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+								{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+								{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+								{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+								{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+								{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+								{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+							]
+						});
 
-            $("##csvExport2").jqxButton();
+						$("##csvExport2").jqxButton();
 
-            $("##csvExport2").click(function () {
-                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
-            });
-           
-        });
-    </script>
-							<div id="grid2"></div>
-							<div class="mt-3 mb-2 d-block float-left w-100">
-								<div class="ml-0 float-left">
-									<input type="button" value="Export to CSV" id='csvExport2' />
+						$("##csvExport2").click(function () {
+							$("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+						});
+
+					});
+				</script>
+										<div id="grid2"></div>
+										<div class="mt-3 mb-2 d-block float-left w-100">
+											<div class="ml-0 float-left">
+												<input type="button" value="Export to CSV" id='csvExport2' />
+											</div>
+										</div>
+										<p>Columns in red are required; others are optional:</p>
+										<div class="card-columns mb-3">
+											<ul class="list-style-disc px-4">
+												<li class="text-danger">INSTITUTION_ACRONYM</li>
+												<li class="text-danger">COLLECTION_CDE</li>
+												<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+												<li class="text-danger">OTHER_ID_NUMBER</li>
+												<li class="text-danger">PART_NAME</li>
+												<li class="text-danger">PRESERVE_METHOD</li>
+												<li class="text-danger">DISPOSITION</li>
+												<li>LOT_COUNT_MODIFIER</li>
+												<li class="text-danger">LOT_COUNT</li>
+												<li>CURRENT_REMARKS
+													<ul>
+														<li>remarks to be added with the new part</li>
+													</ul>
+												</li>
+												<li>container_unique_id
+													<ul>
+														<li>container unique ID in which to place this part</li>
+													</ul>
+												</li>
+												<li class="text-danger">condition</li>
+												<li>part_att_name_1</li>
+												<li>part_att_val_1</li>
+												<li>part_att_units_1</li>
+												<li>part_att_detby_1</li>
+												<li>part_att_madedate_1</li>
+												<li>part_att_rem_1</li>
+												<li>part_att_name_2</li>
+												<li>part_att_val_2</li>
+												<li>part_att_units_2</li>
+												<li>part_att_detby_2</li>
+												<li>part_att_madedate_2</li>
+												<li>part_att_rem_2</li>
+												<li>part_att_name_3</li>
+												<li>part_att_val_3</li>
+												<li>part_att_units_3</li>
+												<li>part_att_detby_3</li>
+												<li>part_att_madedate_3</li>
+												<li>part_att_rem_3</li>
+												<li>part_att_name_4</li>
+												<li>part_att_val_4</li>
+												<li>part_att_units_4</li>
+												<li>part_att_detby_4</li>
+												<li>part_att_madedate_4</li>
+												<li>part_att_rem_4</li>
+												<li>part_att_name_5</li>
+												<li>part_att_val_5</li>
+												<li>part_att_units_5</li>
+												<li>part_att_detby_5</li>
+												<li>part_att_madedate_5</li>
+												<li>part_att_rem_5</li>
+												<li>part_att_name_6</li>
+												<li>part_att_val_6</li>
+												<li>part_att_units_6</li>
+												<li>part_att_detby_6</li>
+												<li>part_att_madedate_6</li>
+												<li>part_att_rem_6</li>
+											</ul>
+										</div>
+										<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+											<div class="my-4 row">
+												<div class="col-12 col-md-4">
+													<input type="hidden" name="Action" value="getFile">
+													<label class="data-entry-label">Upload the .csv with data</label>
+													<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+													<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+												</div>
+												<div class="col-12 col-md-3">
+													<label class="data-entry-label">Character Set: </label>
+													<select name="cSet" class="data-entry-select" id="cSet">
+														<option value="windows-1252" selected>windows-1252</option>
+														<option value="MacRoman">MacRoman</option>
+														<option value="utf-8">utf-8</option>
+														<option value="utf-16">utf-16</option>
+														<option value="unicode">unicode</option>
+													</select>
+												</div>
+											</div>
+										</cfform>
+									</div>
 								</div>
 							</div>
-							<p>Columns in red are required; others are optional:</p>
-							<div class="card-columns mb-3">
-								<ul class="list-style-disc px-4">
-									<li class="text-danger">INSTITUTION_ACRONYM</li>
-									<li class="text-danger">COLLECTION_CDE</li>
-									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
-									<li class="text-danger">OTHER_ID_NUMBER</li>
-									<li class="text-danger">PART_NAME</li>
-									<li class="text-danger">PRESERVE_METHOD</li>
-									<li class="text-danger">DISPOSITION</li>
-									<li>LOT_COUNT_MODIFIER</li>
-									<li class="text-danger">LOT_COUNT</li>
-									<li>CURRENT_REMARKS
-										<ul>
-											<li>remarks to be added with the new part</li>
-										</ul>
-									</li>
-									<li>container_unique_id
-										<ul>
-											<li>container unique ID in which to place this part</li>
-										</ul>
-									</li>
-									<li class="text-danger">condition</li>
-									<li>part_att_name_1</li>
-									<li>part_att_val_1</li>
-									<li>part_att_units_1</li>
-									<li>part_att_detby_1</li>
-									<li>part_att_madedate_1</li>
-									<li>part_att_rem_1</li>
-									<li>part_att_name_2</li>
-									<li>part_att_val_2</li>
-									<li>part_att_units_2</li>
-									<li>part_att_detby_2</li>
-									<li>part_att_madedate_2</li>
-									<li>part_att_rem_2</li>
-									<li>part_att_name_3</li>
-									<li>part_att_val_3</li>
-									<li>part_att_units_3</li>
-									<li>part_att_detby_3</li>
-									<li>part_att_madedate_3</li>
-									<li>part_att_rem_3</li>
-									<li>part_att_name_4</li>
-									<li>part_att_val_4</li>
-									<li>part_att_units_4</li>
-									<li>part_att_detby_4</li>
-									<li>part_att_madedate_4</li>
-									<li>part_att_rem_4</li>
-									<li>part_att_name_5</li>
-									<li>part_att_val_5</li>
-									<li>part_att_units_5</li>
-									<li>part_att_detby_5</li>
-									<li>part_att_madedate_5</li>
-									<li>part_att_rem_5</li>
-									<li>part_att_name_6</li>
-									<li>part_att_val_6</li>
-									<li>part_att_units_6</li>
-									<li>part_att_detby_6</li>
-									<li>part_att_madedate_6</li>
-									<li>part_att_rem_6</li>
-								</ul>
-							</div>
-							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
-								<div class="my-4 row">
-									<div class="col-12 col-md-4">
-										<input type="hidden" name="Action" value="getFile">
-										<label class="data-entry-label">Upload the .csv with data</label>
-										<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
-										<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
-									</div>
-									<div class="col-12 col-md-3">
-										<label class="data-entry-label">Character Set: </label>
-										<select name="cSet" class="data-entry-select" id="cSet">
-											<option value="windows-1252" selected>windows-1252</option>
-											<option value="MacRoman">MacRoman</option>
-											<option value="utf-8">utf-8</option>
-											<option value="utf-16">utf-16</option>
-											<option value="unicode">unicode</option>
-										</select>
-									</div>
-								</div>
-							</cfform>
-						</div>
-					</div>
-				</div>
-				<!---10--->
-				<div class="card">
+					<!---10 add identifications--->
+					<div class="card">
 					<div class="card-header py-0" id="headingEleven">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEleven" aria-expanded="false" aria-controls="collapseEleven"> &nbsp;Edit or Move Parts </a> </h2>
 					</div>
@@ -2842,8 +2844,8 @@
 						</div>
 					</div>
 				</div>
-				<!---11--->
-				<div class="card">
+					<!---11 modify parts --->
+					<div class="card">
 					<div class="card-header py-0" id="headingSeventeen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeventeen" aria-expanded="false" aria-controls="collapseSeventeen"> &nbsp;Add Media </a> </h2>
 					</div>
@@ -3158,8 +3160,8 @@
 						</div>
 					</div>
 				</div>
-				<!---12--->
-				<div class="card">
+					<!---12 add media--->
+					<div class="card">
 					<div class="card-header py-0" id="headingThirteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen"> &nbsp;Add Biological or Administrative Record Relationships </a> </h2>
 					</div>
@@ -3474,8 +3476,8 @@
 						</div>
 					</div>
 				</div>
-				<!---13--->
-				<div class="card">
+					<!---13 add relationship--->
+					<div class="card">
 					<div class="card-header py-0" id="headingFourteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFourteen" aria-expanded="false" aria-controls="collapseFourteen"> &nbsp;Bulk Add Georeferences </a> </h2>
 					</div>
@@ -3790,8 +3792,8 @@
 						</div>
 					</div>
 				</div>
-				<!---14--->
-				<div class="card">
+					<!---14 add georeferences--->
+					<div class="card">
 					<div class="card-header py-0" id="headingFifteen">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseFifteen" aria-expanded="false" aria-controls="collapseFifteen"> &nbsp;Add or Edit Taxonomy </a> </h2>
 					</div>
@@ -4106,8 +4108,8 @@
 						</div>
 					</div>
 				</div>
-				<!---15---> 
-			</div>
+					<!---15 modify taxonomy---> 
+				</div>
 			</div>
 		</section>
 	</main>
