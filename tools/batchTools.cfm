@@ -261,7 +261,7 @@
 								];
 							var current_remarks =
 								[ 
-									"good" 
+									"Part has a crack" 
 								];
 							var container_unique_id =
 								[ 
@@ -444,21 +444,20 @@
 							<p>Columns in red are required; others are optional:</p>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
-									<li class="text-danger">institution_acronym</li>
-									<li class="text-danger">collection_cde</li>
-									<li class="text-danger">other_id_type ("catalog number" is OK)</li>
-									<li class="text-danger">other_id_number</li>
-									<li class="text-danger">part_name</li>
-									<li class="text-danger">preserve_method</li>
-									<li class="text-danger">disposition</li>
-									<li>lot_count_modifier</li>
-									<li class="text-danger">lot_count</li>
-									<li>current_remarks
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
 										<ul>
 											<li>remarks to be added with the new part</li>
 										</ul>
 									</li>
-									<li>remarks to be added with the new part</li>
 									<li>container_unique_id
 										<ul>
 											<li>container unique ID in which to place this part</li>
@@ -945,9 +944,315 @@
 					  </h2>
 					</div>
 					<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+						<div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 				</div>	<!---5--->
 				<div class="card">
@@ -970,9 +1275,315 @@
 					  </h2>
 					</div>
 					<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					 <div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---7--->
 				<div class="card">
@@ -984,8 +1595,314 @@
 					</div>
 					<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
 					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---8--->					
 				<div class="card">
@@ -996,9 +1913,315 @@
 					  </h2>
 					</div>
 					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					<div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---9--->
 				<div class="card">
@@ -1009,9 +2232,315 @@
 					  </h2>
 					</div>
 					<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					<div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---10--->
 				<div class="card">
@@ -1022,8 +2551,314 @@
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
 					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---11--->
 				<div class="card">
@@ -1047,9 +2882,315 @@
 					  </h2>
 					</div>
 					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					 <div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---13--->			
 				<div class="card">
@@ -1061,9 +3202,315 @@
 					  </h2>
 					</div>
 					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					<div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---14--->				
 				<div class="card">
@@ -1075,9 +3522,315 @@
 					  </h2>
 					</div>
 					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##accordionExample">
-					  <div class="card-body px-4">
-						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-					  </div>
+					 <div class="card-body px-4">
+							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"Part has a crack" 
+								];
+							var container_unique_id =
+								[ 
+									"" 
+								];
+							var condition =
+								[ 
+									"" 
+								];
+							var part_att_name_1 =
+								[ 
+									"" 
+								];
+							var part_att_val_1 =
+								[ 
+									"" 
+								];
+							var part_att_units_1 =
+								[ 
+									"" 
+								];
+							var part_att_detby_1 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_1 =
+								[ 
+									"" 
+								];
+							var part_att_rem_1 =
+								[ 
+									"" 
+								];
+							var part_att_name_2 =
+								[ 
+									"" 
+								];
+							var part_att_val_2 =
+								[ 
+									"" 
+								];
+							var part_att_units_2 =
+								[ 
+									"" 
+								];
+							var part_att_detby_2 =
+								[ 
+									"" 
+								];
+							var part_att_madedate_2 =
+								[ 
+									"" 
+								];
+							var part_att_rem_2 =
+								[ 
+									"" 
+								];
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["collection_cde"] = collection_cde;
+								row["institution_acronym"] = institution_acronym;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["part_att_name_1"] = part_att_name_1;
+								row["part_att_val_1"] = part_att_val_1;
+								row["part_att_units_1"] = part_att_units_1;
+								row["part_att_detby_1"] = part_att_detby_1;
+								row["part_att_madedate_1"] = part_att_madedate_1;
+								row["part_att_rem_1"] = part_att_rem_1;
+								row["part_att_name_2"] = part_att_name_2;
+								row["part_att_val_2"] = part_att_val_2;
+								row["part_att_units_2"] = part_att_units_2;
+								row["part_att_detby_2"] = part_att_detby_2;
+								row["part_att_madedate_2"] = part_att_madedate_2;
+								row["part_att_rem_2"] = part_att_rem_2;
+
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata2(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'collection_cde', type: 'string' },
+                    { name: 'institution_acronym', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'part_att_name_1', type: 'string' },
+                    { name: 'part_att_val_1', type: 'string' },
+					{ name: 'part_att_units_1', type: 'string' },
+                    { name: 'part_att_detby_1', type: 'string' },
+					{ name: 'part_att_madedate_1', type: 'string' },
+                    { name: 'part_att_rem_1', type: 'string' },
+					{ name: 'part_att_name_2', type: 'string' },
+                    { name: 'part_att_val_2', type: 'string' },
+					{ name: 'part_att_units_2', type: 'string' },
+                    { name: 'part_att_detby_2', type: 'string' },
+					{ name: 'part_att_madedate_2', type: 'string' },
+					{ name: 'part_att_rem_2', type: 'string' },
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport2").jqxButton();
+
+            $("##csvExport2").click(function () {
+                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid2"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
+							<p>Columns in red are required; others are optional:</p>
+							<div class="card-columns mb-3">
+								<ul class="list-style-disc px-4">
+									<li class="text-danger">INSTITUTION_ACRONYM</li>
+									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">OTHER_ID_NUMBER</li>
+									<li class="text-danger">PART_NAME</li>
+									<li class="text-danger">PRESERVE_METHOD</li>
+									<li class="text-danger">DISPOSITION</li>
+									<li>LOT_COUNT_MODIFIER</li>
+									<li class="text-danger">LOT_COUNT</li>
+									<li>CURRENT_REMARKS
+										<ul>
+											<li>remarks to be added with the new part</li>
+										</ul>
+									</li>
+									<li>container_unique_id
+										<ul>
+											<li>container unique ID in which to place this part</li>
+										</ul>
+									</li>
+
+									<li class="text-danger">condition</li>
+									<li>part_att_name_1</li>
+									<li>part_att_val_1</li>
+									<li>part_att_units_1</li>
+									<li>part_att_detby_1</li>
+									<li>part_att_madedate_1</li>
+									<li>part_att_rem_1</li>
+									<li>part_att_name_2</li>
+									<li>part_att_val_2</li>
+									<li>part_att_units_2</li>
+									<li>part_att_detby_2</li>
+									<li>part_att_madedate_2</li>
+									<li>part_att_rem_2</li>
+									<li>part_att_name_3</li>
+									<li>part_att_val_3</li>
+									<li>part_att_units_3</li>
+									<li>part_att_detby_3</li>
+									<li>part_att_madedate_3</li>
+									<li>part_att_rem_3</li>
+									<li>part_att_name_4</li>
+									<li>part_att_val_4</li>
+									<li>part_att_units_4</li>
+									<li>part_att_detby_4</li>
+									<li>part_att_madedate_4</li>
+									<li>part_att_rem_4</li>
+									<li>part_att_name_5</li>
+									<li>part_att_val_5</li>
+									<li>part_att_units_5</li>
+									<li>part_att_detby_5</li>
+									<li>part_att_madedate_5</li>
+									<li>part_att_rem_5</li>
+									<li>part_att_name_6</li>
+									<li>part_att_val_6</li>
+									<li>part_att_units_6</li>
+									<li>part_att_detby_6</li>
+									<li>part_att_madedate_6</li>
+									<li>part_att_rem_6</li>
+								</ul>
+							</div>
+							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+								<div class="col-12 col-md-4">
+									<input type="hidden" name="Action" value="getFile">
+									<label class="data-entry-label">Upload the .csv with data</label>
+									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+								</div>
+								<div class="col-12 col-md-3">
+									<label class="data-entry-label">Character Set: </label>
+							<select name="cSet" class="data-entry-select" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</select>
+									</div>
+								</div>
+							</cfform>
+						</div>
 					</div>
 			  </div>	<!---15--->
 			</div>
