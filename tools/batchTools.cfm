@@ -698,7 +698,7 @@
 								</ul>
 							</div>
 
-	<cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
+	<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 		<div class="my-4 row">
 		<div class="col-12 col-md-4">
 			<input type="hidden" name="Action" value="getFile">
