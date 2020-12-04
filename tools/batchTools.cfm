@@ -188,7 +188,7 @@
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
 									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
-									<input type="submit" value="Upload this file" class="btn-xs my-3 btn btn-primary">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
 								</div>
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label">Character Set: </label>
@@ -510,7 +510,7 @@
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
 									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
-									<input type="submit" value="Upload this file" class="btn-xs my-3 btn btn-primary">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
 								</div>
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label">Character Set: </label>
