@@ -914,13 +914,13 @@
 							<li class="text-danger">TYPE_STATUS</li>
 							<li class="text-danger">CITATION_REMARKS</li>
 						</ul>
-					  	<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
-								<div class="my-4 row">
+					  	<cfform name="atts" method="post" class="py-0 mb-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-3 row">
 								<div class="col-12 col-md-4">
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
 									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
-									<input type="submit" value="Upload this file" class="btn-xs my-3 btn btn-primary">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 mb-1 btn btn-primary">
 								</div>
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label">Character Set: </label>
