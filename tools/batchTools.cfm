@@ -1596,6 +1596,7 @@
 							</cfform>
 						</div>
 					</div>
+			</div>
 			  </div>	<!---7--->
 				<div class="card">
 					<div class="card-header py-0" id="headingEight">
