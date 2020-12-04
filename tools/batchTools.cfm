@@ -613,7 +613,7 @@
                     { name: 'container_unique_id', type: 'string' },
                     { name: 'condition', type: 'string' },
 					{ name: 'changed_date', type: 'string' },
-					{ name: 'new_preserve_method', type: 'string' },
+					{ name: 'new_preserve_method', type: 'string' }
 
                 ]                     
             };
