@@ -1025,12 +1025,8 @@
                   	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
                   	{ text: 'existing_other_id_type', datafield: 'existing_other_id_type', width: 90 },
                   	{ text: 'existing_other_id_number', datafield: 'existing_other_id_number', width: 90 },
-                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
-                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
-                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
-				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
-                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
-					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 }
+                  	{ text: 'new_other_id_type', datafield: 'part_name', width: 80 },
+                  	{ text: 'new_other_id_number', datafield: 'preserve_method', width: 90 }
                 ]
             });
 
@@ -1053,61 +1049,11 @@
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">INSTITUTION_ACRONYM</li>
 									<li class="text-danger">COLLECTION_CDE</li>
-									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
-									<li class="text-danger">OTHER_ID_NUMBER</li>
-									<li class="text-danger">PART_NAME</li>
-									<li class="text-danger">PRESERVE_METHOD</li>
-									<li class="text-danger">DISPOSITION</li>
-									<li>LOT_COUNT_MODIFIER</li>
-									<li class="text-danger">LOT_COUNT</li>
-									<li>CURRENT_REMARKS
-										<ul>
-											<li>remarks to be added with the new part</li>
-										</ul>
-									</li>
-									<li>container_unique_id
-										<ul>
-											<li>container unique ID in which to place this part</li>
-										</ul>
-									</li>
-
-									<li class="text-danger">condition</li>
-									<li>part_att_name_1</li>
-									<li>part_att_val_1</li>
-									<li>part_att_units_1</li>
-									<li>part_att_detby_1</li>
-									<li>part_att_madedate_1</li>
-									<li>part_att_rem_1</li>
-									<li>part_att_name_2</li>
-									<li>part_att_val_2</li>
-									<li>part_att_units_2</li>
-									<li>part_att_detby_2</li>
-									<li>part_att_madedate_2</li>
-									<li>part_att_rem_2</li>
-									<li>part_att_name_3</li>
-									<li>part_att_val_3</li>
-									<li>part_att_units_3</li>
-									<li>part_att_detby_3</li>
-									<li>part_att_madedate_3</li>
-									<li>part_att_rem_3</li>
-									<li>part_att_name_4</li>
-									<li>part_att_val_4</li>
-									<li>part_att_units_4</li>
-									<li>part_att_detby_4</li>
-									<li>part_att_madedate_4</li>
-									<li>part_att_rem_4</li>
-									<li>part_att_name_5</li>
-									<li>part_att_val_5</li>
-									<li>part_att_units_5</li>
-									<li>part_att_detby_5</li>
-									<li>part_att_madedate_5</li>
-									<li>part_att_rem_5</li>
-									<li>part_att_name_6</li>
-									<li>part_att_val_6</li>
-									<li>part_att_units_6</li>
-									<li>part_att_detby_6</li>
-									<li>part_att_madedate_6</li>
-									<li>part_att_rem_6</li>
+									<li class="text-danger">EXISTING_OTHER_ID_TYPE ("catalog number" is OK)</li>
+									<li class="text-danger">EXISTING_OTHER_ID_NUMBER</li>
+									<li class="text-danger">NEW_OTHER_ID_TYPE</li>
+									<li class="text-danger">NEW_OTHER_ID_NUMBER</li>
+									
 								</ul>
 							</div>
 							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
