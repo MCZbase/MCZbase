@@ -766,7 +766,7 @@
 				  </h2>
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
-				  <div class="card-body px-4">
+				  <div class="card-body px-4 pb-3">
 					  <h3 class="h5">Bulkload Citations</h3>
 					<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 						<script>
