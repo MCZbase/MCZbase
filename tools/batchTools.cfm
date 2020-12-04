@@ -195,7 +195,8 @@
 								<option value="utf-8">utf-8</option>
 								<option value="utf-16">utf-16</option>
 								<option value="unicode">unicode</option>
-							</input>
+							</select>
+							
 						  </cfform>
 						 </div>
 					</div>
