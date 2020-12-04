@@ -167,7 +167,7 @@
 			</div>
         </div>
 							<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
-							<h5><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></h5>
+							<h4 class="h5"><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></h4>
 							<p>Columns in red are required; others are optional:</p>
 							<ul class="px-4 list-style-disc">
 								<li class="text-danger">COLLECTION_CDE</li>
@@ -537,7 +537,7 @@
 					</div>
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 				  		<div class="card-body px-4">
-					  <h3 class="h4">Update existing part and/or append remark to existing remarks.</h3>
+					  <h3 class="h5">Update existing part and/or append remark to existing remarks.</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 						<script>
 							function generatedata3(rowscount, hasNullValues) {
