@@ -465,7 +465,7 @@
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">
 					,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
-					<cfif len(mask_media_fg) gt 0>,
+					<cfif len(mask_media_fg) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">
 					<cfelse>
 						,0
