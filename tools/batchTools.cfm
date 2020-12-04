@@ -696,26 +696,8 @@
 										<ul><li>The value in this field will replace the current preserve method for this part</li></ul>
 									</li>
 								</ul>
-	<cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
-			<input type="hidden" name="Action" value="getFile">
-			  <input type="file"
-		   name="FiletoUpload"
-		   size="45">
-			 <input type="submit" value="Upload this file"
-		class="savBtn"
-		onmouseover="this.className='savBtn btnhov'"
-		onmouseout="this.className='savBtn'">
-		<br><br>
-	Character Set: <select name="cSet" id="cSet">
-		<option value="windows-1252" selected>windows-1252</option>
-		<option value="MacRoman">MacRoman</option>
-		<option value="utf-8">utf-8</option>
-		<option value="utf-16">utf-16</option>
-		<option value="unicode">unicode</option>
-	</select>
-  </cfform>
 							</div>
-								<div class="my-2"><cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4"><cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
 			<input type="hidden" name="Action" value="getFile">
 			  <input type="file"
 		   name="FiletoUpload"
