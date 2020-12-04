@@ -1093,8 +1093,8 @@
 									<li>Items in the file you load are not already on loan (check part_disposition)</li>
 									<li>Encumbrances have been checked</li>
 									<li>A loan has been created</li>
-									<li>Loan item reconciled person is you (#enteredby#)</li>
-									<li>Loan item reconciled date is today (#sysdate#)</li>
+									<li>Loan item reconciled person is you ()</li>
+									<li>Loan item reconciled date is today ()</li>
 								</ul>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
