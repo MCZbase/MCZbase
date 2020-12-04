@@ -197,7 +197,7 @@
 					<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 						<div class="card-body px-4">
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
-							<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
 									function generatedata2(rowscount, hasNullValues) {
 							// prepare the data
@@ -500,55 +500,208 @@
 					<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 				  <div class="card-body px-4">
 					  <h3 class="h4">Update existing part and/or append remark to existing remarks.</h3>
-						<div class="p-3 text-secondary border">
-							<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
-							<label class="data-entry-label">Copy the existing code into an Excel workbook (use data > text to columns to parse) and save as a .csv file</label>
-							<textarea class="data-entry-textarea"> institution_acronym,collection_cde,other_id_type,other_id_number,part_name,preserve_method,disposition,lot_count_modifier,lot_count,current_remarks,container_unique_id,change_container_type,condition,append_to_remarks,changed_date,new_preserve_method </textarea>
-						</div>
+							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<script>
+									function generatedata2(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var collection_cde = 
+								[ 
+									"collection_cde" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"current remark" 
+								];
+							var append_to_remarks =
+								[
+									"appended remarks"
+								]
+							var container_unique_id =
+								[ 
+									"label or barcode" 
+								];
+							var condition =
+								[ 
+									"good" 
+								];
+							var changed_date =
+								[ 
+									"2019-01-01" 
+								];
+							var new_preserve_method =
+								[ 
+									"ethanol" 
+								];		
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["institution_acronym"] = institution_acronym;
+								row["collection_cde"] = collection_cde;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["append_to_remarks"];
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["changed_date"] = changed_date;
+								row["new_preserve_method"] = new_preserve_method;
+								data[i] = row;
+							}
+							return data;
+						}
+							</script>				     	
+    						<script type="text/javascript">
+        $(document).ready(function () {
+            // prepare the data
+            var data = generatedata3(1);
+            var source =
+            {
+                localdata: data,
+                datatype: "array",
+                datafields:
+                [
+                    { name: 'institution_acronym', type: 'string' },
+					{ name: 'collection_cde', type: 'string' },
+                    { name: 'other_id_type', type: 'string' },
+                    { name: 'other_id_number', type: 'string' },
+                    { name: 'part_name', type: 'string' },
+                    { name: 'preserve_method', type: 'string' },
+                    { name: 'disposition', type: 'string' },
+					{ name: 'lot_count_modifier', type: 'string' },
+                    { name: 'lot_count', type: 'string' },
+					{ name: 'current_remarks', type: 'string' },
+					{ name: 'append_to_remarks', type: 'string' },
+                    { name: 'container_unique_id', type: 'string' },
+                    { name: 'condition', type: 'string' },
+					{ name: 'changed_date', type: 'string' },
+					{ name: 'new_preserve_method', type: 'string' },
+
+                ]                     
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("##grid2").jqxGrid(
+            {
+                width: '100%',
+				autoheight: 'true',
+                source: dataAdapter,                
+                altrows: true,
+          		sortable: false,
+				columnsresize: true,
+                selectionmode: 'multiplecellsextended',
+                columns: [
+                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+					{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
+                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
+				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
+				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+                  	{ text: 'condition', datafield: 'condition', width: 120 },
+					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
+					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
+					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
+					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
+					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
+					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
+					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
+					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
+					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
+					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
+					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
+					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                ]
+            });
+
+            $("##csvExport3").jqxButton();
+
+            $("##csvExport3").click(function () {
+                $("##grid3").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            });
+           
+        });
+    </script>
+							<div id="grid3"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id='csvExport2' />
+								</div>
+							</div>
 					  	<div class="card-columns mb-3">
 							<p>Columns in red are required; others are optional:</p>
 							<ul class="list-style-disc px-4">
-								<li class="text-danger">institution_acronym</li>
-								<li class="text-danger">collection_cde</li>
-								<li class="text-danger">other_id_type ("catalog number" is OK)</li>
-								<li class="text-danger">other_id_number</li>
-								<li class="text-danger">part_name</li>
-								<li class="text-danger">preserve_method</li>
-								<li class="text-danger">disposition</li>
-								<li>lot_count_modifier</li>
-								<li class="text-danger">lot_count</li>
-								<li>current_remarks
-									<ul>
-										<li>remarks to be added with the new part</li>
-									</ul>
+								<li class="text-danger">INSTITUTION_ACRONYM</li>
+								<li class="text-danger">COLLECTION_CDE</li>
+								<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
+								<li class="text-danger">OTHER_ID_NUMBER</li>
+								<li class="text-danger">PART_NAME</li>
+								<li class="text-danger">PRESERVE_METHOD</li>
+								<li class="text-danger">DISPOSITION</li>
+								<li>LOT_COUNT_MODIFIER</li>
+								<li class="text-danger">LOT_COUNT</li>
+								<li>CONTAINER_UNIQUE_ID
+									<ul><li>Container unique ID in which to place this part</li></ul>
 								</li>
-								<li>remarks to be added with the new part</li>
-								<li>container_unique_id
-									<ul>
-										<li>container unique ID in which to place this part</li>
-									</ul>
-								</li>
-								<li class="text-danger">condition</li>
-								<li>current_remarks
+								<li>CURRENT_REMARKS
 									<ul>
 										<li>Notes in the remarks field on the specimen record now. Copy and paste into the spreadsheet if possible. They must match the remarks on the record.</li>
 									</ul>
 								</li>
-								<li>append_to_remarks
-									<ul>
-										<li>Anything in this field will be appended to the current remarks. It will be automatically separated by a semicolon.</li>
-									</ul>
+								<li>APPEND_TO_REMARKS
+									<ul><li>Anything in this field will be appended to the current remarks.  It will automatically be separated by a colon.</li></ul>
 								</li>
-								<li>changed_date
-									<ul>
-										<li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li>
-									</ul>
+								<li>CONTAINER_UNIQUE_ID
+									<ul><li>Container unique ID in which to place this part</li></ul>
 								</li>
-
-								<li>new_preserve_method
-									<ul>
-										<li>The value in this field will replace the current preserve method for this part</li>
-									</ul>
+								<li class="text-danger">CONDITION</li>						
+								<li>CHANGED_DATE
+									<ul><li>If the date the part preservation was changed is different than today, use this field to mark the preservation history correctly, otherwise leave blank. Format = YYYY-MM-DD</li></ul>
+								</li>
+								<li>NEW_PRESERVE_METHOD
+									<ul><li>The value in this field will replace the current preserve method for this part</li></ul>
 								</li>
 						  	</ul>
 					  	</div>
@@ -569,7 +722,7 @@
 						<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
 						<ul>
 							<li class="text-danger">INSTITUTION_ACRONYM</li>
-							<li class="text-danger">COLLECTION_CDE
+							<li class="text-danger">COLLECTION_CDE</li>
 							<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
 							<li class="text-danger">OTHER_ID_NUMBER</li>
 							<li>PUBLICATION_TITLE (You must include either a Publication Title OR a Publication ID)</li>
