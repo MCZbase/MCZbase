@@ -1275,7 +1275,7 @@
 									</div>
 								</div>
 							</cfform>
-						</div>
+						
 					</div>
 				 </div>	<!---6--->
 				<div class="card">
