@@ -699,10 +699,12 @@
 							</div>
 <div class="my-4 row">
 	<cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
+		<div class="col-6">
 			<input type="hidden" name="Action" value="getFile">
-			<input type="file" name="FiletoUpload" size="45" class="data-entry-input col-6">
+			<input type="file" name="FiletoUpload" size="45" class="data-entry-input">
 			<input type="submit" value="Upload this file" class="btn-xs btn btn-primary">
-		<br><br>
+		</div>
+		<div class="col-6">
 	Character Set: <select name="cSet" class="data-entry-select" id="cSet">
 		<option value="windows-1252" selected>windows-1252</option>
 		<option value="MacRoman">MacRoman</option>
@@ -710,6 +712,7 @@
 		<option value="utf-16">utf-16</option>
 		<option value="unicode">unicode</option>
 	</select>
+		</div>
 	</cfform>
 </div>
 				  </div>
