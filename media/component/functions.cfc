@@ -66,7 +66,7 @@ Backing methods for managing media
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
 						 	<cfif len(mask_media_fg) gt 0>
-								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">,
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">
 							<cfelse>
 								,0
 							</cfif>
