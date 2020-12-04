@@ -39,6 +39,7 @@ Backing methods for managing media
 	<cfargument name="media_license_id" type="string" required="no">
 	<cfargument name="number_of_relations" type="string" required="no">
 	<cfargument name="number_of_labels" type="string" required="no">
+	<cfargument name="mask_media_fg" type="string" required="no">
 
 	<cfoutput>
 		<cftransaction>
@@ -53,7 +54,8 @@ Backing methods for managing media
 							media_uri,
 							mime_type,
 							media_type,
-							preview_uri
+							preview_uri,
+							mask_media_fg
 						 	<cfif len(media_license_id) gt 0>
 								,media_license_id
 							</cfif>
@@ -63,6 +65,11 @@ Backing methods for managing media
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
 							<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">
+						 	<cfif len(mask_media_fg) gt 0>
+								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">,
+							<cfelse>
+								,0
+							</cfif>
 							<cfif len(media_license_id) gt 0>
 								,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
 							</cfif>
