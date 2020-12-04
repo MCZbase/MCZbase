@@ -14,6 +14,7 @@
 						</div>
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Add Attributes</h2>
 								<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
 								<script>
 									function generatedata(rowscount, hasNullValues) {
@@ -206,6 +207,7 @@
 						</div>
 						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Add New Parts</h2>
 								<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 								<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 								<script>
@@ -522,6 +524,7 @@
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Modify Parts</h2>
 								<h3 class="h5">Update existing part and/or append remark to existing remarks.</h3>
 								<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 								<script>
@@ -760,7 +763,8 @@
 						</div>
 						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
 							<div class="card-body px-4 pb-4">
-								<h3 class="h5">Bulkload Citations</h3>
+								<h2 class="h3">Bulk Add Citations</h2>
+								<h3 class="h5">Add citations to existing specimen records.</h3>
 								<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 								<script>
 							function generatedata4(rowscount, hasNullValues) {
@@ -1221,7 +1225,7 @@
 									</div>
 								</div>
 								<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
-								<div class="mb-3">
+								<div class="card-columns mb-3">
 									<ul class="list-style-disc px-4">
 										<li class="text-danger">INSTITUTION_ACRONYM</li>
 										<li class="text-danger">COLLECTION_CDE</li>
