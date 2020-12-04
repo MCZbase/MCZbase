@@ -421,8 +421,6 @@
 									<input type="button" value="Export to CSV" id='csvExport2' />
 								</div>
 							</div>
-					
-
 							<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
@@ -501,7 +499,7 @@
 				  <div class="card-body px-4">
 					  <h3 class="h4">Update existing part and/or append remark to existing remarks.</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
-							<script>
+						<script>
 							function generatedata3(rowscount, hasNullValues) {
 							// prepare the data
 							var data = new Array();
@@ -589,7 +587,7 @@
 							return data;
 						}
 					  	</script>				     	
-  							<script type="text/javascript">
+  						<script type="text/javascript">
         					$(document).ready(function () {
 									// prepare the data
             				var data = generatedata3(1);
@@ -662,8 +660,8 @@
 									<input type="button" value="Export to CSV" id="csvExport3" />
 								</div>
 							</div>
-							<div class="card-columns mb-3">
-								<p>Columns in red are required; others are optional:</p>
+					  		<h4 class="h5 px-3">Columns in red are required; others are optional:</h4>
+							<div class="card-columns mb-3">							
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">INSTITUTION_ACRONYM</li>
 									<li class="text-danger">COLLECTION_CDE</li>
