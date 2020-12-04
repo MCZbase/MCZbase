@@ -2855,6 +2855,7 @@
 					</div>
 					<div id="collapseSeventeen" class="collapse" aria-labelledby="headingSeventeen" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Add Media</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
