@@ -700,13 +700,13 @@
 
 	<cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
 		<div class="my-4 row">
-		<div class="col-6">
+		<div class="col-12 col-md-4">
 			<input type="hidden" name="Action" value="getFile">
 			<label class="data-entry-label">Upload the .csv with data</label>
 			<input type="file" name="FiletoUpload" size="45" class="data-entry-input">
 			<input type="submit" value="Upload this file" class="btn-xs my-3 btn btn-primary">
 		</div>
-		<div class="col-6">
+		<div class="col-12 col-md-3">
 			<label class="data-entry-label">Character Set: </label>
 	<select name="cSet" class="data-entry-select" id="cSet">
 		<option value="windows-1252" selected>windows-1252</option>
