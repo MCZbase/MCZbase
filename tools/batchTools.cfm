@@ -945,7 +945,7 @@
 					</div>
 					<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="##accordionExample">
 						<div class="card-body px-4">
-							<h3 class="h5">Add Identifiers to Existing Specimen Records</h3>
+							<h3 class="h5">Add Identifiers (other IDs) to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
 									function generatedata2(rowscount, hasNullValues) {
@@ -1087,21 +1087,30 @@
 					</div>
 					<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
 							<div class="card-body px-4">
-							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<h3 class="h5">Add Loans to Existing Specimen Records</h3>
+								<p>The following must all be true to use this form:</p>
+								<ul>
+									<li>Items in the file you load are not already on loan (check part_disposition)</li>
+									<li>Encumbrances have been checked</li>
+									<li>A loan has been created</li>
+									<li>Loan item reconciled person is you (#enteredby#)</li>
+									<li>Loan item reconciled date is today (#sysdate#)</li>
+								</ul>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
-							function generatedata2(rowscount, hasNullValues) {
+							function generatedata6(rowscount, hasNullValues) {
 							// prepare the data
 							var data = new Array();
 							if (rowscount == undefined) rowscount = 1;
-							var collection_cde = 
-								[ 
-									"Herp" 
-								];
 							var institution_acronym = 
 								[  
 									"MCZ" 
 								];
+							var collection_cde = 
+								[ 
+									"Herp" 
+								];
+
 							var other_id_type = 
 								[ 
 									"catalog item" 
@@ -1111,112 +1120,45 @@
 									"1234" 
 								];
 							var part_name = 
-								[
-									"whole animal"
-								];
-							var preserve_method =
-								[ 
-									"ethanol"
-								];
-							var disposition = 
-								[  
-									"in collection" 
-								];
-							var lot_count_modifier = 
-								[
-									">"
-								];
-							var lot_count = 
 								[ 
 									"1"
 								];
-							var current_remarks =
+							var item_description =
 								[ 
-									"Part has a crack" 
+									"" 
+								];
+							
+							var item_remarks  =
+								[ 
+									"" 
 								];
 							var container_unique_id =
 								[ 
 									"" 
 								];
-							var condition =
+							var subsample =
 								[ 
-									"" 
+									"yes/no" 
 								];
-							var part_att_name_1 =
-								[ 
-									"" 
-								];
-							var part_att_val_1 =
-								[ 
-									"" 
-								];
-							var part_att_units_1 =
-								[ 
-									"" 
-								];
-							var part_att_detby_1 =
-								[ 
-									"" 
-								];
-							var part_att_madedate_1 =
-								[ 
-									"" 
-								];
-							var part_att_rem_1 =
-								[ 
-									"" 
-								];
-							var part_att_name_2 =
-								[ 
-									"" 
-								];
-							var part_att_val_2 =
-								[ 
-									"" 
-								];
-							var part_att_units_2 =
-								[ 
-									"" 
-								];
-							var part_att_detby_2 =
-								[ 
-									"" 
-								];
-							var part_att_madedate_2 =
-								[ 
-									"" 
-								];
-							var part_att_rem_2 =
+							var loan_number =
 								[ 
 									"" 
 								];
 							for (var i = 0; i < rowscount; i++) {
 								var row = {};       
 								row["id"] = i;
-								row["collection_cde"] = collection_cde;
 								row["institution_acronym"] = institution_acronym;
+								row["collection_cde"] = collection_cde;
 								row["other_id_type"] = other_id_type;
 								row["other_id_number"] = other_id_number;
 								row["part_name"] = part_name;
-								row["preserve_method"] = preserve_method;
-								row["disposition"] = disposition;
-								row["lot_count_modifier"] = lot_count_modifier;
-								row["lot_count"] = lot_count;
-								row["current_remarks"] = current_remarks;
+								row["item_description"] = item_description;
+								row["item_remarks"] = item_remarks;
+								row["part_name"] = part_name;
+								row["item_remarks"] = item_remarks;
 								row["container_unique_id"] = container_unique_id;
-								row["condition"] = condition;
-								row["part_att_name_1"] = part_att_name_1;
-								row["part_att_val_1"] = part_att_val_1;
-								row["part_att_units_1"] = part_att_units_1;
-								row["part_att_detby_1"] = part_att_detby_1;
-								row["part_att_madedate_1"] = part_att_madedate_1;
-								row["part_att_rem_1"] = part_att_rem_1;
-								row["part_att_name_2"] = part_att_name_2;
-								row["part_att_val_2"] = part_att_val_2;
-								row["part_att_units_2"] = part_att_units_2;
-								row["part_att_detby_2"] = part_att_detby_2;
-								row["part_att_madedate_2"] = part_att_madedate_2;
-								row["part_att_rem_2"] = part_att_rem_2;
+								row["subsample"] = subsample;
+								row["loan_number"] = loan_number;
 
 								data[i] = row;
 							}
@@ -1226,7 +1168,7 @@
     						<script type="text/javascript">
         $(document).ready(function () {
             // prepare the data
-            var data = generatedata2(1);
+            var data = generatedata6(1);
             var source =
             {
                 localdata: data,
@@ -1298,15 +1240,15 @@
                 ]
             });
 
-            $("##csvExport2").jqxButton();
+            $("##csvExport6").jqxButton();
 
-            $("##csvExport2").click(function () {
-                $("##grid2").jqxGrid('exportdata', 'csv', 'jqxGrid');
+            $("##csvExport6").click(function () {
+                $("##grid6").jqxGrid('exportdata', 'csv', 'jqxGrid');
             });
            
         });
     </script>
-							<div id="grid2"></div>
+							<div id="grid6"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
 									<input type="button" value="Export to CSV" id='csvExport2' />
