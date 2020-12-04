@@ -1081,15 +1081,15 @@
 				</div>	<!---5--->
 				<div class="card">
 					<div class="card-header py-0" id="headingSix">
-					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans		</a>
+					  	<h2 class="h4 my-1 px-3">
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSix" aria-expanded="false" aria-controls="collapseSix"> &nbsp;Bulk Add Loans		</a>
 					  </h2>
 					</div>
 					<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="##accordionExample">
-							<div class="card-body px-4">
+						<div class="card-body px-4">
 							<h3 class="h5">Add Loans to Existing Specimen Records</h3>
-								<p>The following must all be true to use this form:</p>
-								<ul>
+							<p>The following must all be true to use this form:</p>
+							<ul>
 									<li>Items in the file you load are not already on loan (check part_disposition)</li>
 									<li>Encumbrances have been checked</li>
 									<li>A loan has been created</li>
@@ -1166,61 +1166,61 @@
 						}
 							</script>				     	
     						<script type="text/javascript">
-        $(document).ready(function () {
-            // prepare the data
-            var data = generatedata6(1);
-            var source =
-            {
-                localdata: data,
-                datatype: "array",
-                datafields:
-                [
-                    { name: 'institution_acronym', type: 'string' },
-					{ name: 'collection_cde', type: 'string' },
-                    { name: 'other_id_type', type: 'string' },
-                    { name: 'other_id_number', type: 'string' },
-                    { name: 'part_name', type: 'string' },
-                    { name: 'item_description', type: 'string' },
-                    { name: 'item_remarks', type: 'string' },
-					{ name: 'container_unique_id', type: 'string' },
-                    { name: 'subsample', type: 'string' },
-					{ name: 'loan_number', type: 'string' }
-    
-                ]                     
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            // initialize jqxGrid
-            $("##grid6").jqxGrid(
-            {
-                width: '100%',
-				autoheight: 'true',
-                source: dataAdapter,                
-                altrows: true,
-          		sortable: false,
-				columnsresize: true,
-                selectionmode: 'multiplecellsextended',
-                columns: [
-					{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
-                  	{ text: 'item_description', datafield: 'item_description', width: 90 },
-                  	{ text: 'item_remarks', datafield: 'item_remarks', width: 70 },
-				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
-                  	{ text: 'subsample', datafield: 'subsample', width: 120 },
-					{ text: 'loan_number', datafield: 'loan_number', width: 100 },
-                ]
-            });
+								$(document).ready(function () {
+									// prepare the data
+									var data = generatedata6(1);
+									var source =
+									{
+										localdata: data,
+										datatype: "array",
+										datafields:
+										[
+											{ name: 'institution_acronym', type: 'string' },
+											{ name: 'collection_cde', type: 'string' },
+											{ name: 'other_id_type', type: 'string' },
+											{ name: 'other_id_number', type: 'string' },
+											{ name: 'part_name', type: 'string' },
+											{ name: 'item_description', type: 'string' },
+											{ name: 'item_remarks', type: 'string' },
+											{ name: 'container_unique_id', type: 'string' },
+											{ name: 'subsample', type: 'string' },
+											{ name: 'loan_number', type: 'string' }
 
-            $("##csvExport6").jqxButton();
+										]                     
+									};
+									var dataAdapter = new $.jqx.dataAdapter(source);
+									// initialize jqxGrid
+									$("##grid6").jqxGrid(
+									{
+										width: '100%',
+										autoheight: 'true',
+										source: dataAdapter,                
+										altrows: true,
+										sortable: false,
+										columnsresize: true,
+										selectionmode: 'multiplecellsextended',
+										columns: [
+											{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+											{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+											{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+											{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+											{ text: 'part_name', datafield: 'part_name', width: 80 },
+											{ text: 'item_description', datafield: 'item_description', width: 90 },
+											{ text: 'item_remarks', datafield: 'item_remarks', width: 70 },
+											{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+											{ text: 'subsample', datafield: 'subsample', width: 120 },
+											{ text: 'loan_number', datafield: 'loan_number', width: 100 },
+										]
+									});
 
-            $("##csvExport6").click(function () {
-                $("##grid6").jqxGrid('exportdata', 'csv', 'jqxGrid');
-            });
-           
-        });
-    </script>
+									$("##csvExport6").jqxButton();
+
+									$("##csvExport6").click(function () {
+										$("##grid6").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
+
+								});
+							</script>
 							<div id="grid6"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
@@ -1262,9 +1262,9 @@
 									</div>
 								</div>
 							</cfform>
-						
-					</div>
-				 </div>	<!---6--->
+						</div>
+				 	</div>
+			</div><!---6--->
 				<div class="card">
 					<div class="card-header py-0" id="headingSeven">
 					  <h2 class="h4 my-1 px-3">
