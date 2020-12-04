@@ -790,49 +790,33 @@
 								[ 
 									"1234" 
 								];
-							var part_name = 
-								[
-									"whole animal"
-								];
-							var preserve_method =
+							var publication_title = 
 								[ 
-									"ethanol"
+									"Bufo bufo research"
 								];
-							var disposition = 
-								[  
-									"in collection" 
-								];
-							var lot_count_modifier = 
-								[
-									">"
-								];
-							var lot_count = 
+							var publication_id =
 								[ 
-									"1"
+									"12345" 
 								];
-							var current_remarks =
-								[ 
-									"current remark" 
-								];
-							var append_to_remarks =
+							var cited_scientific_name =
 								[
-									"appended remarks"
+									"Bufo bufo"
 								]
-							var container_unique_id =
+							var occurs_page_number =
 								[ 
-									"label or barcode" 
+									"12" 
 								];
-							var condition =
+							var citation_page_uri =
 								[ 
-									"good" 
+									"http://..." 
 								];
-							var changed_date =
+							var type_status =
 								[ 
-									"2019-01-01" 
+									"holotype" 
 								];
-							var new_preserve_method =
+							var citation_remarks =
 								[ 
-									"ethanol" 
+									"citation_remarks" 
 								];		
 							for (var i = 0; i < rowscount; i++) {
 								var row = {};       
@@ -841,16 +825,12 @@
 								row["collection_cde"] = collection_cde;
 								row["other_id_type"] = other_id_type;
 								row["other_id_number"] = other_id_number;
-								row["part_name"] = part_name;
-								row["preserve_method"] = preserve_method;
-								row["disposition"] = disposition;
-								row["lot_count_modifier"] = lot_count_modifier;
-								row["lot_count"] = lot_count;
-								row["current_remarks"] = current_remarks;
-								row["append_to_remarks"] = append_to_remarks;
-								row["container_unique_id"] = container_unique_id;
-								row["condition"] = condition;
-								row["changed_date"] = changed_date;
+								row["publication_title"] = publication_title;
+								row["publication_id"] = publication_id;
+								row["cited_scientific_name"] = cited_scientific_name;
+								row["occurs_page_number"] = occurs_page_number;
+								row["citation_page_uri"] = citation_page_uri;
+								row["type_status"] = type_status;
 								row["citation_remarks"] = citation_remarks;
 								data[i] = row;
 							}
