@@ -697,8 +697,9 @@
 									</li>
 								</ul>
 							</div>
-<div class="my-4 row">
+
 	<cfform name="atts" method="post" enctype="multipart/form-data" action="batchTools.cfm">
+		<div class="my-4 row">
 		<div class="col-6">
 			<input type="hidden" name="Action" value="getFile">
 			<input type="file" name="FiletoUpload" size="45" class="data-entry-input">
@@ -712,9 +713,10 @@
 		<option value="utf-16">utf-16</option>
 		<option value="unicode">unicode</option>
 	</select>
+			</div>
 		</div>
 	</cfform>
-</div>
+
 				  </div>
 					</div>
 				</div>	<!---2--->
