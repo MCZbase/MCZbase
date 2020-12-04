@@ -709,7 +709,169 @@
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
 				  <div class="card-body px-4">
 					  <h3 class="h5">Bulkload Citations</h3>
-						<p>Upload a comma-delimited text file (csv). Include column headings, spelled exactly as below.</p>
+					<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+						<script>
+							function generatedata4(rowscount, hasNullValues) {
+							// prepare the data
+							var data = new Array();
+							if (rowscount == undefined) rowscount = 1;
+							var institution_acronym = 
+								[  
+									"MCZ" 
+								];
+							var collection_cde = 
+								[ 
+									"collection_cde" 
+								];
+							var other_id_type = 
+								[ 
+									"catalog item" 
+								];
+							var other_id_number = 
+								[ 
+									"1234" 
+								];
+							var part_name = 
+								[
+									"whole animal"
+								];
+							var preserve_method =
+								[ 
+									"ethanol"
+								];
+							var disposition = 
+								[  
+									"in collection" 
+								];
+							var lot_count_modifier = 
+								[
+									">"
+								];
+							var lot_count = 
+								[ 
+									"1"
+								];
+							var current_remarks =
+								[ 
+									"current remark" 
+								];
+							var append_to_remarks =
+								[
+									"appended remarks"
+								]
+							var container_unique_id =
+								[ 
+									"label or barcode" 
+								];
+							var condition =
+								[ 
+									"good" 
+								];
+							var changed_date =
+								[ 
+									"2019-01-01" 
+								];
+							var new_preserve_method =
+								[ 
+									"ethanol" 
+								];		
+							for (var i = 0; i < rowscount; i++) {
+								var row = {};       
+								row["id"] = i;
+								row["institution_acronym"] = institution_acronym;
+								row["collection_cde"] = collection_cde;
+								row["other_id_type"] = other_id_type;
+								row["other_id_number"] = other_id_number;
+								row["part_name"] = part_name;
+								row["preserve_method"] = preserve_method;
+								row["disposition"] = disposition;
+								row["lot_count_modifier"] = lot_count_modifier;
+								row["lot_count"] = lot_count;
+								row["current_remarks"] = current_remarks;
+								row["append_to_remarks"] = append_to_remarks;
+								row["container_unique_id"] = container_unique_id;
+								row["condition"] = condition;
+								row["changed_date"] = changed_date;
+								row["new_preserve_method"] = new_preserve_method;
+								data[i] = row;
+							}
+							return data;
+						}
+					  	</script>				     	
+  						<script type="text/javascript">
+        					$(document).ready(function () {
+									// prepare the data
+            				var data = generatedata4(1);
+            				var source =
+									{
+										localdata: data,
+										datatype: "array",
+										datafields:
+										[
+											{ name: 'institution_acronym', type: 'string' },
+											{ name: 'collection_cde', type: 'string' },
+											{ name: 'other_id_type', type: 'string' },
+											{ name: 'other_id_number', type: 'string' },
+											{ name: 'part_name', type: 'string' },
+											{ name: 'preserve_method', type: 'string' },
+											{ name: 'disposition', type: 'string' },
+											{ name: 'lot_count_modifier', type: 'string' },
+											{ name: 'lot_count', type: 'string' },
+											{ name: 'current_remarks', type: 'string' },
+											{ name: 'append_to_remarks', type: 'string' },
+											{ name: 'container_unique_id', type: 'string' },
+											{ name: 'condition', type: 'string' },
+											{ name: 'changed_date', type: 'string' },
+											{ name: 'new_preserve_method', type: 'string' }
+
+										]                     
+									};
+									var dataAdapter = new $.jqx.dataAdapter(source);
+									// initialize jqxGrid
+									$("##grid4").jqxGrid(
+									{
+										width: '100%',
+										autoheight: 'true',
+										source: dataAdapter,                
+										altrows: true,
+										sortable: false,
+										columnsresize: true,
+										selectionmode: 'multiplecellsextended',
+										columns: [
+											{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+											{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+											{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+											{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+											{ text: 'part_name', datafield: 'part_name', width: 80 },
+											{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+											{ text: 'disposition', datafield: 'disposition', width: 70 },
+											{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+											{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+											{ text: 'current_remarks', datafield: 'current_remarks', width: 200 },
+											{ text: 'append_to_remarks', datafield: 'append_to_remarks', width: 200 },
+											{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+											{ text: 'condition', datafield: 'condition', width: 120 },
+											{ text: 'changed_date', datafield: 'changed_date', width: 120 },
+											{ text: 'new_preserved_method', datafield: 'new_preserved_method', width: 120 }
+
+										]
+									});
+
+									$("##csvExport4").jqxButton();
+
+									$("##csvExport4").click(function () {
+										$("##grid4").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
+
+								});
+    						</script>
+							<div id="grid4"></div>
+							<div class="mt-3 mb-2 d-block float-left w-100">
+								<div class="ml-0 float-left">
+									<input type="button" value="Export to CSV" id="csvExport3" />
+								</div>
+							</div>
+					  		<h4 class="h5 px-3">Columns in red are required; others are optional:</h4>
 						<ul>
 							<li class="text-danger">INSTITUTION_ACRONYM</li>
 							<li class="text-danger">COLLECTION_CDE</li>
