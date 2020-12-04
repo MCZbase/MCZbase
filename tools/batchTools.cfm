@@ -1175,35 +1175,22 @@
                 datatype: "array",
                 datafields:
                 [
-                    { name: 'collection_cde', type: 'string' },
                     { name: 'institution_acronym', type: 'string' },
+					{ name: 'collection_cde', type: 'string' },
                     { name: 'other_id_type', type: 'string' },
                     { name: 'other_id_number', type: 'string' },
                     { name: 'part_name', type: 'string' },
-                    { name: 'preserve_method', type: 'string' },
-                    { name: 'disposition', type: 'string' },
-					{ name: 'lot_count_modifier', type: 'string' },
-                    { name: 'lot_count', type: 'string' },
-					{ name: 'current_remarks', type: 'string' },
-                    { name: 'container_unique_id', type: 'string' },
-                    { name: 'condition', type: 'string' },
-					{ name: 'part_att_name_1', type: 'string' },
-                    { name: 'part_att_val_1', type: 'string' },
-					{ name: 'part_att_units_1', type: 'string' },
-                    { name: 'part_att_detby_1', type: 'string' },
-					{ name: 'part_att_madedate_1', type: 'string' },
-                    { name: 'part_att_rem_1', type: 'string' },
-					{ name: 'part_att_name_2', type: 'string' },
-                    { name: 'part_att_val_2', type: 'string' },
-					{ name: 'part_att_units_2', type: 'string' },
-                    { name: 'part_att_detby_2', type: 'string' },
-					{ name: 'part_att_madedate_2', type: 'string' },
-					{ name: 'part_att_rem_2', type: 'string' },
+                    { name: 'item_description', type: 'string' },
+                    { name: 'item_remarks', type: 'string' },
+					{ name: 'container_unique_id', type: 'string' },
+                    { name: 'subsample', type: 'string' },
+					{ name: 'loan_number', type: 'string' }
+    
                 ]                     
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
             // initialize jqxGrid
-            $("##grid2").jqxGrid(
+            $("##grid6").jqxGrid(
             {
                 width: '100%',
 				autoheight: 'true',
@@ -1240,7 +1227,7 @@
 									<input type="button" value="Export to CSV" id='csvExport2' />
 								</div>
 							</div>
-							<p>Columns in red are required; others are optional:</p>
+								<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">INSTITUTION_ACRONYM</li>
@@ -1248,24 +1235,24 @@
 									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
 									<li class="text-danger">OTHER_ID_NUMBER</li>
 									<li class="text-danger">PART_NAME</li>
-									<li class="text-danger">ITEM_DESCRIPTION</li>
-									<li class="text-danger">ITEM_REMARKS</li>
+									<li>ITEM_DESCRIPTION</li>
+									<li>ITEM_REMARKS</li>
 									<li>CONTAINER_UNIQUE_ID</li>
 									<li class="text-danger">SUBSAMPLE</li>
-									<li>LOAN_NUMBER</li>
+									<li class="text-danger">LOAN_NUMBER</li>
 								</ul>
 							</div>
 							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 								<div class="my-4 row">
-								<div class="col-12 col-md-4">
+									<div class="col-12 col-md-4">
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
 									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
 									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
 								</div>
-								<div class="col-12 col-md-3">
-									<label class="data-entry-label">Character Set: </label>
-							<select name="cSet" class="data-entry-select" id="cSet">
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label">Character Set: </label>
+										<select name="cSet" class="data-entry-select" id="cSet">
 								<option value="windows-1252" selected>windows-1252</option>
 								<option value="MacRoman">MacRoman</option>
 								<option value="utf-8">utf-8</option>
@@ -1281,7 +1268,8 @@
 				<div class="card">
 					<div class="card-header py-0" id="headingSeven">
 					  <h2 class="h4 my-1 px-3">
-						<a class="btn-link text-left collapsed"  data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> &nbsp;Add Data Loans
+						<a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseSeven" aria-expanded="false" aria-controls="collapseSeven"> 
+							&nbsp;Add Data Loans
 						</a>
 					  </h2>
 					</div>
@@ -1290,7 +1278,7 @@
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
-									function generatedata2(rowscount, hasNullValues) {
+							function generatedata2(rowscount, hasNullValues) {
 							// prepare the data
 							var data = new Array();
 							if (rowscount == undefined) rowscount = 1;
