@@ -21,7 +21,7 @@
 					<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="##accordionExample">
 						 <div class="card-body px-4">
 							<h3 class="h5">Add Attributes to Existing Specimen Records</h3>
-				<script>
+							<script>
 					function generatedata(rowscount, hasNullValues) {
 				// prepare the data
 				var data = new Array();
@@ -100,7 +100,7 @@
 				return data;
 			}
 				</script>				     	
-				<script type="text/javascript">
+							<script type="text/javascript">
 					$(document).ready(function () {
 						// prepare the data
 						var data = generatedata(1);
@@ -160,14 +160,13 @@
 
 					});
 				</script>
-
-        <div id="grid"></div>
-        <div class="mt-3 mb-2 d-block float-left w-100">
+       			 			<div id="grid"></div>
+        					<div class="mt-3 mb-2 d-block float-left w-100">
 			<div class="ml-0 float-left">
                 <input type="button" value="Export to CSV" id='csvExport' />
 			</div>
         </div>
-		<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
+							<p>This tool adds attributes to the specimen record. The attribute has to be in the code table prior to uploading this .csv.</h4>
 							<h5><a href="/info/ctDocumentation.cfm?table=ctattribute_type">Attribute List</a></h5>
 							<p>Columns in red are required; others are optional:</p>
 							<ul class="px-4 list-style-disc">
@@ -183,6 +182,21 @@
 								<li class="text-danger">DETERMINER</li>
 								<li>REMARKS</li>
 							</ul>
+							<cfform name="atts" method="post" enctype="multipart/form-data" action="BulkloadParts.cfm">
+									<input type="hidden" name="Action" value="getFile">
+									<input type="file" name="FiletoUpload" size="45">
+									<input type="submit" value="Upload this file" class="savBtn"
+										onmouseover="this.className='savBtn btnhov'"
+										onmouseout="this.className='savBtn'">
+									<br><br>
+								Character Set: <select name="cSet" id="cSet">
+								<option value="windows-1252" selected>windows-1252</option>
+								<option value="MacRoman">MacRoman</option>
+								<option value="utf-8">utf-8</option>
+								<option value="utf-16">utf-16</option>
+								<option value="unicode">unicode</option>
+							</input>
+						  </cfform>
 						 </div>
 					</div>
 				</div>	<!---3--->
@@ -792,7 +806,7 @@
 								row["container_unique_id"] = container_unique_id;
 								row["condition"] = condition;
 								row["changed_date"] = changed_date;
-								row["new_preserve_method"] = new_preserve_method;
+								row["citation_remarks"] = citation_remarks;
 								data[i] = row;
 							}
 							return data;
@@ -812,17 +826,12 @@
 											{ name: 'collection_cde', type: 'string' },
 											{ name: 'other_id_type', type: 'string' },
 											{ name: 'other_id_number', type: 'string' },
-											{ name: 'part_name', type: 'string' },
-											{ name: 'preserve_method', type: 'string' },
-											{ name: 'disposition', type: 'string' },
-											{ name: 'lot_count_modifier', type: 'string' },
-											{ name: 'lot_count', type: 'string' },
-											{ name: 'current_remarks', type: 'string' },
-											{ name: 'append_to_remarks', type: 'string' },
-											{ name: 'container_unique_id', type: 'string' },
-											{ name: 'condition', type: 'string' },
-											{ name: 'changed_date', type: 'string' },
-											{ name: 'new_preserve_method', type: 'string' }
+											{ name: 'publication_title', type: 'string' },
+											{ name: 'publication_id', type: 'string' },
+											{ name: 'occurs_page_number', type: 'string' },
+											{ name: 'citation_page_uri', type: 'string' },
+											{ name: 'type_status', type: 'string' },
+											{ name: 'citation_remarks', type: 'string' }
 
 										]                     
 									};
@@ -838,21 +847,16 @@
 										columnsresize: true,
 										selectionmode: 'multiplecellsextended',
 										columns: [
-											{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-											{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-											{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-											{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-											{ text: 'part_name', datafield: 'part_name', width: 80 },
-											{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
-											{ text: 'disposition', datafield: 'disposition', width: 70 },
-											{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
-											{ text: 'lot_count', datafield: 'lot_count', width: 120 },
-											{ text: 'current_remarks', datafield: 'current_remarks', width: 200 },
-											{ text: 'append_to_remarks', datafield: 'append_to_remarks', width: 200 },
-											{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
-											{ text: 'condition', datafield: 'condition', width: 120 },
-											{ text: 'changed_date', datafield: 'changed_date', width: 120 },
-											{ text: 'new_preserved_method', datafield: 'new_preserved_method', width: 120 }
+											{ text: 'institution_acronym', datafield: 'institution_acronym', width: 60 },
+											{ text: 'collection_cde', datafield: 'collection_cde', width: 60 },
+											{ text: 'other_id_type', datafield: 'other_id_type', width: 100 },
+											{ text: 'other_id_number', datafield: 'other_id_number', width: 100 },
+											{ text: 'publication_title', datafield: 'publication_title', width: 200 },
+											{ text: 'publication_id', datafield: 'publication_id', width: 70 },
+											{ text: 'occurs_page_number', datafield: 'occurs_page_number', width: 70 },
+											{ text: 'citation_page_uri', datafield: 'citation_page_uri', width: 200 },
+											{ text: 'type_status', datafield: 'type_status', width: 120 },
+											{ text: 'citation_remarks', datafield: 'citation_remarks', width: 200 }
 
 										]
 									});
