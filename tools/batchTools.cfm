@@ -12,7 +12,7 @@
 
 			<div class="accordion mb-4" id="accordionExample">
 				<div class="card">
-					<div class="card-header" id="headingThree">
+					<div class="card-header py-0" id="headingThree">
 					  <h2 class="h4 my-1 px-3">
 						<a class="btn-link text-left collapsed" name="addAttributes" data-toggle="collapse" data-target="##collapseThree" aria-expanded="false" aria-controls="collapseThree"> &nbsp;Bulk Add Attributes
 						</a>
