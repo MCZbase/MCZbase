@@ -441,7 +441,7 @@
 									<input type="button" value="Export to CSV" id='csvExport2' />
 								</div>
 							</div>
-							<h4 class="h5 mt-3">Columns in red are required; others are optional:</h4>
+							<p>Columns in red are required; others are optional:</p>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">institution_acronym</li>
@@ -700,7 +700,7 @@
 									<input type="button" value="Export to CSV" id="csvExport3" />
 								</div>
 							</div>
-					  		<h4 class="h5 px-3">Columns in red are required; others are optional:</h4>
+					  		<p>Columns in red are required; others are optional:</p>
 							<div class="card-columns mb-3">							
 								<ul class="list-style-disc px-4">
 									<li class="text-danger">INSTITUTION_ACRONYM</li>
