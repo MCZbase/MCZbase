@@ -766,7 +766,7 @@
 				  </h2>
 				</div>
 				<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="##accordionExample">
-				  <div class="card-body px-4 pb-3">
+				  <div class="card-body px-4 pb-4">
 					  <h3 class="h5">Bulkload Citations</h3>
 					<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 						<script>
@@ -920,7 +920,7 @@
 									<input type="hidden" name="Action" value="getFile">
 									<label class="data-entry-label">Upload the .csv with data</label>
 									<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
-									<input type="submit" value="Upload this file" class="btn-xs my-3 btn btn-primary">
+									<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
 								</div>
 								<div class="col-12 col-md-3">
 									<label class="data-entry-label">Character Set: </label>
