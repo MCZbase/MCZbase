@@ -588,7 +588,7 @@
 							}
 							return data;
 						}
-</script>				     	
+					  	</script>				     	
   							<script type="text/javascript">
         					$(document).ready(function () {
 									// prepare the data
@@ -659,7 +659,7 @@
 							<div id="grid3"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
-									<input type="button" value="Export to CSV" id='csvExport2' />
+									<input type="button" value="Export to CSV" id='csvExport3' />
 								</div>
 							</div>
 					  	<div class="card-columns mb-3">
