@@ -3171,6 +3171,7 @@
 					</div>
 					<div id="collapseThirteen" class="collapse" aria-labelledby="headingThirteen" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Add Relationships</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
