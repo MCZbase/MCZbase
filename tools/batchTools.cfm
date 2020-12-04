@@ -502,7 +502,7 @@
 					  <h3 class="h4">Update existing part and/or append remark to existing remarks.</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
-									function generatedata2(rowscount, hasNullValues) {
+							function generatedata3(rowscount, hasNullValues) {
 							// prepare the data
 							var data = new Array();
 							if (rowscount == undefined) rowscount = 1;
@@ -579,7 +579,7 @@
 								row["lot_count_modifier"] = lot_count_modifier;
 								row["lot_count"] = lot_count;
 								row["current_remarks"] = current_remarks;
-								row["append_to_remarks"];
+								row["append_to_remarks"] = append_to_remarks;
 								row["container_unique_id"] = container_unique_id;
 								row["condition"] = condition;
 								row["changed_date"] = changed_date;
@@ -588,82 +588,74 @@
 							}
 							return data;
 						}
-							</script>				     	
-    						<script type="text/javascript">
-        $(document).ready(function () {
-            // prepare the data
-            var data = generatedata3(1);
-            var source =
-            {
-                localdata: data,
-                datatype: "array",
-                datafields:
-                [
-                    { name: 'institution_acronym', type: 'string' },
-					{ name: 'collection_cde', type: 'string' },
-                    { name: 'other_id_type', type: 'string' },
-                    { name: 'other_id_number', type: 'string' },
-                    { name: 'part_name', type: 'string' },
-                    { name: 'preserve_method', type: 'string' },
-                    { name: 'disposition', type: 'string' },
-					{ name: 'lot_count_modifier', type: 'string' },
-                    { name: 'lot_count', type: 'string' },
-					{ name: 'current_remarks', type: 'string' },
-					{ name: 'append_to_remarks', type: 'string' },
-                    { name: 'container_unique_id', type: 'string' },
-                    { name: 'condition', type: 'string' },
-					{ name: 'changed_date', type: 'string' },
-					{ name: 'new_preserve_method', type: 'string' }
+</script>				     	
+  							<script type="text/javascript">
+        					$(document).ready(function () {
+									// prepare the data
+            				var data = generatedata3(1);
+            				var source =
+									{
+										localdata: data,
+										datatype: "array",
+										datafields:
+										[
+											{ name: 'institution_acronym', type: 'string' },
+											{ name: 'collection_cde', type: 'string' },
+											{ name: 'other_id_type', type: 'string' },
+											{ name: 'other_id_number', type: 'string' },
+											{ name: 'part_name', type: 'string' },
+											{ name: 'preserve_method', type: 'string' },
+											{ name: 'disposition', type: 'string' },
+											{ name: 'lot_count_modifier', type: 'string' },
+											{ name: 'lot_count', type: 'string' },
+											{ name: 'current_remarks', type: 'string' },
+											{ name: 'append_to_remarks', type: 'string' },
+											{ name: 'container_unique_id', type: 'string' },
+											{ name: 'condition', type: 'string' },
+											{ name: 'changed_date', type: 'string' },
+											{ name: 'new_preserve_method', type: 'string' }
 
-                ]                     
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            // initialize jqxGrid
-            $("##grid3").jqxGrid(
-            {
-                width: '100%',
-				autoheight: 'true',
-                source: dataAdapter,                
-                altrows: true,
-          		sortable: false,
-				columnsresize: true,
-                selectionmode: 'multiplecellsextended',
-                columns: [
-                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-					{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
-                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
-                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
-				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
-                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
-					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
-				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
-                  	{ text: 'condition', datafield: 'condition', width: 120 },
-					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
-					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
-					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
-					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
-					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
-					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
-					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
-					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
-					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
-					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
-					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
-                ]
-            });
+										]                     
+									};
+									var dataAdapter = new $.jqx.dataAdapter(source);
+									// initialize jqxGrid
+									$("##grid3").jqxGrid(
+									{
+										width: '100%',
+										autoheight: 'true',
+										source: dataAdapter,                
+										altrows: true,
+										sortable: false,
+										columnsresize: true,
+										selectionmode: 'multiplecellsextended',
+										columns: [
+											{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
+											{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
+											{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
+											{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
+											{ text: 'part_name', datafield: 'part_name', width: 80 },
+											{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
+											{ text: 'disposition', datafield: 'disposition', width: 70 },
+											{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
+											{ text: 'lot_count', datafield: 'lot_count', width: 120 },
+											{ text: 'current_remarks', datafield: 'current_remarks', width: 200 },
+											{ text: 'append_to_remarks', datafield: 'append_to_remarks', width: 200 },
+											{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
+											{ text: 'condition', datafield: 'condition', width: 120 },
+											{ text: 'changed_date', datafield: 'changed_date', width: 120 },
+											{ text: 'new_preserved_method', datafield: 'condition', width: 120 }
 
-            $("##csvExport3").jqxButton();
+										]
+									});
 
-            $("##csvExport3").click(function () {
-                $("##grid3").jqxGrid('exportdata', 'csv', 'jqxGrid');
-            });
-           
-        });
-    </script>
+									$("##csvExport3").jqxButton();
+
+									$("##csvExport3").click(function () {
+										$("##grid3").jqxGrid('exportdata', 'csv', 'jqxGrid');
+									});
+
+								});
+    						</script>
 							<div id="grid3"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
