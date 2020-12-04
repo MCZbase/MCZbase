@@ -668,7 +668,7 @@
 				</a>
 			</cfoutput>
 			</cfif>
-    
+					</div>
 						 </div>
 					</div>
 				</div>	<!---3--->
