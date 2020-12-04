@@ -1270,6 +1270,7 @@
 						</div>
 						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="##accordionExample">
 							<div class="card-body px-4">
+								<h2 class="h3">Bulk Add Data Loans</h2>
 								<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 								<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 								<script>
@@ -1586,6 +1587,7 @@
 					</div>
 					<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Add Agents</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
@@ -1902,7 +1904,7 @@
 					</div>
 					<div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="##accordionExample">
 						<div class="card-body px-4">
-							<h2 class="h3">Bulk 
+							<h2 class="h3">Bulk Add Part Containers</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
@@ -2219,6 +2221,7 @@
 								</div>
 								<div id="collapseTen" class="collapse" aria-labelledby="headingTen" data-parent="##accordionExample">
 									<div class="card-body px-4">
+										<h2 class="h3">Bulk Add Identifications</h2>
 										<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 										<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 										<script>
@@ -2535,6 +2538,7 @@
 					</div>
 					<div id="collapseEleven" class="collapse" aria-labelledby="headingEleven" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Modify Parts</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
@@ -3483,6 +3487,7 @@
 					</div>
 					<div id="collapseFourteen" class="collapse" aria-labelledby="headingFourteen" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Add Georeferences</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
@@ -3799,6 +3804,7 @@
 					</div>
 					<div id="collapseFifteen" class="collapse" aria-labelledby="headingFifteen" data-parent="##accordionExample">
 						<div class="card-body px-4">
+							<h2 class="h3">Bulk Modify Taxonomy</h2>
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
