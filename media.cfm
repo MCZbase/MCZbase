@@ -469,6 +469,7 @@
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_media_fg#">
 					<cfelse>
 						,0
+					</cfif>
 					<cfif len(media_license_id) gt 0>
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_license_id#">
 					</cfif>
