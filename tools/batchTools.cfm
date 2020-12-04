@@ -1582,14 +1582,18 @@
 					</div>
 					<!---7 add data loans--->
 					<div class="card">
-					<div class="card-header py-0" id="headingEight">
+						<div class="card-header py-0" id="headingEight">
 						<h2 class="h4 my-1 px-3"> <a class="btn-link text-left collapsed" data-toggle="collapse" data-target="##collapseEight" aria-expanded="false" aria-controls="collapseEight"> &nbsp;Bulk Add Agents </a> </h2>
 					</div>
-					<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
+						<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="##accordionExample">
 						<div class="card-body px-4">
 							<h2 class="h3">Bulk Add Agents</h2>
-							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
+							<h3 class="h5">Add Agents (type='person') to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
+							<ul>
+								<li>Valid other names: abbreviation, acronym, aka, author, expanded, full, initials, initials plus last, last plus initials, login, maiden, married, preferred, second author</li>
+								<li>Valid agent GUID types: ORCiD (https://orcid.org/9999-9999-9999-9999-9999), VIAF (http://viaf.org/viaf/nnnnn)</li>
+							</ul>
 							<script>
 							function generatedata8(rowscount, hasNullValues) {
 							// prepare the data
@@ -1816,62 +1820,24 @@
 							<p>Columns in red are required; others are optional:</p>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
-									<li class="text-danger">INSTITUTION_ACRONYM</li>
-									<li class="text-danger">COLLECTION_CDE</li>
-									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
-									<li class="text-danger">OTHER_ID_NUMBER</li>
-									<li class="text-danger">PART_NAME</li>
-									<li class="text-danger">PRESERVE_METHOD</li>
-									<li class="text-danger">DISPOSITION</li>
-									<li>LOT_COUNT_MODIFIER</li>
-									<li class="text-danger">LOT_COUNT</li>
-									<li>CURRENT_REMARKS
-										<ul>
-											<li>remarks to be added with the new part</li>
-										</ul>
-									</li>
-									<li>container_unique_id
-										<ul>
-											<li>container unique ID in which to place this part</li>
-										</ul>
-									</li>
-									<li class="text-danger">condition</li>
-									<li>part_att_name_1</li>
-									<li>part_att_val_1</li>
-									<li>part_att_units_1</li>
-									<li>part_att_detby_1</li>
-									<li>part_att_madedate_1</li>
-									<li>part_att_rem_1</li>
-									<li>part_att_name_2</li>
-									<li>part_att_val_2</li>
-									<li>part_att_units_2</li>
-									<li>part_att_detby_2</li>
-									<li>part_att_madedate_2</li>
-									<li>part_att_rem_2</li>
-									<li>part_att_name_3</li>
-									<li>part_att_val_3</li>
-									<li>part_att_units_3</li>
-									<li>part_att_detby_3</li>
-									<li>part_att_madedate_3</li>
-									<li>part_att_rem_3</li>
-									<li>part_att_name_4</li>
-									<li>part_att_val_4</li>
-									<li>part_att_units_4</li>
-									<li>part_att_detby_4</li>
-									<li>part_att_madedate_4</li>
-									<li>part_att_rem_4</li>
-									<li>part_att_name_5</li>
-									<li>part_att_val_5</li>
-									<li>part_att_units_5</li>
-									<li>part_att_detby_5</li>
-									<li>part_att_madedate_5</li>
-									<li>part_att_rem_5</li>
-									<li>part_att_name_6</li>
-									<li>part_att_val_6</li>
-									<li>part_att_units_6</li>
-									<li>part_att_detby_6</li>
-									<li>part_att_madedate_6</li>
-									<li>part_att_rem_6</li>
+									<li class="text-danger">AGENT_TYPE  (agent_type = "person" only)</li>
+									<li class="text-danger">PREFERRED_NAME</li>
+									<li>FIRST_NAME</li>
+									<li>MIDDLE_NAME</li>
+									<li class="text-danger">LAST_NAME</li>
+									<li>BIRTH_DATE (format 1-Jan-2000)</li>
+									<li>DEATH_DATE (format 1-Jan-2000)</li>
+									<li>AGENT_REMARK</li>
+									<li>PREFIX</li>
+									<li>SUFFIX</li>
+									<li>OTHER_NAME_1</li>
+									<li>OTHER_NAME_TYPE_1</li>
+									<li>OTHER_NAME_2</li>
+									<li>OTHER_NAME_TYPE_2</li>
+									<li>OTHER_NAME_3</li>
+									<li>OTHER_NAME_TYPE_3</li>
+									<li>AGENTGUID_GUID_TYPE</li>
+									<li>AGENTGUID</li>
 								</ul>
 							</div>
 							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
@@ -1896,7 +1862,7 @@
 							</cfform>
 						</div>
 					</div>
-				</div>
+					</div>
 					<!---8 add agents--->
 					<div class="card">
 					<div class="card-header py-0" id="headingNine">
