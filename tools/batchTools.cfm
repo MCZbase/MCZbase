@@ -893,7 +893,8 @@
 										<input type="button" value="Export to CSV" id="csvExport3" />
 									</div>
 								</div>
-								<h4 class="h5 px-3">Columns in <span class="text-danger">red</span> are required; others are optional:</h4>
+								<p>Columns in <span class="text-danger">red</span> are required; others are optional:</p>
+								<div class="card-columns mb-3">
 								<ul>
 									<li class="text-danger">INSTITUTION_ACRONYM</li>
 									<li class="text-danger">COLLECTION_CDE</li>
@@ -907,6 +908,7 @@
 									<li class="text-danger">TYPE_STATUS</li>
 									<li class="text-danger">CITATION_REMARKS</li>
 								</ul>
+								</div>
 								<cfform name="atts" method="post" class="py-0 mb-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 									<div class="my-4 row">
 										<div class="col-12 col-md-4">
