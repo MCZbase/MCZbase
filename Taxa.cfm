@@ -527,7 +527,7 @@ limitations under the License.
 											</select>
 										</div>
 										<div class="col-md-3">
-											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecifc Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
+											<label for="infraspecific_author" class="data-entry-label align-left-center">Infraspecific Author<a href="##" tabindex="-1" class="btn-link" onclick="var e=document.getElementById('infraspecific_author');e.value='='+e.value;"> (=) </a></label>
 											<input type="text" class="data-entry-input" id="infraspecific_author" name="infraspecific_author" value="#infraspecific_author#" placeholder="infraspecific author" aria-label="infraspecific author for botanical names only">
 										</div>
 									</div>
