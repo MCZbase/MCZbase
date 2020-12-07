@@ -1177,141 +1177,111 @@
 							<h3 class="h5">Add New Parts to Existing Specimen Records</h3>
 							<p>Upload a comma-delimited text file (csv). Delete the columns that are not needed on the downloaded csv file.</p>
 							<script>
-									function generatedata2(rowscount, hasNullValues) {
+							function generatedata2(rowscount, hasNullValues) {
 							// prepare the data
 							var data = new Array();
 							if (rowscount == undefined) rowscount = 1;
-							var collection_cde = 
+							var HigherGeography = 
 								[ 
-									"Herp" 
+									"" 
 								];
-							var institution_acronym = 
+							var SpecLocality = 
 								[  
-									"MCZ" 
+									"Cambridge" 
 								];
-							var other_id_type = 
+							var Locality_ID = 
 								[ 
-									"catalog item" 
+									"" 
 								];
-							var other_id_number = 
+							var Dec_Lat = 
 								[ 
-									"1234" 
+									"" 
 								];
-							var part_name = 
+							var Dec_Long = 
 								[
-									"whole animal"
+									""
 								];
-							var preserve_method =
+							var Determined_by_agent =
 								[ 
-									"ethanol"
+									""
 								];
-							var disposition = 
+							var georefmethod = 
 								[  
-									"in collection" 
+									"" 
 								];
-							var lot_count_modifier = 
+							var orig_lat_long_units = 
 								[
-									">"
+									""
 								];
-							var lot_count = 
+							var datum = 
 								[ 
-									"1"
+									""
 								];
-							var current_remarks =
-								[ 
-									"Part has a crack" 
-								];
-							var container_unique_id =
+							var determined_date =
 								[ 
 									"" 
 								];
-							var condition =
+							var lat_long_ref_source =
 								[ 
 									"" 
 								];
-							var part_att_name_1 =
+							var verificationstatus =
 								[ 
 									"" 
 								];
-							var part_att_val_1 =
+							var max_error_distance =
 								[ 
 									"" 
 								];
-							var part_att_units_1 =
+							var max_error_units =
 								[ 
 									"" 
 								];
-							var part_att_detby_1 =
+							var lat_long_remarks =
 								[ 
 									"" 
 								];
-							var part_att_madedate_1 =
+							var extent =
 								[ 
 									"" 
 								];
-							var part_att_rem_1 =
+							var gpsaccuracy =
 								[ 
 									"" 
 								];
-							var part_att_name_2 =
+							var spatialfit =
 								[ 
 									"" 
 								];
-							var part_att_val_2 =
-								[ 
-									"" 
-								];
-							var part_att_units_2 =
-								[ 
-									"" 
-								];
-							var part_att_detby_2 =
-								[ 
-									"" 
-								];
-							var part_att_madedate_2 =
-								[ 
-									"" 
-								];
-							var part_att_rem_2 =
-								[ 
-									"" 
-								];
+							
 							for (var i = 0; i < rowscount; i++) {
 								var row = {};       
 								row["id"] = i;
-								row["collection_cde"] = collection_cde;
-								row["institution_acronym"] = institution_acronym;
-								row["other_id_type"] = other_id_type;
-								row["other_id_number"] = other_id_number;
-								row["part_name"] = part_name;
-								row["preserve_method"] = preserve_method;
-								row["disposition"] = disposition;
-								row["lot_count_modifier"] = lot_count_modifier;
-								row["lot_count"] = lot_count;
-								row["current_remarks"] = current_remarks;
-								row["container_unique_id"] = container_unique_id;
-								row["condition"] = condition;
-								row["part_att_name_1"] = part_att_name_1;
-								row["part_att_val_1"] = part_att_val_1;
-								row["part_att_units_1"] = part_att_units_1;
-								row["part_att_detby_1"] = part_att_detby_1;
-								row["part_att_madedate_1"] = part_att_madedate_1;
-								row["part_att_rem_1"] = part_att_rem_1;
-								row["part_att_name_2"] = part_att_name_2;
-								row["part_att_val_2"] = part_att_val_2;
-								row["part_att_units_2"] = part_att_units_2;
-								row["part_att_detby_2"] = part_att_detby_2;
-								row["part_att_madedate_2"] = part_att_madedate_2;
-								row["part_att_rem_2"] = part_att_rem_2;
-
+								row["HIGHERGEOGRAPHY"] = HIGHERGEOGRAPHY;
+								row["SPECLOCALITY"] = SPECLOCALITY;
+								row["LOCALITY_ID"] = LOCALITY_ID;
+								row["DEC_LAT"] = DEC_LAT;
+								row["DEC_LONG"] = DEC_LONG;
+								row["DETERMINED_BY_AGENT"] = DETERMINED_BY_AGENT;
+								row["GEOREFMETHOD"] = GEOREFMETHOD;
+								row["ORIG_LAT_LONG_UNITS"] = ORIG_LAT_LONG_UNITS;
+								row["DATUM"] = DATUM;
+								row["DETERMINED_DATE"] = DETERMINED_DATE;
+								row["LAT_LONG_REF_SOURCE"] = LAT_LONG_REF_SOURCE;
+								row["VERIFICATIONSTATUS"] = VERIFICATIONSTATUS;
+								row["MAX_ERROR_DISTANCE"] = MAX_ERROR_DISTANCE;
+								row["MAX_ERROR_UNITS"] = MAX_ERROR_UNITS;
+								row["LAT_LONG_REMARKS"] = LAT_LONG_REMARKS;
+								row["EXTENT"] = EXTENT;
+								row["GPSACCURACY"] = GPSACCURACY;
+								row["SPATIALFIT"] = SPATIALFIT;
 								data[i] = row;
 							}
 							return data;
 						}
 							</script> 
 							<script type="text/javascript">
-        $(document).ready(function () {
+        						$(document).ready(function () {
             // prepare the data
             var data = generatedata2(1);
             var source =
@@ -1320,30 +1290,24 @@
                 datatype: "array",
                 datafields:
                 [
-                    { name: 'collection_cde', type: 'string' },
-                    { name: 'institution_acronym', type: 'string' },
-                    { name: 'other_id_type', type: 'string' },
-                    { name: 'other_id_number', type: 'string' },
-                    { name: 'part_name', type: 'string' },
-                    { name: 'preserve_method', type: 'string' },
-                    { name: 'disposition', type: 'string' },
-					{ name: 'lot_count_modifier', type: 'string' },
-                    { name: 'lot_count', type: 'string' },
-					{ name: 'current_remarks', type: 'string' },
-                    { name: 'container_unique_id', type: 'string' },
-                    { name: 'condition', type: 'string' },
-					{ name: 'part_att_name_1', type: 'string' },
-                    { name: 'part_att_val_1', type: 'string' },
-					{ name: 'part_att_units_1', type: 'string' },
-                    { name: 'part_att_detby_1', type: 'string' },
-					{ name: 'part_att_madedate_1', type: 'string' },
-                    { name: 'part_att_rem_1', type: 'string' },
-					{ name: 'part_att_name_2', type: 'string' },
-                    { name: 'part_att_val_2', type: 'string' },
-					{ name: 'part_att_units_2', type: 'string' },
-                    { name: 'part_att_detby_2', type: 'string' },
-					{ name: 'part_att_madedate_2', type: 'string' },
-					{ name: 'part_att_rem_2', type: 'string' },
+                    { name: 'HIGHERGEOGRAPHY', type: 'string' },
+                    { name: 'SPECLOCALITY', type: 'string' },
+                    { name: 'LOCALITY_ID', type: 'string' },
+                    { name: 'DEC_LAT', type: 'string' },
+                    { name: 'DEC_LONG', type: 'string' },
+                    { name: 'DETERMINED_BY_AGENT', type: 'string' },
+                    { name: 'GEOREFMETHOD', type: 'string' },
+					{ name: 'ORIG_LAT_LONG_UNITS', type: 'string' },
+                    { name: 'DATUM', type: 'string' },
+					{ name: 'DETERMINED_DATE', type: 'string' },
+                    { name: 'LAT_LONG_REF_SOURCE', type: 'string' },
+                    { name: 'VERIFICATIONSTATUS', type: 'string' },
+					{ name: 'MAX_ERROR_DISTANCE', type: 'string' },
+                    { name: 'MAX_ERROR_UNITS', type: 'string' },
+					{ name: 'LAT_LONG_REMARKS', type: 'string' },
+                    { name: 'EXTENT', type: 'string' },
+					{ name: 'GPSACCURACY', type: 'string' },
+                    { name: 'SPATIALFIT', type: 'string' }
                 ]                     
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
@@ -1358,30 +1322,24 @@
 				columnsresize: true,
                 selectionmode: 'multiplecellsextended',
                 columns: [
-                  	{ text: 'collection_cde', datafield: 'collection_cde', width: 115 },
-                  	{ text: 'institution_acronym', datafield: 'institution_acronym', width: 90 },
-                  	{ text: 'other_id_type', datafield: 'other_id_type', width: 90 },
-                  	{ text: 'other_id_number', datafield: 'other_id_number', width: 90 },
-                  	{ text: 'part_name', datafield: 'part_name', width: 80 },
-                  	{ text: 'preserve_method', datafield: 'preserve_method', width: 90 },
-                  	{ text: 'disposition', datafield: 'disposition', width: 70 },
-				  	{ text: 'lot_count_modifier', datafield: 'lot_count_modifier', width: 70 },
-                  	{ text: 'lot_count', datafield: 'lot_count', width: 120 },
-					{ text: 'current_remarks', datafield: 'current_remarks', width: 100 },
-				  	{ text: 'container_unique_id', datafield: 'container_unique_id', width: 70 },
-                  	{ text: 'condition', datafield: 'condition', width: 120 },
-					{ text: 'part_att_name_1', datafield: 'part_att_name_1', width: 120 },
-					{ text: 'part_att_val_1', datafield: 'part_att_val_1', width: 120 },
-					{ text: 'part_att_units_1', datafield: 'part_att_units_1', width: 120 },
-					{ text: 'part_att_detby_1', datafield: 'part_att_detby_1', width: 120 },
-					{ text: 'part_att_madedate_1', datafield: 'part_madedate_1', width: 120 },
-					{ text: 'part_att_rem_1', datafield: 'part_att_rem_1', width: 120 },
-					{ text: 'part_att_name_2', datafield: 'part_att_name_2', width: 120 },
-					{ text: 'part_att_val_2', datafield: 'part_att_val_2', width: 120 },
-					{ text: 'part_att_units_2', datafield: 'part_att_units_2', width: 120 },
-					{ text: 'part_att_detby_2', datafield: 'part_att_detby_2', width: 120 },
-					{ text: 'part_att_madedate_2', datafield: 'part_att_madedate_2', width: 120 },
-					{ text: 'part_att_rem_2', datafield: 'part_att_rem_2', width: 120 }
+                  	{ text: 'HIGHERGEOGRAPHY', datafield: 'HIGHERGEOGRAPHY', width: 115 },
+                  	{ text: 'SPECLOCALITY', datafield: 'SPECLOCALITY', width: 90 },
+                  	{ text: 'LOCALITY_ID', datafield: 'LOCALITY_ID', width: 90 },
+                  	{ text: 'DEC_LAT', datafield: 'DEC_LAT', width: 90 },
+                  	{ text: 'DEC_LONG', datafield: 'DEC_LONG', width: 80 },
+                  	{ text: 'DETERMINED_BY_AGENT', datafield: 'DETERMINED_BY_AGENT', width: 90 },
+                  	{ text: 'GEOREFMETHOD', datafield: 'GEOREFMETHOD', width: 70 },
+				  	{ text: 'ORIG_LAT_LONG_UNITS', datafield: 'ORIG_LAT_LONG_UNITS', width: 70 },
+                  	{ text: 'DATUM', datafield: 'DATUM', width: 120 },
+					{ text: 'DETERMINED_DATE', datafield: 'DETERMINED_DATE', width: 100 },
+				  	{ text: 'LAT_LONG_REF_SOURCE', datafield: 'LAT_LONG_REF_SOURCE', width: 70 },
+                  	{ text: 'VERIFICATIONSTATUS', datafield: 'VERIFICATIONSTATUS', width: 120 },
+					{ text: 'MAX_ERROR_DISTANCE', datafield: 'MAX_ERROR_DISTANCE', width: 120 },
+					{ text: 'MAX_ERROR_UNITS', datafield: 'MAX_ERROR_UNITS', width: 120 },
+					{ text: 'LAT_LONG_REMARKS', datafield: 'LAT_LONG_REMARKS', width: 120 },
+					{ text: 'EXTENT', datafield: 'EXTENT', width: 120 },
+					{ text: 'GPSACCURACY', datafield: 'GPSACCURACY', width: 120 },
+					{ text: 'SPATIALFIT', datafield: 'SPATIALFIT', width: 120 }
                 ]
             });
 
@@ -1392,7 +1350,7 @@
             });
            
         });
-    </script>
+    						</script>
 							<div id="grid2"></div>
 							<div class="mt-3 mb-2 d-block float-left w-100">
 								<div class="ml-0 float-left">
@@ -1402,8 +1360,8 @@
 							<p>Columns in red are required; others are optional:</p>
 							<div class="card-columns mb-3">
 								<ul class="list-style-disc px-4">
-									<li class="text-danger">INSTITUTION_ACRONYM</li>
-									<li class="text-danger">COLLECTION_CDE</li>
+									<li class="text-danger">HIGHERGEOGRAPHY</li>
+									<li class="text-danger">SPECLOCALITY</li>
 									<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
 									<li class="text-danger">OTHER_ID_NUMBER</li>
 									<li class="text-danger">PART_NAME</li>
