@@ -6,10 +6,31 @@
 	<main class="container py-3">
 		<section class="row">
 			<div class="col-12">
-				<h1 class="h2">Modify your Specimen Records in Bulk</h1>
+				<h1 class="h2">Modify your Records in Bulk</h1>
 				<p>Prepare your .csv spreadsheet by finding the applicable batch tool below. Once you have filled out your data and checked it, upload it here.</p>
 					<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 								<div class="my-4 row">
+									<div class="col-12 col-md-4">
+									
+										<select>
+											<option value=""></option>
+											<option value="add_agents">Add Agents</option>
+											<option value="add_attributes">Add Attributes</option>
+											<option value="add_citations">Add Citations</option>
+											<option value="add_identifiers">Add Identifiers</option>
+											<option value="add_identifications">Add Identifications</option>
+											<option value="add_georeferences">Add Georeferences</option>
+											<option value="add_loans">Add Loans</option>
+											<option value="add_data_loans">Add Data Loans</option>
+											<option value="add_media">Add Media</option>
+											<option value="add_new_parts">Add New Parts</option>
+											<option value="edit_parts">Edit Parts</option>
+											<option value="add_part_containers">Add Part Containers</option>
+											<option value="move_parts">Move Parts</option>
+											<option value="add_relationships">Add Biological or Administrative Record Relationships</option>
+											<option value="add_edit_taxonomy">Add or Edit Taxonomy</option>
+										</select>
+									</div>
 									<div class="col-12 col-md-4">
 										<input type="hidden" name="Action" value="getFile">
 										<label class="data-entry-label">Upload the .csv with data</label>
