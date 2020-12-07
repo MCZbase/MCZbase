@@ -947,58 +947,16 @@
 												<li class="text-danger">COLLECTION_CDE</li>
 												<li class="text-danger">OTHER_ID_TYPE ("catalog number" is OK)</li>
 												<li class="text-danger">OTHER_ID_NUMBER</li>
-												<li class="text-danger">PART_NAME</li>
-												<li class="text-danger">PRESERVE_METHOD</li>
-												<li class="text-danger">DISPOSITION</li>
-												<li>LOT_COUNT_MODIFIER</li>
-												<li class="text-danger">LOT_COUNT</li>
-												<li>CURRENT_REMARKS
-													<ul>
-														<li>remarks to be added with the new part</li>
-													</ul>
-												</li>
-												<li>container_unique_id
-													<ul>
-														<li>container unique ID in which to place this part</li>
-													</ul>
-												</li>
-												<li class="text-danger">condition</li>
-												<li>part_att_name_1</li>
-												<li>part_att_val_1</li>
-												<li>part_att_units_1</li>
-												<li>part_att_detby_1</li>
-												<li>part_att_madedate_1</li>
-												<li>part_att_rem_1</li>
-												<li>part_att_name_2</li>
-												<li>part_att_val_2</li>
-												<li>part_att_units_2</li>
-												<li>part_att_detby_2</li>
-												<li>part_att_madedate_2</li>
-												<li>part_att_rem_2</li>
-												<li>part_att_name_3</li>
-												<li>part_att_val_3</li>
-												<li>part_att_units_3</li>
-												<li>part_att_detby_3</li>
-												<li>part_att_madedate_3</li>
-												<li>part_att_rem_3</li>
-												<li>part_att_name_4</li>
-												<li>part_att_val_4</li>
-												<li>part_att_units_4</li>
-												<li>part_att_detby_4</li>
-												<li>part_att_madedate_4</li>
-												<li>part_att_rem_4</li>
-												<li>part_att_name_5</li>
-												<li>part_att_val_5</li>
-												<li>part_att_units_5</li>
-												<li>part_att_detby_5</li>
-												<li>part_att_madedate_5</li>
-												<li>part_att_rem_5</li>
-												<li>part_att_name_6</li>
-												<li>part_att_val_6</li>
-												<li>part_att_units_6</li>
-												<li>part_att_detby_6</li>
-												<li>part_att_madedate_6</li>
-												<li>part_att_rem_6</li>
+												<li class="text-danger">SCIENTIFIC_NAME</li>
+												<li>MADE_DATE</li>
+												<li class="text-danger">NATURE_OF_ID</li>
+												<li class="text-danger">ACCEPTED_FG [add a zero ("0") for no, and a one ("1") for yes]</li>
+												<li>IDENTIFICATION_REMARKS</li>
+												<li class="text-danger">AGENT_1	</li>
+												<li>AGENT_2</li>
+												<li>STORED_AS_FG [add a zero ("0") for no, and a one ("1") for yes]</li>
+			
+												
 											</ul>
 										</div>
 								<!---		<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
@@ -3072,43 +3030,44 @@
 											<li>container unique ID in which to place this part</li>
 										</ul>
 									</li>
-									<li class="text-danger">condition</li>
-									<li>part_att_name_1</li>
-									<li>part_att_val_1</li>
-									<li>part_att_units_1</li>
-									<li>part_att_detby_1</li>
-									<li>part_att_madedate_1</li>
-									<li>part_att_rem_1</li>
-									<li>part_att_name_2</li>
-									<li>part_att_val_2</li>
-									<li>part_att_units_2</li>
-									<li>part_att_detby_2</li>
-									<li>part_att_madedate_2</li>
-									<li>part_att_rem_2</li>
-									<li>part_att_name_3</li>
-									<li>part_att_val_3</li>
-									<li>part_att_units_3</li>
-									<li>part_att_detby_3</li>
-									<li>part_att_madedate_3</li>
-									<li>part_att_rem_3</li>
-									<li>part_att_name_4</li>
-									<li>part_att_val_4</li>
-									<li>part_att_units_4</li>
-									<li>part_att_detby_4</li>
-									<li>part_att_madedate_4</li>
-									<li>part_att_rem_4</li>
-									<li>part_att_name_5</li>
-									<li>part_att_val_5</li>
-									<li>part_att_units_5</li>
-									<li>part_att_detby_5</li>
-									<li>part_att_madedate_5</li>
-									<li>part_att_rem_5</li>
-									<li>part_att_name_6</li>
-									<li>part_att_val_6</li>
-									<li>part_att_units_6</li>
-									<li>part_att_detby_6</li>
-									<li>part_att_madedate_6</li>
-									<li>part_att_rem_6</li>
+								
+												<li class="text-danger">CONDITION</li>
+												<li>PART_ATT_NAME_1</li>
+												<li>PART_ATT_VAL_1</li>
+												<li>PART_ATT_UNITS_1</li>
+												<li>PART_ATT_DETBY_1</li>
+												<li>PART_ATT_MADEDATE_1</li>
+												<li>PART_ATT_REM_1</li>
+												<li>PART_ATT_NAME_2</li>
+												<li>PART_ATT_VAL_2</li>
+												<li>PART_ATT_units_2</li>
+												<li>PART_ATT_detby_2</li>
+												<li>PART_ATT_madedate_2</li>
+												<li>part_att_rem_2</li>
+												<li>part_att_name_3</li>
+												<li>part_att_val_3</li>
+												<li>part_att_units_3</li>
+												<li>part_att_detby_3</li>
+												<li>part_att_madedate_3</li>
+												<li>part_att_rem_3</li>
+												<li>part_att_name_4</li>
+												<li>part_att_val_4</li>
+												<li>part_att_units_4</li>
+												<li>part_att_detby_4</li>
+												<li>part_att_madedate_4</li>
+												<li>part_att_rem_4</li>
+												<li>part_att_name_5</li>
+												<li>part_att_val_5</li>
+												<li>part_att_units_5</li>
+												<li>part_att_detby_5</li>
+												<li>part_att_madedate_5</li>
+												<li>part_att_rem_5</li>
+												<li>part_att_name_6</li>
+												<li>part_att_val_6</li>
+												<li>part_att_units_6</li>
+												<li>part_att_detby_6</li>
+												<li>part_att_madedate_6</li>
+												<li>part_att_rem_6</li>
 								</ul>
 							</div>
 							<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
