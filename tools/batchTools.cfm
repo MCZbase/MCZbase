@@ -12,7 +12,7 @@
 								<div class="my-4 row">
 									<div class="col-12 col-md-4">
 									
-										<select>
+										<select class="data-entry-select">
 											<option value=""></option>
 											<option value="add_agents">Add Agents</option>
 											<option value="add_attributes">Add Attributes</option>
