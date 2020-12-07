@@ -990,12 +990,12 @@ limitations under the License.
 				accn.transaction_id is not null
 				<cfif isDefined("number") and len(number) gt 0>
 					<cfif left(number,1) is "=">
-						and accn_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#right(number,len(number)-1)#%">
+						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
 					<cfelse>
 						<cfif find(',',number) GT 0>
-							AND number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#" list="yes"> )
+							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#" list="yes"> )
 						<cfelse>
-							AND number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
 						</cfif>
 					</cfif>
 				</cfif>
