@@ -929,7 +929,7 @@ limitations under the License.
 				project.project_id pid,
 				estimated_count,
 				concattransagent(trans.transaction_id,'entered by') ENTAGENT,
-				concattransagent(trans.transaction_id,'received from') RECFROMAGENT
+				concattransagent(trans.transaction_id,'received from') RECFROMAGENT,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
