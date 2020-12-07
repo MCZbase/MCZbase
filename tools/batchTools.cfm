@@ -6,7 +6,29 @@
 	<main class="container py-3">
 		<section class="row">
 			<div class="col-12">
-				<h1 class="h2">Batch Tools</h1>
+				<h1 class="h2">Modify your Specimen Records in Bulk</h1>
+				<p>Prepare your .csv spreadsheet by finding the applicable batch tool below. Once you have filled out your data and checked it, upload it here.</p>
+					<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
+								<div class="my-4 row">
+									<div class="col-12 col-md-4">
+										<input type="hidden" name="Action" value="getFile">
+										<label class="data-entry-label">Upload the .csv with data</label>
+										<input type="file" name="FiletoUpload" size="45" class="data-entry-input pl-0">
+										<input type="submit" value="Upload this file" class="btn-xs mt-3 btn btn-primary">
+									</div>
+									<div class="col-12 col-md-3">
+										<label class="data-entry-label">Character Set: </label>
+										<select name="cSet" class="data-entry-select" id="cSet">
+											<option value="windows-1252" selected>windows-1252</option>
+											<option value="MacRoman">MacRoman</option>
+											<option value="utf-8">utf-8</option>
+											<option value="utf-16">utf-16</option>
+											<option value="unicode">unicode</option>
+										</select>
+									</div>
+								</div>
+							</cfform>
+				<h2 class="h3">Batch Tools</h2>
 				<div class="accordion mb-4" id="accordionExample">
 					<div class="card">
 						<div class="card-header py-0" id="headingThree">
