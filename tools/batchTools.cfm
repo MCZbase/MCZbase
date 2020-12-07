@@ -11,7 +11,7 @@
 					<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 								<div class="my-4 row">
 									<div class="col-12 col-md-4">
-									
+										<label class="data-entry-label">Select the Batch Tool Used:</label>
 										<select class="data-entry-select">
 											<option value=""></option>
 											<option value="add_agents">Add Agents</option>
@@ -27,7 +27,7 @@
 											<option value="edit_parts">Edit Parts</option>
 											<option value="add_part_containers">Add Part Containers</option>
 											<option value="move_parts">Move Parts</option>
-											<option value="add_relationships">Add Biological or Administrative Record Relationships</option>
+											<option value="add_relationships">Add Biological/Administrative Record Relationships</option>
 											<option value="add_edit_taxonomy">Add or Edit Taxonomy</option>
 										</select>
 									</div>
