@@ -6,7 +6,7 @@
 	<main class="container py-3">
 		<section class="row">
 			<div class="col-12">
-				<h1 class="h2">Modify your Records in Bulk</h1>
+				<h1 class="h2">Modify Records in Bulk</h1>
 				<p>Prepare your .csv spreadsheet by finding the applicable batch tool below. Once you have filled out your data and checked it, upload it here.</p>
 					<cfform name="atts" method="post" class="py-0 alert alert-warning" enctype="multipart/form-data" action="batchTools.cfm">
 								<div class="my-4 row">
