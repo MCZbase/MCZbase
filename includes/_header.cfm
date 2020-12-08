@@ -146,7 +146,7 @@
 			<ul>
 				<li><a href="/grouping/NamedCollection.cfm" target="_top">Search Named Groupings</a></li>
 				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
-				<cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
+				<!---<cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>--->
 				<li><a href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a></li>
 				<li><a href="/findContainer.cfm" target="_top">Find Storage Container Location</a></li>
 				<li><a href="/editContainer.cfm?action=newContainer" target="_top">Create Container/Storage Location</a></li>
@@ -166,7 +166,7 @@
 					     <!---<cfif listfind(formList,"/Admin/Collection.cfm")>--->
                           <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
                         <!---</cfif>--->
-				</cfif>
+			<!---	</cfif>--->
 			</ul>
 		</li>
 			   
