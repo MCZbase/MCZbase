@@ -107,20 +107,20 @@
          <li>
             <a target="_top" href="##">Manage Data</a>
 			<ul>
-				<li>Search Geography</li>
-				<li>Search Localities</li>
-				<li>Search Collecting Event</li>
-				<li>Search Collecting Event Number Series</li>
-				<li>Create Geography</li>
-				<li>Create Locality</li>
-				<li>Create Collecting Event Number Series</li>
-				<li>Manage Encumbrances</li>
-				<li>Manage Annotations</li>
-				<li>Review Pending Agent Merges</li>
-				<li>Merge Bad Duplicate Agents</li>
-				<li>Sync Parent/Child Taxonomy</li>
-				<li>Pending Relationships</li>
-				<li>SQL Taxonomy</li>
+				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
+				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
+				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
+				<li><a target="_top" href="">Search Collecting Event Number Series</a></li>
+				<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
+				<li><a target="_top" href="/Locality.cfm?action=newLO">Create Locality</a></li>
+				<li><a target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a></li>
+				<li><a target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a></li>
+				<li><a target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a></li>
+				<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a></li>
+				<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a></li>
+				<li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a></li>
+				<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
+				<li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
 			</ul>
     <!---   <ul>
 	            <cfif listfind(formList,"/Locality.cfm")>
@@ -206,16 +206,18 @@
 		<li>
 			<a target="_top" href="##">Curation</a>
 			<ul>
-				<li><a href="" target="_top">Search Named Groupings</a></li>
-				<li><a href="" target="_top">Browse Storage Locations</a></li>
-				<li><a href="" target="_top">Find Storage Container Location</a></li>
-				<li><a href="" target="_top">Create Container Series</a></li>
-				<li><a href="" target="_top">Move Container</a></li>
-				<li><a href="" target="_top">Batch Scan</a></li>
-				<li><a href="" target="_top">Label > Container</a></li>
-				<li><a href="" target="_top">Put Parts in Containers</a></li>
-				<li><a href="" target="_top">Clear Flags</a></li>
-				<li><a href="" target="_top">Upload Scan File</a></li>
+				<li><a href="/grouping/NamedCollection.cfm" target="_top">Search Named Groupings</a></li>
+				<li><a href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a></li>
+				<li><a href="/findContainer.cfm" target="_top">Find Storage Container Location</a></li>
+				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
+				<li><a href="/editContainer.cfm?action=newContainer" target="_top">Create Container/Storage Location</a></li>
+				<li><a href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a></li>
+				<li><a href="/moveContainer.cfm" target="_top">Move Container</a></li>
+				<li><a href="/batchScan.cfm" target="_top">Batch Scan</a></li>
+				<li><a href="/labels2containers.cfm" target="_top">Label > Container</a></li>
+				<li><a href="/part2container.cfm" target="_top">Put Parts in Containers</a></li>
+				<li><a href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a></li>
+				<li><a href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a></li>
 			</ul>
 		</li>
 			   
