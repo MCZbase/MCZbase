@@ -285,13 +285,13 @@
                   <cfelse>
                   <li><a target="_top" href="/myArctos.cfm">Log In</a></li>
                   </cfif>
-                <li><a target="_blank" href="https://sites.google.com/site/arctosdb/" class="external">More Info</a></li>
                 <li><a target="_top" href="/home.cfm">About</a></li>
-                <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>
+          <!---      <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>--->
                 <cfif len(session.username) gt 0>
                 	<li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
                 </cfif>
-                <li><a target="_top" href="/info/api.cfm">API</a></li>
+     <!---           <li><a target="_top" href="/info/api.cfm">API</a></li>--->
+					<!---    <li><a target="_top" href="">Technical Details</a></li>--->
               </ul>
             </li>
           <li><a target="_top" href="##">Help</a>
