@@ -346,9 +346,9 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Bulkloader Status</a> 
 											</cfif>			
-											<cfif targetMenu EQ "redesign">
+											<!---<cfif targetMenu EQ "redesign">--->
 												<a class="dropdown-item bg-warning" href="/bulkloading/Bulkloaders.cfm">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
-											</cfif>			
+											<!---</cfif>	--->		
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<cfif targetMenu EQ "production">
@@ -363,12 +363,12 @@ limitations under the License.
 											</cfif>
 										</cfif>	
 									</div>
-									<cfif targetMenu EQ "production">
+								<!---	<cfif targetMenu EQ "production">
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 											<div>
-											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div><!--- old, retain until landing page is in place. --->
+											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div>---><!--- old, retain until landing page is in place. --->
 
-												<a class="dropdown-item" href="/tools/BulkloadNewParts.cfm">Bulk Parts</a>
+												<!---<a class="dropdown-item" href="/tools/BulkloadNewParts.cfm">Bulk Parts</a>
 
 												<a class="dropdown-item" href="/tools/BulkloadEditedParts.cfm">Bulk Edited Parts</a>
 
@@ -399,7 +399,7 @@ limitations under the License.
 												<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a> 
 											</div>
 										</cfif>	
-									</cfif>
+									</cfif>--->
 								</li>
 							</ul>
 						</li>
@@ -654,62 +654,7 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Reports</div>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Recently Georeferenced Localities</a> 
-										</cfif>
-											<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/collnHoldgByClass.cfm">Holdings by Class</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Holdings by Class</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/mia_in_genbank.cfm">Genbank Missing Data</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Genbank Missing Data</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Invalid Taxonomy</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Taxonomy Gaps</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Messy Taxonomy</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/slacker.cfm">Suspect Data</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Suspect Data</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Reports/partusage.cfm">Part Usage</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Part Usage</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/noParts.cfm">Partless Specimen Records</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Partless Specimen Records</a> 
-										</cfif>
-								
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/findGap.cfm">Catalog Number Gaps</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Catalog Number Gaps</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/dupAgent.cfm">Duplicate Agents</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Duplicate Agents</a> 
-										</cfif>																		
+										<a href="/reporting/Reports.cfm">List of Reports</a>										
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Statistics</div>
