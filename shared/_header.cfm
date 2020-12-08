@@ -347,7 +347,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Bulkloader Status</a> 
 											</cfif>			
 											<cfif targetMenu EQ "redesign">
-												<a class="dropdown-item bg-warning" href="">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
+												<a class="dropdown-item bg-warning" href="/bulkloading/Bulkloaders.cfm">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
 											</cfif>			
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>

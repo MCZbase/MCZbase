@@ -23,6 +23,7 @@
 					<li><a href="/tools/BulkloadMedia.cfm">Bulkload Media </a></li>
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
 					<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
+				</ul>
 			</div>
 		</section>
 	</main>
