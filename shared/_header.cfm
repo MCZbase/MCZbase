@@ -607,7 +607,7 @@ limitations under the License.
 			<!---		<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>  Can't see what I'm doing with these permissions--->
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"MANAGE_CODETABLES")>
 						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<!--- TODO: Review administrative functions --->
@@ -664,7 +664,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+									<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<cfelse>
@@ -729,7 +729,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<a class="dropdown-item" href="https://code.mcz.harvard.edu/wiki/index.php/Main_Page">Using MCZbase (Wiki Support)</a>

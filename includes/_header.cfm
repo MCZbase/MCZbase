@@ -241,41 +241,12 @@
   
            <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
             <li><a target="_top" href="##">Review Data</a>
-                  <ul>
-
+                  	<ul>
 					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports &amp; Statistics</a></li>
                         <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
-					       <li><a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a></li>
-					       <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
-					  
-<!---                  <li><a target="_top" href="##">Reports</a>
-                           <ul>
-							<li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
-                        	<li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
-                        	<li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-                       		<li><a target="_top" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
-                            <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
-                            <li><a target="_top" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
-                            <li><a target="_top" href="/tools/TaxonomyScriptGap.cfm">Unscriptable Taxonomy Gaps</a></li>
-                            <li><a target="_top" href="/info/slacker.cfm">Suspect Data</a></li>
-                            <li><a target="_top" href="/info/noParts.cfm">Partless Specimens</a></li>
-                            <li><a target="_top" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
-                            <li><a target="_top" href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
-                            <li><a target="_top" href="/info/dupAgent.cfm">Duplicate Agents</a></li>
-                            <li><a target="_top" href="/Reports/partusage.cfm">Part Usage</a></li>
-                          </ul>
-                    </li>--->
-<!---                          <li><a target="_top" href="##">Oracle/SQL</a>
-                           <ul>
-                            <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
-                           <li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
-                           <li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
-                            <cfif listfind(formList,"/tools/userSQL.cfm")>
-                            <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
-                            </cfif>
-                           </ul>
-                       </li>--->
-              </ul>
+					    <li><a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a></li>
+					    <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
+              		</ul>
                 </li>
           </cfif>
             </cfif>
@@ -307,10 +278,10 @@
               </cfif>
             </ul>
           </li>
-           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
+           <li><a target="_top" href="/myArctos.cfm">Account</a>
               <ul>
                   <cfif len(session.username) gt 0>
-                  <li><a target="_top" href="/myArctos.cfm">Profile</a></li>
+                  <li><a target="_top" href="/myArctos.cfm">User Profile</a></li>
                   <cfelse>
                   <li><a target="_top" href="/myArctos.cfm">Log In</a></li>
                   </cfif>
@@ -324,16 +295,18 @@
               </ul>
             </li>
           <li><a target="_top" href="##">Help</a>
-                    <ul>
+                  <ul>
                        <cfscript>
 			    serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
                        </cfscript>
                      <!--- server name may be the correct fully qualified name or may be just the hostname, e.g. mczbase-prd  ---> 
                      <cfif serverName contains "harvard.edu" or serverName contains "mczbase" >
-                       <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase</a></li>
+                       <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a></li>
                      </cfif>
-                      <li><a target="_blank" href="http://arctosdb.wordpress.com">About Arctos</a></li>
-                   </ul>
+					 <li><a target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
+                     <li><a target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+					  <li><a target="_blank" href="/info/api.cfm">API</a></li>
+                 </ul>
             </li>
       </ul><!---sf-menu--->
        <div id="headerLinks">
