@@ -67,6 +67,12 @@ limitations under the License.
 <cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_status from ctloan_status order by loan_status
 </cfquery>
+<cfquery name="ctAccnType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select accn_type from ctaccn_type order by accn_type
+</cfquery>
+<cfquery name="ctAccnStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select accn_status from ctaccn_status order by accn_status
+</cfquery>
 <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
@@ -94,6 +100,9 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("accn_status")>
 		<cfset accn_status="">
+	</cfif>
+	<cfif not isdefined("accn_type")>
+		<cfset accn_type="">
 	</cfif>
 	<cfif not isdefined("loan_status")>
 		<cfset loan_status="">
@@ -771,17 +780,17 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-3">
-											<cfset ploan_type = loan_type>
-											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
-											<select name="loan_type" id="loan_type" class="data-entry-select">
+											<cfset paccn_type = accn_type>
+											<label for="accn_type" class="data-entry-label mb-0">Type:</label>
+											<select name="accn_type" id="accn_type" class="data-entry-select">
 												<option value=""></option>
-												<cfloop query="ctLoanType">
-													<cfif ploan_type eq ctLoanType.loan_type>
+												<cfloop query="ctAccnType">
+													<cfif paccn_type eq ctAccnType.accn_type>
 														<cfset selected="selected">
 														<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctLoanType.loan_type#" #selected#>#ctLoanType.loan_type#</option>
+													<option value="#ctAccnType.accn_type#" #selected#>#ctAccnType.accn_type#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -790,13 +799,13 @@ limitations under the License.
 											<label for="accn_status" class="data-entry-label mb-0">Status:</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
 												<option value=""></option>
-												<cfloop query="ctLoanStatus">
-													<cfif paccn_status eq ctLoanStatus.accn_status>
+												<cfloop query="ctAccnStatus">
+													<cfif paccn_status eq ctAccnStatus.accn_status>
 														<cfset selected="selected">
 														<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctLoanStatus.accn_status#" #selected#>#ctLoanStatus.accn_status#</option>
+													<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
 												</cfloop>
 												<option value="not closed">not closed</option>
 											</select>
