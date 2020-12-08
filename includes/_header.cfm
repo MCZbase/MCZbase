@@ -91,17 +91,17 @@
                    <ul>
                      <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
                      <li><a target="_top" href="##">Bulkloader</a>
-                   <ul>
-                      <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
-                        <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
-                        <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
-                        <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-                      </cfif>
-                      <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
-                        <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
-                      </cfif>
-                   </ul>
-              </li>
+						   <ul>
+							  <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
+								<li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
+								<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
+								<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
+							  </cfif>
+							  <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
+								<li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
+							  </cfif>
+						   </ul>
+              		</li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
                   <li><!--main menu element-->
                     <a target="_top" href="/bulkloading/Bulkloaders.cfm">Batch Tools</a>
@@ -191,7 +191,7 @@
               </cfif>
             </ul>
 			</li>
-		<li><a href="##" target="">Curation</a>
+			<li><a href="##" target="">Curation</a>
 				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
 								<li class="d-md-flex align-items-start justify-content-start">		
@@ -284,7 +284,7 @@
 							</ul>
 				</cfif>
 		</li>
-      <cfif listfind(formList,"/newAccn.cfm")>
+      		<cfif listfind(formList,"/newAccn.cfm")>
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
@@ -329,6 +329,7 @@
               </cfif>
             </ul>
           </li>
+											</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
