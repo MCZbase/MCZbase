@@ -250,9 +250,9 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Media</a>
 								</cfif>						
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/showLocality.cfm">Localities</a>
+									<a class="dropdown-item" href="/showLocality.cfm">Places</a>
 								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Localities</a>
+									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>		
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item bg-warning" href="">Geography</a>
@@ -260,7 +260,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Geology</a>
 							
 									<a class="dropdown-item bg-warning" href="">Collecting Events</a>
-								</cfif>					
+								</cfif>				
 								<cfif targetMenu EQ "production">
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
