@@ -192,6 +192,7 @@
               </cfif>
             </ul>
 			</li>
+		</cfif>
 		<cfif findNoCase('redesign',gitBranch) GT 0>
 			<!--- checkout is redesign, redesign2, or similar --->
 			<cfset targetMenu = "redesign">
@@ -337,7 +338,7 @@
               </cfif>
             </ul>
           </li>
-											</cfif>
+		
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
