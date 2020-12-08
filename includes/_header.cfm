@@ -58,7 +58,7 @@
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
-      <div class="sf-mainMenuWrapper">
+      <div class="sf-mainMenuWrapper" style="font-size: 14px;">
 
   <ul class="sf-menu">
         <li><!--main menu element-->
@@ -238,11 +238,14 @@
       </cfif>
   
            <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
-            <li><a target="_top" href="##">Reports & Statistics</a>
+            <li><a target="_top" href="##">Review Data</a>
                   <ul>
 
-					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports</a></li>
+					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports &amp; Statistics</a></li>
                         <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
+					       <li><a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a></li>
+					       <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
+					  
 <!---                  <li><a target="_top" href="##">Reports</a>
                            <ul>
 							<li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
