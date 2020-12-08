@@ -7,24 +7,78 @@
 			<div class="col-12">
 				<h1 class="h2">Modify Records in Bulk</h1>
 				<h2 class="h3">Select a Batch Tool</h2>
+				<div class="card-columns">
 				<ul>
-					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
-					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
-					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
-					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifierss</a></li>
-					<li><a href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
-					<li><a href="/tools/DataLoanBulkload.cfm">Bulkload Data Loans</a></li>
-					<li><a href="/DataServices/agents.cfm">Bulkload Agents</a></li>
-					<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Part to Containers</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Identifications</a></li>
-					<li><a href="/tools/BulkloadContEditParent.cfm">Bulkload Container Edit Parent</a></li>
-					<li><a href="/tools/DataLoanBulkload.cfm">Bulkload New Parts</a></li>
-					<li><a href="/tools/BulkloadMedia.cfm">Bulkload Media </a></li>
-					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
-					<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
+					<cfif targetMenu EQ "production">		
+					<li><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
+					<cfelse>
+					<li><a class=" bg-warning" href="">Recently Georeferenced Localities</a></li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+					<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li> 
+					<cfelse>
+					<li><a class="bg-warning" href="">Genbank Missing Data</a></li>
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/info/collnHoldgByClass.cfm">Holdings by Class</a></li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Holdings by Class</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Invalid Taxonomy</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Taxonomy Gaps</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Messy Taxonomy</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/info/slacker.cfm">Suspect Data</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Suspect Data</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/Reports/partusage.cfm">Part Usage</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Part Usage</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/info/noParts.cfm">Partless Specimen Records</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Partless Specimen Records</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/tools/findGap.cfm">Catalog Number Gaps</a> </li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Catalog Number Gaps</a> </li> 
+					</cfif>
+					<cfif targetMenu EQ "production">		
+						<li><a href="/info/dupAgent.cfm">Duplicate Agents</a></li> 
+					<cfelse>
+						<li><a class="bg-warning" href="">Duplicate Agents</a></li> 
+					</cfif>							
+					<li><a href="/Reports/reporter.cfm">Collection Holdings by Class</a></li>
+					<li><a href="/info/mia_in_genbank.cfm">Invalid Taxonomy</a></li>
+					<li><a href="/info/reviewAnnotation.cfm">Unscriptable Taxonomy Gaps</a></li>
+					<li><a href="/info/loanStats.cfm">Suspect Data</a></li>
+					<li><a href="/tools/BulkloadOtherId.cfm">Partless Specimens</a></li>
+					<li><a href="/tools/loanBulkload.cfm">Messy Taxonomy</a></li>
+					<li><a href="/tools/DataLoanBulkload.cfm">Catalog Number Gaps</a></li>
+					<li><a href="/DataServices/agents.cfm">Duplicate Agents</a></li>
+					<li><a href="/tools/BulkloadPartContainer.cfm">Audit Sql</a></li>
+					<li><a href="/tools/BulkloadOtherId.cfm">Download Tables</a></li>
+					<li><a href="/tools/BulkloadContEditParent.cfm">Oracle Roles</a></li>
+					<li><a href="/tools/DataLoanBulkload.cfm">Write SQL</a></li>
 				</ul>
 			</div>
+		</div>
 		</section>
 	</main>
 </cfoutput>
