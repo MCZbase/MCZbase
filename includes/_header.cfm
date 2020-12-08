@@ -104,7 +104,7 @@
               </li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
                   <li><!--main menu element-->
-                    <a target="_top" href="/bulkloading/Bulkloaders.cfm">Batch Tools</a>
+                    <a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
                  </li>
                  </cfif>
                 </ul>

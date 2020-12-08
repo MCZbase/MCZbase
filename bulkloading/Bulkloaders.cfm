@@ -7,7 +7,15 @@
 			<div class="col-12">
 				<h1 class="h2">Modify Records in Bulk</h1>
 				<h2 class="h3">Select a Batch Tool</h2>
+				<div class="card-columns">
 				<ul>
+					<h3 class="h4">Specimens</h3>
+					<li><a href="/Bulkloader/">Bulkload Specimens</a></li>
+					<li><a href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
+					<li><a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a></li>
+					<li><a href="/Bulkloader/browseBulk.cfm">Browse Bulkloader</a></li>
+					
+					<h3 class="h4">Specimens</h3>
 					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
@@ -24,6 +32,7 @@
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
 					<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
 				</ul>
+			</div>
 			</div>
 		</section>
 	</main>
