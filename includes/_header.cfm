@@ -69,13 +69,14 @@
                  <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+				  <li><a target="_top" href="/agents.cfm">Agents</a></li>
 				 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
 				 <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
 <cfif len(session.roles) gt 0 and session.roles is not "public">
 <li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
 </cfif>
              </ul>
-         </li>
+         </li><!--end main menu element-->
         <cfif len(session.roles) gt 0 and session.roles is not "public">
               <cfset r = replace(session.roles,",","','","all")>
               <cfset r = "'#r#'">
@@ -87,34 +88,23 @@
 						</cfquery>
               <cfset formList = valuelist(roles.form_path)>
               <li><!--main menu element-->
-                  <a href="##">Enter Data</a>
-                   <ul>
-                     <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
-                     <li><a target="_top" href="##">Bulkloader</a>
-                   <ul>
-                      <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
-                        <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
-                        <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
-                        <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-                      </cfif>
-                      <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
-                        <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
-                      </cfif>
-                   </ul>
+                  <a href="##">Data Entry</a>
+                   	<ul>
+						 <li><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
+						  <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
+						  <li><!--main menu element-->
+							<a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
+						 </li>
+						 </cfif>
+                	</ul>
               </li>
-                  <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
-                  <li><!--main menu element-->
-                    <a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-                 </li>
-                 </cfif>
-                </ul>
-              </li>
-              <li><!--main menu element-->
-                  <a target="_top" href="##">Manage Data</a>
+				  <!--start main menu element-->
+         <li>
+            <a target="_top" href="##">Manage Data</a>
             <ul>
-                  <cfif listfind(formList,"/Locality.cfm")>
+              	<cfif listfind(formList,"/Locality.cfm")>
                 <li><a target="_top" href="##">Location</a>
-                      <ul>
+                  	<ul>
                     <li><a target="_top" href="/Locality.cfm?action=findHG">Find Geography</a></li>
 					<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
                     	<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
@@ -124,22 +114,22 @@
                     <li><a target="_top" href="/Locality.cfm?action=findCO">Find Event</a></li>
                     <li><a target="_top" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a></li>
                   </ul>
-                    </li>
+                </li>
               </cfif>
-                  <li><a target="_top" href="##">Agents</a>
-                <ul>
-                      <cfif listfind(formList,"/agents.cfm")>
-                    <li><a target="_top" href="/agents.cfm">Agents</a></li>
-                  </cfif>
-                      <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
-                    <li><a target="_top" href="/Admin/agentMergeReview.cfm">Review pending agent merges</a></li>
-                  </cfif>
-                      <cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
-                    <li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge bad dup agents</a></li>
-                  </cfif>
-                    </ul>
-              </li>
-                  <cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
+								 <li><a target="_top" href="##">Agents</a>
+					<ul>
+						  <cfif listfind(formList,"/agents.cfm")>
+							<li><a target="_top" href="/agents.cfm">Agents</a></li>
+						  </cfif>
+						  <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
+							<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review pending agent merges</a></li>
+						  </cfif>
+						  <cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
+							<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge bad dup agents</a></li>
+						  </cfif>
+					</ul>
+				</li>
+                <cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
                 <li><a target="_top" href="##">Object Tracking</a>
                       <ul>
                     <cfif listfind(formList,"/tools/dgr_locator.cfm")>
@@ -159,9 +149,9 @@
                           <li><a target="_top" href="/SpecimenContainerLabels.cfm">Clear Part Flags</a></li>
                         </cfif>
                   </ul>
-                    </li>
-              </cfif>
-                  <cfif listfind(formList,"/Encumbrances.cfm")>
+               </li>
+              	</cfif>
+                <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
                         <cfif listfind(formList,"/Encumbrances.cfm")>
@@ -176,9 +166,9 @@
                      </ul>
                   </li>
                   </cfif>
-                  <cfif listfind(formList,"/info/reviewAnnotation.cfm")>
+                <cfif listfind(formList,"/info/reviewAnnotation.cfm")>
                 	<li><a target="_top" href="##">Tools</a>
-								  <ul>
+						<ul>
 								<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
 									  <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync <span style="font-size: 10px;">parent/child</span> taxonomy</a></li>
 								<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
@@ -186,10 +176,11 @@
 									  <li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
 									</cfif>
 								<li><a target="_top" href="/Admin/redirect.cfm">Redirects</a></li>
-							  </ul>
+						</ul>
                     </li>
-              </cfif>
+              	</cfif>
             </ul>
+		</li><!--end main menu element-->
       <cfif listfind(formList,"/newAccn.cfm")>
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
@@ -205,36 +196,9 @@
                         <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
                         <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
                      </ul>
-         </li>
-         </cfif>
-          <li><a target="_top" href="##">Manage MCZbase</a>
-            <ul>
-              <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
-                <li> <a target="_top" href="##">Developer Widgets</a>
-                  <ul>
-                    <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
-                    <li><a target="_top" href="/Admin/dumpAll.cfm">Dump</a></li>
-                    <li><a target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a></li>
-                    <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
-                  </ul>
-                </li>
-              </cfif>
-              <cfif listfind(formList,"/AdminUsers.cfm")>
-                <li><a target="_top" href="##">Roles/Permissions</a>
-                  <ul>
-                    <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
-                    <li><a target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a></li>
-                    <li><a target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a></li>
-                    <li><a target="_top" href="/AdminUsers.cfm">MCZbase Users</a></li>
-                    <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
-                    <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
-                    <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>
-					 <li><a target="_top" href="/Admin/ActivityLog.cfm">Oracle Audit</a></li>
-                  </ul>
-                </li>
-              </cfif>
-            </ul>
-          </li>
+         </li><!--end main menu element-->
+      </cfif>
+  
            <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
             <li><a target="_top" href="##">Reports & Statistics</a>
                   <ul>
@@ -272,6 +236,34 @@
                 </li>
           </cfif>
             </cfif>
+	        <li><a target="_top" href="##">Admin</a>
+            <ul>
+              <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
+                <li> <a target="_top" href="##">Developer Widgets</a>
+                  <ul>
+                    <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
+                    <li><a target="_top" href="/Admin/dumpAll.cfm">Dump</a></li>
+                    <li><a target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a></li>
+                    <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
+                  </ul>
+                </li>
+              </cfif>
+              <cfif listfind(formList,"/AdminUsers.cfm")>
+                <li><a target="_top" href="##">Roles/Permissions</a>
+                  <ul>
+                    <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
+                    <li><a target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a></li>
+                    <li><a target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a></li>
+                    <li><a target="_top" href="/AdminUsers.cfm">MCZbase Users</a></li>
+                    <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
+                    <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
+                    <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>
+					 <li><a target="_top" href="/Admin/ActivityLog.cfm">Oracle Audit</a></li>
+                  </ul>
+                </li>
+              </cfif>
+            </ul>
+          </li>
            <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
               <ul>
                   <cfif len(session.username) gt 0>
