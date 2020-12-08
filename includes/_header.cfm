@@ -46,13 +46,7 @@
     <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
-		<cfif findNoCase('redesign',gitBranch) GT 0>
-			<!--- checkout is redesign, redesign2, or similar --->
-			<cfset targetMenu = "redesign">
-		<cfelse>
-			<!--- checkout is master, integration, test, and other non-redesign branches --->
-			<cfset targetMenu = "production">
-		</cfif>
+
 <div id="headerContent" style="background-color: #Application.header_color#;">
      <div id="image_headerWrap">
            <div class="headerText">
@@ -198,6 +192,13 @@
               </cfif>
             </ul>
 			</li>
+		<cfif findNoCase('redesign',gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
+			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
+		</cfif>
 			<li><a href="##" target="_top">Curation</a>
 				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
