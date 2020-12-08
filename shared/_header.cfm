@@ -279,8 +279,9 @@ limitations under the License.
 										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
 										<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
 									<cfelse>
-										<a class="dropdown-item bg-warning" href="">SQL Queries</a> 
 										<a class="dropdown-item bg-warning" href="">Annotations</a>
+										<a class="dropdown-item bg-warning" href="">SQL Queries</a> 
+										
 									</cfif>
 								</cfif>
 							 </li>
