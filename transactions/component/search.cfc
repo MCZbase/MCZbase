@@ -49,7 +49,8 @@ limitations under the License.
 				transaction_view.specific_type, 
 				transaction_view.status, 
 				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent,
-				concattransagent(transaction_view.transaction_id,'authorized by') auth_agent,
+				concattransagent(transaction_view.transaction_id,'in-house authorized by') auth_agent,
+				concattransagent(transaction_view.transaction_id,'outside authorized by') outside_auth_agent,
 				concattransagent(transaction_view.transaction_id,'received by') rec_agent,
 				concattransagent(transaction_view.transaction_id,'for use by') foruseby_agent,
 				concattransagent(transaction_view.transaction_id,'in-house contact') inHouse_agent,
@@ -151,6 +152,7 @@ limitations under the License.
 			<cfset row["status"] = "#search.status#">
 			<cfset row["entered_by"] = "#search.entered_by_agent#">
 			<cfset row["authorized_by"] = "#search.auth_agent#">
+			<cfset row["outside_authorized_by"] = "#search.outside_auth_agent#">
 			<cfset row["received_by"] = "#search.rec_agent#">
 			<cfset row["for_use_by"] = "#search.foruseby_agent#">
 			<cfset row["in-house_contact"] = "#search.inHouse_agent#">
@@ -262,7 +264,7 @@ limitations under the License.
 				loan.loan_status,
 				loan.loan_instructions,
 				loan.loan_description,
-				concattransagent(trans.transaction_id,'authorized by') auth_agent,
+				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
 				concattransagent(trans.transaction_id,'for use by') foruseby_agent,
@@ -436,6 +438,7 @@ limitations under the License.
 	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
 	</cfif>
+	changed to in-house authorized by
 	<cfif isdefined("auth_agent") AND len(#auth_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(authAgnt.agent_name) LIKE '%#ucase(escapeQuotes(auth_agent))#%'">
 	</cfif>
