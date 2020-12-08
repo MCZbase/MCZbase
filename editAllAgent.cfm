@@ -9,7 +9,7 @@
 	select agent_type from ctagent_type order by agent_type
 </cfquery>
 <cfquery name="ctAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select addr_type from ctaddr_type 
+	select addr_type from ctaddr_type
 	where addr_type <> 'temporary'
 </cfquery>
 <cfquery name="ctElecAddrType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -26,7 +26,7 @@
 </cfquery>
 <cfquery name="ctguid_type_agent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
+   from ctguid_type
    where applies_to like '%agent.agentguid%'
 </cfquery>
 <!--- Make sure that agentguid and agentguid_guid_type are defined and empty if not provided --->
@@ -43,15 +43,15 @@
 <script src="/includes/js/ckeditor/ckeditor.js"></script>
 <cfoutput>
 <script>
-	function getAssembledName() { 
+	function getAssembledName() {
 		var result = "";
-		if ($('##last_name').val()!="") { 
+		if ($('##last_name').val()!="") {
 			result = $('##last_name').val();
 		}
-		if ($('##middle_name').val()!="") { 
+		if ($('##middle_name').val()!="") {
 			result = $('##middle_name').val() + " " + result;
 		}
-		if ($('##first_name').val()!="") { 
+		if ($('##first_name').val()!="") {
 			result = $('##first_name').val() + " " + result;
 		}
 		return result;
@@ -196,8 +196,8 @@ function opendialogrank(page,id,title,agentId) {
 			<cfset placeholder = "">
 			<cfset regex = "">
 			<cfset replacement = "">
-			<cfset searchlink = "" >		
-			<cfset searchtext = "" >		
+			<cfset searchlink = "" >
+			<cfset searchtext = "" >
 			<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
 				<cfif searchtext EQ "">
 					<option value=""></option>
@@ -218,32 +218,32 @@ function opendialogrank(page,id,title,agentId) {
 			<input size="55" name="agentguid" id="agentguid" value="" placeholder="#placeholder#" pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 			<a id="agentguid_link" href="" target="_blank" class="hints"></a>
 			<script>
-				$(document).ready(function () { 
+				$(document).ready(function () {
 					if ($('##agentguid').val().length > 0) {
 						$('##agentguid').hide();
 					}
-					$('##agentguid_search').click(function (evt) { 
+					$('##agentguid_search').click(function (evt) {
 						switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
 					});
-					$('##agentguid_guid_type').change(function () { 
+					$('##agentguid_guid_type').change(function () {
 						// On selecting a guid_type, remove an existing guid value.
 						$('##agentguid').val("");
 						// On selecting a guid_type, change the pattern.
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
-					$('##agentguid').blur( function () { 
+					$('##agentguid').blur( function () {
 						// On loss of focus for input, validate against the regex, update link
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
-					$('##first_name').change(function () { 
+					$('##first_name').change(function () {
 						// On changing prefered name, update search.
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
-					$('##middle_name').change(function () { 
+					$('##middle_name').change(function () {
 						// On changing prefered name, update search.
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
-					$('##last_name').change(function () { 
+					$('##last_name').change(function () {
 						// On changing prefered name, update search.
 						getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 					});
@@ -291,12 +291,12 @@ function opendialogrank(page,id,title,agentId) {
 			<cfset nameStr= listappend(nameStr,last_name,' ')>
 			<cfset nameStr= listappend(nameStr,suffix,' ')>
 			<cfif len(birth_date) gt 0>
-				<cfset nameStr="#nameStr# (#dateformat(birth_date,"yyyy-mm-dd")#">
+				<cfset nameStr="#nameStr# (#birth_date#">
 			<cfelse>
 				<cfset nameStr="#nameStr# (unknown">
 			</cfif>
 			<cfif len(death_date) gt 0>
-				<cfset nameStr="#nameStr# - #dateformat(death_date,"yyyy-mm-dd")#)">
+				<cfset nameStr="#nameStr# - #death_date#)">
 			<cfelse>
 				<cfset nameStr="#nameStr# - unknown)">
 			</cfif>
@@ -320,8 +320,8 @@ function opendialogrank(page,id,title,agentId) {
           </cfif>
           <cfif listcontainsnocase(session.roles,"manage_transactions")>
 			<cfquery name="rank" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select count(*) || ' ' || agent_rank agent_rank 
-				from agent_rank 
+				select count(*) || ' ' || agent_rank agent_rank
+				from agent_rank
 				where agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 				group by agent_rank
 			</cfquery>
@@ -355,7 +355,7 @@ function opendialogrank(page,id,title,agentId) {
 	<cfquery name="elecagentAddrs" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select * from electronic_address
 		where
-		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL"> 
+		agent_id = <cfqueryparam value="#person.agent_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfoutput>
 		<cfset i=1>
@@ -458,11 +458,11 @@ function opendialogrank(page,id,title,agentId) {
  						<tr>
 							<td>
  								<label for="birth_date">Birth Date</label>
- 								<input type="text" name="birth_date" id="birth_date" value="#dateformat(birth_date,'yyyy-mm-dd')#" size="10">
+ 								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="10">
  							</td>
 							<td>
  								<label for="death_date">Death Date</label>
- 								<input type="text" name="death_date" id="death_date" value="#dateformat(death_date,'yyyy-mm-dd')#" size="10">
+ 								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10">
  							</td>
 						        <td colspan="2">
                                                             <label for="editedPerson">Edited</label>
@@ -479,17 +479,17 @@ function opendialogrank(page,id,title,agentId) {
 								<cfset placeholder = "">
 								<cfset regex = "">
 								<cfset replacement = "">
-								<cfset searchlink = "" >		
-								<cfset searchtext = "" >		
-								<cfset searchclass = "" >		
+								<cfset searchlink = "" >
+								<cfset searchtext = "" >
+								<cfset searchclass = "" >
 								<cfloop query="ctguid_type_agent">
 				 					<cfif person.agentguid_guid_type is ctguid_type_agent.guid_type OR ctguid_type_agent.recordcount EQ 1 >
-										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >		
+										<cfset searchlink = ctguid_type_agent.search_uri & replace(EncodeForURL(trim(person.first_name & ' ' & trim(person.middle_name & ' ' & person.last_name))),'+','%20') >
 										<cfif len(person.agentguid) GT 0>
-											<cfset searchtext = "Edit" >		
+											<cfset searchtext = "Edit" >
 											<cfset searchclass = 'class="smallBtn editGuidButton"' >
 										<cfelse>
-											<cfset searchtext = "Find GUID" >		
+											<cfset searchtext = "Find GUID" >
 											<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 										</cfif>
 									</cfif>
@@ -511,8 +511,8 @@ function opendialogrank(page,id,title,agentId) {
 									</cfloop>
 								</select>
 								<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
-								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#" 
-									placeholder="#placeholder#" 
+								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#"
+									placeholder="#placeholder#"
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
 									<cfset link = REReplace(person.agentguid,regex,replacement)>
@@ -521,32 +521,32 @@ function opendialogrank(page,id,title,agentId) {
 								</cfif>
 								<a id="agentguid_link" href="#link#" target="_blank" class="hints">#agentguid#</a>
 								<script>
-									$(document).ready(function () { 
+									$(document).ready(function () {
 										if ($('##agentguid').val().length > 0) {
 											$('##agentguid').hide();
 										}
-										$('##agentguid_search').click(function (evt) { 
+										$('##agentguid_search').click(function (evt) {
 											switchGuidEditToFind('agentguid','agentguid_search','agentguid_link',evt);
 										});
-										$('##agentguid_guid_type').change(function () { 
+										$('##agentguid_guid_type').change(function () {
 											// On selecting a guid_type, remove an existing guid value.
 											$('##agentguid').val("");
 											// On selecting a guid_type, change the pattern.
 											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 										});
-										$('##agentguid').blur( function () { 
+										$('##agentguid').blur( function () {
 											// On loss of focus for input, validate against the regex, update link
 											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 										});
-										$('##first_name').change(function () { 
+										$('##first_name').change(function () {
 											// On changing name, update search.
 											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 										});
-										$('##middle_name').change(function () { 
+										$('##middle_name').change(function () {
 											// On changing name, update search.
 											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 										});
-										$('##last_name').change(function () { 
+										$('##last_name').change(function () {
 											// On changing name, update search.
 											getGuidTypeInfo($('##agentguid_guid_type').val(), 'agentguid', 'agentguid_link','agentguid_search',getAssembledName());
 										});
@@ -828,12 +828,12 @@ function opendialogrank(page,id,title,agentId) {
 						<script>
 						function handleCountrySelect(){
 						   var countrySelection =  $('input:radio[name=country]:checked').val();
-						   if (countrySelection == 'USA') { 
+						   if (countrySelection == 'USA') {
 						      $("##textUS").css({"color": "black", "font-weight":"bold" });
 						      $("##other_country_cde").toggle("false");
 						      $("##country_cde").val("USA");
 						      $("##other_country_cde").removeClass("reqdClr");
-						   } else { 
+						   } else {
 						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
 						      $("##other_country_cde").toggle("true");
 						      $("##country_cde").val($("##other_country_cde").val());
@@ -898,7 +898,7 @@ function opendialogrank(page,id,title,agentId) {
 		        media.mime_type,
 		        media.media_type,
 		        media.preview_uri,
-			    mczbase.get_media_descriptor(media.media_id) as media_descriptor 
+			    mczbase.get_media_descriptor(media.media_id) as media_descriptor
 		     from
 		         media,
 		         media_relations,
@@ -1097,12 +1097,12 @@ function opendialogrank(page,id,title,agentId) {
 						<script>
 						function handleCountrySelect(){
 						   var countrySelection =  $('input:radio[name=country]:checked').val();
-						   if (countrySelection == 'USA') { 
+						   if (countrySelection == 'USA') {
 						      $("##textUS").css({"color": "black", "font-weight":"bold" });
 						      $("##other_country_cde").toggle("false");
 						      $("##country_cde").val("USA");
 						      $("##other_country_cde").removeClass("reqdClr");
-						   } else { 
+						   } else {
 						      $("##textUS").css({"color": "##999999", "font-weight": "normal" });
 						      $("##other_country_cde").toggle("true");
 						      $("##country_cde").val($("##other_country_cde").val());
@@ -1317,9 +1317,9 @@ function opendialogrank(page,id,title,agentId) {
 <cfif #Action# is "deleteGroupMember">
 	<cfoutput>
 	<cfquery name="killGrpMem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM group_member 
+		DELETE FROM group_member
 		WHERE
-			GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#"> 
+			GROUP_AGENT_ID =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">
 		AND
 			MEMBER_AGENT_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#MEMBER_AGENT_ID#">
 	</cfquery>
@@ -1350,13 +1350,13 @@ function opendialogrank(page,id,title,agentId) {
 	<cfoutput>
 		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			INSERT INTO agent_name (
-				agent_name_id, 
-				agent_id, 
-				agent_name_type, 
+				agent_name_id,
+				agent_id,
+				agent_name_type,
 				agent_name)
 			VALUES (
-				sq_agent_name_id.nextval, 
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">, 
+				sq_agent_name_id.nextval,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id#">,
 				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name_type#'>,
 				<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>)
 		</cfquery>
@@ -1367,11 +1367,11 @@ function opendialogrank(page,id,title,agentId) {
 <cfif #Action# is "updateName">
 	<cfoutput>
 		<cfquery name="updateName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			UPDATE agent_name 
-			SET 
-				agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>, 
+			UPDATE agent_name
+			SET
+				agent_name = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name#'>,
 				agent_name_type=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#agent_name_type#'>
-			where 
+			where
 				agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
@@ -1400,7 +1400,7 @@ function opendialogrank(page,id,title,agentId) {
 			The agent name you are trying to delete is active.<cfabort>
 		</cfif>
 		<cfquery name="deleteAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			DELETE FROM agent_name 
+			DELETE FROM agent_name
 			WHERE agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_name_id#">
 		</cfquery>
 		<cflocation url="editAllAgent.cfm?agent_id=#agent_id#">
@@ -1439,12 +1439,12 @@ function opendialogrank(page,id,title,agentId) {
 				,suffix=null
 			</cfif>
 			<cfif len(#birth_date#) gt 0>
-				,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#dateformat(birth_date,"yyyy-mm-dd")#'>
+				,birth_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#birth_date#'>
 			  <cfelse>
 			  	,birth_date=null
 			</cfif>
 			<cfif len(#death_date#) gt 0>
-				,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#dateformat(death_date,"yyyy-mm-dd")#'>
+				,death_date=<cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#death_date#'>
 			  <cfelse>
 			  	,death_date=null
 			</cfif>
@@ -1510,11 +1510,11 @@ function opendialogrank(page,id,title,agentId) {
 <!------------------------------------------------------------------------------------------------------------->
 <cfif #action# is "makeNewGroupMemeber">
 	<cfquery name="newGroupMember" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO group_member 
-			(GROUP_AGENT_ID, 
-			MEMBER_AGENT_ID, 
+		INSERT INTO group_member
+			(GROUP_AGENT_ID,
+			MEMBER_AGENT_ID,
 			MEMBER_ORDER)
-		values 
+		values
 			(<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#agent_id#'>,
 			<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#member_id#'>,
 			<cfqueryparam cfsqltype='CF_SQL_DECIMAL' value='#MEMBER_ORDER#'>
@@ -1615,8 +1615,8 @@ function opendialogrank(page,id,title,agentId) {
 			</cfif>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent.agent_type,agent_name.agent_id,agent_name.agent_name 
-						from agent_name, agent 
+					select agent.agent_type,agent_name.agent_id,agent_name.agent_name
+						from agent_name, agent
 						where agent_name.agent_id = agent.agent_id
 							and upper(agent_name.agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(pref_name)#%'>
 				</cfquery>
@@ -1714,8 +1714,8 @@ function opendialogrank(page,id,title,agentId) {
 			</cfquery>
 			<cfif not isdefined("ignoreDupChek") or ignoreDupChek is false>
 				<cfquery name="dupPref" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select agent_id,agent_name 
-					from agent_name 
+					select agent_id,agent_name
+					from agent_name
 					where upper(agent_name) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(agent_name)#%'>
 				</cfquery>
 				<cfif dupPref.recordcount gt 0>

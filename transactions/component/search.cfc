@@ -203,6 +203,12 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="specimen_guid" type="string" required="no">
 	<cfargument name="parent_loan_number" type="string" required="no">
+	<!--- in original API, no longer supported --->
+	<!--- notClosed=1 use loan_status = 'not closed' --->
+	<!--- in original API, not yet supported --->
+	<!--- rec_agent, searching by substring on agent name --->
+	<!--- ent_agent, searching by substring on agent name --->
+	<!--- auth_agent, searching by substring on agent name --->
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -431,7 +437,7 @@ limitations under the License.
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>
 
-<!--- 
+<!--- in original API, not yet supported, could be added, replaced by autocomplete on agent name filling in agent id for arbitrary roles. 
 
 	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
@@ -441,9 +447,6 @@ limitations under the License.
 	</cfif>
 	<cfif isdefined("ent_agent") AND len(#ent_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(entAgnt.agent_name) LIKE '%#ucase(escapeQuotes(ent_agent))#%'">
-	</cfif>
-	<cfif isdefined("notClosed") AND len(#notClosed#) gt 0>
-		<cfset sql = "#sql# AND loan_status <> 'closed'">
 	</cfif>
 
 --->
@@ -840,6 +843,304 @@ limitations under the License.
 			</div>
 		</cfoutput>
 		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
+
+<!---   Function getAccessions  --->
+<cffunction name="getAccessions" access="remote" returntype="any" returnformat="json">
+	<cfargument name="accn_number" type="string" required="no">
+	<cfargument name="accn_type" type="string" required="no">
+	<cfargument name="accn_status" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="nature_of_material" type="string" required="no">
+	<cfargument name="collection_id" type="numeric" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="rec_date" type="string" required="no">
+	<cfargument name="to_rec_date" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="trans_agent_role_1" type="string" required="no">
+	<cfargument name="agent_1" type="string" required="no">
+	<cfargument name="agent_1_id" type="string" required="no">
+	<cfargument name="trans_agent_role_2" type="string" required="no">
+	<cfargument name="agent_2" type="string" required="no">
+	<cfargument name="agent_2_id" type="string" required="no">
+	<cfargument name="trans_agent_role_3" type="string" required="no">
+	<cfargument name="agent_3" type="string" required="no">
+	<cfargument name="agent_3_id" type="string" required="no">
+	<cfargument name="collection_object_id" type="string" required="no">
+	<cfargument name="specimen_guid" type="string" required="no">
+	<cfargument name="part_name" type="string" required="no">
+	<cfargument name="coll_obj_disposition" type="string" required="no">
+
+	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
+	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
+	<cfif (isdefined("specimen_guid") AND len(#specimen_guid#) gt 0) >
+		<cfquery name="guidSearch" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidSearch_result">
+			select specimen_part.collection_object_id as part_coll_obj_id 
+			from 
+				#session.flatTableName# flat left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+			where
+				flat.guid in ( <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specimen_guid#" list="yes"> )
+		</cfquery>
+		<cfloop query="guidSearch">
+			<cfif not listContains(collection_object_id,guidSearch.part_coll_obj_id)>
+				<cfif len(collection_object_id) EQ 0>
+					<cfset collection_object_id = guidSearch.part_coll_obj_id>
+				<cfelse>
+					<cfset collection_object_id = collection_object_id & "," & guidSearch.part_coll_obj_id>
+				</cfif>
+			</cfif>
+		</cfloop>
+	</cfif>
+
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+	</cfif>
+	<cfif isdefined("rec_date") and len(#rec_date#) gt 0>
+		<cfif not isdefined("to_rec_date") or len(to_rec_date) is 0>
+			<cfset to_rec_date=rec_date>
+		</cfif>
+	</cfif>
+
+	<!--- do the search --->
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
+			SELECT distinct
+				trans.transaction_id,
+				accn_number,
+				nature_of_material,
+				to_char(received_date,'YYYY-MM-DD') as received_date,
+				to_char(trans_date,'YYYY-MM-DD') as date_entered,
+				accn_status,
+				trans_remarks,
+				collection,
+				collection_cde,
+				project_name,
+				project.project_id pid,
+				estimated_count,
+				concattransagent(trans.transaction_id,'entered by') ENTAGENT,
+				concattransagent(trans.transaction_id,'received from') RECFROMAGENT,
+				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
+				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
+				concattransagent(trans.transaction_id,'received by') rec_agent,
+				concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
+				concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
+				concattransagent(trans.transaction_id,'outside contact') outside_agent,
+				concattransagent(trans.transaction_id,'additional outside contact') addOutside_agent
+			FROM
+			 	accn left join trans on accn.transaction_id = trans.transaction_id
+				left join permit_trans on trans.transaction_id = permit_trans.transaction_id
+				left join permit on permit_trans.permit_id = permit.permit_id
+				left join collection on trans.collection_id=collection.collection_id
+				left join project_trans on trans.transaction_id = project_trans.transaction_id
+				left join project on project_trans.project_id = project.project_id
+				<cfif (isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0) OR (isdefined("agent_1") AND len(agent_1) gt 0) >
+					left join trans_agent trans_agent_1 on trans.transaction_id = trans_agent_1.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_1_id") OR len(agent_1_id) eq 0 >
+					<cfif isdefined("agent_1") AND len(agent_1) gt 0 >
+						left join preferred_agent_name trans_agent_name_1 on trans_agent_1.agent_id = trans_agent_name_1.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0) OR (isdefined("agent_2") AND len(agent_2) gt 0) >
+					left join trans_agent trans_agent_2 on trans.transaction_id = trans_agent_2.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_2_id") OR len(agent_2_id) eq 0 >
+					<cfif isdefined("agent_2") AND len(agent_2) gt 0 >
+						left join preferred_agent_name trans_agent_name_2 on trans_agent_2.agent_id = trans_agent_name_2.agent_id
+					</cfif>
+				</cfif>
+				<cfif (isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0) OR (isdefined("agent_3") AND len(agent_3) gt 0) >
+					left join trans_agent trans_agent_3 on trans.transaction_id = trans_agent_3.transaction_id
+				</cfif>
+				<cfif not isdefined("agent_3_id") OR len(agent_3_id) eq 0 >
+					<cfif isdefined("agent_3") AND len(agent_3) gt 0 >
+						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					left join shipment on loan.transaction_id = shipment.transaction_id
+					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					left join loan_item on loan.transaction_id=loan_item.transaction_id 
+					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
+					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+				</cfif>
+				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+					left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+				</cfif>
+				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+					left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+				</cfif>
+			WHERE 
+				accn.transaction_id is not null
+				<cfif isDefined("number") and len(number) gt 0>
+					<cfif left(number,1) is "=">
+						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+					<cfelse>
+						<cfif find(',',number) GT 0>
+							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#" list="yes"> )
+						<cfelse>
+							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("accn_status") and len(accn_status) gt 0>
+					and accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+				</cfif>
+				<cfif isDefined("collection_id") and collection_id gt 0>
+					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
+					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
+				</cfif>
+				<cfif isdefined("agent_1_id") AND len(agent_1_id) gt 0>
+					AND upper(trans_agent_1.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_1_id#">
+				<cfelseif isdefined("agent_1") AND len(agent_1) gt 0>
+					AND upper(trans_agent_name_1.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_1)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_2") AND len(trans_agent_role_2) gt 0>
+					AND trans_agent_2.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_2#">
+				</cfif>
+				<cfif isdefined("agent_2_id") AND len(agent_2_id) gt 0>
+					AND upper(trans_agent_2.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_2_id#">
+				<cfelseif isdefined("agent_2") AND len(agent_2) gt 0>
+					AND upper(trans_agent_name_2.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_2)#%" >
+				</cfif>
+				<cfif isdefined("trans_agent_role_3") AND len(trans_agent_role_3) gt 0>
+					AND trans_agent_3.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_3#">
+				</cfif>
+				<cfif isdefined("agent_3_id") AND len(agent_3_id) gt 0>
+					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
+				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
+					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("rec_date") and len(rec_date) gt 0>
+					AND trans.rec_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(rec_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
+					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
+				</cfif>
+
+				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+				</cfif>
+				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
+					accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND ( 
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+						OR
+						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
+					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				</cfif>
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
+					<cfif isdefined("part_name") AND len(part_name) gt 0>
+						<cfif not isdefined("part_name_oper")><cfset part_name_oper='is'></cfif>
+						<cfif part_name_oper is "is">
+							AND specimen_part.part_name = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#part_name#">
+						<cfelse>
+							AND upper(specimen_part.part_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(part_name)#%">
+						</cfif>
+					</cfif>
+					<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
+						<cfif not isdefined("part_disp_oper")><cfset part_disp_oper='is'></cfif>
+						<cfif part_disp_oper is "is">
+							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						<cfelse>
+							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isdefined("collection_id") AND collection_id gt 0>
+					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				</cfif>
+				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+				</cfif>
+				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+				</cfif>
+			ORDER BY accn_number
+		</cfquery>
+		<!---
+			 replaced with leading = 
+			 <cfif isdefined("exactAccnNumMatch") and #exactAccnNumMatch# is 1>
+			 replaced with trans_date/to_trans_date
+			 AND TRANS_DATE #entDateOper# '#ucase(dateformat(stripQuotes(ent_date),"yyyy-mm-dd"))#">
+		
+	 		 not implemented	
+			 <cfif  isdefined("rec_agent") and len(#rec_agent#) gt 0>
+				<cfset frm = "#frm#,agent_name">
+				<cfset sql = "#sql# AND upper(agent_name.agent_name) like '%#escapeQuotes(ucase(rec_agent))#%'
+					AND trans.received_agent_id = agent_name.agent_id">
+			 </cfif>
+		    <cfif  isdefined("trans_agency") and len(#trans_agency#) gt 0>
+		  		<cfset sql = "#sql# AND upper(transAgent.agent_name) LIKE  '%#escapeQuotes(ucase(trans_agency))#%'">
+			 </cfif>
+			<cfif  isdefined("issued_date") and len(#issued_date#) gt 0>
+				<cfset sql = "#sql# AND upper(issued_date) like '%#stripQuotes(ucase(issued_date))#%'">
+			</cfif>
+			<cfif  isdefined("renewed_date") and len(#renewed_date#) gt 0>
+				<cfset sql = "#sql# AND upper(renewed_date) like '%#stripQuotes(ucase(renewed_date))#%'">
+			</cfif>
+			<cfif isdefined("exp_date") and  len(#exp_date#) gt 0>
+				<cfset sql = "#sql# AND upper(exp_date) like '%#stripQuotes(ucase(exp_date))#%'">
+			</cfif>
+			<cfif isdefined("permit_Num") and len(#permit_Num#) gt 0>
+				<cfset sql = "#sql# AND permit_Num = '#escapeQuotes(permit_Num)#'">
+			</cfif>
+			<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
+				<cfset sql = "#sql# AND upper(permit_remarks) like '%#escapeQuotes(ucase(permit_remarks))#%'">
+			</cfif>
+
+	--->
+
+	<cfset rows = search_result.recordcount>
+		<cfset i = 1>
+		<cfloop query="search">
+			<cfset row = StructNew()>
+			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
+				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
+			</cfloop>
+			<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfset data[i]  = row>
+			<cfset i = i + 1>
+		</cfloop>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+	   <cfabort>
 	</cfcatch>
 	</cftry>
 	<cfreturn #serializeJSON(data)#>
