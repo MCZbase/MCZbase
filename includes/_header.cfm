@@ -69,12 +69,14 @@
                  <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 				  <li><a target="_top" href="/agents.cfm">Agents</a></li>
+				  </cfif>
 				 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
 				 <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-<cfif len(session.roles) gt 0 and session.roles is not "public">
-<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
-</cfif>
+					<cfif len(session.roles) gt 0 and listcontainsnocase(session.roles,"coldfusion_user")>
+					<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
+					</cfif>
              </ul>
          </li><!--end main menu element-->
         <cfif len(session.roles) gt 0 and session.roles is not "public">
@@ -90,23 +92,30 @@
               <li><!--main menu element-->
                   <a href="##">Data Entry</a>
 					<ul>
+					<cfif listfind(formList,"/DataEntry.cfm")>
 						<li><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
 						<li><a target="_top" href="">Create Media Record</a></li>
+						</cfif>
+						  <cfif listfind(formList,"/agents.cfm")>
 						<li><a target="_top" href="">Create Agent Record</a></li>
-						<li><a target="_top" href="">Create Project Record</a></li>
-						<li><a target="_top" href="">Create Publication Record</a></li>
+						</cfif>
+						<cfif listfind(formList,"/DataEntry.cfm")>
+						<li><a target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a></li>
+						<li><a target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
 						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a></li>
 						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a></li>
 						<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
 						<li><a target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a></li>
+							</cfif>
 					</ul>
               </li>
 				  <!--start main menu element-->
          <li>
             <a target="_top" href="##">Manage Data</a>
 			<ul>
+				<cfif listfind(formList,"/Locality.cfm")>
 				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
@@ -114,102 +123,32 @@
 				<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newLO">Create Locality</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a></li>
+				</cfif>
 				<li><a target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a></li>
+				<cfif listfind(formList,"/info/reviewAnnotation.cfm")>
 				<li><a target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a></li>
+				</cfif>
+				 <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
 				<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a></li>
+				</cfif>
+				<cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
 				<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a></li>
+				</cfif>
 				<li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a></li>
 				<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
 				<li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
 			</ul>
-    <!---   <ul>
-	            <cfif listfind(formList,"/Locality.cfm")>
-                <li><a target="_top" href="##">Location</a>
-                  	<ul>
-                    <li><a target="_top" href="/Locality.cfm?action=findHG">Find Geography</a></li>
-					<cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-                    	<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
-					</cfif>
-                    <li><a target="_top" href="/Locality.cfm?action=findLO">Find Locality</a></li>
-                    <li><a target="_top" href="/Locality.cfm?action=newLocality">Create Locality</a></li>
-                    <li><a target="_top" href="/Locality.cfm?action=findCO">Find Event</a></li>
-                    <li><a target="_top" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a></li>
-                  </ul>
-                </li>
-              </cfif>
-				<li><a target="_top" href="##">Agents</a>
-					<ul>
-						  <cfif listfind(formList,"/agents.cfm")>
-							<li><a target="_top" href="/agents.cfm">Agents</a></li>
-						  </cfif>
-						  <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
-							<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review pending agent merges</a></li>
-						  </cfif>
-						  <cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
-							<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge bad dup agents</a></li>
-						  </cfif>
-					</ul>
-				</li>
-                <cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
-                <li><a target="_top" href="##">Object Tracking</a>
-                      <ul>
-                    <cfif listfind(formList,"/tools/dgr_locator.cfm")>
-                          <li><a target="_top" href="/tools/dgr_locator.cfm">DGR Locator</a></li>
-                        </cfif>
-                    <cfif listfind(formList,"/moveContainer.cfm")>
-                          <li><a target="_top" href="/findContainer.cfm">Find Container</a></li>
-                          <li><a target="_top" href="/moveContainer.cfm">Move Container</a></li>
-                          <li><a target="_top" href="/batchScan.cfm">Batch Scan</a></li>
-                          <li><a target="_top" href="/labels2containers.cfm">Label>Container</a></li>
-                          <li><a target="_top" href="/part2container.cfm">Object+BC>>Container</a></li>
-                        </cfif>
-                    <cfif listfind(formList,"/editContainer.cfm")>
-                          <li><a target="_top" href="/LoadBarcodes.cfm">Upload Scan File</a></li>
-                          <li><a target="_top" href="/editContainer.cfm?action=newContainer">Create Container</a></li>
-                          <li><a target="_top" href="/CreateContainersForBarcodes.cfm">Create Container Series</a></li>
-                          <li><a target="_top" href="/SpecimenContainerLabels.cfm">Clear Part Flags</a></li>
-                        </cfif>
-                  </ul>
-               </li>
-              	</cfif>
-                <cfif listfind(formList,"/Encumbrances.cfm")>
-                   <li><a target="_top" href="##">Metadata</a>
-                      <ul>
-                        <cfif listfind(formList,"/Encumbrances.cfm")>
-                          <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
-                        </cfif>
-                        <cfif listfind(formList,"/CodeTableEditor.cfm")>
-                          <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
-                        </cfif>
-                        <cfif listfind(formList,"/Admin/Collection.cfm")>
-                          <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
-                        </cfif>
-                     </ul>
-                  </li>
-                  </cfif>
-                <cfif listfind(formList,"/info/reviewAnnotation.cfm")>
-                	<li><a target="_top" href="##">Tools</a>
-						<ul>
-								<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
-									  <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync <span style="font-size: 10px;">parent/child</span> taxonomy</a></li>
-								<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
-								<cfif listfind(formList,"/tools/sqlTaxonomy.cfm")>
-									  <li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
-									</cfif>
-								<li><a target="_top" href="/Admin/redirect.cfm">Redirects</a></li>
-						</ul>
-                    </li>
-              	</cfif>
-            </ul>--->
+
 		</li><!--end main menu element-->
 				  
 		<li>
 			<a target="_top" href="##">Curation</a>
 			<ul>
 				<li><a href="/grouping/NamedCollection.cfm" target="_top">Search Named Groupings</a></li>
+				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
+				<cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>
 				<li><a href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a></li>
 				<li><a href="/findContainer.cfm" target="_top">Find Storage Container Location</a></li>
-				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
 				<li><a href="/editContainer.cfm?action=newContainer" target="_top">Create Container/Storage Location</a></li>
 				<li><a href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a></li>
 				<li><a href="/moveContainer.cfm" target="_top">Move Container</a></li>
@@ -218,6 +157,16 @@
 				<li><a href="/part2container.cfm" target="_top">Put Parts in Containers</a></li>
 				<li><a href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a></li>
 				<li><a href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a></li>
+					    <cfif listfind(formList,"/Encumbrances.cfm")>
+                          <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
+                        </cfif>
+					     <cfif listfind(formList,"/CodeTableEditor.cfm")>
+                          <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
+                        </cfif>
+					     <cfif listfind(formList,"/Admin/Collection.cfm")>
+                          <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
+                        </cfif>
+				</cfif>
 			</ul>
 		</li>
 			   
