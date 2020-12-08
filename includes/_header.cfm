@@ -94,7 +94,6 @@
                         <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
                         <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
                         <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-           <!---<li><a target="_top" href="##" onclick="getDocs('Bulkloader/index')">Bulkloader Docs</a></li>--->
                       </cfif>
                       <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
                         <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
@@ -104,26 +103,6 @@
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
                   <li><!--main menu element-->
                     <a target="_top" href="/bulkloading/Bulkloaders.cfm">Batch Tools</a>
-					  
-                     <!--- <ul>
-                         <li><a target="_top" href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
-                         <li><a target="_top" href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
-                         <li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
-                         <li><a target="_top" href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
-                         <li><a target="_top" href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>
-                         <li><a target="_top" href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
-                          <li><a target="_top" href="/tools/DataLoanBulkload.cfm">Bulkload <span style="font-size: 11px;">Data Loan</span> Items</a></li>
-                         <li><a target="_top" href="/DataServices/agents.cfm">Bulkload Agents</a></li>
-                          <li><a target="_top" href="/tools/BulkloadPartContainer.cfm">Parts<span style="font-size: 11px;"> >> </span>Containers</a></li>
-                         <li><a target="_top" href="/tools/BulkloadIdentification.cfm">Identifications</a></li>
-                         <li><a target="_top" href="/tools/BulkloadContEditParent.cfm">Bulk Edit Container</a></li>
-                         <li><a target="_top" href="/tools/BulkloadMedia.cfm">Bulkload Media</a></li>
-                         <li><a target="_top" href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
-                         <li><a target="_top" href="/tools/BulkloadGeoref.cfm">Bulkload Georeference</a></li>
-                        <cfif listfind(formList,"/tools/BulkloadTaxonomy.cfm")>
-                          <li><a target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a></li>
-                        </cfif>
-                     </ul>--->
                  </li>
                  </cfif>
                 </ul>
