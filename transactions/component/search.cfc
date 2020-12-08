@@ -850,7 +850,7 @@ limitations under the License.
 
 <!---   Function getAccessions  --->
 <cffunction name="getAccessions" access="remote" returntype="any" returnformat="json">
-	<cfargument name="number" type="string" required="no">
+	<cfargument name="accn_number" type="string" required="no">
 	<cfargument name="accn_type" type="string" required="no">
 	<cfargument name="accn_status" type="string" required="no">
 	<cfargument name="trans_remarks" type="string" required="no">
