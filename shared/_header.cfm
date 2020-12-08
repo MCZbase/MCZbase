@@ -654,8 +654,8 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Reports & Statistics</div>
-										<a href="/reporting/Reports.cfm">List of Reports</a>
-										<a href="/info/queryStats.cfm">Query Statistics</a>
+										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
+										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
 	<!---									<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
 										<cfelse>
