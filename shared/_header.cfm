@@ -254,13 +254,13 @@ limitations under the License.
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>		
-								<cfif targetMenu EQ "redesign">
+<!---								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item bg-warning" href="">Geography</a>
 				
 									<a class="dropdown-item bg-warning" href="">Geology</a>
 							
 									<a class="dropdown-item bg-warning" href="">Collecting Events</a>
-								</cfif>				
+								</cfif>	--->			
 								<cfif targetMenu EQ "production">
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
@@ -271,8 +271,8 @@ limitations under the License.
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Publications</a>
-									<a class="dropdown-item bg-warning" href="">Projects</a>
+									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
+							<!---		<a class="dropdown-item bg-warning" href="">Projects</a>--->
 								</cfif>	
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfif targetMenu EQ "production">
