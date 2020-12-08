@@ -5,8 +5,7 @@
 	<main class="container py-3">
 		<section class="row">
 			<div class="col-12">
-				<h1 class="h2">Modify Records in Bulk</h1>
-				<h2 class="h3">Select a Batch Tool</h2>
+				<h1 class="h2">Reports</h1>
 				<div class="card-columns">
 				<ul>
 					<cfif targetMenu EQ "production">		

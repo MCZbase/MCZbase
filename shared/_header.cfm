@@ -654,7 +654,7 @@ limitations under the License.
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Reports</div>
-										<a href="/reporting/Reports.cfm">List of Reports</a>										
+										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>										
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Statistics</div>
