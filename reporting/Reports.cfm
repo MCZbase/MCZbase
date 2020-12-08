@@ -11,7 +11,7 @@
 					<cfif targetMenu EQ "production">		
 					<li><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
 					<cfelse>
-					<li><a class=" bg-warning" href="">Recently Georeferenced Localities</a></li> 
+					<li><a class="bg-warning" href="">Recently Georeferenced Localities</a></li> 
 					</cfif>
 					<cfif targetMenu EQ "production">		
 					<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li> 
@@ -63,14 +63,7 @@
 					<cfelse>
 						<li><a class="bg-warning" href="">Duplicate Agents</a></li> 
 					</cfif>							
-					<li><a href="/Reports/reporter.cfm">Collection Holdings by Class</a></li>
-					<li><a href="/info/mia_in_genbank.cfm">Invalid Taxonomy</a></li>
-					<li><a href="/info/reviewAnnotation.cfm">Unscriptable Taxonomy Gaps</a></li>
-					<li><a href="/info/loanStats.cfm">Suspect Data</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Partless Specimens</a></li>
-					<li><a href="/tools/loanBulkload.cfm">Messy Taxonomy</a></li>
-					<li><a href="/tools/DataLoanBulkload.cfm">Catalog Number Gaps</a></li>
-					<li><a href="/DataServices/agents.cfm">Duplicate Agents</a></li>
+	
 					<li><a href="/tools/BulkloadPartContainer.cfm">Audit Sql</a></li>
 					<li><a href="/tools/BulkloadOtherId.cfm">Download Tables</a></li>
 					<li><a href="/tools/BulkloadContEditParent.cfm">Oracle Roles</a></li>
