@@ -161,6 +161,13 @@
                   </ul>
                     </li>
               </cfif>
+		<cfif findNoCase('redesign',gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
+			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
+		</cfif>
                   <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
@@ -191,7 +198,7 @@
               </cfif>
             </ul>
 			</li>
-			<li><a href="##" target="">Curation</a>
+			<li><a href="##" target="_top">Curation</a>
 				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
 								<li class="d-md-flex align-items-start justify-content-start">		
