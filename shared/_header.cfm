@@ -326,36 +326,16 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Bulkload Builder</a> 
-											</cfif>												
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Browse and Edit</a> 
-											</cfif>							
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Bulkloader Status</a> 
-											</cfif>			
-											<!---<cfif targetMenu EQ "redesign">--->
-												<a class="dropdown-item bg-warning" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a><!--- new --plan for landing page--->
-											<!---</cfif>	--->		
+												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>							
+												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+												<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a>
+												<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-											<cfif targetMenu EQ "production">
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>				
 												<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Publication Staging</a>
-											</cfif>
 										</cfif>								
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-											<cfif targetMenu EQ "redesign">
-												<a class="dropdown-item bg-warning" href="">Data Loan Items</a>
-											</cfif>
+												<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 										</cfif>	
 									</div>
 								</li>
