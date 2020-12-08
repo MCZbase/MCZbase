@@ -88,18 +88,18 @@
 							minus select form_path from cf_form_permissions
 							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
 						</cfquery>
-              <cfset formList = valuelist(roles.form_path)>
+             <!--- <cfset formList = valuelist(roles.form_path)>--->
               <li><!--main menu element-->
                   <a href="##">Data Entry</a>
 					<ul>
-					<cfif listfind(formList,"/DataEntry.cfm")>
+				<!---	<cfif listfind(formList,"/DataEntry.cfm")>--->
 						<li><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
 						<li><a target="_top" href="">Create Media Record</a></li>
-						</cfif>
-						  <cfif listfind(formList,"/agents.cfm")>
+				<!---		</cfif>
+						  <cfif listfind(formList,"/agents.cfm")>--->
 						<li><a target="_top" href="">Create Agent Record</a></li>
-						</cfif>
-						<cfif listfind(formList,"/DataEntry.cfm")>
+				<!---		</cfif>
+						<cfif listfind(formList,"/DataEntry.cfm")>--->
 						<li><a target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a></li>
 						<li><a target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
@@ -108,7 +108,7 @@
 						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a></li>
 						<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
 						<li><a target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a></li>
-							</cfif>
+					<!---		</cfif>--->
 					</ul>
               </li>
 				  <!--start main menu element-->
