@@ -329,43 +329,25 @@
               </cfif>
             </ul>
           </li>
-           <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
-            <li><a target="_top" href="##">Reports & Statistics</a>
-                  <ul>
-
-					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports</a></li>
-                        <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
-<!---                  <li><a target="_top" href="##">Reports</a>
-                           <ul>
-							<li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
-                        	<li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
-                        	<li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-                       		<li><a target="_top" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
-                            <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
-                            <li><a target="_top" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
-                            <li><a target="_top" href="/tools/TaxonomyScriptGap.cfm">Unscriptable Taxonomy Gaps</a></li>
-                            <li><a target="_top" href="/info/slacker.cfm">Suspect Data</a></li>
-                            <li><a target="_top" href="/info/noParts.cfm">Partless Specimens</a></li>
-                            <li><a target="_top" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
-                            <li><a target="_top" href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
-                            <li><a target="_top" href="/info/dupAgent.cfm">Duplicate Agents</a></li>
-                            <li><a target="_top" href="/Reports/partusage.cfm">Part Usage</a></li>
-                          </ul>
-                    </li>--->
-<!---                          <li><a target="_top" href="##">Oracle/SQL</a>
-                           <ul>
-                            <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
-                           <li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
-                           <li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
-                            <cfif listfind(formList,"/tools/userSQL.cfm")>
-                            <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
-                            </cfif>
-                           </ul>
-                       </li>--->
-              </ul>
-                </li>
-          </cfif>
-            </cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
+								<li class="d-md-flex align-items-start justify-content-start">		
+									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Reports & Statistics</div>
+										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
+										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
+									</div>
+									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
+										<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
+										<a class="dropdown-item" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</cfif>
+		
            <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
               <ul>
                   <cfif len(session.username) gt 0>
