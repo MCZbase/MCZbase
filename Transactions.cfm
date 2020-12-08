@@ -104,6 +104,12 @@ limitations under the License.
 	<cfif not isdefined("accn_type")>
 		<cfset accn_type="">
 	</cfif>
+	<cfif not isdefined("rec_date")>
+		<cfset rec_date="">
+	</cfif>
+	<cfif not isdefined("to_rec_date")>
+		<cfset to_rec_date="">
+	</cfif>
 	<cfif not isdefined("loan_status")>
 		<cfset loan_status="">
 	</cfif>
