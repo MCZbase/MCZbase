@@ -364,43 +364,6 @@ limitations under the License.
 											</cfif>
 										</cfif>	
 									</div>
-								<!---	<cfif targetMenu EQ "production">
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-											<div>
-											<div class="h5 dropdown-header px-4 text-danger">Batch Tools</div>---><!--- old, retain until landing page is in place. --->
-
-												<!---<a class="dropdown-item" href="/tools/BulkloadNewParts.cfm">Bulk Parts</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadEditedParts.cfm">Bulk Edited Parts</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadAttributes.cfm">Bulk Attributes</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadCitations.cfm">Bulk Citations</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadOtherId.cfm">Bulk Identifiers</a>
-
-												<a class="dropdown-item" href="/tools/loanBulkload.cfm">Bulk Loans</a>
-												
-												<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Bulk Data Loans</a>
-
-												<a class="dropdown-item" href="/DataServices/agents.cfm">Bulk Agents</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadPartContainer.cfm">Bulk Part Containers</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadIdentification.cfm">Bulk Identifications</a> 
-
-												<a class="dropdown-item" href="/tools/BulkloadContEditParent.cfm">Bulk Edit/Move Parts</a> 
-
-												<a class="dropdown-item" href="/tools/BulkloadMedia.cfm">Bulk Media</a> 
-
-												<a class="dropdown-item" href="/tools/BulkloadRelations.cfm">Bulk Relationships</a>
-
-												<a class="dropdown-item" href="/tools/BulkloadGeoref.cfm">Bulk Georeference</a> 
-
-												<a class="dropdown-item" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a> 
-											</div>
-										</cfif>	
-									</cfif>--->
 								</li>
 							</ul>
 						</li>
@@ -657,88 +620,6 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Reports & Statistics</div>
 										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
 										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
-	<!---									<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Recently Georeferenced Localities</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/mia_in_genbank.cfm">Genbank Missing Data</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Genbank Missing Data</a> 
-										</cfif>
-											<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/collnHoldgByClass.cfm">Holdings by Class</a> 
-										<cfelse>
-											<a class="dropdown-item" href="">Holdings by Class</a> 
-										</cfif>
-									
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a> 
-										<cfelse>
-											<a class="dropdown-item" href="">Invalid Taxonomy</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Taxonomy Gaps</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Messy Taxonomy</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/slacker.cfm">Suspect Data</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Suspect Data</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Reports/partusage.cfm">Part Usage</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Part Usage</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/noParts.cfm">Partless Specimen Records</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Partless Specimen Records</a> 
-										</cfif>
-								
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/tools/findGap.cfm">Catalog Number Gaps</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Catalog Number Gaps</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/dupAgent.cfm">Duplicate Agents</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Duplicate Agents</a> 
-										</cfif>																		
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/Citations.cfm">Citations Summary</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Citation Summary</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/MoreCitationStats.cfm">Citation Details</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Citation Details</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/loanStats.cfm">Loans Statistics</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Loan Statistics</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/Admin/download.cfm">Download Statistics</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Download Statistics</a> 
-										</cfif>
-											<cfif targetMenu EQ "production">		
-											<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Query Statistics</a> 
-										</cfif>--->
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>

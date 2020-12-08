@@ -8,25 +8,23 @@
 				<h1 class="h2">Modify Records in Bulk</h1>
 				<h2 class="h3">Select a Batch Tool</h2>
 				<div class="">
-				<ul>
 					<h3 class="h4">Bulkload Specimens</h3>
+				<ul>
 					<li><a href="/Bulkloader/">Bulkload Specimens</a></li>
 					<li><a href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
 					<li><a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a></li>
 					<li><a href="/Bulkloader/browseBulk.cfm">Browse Bulkloader</a></li>
-					
-					<h3 class="h4">Add Data to Existing Specimens</h3>
+				</ul>
+				<h3 class="h4">Add Data to Existing Specimens</h3>
+				<ul>
 					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
 					<li><a href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
 					<li><a href="/tools/BulkloadCitations.cfm">Bulkload Citations</a></li>
 					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifiers</a></li>
 					<li><a href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
-			<!---		<li><a href="/tools/DataLoanBulkload.cfm">Bulkload Data Loans</a></li>--->
 					<li><a href="/DataServices/agents.cfm">Bulkload Agents</a></li>
-		<!---			<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Parts to Containers</a></li>--->
 					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifications</a></li>
-		<!---			<li><a href="/tools/BulkloadContEditParent.cfm">Bulkload Container Edit Parent</a></li>--->
 					<li><a href="/tools/DataLoanBulkload.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadMedia.cfm">Bulkload Media </a></li>
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
