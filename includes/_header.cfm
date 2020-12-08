@@ -347,8 +347,131 @@
 							</ul>
 						</li>
 					</cfif>
-		
-           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"MANAGE_CODETABLES")>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
+								<li class="d-md-flex align-items-start justify-content-start">		
+									<!--- TODO: Review administrative functions --->
+									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Data</div>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
+											</cfif>
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Geology Attributes Hierarchy</a>
+											</cfif>
+										</cfif>
+										<!--- TODO: Need another role for report management  --->
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Reporter</a>
+											</cfif>
+										</cfif>
+										<!--- TODO: are the rest of these DBA or another role?  --->
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Download Tables</a>
+											</cfif>
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Dump</a>
+											</cfif>
+										</cfif>	
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
+											<cfelse>
+												<a class="dropdown-item"  href="">Scheduled Tasks</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item"  href="/tools/imageList.cfm">
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Image List</a>
+											</cfif>
+										</cfif>
+									</div>
+									<div>
+										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">Audit SQL</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/AdminUsers.cfm">MCZbase User Access</a>
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">MCZbase User Access</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">User Role Report</a>
+										</cfif>
+										<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Database Role Definitions</a>
+										</cfif>	
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/blacklist.cfm">Blacklist</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Blacklist</a>
+											</cfif>
+												
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">User Loan</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/user_report.cfm">All User Stats</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">All User Stats</a>
+											</cfif>
+										</cfif>
+									</div>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
+										<div>
+											<div class="h5 dropdown-header px-4 text-danger">Application</div>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collection</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
+											</cfif>
+											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Admin/redirect.cfm">Redirects</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Redirects</a>
+											</cfif> 
+										</div>
+									</cfif>
+								</li>
+							</ul>
+						</li>
+					</cfif>
+<!---           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
               <ul>
                   <cfif len(session.username) gt 0>
                   <li><a target="_top" href="/myArctos.cfm">Profile</a></li>
@@ -363,7 +486,7 @@
                 </cfif>
                 <li><a target="_top" href="/info/api.cfm">API</a></li>
               </ul>
-            </li>
+            </li>--->
           <li><a target="_top" href="##">Help</a>
                     <ul>
                        <cfscript>
