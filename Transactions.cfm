@@ -92,6 +92,9 @@ limitations under the License.
 	<cfif not isdefined("status")>
 		<cfset status="">
 	</cfif>
+	<cfif not isdefined("accn_status")>
+		<cfset accn_status="">
+	</cfif>
 	<cfif not isdefined("loan_status")>
 		<cfset loan_status="">
 	</cfif>
