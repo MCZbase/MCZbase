@@ -244,6 +244,7 @@
                     <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
                     <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
                     <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>
+					 <li><a target="_top" href="/Admin/ActivityLog.cfm">Oracle Audit</a></li>
                   </ul>
                 </li>
               </cfif>

@@ -669,13 +669,13 @@ limitations under the License.
 											<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/info/collnHoldgByClass.cfm">Holdings by Class</a> 
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Holdings by Class</a> 
+											<a class="dropdown-item" href="">Holdings by Class</a> 
 										</cfif>
 									
 										<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a> 
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Invalid Taxonomy</a> 
+											<a class="dropdown-item" href="">Invalid Taxonomy</a> 
 										</cfif>
 										<cfif targetMenu EQ "production">		
 											<a class="dropdown-item" href="/tools/TaxonomyScriptGap.cfm">Taxonomy Gaps</a> 
