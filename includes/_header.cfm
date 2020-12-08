@@ -100,8 +100,8 @@
 						<li><a target="_top" href="">Create Agent Record</a></li>
 				<!---		</cfif>
 						<cfif listfind(formList,"/DataEntry.cfm")>--->
-						<li><a target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a></li>
 						<li><a target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a></li>
+						<li><a target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
 						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a></li>
