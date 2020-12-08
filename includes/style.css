@@ -1813,6 +1813,13 @@ div.submenu h2:hover {
 	background: #E7E7E7 url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
 	color: #0000FF;
 }
+.card-columns {
+	column-count: 2;
+	column-gap: .5rem;
+	orphans: 1;
+	widows: 1;
+	column-span: all;
+}
 /*************************** jquery ui calendar ***************************/
 /* stop relative (=huge) sizing */
 div.ui-datepicker {
