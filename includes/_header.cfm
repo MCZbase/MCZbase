@@ -89,14 +89,17 @@
               <cfset formList = valuelist(roles.form_path)>
               <li><!--main menu element-->
                   <a href="##">Data Entry</a>
-                   	<ul>
-						 <li><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
-						  <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
-						  <li><!--main menu element-->
-							<a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-						 </li>
-						 </cfif>
-                	</ul>
+					<ul>
+						<li><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
+						<li><a target="_top" href="">Create Media Record</a></li>
+						<li><a target="_top" href="">Create Agent Record</a></li>
+						<li><a target="_top" href="">Create Project Record</a></li>
+						<li><a target="_top" href="">Create Publication Record</a></li>
+						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a></li>
+						<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a></li>
+						<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
+						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a></li>
+					</ul>
               </li>
 				  <!--start main menu element-->
          <li>
