@@ -322,6 +322,13 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Publication</a> 
 											</cfif>
 										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/Project.cfm?action=makeNew">Projects</a><!--- old --->
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Projects</a> 
+											</cfif>
+										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
