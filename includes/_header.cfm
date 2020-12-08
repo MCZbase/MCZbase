@@ -206,16 +206,16 @@
 		<li>
 			<a target="_top" href="##">Curation</a>
 			<ul>
-				<li>Search Named Groupings</li>
-				<li>Browse Storage Locations</li>
-				<li>Find Storage Container Location</li>
-				<li>Create Container Series</li>
-				<li>Move Container</li>
-				<li>Batch Scan</li>
-				<li>Label > Container</li>
-				<li>Put Parts in Containers</li>
-				<li>Clear Flags</li>
-				<li>Upload Scan File</li>
+				<li><a href="" target="_top">Search Named Groupings</a></li>
+				<li><a href="" target="_top">Browse Storage Locations</a></li>
+				<li><a href="" target="_top">Find Storage Container Location</a></li>
+				<li><a href="" target="_top">Create Container Series</a></li>
+				<li><a href="" target="_top">Move Container</a></li>
+				<li><a href="" target="_top">Batch Scan</a></li>
+				<li><a href="" target="_top">Label > Container</a></li>
+				<li><a href="" target="_top">Put Parts in Containers</a></li>
+				<li><a href="" target="_top">Clear Flags</a></li>
+				<li><a href="" target="_top">Upload Scan File</a></li>
 			</ul>
 		</li>
 			   
