@@ -46,7 +46,13 @@
     <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
   try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
 </noscript>
-
+		<cfif findNoCase('redesign',gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
+			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
+		</cfif>
 <div id="headerContent" style="background-color: #Application.header_color#;">
      <div id="image_headerWrap">
            <div class="headerText">
@@ -161,13 +167,7 @@
                   </ul>
                     </li>
               </cfif>
-		<cfif findNoCase('redesign',gitBranch) GT 0>
-			<!--- checkout is redesign, redesign2, or similar --->
-			<cfset targetMenu = "redesign">
-		<cfelse>
-			<!--- checkout is master, integration, test, and other non-redesign branches --->
-			<cfset targetMenu = "production">
-		</cfif>
+
                   <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
