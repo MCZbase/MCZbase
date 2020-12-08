@@ -6,7 +6,7 @@
 		<section class="row">
 			<div class="col-12">
 				<h1 class="h2">Modify Records in Bulk</h1>
-				<h2 class="h3">Select a Batch Tool</h2>
+				<h2 class="h3">Select a Template</h2>
 				<div class="">
 					<h3 class="h4">Bulkload Specimens</h3>
 				<ul>
@@ -15,7 +15,7 @@
 					<li><a href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a></li>
 					<li><a href="/Bulkloader/browseBulk.cfm">Browse Bulkloader</a></li>
 				</ul>
-				<h3 class="h4">Add Data to Existing Specimens</h3>
+				<h3 class="h4">Add Data to Existing Specimens (batch tools)</h3>
 				<ul>
 					<li><a href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
 					<li><a href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
