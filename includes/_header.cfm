@@ -106,8 +106,24 @@
 				  <!--start main menu element-->
          <li>
             <a target="_top" href="##">Manage Data</a>
-            <ul>
-              	<cfif listfind(formList,"/Locality.cfm")>
+			<ul>
+				<li>Search Geography</li>
+				<li>Search Localities</li>
+				<li>Search Collecting Event</li>
+				<li>Search Collecting Event Number Series</li>
+				<li>Create Geography</li>
+				<li>Create Locality</li>
+				<li>Create Collecting Event Number Series</li>
+				<li>Manage Encumbrances</li>
+				<li>Manage Annotations</li>
+				<li>Review Pending Agent Merges</li>
+				<li>Merge Bad Duplicate Agents</li>
+				<li>Sync Parent/Child Taxonomy</li>
+				<li>Pending Relationships</li>
+				<li>SQL Taxonomy</li>
+			</ul>
+    <!---   <ul>
+	            <cfif listfind(formList,"/Locality.cfm")>
                 <li><a target="_top" href="##">Location</a>
                   	<ul>
                     <li><a target="_top" href="/Locality.cfm?action=findHG">Find Geography</a></li>
@@ -121,7 +137,7 @@
                   </ul>
                 </li>
               </cfif>
-								 <li><a target="_top" href="##">Agents</a>
+				<li><a target="_top" href="##">Agents</a>
 					<ul>
 						  <cfif listfind(formList,"/agents.cfm")>
 							<li><a target="_top" href="/agents.cfm">Agents</a></li>
@@ -184,8 +200,25 @@
 						</ul>
                     </li>
               	</cfif>
-            </ul>
+            </ul>--->
 		</li><!--end main menu element-->
+				  
+		<li>
+			<a target="_top" href="##">Curation</a>
+			<ul>
+				<li>Search Named Groupings</li>
+				<li>Browse Storage Locations</li>
+				<li>Find Storage Container Location</li>
+				<li>Create Container Series</li>
+				<li>Move Container</li>
+				<li>Batch Scan</li>
+				<li>Label > Container</li>
+				<li>Put Parts in Containers</li>
+				<li>Clear Flags</li>
+				<li>Upload Scan File</li>
+			</ul>
+		</li>
+			   
       <cfif listfind(formList,"/newAccn.cfm")>
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
