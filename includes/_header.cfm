@@ -64,14 +64,16 @@
         <li><!--main menu element-->
             <a target="_top" href="/SpecimenSearch.cfm">Search</a>
               <ul>
-                 <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-                 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-                 <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
-                 <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-                 <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-				    <cfif len(session.roles) gt 0 and session.roles is not "public">
-				  <li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
-				  </cfif>
+                <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
+                <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+                <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
+                <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
+                <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+				<li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+				<li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
+				<cfif len(session.roles) gt 0 and session.roles is not "public">
+				<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
+				</cfif>
              </ul>
          </li>
         <cfif len(session.roles) gt 0 and session.roles is not "public">
