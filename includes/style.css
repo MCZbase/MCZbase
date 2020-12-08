@@ -1684,7 +1684,7 @@ ul.sf-menu li li li.sfHover ul {
 	color:red;
 }
 .sf-menu a.sf-with-ul {
-	padding-right: 	2.25em;
+	padding-right: 	1.75em;
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 }
 .sf-sub-indicator {
