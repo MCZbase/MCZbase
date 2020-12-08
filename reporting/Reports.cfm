@@ -6,7 +6,6 @@
 		<section class="row">
 			<div class="col-12">
 				<h1 class="h2">Reports</h1>
-				<div class="card-columns">
 				<ul>
 					<cfif targetMenu EQ "production">		
 					<li><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
@@ -64,7 +63,7 @@
 						<li><a class="bg-warning" href="">Duplicate Agents</a></li> 
 					</cfif>							
 				</ul>
-			</div>
+
 		</div>
 		</section>
 	</main>
