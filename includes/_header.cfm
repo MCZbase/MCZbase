@@ -64,16 +64,16 @@
         <li><!--main menu element-->
             <a target="_top" href="/SpecimenSearch.cfm">Search</a>
               <ul>
-                <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-                <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-                <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
-                <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-                <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-				<li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-				<li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-				<cfif len(session.roles) gt 0 and session.roles is not "public">
-				<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
-				</cfif>
+                 <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
+                 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+                 <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
+                 <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
+                 <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+				 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
+				 <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
+<cfif len(session.roles) gt 0 and session.roles is not "public">
+<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
+</cfif>
              </ul>
          </li>
         <cfif len(session.roles) gt 0 and session.roles is not "public">
@@ -91,17 +91,17 @@
                    <ul>
                      <li><a target="_top" href="/DataEntry.cfm">Data Entry</a></li>
                      <li><a target="_top" href="##">Bulkloader</a>
-						   <ul>
-							  <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
-								<li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
-								<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
-								<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
-							  </cfif>
-							  <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
-								<li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
-							  </cfif>
-						   </ul>
-              		</li>
+                   <ul>
+                      <cfif listfind(formList,"/Bulkloader/bulkloader_status.cfm")>
+                        <li><a target="_top" href="/Bulkloader/">Bulkload Specimens</a></li>
+                        <li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a></li>
+                        <li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
+                      </cfif>
+                      <cfif listfind(formList,"/Bulkloader/browseBulk.cfm")>
+                        <li><a target="_top" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a></li>
+                      </cfif>
+                   </ul>
+              </li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
                   <li><!--main menu element-->
                     <a target="_top" href="/bulkloading/Bulkloaders.cfm">Batch Tools</a>
@@ -111,7 +111,7 @@
               </li>
               <li><!--main menu element-->
                   <a target="_top" href="##">Manage Data</a>
-            	<ul>
+            <ul>
                   <cfif listfind(formList,"/Locality.cfm")>
                 <li><a target="_top" href="##">Location</a>
                       <ul>
@@ -161,7 +161,6 @@
                   </ul>
                     </li>
               </cfif>
-
                   <cfif listfind(formList,"/Encumbrances.cfm")>
                    <li><a target="_top" href="##">Metadata</a>
                       <ul>
@@ -191,109 +190,7 @@
                     </li>
               </cfif>
             </ul>
-			</li>
-		</cfif>
-		<cfif findNoCase('redesign',gitBranch) GT 0>
-			<!--- checkout is redesign, redesign2, or similar --->
-			<cfset targetMenu = "redesign">
-		<cfelse>
-			<!--- checkout is master, integration, test, and other non-redesign branches --->
-			<cfset targetMenu = "production">
-		</cfif>
-			<li><a href="##" target="_top">Curation</a>
-				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">		
-								<li class="d-md-flex align-items-start justify-content-start">		
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a> 
-										</cfif>
-										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/ContainerBrowse.cfm">Browse Storage Locations</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Browse Storage Locations</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/findContainer.cfm">Find Storage Location/Container</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Find Storage Location/Container</a>
-											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
-											<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
-										</cfif>
-									</div>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif targetMenu EQ "redesign">
-										<a class="dropdown-item bg-warning" href="">Annotation</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
-										<cfelse>
-											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Storage Location/Create Container</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CreateContainersForBarcodes.cfm">Create Container Series</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Create Container Series</a>
-											</cfif>
-										</cfif>
-									</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-										<div>
-											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-																					
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/moveContainer.cfm">Move Container</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Move Container</a> 
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/batchScan.cfm">Batch Scan</a>
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Batch Scan</a>
-											</cfif>	
-								
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/labels2containers.cfm">Label > Container</a> 
-											<cfelse>
-												<a class="dropdown-item  stillNeedToDo" href="">Label > Container</a> 
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Put Parts in Containers</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Put Parts in Containers</a> 
-											</cfif>
-								
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/part2container.cfm">Clear Part Flags</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Clear Part Flags</a> 
-											</cfif>
-												
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/LoadBarcodes.cfm">Upload Scan File</a> 
-											<cfelse>
-												<a class="dropdown-item stillNeedToDo" href="">Upload Scan File</a> 
-											</cfif>
-										
-										</div>
-									</cfif>
-								</li>
-							</ul>
-				</cfif>
-		</li>
-      		<cfif listfind(formList,"/newAccn.cfm")>
+      <cfif listfind(formList,"/newAccn.cfm")>
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
@@ -338,150 +235,44 @@
               </cfif>
             </ul>
           </li>
-		
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
-								<li class="d-md-flex align-items-start justify-content-start">		
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Reports & Statistics</div>
-										<a class="dropdown-item" href="/reporting/Reports.cfm">List of Reports</a>
-										<a class="dropdown-item" href="/info/queryStats.cfm">Query Statistics</a>
-									</div>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
-										<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
-										<a class="dropdown-item" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
-									</div>
-								</li>
-							</ul>
-						</li>
-					</cfif>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"MANAGE_CODETABLES")>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
-								<li class="d-md-flex align-items-start justify-content-start">		
-									<!--- TODO: Review administrative functions --->
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Data</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
-											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Geology Attributes Hierarchy</a>
-											</cfif>
-										</cfif>
-										<!--- TODO: Need another role for report management  --->
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Reporter</a>
-											</cfif>
-										</cfif>
-										<!--- TODO: are the rest of these DBA or another role?  --->
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Download Tables</a>
-											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Dump</a>
-											</cfif>
-										</cfif>	
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<cfelse>
-												<a class="dropdown-item"  href="">Scheduled Tasks</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/tools/imageList.cfm">
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Image List</a>
-											</cfif>
-										</cfif>
-									</div>
-									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Audit SQL</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/AdminUsers.cfm">MCZbase User Access</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">MCZbase User Access</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/tools/access_report.cfm?action=role">User Role Report</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">User Role Report</a>
-										</cfif>
-										<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_roles.cfm">Database Role Definitions</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Database Role Definitions</a>
-										</cfif>	
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/blacklist.cfm">Blacklist</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Blacklist</a>
-											</cfif>
-												
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Loan</a>
-											</cfif>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_report.cfm">All User Stats</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">All User Stats</a>
-											</cfif>
-										</cfif>
-									</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"GLOBAL_ADMIN")>
-										<div>
-											<div class="h5 dropdown-header px-4 text-danger">Application</div>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/Collection.cfm">Manage Collection</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
-											</cfif>
-											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/redirect.cfm">Redirects</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Redirects</a>
-											</cfif> 
-										</div>
-									</cfif>
-								</li>
-							</ul>
-						</li>
-					</cfif>
-<!---           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
+           <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
+            <li><a target="_top" href="##">Reports & Statistics</a>
+                  <ul>
+
+					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports</a></li>
+                        <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
+<!---                  <li><a target="_top" href="##">Reports</a>
+                           <ul>
+							<li><a target="_top" href="/Reports/reporter.cfm">Reporter</a></li>
+                        	<li><a target="_top" href="/info/mia_in_genbank.cfm">GenBank MIA</a></li>
+                        	<li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
+                       		<li><a target="_top" href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a></li>
+                            <li><a target="_top" href="/info/collnHoldgByClass.cfm">Collection Holdings by Class</a></li>
+                            <li><a target="_top" href="/Admin/bad_taxonomy.cfm">Invalid Taxonomy</a></li>
+                            <li><a target="_top" href="/tools/TaxonomyScriptGap.cfm">Unscriptable Taxonomy Gaps</a></li>
+                            <li><a target="_top" href="/info/slacker.cfm">Suspect Data</a></li>
+                            <li><a target="_top" href="/info/noParts.cfm">Partless Specimens</a></li>
+                            <li><a target="_top" href="/tools/TaxonomyGaps.cfm">Messy Taxonomy</a></li>
+                            <li><a target="_top" href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
+                            <li><a target="_top" href="/info/dupAgent.cfm">Duplicate Agents</a></li>
+                            <li><a target="_top" href="/Reports/partusage.cfm">Part Usage</a></li>
+                          </ul>
+                    </li>--->
+<!---                          <li><a target="_top" href="##">Oracle/SQL</a>
+                           <ul>
+                            <li><a target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a></li>
+                           <li><a target="_top" href="/tools/downloadData.cfm">Download Tables</a></li>
+                           <li><a target="_top" href="/tools/access_report.cfm">Oracle Roles</a></li>
+                            <cfif listfind(formList,"/tools/userSQL.cfm")>
+                            <li><a target="_top" href="/tools/userSQL.cfm">Write SQL</a></li>
+                            </cfif>
+                           </ul>
+                       </li>--->
+              </ul>
+                </li>
+          </cfif>
+            </cfif>
+           <li><a target="_top" href="/myArctos.cfm">My Stuff</a>
               <ul>
                   <cfif len(session.username) gt 0>
                   <li><a target="_top" href="/myArctos.cfm">Profile</a></li>
@@ -496,7 +287,7 @@
                 </cfif>
                 <li><a target="_top" href="/info/api.cfm">API</a></li>
               </ul>
-            </li>--->
+            </li>
           <li><a target="_top" href="##">Help</a>
                     <ul>
                        <cfscript>
