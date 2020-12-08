@@ -330,12 +330,7 @@ limitations under the License.
 												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Bulkload Builder</a> 
-											</cfif>									
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Bulkloader/">Bulkload Specimens</a><!--- old --->
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Bulkload Specimens</a> 
-											</cfif>			
+											</cfif>												
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a><!--- old --->
 											<cfelse>
@@ -347,7 +342,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Bulkloader Status</a> 
 											</cfif>			
 											<!---<cfif targetMenu EQ "redesign">--->
-												<a class="dropdown-item bg-warning" href="/bulkloading/Bulkloaders.cfm">Batch Tools (alter existing records)</a><!--- new --plan for landing page--->
+												<a class="dropdown-item bg-warning" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a><!--- new --plan for landing page--->
 											<!---</cfif>	--->		
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>

@@ -95,10 +95,12 @@
 						<li><a target="_top" href="">Create Agent Record</a></li>
 						<li><a target="_top" href="">Create Project Record</a></li>
 						<li><a target="_top" href="">Create Publication Record</a></li>
-						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a></li>
-						<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a></li>
 						<li><a target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a></li>
 						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a></li>
+						<li><a target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a></li>
+						<li><a target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a></li>
+						<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
+						<li><a target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a></li>
 					</ul>
               </li>
 				  <!--start main menu element-->
