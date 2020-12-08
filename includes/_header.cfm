@@ -115,7 +115,7 @@
          <li>
             <a target="_top" href="##">Manage Data</a>
 			<ul>
-				<cfif listfind(formList,"/Locality.cfm")>
+	<!---			<cfif listfind(formList,"/Locality.cfm")>--->
 				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
@@ -123,17 +123,17 @@
 				<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newLO">Create Locality</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a></li>
-				</cfif>
+				<!---</cfif>--->
 				<li><a target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a></li>
-				<cfif listfind(formList,"/info/reviewAnnotation.cfm")>
+			<!---	<cfif listfind(formList,"/info/reviewAnnotation.cfm")>--->
 				<li><a target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a></li>
-				</cfif>
-				 <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>
+			<!---	</cfif>--->
+<!---				 <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>--->
 				<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a></li>
-				</cfif>
-				<cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>
+				<!---</cfif>--->
+		<!---		<cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>--->
 				<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a></li>
-				</cfif>
+				<!---</cfif>--->
 				<li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a></li>
 				<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
 				<li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
@@ -157,15 +157,15 @@
 				<li><a href="/part2container.cfm" target="_top">Put Parts in Containers</a></li>
 				<li><a href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a></li>
 				<li><a href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a></li>
-					    <cfif listfind(formList,"/Encumbrances.cfm")>
+			<!---		    <cfif listfind(formList,"/Encumbrances.cfm")>--->
                           <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
-                        </cfif>
-					     <cfif listfind(formList,"/CodeTableEditor.cfm")>
+                       <!--- </cfif>--->
+					    <!--- <cfif listfind(formList,"/CodeTableEditor.cfm")>--->
                           <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
-                        </cfif>
-					     <cfif listfind(formList,"/Admin/Collection.cfm")>
+                  <!---      </cfif>--->
+					     <!---<cfif listfind(formList,"/Admin/Collection.cfm")>--->
                           <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
-                        </cfif>
+                        <!---</cfif>--->
 				</cfif>
 			</ul>
 		</li>
@@ -201,7 +201,7 @@
             </cfif>
 	        <li><a target="_top" href="##">Admin</a>
             <ul>
-              <cfif listfind(formList,"/ScheduledTasks/index.cfm")>
+      <!---        <cfif listfind(formList,"/ScheduledTasks/index.cfm")>--->
                 <li> <a target="_top" href="##">Developer Widgets</a>
                   <ul>
                     <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
@@ -210,8 +210,8 @@
                     <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
                   </ul>
                 </li>
-              </cfif>
-              <cfif listfind(formList,"/AdminUsers.cfm")>
+            <!---  </cfif>--->
+             <!--- <cfif listfind(formList,"/AdminUsers.cfm")>--->
                 <li><a target="_top" href="##">Roles/Permissions</a>
                   <ul>
                     <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
@@ -224,7 +224,7 @@
 					 <li><a target="_top" href="/Admin/ActivityLog.cfm">Oracle Audit</a></li>
                   </ul>
                 </li>
-              </cfif>
+           <!---   </cfif>--->
             </ul>
           </li>
            <li><a target="_top" href="/myArctos.cfm">Account</a>
