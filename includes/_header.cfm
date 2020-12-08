@@ -69,6 +69,9 @@
                  <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
                  <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
                  <li><a target="_top" href="/showLocality.cfm">Places</a></li>
+				    <cfif len(session.roles) gt 0 and session.roles is not "public">
+				  <li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
+				  </cfif>
              </ul>
          </li>
         <cfif len(session.roles) gt 0 and session.roles is not "public">
@@ -100,8 +103,9 @@
               </li>
                   <cfif listfind(formList,"/tools/BulkloadParts.cfm")>
                   <li><!--main menu element-->
-                    <a target="_top" href="##">Batch Tools</a>
-                      <ul>
+                    <a target="_top" href="/bulkloading/Bulkloaders.cfm">Batch Tools</a>
+					  
+                     <!--- <ul>
                          <li><a target="_top" href="/tools/BulkloadNewParts.cfm">Bulkload New Parts</a></li>
                          <li><a target="_top" href="/tools/BulkloadEditedParts.cfm">Bulkload Edited Parts</a></li>
                          <li><a target="_top" href="/tools/BulkloadAttributes.cfm">Bulkload Attributes</a></li>
@@ -119,7 +123,7 @@
                         <cfif listfind(formList,"/tools/BulkloadTaxonomy.cfm")>
                           <li><a target="_top" href="/tools/BulkloadTaxonomy.cfm">Bulk Taxonomy</a></li>
                         </cfif>
-                     </ul>
+                     </ul>--->
                  </li>
                  </cfif>
                 </ul>
@@ -192,21 +196,21 @@
                   </li>
                   </cfif>
                   <cfif listfind(formList,"/info/reviewAnnotation.cfm")>
-                <li><a target="_top" href="##">Tools</a>
-                      <ul>
-                    <li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
-                          <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync <span style="font-size: 10px;">parent/child</span> taxonomy</a></li>
-                    <li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
-                    <cfif listfind(formList,"/tools/sqlTaxonomy.cfm")>
-                          <li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
-                        </cfif>
-                    <li><a target="_top" href="/Admin/redirect.cfm">Redirects</a></li>
-                  </ul>
+                	<li><a target="_top" href="##">Tools</a>
+								  <ul>
+								<li><a target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a></li>
+									  <li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync <span style="font-size: 10px;">parent/child</span> taxonomy</a></li>
+								<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
+								<cfif listfind(formList,"/tools/sqlTaxonomy.cfm")>
+									  <li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
+									</cfif>
+								<li><a target="_top" href="/Admin/redirect.cfm">Redirects</a></li>
+							  </ul>
                     </li>
               </cfif>
-                </ul>
-                <cfif listfind(formList,"/newAccn.cfm")>
-                <li><a target="_top" href="##">Transactions</a>
+            </ul>
+      <cfif listfind(formList,"/newAccn.cfm")>
+		<li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
                         <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
@@ -220,8 +224,8 @@
                         <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
                         <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
                      </ul>
-               </li>
-               </cfif>
+         </li>
+         </cfif>
           <li><a target="_top" href="##">Manage MCZbase</a>
             <ul>
               <cfif listfind(formList,"/ScheduledTasks/index.cfm")>

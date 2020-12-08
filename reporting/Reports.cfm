@@ -63,11 +63,6 @@
 					<cfelse>
 						<li><a class="bg-warning" href="">Duplicate Agents</a></li> 
 					</cfif>							
-	
-					<li><a href="/tools/BulkloadPartContainer.cfm">Audit Sql</a></li>
-					<li><a href="/tools/BulkloadOtherId.cfm">Download Tables</a></li>
-					<li><a href="/tools/BulkloadContEditParent.cfm">Oracle Roles</a></li>
-					<li><a href="/tools/DataLoanBulkload.cfm">Write SQL</a></li>
 				</ul>
 			</div>
 		</div>
