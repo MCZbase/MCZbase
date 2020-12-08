@@ -170,7 +170,7 @@
 			</ul>
 		</li>
 			   
-      <cfif listfind(formList,"/newAccn.cfm")>
+   <!---   <cfif listfind(formList,"/newAccn.cfm")>--->
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
@@ -186,9 +186,9 @@
                         <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
                      </ul>
          </li><!--end main menu element-->
-      </cfif>
+<!---      </cfif>--->
   
-           <cfif listfind(formList,"/Admin/ActivityLog.cfm")>
+    <!---       <cfif listfind(formList,"/Admin/ActivityLog.cfm")>--->
             <li><a target="_top" href="##">Review Data</a>
                   	<ul>
 					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports &amp; Statistics</a></li>
@@ -197,7 +197,7 @@
 					    <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
               		</ul>
                 </li>
-          </cfif>
+         <!--- </cfif>--->
             </cfif>
 	        <li><a target="_top" href="##">Admin</a>
             <ul>
