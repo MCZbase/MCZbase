@@ -3369,7 +3369,7 @@ autorowheight: "true",
 						autoshowcolumnsmenubutton: false,
 						columnsreorder: true,
 						groupable: false,
-						selectionmode: "none",
+						selectionmode: "singlerow",
 						altrows: true,
 						showtoolbar: false,
 						columns: [
