@@ -1333,10 +1333,10 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-clip: padding-box;
 	background-color: white;
 	border-radius: .2rem 0 0 .2rem;
-	font-size: .875rem;
 	padding: .15rem .5rem;
+	line-height: 1.12 !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
+	font: 450 .875rem  "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 }
 .data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
 	color: #495057;
