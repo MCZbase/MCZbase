@@ -1247,7 +1247,7 @@ table#pairs, th, td {
 	background-color: #fff;
 	border-radius: .2rem;
 	vertical-align: middle;
-	font: 500 .875rem "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	line-height: 1.15!important;
 
@@ -1291,8 +1291,7 @@ input::placeholder {
 select.data-entry-select {
 	display: block;
 	width: 100%;
-	font: 450 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
@@ -1337,8 +1336,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	padding: .15rem .5rem;
 	line-height: 1.12 !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font: 450 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-    --font-family-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-entry-prepend-select:focus, .data-entry-prepend-select.focus, .data-entry-prepend-select option:focus, .data-entry-prepend-select option.focus {
 	color: #495057;
