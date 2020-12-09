@@ -18,9 +18,9 @@
     </cfif>
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
-                jQuery(".sf-menu").supersubs({
+                jQuery("ul.sf-menu").supersubs({
                     minWidth:    12,
-                    maxWidth:    40,
+                    maxWidth:    50,
                     extraWidth:  1
                 }).superfish({
                     delay:       600,
