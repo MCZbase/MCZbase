@@ -94,19 +94,19 @@
 						
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div>
-						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-						<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Enter Specimen Data</a>
-						<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Create Media Record</a>
-						<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
-						<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
-						<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
-							</div>
-						</li>
+							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Enter Specimen Data</a>
+							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Create Media Record</a>
+							<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
+							<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
+							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
+						</div>
+					</li>
 				  </ul>
 				  <ul>
 					  <li>
 						<div>
-						<div class="h5 dropdown-header px-4 text-danger">Bulkloaing</div>
+							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
 							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
 							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
@@ -121,7 +121,6 @@
          <li>
             <a target="_top" href="##">Manage Data</a>
 			<ul>
-
 				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
