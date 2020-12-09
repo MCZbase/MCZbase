@@ -777,7 +777,7 @@ limitations under the License.
 								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description" rows="1"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="autogrow border rounded w-100">#loanDetails.loan_description#</textarea>
+									class="autogrow data-entry-textarea">#loanDetails.loan_description#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
@@ -785,7 +785,7 @@ limitations under the License.
 								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" rows="1" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									class="autogrow border rounded w-100">#loanDetails.loan_instructions#</textarea>
+									class="autogrow data-entry-textarea">#loanDetails.loan_instructions#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
