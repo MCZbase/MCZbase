@@ -1387,7 +1387,6 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: .2rem 0 0 .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	line-height: 1.12 !important;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-entry-addon {
