@@ -284,7 +284,14 @@ input#Password {
 }
 .nav-link {display:block;}
 
-
+.navbar-toggler {
+    padding: .12rem .75rem;
+    font-size: 1rem;
+    line-height: 1;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
 
 @media (max-width:991px) {
 	ul {
