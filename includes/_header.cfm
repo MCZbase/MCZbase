@@ -93,10 +93,6 @@
 							<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
 							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
 						</div>
-					</li>
-				  </ul>
-				  <ul>
-					  <li>
 						<div>
 							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
