@@ -1,6 +1,6 @@
 /** This file contains Various local style customizations **/
 /************************/
-body, html {line-height: 1.2;font-size: 15px;}
+body, html {line-height: 1.15;font-size: 16px;}
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
@@ -15,8 +15,8 @@ input.goodPick, select.goodPick, textarea.goodPick {
 	background-color: rgba(173, 236, 199, 0.3) !important;
 }
 #taxon_form label, #taxon_form2 label{
-	font-size: .8em;
-	line-height: 1.02em;
+	font-size: .8rem;
+	line-height: 1.02;
 	font-weight: 450;
 }
 .small90 {font-size: 89%}
@@ -1215,39 +1215,38 @@ table#pairs, th, td {
 /**********************************************************/
 .data-entry-title {
 	font-weight: 500;
-	font-size: 15px;
+	font-size: .875rem;
 	text-transform: uppercase;
 	margin-bottom: 5px;
-	line-height: 1.25em;
+	line-height: 1.25;
 	margin-top: 5px;
 	text-align: center;
 }
 .data-entry-subtitle {
 	font-weight: normal;
-	font-size: 13px;
+	font-size: .8rem;
 	color: #666;
 	margin-bottom: 9px;
 	text-align: center;
 }
 .data-entry-label {
 	width: 100%;
-	font-size: 80%;
+	font-size: .875rem;
 	border: none;
-	padding: 0em .25rem;
-	margin-top: .25em;
+	padding: 0 .25rem;
+	margin-top: .25rem;
 	font-weight: 450;
 }
 .data-entry-input {
 	display: block;
 	width: 100%;
 	font-size: .875rem;
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: .2rem;
-	line-height: 1.5 !important;
 	vertical-align: middle;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
@@ -1256,7 +1255,7 @@ table#pairs, th, td {
 select.data-entry-select option {
 	background-color: white !important;
 	color: rgba(0, 0, 0, .8);
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	outline: 0;
 }
 select.data-entry-select option:focus {
@@ -1293,7 +1292,7 @@ select.data-entry-select {
 	display: block;
 	width: 100%;
 	font-size: .875em;	
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1306,8 +1305,8 @@ select.data-entry-select {
 data-entry-select:after {
 	position: absolute;
 	content: "";
-	top: 14px;
-	right: .5em;
+	top: .875rem;
+	right: .5rem;
 	width: 0;
 	height: 0;
 	border: 6px solid #ccc;
@@ -1336,7 +1335,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: white;
 	border-radius: .2rem 0 0 .2rem;
 	font-size: .875rem;
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 }
@@ -1351,13 +1350,13 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	display: block;
 	width: 100%;
 	font-size: .875em;
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
-	line-height: 1.5 !important;
+	line-height: 1.15 !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
 }
@@ -1387,7 +1386,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	width: 82%;
 	font-size: .875rem;
 /*	height: calc(1.5em + .12em + 2px);*/
-	padding: .26rem .5rem;
+	padding: .12rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
@@ -1401,7 +1400,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	width: 100%;
 	font-size: .875em;
 /*	height: calc(1.5em + .12rem + 2px);*/
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
