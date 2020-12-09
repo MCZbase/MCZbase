@@ -2511,7 +2511,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick data-entry-input data-height" value="#agent_name#">
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input data-height" value="#agent_name#">
 											</div>
 										</div>							
 										<div class="col-12 col-md-4">
