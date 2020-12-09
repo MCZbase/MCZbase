@@ -3343,10 +3343,19 @@ limitations under the License.
 						var result = "<button class=\"btn btn-xs btn-outline-primary mx-2 mt-1\" onclick=\" $('###idcontrol#').val( '" + value + "'); $('###valuecontrol#').val('" + pvalue + "'); $('###dialog#').dialog('close'); \">Select</button>";
 						return result;
 					};
+					var addrcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
+						var lines = (rowdata.formatted_addr.match(/\\n/g) || []).length;
+						if (lines==0) { lines = 2; }
+						var pvalue = rowdata.formatted_addr.replaceAll('\\n','<br>');
+						var result = "<div style='height: " + lines + "rem; '>" + pvalue + "</div>";
+						return result;
+					};
+
 
 					$("##addressPickResultsGrid").jqxGrid({
 						width: "100%",
 						autoheight: "true",
+autorowheight: "true",
 						source: dataAdapter,
 						filterable: true,
 						sortable: true,
@@ -3369,7 +3378,7 @@ limitations under the License.
 							{text: "agent_id", datafield: "agent_id", width: 50, hideable: true, hidden: true }, 
 							{text: "Valid", datafield: "valid_addr_fg", width: 80, hideable: true, hidden: false },
 							{text: "Type", datafield: "addr_type", width: 150, hideable: true, hidden: false },
-							{text: "Address", datafield: "formatted_addr", hideable: true, hidden: false }
+							{text: "Address", datafield: "formatted_addr", hideable: true, hidden: false, cellsrenderer: addrcellrenderer }
 						]
 					});
 				});
