@@ -771,7 +771,7 @@ limitations under the License.
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr autogrow border rounded w-100" required >#loanDetails.nature_of_material#</textarea>
+									class="reqdClr autogrow data-entry-textarea" required >#loanDetails.nature_of_material#</textarea>
 							</div>
 							<div class="col-12 col-xl-6">
 								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
@@ -791,7 +791,7 @@ limitations under the License.
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="autogrow border w-100 rounded">#loanDetails.trans_remarks#</textarea>
+									class="autogrow data-entry-textarea">#loanDetails.trans_remarks#</textarea>
 							</div>
 						</div>
 						<script>
