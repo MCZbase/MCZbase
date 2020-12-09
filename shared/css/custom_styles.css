@@ -1240,7 +1240,6 @@ table#pairs, th, td {
 .data-entry-input {
 	display: block;
 	width: 100%;
-	font-size: .875rem;
 	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
@@ -1248,9 +1247,10 @@ table#pairs, th, td {
 	background-color: #fff;
 	border-radius: .2rem;
 	vertical-align: middle;
+	font: 500 .875rem "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
-/*	height: calc(1.5em + .12em + 2px)!important;*/
+	line-height: 1.15!important;
+
 }
 select.data-entry-select option {
 	background-color: white !important;
@@ -1291,7 +1291,7 @@ input::placeholder {
 select.data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .875rem;	
+	font: 500 .875rem "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
@@ -1300,7 +1300,6 @@ select.data-entry-select {
 	vertical-align: middle;
 	border-radius: .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
 }
 data-entry-select:after {
 	position: absolute;
@@ -1409,6 +1408,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 450;
 	line-height: 1.25;
+	font: 450 .875rem 
 }
 .data-height {    height: calc(1.5rem + .15rem + 2px)!important;}
 textarea {
