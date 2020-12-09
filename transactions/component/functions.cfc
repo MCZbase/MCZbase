@@ -2528,7 +2528,7 @@ limitations under the License.
 										  </div>
 										<div class="col-12 col-md-1">
 											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
-												<div class="input-group">
+												<div class="input-group pt-1">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 												<script>
