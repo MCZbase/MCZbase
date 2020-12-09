@@ -285,12 +285,13 @@ input#Password {
 .nav-link {display:block;}
 
 .navbar-toggler {
-    padding: .12rem .75rem;
-    font-size: 1rem;
+	padding: .12rem .75rem;
+    font-size: 1.2rem;
     line-height: 1;
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: .25rem;
+    margin: .12rem 0;
 }
 
 @media (max-width:991px) {
