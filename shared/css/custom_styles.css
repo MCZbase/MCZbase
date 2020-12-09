@@ -1443,7 +1443,7 @@ textarea {
 .loginButtons {
 	padding: .1rem .5rem;
 	font-size: .78rem;
-	line-height: 1rem;
+	line-height: .875rem;
 	border-radius: .2rem;
 	display: inline-block;
 	max-width:100px;
