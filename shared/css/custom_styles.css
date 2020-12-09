@@ -1349,14 +1349,13 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .875em;
+	font-size: .875rem;
 	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
-	line-height: 1.15 !important;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
 }
