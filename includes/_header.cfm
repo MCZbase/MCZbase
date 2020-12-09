@@ -91,9 +91,11 @@
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle px-3 text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow">
-						<li class="d-md-flex align-items-start justify-content-start"><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
+						
+						<li class="d-md-flex align-items-start justify-content-start">
 						<div>
 						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+						<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Enter Specimen Data</a>
 						<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Create Media Record</a>
 						<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
 						<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
@@ -114,7 +116,7 @@
          <li>
             <a target="_top" href="##">Manage Data</a>
 			<ul>
-	<!---			<cfif listfind(formList,"/Locality.cfm")>--->
+
 				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
@@ -122,17 +124,10 @@
 				<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newLO">Create Locality</a></li>
 				<li><a target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a></li>
-				<!---</cfif>--->
 				<li><a target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a></li>
-			<!---	<cfif listfind(formList,"/info/reviewAnnotation.cfm")>--->
 				<li><a target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a></li>
-			<!---	</cfif>--->
-<!---				 <cfif listfind(formList,"/Admin/agentMergeReview.cfm")>--->
 				<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a></li>
-				<!---</cfif>--->
-		<!---		<cfif listfind(formList,"/Admin/killBadAgentDups.cfm")>--->
 				<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a></li>
-				<!---</cfif>--->
 				<li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a></li>
 				<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
 				<li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
