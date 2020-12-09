@@ -180,9 +180,9 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	line-height: 1.15em;
 }
 .non-field-text {
-	padding: .12em .5em;
-	border-radius: .2em;
-	font-size: .875em;
+	padding: .12rem .5rem;
+	border-radius: .2rem;
+	font-size: .875rem;
 	font-weight: 500;
 }
 .text-other {
