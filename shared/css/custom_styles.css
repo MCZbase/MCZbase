@@ -1348,16 +1348,15 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-select-input {
 	display: block;
 	width: 100%;
-	font-size: .875rem;
-	padding: .25rem .5rem;
+	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #fff;
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
-	line-height: 1.25;
+	line-height: 1.12 !important;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-entry-select-input:active {
 	color: #495057;
@@ -1383,8 +1382,6 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 .data-entry-addon-input {
 	display: block;
 	width: 82%;
-	font-size: .875rem;
-/*	height: calc(1.5em + .12em + 2px);*/
 	padding: .12rem .5rem;
 	color: rgba(0, 0, 0, .8);
 	border: 1px solid #ced4da;
@@ -1392,41 +1389,37 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	background-color: #fff;
 	border-radius: .2rem 0 0 .2rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 500;
+	line-height: 1.12 !important;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-entry-addon {
 	display: block;
 	width: 100%;
-	font-size: .875rem;
-/*	height: calc(1.5em + .12rem + 2px);*/
-	padding: .25rem .5rem;
 	color: rgba(0, 0, 0, .6);
 	border: 1px solid #ced4da;
 	background-clip: padding-box;
 	background-color: #f8f9fa;
 	border-radius: 0 .2rem .2rem 0;
+	padding: .12rem .5rem;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-	font-weight: 450;
-	line-height: 1.25;
-	font: 450 .875rem 
+	line-height: 1.12 !important;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-.data-height {    height: calc(1.5rem + .15rem + 2px)!important;}
+/*.data-height {    height: calc(1.5rem + .15rem + 2px)!important;}*/
 textarea {
 	padding-left: .5rem;
 	padding-right: .5rem;
-	font-size: .875rem;
-	font-weight: 500;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .data-entry-textarea {
 	width: 100%;
 	border: 1px solid #ced4da;
-	font-size: .875rem;
 	border-radius: .2rem;
 	padding: .12em .5rem;
 	display: block;
 	background-color: #fff;
 	background-clip: padding-box;
-	font-weight: 500;
+	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 .align-left-center {
 	text-align: left;
