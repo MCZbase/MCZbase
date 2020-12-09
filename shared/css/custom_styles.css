@@ -1440,6 +1440,14 @@ textarea {
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
 }
+.loginButtons {
+	padding: 4px 6px 4px 6px;
+	font-size: .78rem;
+	line-height: 1rem;
+	border-radius: .2rem;
+	display: inline-block;
+	max-width:100px;
+}
 .fa-info-circle {
 	font-size: 1.05em;
 	height: 1.05em;
