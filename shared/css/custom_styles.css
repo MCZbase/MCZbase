@@ -1358,7 +1358,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
-	height: 1.5em;
+	line-height: 1.25;
 }
 .data-entry-select-input:active {
 	color: #495057;
