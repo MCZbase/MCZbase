@@ -1836,7 +1836,7 @@ div.submenu h2:hover {
 .nav-link {
 	display: block;
 	padding: .25em 1em;
-	color: rgba (0,0,0,.7)!important;
+	color: rgba(0,0,0,.7)!important;
 }
 .dropdown-toggle {
 	white-space: nowrap;
@@ -1846,11 +1846,11 @@ div.submenu h2:hover {
 	left: 0;
 	z-index: 1000;
 	display:none;
-	min-width: 10rem;
+	min-width: 20rem;
 	padding: .5rem 0;
 	margin: .125rem 0 0;
 	background-clip: padding-box;
-	font-size: 1em;
+	font-size: 1rem;
 	color: #212529;
 	text-align:left;
 	list-style: none;
