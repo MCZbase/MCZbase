@@ -20,7 +20,7 @@
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
                     minWidth:    12,
-                    maxWidth:    30,
+                    maxWidth:    40,
                     extraWidth:  1
                 }).superfish({
                     delay:       600,
@@ -79,15 +79,7 @@
 					</cfif>
              </ul>
          </li><!--end main menu element-->
-        <cfif len(session.roles) gt 0 and session.roles is not "public">
-              <cfset r = replace(session.roles,",","','","all")>
-              <cfset r = "'#r#'">
-              <cfquery name="roles" datasource="cf_dbuser" cachedwithin="#createtimespan(0,0,60,0)#">
-							select form_path from cf_form_permissions
-							where upper(role_name) IN (#ucase(preservesinglequotes(r))#)
-							minus select form_path from cf_form_permissions
-							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
-						</cfquery>
+
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle px-3 text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow">
@@ -144,7 +136,6 @@
 			<ul>
 				<li><a href="/grouping/NamedCollection.cfm" target="_top">Search Named Groupings</a></li>
 				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
-				<!---<cfif listfind(formList,"/editContainer.cfm") OR listfind(formList,"/tools/dgr_locator.cfm")>--->
 				<li><a href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a></li>
 				<li><a href="/findContainer.cfm" target="_top">Find Storage Container Location</a></li>
 				<li><a href="/editContainer.cfm?action=newContainer" target="_top">Create Container/Storage Location</a></li>
@@ -155,20 +146,12 @@
 				<li><a href="/part2container.cfm" target="_top">Put Parts in Containers</a></li>
 				<li><a href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a></li>
 				<li><a href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a></li>
-			<!---		    <cfif listfind(formList,"/Encumbrances.cfm")>--->
-                          <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
-                       <!--- </cfif>--->
-					    <!--- <cfif listfind(formList,"/CodeTableEditor.cfm")>--->
-                          <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
-                  <!---      </cfif>--->
-					     <!---<cfif listfind(formList,"/Admin/Collection.cfm")>--->
-                          <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
-                        <!---</cfif>--->
-			<!---	</cfif>--->
+                <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
+                 <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
+                 <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
 			</ul>
 		</li>
-			   
-   <!---   <cfif listfind(formList,"/newAccn.cfm")>--->
+
 		<li><a target="_top" href="##">Transactions</a>
                       <ul>
                         <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
@@ -184,9 +167,6 @@
                         <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
                      </ul>
          </li><!--end main menu element-->
-<!---      </cfif>--->
-  
-    <!---       <cfif listfind(formList,"/Admin/ActivityLog.cfm")>--->
             <li><a target="_top" href="##">Review Data</a>
                   	<ul>
 					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports &amp; Statistics</a></li>
@@ -195,11 +175,8 @@
 					    <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
               		</ul>
                 </li>
-         <!--- </cfif>--->
-            </cfif>
 	        <li><a target="_top" href="##">Admin</a>
             <ul>
-      <!---        <cfif listfind(formList,"/ScheduledTasks/index.cfm")>--->
                 <li> <a target="_top" href="##">Developer Widgets</a>
                   <ul>
                     <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
@@ -208,8 +185,6 @@
                     <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
                   </ul>
                 </li>
-            <!---  </cfif>--->
-             <!--- <cfif listfind(formList,"/AdminUsers.cfm")>--->
                 <li><a target="_top" href="##">Roles/Permissions</a>
                   <ul>
                     <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
@@ -233,12 +208,9 @@
                   <li><a target="_top" href="/myArctos.cfm">Log In</a></li>
                   </cfif>
                 <li><a target="_top" href="/home.cfm">About</a></li>
-          <!---      <li><a target="_top" href="/Collections/index.cfm">Collections (Loans)</a></li>--->
                 <cfif len(session.username) gt 0>
                 	<li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
                 </cfif>
-     <!---           <li><a target="_top" href="/info/api.cfm">API</a></li>--->
-					<!---    <li><a target="_top" href="">Technical Details</a></li>--->
               </ul>
             </li>
           <li><a target="_top" href="##">Help</a>
