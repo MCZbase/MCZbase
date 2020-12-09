@@ -88,21 +88,15 @@
 							minus select form_path from cf_form_permissions
 							where upper(role_name)  not in (#ucase(preservesinglequotes(r))#)
 						</cfquery>
-             <!--- <cfset formList = valuelist(roles.form_path)>--->
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle px-3 text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow">
-				<!---	<cfif listfind(formList,"/DataEntry.cfm")>--->
 						<li class="d-md-flex align-items-start justify-content-start"><a target="_top" href="/DataEntry.cfm">Enter Specimen Data</a></li>
 						<div>
-							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-						<a target="_top" href="">Create Media Record</a>
-				<!---		</cfif>
-						  <cfif listfind(formList,"/agents.cfm")>--->
-						<a target="_top" href="">Create Agent Record</a>
-				<!---		</cfif>
-						<cfif listfind(formList,"/DataEntry.cfm")>--->
-						<a target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
+						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+						<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Create Media Record</a>
+						<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
+						<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
 						<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
 						<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
 						<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
@@ -110,8 +104,10 @@
 						<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
 						<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
 						<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
-							</li>
-					<!---		</cfif>--->
+						</div>
+						<div>
+							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+					</li>
 					</ul>
               </li>
 				  <!--start main menu element-->

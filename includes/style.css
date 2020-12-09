@@ -17,6 +17,9 @@ h3 {
 	-webkit-margin-end: 0px;
 	font-weight: bold;
 }
+.px-4 {
+	padding: 0 1.5rem;
+}
 p {
     padding: .25em 0;
 }
@@ -34,6 +37,9 @@ p {
 .helpLink:hover {
 	color: #CC0000;
 	text-decoration: underline;
+}
+.text-danger { 
+	color: #dc3545 !important;	
 }
 label {
     margin-top:5px;
