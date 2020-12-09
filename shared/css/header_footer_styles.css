@@ -488,9 +488,9 @@ input#Password {
     	font-size: .9em;
 	}
 	.navbar-toggler {
-  		padding: .35rem .5rem;
-    	font-size: 1.2rem;
-    	border-radius: .25rem;
+  		padding: .25rem .5rem;
+    	font-size: .875rem;
+    	border-radius: .2rem;
 	}
 	.form-login {right:.7rem;}
 	.login-form {
