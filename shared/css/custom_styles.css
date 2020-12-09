@@ -184,6 +184,8 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	border-radius: .2rem;
 	font-size: .875rem;
 	font-weight: 500;
+	line-height: 1.2rem;
+	margin-top:1px;
 }
 .text-other {
 	font-size: .875em;
