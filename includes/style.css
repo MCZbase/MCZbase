@@ -1820,6 +1820,45 @@ div.submenu h2:hover {
 	widows: 1;
 	column-span: all;
 }
+.nav-item {
+	flex:  1 1 auto;text-align:center;
+}
+.dropdown {
+	position: relative;
+	box-sizing: border-box;
+}
+.nav-link {
+	display: block;
+	padding: .25em 1em;
+	color: rgba (0,0,0,.7)!important;
+}
+.dropdown-toggle {
+	white-space: nowrap;
+}
+.dropdown-menu {
+	top:100%;
+	left: 0;
+	z-index: 1000;
+	display:none;
+	min-width: 10rem;
+	padding: .5rem 0;
+	margin: .125rem 0 0;
+	background-clip: padding-box;
+	font-size: 1em;
+	color: #212529;
+	text-align:left;
+	list-style: none;
+	background-color: white;
+}
+.dropdown-item {
+	font-size: .9em;
+	display:block;
+	width:100%;
+	padding:.25em 1.5em;
+	clear: both;
+	font-weight: 400;
+}
+
 /*************************** jquery ui calendar ***************************/
 /* stop relative (=huge) sizing */
 div.ui-datepicker {
