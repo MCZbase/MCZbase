@@ -47,8 +47,8 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	color: black;
 }
 .navbar-toggler-icon {
-	width: 1em;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
-	height: .87em;
+	width: 1.5em;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
+	height: 1.25em;
 }
 .nav-tabs .nav-link, .navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
 	display: block;
