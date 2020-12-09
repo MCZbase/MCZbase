@@ -13,7 +13,7 @@
 	box-shadow:none;
 }
 .anchor-button {
-	font-size: .9em;
+	font-size: .9rem;
 	border: none;
 	background-color: transparent;
 	text-align: left;
@@ -31,11 +31,11 @@
 }
 /* Navigation menu styles */
 nav.navbar {  /* makes the navbar text slightly smaller than default and give padding so the login and search aren't at the edge of page */
-	padding: 0 1em;
-	font-size: .9em;
+	padding: 0 1rem;
+	font-size: .9rem;
 }
 .dropdown-item {
-	font-size: .9em;   /* makes the navbar text slightly smaller than default */
+	font-size: .9rem;   /* makes the navbar text slightly smaller than default */
 }
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
     color: rgba(0,0,0,1)!important;  /* this makes the dropdown header darker then the rest of headers when a page within it is selected */
@@ -47,12 +47,12 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	color: black;
 }
 .navbar-toggler-icon {
-	width: 1.15em;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
-	height: 1.15em;
+	width: 1.15rem;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
+	height: 1.15rem;
 }
 .nav-tabs .nav-link, .navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
 	display: block;
-	padding: .25em 1em;
+	padding: .25rem 1rem;
 	color: rgba(0,0,0,.7)!important;
 }
 /* End navigation menu styles */
@@ -66,8 +66,8 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 /*	margin-right: .25rem;*/
 }
 .user {
-	font-size: .9em;
-	height: calc(1em + .5rem + 2px);
+	font-size: .9rem;
+	height: calc(1rem + .5rem + 2px);
 }
 .mczbase a span {
 	font-size: smaller;
@@ -79,7 +79,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 .harvard_banner {
 	background-color: #a51c30;
 	margin-block-end: 0;
-	padding: 0 0 0 1em;
+	padding: 0 0 0 1rem;
 }
 .branding {
 	color: white;
@@ -107,9 +107,9 @@ img.shield {
 .mcz2 {
 	list-style: none;
 	font-family: Constantia, 'Lucida Bright', 'DejaVu Serif', Georgia, 'serif';
-	line-height: .9em;
+	line-height: .9;
 	padding-bottom: 0;
-	padding-top: .25em;
+	padding-top: .25rem;
 }
 .mcz2 a {
 	color: white;
@@ -122,17 +122,17 @@ img.shield {
 .mczbase {
 	list-style: none;
 	font-family: 'Helvetica Neue', Arial, sans-serif;
-	letter-spacing: .02em;
+	letter-spacing: .02rem;
 	font-weight: 400;
-	font-size: .9em;
-	line-height: 1em;
+	font-size: .9rem;
+	line-height: 1;
 }
 .mczbase a:hover {
 	color: white;
 	text-decoration: none;
 }
 .mcz_logo_krono {
-	padding-left: 1em;
+	padding-left: 1rem;
 	margin-left: 0;
 }
 nav.navbar-harvard {
@@ -160,19 +160,19 @@ nav button {
 .loginButtons {
 	padding: 4px 6px 4px 6px;
 	font-size: .78rem;
-	line-height: 1em;
+	line-height: 1;
 	border-radius: .2rem;
 	display: inline-block;
 	max-width:100px;
 }
 .footer {
-	line-height: 1em;
+	line-height: 1rem;
 }
 .footer-colr-md-6 {
 	font-family: "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 }
 .copyright_background {
-	padding: .75em 0 20px 0;
+	padding: .75rem 0 20px 0;
 	background-color: #BAC5C6;
 	width: 100%;
 	align-content: center;
