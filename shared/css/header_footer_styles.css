@@ -438,11 +438,11 @@ input#Password {
     	border-radius: .25rem;
 	}
 	.logout {
-		padding: .1rem .45rem;
-		font-size: .89rem;
+		padding: .12rem .45rem;
+		font-size: .78rem;
 		font-weight: bold;
 		position: absolute;
-		right: 1rem;
+		right: .5rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02rem;
 		margin-right:.25rem;
