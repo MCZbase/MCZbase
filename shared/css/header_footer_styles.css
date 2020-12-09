@@ -415,14 +415,13 @@ input#Password {
 		color: white;
 	}
 	.logout {
-		padding: .1em .45em;
-		font-size: .94em;
+		padding: .12rem .5rem;
+		font-size: .875rem;
 		font-weight: bold;
 		position: absolute;
-		right: 1.25em;
-		top: 3px;
+		right: 1.25rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-		letter-spacing: .02em;
+		letter-spacing: .02rem;
 	}
 }
 @media(max-width:575px) {
