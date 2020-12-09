@@ -309,12 +309,11 @@ input#Password {
 		text-align: right;
 	}
 	.logout {
-		padding: .1em .45em;
-		font-size: .83em;
+		padding: .12rem .5rem;
+		font-size: .875rem;
 		font-weight: bold;
 		position: absolute;
-		right: 1em;
-		top: 5px;
+		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
 	}
