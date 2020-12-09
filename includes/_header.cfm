@@ -100,16 +100,21 @@
 						<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
 						<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
 						<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
-						<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
-						<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
-						<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
-						<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-						<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
-						<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
-						</div>
+							</div>
+						</li>
+				  </ul>
+				  <ul>
+					  <li>
 						<div>
-							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-					</li>
+						<div class="h5 dropdown-header px-4 text-danger">Bulkloaing</div>
+							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
+							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
+							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
+							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
+							<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
+							<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
+						</div>
+					  </li>
 					</ul>
               </li>
 				  <!--start main menu element-->
