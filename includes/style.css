@@ -1864,7 +1864,15 @@ div.submenu h2:hover {
 	clear: both;
 	font-weight: 400;
 }
-
+.d.md-flex {
+	display: flex !important;
+}
+.justify-content-start {
+	justify-content:flex-start !important;
+}
+.align-items-start {
+	align-items: flex-start !important;
+}
 /*************************** jquery ui calendar ***************************/
 /* stop relative (=huge) sizing */
 div.ui-datepicker {
