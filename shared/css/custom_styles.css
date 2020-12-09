@@ -1,6 +1,6 @@
 /** This file contains Various local style customizations **/
 /************************/
-body, html {line-height: 1.15;font-size: 16px;}
+body, html {line-height: 1.2;font-size: 16px;}
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
 	background-color: #E4E476 !important;
@@ -1291,7 +1291,7 @@ input::placeholder {
 select.data-entry-select {
 	display: block;
 	width: 100%;
-	font-size: .875em;	
+	font-size: .875rem;	
 	padding: .15rem .5rem;
 	color: rgba(0, 0, 0, .67);
 	border: 1px solid #ced4da;
@@ -1358,6 +1358,7 @@ select.data-entry-select:focus, select.data-entry-select.focus, select.custom-se
 	border-radius: 0 .2rem .2rem 0;
 	transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	font-weight: 500;
+	height: 1.5em;
 }
 .data-entry-select-input:active {
 	color: #495057;
