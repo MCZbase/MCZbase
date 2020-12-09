@@ -413,7 +413,7 @@ input#Password {
 	.mczbase a {
 		color: white;
 	}
-	.logout {
+/*	.logout {
 		padding: .12rem .5rem;
 		font-size: .875rem;
 		font-weight: bold;
@@ -421,7 +421,7 @@ input#Password {
 		right: 1.25rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02rem;
-	}
+	}*/
 }
 @media(max-width:575px) {
 	.file-os-file-medium {
@@ -429,8 +429,8 @@ input#Password {
 	}
 	/* Small device login/logout */
 	nav.navbar{
-		padding: 0 1em;
-    	font-size: .9em;		
+		padding: 0 1rem;
+    	font-size: .9rem;		
 	}
 	.navbar-toggler {
     	padding: .25rem .75rem;
@@ -438,15 +438,14 @@ input#Password {
     	border-radius: .25rem;
 	}
 	.logout {
-		padding: .1em .45em;
-		font-size: .89em;
+		padding: .1rem .45rem;
+		font-size: .89rem;
 		font-weight: bold;
 		position: absolute;
-		right: 1em;
-		top: 5px;
+		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-		letter-spacing: .02em;
-		margin-right:.25em;
+		letter-spacing: .02rem;
+		margin-right:.25rem;
 	}
 	.login-form {
 		width: 320px;
@@ -470,7 +469,7 @@ input#Password {
     	border-radius: .25rem;
 	}
 	.form-login {
-		right:.7em;
+		right:.7rem;
 	}
 	.login-form {
 		width: 323px;
@@ -493,7 +492,7 @@ input#Password {
     	font-size: 1.2rem;
     	border-radius: .25rem;
 	}
-	.form-login {right:.7em;}
+	.form-login {right:.7rem;}
 	.login-form {
 		width: 318px;
 		text-align:right;
@@ -510,11 +509,11 @@ input#Password {
 		padding: 0 .5em;
     	font-size: .9em;
 	}
-	.navbar-toggler {
+/*	.navbar-toggler {
     	padding: .1rem .5rem;
     	font-size: 1rem;
     	border-radius: .25rem;
-	}
+	}*/
 	.login-form {
 		width: 229px;
 		text-align: right;
@@ -525,13 +524,13 @@ input#Password {
 	.loginfld2 {
 		width: 55px!important;
 	}
-	.logout {
+/*	.logout {
 		font-size: .78em;
 		margin-right:0;
 		top: 2px;
-	}
-	.navbar-toggler-icon {
+	}*/
+/*	.navbar-toggler-icon {
     	width: 1em;
     	height: 1.5em;
-	}
+	}*/
 }
