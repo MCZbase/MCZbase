@@ -19,7 +19,7 @@
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
-                    minWidth:    12,
+                    minWidth:    17,
                     maxWidth:    50,
                     extraWidth:  1
                 }).superfish({
