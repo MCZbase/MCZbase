@@ -1441,7 +1441,7 @@ textarea {
 	background-color: #fff;
 }
 .loginButtons {
-	padding: 4px 6px 4px 6px;
+	padding: .1rem .5rem;
 	font-size: .78rem;
 	line-height: 1rem;
 	border-radius: .2rem;
