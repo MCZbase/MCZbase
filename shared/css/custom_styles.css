@@ -79,13 +79,13 @@ h1, .h1 {
 dl, ol, ul {
 	margin-top: 0;
 	margin-bottom: 1rem;
-	font-size: .875em;
+	font-size: .875rem;
 }
 span.var-display {
 	font-size: .875em;
 }
 legend {
-	font-size: .875em;
+	font-size: .875rem;
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: .7em;
@@ -97,7 +97,7 @@ legend {
 	font-variant: small-caps;
 }
 h2, .h2 {
-	font-size: 1.5em;
+	font-size: 1.5rem;
 }
 h3, .h3 {
 	font-size: 1.25rem;
@@ -115,20 +115,20 @@ h6, .h6 {
 	color: #036ee0 !important;
 }
 #resultLink a {
-	padding: .15em .25em;
+	padding: .15rem .25rem;
 	outline: 0;
 }
 #resultLink a.hover, #resultLink a:hover {
-	padding: .15em .25em;
+	padding: .15rem .25rem;
 	outline: 0;
 }
 #resultLink a.focus, #resultLink a:focus {
-	padding: .15em .25em;
+	padding: .15rem .25rem;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .jqx-grid-cell-left-align a {
-	padding: .15em .25em;
+	padding: .15rem .25rem;
 	outline: 0;
 }
 .jqx-grid-cell-left-align a.hover, .jqx-grid-cell-left-align a:hover {
@@ -141,10 +141,10 @@ h6, .h6 {
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 p {
-	margin-bottom: .75em;
+	margin-bottom: .75rem;
 	line-height: normal;
 	margin-top: 0;
-	font-size: .95em;
+	font-size: .95rem;
 }
 p:focus {
 	box-shadow: 0 0 0 0;
@@ -177,7 +177,7 @@ div:focus, div > span:focus {box-shadow: 0 0 0 0;}
 	height: calc(1em + .375rem + .5em);
 }
 .line-height-sm {
-	line-height: 1.15em;
+	line-height: 1.15;
 }
 .non-field-text {
 	padding: .12rem .5rem;
