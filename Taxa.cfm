@@ -533,7 +533,7 @@ limitations under the License.
 									</div>
 									<button type="submit" class="btn btn-xs btn-primary mr-2" id="searchButton" aria-label="Search all taxa with set parameters">Search<span class="fa fa-search pl-1"></span>			</button>
 									<button type="reset" class="btn btn-xs btn-warning mr-2" aria-label="Reset taxon search form to inital values">Reset</button>
-									<button type="button" class="btn btn-xs btn-warning" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
+									<button type="button" class="btn btn-xs btn-warning mr-2" aria-label="Start a new taxon search with a clear page" onclick="window.location.href='#Application.serverRootUrl#/Taxa.cfm';">New Search</button>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 										<button type="button" class="btn btn-xs btn-warning" aria-label="Run selected taxonomy quality control queries" onclick="window.location.href='#Application.serverRootUrl#/tools/TaxonomyGaps.cfm';">QC Queries</button>
 									</cfif>
@@ -549,7 +549,7 @@ limitations under the License.
 				<div class="row">
 					<div class="col-12 mb-5">
 						<div class="row mt-1 mb-0 pb-0 jqx-widget-header border px-2 mx-0">
-						<h1 class="h4">Results: <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 mt-1 pt-2"></span>
+						<h1 class="h4">Results: <span class="px-1 font-weight-normal text-success" id="resultCount" tabindex="0"><a class="messageResults" tabindex="0" aria-label="search results"></a></span> </h1><span id="resultLink" class="d-inline-block px-1 pt-2"></span>
 							<div id="columnPickDialog">
 								<div class="container-fluid">
 									<div class="row">
@@ -751,7 +751,7 @@ limitations under the License.
 							<cfelse>
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
 							</cfif>
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 103,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 105,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
