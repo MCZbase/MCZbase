@@ -1,8 +1,8 @@
 /** This file contains Various local style customizations **/
 /************************/
 body, html {
-	line-height: 1.2rem;
-	font-size: 16px;
+	line-height: 1.15rem;
+	font-size: 15px;
 }
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
