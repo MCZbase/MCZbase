@@ -402,9 +402,9 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Encumbrances</a>
 										</cfif>
-										<cfif targetMenu EQ "redesign">
-											<a class="dropdown-item bg-warning" href="">Annotations</a>
-										</cfif>
+										
+											<a class="dropdown-item" href="">Annotations</a>
+										
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
 										<cfelse>
@@ -448,9 +448,9 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-										<cfif targetMenu EQ "production">
+<!---										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a> 
-										</cfif>
+										</cfif>--->
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
@@ -470,9 +470,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif targetMenu EQ "redesign">
-										<a class="dropdown-item bg-warning" href="">Annotation</a>
-										</cfif>
+
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
 										<cfelse>
@@ -604,8 +602,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-			<!---		<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>  Can't see what I'm doing with these permissions--->
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"MANAGE_CODETABLES")>
+					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
