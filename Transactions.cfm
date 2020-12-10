@@ -781,7 +781,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="accn_number" class="data-entry-label mb-0">Number: </label>
-													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="yyyy-n-Coll">
+													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
 											</div>
 										</div>
