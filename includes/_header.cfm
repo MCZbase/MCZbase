@@ -176,9 +176,9 @@
  	 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:23em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:22em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 48%;">
+					<div style="float:left; width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 						<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
                         <a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
@@ -187,7 +187,7 @@
 						<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
 						<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permit</a>
 					</div>
-					<div style="float:left; width: 48%;">
+					<div style="float:left; width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 						<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
 						<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
@@ -201,7 +201,7 @@
 	 	</cfif>
       	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:23em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
