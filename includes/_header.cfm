@@ -127,7 +127,7 @@
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_localities")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
@@ -136,7 +136,7 @@
 						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
 					</div>
 					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_localities")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create</div>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
