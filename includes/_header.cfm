@@ -63,18 +63,18 @@
   <ul class="sf-menu">
      <li class="nav-item dropdown"><!--main menu element-->
           <a href="##" class="nav-link dropdown-toggle text-left">Specimens</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 25em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 15em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 				<div style="float:left; width: 48%;">
-                <a target="_top" href="/SpecimenSearch.cfm">Specimens</a>
-                <a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
-                <a target="_top" href="/Taxa.cfm">Taxonomy</a>
-             	<a target="_top" href="/MediaSearch.cfm">Media</a>
-				<a target="_top" href="/showLocality.cfm">Places</a>
-				<a target="_top" href="/agents.cfm">Agents</a>
-				<a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
-				<a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
-				<a target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
+                <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+                <a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
+                <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
+             	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
+				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
+				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
+				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
+				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
+				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
 				</div>
 				</li>
              </ul>
@@ -82,7 +82,7 @@
 
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 25em;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 25em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 48%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -107,7 +107,7 @@
 				  <!--start main menu element-->
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:50em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:50em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
@@ -138,7 +138,7 @@
 				  
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
@@ -170,7 +170,7 @@
 
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:23em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:23em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
@@ -194,7 +194,7 @@
          </li><!--end main menu element-->
       	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:30em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:30em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
@@ -211,9 +211,9 @@
 		</li>
      	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 48%; border-radius: .2rem;">
+					<div style="float:left; width: 48%;">
 					<div class="h5 dropdown-header px-4 text-danger">Data</div>
                     	<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Geology Hierarchy Table</a>
@@ -224,7 +224,7 @@
                     	<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
                     	<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
                 	</div>
-					<div style="float:left;width: 48%;border-radius: .2rem;">
+					<div style="float:left;width: 48%;">
 					<div class="h5 dropdown-header px-4 text-danger">Users/Priviledges</div>
 						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
