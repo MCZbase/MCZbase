@@ -78,7 +78,7 @@
 			</cfif>
 				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
-			</cfif>
+			
 				</div>
 				</li>
              </ul>
@@ -147,7 +147,6 @@
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 						<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-						
 						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
 						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
 						<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
