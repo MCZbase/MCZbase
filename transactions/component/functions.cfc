@@ -157,7 +157,7 @@ limitations under the License.
 				</cfquery>
 	
 				<div class="col-12">
-					<span id="subloan_list" tabindex="0">
+					<h5 class="d-inline" id="subloan_list" tabindex="0">
 						<cfif childLoans.RecordCount GT 0>
 							<a href="/Transactions.cfm?action=findLoans&execute=true&parent_loan_number=#EncodeForURL(parent_loan_number)#" target="_blank">Exhibition-Subloans</a> (#childLoans.RecordCount#):
 						<cfelse>
@@ -174,7 +174,7 @@ limitations under the License.
 								<cfset childseparator = ";&nbsp;">
 							</cfloop>
 						</cfif>
-					</span>
+					</h5>
 				</div>
 				<div class="col-12">
 					<cfif potentialChildLoans.recordcount EQ 0>
@@ -1822,7 +1822,7 @@ limitations under the License.
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller" id="npf_issuedbyagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="IssuedByAgent" id="npf_issued_by" required class="form-control data-entry-input reqdClr">
+								<input type="text" name="IssuedByAgent" id="npf_issued_by" required class="form-control form-control-sm data-entry-input reqdClr">
 							</div>
 							<script>
 								$(document).ready(function() {
@@ -1841,7 +1841,7 @@ limitations under the License.
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller" id="npf_issuedtoagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="IssuedToAgent" id="npf_issued_to" required class="form-control data-entry-input reqdClr">
+								<input type="text" name="IssuedToAgent" id="npf_issued_to" required class="form-control form-control-sm data-entry-input reqdClr">
 							</div>
 							<script>
 								$(document).ready(function() {
@@ -1860,7 +1860,7 @@ limitations under the License.
 								<div class="input-group-prepend">
 									<span class="input-group-text smaller" id="npf_contactagent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 								</div>
-								<input type="text" name="ContactAgent" id="npf_contact" class="form-control data-entry-input">
+								<input type="text" name="ContactAgent" id="npf_contact" class="form-control form-control-sm data-entry-input">
 							</div>
 							<script>
 								$(document).ready(function() {
@@ -2511,11 +2511,11 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control data-entry-input data-height" value="#agent_name#">
+												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
 											</div>
 										</div>							
 										<div class="col-12 col-md-4">
-												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select data-height">
+												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
 													<cfloop query="cttrans_agent_role">
 														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
 															<cfset sel = 'selected="selected"'>
@@ -3274,9 +3274,9 @@ limitations under the License.
 						</span>
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text small bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+								<span class="input-group-text smaller bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
-							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control data-entry-input" value="">
+							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
 						</div>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
 							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
