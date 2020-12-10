@@ -1735,12 +1735,6 @@ li.sfHover > a > .sf-sub-indicator {
 
 /*** shadows for all but IE6 ***/
 .sf-shadow ul {
-/*	background:	url('/images/css/shadow.png') no-repeat bottom right;
-	padding: 0px 8px 10px 0px;
-	-moz-border-radius-bottomleft: 17px;
-	-moz-border-radius-topright: 17px;
-	-webkit-border-top-right-radius: 17px;
-	-webkit-border-bottom-left-radius: 17px;*/
 -webkit-box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
@@ -1753,7 +1747,7 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 	width:90%;
     margin:0 auto;
 	font-weight:400;
-	background-color:#D5D5DB;
+/*	background-color:#D5D5DB;*/
     border-bottom: 1px solid #d5d5db;
     position:relative;
     font-size: 15px;
@@ -1820,7 +1814,7 @@ div.submenu ul li:hover ul, div.submenu ul ul li:hover ul, div.submenu ul ul ul 
 }
 div.submenu h2:hover {
 	background: #E7E7E7 url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
-		background: #ffffff url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
+	background: #ffffff url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
 	color: #0000FF;
 }
 .card-columns {
@@ -1831,7 +1825,8 @@ div.submenu h2:hover {
 	column-span: all;
 }
 .nav-item {
-	flex:  1 1 auto;text-align:center;
+	flex:  1 1 auto;
+	text-align:center;
 }
 .dropdown {
 	position: relative;
