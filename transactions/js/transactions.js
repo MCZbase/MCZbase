@@ -1305,7 +1305,7 @@ function openfindaddressdialog(valueControl, idControl, dialogid,transaction_id)
 	var title = "Find Shipping Addresses";
 	var content = '<div id="'+dialogid+'_div">Loading....</div>';
 	var h = $(window).height();
-	if (h>775) { h=775; } // cap height at 775
+	if (h>960) { h=960; } // cap height at 960
 	var w = $(window).width();
 	// full width at less than medium screens
 	if (w>414 && w<=1333) { 

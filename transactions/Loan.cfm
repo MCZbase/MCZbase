@@ -359,7 +359,7 @@ limitations under the License.
 							</div>
 						</div>
 						<script>
-							// Make all textareas with autogrow class re bound to the autogrow function on key up
+							// Make all textareas with autogrow class be bound to the autogrow function on key up
 							$(document).ready(function() { 
 								$("textarea.autogrow").keyup(autogrow);  
 								$('textarea.autogrow').keyup();

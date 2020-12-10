@@ -1389,7 +1389,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 		deacc_status,
         	value,
 		method,
-		concattransagent(trans.transaction_id,'authorized by') auth_agent,
+		concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 		concattransagent(trans.transaction_id,'entered by') ent_agent,
 		concattransagent(trans.transaction_id,'received by') rec_agent,
 		concattransagent(trans.transaction_id,'for use by') foruseby_agent,
