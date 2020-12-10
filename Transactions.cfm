@@ -903,23 +903,23 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makePermitPicker('permit_num','permit_id'));
+											$(makePermitPicker('a_permit_num','a_permit_id'));
 										});
 									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-4">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+													<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" aria-described-by="a_permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 													<script>
 														function handlePermitPickAction(event) {
-															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
+															openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
 														}
 													</script>
-													<div id="permitpickerdialog"></div>
+													<div id="a_permitpickerdialog"></div>
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
