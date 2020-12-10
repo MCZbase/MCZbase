@@ -253,14 +253,7 @@ limitations under the License.
 									<a class="dropdown-item" href="/showLocality.cfm">Places</a>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
-								</cfif>		
-<!---								<cfif targetMenu EQ "redesign">
-									<a class="dropdown-item bg-warning" href="">Geography</a>
-				
-									<a class="dropdown-item bg-warning" href="">Geology</a>
-							
-									<a class="dropdown-item bg-warning" href="">Collecting Events</a>
-								</cfif>	--->			
+								</cfif>				
 								<cfif targetMenu EQ "production">
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
@@ -272,7 +265,6 @@ limitations under the License.
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
-							<!---		<a class="dropdown-item bg-warning" href="">Projects</a>--->
 								</cfif>	
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfif targetMenu EQ "production">
@@ -578,15 +570,16 @@ limitations under the License.
 										</cfif>
 										<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
 										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
-										</cfif>
-										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Borrow.cfm?action=new">Borrow</a> 
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Borrow</a> 
 										</cfif>
+										<cfif targetMenu EQ "production">
+											<a class="dropdown-item" href="/Deaccession.cfm?action=newDeacc">Deaccession</a> 
+										<cfelse>
+											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
+										</cfif>
+									
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
 									</div>
 									</li>

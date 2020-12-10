@@ -204,7 +204,7 @@
 						<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findLoans">Loans</a>
 						<a class="dropdown-item" target="_top" href="/Borrow.cfm">Borrow</a>
 						<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
-						<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permit</a>
+						<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 					</div>
 					<div style="float:left; width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -212,7 +212,7 @@
 						<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
 						<a class="dropdown-item" target="_top" href="/Borrow.cfm?action=new">Borrow</a>
              			<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=newDeacc">Deaccession</a>
-                       	<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm?action=new">Permit</a>
+                       	<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a>
 					</div>
 				</li>
             </ul>
