@@ -107,7 +107,7 @@
 				  <!--start main menu element-->
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-			<ul class="dropdown-menu border-0 shadow">
+			<ul class="dropdown-menu border-0 shadow" style="width:50em;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
