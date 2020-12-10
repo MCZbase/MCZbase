@@ -178,7 +178,7 @@
 						</cfif>
 					</div>
 					<div style="float:left; width: 33.2%;">
-						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>			
+						<div class="h5 dropdown-header px-4 text-danger">Create</div>			
 						<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Grouping</a>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 						<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
@@ -236,7 +236,7 @@
 			<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 49%;">
-						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
+						<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 						<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
                        	<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 					</div>

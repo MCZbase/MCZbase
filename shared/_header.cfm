@@ -371,7 +371,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 											<cfif targetMenu EQ "production">
@@ -469,7 +469,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
