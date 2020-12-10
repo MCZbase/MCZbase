@@ -71,15 +71,17 @@
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
              	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
 				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
 				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
+			</cfif>
 				</div>
 				</li>
              </ul>
          </li><!--end main menu element-->
-
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
@@ -104,7 +106,9 @@
 					  </li>
 					</ul>
               </li>
+	  	</cfif>
 				  <!--start main menu element-->
+	  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
@@ -135,7 +139,8 @@
 				</li>
 			</ul>
 		</li><!--end main menu element-->
-				  
+	  </cfif>
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
@@ -167,7 +172,8 @@
 	  			</li>
 			</ul>
 		</li>
-
+	  </cfif>
+ 	 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width:23em; border-radius: .2rem;">
@@ -192,6 +198,7 @@
 				</li>
             </ul>
          </li><!--end main menu element-->
+	 	</cfif>
       	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width:24em; border-radius: .2rem;">
@@ -211,9 +218,9 @@
 		</li>
      	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:45rem;border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 48%;">
+					<div style="float:left; width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Data</div>
                     	<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Geology Hierarchy Table</a>
@@ -224,7 +231,7 @@
                     	<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
                     	<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
                 	</div>
-					<div style="float:left;width: 48%;">
+					<div style="float:left;width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Users/Priviledges</div>
 						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
@@ -236,7 +243,12 @@
                     	<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">All User Stats</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
-					 	
+                  	</div>
+					<div style="float:left;width: 33.2%;">
+					<div class="h5 dropdown-header px-4 text-danger">Application</div>
+						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
+						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">Manage ColdFusion</a>
+                 		<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
                   	</div>
                 </li>
             </ul>
