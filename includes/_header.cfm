@@ -236,7 +236,7 @@
 						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
                  		<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
-						<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles Definitions</a>
+						<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
                   		<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
                     	<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
