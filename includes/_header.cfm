@@ -241,18 +241,23 @@
                 </li>
             </ul>
           </li>
-           <li><a target="_top" href="/myArctos.cfm">Account</a>
-              <ul>
-                  <cfif len(session.username) gt 0>
-                  <li><a target="_top" href="/myArctos.cfm">User Profile</a></li>
-                  <cfelse>
-                  <li><a target="_top" href="/myArctos.cfm">Log In</a></li>
-                  </cfif>
-                <li><a target="_top" href="/home.cfm">About</a></li>
-                <cfif len(session.username) gt 0>
-                	<li><a target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a></li>
-                </cfif>
-              </ul>
+        	<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
+				<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
+					<li class="d-md-flex align-items-start justify-content-start">
+						<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Data</div>
+							<cfif len(session.username) gt 0>
+								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
+							<cfelse>
+								<a target="_top" href="/myArctos.cfm">Log In</a>
+							</cfif>
+							<cfif len(session.username) gt 0>
+								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
+							</cfif>
+						</div>
+					</li>
+				  </ul>
             </li>
           <li><a target="_top" href="##">Help</a>
                   <ul>
