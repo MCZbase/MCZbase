@@ -19,9 +19,9 @@
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
-                  //  minWidth:    30,
-                  //  maxWidth:    60,
-                   // extraWidth:  1
+                    minWidth:    30,
+                    maxWidth:    60,
+                    extraWidth:  1
                 }).superfish({
                     delay:       600,
                     animation:   {opacity:'show',height:'show'},
@@ -82,7 +82,7 @@
 
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-					<ul class="dropdown-menu border-0 shadow">
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 25em;">
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 48%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -107,7 +107,7 @@
 				  <!--start main menu element-->
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="width:50em;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:50em;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
