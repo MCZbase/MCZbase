@@ -1671,17 +1671,17 @@ ul.sf-menu li li li.sfHover ul {
 	text-decoration:none;
 }
 .sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
-	color:			#0000FF;
+	color:	#0000FF;
 	color: #114bc7;
 }
 .sf-menu li {
-	background:		#E7E7E7;
-	background:		#dddddd;
+/*	background:		#E7E7E7;
+	background:		#dddddd;*/
 	padding-right: 2px;
     z-index: 3000;
 }
 .sf-menu li li {
-	background:		#E7E7E7;
+/*	background:		#E7E7E7;*/
 }
 .sf-menu li li li {
 	background:		#E7E7E7;
@@ -1794,7 +1794,7 @@ div.submenu h2 {
 }
 div.submenu a {
 	color: #0000FF;
-	background: #E7E7E7;
+/*	background: #E7E7E7;*/
 	text-decoration: none;
 }
 div.submenu a:hover {
