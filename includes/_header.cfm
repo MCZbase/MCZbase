@@ -230,8 +230,8 @@
 					</div>
 					<div style="float:left;width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
-					   	<a class="dropdown-item"  target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
-					   	<a class="dropdown-item"  target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
+					   	<a class="dropdown-item"  target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
+					   	<a class="dropdown-item"  target="_blank" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
               		</div>
                 </li>
 			</ul>
