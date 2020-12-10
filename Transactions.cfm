@@ -760,7 +760,7 @@ limitations under the License.
 									<cfset accn_number="">
 								</cfif>
 								<form id="accnSearchForm" class="mt-2">
-									<input type="hidden" name="method" value="getLoans" class="keeponclear">
+									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-6 mt-0">
@@ -781,7 +781,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="accn_number" class="data-entry-label mb-0">Number: </label>
-													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="yyyy-n-Coll">
+													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
 											</div>
 										</div>
@@ -903,23 +903,23 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makePermitPicker('permit_num','permit_id'));
+											$(makePermitPicker('a_permit_num','a_permit_id'));
 										});
 									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-4">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
 												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+													<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" aria-described-by="a_permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 													<script>
 														function handlePermitPickAction(event) {
-															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
+															openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
 														}
 													</script>
-													<div id="permitpickerdialog"></div>
+													<div id="a_permitpickerdialog"></div>
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
@@ -1198,6 +1198,7 @@ $(document).ready(function() {
 				{ name: 'status', type: 'string' },
 				{ name: 'entered_by', type: 'string' },
 				{ name: 'authorized_by', type: 'string' },
+				{ name: 'outside_authorized_by', type: 'string' },
 				{ name: 'received_by', type: 'string' },
 				{ name: 'for_use_by', type: 'string' },
 				{ name: 'inhouse_contact', type: 'string' },
@@ -1270,6 +1271,7 @@ $(document).ready(function() {
 				{text: 'Status', datafield: 'status', width: 100},
 				{text: 'Entered By', datafield: 'entered_by', width: 100, hideable: true, hidden: false },
 				{text: 'Authorized By', datafield: 'authorized_by', width: 80, hideable: true, hidden: true },
+				{text: 'Outside Authorized By', datafield: 'outside_authorized_by', width: 80, hideable: true, hidden: true },
 				{text: 'Received By', datafield: 'received_by', width: 80, hideable: true, hidden: true },
 				{text: 'For Use By', datafield: 'for_use_by', width: 80, hideable: true, hidden: true },
 				{text: 'In-house Contact', datafield: 'inhouse_contact', width: 80, hideable: true, hidden: true },
@@ -1500,9 +1502,163 @@ $(document).ready(function() {
 		});
 
 	});
+
+
+	/* Setup jqxgrid for Accession Search ******************************************/
+	$('##accnSearchForm').bind('submit', function(evt){
+		evt.preventDefault();
+
+		$("##overlay").show();
+
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+		$('##resultCount').html('');
+		$('##resultLink').html('');
+
+		var accnSearch =
+		{
+			datatype: "json",
+			datafields:
+			[
+				{ name: 'transaction_id', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'accn_number', type: 'string' },
+				{ name: 'accn_type', type: 'string' },
+				{ name: 'received_date', type: 'string' },
+				{ name: 'accn_status', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'estimated_count', type: 'string' },
+				{ name: 'collection', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'auth_agent', type: 'string' },
+				{ name: 'outside_auth_agent', type: 'string' },
+				{ name: 'ent_agent', type: 'string' },
+				{ name: 'rec_from_agent', type: 'string' },
+				{ name: 'rec_agent', type: 'string' },
+				{ name: 'inHouse_agent', type: 'string' },
+				{ name: 'addInhouse_agent', type: 'string' },
+				{ name: 'outside_agent', type: 'string' },
+				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'project_name', type: 'string' },
+				{ name: 'pid', type: 'string' },
+				{ name: 'id_link', type: 'string' }
+			],
+			updaterow: function (rowid, rowdata, commit) {
+				commit(true);
+			},
+			root: 'accnRecord',
+			id: 'transaction_id',
+			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
+			timeout: 30000, // units not specified, miliseconds? 
+			loadError: function(jqXHR, status, error) { 
+				$("##overlay").hide();
+				var message = "";
+				if (error == 'timeout') { 
+					message = ' Server took too long to respond.';
+				} else { 
+					message = jqXHR.responseText;
+				}
+				messageDialog('Error:' + message ,'Error: ' + error);
+			},
+			async: true
+		};
+		var loanDataAdapter = new $.jqx.dataAdapter(accnSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
+
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
+		$("##searchResultsGrid").jqxGrid({
+			width: '100%',
+			autoheight: 'true',
+			source: loanDataAdapter,
+			filterable: true,
+			sortable: true,
+			pageable: true,
+			editable: false,
+			pagesize: '50',
+			pagesizeoptions: ['50','100'],
+			showaggregates: true,
+			columnsresize: true,
+			autoshowfiltericon: true,
+			autoshowcolumnsmenubutton: false,
+			autoshowloadelement: false, // overlay acts as load element for form+results
+			columnsreorder: true,
+			groupable: true,
+			selectionmode: 'singlerow',
+			altrows: true,
+			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
+			columns: [
+				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: true },
+				{text: 'Accession', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Type', datafield: 'accn_type', width: 100},
+				{text: 'Status', datafield: 'accn_status', width: 100},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
+				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: false },
+				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
+				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: false },
+				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Entered By', datafield: 'ent_agent', width: 100},
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: true },
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 1
+			},
+			initrowdetails: initRowDetails
+		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findAccessions&execute=true&' + $('##accnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','accn');
+
+// TODO: Find number of objects in results, display link to those through specimen search: 
+// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
+
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			// Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+// TODO: Needs an accession row details dialog linking out to accession object searches, not loan 
+			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
+
+	});
+
 	// If requested in uri, execute search immediately.
 	<cfif isdefined("execute")>
 		<cfswitch expression="#execute#">
+			<cfcase value="accn">
+				$('##accnSearchForm').submit();
+			</cfcase>
 			<cfcase value="loan">
 				$('##loanSearchForm').submit();
 			</cfcase>

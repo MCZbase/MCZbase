@@ -49,7 +49,8 @@ limitations under the License.
 				transaction_view.specific_type, 
 				transaction_view.status, 
 				concattransagent(transaction_view.transaction_id,'entered by') as entered_by_agent,
-				concattransagent(transaction_view.transaction_id,'authorized by') auth_agent,
+				concattransagent(transaction_view.transaction_id,'in-house authorized by') auth_agent,
+				concattransagent(transaction_view.transaction_id,'outside authorized by') outside_auth_agent,
 				concattransagent(transaction_view.transaction_id,'received by') rec_agent,
 				concattransagent(transaction_view.transaction_id,'for use by') foruseby_agent,
 				concattransagent(transaction_view.transaction_id,'in-house contact') inHouse_agent,
@@ -151,6 +152,7 @@ limitations under the License.
 			<cfset row["status"] = "#search.status#">
 			<cfset row["entered_by"] = "#search.entered_by_agent#">
 			<cfset row["authorized_by"] = "#search.auth_agent#">
+			<cfset row["outside_authorized_by"] = "#search.outside_auth_agent#">
 			<cfset row["received_by"] = "#search.rec_agent#">
 			<cfset row["for_use_by"] = "#search.foruseby_agent#">
 			<cfset row["in-house_contact"] = "#search.inHouse_agent#">
@@ -268,7 +270,7 @@ limitations under the License.
 				loan.loan_status,
 				loan.loan_instructions,
 				loan.loan_description,
-				concattransagent(trans.transaction_id,'authorized by') auth_agent,
+				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
 				concattransagent(trans.transaction_id,'for use by') foruseby_agent,
@@ -442,6 +444,7 @@ limitations under the License.
 	<cfif isdefined("rec_agent") AND len(#rec_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(recAgnt.agent_name) LIKE '%#ucase(escapeQuotes(rec_agent))#%'">
 	</cfif>
+	changed to in-house authorized by
 	<cfif isdefined("auth_agent") AND len(#auth_agent#) gt 0>
 		<cfset sql = "#sql# AND upper(authAgnt.agent_name) LIKE '%#ucase(escapeQuotes(auth_agent))#%'">
 	</cfif>
@@ -918,6 +921,7 @@ limitations under the License.
 			SELECT distinct
 				trans.transaction_id,
 				accn_number,
+				accn_type,
 				nature_of_material,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
 				to_char(trans_date,'YYYY-MM-DD') as date_entered,
@@ -928,8 +932,8 @@ limitations under the License.
 				project_name,
 				project.project_id pid,
 				estimated_count,
-				concattransagent(trans.transaction_id,'entered by') ENTAGENT,
-				concattransagent(trans.transaction_id,'received from') RECFROMAGENT,
+				concattransagent(trans.transaction_id,'entered by') ent_agent,
+				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
@@ -988,14 +992,14 @@ limitations under the License.
 				</cfif>
 			WHERE 
 				accn.transaction_id is not null
-				<cfif isDefined("number") and len(number) gt 0>
-					<cfif left(number,1) is "=">
-						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+				<cfif isDefined("accn_number") and len(accn_number) gt 0>
+					<cfif left(accn_number,1) is "=">
+						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
 					<cfelse>
-						<cfif find(',',number) GT 0>
-							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#" list="yes"> )
+						<cfif find(',',accn_number) GT 0>
+							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
 						<cfelse>
-							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accn_number#%">
 						</cfif>
 					</cfif>
 				</cfif>
@@ -1131,7 +1135,11 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+				<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfelse>
+				<cfset row["id_link"] = "<a href='/editAccn.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
