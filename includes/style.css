@@ -1850,7 +1850,7 @@ div.submenu h2:hover {
 	left: 0;
 	z-index: 1000;
 	display:none;
-	min-width: 40rem;
+	min-width: 24rem;
 	padding: .5rem 0;
 	margin: .125rem 0 0;
 	background-clip: padding-box;
