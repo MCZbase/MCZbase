@@ -760,7 +760,7 @@ limitations under the License.
 									<cfset accn_number="">
 								</cfif>
 								<form id="accnSearchForm" class="mt-2">
-									<input type="hidden" name="method" value="getLoans" class="keeponclear">
+									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-6 mt-0">
