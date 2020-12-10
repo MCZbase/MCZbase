@@ -502,7 +502,7 @@ limitations under the License.
 								<div class="form-row mb-0">
 									<div class="col-12 col-md-6">
 										<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
-											<span id="underscore_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+											<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 										</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
