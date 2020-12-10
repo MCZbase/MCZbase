@@ -594,7 +594,7 @@ limitations under the License.
 		<script>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 					var idCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
-					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="border rounded btn-outline-primary pt-1 px-2" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
+					return '<span class="#cellRenderClasses#" style="margin: 6px; display:block; float: ' + columnproperties.cellsalign + '; "><button type="button" class="border rounded btn-outline-primary" onClick=" window.open(\'#Application.serverRootUrl#/taxonomy/Taxonomy.cfm?action=edit&taxon_name_id=' + value + '\');">Edit</button></span>';
 					};
 				</cfif>
 
@@ -751,7 +751,7 @@ limitations under the License.
 							<cfelse>
 								{ text: 'Taxon_name_id', datafield: 'TAXON_NAME_ID', width:50, hideable: true, hidden: true }, 
 							</cfif>
-							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 100,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
+							{ text: 'Specimen Count', datafield: 'SPECIMEN_COUNT', width: 103,  hideable: true, hidden: false, cellsrenderer: specimenCellRenderer },
 							{ text: 'Full Taxon Name', datafield: 'FULL_TAXON_NAME', width:300, hideable: true, hidden: true },
 							{ text: 'Valid for Catalog', datafield: 'VALID_CATALOG_TERM', width:60, hideable: true, hidden: false, cellsrenderer: validCellRenderer },
 							{ text: 'Common Name(s)', datafield: 'COMMON_NAMES', width:100, hideable: true, hidden: true },
