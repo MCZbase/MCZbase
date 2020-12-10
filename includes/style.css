@@ -1684,11 +1684,11 @@ ul.sf-menu li li li.sfHover ul {
 /*	background:		#E7E7E7;*/
 }
 .sf-menu li li li {
-	background:		#E7E7E7;
+	/*background:		#E7E7E7;*/
 }
 .sf-menu li:hover, .sf-menu li.sfHover,
 .sf-menu a:focus, .sf-menu a:hover, .sf-menu a:active {
-	background:		#D0D0D0;
+/*	background:		#D0D0D0;*/
 	outline:		0;
 	color:red;
 }
