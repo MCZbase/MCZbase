@@ -1135,7 +1135,11 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
+				<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			<cfelse>
+				<cfset row["id_link"] = "<a href='/editAccn.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
