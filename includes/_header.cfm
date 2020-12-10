@@ -237,7 +237,7 @@
 			</ul>
 		</li>
 	</cfif>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
      	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
@@ -253,6 +253,7 @@
                     	<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
                     	<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
                 	</div>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 					<div style="float:left;width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Users/Priviledges</div>
 						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
@@ -266,15 +267,19 @@
                     	<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">All User Stats</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
                   	</div>
+					
 					<div style="float:left;width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Application</div>
 						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
 						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">Manage ColdFusion</a>
                  		<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
                   	</div>
+					</cfif>
                 </li>
             </ul>
           </li>
+	  </cfif>
+	  
         	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
 				<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
