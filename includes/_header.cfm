@@ -61,22 +61,22 @@
       <div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 
   <ul class="sf-menu">
-        <li><!--main menu element-->
-            <a target="_top" href="/SpecimenSearch.cfm">Search</a>
-              <ul>
-                 <li><a target="_top" href="/SpecimenSearch.cfm">Specimens</a></li>
-                 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-                 <li><a target="_top" href="/Taxa.cfm">Taxonomy</a></li>
-                 <li><a target="_top" href="/MediaSearch.cfm">Media</a></li>
-                 <li><a target="_top" href="/showLocality.cfm">Places</a></li>
-				  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-				  <li><a target="_top" href="/agents.cfm">Agents</a></li>
-				  </cfif>
-				 <li><a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a></li>
-				 <li><a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a></li>
-					<cfif len(session.roles) gt 0 and listcontainsnocase(session.roles,"coldfusion_user")>
-					<li><a target="_top" href="/tools/userSQL.cfm">SQL Queries</a></li>
-					</cfif>
+     <li class="nav-item dropdown"><!--main menu element-->
+          <a href="##" class="nav-link dropdown-toggle text-left">Specimens</a>
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 25em;">
+				<li class="d-md-flex align-items-start justify-content-start">
+				<div style="float:left; width: 48%;">
+                <a target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+                <a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
+                <a target="_top" href="/Taxa.cfm">Taxonomy</a>
+             	<a target="_top" href="/MediaSearch.cfm">Media</a>
+				<a target="_top" href="/showLocality.cfm">Places</a>
+				<a target="_top" href="/agents.cfm">Agents</a>
+				<a target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
+				<a target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
+				<a target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
+				</div>
+				</li>
              </ul>
          </li><!--end main menu element-->
 
