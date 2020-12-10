@@ -921,6 +921,7 @@ limitations under the License.
 			SELECT distinct
 				trans.transaction_id,
 				accn_number,
+				accn_type,
 				nature_of_material,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
 				to_char(trans_date,'YYYY-MM-DD') as date_entered,
@@ -931,8 +932,8 @@ limitations under the License.
 				project_name,
 				project.project_id pid,
 				estimated_count,
-				concattransagent(trans.transaction_id,'entered by') ENTAGENT,
-				concattransagent(trans.transaction_id,'received from') RECFROMAGENT,
+				concattransagent(trans.transaction_id,'entered by') ent_agent,
+				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
