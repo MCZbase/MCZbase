@@ -86,11 +86,11 @@
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Enter Specimen Data</a>
-							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Create Media Record</a>
-							<a class="dropdown-item"  target="_top" href="/agents.cfm">Create Agent Record</a>
-							<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Create Publication Record</a>
-							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Create Project Record</a>
+							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>
+							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Media Record</a>
+							<a class="dropdown-item"  target="_top" href="/agents.cfm">Agent Record</a>
+							<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Publication Record</a>
+							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
 						</div>
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
