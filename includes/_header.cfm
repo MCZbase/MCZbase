@@ -243,21 +243,20 @@
           </li>
         	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-				<ul class="dropdown-menu border-0 shadow" style="min-width:28rem;border-radius: .2rem;">
+				<ul class="dropdown-menu border-0 shadow" style="min-width:12rem;border-radius: .2rem;">
 					<li class="d-md-flex align-items-start justify-content-start">
-						<div style="float:left; width: 48%;">
-						<div class="h5 dropdown-header px-4 text-danger">Data</div>
+						<div>
 							<cfif len(session.username) gt 0>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
 							<cfelse>
-								<a target="_top" href="/myArctos.cfm">Log In</a>
+								<a class="dropdown-item" target="_top" href="/myArctos.cfm">Log In</a>
 							</cfif>
 							<cfif len(session.username) gt 0>
 								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
 							</cfif>
 						</div>
 					</li>
-				  </ul>
+				</ul>
             </li>
           <li><a target="_top" href="##">Help</a>
                   <ul>
@@ -266,11 +265,11 @@
                        </cfscript>
                      <!--- server name may be the correct fully qualified name or may be just the hostname, e.g. mczbase-prd  ---> 
                      <cfif serverName contains "harvard.edu" or serverName contains "mczbase" >
-                       <li><a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a></li>
+                       <a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a></li>
                      </cfif>
-					 <li><a target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
-                     <li><a target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
-					  <li><a target="_blank" href="/info/api.cfm">API</a></li>
+					 <a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
+                     <a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
+					  <a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a></li>
                  </ul>
             </li>
       </ul><!---sf-menu--->
