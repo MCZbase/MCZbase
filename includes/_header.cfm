@@ -169,20 +169,29 @@
 			</ul>
 		</li>
 
-		<li><a target="_top" href="##">Transactions</a>
-                      <ul>
-                        <li><a target="_top" href="/Transactions.cfm">Find Transactions</a></li>
-                        <li><a target="_top" href="/newAccn.cfm">Create Accession</a></li>
-                        <li><a target="_top" href="/editAccn.cfm">Find Accession</a></li>
-                        <li><a target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a></li>
-                        <li><a target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a></li>
-                        <li><a target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a></li>
-                        <li><a target="_top" href="/Borrow.cfm?action=new">Create Borrow</a></li>
-                        <li><a target="_top" href="/Borrow.cfm">Find Borrow</a></li>
-                        <li><a target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a></li>
-                        <li><a target="_top" href="/transactions/Permit.cfm">Find Permit</a></li>
-                     </ul>
+		  <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
+			<ul class="dropdown-menu border-0 shadow" style="min-width:25em;">
+				<li class="d-md-flex align-items-start justify-content-start">
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+						<a class="dropdown-item" target="_top" href="/Transactions.cfm">Find Transactions</a>
+                        <a class="dropdown-item" target="_top" href="/editAccn.cfm">Find Accession</a>
+						<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findLoans">Find Loans</a>
+						<a class="dropdown-item" target="_top" href="/Borrow.cfm">Find Borrow</a>
+						<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Find Deaccession</a>
+						<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Find Permit</a>
+					</div>
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+						<a class="dropdown-item"   target="_top" href="/newAccn.cfm">Create Accession</a>
+						<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a>
+						<a class="dropdown-item" target="_top" href="/Borrow.cfm?action=new">Create Borrow</a>
+             			<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a>
+                       	<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm?action=new">Create Permit</a>
+					</div>
+				</li>
+            </ul>
          </li><!--end main menu element-->
             <li><a target="_top" href="##">Review Data</a>
                   	<ul>
