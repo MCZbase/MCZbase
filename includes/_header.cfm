@@ -19,8 +19,8 @@
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
-                    minWidth:    'auto',
-                    maxWidth:    'auto',
+                    minWidth:    30,
+                    maxWidth:    60,
                     extraWidth:  1
                 }).superfish({
                     delay:       600,
