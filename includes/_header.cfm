@@ -260,7 +260,7 @@
             </li>
             <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
-				<ul class="dropdown-menu border-0 shadow" style="min-width:12rem;border-radius: .2rem;">
+				<ul class="dropdown-menu border-0 shadow" style="min-width:13rem;border-radius: .2rem;">
 					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
                        <cfscript>
