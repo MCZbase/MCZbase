@@ -64,6 +64,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 	letter-spacing: .02rem;
 /*	margin-right: .25rem;*/
+	line-height: 1.25;
 }
 .user {
 	font-size: .9rem;
