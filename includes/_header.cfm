@@ -63,7 +63,7 @@
   <ul class="sf-menu">
      <li class="nav-item dropdown"><!--main menu element-->
           <a href="##" class="nav-link dropdown-toggle text-left">Specimens</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 15em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 				<div style="float:left; width: 48%;">
                 <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
@@ -82,7 +82,7 @@
 
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 25em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 22em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 48%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
