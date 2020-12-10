@@ -194,14 +194,14 @@
          </li><!--end main menu element-->
       	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:25em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:24em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 48%;">
+					<div style="float:left; width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
 						<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
                        	<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 					</div>
-					<div style="float:left;width: 48%;">
+					<div style="float:left;width: 49%;">
 						<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
 					   	<a class="dropdown-item"  target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
 					   	<a class="dropdown-item"  target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
