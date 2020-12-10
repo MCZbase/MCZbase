@@ -958,7 +958,7 @@ limitations under the License.
 									<label for="addTaxonRelationButton" class="data-entry-label" aria-hidden="true">
 										<output id=”addTaxonRelationFeedback” style="display: none;"><img src='/shared/images/indicator.gif'></output>
 									</label>
-									<input type="button" value="Create" class="btn btn-xs btn-secondary mt-1"
+									<input type="button" value="Create" class="btn btn-xs btn-secondary" style="margin-top:.12em;"
 										onclick=" addTaxonRelationHandler(); "
 										id="addTaxonRelationButton"
 									>
