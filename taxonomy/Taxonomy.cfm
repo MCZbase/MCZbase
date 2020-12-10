@@ -331,7 +331,7 @@ limitations under the License.
 								</cfif>
 							</cfloop>
 							<div class="col-6 col-xl-3 px-0 float-left">
-								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select data-height">
+								<select name="taxonid_guid_type" id="taxonid_guid_type" class="data-entry-select">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
