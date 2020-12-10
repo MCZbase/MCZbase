@@ -1217,7 +1217,7 @@ table#pairs, th, td {
 .form-control-sm {
 	width: 100%;
 	border: 1px solid #ccc;
-	line-height: 1;
+    height: calc(1.15em + .5rem + 2px);
 }
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
