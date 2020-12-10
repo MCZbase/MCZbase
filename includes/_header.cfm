@@ -65,7 +65,7 @@
           <a href="##" class="nav-link dropdown-toggle text-left">Specimens</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-				<div style="float:left; width: 48%;">
+				<div>
                 <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
                 <a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
@@ -113,23 +113,23 @@
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 33%;">
+					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
 						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
 					</div>
-					<div style="float:left; width: 33%;">
+					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create</div>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Collecting Event Number Series</a>
 					</div>
-					<div style="float:left; width: 33%;">
+					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-						<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a>
-						<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a>
+						<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+						<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
 						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
 						<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
