@@ -111,16 +111,16 @@
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Search Geography</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Search Localities</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a>
-						<a class="dropdown-item" target="_top" href="">Search Collecting Event Number Series</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
+						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
 					</div>
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create</div>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Create Geography</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Create Locality</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Collecting Event Number Series</a>
 					</div>
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
@@ -155,8 +155,8 @@
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 						<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
-						<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a></li>
-						<a class="dropdown-item"  href="/labels2containers.cfm" target="_top">Label > Container</a>
+						<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
+						<a class="dropdown-item"  href="/labels2containers.cfm" target="_top">Label &gt; Container</a>
 						<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
 						<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 						<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
