@@ -597,8 +597,8 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
-										<a class="dropdown-item" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
-										<a class="dropdown-item" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
+										<a class="dropdown-item" target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF</a>
+										<a class="dropdown-item" target="_blank" href="https://portal.idigbio.org/portal/search?rq={%22recordset%22:%22271a9ce9-c6d3-4b63-a722-cb0adc48863f%22}">View MCZ data in iDigBio</a>
 									</div>
 								</li>
 							</ul>
