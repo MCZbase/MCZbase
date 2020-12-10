@@ -255,7 +255,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>				
 								<cfif targetMenu EQ "production">
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 									</cfif>
 								<cfelse>
