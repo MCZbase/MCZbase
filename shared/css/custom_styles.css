@@ -290,15 +290,14 @@ span.data-entry-addon {
 .btn-primary:focus, .btn-primary.focus, span.data-entry-addon.focus, span.data-entry-addon:focus {
 	background-color: #deebec;
 	color: #212529;
-	border: 1px solid hsl(0, 2%, 47%);
-	border-color: #ced4da;
+	border: 1px solid #ced4da;
 	outline: 0;
 	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
 	background-color: #deebec;
 	color: #212529;
-	border: 1px solid hsl(0, 2%, 47%);
+	border: 1px solid #ced4da;
 }
 .btn-secondary {
 	background-color: #d7d7d7;
