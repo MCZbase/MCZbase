@@ -1841,6 +1841,7 @@ div.submenu h2:hover {
 .h5 {
 	font-size: .875rem;
 	line-height:1.3;
+	padding-bottom: .25em;
 }
 .dropdown-toggle {
 	white-space: nowrap;
