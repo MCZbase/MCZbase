@@ -1638,12 +1638,17 @@ $(document).ready(function() {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findAccessions&execute=true&' + $('##accnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','accn');
+
+// TODO: Find number of objects in results, display link to those through specimen search: 
+// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
+
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
+// TODO: Needs an accession row details dialog linking out to accession object searches, not loan 
 			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
