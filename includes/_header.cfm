@@ -151,8 +151,7 @@
 						<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Grouping</a>
 						<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
 						<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
-				
-							</div>
+					</div>
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 						<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
@@ -184,7 +183,7 @@
 					</div>
 					<div style="float:left; width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-						<a class="dropdown-item"   target="_top" href="/newAccn.cfm">Create Accession</a>
+						<a class="dropdown-item" target="_top" href="/newAccn.cfm">Create Accession</a>
 						<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Create Loan</a>
 						<a class="dropdown-item" target="_top" href="/Borrow.cfm?action=new">Create Borrow</a>
              			<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=newDeacc">Create Deaccession</a>
@@ -193,14 +192,23 @@
 				</li>
             </ul>
          </li><!--end main menu element-->
-            <li><a target="_top" href="##">Review Data</a>
-                  	<ul>
-					    <li><a target="_top" href="/reporting/Reports.cfm">List of Reports &amp; Statistics</a></li>
-                        <li><a target="_top" href="/info/queryStats.cfm">Query Stats</a></li>
-					    <li><a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a></li>
-					    <li><a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a></li>
-              		</ul>
+      	<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
+			<ul class="dropdown-menu border-0 shadow" style="min-width:25em;">
+				<li class="d-md-flex align-items-start justify-content-start">
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
+						<a target="_top" href="/reporting/Reports.cfm">List of Reports</a>
+                        <a target="_top" href="/info/queryStats.cfm">Query Stats</a>
+					</div>
+					<div style="float:left;width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
+					    <a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
+					    <a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
+              		</div>
                 </li>
+			</ul>
+		</li>
 	        <li><a target="_top" href="##">Admin</a>
             <ul>
                 <li> <a target="_top" href="##">Developer Widgets</a>
