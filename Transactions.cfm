@@ -1611,7 +1611,7 @@ $(document).ready(function() {
 				{text: 'Type', datafield: 'accn_type', width: 100},
 				{text: 'Status', datafield: 'accn_status', width: 100},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
-				{text: 'Date Received', datafield: 'date_entered', width: 100, hideable: true, hidden: false },
+				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
 				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },

@@ -992,14 +992,14 @@ limitations under the License.
 				</cfif>
 			WHERE 
 				accn.transaction_id is not null
-				<cfif isDefined("number") and len(number) gt 0>
+				<cfif isDefined("accn_number") and len(number) gt 0>
 					<cfif left(number,1) is "=">
-						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(number,len(number)-1)#">
+						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
 					<cfelse>
 						<cfif find(',',number) GT 0>
-							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#number#" list="yes"> )
+							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
 						<cfelse>
-							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#number#%">
+							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accn_number#%">
 						</cfif>
 					</cfif>
 				</cfif>
