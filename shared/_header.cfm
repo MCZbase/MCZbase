@@ -686,11 +686,11 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Database Role Definitions</a>
 										</cfif>	
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
+<!---											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/form_roles.cfm">Form Permissions</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Form Permissions</a>
-											</cfif>
+											</cfif>--->
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/blacklist.cfm">Blacklist</a>
 											<cfelse>

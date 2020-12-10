@@ -261,8 +261,8 @@
                  		<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
 						<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
                   		<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
-                    	<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
-                    	<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
+             <!---       	<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
+                    	<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>--- These doesn't seem to work on production--->
                     	<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">All User Stats</a>
                     	<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
