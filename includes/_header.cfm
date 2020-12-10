@@ -243,7 +243,7 @@
           </li>
         	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-				<ul class="dropdown-menu border-0 shadow" style="min-width:12rem;border-radius: .2rem;">
+				<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
 					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
 							<cfif len(session.username) gt 0>
@@ -258,18 +258,22 @@
 					</li>
 				</ul>
             </li>
-          <li><a target="_top" href="##">Help</a>
-                  <ul>
+            <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
+				<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
+					<li class="d-md-flex align-items-start justify-content-start">
+						<div>
                        <cfscript>
 			    serverName = CreateObject("java", "java.net.InetAddress").getLocalHost().getHostName();
                        </cfscript>
                      <!--- server name may be the correct fully qualified name or may be just the hostname, e.g. mczbase-prd  ---> 
                      <cfif serverName contains "harvard.edu" or serverName contains "mczbase" >
-                       <a target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a></li>
+                       <a class="dropdown-item" target="_blank" href="https://code.mcz.harvard.edu/wiki/index.php/Using_MCZbase">Using MCZbase (Wiki Support)</a>
                      </cfif>
-					 <a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a></li>
-                     <a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a></li>
-					  <a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a></li>
+					 <a class="dropdown-item" target="_blank" href="/vocabularies/ControlledVocabulary.cfm">Controlled Vocabularies</a>
+                     <a class="dropdown-item" target="_blank" href="https://mcz.harvard.edu/database">About MCZbase</a>
+					 <a class="dropdown-item" target="_blank" href="/info/api.cfm">API</a>
+					</li>
                  </ul>
             </li>
       </ul><!---sf-menu--->
