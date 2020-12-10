@@ -1833,7 +1833,7 @@ limitations under the License.
 						<div class="col-12 col-md-4">
 							<span class="my-1 data-entry-label">
 								<label for="npf_issued_to">Issued To:</label>
-								<h5 id="npf_issued_to_view_link" class="d-inline px-2">&nbsp;</h5>
+								<span id="npf_issued_to_view_link" class="px-2">&nbsp;</span>
 							</span>
 							<input type="hidden" name="IssuedToAgentID" id="npf_IssuedToAgentId" value=""
 									onchange=" updateAgentLink($('##npf_IssuedToAgentId').val(),'npf_issued_to_view_link'); ">
