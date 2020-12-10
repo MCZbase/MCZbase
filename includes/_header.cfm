@@ -130,7 +130,7 @@
 				<li class="d-md-flex align-items-start justify-content-start">
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 					<div style="float:left; width: 33.2%;">
-						<div class="h5 dropdown-header px-4 text-danger">Search</div>
+						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
