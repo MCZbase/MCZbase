@@ -161,7 +161,7 @@
 						<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 						<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
 						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-						<a class="dropdown-item"  target="_top" href="/CodeTableEditor.cfm">Code Tables</a>
+						
 						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 			  		</div>
 	  			</li>
@@ -198,40 +198,47 @@
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Records &amp; Statistics</div>
-						<a target="_top" href="/reporting/Reports.cfm">List of Reports</a>
-                        <a target="_top" href="/info/queryStats.cfm">Query Stats</a>
+						<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
+                       	<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 					</div>
 					<div style="float:left;width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
-					    <a target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
-					    <a target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
+					   	<a class="dropdown-item"  target="_top" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
+					   	<a class="dropdown-item"  target="_top" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
               		</div>
                 </li>
 			</ul>
 		</li>
-	        <li><a target="_top" href="##">Admin</a>
-            <ul>
-                <li> <a target="_top" href="##">Developer Widgets</a>
-                  <ul>
-                    <li><a target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a></li>
-                    <li><a target="_top" href="/Admin/dumpAll.cfm">Dump</a></li>
-                    <li><a target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a></li>
-                    <li><a target="_top" href="/tools/imageList.cfm">Image List</a></li>
-                  </ul>
+     	<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
+			<ul class="dropdown-menu border-0 shadow" style="min-width:30em;">
+				<li class="d-md-flex align-items-start justify-content-start">
+					<div style="float:left; width: 48%;">
+					<div class="h5 dropdown-header px-4 text-danger">Data</div>
+                    	<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
+						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Geology Hierarchy Table</a>
+						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Reporter</a>
+						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Download Tables</a>
+                    	<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump</a>
+						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Scheduled Tasks</a>
+                    	<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
+                    	<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
+                	</div>
+					<div style="float:left;width: 48%;">
+					<div class="h5 dropdown-header px-4 text-danger">Users/Priviledges</div>
+						<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
+						<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
+                 		<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
+						<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles Definitions</a>
+                  		<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
+                    	<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
+                    	<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
+                    	<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a>
+                    	<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">All User Stats</a>
+                    	<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
+					 	
+                  	</div>
                 </li>
-                <li><a target="_top" href="##">Roles/Permissions</a>
-                  <ul>
-                    <li><a target="_top" href="/Admin/form_roles.cfm">Form Permissions</a></li>
-                    <li><a target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a></li>
-                    <li><a target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a></li>
-                    <li><a target="_top" href="/AdminUsers.cfm">MCZbase Users</a></li>
-                    <li><a target="_top" href="/Admin/user_roles.cfm">Database Roles</a></li>
-                    <li><a target="_top" href="/Admin/user_report.cfm">All User Stats</a></li>
-                    <li><a target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a></li>
-					 <li><a target="_top" href="/Admin/ActivityLog.cfm">Oracle Audit</a></li>
-                  </ul>
-                </li>
-           <!---   </cfif>--->
             </ul>
           </li>
            <li><a target="_top" href="/myArctos.cfm">Account</a>
