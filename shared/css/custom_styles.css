@@ -1459,7 +1459,8 @@ textarea {
 	padding: 0 .25rem;
 	line-height:1.2rem;
 	font-size: .9rem;
-	margin-bottom:.25rem; 
+	margin-bottom:.25rem;
+	border: 1px solid #ced4da;
 }
 .fa-info-circle {
 	font-size: 1.05em;
