@@ -136,24 +136,36 @@
 			</ul>
 		</li><!--end main menu element-->
 				  
-		<li>
-			<a target="_top" href="##">Curation</a>
-			<ul>
-				<li><a href="/grouping/NamedCollection.cfm" target="_top">Search Named Groupings</a></li>
-				<li><a href="/grouping/NamedCollection.cfm?action=new" target="_top">Create Named Grouping</a></li>
-				<li><a href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a></li>
-				<li><a href="/findContainer.cfm" target="_top">Find Storage Container Location</a></li>
-				<li><a href="/editContainer.cfm?action=newContainer" target="_top">Create Container/Storage Location</a></li>
-				<li><a href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a></li>
-				<li><a href="/moveContainer.cfm" target="_top">Move Container</a></li>
-				<li><a href="/batchScan.cfm" target="_top">Batch Scan</a></li>
-				<li><a href="/labels2containers.cfm" target="_top">Label > Container</a></li>
-				<li><a href="/part2container.cfm" target="_top">Put Parts in Containers</a></li>
-				<li><a href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a></li>
-				<li><a href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a></li>
-                <li><a target="_top" href="/Encumbrances.cfm">Encumbrances</a></li>
-                 <li><a target="_top" href="/CodeTableEditor.cfm">Code Tables</a></li>
-                 <li><a target="_top" href="/Admin/Collection.cfm">Manage Collection</a></li>
+		  <li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
+			<ul class="dropdown-menu border-0 shadow" style="min-width:50em;">
+				<li class="d-md-flex align-items-start justify-content-start">
+					<div style="float:left; width: 33%;">
+						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+						<a class="dropdown-item"  href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
+						<a class="dropdown-item"  href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
+						<a class="dropdown-item"  href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
+					</div>
+					<div style="float:left; width: 33%;">
+						<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
+						<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Grouping</a>
+						<a class="dropdown-item"  href="/editContainer.cfm?action=newContainer" target="_top">Storage Location/Create Container</a>
+						<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
+				
+							</div>
+					<div style="float:left; width: 33%;">
+						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+						<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
+						<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a></li>
+						<a class="dropdown-item"  href="/labels2containers.cfm" target="_top">Label > Container</a>
+						<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
+						<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
+						<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
+						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+						<a class="dropdown-item"  target="_top" href="/CodeTableEditor.cfm">Code Tables</a>
+						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+			  		</div>
+	  			</li>
 			</ul>
 		</li>
 
