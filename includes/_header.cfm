@@ -58,7 +58,7 @@
          </div><!---end headerText--->
     </div><!---end image_headerWrap--->
   </div><!--- end headerContent div --->
-      <div class="sf-mainMenuWrapper" style="font-size: 14px;">
+      <div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 
   <ul class="sf-menu">
         <li><!--main menu element-->
