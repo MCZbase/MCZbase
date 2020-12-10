@@ -2,7 +2,7 @@
 /************************/
 body, html {
 	line-height: 1.15rem;
-	font-size: 15px;
+	font-size: 1rem;
 }
 /** Styling of Required fields on forms **/
 input.reqdClr, select.reqdClr, textarea.reqdClr {
