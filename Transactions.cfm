@@ -1658,6 +1658,9 @@ $(document).ready(function() {
 	// If requested in uri, execute search immediately.
 	<cfif isdefined("execute")>
 		<cfswitch expression="#execute#">
+			<cfcase value="accn">
+				$('##accnSearchForm').submit();
+			</cfcase>
 			<cfcase value="loan">
 				$('##loanSearchForm').submit();
 			</cfcase>
