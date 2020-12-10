@@ -1747,7 +1747,8 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 	width:90%;
     margin:0 auto;
 	font-weight:400;
-/*	background-color:#D5D5DB;*/
+	background-color:#D5D5DB;
+	background-color: white;
     border-bottom: 1px solid #d5d5db;
     position:relative;
     font-size: 15px;
