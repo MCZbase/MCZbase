@@ -1820,6 +1820,7 @@ div.submenu ul li:hover ul, div.submenu ul ul li:hover ul, div.submenu ul ul ul 
 }
 div.submenu h2:hover {
 	background: #E7E7E7 url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
+		background: #ffffff url(/images/small-black-down-arrow.gif) no-repeat 100% 100%;
 	color: #0000FF;
 }
 .card-columns {
