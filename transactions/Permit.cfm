@@ -944,7 +944,7 @@ limitations under the License.
 						</div>
 					</section>
 					<section name="associatedMediaSection" class="row mx-0 bg-light border pb-2 rounded my-2">
-						<div class="col-12">
+						<div class="col-12 pb-2">
 							<!---  list/add media copy of associated documents (document for permit) --->
 							<div id="associateddocuments"><img src='images/indicator.gif'></div>
 						</div>
