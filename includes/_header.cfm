@@ -19,9 +19,9 @@
     <script language="javascript" type="text/javascript">
            jQuery(document).ready(function(){
                 jQuery("ul.sf-menu").supersubs({
-                    minWidth:    30,
-                    maxWidth:    60,
-                    extraWidth:  1
+                  //  minWidth:    30,
+                  //  maxWidth:    60,
+                   // extraWidth:  1
                 }).superfish({
                     delay:       600,
                     animation:   {opacity:'show',height:'show'},
