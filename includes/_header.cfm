@@ -82,7 +82,7 @@
 
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 22em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 48%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -107,7 +107,7 @@
 				  <!--start main menu element-->
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:50em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search</div>
@@ -138,7 +138,7 @@
 				  
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
@@ -170,7 +170,7 @@
 
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width:23em; border-radius: .2rem;">
+			<ul class="dropdown-menu border-0 shadow" style="min-width:21em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 48%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
