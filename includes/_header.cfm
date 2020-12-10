@@ -81,9 +81,8 @@
          </li><!--end main menu element-->
 
               <li class="nav-item dropdown"><!--main menu element-->
-                  <a href="##" class="nav-link dropdown-toggle px-3 text-left">Data Entry</a>
+                  <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow">
-						
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 48%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -106,25 +105,35 @@
 					</ul>
               </li>
 				  <!--start main menu element-->
-         <li>
-            <a target="_top" href="##">Manage Data</a>
-			<ul>
-				<li><a target="_top" href="/Locality.cfm?action=findHG">Search Geography</a></li>
-				<li><a target="_top" href="/Locality.cfm?action=findLO">Search Localities</a></li>
-				<li><a target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a></li>
-				<li><a target="_top" href="">Search Collecting Event Number Series</a></li>
-				<li><a target="_top" href="/Locality.cfm?action=newHG">Create Geography</a></li>
-				<li><a target="_top" href="/Locality.cfm?action=newLO">Create Locality</a></li>
-				<li><a target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a></li>
-				<li><a target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a></li>
-				<li><a target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a></li>
-				<li><a target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a></li>
-				<li><a target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a></li>
-				<li><a target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a></li>
-				<li><a target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a></li>
-				<li><a target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a></li>
+         <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
+			<ul class="dropdown-menu border-0 shadow">
+				<li class="d-md-flex align-items-start justify-content-start">
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Search</div>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Search Geography</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Search Localities</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Search Collecting Event</a>
+						<a class="dropdown-item" target="_top" href="">Search Collecting Event Number Series</a>
+					</div>
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Create</div>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Create Geography</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Create Locality</a>
+						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Create Collecting Event Number Series</a>
+					</div>
+					<div style="float:left; width: 48%;">
+						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+						<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Manage Encumbrances</a>
+						<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Manage Annotations</a>
+						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
+						<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
+						<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
+						<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+					</div>
+				</li>
 			</ul>
-
 		</li><!--end main menu element-->
 				  
 		<li>
