@@ -345,7 +345,8 @@ limitations under the License.
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 	      	        	<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">			
-								<li class="d-md-flex align-items-start justify-content-start">		
+								<li class="d-md-flex align-items-start justify-content-start">	
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 
@@ -370,6 +371,8 @@ limitations under the License.
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
 										</cfif>
 									</div>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										
@@ -388,7 +391,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Locality</a> 
 											</cfif>
 										</cfif>
-									
+									</cfif>
 										<cfif targetMenu EQ "production">									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 											<cfelse>
@@ -397,6 +400,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
 										<cfelse>
@@ -404,7 +408,8 @@ limitations under the License.
 										</cfif>
 										
 											<a class="dropdown-item" href="">Annotations</a>
-										
+												</cfif>
+												<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
 										<cfelse>
@@ -416,6 +421,8 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Merge bad duplicate agents</a>
 										</cfif>
+											</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
 										<cfelse>
@@ -428,7 +435,7 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="">Pending Relationships</a>
 										</cfif>
 										
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
 										<cfelse>
@@ -436,6 +443,7 @@ limitations under the License.
 										</cfif>
 									</cfif>
 									</div>
+											</cfif>
 								</li>
 							</ul>
 						</li>

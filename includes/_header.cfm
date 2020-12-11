@@ -147,8 +147,10 @@
 					</cfif>
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-						<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-						<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
+						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+						</cfif>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
 						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
 						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
@@ -175,6 +177,9 @@
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 						<a class="dropdown-item"  href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
 						<a class="dropdown-item"  href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
+<!---						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
+							<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
+						</cfif>--->
 						</cfif>
 					</div>
 					<div style="float:left; width: 33.2%;">
@@ -194,10 +199,6 @@
 						<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
 						<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 						<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
-						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 						</cfif>
 			  		</div>
 	  			</li>
