@@ -1752,7 +1752,7 @@ content: '⇡';
 		margin-right: 0px;
     	margin-left: 4px;
 	}
-	@media (min-width: 576px)
+	@media (min-width: 576px){
 .card-columns {
     -webkit-column-count: 3;
     -moz-column-count: 3;
