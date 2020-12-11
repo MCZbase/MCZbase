@@ -279,7 +279,7 @@ limitations under the License.
 							 </li>
 						</ul>
 					</li>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
@@ -313,8 +313,6 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Publication</a> 
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Project.cfm?action=makeNew">Projects</a><!--- old --->
 											<cfelse>
