@@ -1170,7 +1170,9 @@ limitations under the License.
 										</div>
 									</div>
 									<cfif ListLen(uriList,',',false) gt 0 >
-										<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" class="font-weight-bold pl-2">PDF of All Permission and Rights documents</a>
+										
+										<a href="/Reports/combinePermits.cfm?transaction_id=#loanDetails.transaction_id#" class="font-weight-bold pl-2 d-block mb-2">PDF of All Permission and Rights documents</a>
+											
 									</cfif>
 								</div>
 							</section>
