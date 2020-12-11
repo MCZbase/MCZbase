@@ -152,22 +152,22 @@
 					</div>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-					<div style="float:left; width: 33.2%;">
-						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+							<div style="float:left; width: 33.2%;">
+								<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+								<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+								<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
+								<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+								<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+								<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
+								<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
+								<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+								</cfif>
+							</div>
 						</cfif>
-						<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
-						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
-						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
-						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-						<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
-						<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
-						<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
-						</cfif>
-					</div>
 					</cfif>
 				</li>
 			</ul>
