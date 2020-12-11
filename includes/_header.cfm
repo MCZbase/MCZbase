@@ -92,8 +92,8 @@
              </ul>
          </li><!--end main menu element-->
 		</cfif>	
-		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
@@ -125,7 +125,6 @@
 					</ul>
               	</li>
 			</cfif>
-	  	</cfif>
 	<!--start main menu element-->
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
          <li class="nav-item dropdown">
@@ -175,7 +174,6 @@
 			</ul>
 		</li><!--end main menu element-->
 	  </cfif>
-	  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
@@ -217,7 +215,6 @@
 			</ul>
 		</li>
 	  </cfif>
-	  </cfif>
  	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
@@ -244,8 +241,7 @@
             </ul>
          </li><!--end main menu element-->
 	 	</cfif>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-      	<li class="nav-item dropdown">
+    <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
@@ -262,7 +258,6 @@
                 </li>
 			</ul>
 		</li>
-	</cfif>
 	<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
      	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
@@ -309,7 +304,7 @@
             </ul>
           </li>
 	  </cfif>
-	  
+	</cfif> 
         	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
 				<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">

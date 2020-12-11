@@ -344,7 +344,6 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>	
-					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
@@ -450,7 +449,6 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<!--- TODO: Review roles and permissions --->
 						<li class="nav-item dropdown">
@@ -540,8 +538,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					</cfif>
-						<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_tranasctions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
+					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_tranasctions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 	              			<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
@@ -597,8 +594,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-						<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
+					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="" id="reportDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="reportDropdown">			
 									<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
@@ -614,7 +610,6 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
-					</cfif>
 					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
@@ -738,6 +733,7 @@ limitations under the License.
 								</li>
 							</ul>
 						</li>
+					</cfif>
 					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
