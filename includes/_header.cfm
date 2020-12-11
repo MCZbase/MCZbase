@@ -175,6 +175,7 @@
 			</ul>
 		</li><!--end main menu element-->
 	  </cfif>
+	  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
@@ -215,6 +216,7 @@
 	  			</li>
 			</ul>
 		</li>
+	  </cfif>
 	  </cfif>
  	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 		  <li class="nav-item dropdown">
