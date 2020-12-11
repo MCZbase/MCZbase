@@ -127,7 +127,7 @@
 			</cfif>
 	  	</cfif>
 	<!--start main menu element-->
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
@@ -173,7 +173,7 @@
 			</ul>
 		</li><!--end main menu element-->
 	  </cfif>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 		  <li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
