@@ -255,7 +255,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>				
 								<cfif targetMenu EQ "production">
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 									</cfif>
 								<cfelse>
@@ -300,7 +300,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Media</a>
 											</cfif>
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+												<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/agents.cfm">Agent</a><!--- old --->
 											<cfelse>
@@ -524,7 +524,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+						<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_tranasctions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 	              			<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
@@ -568,8 +568,9 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
 										</cfif>
-									
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
+											</cfif>
 									</div>
 									</li>
 							</ul>

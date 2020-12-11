@@ -70,7 +70,7 @@
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
              	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
 			</cfif>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
@@ -151,7 +151,7 @@
 						<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
 						<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
 						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+						<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 						<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
 						<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
 						</cfif>
