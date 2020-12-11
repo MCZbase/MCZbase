@@ -95,7 +95,7 @@
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 							</cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+							<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 							<a class="dropdown-item"  target="_top" href="/agents.cfm">Agent Record</a>
 							</cfif>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>

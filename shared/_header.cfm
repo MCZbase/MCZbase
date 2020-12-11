@@ -255,7 +255,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>				
 								<cfif targetMenu EQ "production">
-										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 									</cfif>
 								<cfelse>
@@ -404,7 +404,7 @@ limitations under the License.
 										</cfif>
 											<a class="dropdown-item" href="">Annotations</a>
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Admin/agentMergeReview.cfm">Review Pending Merges</a>
 										<cfelse>
