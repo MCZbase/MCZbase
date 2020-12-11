@@ -190,17 +190,17 @@
 						<a class="dropdown-item"  href="/CreateContainersForBarcodes.cfm" target="_top">Create Container Series</a>
 						</cfif>
 					</div>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 						<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
 						<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
 						<a class="dropdown-item"  href="/labels2containers.cfm" target="_top">Label &gt; Container</a>
 						<a class="dropdown-item"  href="/part2container.cfm" target="_top">Put Parts in Containers</a>
 						<a class="dropdown-item"  href="/SpecimenContainerLabels.cfm" target="_top">Clear Flags</a>
 						<a class="dropdown-item"  href="/LoadBarcodes.cfm" target="_top">Upload Scan File</a>
-						</cfif>
 			  		</div>
+				</cfif>
 	  			</li>
 			</ul>
 		</li>
