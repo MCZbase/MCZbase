@@ -115,21 +115,17 @@
 							</cfif>
 						</div>
 						</cfif>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
 							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
 							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
 							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-							</cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 							<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
-							</cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 							<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
-							</cfif>
 						</div>
+						</cfif>
 					  </li>
 					</ul>
               </li>
@@ -143,11 +139,9 @@
 					
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
-						</cfif>
 						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
 					</div>
 					

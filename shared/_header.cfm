@@ -275,7 +275,7 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
 								</cfif>	
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
 										<a class="dropdown-item" href="/tools/userSQL.cfm">SQL Queries</a> <!--- old - but relocated, not in this menu on current prd--->
@@ -289,20 +289,20 @@ limitations under the License.
 						</ul>
 					</li>
 					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+										
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/DataEntry.cfm">Enter Specimen Data</a><!--- old --->
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Specimen</a>
 											</cfif>
-										</cfif>
+										
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/media.cfm?action=newMedia">Media</a><!--- old --->
@@ -330,21 +330,17 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</div>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Bulkload</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-												<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>							
-												<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
-												<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a>
-												<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>				
-												<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
-										</cfif>								
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-												<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
-										</cfif>	
+										<a class="dropdown-item" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkload Builder</a>							
+										<a class="dropdown-item" href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>
+										<a class="dropdown-item" href="/Bulkloader/bulkloader_status.cfm">Bulkloader Status</a>
+										<a class="dropdown-item" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>				
+										<a class="dropdown-item" href="/tools/PublicationStatus.cfm">Publication Staging</a>
+										<a class="dropdown-item" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
 									</div>
+									</cfif>	
 								</li>
 							</ul>
 						</li>
@@ -356,7 +352,6 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
 										<cfelse>
@@ -374,12 +369,13 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Collecting Event</a>
 										</cfif>
-									</cfif>
+									
 											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
 									</div>
 							
-									
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
+								
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 											<cfif targetMenu EQ "production">
@@ -402,6 +398,8 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a> 
 										</cfif>
 									</div>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
@@ -442,6 +440,7 @@ limitations under the License.
 										</cfif>
 										</cfif>
 									</div>
+									</cfif>
 								</li>
 							</ul>
 						</li>
@@ -471,6 +470,7 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
 										</cfif>
 									</div>
+									<cfif isdefined("session.roles") and (listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>		
@@ -487,7 +487,8 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</div>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
+									</cfif>
+									<cfif isdefined("session.roles") and (listcontainsnocase(session.roles,"manage_specimens") or listcontainsnocase(session.roles,"manage_container"))>
 										<div>
 											<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 																					
