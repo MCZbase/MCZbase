@@ -349,7 +349,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>	
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 	      	        	<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">			
