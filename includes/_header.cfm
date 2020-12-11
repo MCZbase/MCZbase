@@ -134,9 +134,11 @@
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
 						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
+						</cfif>
 						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
 					</div>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
