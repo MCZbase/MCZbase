@@ -906,8 +906,8 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0 mt-1 my-xl-2">
-										<div class="col-12 col-md-4">
+									<div class="form-row mx-0 mt-2">
+										<div class="col-md-6">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
@@ -915,8 +915,6 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
 												<input type='text' name='to_trans_date' id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
 											</div>
-										</div>
-										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 mx-1" for="accn_rec_date">Date Received:</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#rec_date#" aria-label="start of range for date received">
@@ -924,12 +922,6 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
 												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>
-										</div>
-										<div class="col-12 col-md-4">
-										</div>
-									</div>
-									<div class="form-row mx-0 mt-2">
-										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-4">
 												<div class="col-md-12">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
@@ -1257,7 +1249,7 @@ limitations under the License.
 				permits = datarecord[datafield];
 				if (permits.length > 0) { 
 					permits = permits.replaceAll('|','</li><li>');
-	      		content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + datarecord[datafield] +  "</li></ul></li>";
+	      		content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + permits +  "</li></ul></li>";
 				}
 			} else if (datafield == 'id_link') {
 				// don't show to user (duplicates accn number)
