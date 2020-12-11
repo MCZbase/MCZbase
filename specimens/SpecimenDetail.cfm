@@ -147,7 +147,7 @@ limitations under the License.
 	</cfif>
 
 	<!--- TODO: Cleanup indendation from here on ---> 
-<div role="region" class="container-fluid mb-2">
+<div class="container-fluid mb-2">
 	<cfif isDefined("cited_as") and len(cited_as) gt 0>
 		<cfif toptypestatuskind eq 'Primary' >
 			<section class="row mb-2 primaryType" >
@@ -169,8 +169,6 @@ limitations under the License.
 			<cfelse>
 					<div class="card box-shadow no-card bg-transparent">
 			</cfif>
-
-
 		<div class="row mx-0">
 			<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
 		</div>
@@ -190,55 +188,10 @@ limitations under the License.
 				<!--- No special color background for non-type specimens -- default background is gray --->
 				</cfif>	
 			</div>
-	
-		
-		
 			</div>
-<!---			<div class="col-12 col-md-6 mt-0">
-				<span class="h5 d-block font-weight-normal mb-0 mx-0 mx-md-2">Collector(s):  #collectors#</span>
-				<span class="h5 d-block font-weight-normal mt-1 mb-0 mx-0 mx-md-2">#began_date# - #ended_date#</span>
-			</div>--->
-<!---			<div class="col-12 col-md-12 mb-2 mt-0">
-				<span class="h5 my-0 mx-0 font-weight-normal">#higher_geog# :: #spec_locality#</span>
-			</div>--->
 		</div>
 	</div>
-<!---	
-		<h2 class="my-0 form-row right">
-			<span class="h5 font-weight-normal mr-2 mb-0  mb-md-2">Collector(s):  #collectors#</span>
-		</h2>
-		<h2 class="h5 my-0 form-row">#higher_geog# #spec_locality#</h2>
-		<div class="h5 form-row my-2">
-			<a href="##" class="mt-0 d-block h5">Berkeley Mapper</a> 
-		</div>	--->
-<!---		<h2 class="my-0 form-row">
-			<cfif len(verbatim_date) gt 0>
-				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Verbatim date:</span>
-				<span class="h5">#verbatim_date#</span> 
-			<cfelse>
-				<span class="h5 font-weight-normal mr-2 mb-0 mb-md-2">Began/Ended Date:</span>
-				<span class="h5">#began_date# - #ended_date#</span>
-			</cfif>
-		</h2>--->
-<!---<div class="col-12 col-md-7 float-left">
-	<cfif isDefined("cited_as") and len(cited_as) gt 0>
-		<cfif toptypestatuskind eq 'Primary' >
-			 <div class="card flex-md-row box-shadow no-card">
-		</cfif>
-		<cfif toptypestatuskind eq 'Secondary' >
-			 <div class="card flex-md-row box-shadow no-card">
-		</cfif>
-	<cfelse>
-			<div class="card flex-md-row box-shadow no-card">
-	</cfif>
-		<div class="card-body mt-1 d-flex flex-column align-items-start">
 
-			<h2 class="my-0 form-row d-inline">
-				<span class="h5"></span>
-			</h2>
-
-		</div>
-	</div>--->
 			
 </section>
 			</div>
