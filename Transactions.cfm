@@ -918,17 +918,13 @@ limitations under the License.
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-4">
-												<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
-												<div class="input-group">
-													<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" aria-described-by="a_permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
-													<script>
-														function handlePermitPickAction(event) {
-															openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
-														}
-													</script>
-													<div id="a_permitpickerdialog"></div>
+												<div class="col-md-12">
+													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
+												</div>
+												<div class="col-md-12">
+													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
@@ -1032,23 +1028,29 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
-													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
+													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permission &amp; Rights Document/Permit Number:</label>
+													<div class="input-group">
+														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" aria-described-by="a_permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<script>
+															function handlePermitPickAction(event) {
+																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
+															}
+														</script>
+														<div id="a_permitpickerdialog"></div>
+													</div>
 												</div>
 												<div class="col-md-12">
-													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
-													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
-												</div>
-												<div class="col-md-12">
-													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">P&amp;R Restrictions (NULL, NOT NULL)</label>
+													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions (accepts substring, NULL, NOT NULL)</label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">P&amp;R Benefits (NULL, NOT NULL)</label>
+													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits (accepts substring, NULL, NOT NULL)</label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">P&amp;R Benefits Provided (NULL, NOT NULL)</label>
+													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits Provided (accepts substring, NULL, NOT NULL)</label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 											</div>
@@ -1780,10 +1782,19 @@ function gridLoaded(gridId, searchType) {
 	// display the number of rows found
 	var datainformation = $('##' + gridId).jqxGrid('getdatainformation');
 	var rowcount = datainformation.rowscount;
+	var items = "";
+	if (searchType == 'accn') { 
+		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+      if (item_summary['sum']==1){ 
+			items = ' ' + item_summary['sum'] + ' cataloged_item';
+		} else {
+			items = ' ' + item_summary['sum'] + ' cataloged_items';
+		}
+	}
 	if (rowcount == 1) {
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType);
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
 	} else { 
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's');
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
