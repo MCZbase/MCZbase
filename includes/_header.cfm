@@ -83,7 +83,7 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
 				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
 				</cfif>
