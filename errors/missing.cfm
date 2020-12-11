@@ -57,7 +57,7 @@
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
-					<cfinclude template="/specimens/SpecimenDetail.cfm">
+					<cfinclude template="/SpecimenDetail.cfm">
 					<cfcatch>
 						<cfinclude template="/errors/404.cfm">
 					</cfcatch>
