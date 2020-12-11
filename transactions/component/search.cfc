@@ -882,6 +882,10 @@ limitations under the License.
 	<cfargument name="restriction_summary" type="string" required="no">
 	<cfargument name="benefits_summary" type="string" required="no">
 	<cfargument name="benefits_provided" type="string" required="no">
+	<cfargument name="issued_by_id" type="string" required="no">
+	<cfargument name="issued_to_id" type="string" required="no">
+	<cfargument name="permit_contact_id" type="string" required="no">
+	<cfargument name="permit_remarks" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -991,10 +995,14 @@ limitations under the License.
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
-					left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
+						left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+					</cfif>
 				</cfif>
 				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
-					left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+					<cfif not isdefined("issued_to_id") or len(#issued_to_id#) EQ 0>
+						left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
+					</cfif>
 				</cfif>
 			WHERE 
 				accn.transaction_id is not null
@@ -1093,11 +1101,22 @@ limitations under the License.
 				<cfif isdefined("collection_id") AND collection_id gt 0>
 					AND trans.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
-				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
-					AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+				<cfif isdefined("issued_by_id") and len(#issued_by_id#) gt 0>
+					AND upper(permit.issued_by_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_by_id#">
+				<cfelse>
+					<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
+						AND upper(issuedBy.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedByAgent)#%">
+					</cfif>
 				</cfif>
-				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
-					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+				<cfif isdefined("issued_to_id") and len(#issued_to_id#) gt 0>
+					AND upper(permit.issued_to_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#issued_to_id#">
+				<cfelse>
+					<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
+						AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("permit_contact_id") and len(#permit_contact_id#) gt 0>
+					AND upper(permit.contact_agent_id) = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_contact_id#">
 				</cfif>
 				<cfif isdefined("restriction_summary") and len(#restriction_summary#) gt 0>
 					<cfif restriction_summary EQ 'NULL'>
@@ -1126,6 +1145,9 @@ limitations under the License.
 						AND upper(permit.benefits_provided) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_provided)#%">
 					</cfif>
 				</cfif>
+				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapeQuotes(ucase(permit_remarks))#%">
+				</cfif>
 			ORDER BY accn_number
 		</cfquery>
 		<!---
@@ -1133,6 +1155,10 @@ limitations under the License.
 			 <cfif isdefined("exactAccnNumMatch") and #exactAccnNumMatch# is 1>
 			 replaced with trans_date/to_trans_date
 			 AND TRANS_DATE #entDateOper# '#ucase(dateformat(stripQuotes(ent_date),"yyyy-mm-dd"))#">
+			 replaced with permit picker
+			 <cfif isdefined("permit_Num") and len(#permit_Num#) gt 0>
+				<cfset sql = "#sql# AND permit_Num = '#escapeQuotes(permit_Num)#'">
+			 </cfif>
 		
 	 		 not implemented	
 			 <cfif  isdefined("rec_agent") and len(#rec_agent#) gt 0>
@@ -1151,12 +1177,6 @@ limitations under the License.
 			</cfif>
 			<cfif isdefined("exp_date") and  len(#exp_date#) gt 0>
 				<cfset sql = "#sql# AND upper(exp_date) like '%#stripQuotes(ucase(exp_date))#%'">
-			</cfif>
-			<cfif isdefined("permit_Num") and len(#permit_Num#) gt 0>
-				<cfset sql = "#sql# AND permit_Num = '#escapeQuotes(permit_Num)#'">
-			</cfif>
-			<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
-				<cfset sql = "#sql# AND upper(permit_remarks) like '%#escapeQuotes(ucase(permit_remarks))#%'">
 			</cfif>
 
 	--->

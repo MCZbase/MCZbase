@@ -209,6 +209,24 @@ limitations under the License.
 	<cfif not isdefined("benefits_provided")>
 		<cfset benefits_provided="">
 	</cfif>
+	<cfif not isdefined("issued_by_id")>
+		<cfset issued_by_id="">
+	</cfif>
+	<cfif not isdefined("issued_to_id")>
+		<cfset issued_to_id="">
+	</cfif>
+	<cfif not isdefined("permit_contact_id")>
+		<cfset permit_contact_id="">
+	</cfif>
+	<cfif not isdefined("IssuedByAgent")>
+		<cfset IssuedByAgent="">
+	</cfif>
+	<cfif not isdefined("IssuedToAgent")>
+		<cfset IssuedToAgent="">
+	</cfif>
+	<cfif not isdefined("permit_contact_agent")>
+		<cfset permit_contact_agent="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main>
 		<!--- Search form --->
@@ -1041,6 +1059,28 @@ limitations under the License.
 														});
 													</script>
 												</div>
+												<div class="col-md-12">
+													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) issued by:</label>
+													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-select-input col-md-6" value="#IssuedByAgent#" placeholder="issued by agent name" >
+													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
+												</div>
+												<div class="col-md-12">
+													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) issued to:</label>
+													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-select-input col-md-6" value="#IssuedToAgent#" placeholder="issued to agent name" >
+													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
+												</div>
+												<div class="col-md-12">
+													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) Contact agent:</label>
+													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-select-input col-md-6" value="#permit_contact_agent#" placeholder="issued by agent name" >
+													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
+												</div>
+												<script>
+													$(document).ready(function() {
+														$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
+														$(makeConstrainedAgentPicker('a_issued_to_agent','a_issued_to_agent_id','permit_issued_to_agent'));
+														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
+													});
+												</script>
 												<div class="col-md-12">
 													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions (accepts substring, NULL, NOT NULL)</label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
