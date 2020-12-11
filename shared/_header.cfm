@@ -470,7 +470,7 @@ limitations under the License.
 											<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
 										</cfif>
 									</div>
-									<cfif isdefined("session.roles") and (listcontainsnocase(session.roles,"data_entry")>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>		
