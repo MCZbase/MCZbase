@@ -1701,7 +1701,6 @@ $(document).ready(function() {
 				{text: 'Accession', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
-				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
 				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false },
 				{text: 'Type', datafield: 'accn_type', width: 100},
