@@ -973,11 +973,11 @@ limitations under the License.
 														<label for="accn_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 														<div name="coll_obj_disposition" id="accn_coll_obj_disposition" class="w-100"></div>
 														<script>
-															function setDispositionValues() {
+															function setAccnDispositionValues() {
 																$('##coll_obj_disposition').jqxComboBox('clearSelection');
 																<cfloop query="ctCollObjDisp">
 																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-																		$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																		$("##accn_coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
 																	</cfif>
 																</cfloop>
 															};
@@ -988,8 +988,8 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-																setDispositionValues();
+																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
+																setAccnDispositionValues();
 															});
 														</script> 
 													</div>
