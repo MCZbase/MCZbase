@@ -66,8 +66,8 @@
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 				<div>
-                <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+                <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
              	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>

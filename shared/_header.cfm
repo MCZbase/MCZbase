@@ -235,6 +235,7 @@ limitations under the License.
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
 							<li> 
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<cfelse>
@@ -243,7 +244,7 @@ limitations under the License.
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+								
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
