@@ -982,7 +982,7 @@ limitations under the License.
 					left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
-					left join shipment on loan.transaction_id = shipment.transaction_id
+					left join shipment on accn.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>

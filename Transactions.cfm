@@ -910,11 +910,6 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 										</div>
 									</div>
-									<script>
-										$(document).ready(function() {
-											$(makePermitPicker('a_permit_num','a_permit_id'));
-										});
-									</script>
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded py-3 mb-2 px-4">
@@ -1031,15 +1026,20 @@ limitations under the License.
 													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permission &amp; Rights Document/Permit Number:</label>
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" aria-described-by="a_permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 														<script>
-															function handlePermitPickAction(event) {
+															function handleAPermitPickAction(event) {
 																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
 															}
 														</script>
 														<div id="a_permitpickerdialog"></div>
 													</div>
+													<script>
+														$(document).ready(function() {
+															$(makePermitPicker('a_permit_num','a_permit_id'));
+														});
+													</script>
 												</div>
 												<div class="col-md-12">
 													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions (accepts substring, NULL, NOT NULL)</label>

@@ -821,7 +821,7 @@ limitations under the License.
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
 			select distinct permit_num, permit_type, specific_type, permit_title, to_char(issued_date,'YYYY-MM-DD') as issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
-			from permit_shipment left join permit on permit_shipment.permit_id = permit.permit_id
+			from permit left join permit_shipment on permit.permit_id = permit_shipment.permit_id
 				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
 			where upper(permit_num) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
 					OR upper(permit_title) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(term)#%">
