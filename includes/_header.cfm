@@ -250,22 +250,26 @@
 			</ul>
 		</li>
 	</cfif>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+	<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
      	<li class="nav-item dropdown">
 			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 					<div style="float:left; width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Data</div>
                     	<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Geology Hierarchy Table</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Reporter</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Download Tables</a>
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
                     	<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump</a>
 						<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Scheduled Tasks</a>
                     	<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
                     	<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
+						</cfif>
                 	</div>
+					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 					<div style="float:left;width: 33.2%;">
 					<div class="h5 dropdown-header px-4 text-danger">Users/Priviledges</div>

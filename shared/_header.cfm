@@ -449,9 +449,6 @@ limitations under the License.
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-<!---										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a> 
-										</cfif>--->
 										<a class="dropdown-item" href="/grouping/NamedCollection.cfm">Named Groupings</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
@@ -471,12 +468,7 @@ limitations under the License.
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
-
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
-										<cfelse>
-											<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>
-										</cfif>
+										<a class="dropdown-item" href="/grouping/NamedCollection.cfm?action=new">Named Grouping</a>		
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
 											<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editContainer.cfm?action=newContainer">Storage Location/Create Container</a> 
@@ -609,46 +601,42 @@ limitations under the License.
 							<ul class="dropdown-menu border-0 shadow" aria-labelledby="adminDropdown">
 								<li class="d-md-flex align-items-start justify-content-start">		
 									<!--- TODO: Review administrative functions --->
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div>
+										
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+										
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/CodeTableEditor.cfm">Code Table Editor</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Code Table Editor</a>
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/info/geol_hierarchy.cfm">Geology Attributes Hierarchy</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Geology Attributes Hierarchy</a>
 											</cfif>
-										</cfif>
 										<!--- TODO: Need another role for report management  --->
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Reporter</a>
 											</cfif>
-										</cfif>
+									
 										<!--- TODO: are the rest of these DBA or another role?  --->
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+									
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/tools/downloadData.cfm">Download Tables</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Download Tables</a>
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
+									
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Dump</a>
 											</cfif>
-										</cfif>	
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<cfelse>
@@ -661,7 +649,10 @@ limitations under the License.
 											</cfif>
 										</cfif>
 									</div>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 									<div>
+								
 									<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Admin/ActivityLog.cfm">Audit SQL</a>
@@ -722,6 +713,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Redirects</a>
 											</cfif> 
 										</div>
+									</cfif>
 									</cfif>
 								</li>
 							</ul>
