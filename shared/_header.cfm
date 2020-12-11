@@ -268,12 +268,13 @@ limitations under the License.
 									<a class="dropdown-item bg-warning" href="">Agents</a> 
 								</cfif>		
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
 								</cfif>	
+								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
@@ -284,8 +285,6 @@ limitations under the License.
 										
 									</cfif>
 								</cfif>
-								</cfif>
-							
 							 </li>
 						</ul>
 					</li>
