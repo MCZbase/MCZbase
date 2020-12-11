@@ -231,11 +231,11 @@ limitations under the License.
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 				<ul class="navbar-nav nav-fill mr-auto">
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> 
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
-							<li> 
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+							<li> 	
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" id="specimenMenuItem" href="/SpecimenSearch.cfm">Specimens</a> <!--- old --->
 								<cfelse>
@@ -244,25 +244,31 @@ limitations under the License.
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
-								
-								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Media</a>
-								</cfif>						
+								</cfif>		
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/showLocality.cfm">Places</a>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
-								</cfif>				
+								</cfif>	
+								</cfif>
+								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 								<cfif targetMenu EQ "production">
-									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
-									</cfif>
+									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Agents</a> 
-								</cfif>						
+								</cfif>		
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
@@ -279,9 +285,11 @@ limitations under the License.
 									</cfif>
 								</cfif>
 								</cfif>
+							
 							 </li>
 						</ul>
 					</li>
+					</cfif>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
@@ -303,7 +311,7 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Media</a>
 											</cfif>
 										</cfif>
-												<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/agents.cfm">Agent</a><!--- old --->
 											<cfelse>
@@ -342,15 +350,14 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>	
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 	      	        	<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">			
-								<li class="d-md-flex align-items-start justify-content-start">	
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+								<li class="d-md-flex align-items-start justify-content-start">		
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-
+									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Locality.cfm?action=findHG">Geography</a> 
 										<cfelse>
@@ -368,12 +375,11 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Collecting Event</a>
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
-										</cfif>
-									</div>
 									</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+											<a class="dropdown-item" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a> 
+									</div>
+							
+									
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
@@ -437,7 +443,6 @@ limitations under the License.
 										</cfif>
 										</cfif>
 									</div>
-									</cfif>
 								</li>
 							</ul>
 						</li>
@@ -551,7 +556,9 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a>
 										</cfif>	
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										</cfif>
 									</div>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -571,9 +578,9 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
 										</cfif>
-									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
-											</cfif>
+										</cfif>
 									</div>
 									</li>
 							</ul>
@@ -721,6 +728,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
+					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> <a class="nav-link dropdown-toggle px-3 text-left" href="##" id="helpDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="helpDropdown">
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
@@ -736,6 +744,7 @@ limitations under the License.
 							</cfif>
 						</ul>
 					</li>
+											</cfif>
 				</ul>
 				<ul class="navbar-nav ml-auto">
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
