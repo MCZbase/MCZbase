@@ -94,16 +94,15 @@
              </ul>
          </li><!--end main menu element-->
 		  		</cfif>	
-		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
               <li class="nav-item dropdown"><!--main menu element-->
                   <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
+						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>
-							</cfif>
+							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 							</cfif>
@@ -115,6 +114,7 @@
 							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
 							</cfif>
 						</div>
+						</cfif>
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
