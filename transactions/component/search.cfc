@@ -879,6 +879,9 @@ limitations under the License.
 	<cfargument name="specimen_guid" type="string" required="no">
 	<cfargument name="part_name" type="string" required="no">
 	<cfargument name="coll_obj_disposition" type="string" required="no">
+	<cfargument name="restriction_summary" type="string" required="no">
+	<cfargument name="benefits_summary" type="string" required="no">
+	<cfargument name="benefits_provided" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -932,6 +935,7 @@ limitations under the License.
 				project_name,
 				project.project_id pid,
 				estimated_count,
+				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
@@ -1092,6 +1096,33 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("IssuedToAgent") and len(#IssuedToAgent#) gt 0>
 					AND upper(issuedTo.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(IssuedToAgent)#%">
+				</cfif>
+				<cfif isdefined("restriction_summary") and len(#restriction_summary#) gt 0>
+					<cfif restriction_summary EQ 'NULL'>
+						AND upper(permit.restriction_summary) is NULL
+					<cfelseif restriction_summary EQ 'NOT NULL'>
+						AND upper(permit.restriction_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.restriction_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(restriction_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_summary") and len(#benefits_summary#) gt 0>
+					<cfif benefits_summary EQ 'NULL'>
+						AND upper(permit.benefits_summary) is NULL
+					<cfelseif benefits_summary EQ 'NOT NULL'>
+						AND upper(permit.benefits_summary) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_summary) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_summary)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("benefits_provided") and len(#benefits_provided#) gt 0>
+					<cfif benefits_provided EQ 'NULL'>
+						AND upper(permit.benefits_provided) is NULL
+					<cfelseif benefits_provided EQ 'NOT NULL'>
+						AND upper(permit.benefits_provided) is NOT NULL
+					<cfelse>
+						AND upper(permit.benefits_provided) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(benefits_provided)#%">
+					</cfif>
 				</cfif>
 			ORDER BY accn_number
 		</cfquery>

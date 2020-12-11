@@ -200,6 +200,15 @@ limitations under the License.
 	<cfif not isdefined("parent_loan_number")>
 		<cfset parent_loan_number="">
 	</cfif>
+	<cfif not isdefined("restriction_summary")>
+		<cfset restriction_summary="">
+	</cfif>
+	<cfif not isdefined("benefits_summary")>
+		<cfset benefits_summary="">
+	</cfif>
+	<cfif not isdefined("benefits_provided")>
+		<cfset benefits_provided="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main>
 		<!--- Search form --->
@@ -882,20 +891,20 @@ limitations under the License.
 									<div class="form-row mx-0 mt-1 my-xl-2">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Date Entered:</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
+												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
+												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for date entered</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
+												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
+												<input type='text' name='to_trans_date' id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="rec_date">Date Received:</label>
-												<input name="rec_date" id="rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#rec_date#" aria-label="start of range for date received">
+												<label class="data-entry-label mb-0 px-4 mx-1" for="accn_rec_date">Date Received:</label>
+												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#rec_date#" aria-label="start of range for date received">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_rec_date">end of range for date received</label>
-												<input type='text' name='to_rec_date' id="to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
+												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -925,7 +934,7 @@ limitations under the License.
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
 												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<div class="col-3 px-0">
-														<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
+														<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
 														<cfif part_name_oper IS "is">
 															<cfset isselect = "selected">
 															<cfset containsselect = "">
@@ -933,19 +942,19 @@ limitations under the License.
 															<cfset isselect = "">
 															<cfset containsselect = "selected">
 														</cfif>
-														<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+														<select id="accn_part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
 															<option value="is" #isselect#>is</option>
 															<option value="contains" #containsselect#>contains</option>
 														</select>
 													</div>
 													<div class="col-9 px-0">
-														<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-														<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
+														<label for="accn_part_name" class="data-entry-label mb-0">Part Name</label>
+														<input type="text" id="accn_part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 													</div>
 												</div>
 												<div class="form-row mx-0 px-2 px-sm-3">
 													<div class="col-3 px-0">
-														<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
+														<label for="accn_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
 															<cfset isselect = "selected">
 															<cfset notselect = "">
@@ -953,15 +962,15 @@ limitations under the License.
 															<cfset isselect = "">
 															<cfset notselect = "selected">
 														</cfif>
-														<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+														<select id="accn_part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
 															<option value="is" #isselect#>is</option>
 															<option value="isnot" #notselect#>is not</option>
 														</select>
 													</div>
 													<div class="col-9 px-0">
 														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-														<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-														<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+														<label for="accn_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+														<div name="coll_obj_disposition" id="accn_coll_obj_disposition" class="w-100"></div>
 														<script>
 															function setDispositionValues() {
 																$('##coll_obj_disposition').jqxComboBox('clearSelection');
@@ -985,7 +994,7 @@ limitations under the License.
 													</div>
 												</div>
 												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
-													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+													<input type="hidden" id="accn_collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
 													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
@@ -1009,9 +1018,9 @@ limitations under the License.
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
 													<div class="col-md-12 px-0">
-														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
+														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
-															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
+															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
 															onchange="$('##collection_object_id').val('');">
 													</div>
 													<script>
@@ -1023,12 +1032,24 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<div class="col-md-12">
-													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
+													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
-													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
+													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
+												</div>
+												<div class="col-md-12">
+													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">P&amp;R Restrictions (NULL, NOT NULL)</label>
+													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
+												</div>
+												<div class="col-md-12">
+													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">P&amp;R Benefits (NULL, NOT NULL)</label>
+													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
+												</div>
+												<div class="col-md-12">
+													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">P&amp;R Benefits Provided (NULL, NOT NULL)</label>
+													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 											</div>
 										</div>
@@ -1144,6 +1165,75 @@ limitations under the License.
 		content = content + "<a href='/SpecimenSearch.cfm?Action=dispCollObj&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items</a>";
 		content = content + "<a href='/loanByBarcode.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Add Items by Barcode</a>";
 		content = content + "<a href='/transactions/Loan.cfm?action=editLoan&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Loan</a>";
+	   content = content + "</div>";
+	   $("##" + rowDetailsTargetId + rowIndex).html(content);
+	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
+	      {
+	         autoOpen: true,
+	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
+	         width: dialogWidth,
+	         title: 'Loan Details'
+	      }
+	   );
+	   // Workaround, expansion sits below row in zindex.
+	   var maxZIndex = getMaxZIndex();
+	   $("##"+gridId+"RowDetailsDialog" + rowIndex ).parent().css('z-index', maxZIndex + 1);
+	};
+	/** createAccnRowDetailsDialog, create a custom accession specific popup dialog to show details for
+		a row of accession data from the accession reults grid.
+	
+		@see createRowDetailsDialog defined in /shared/js/shared-scripts.js for details of use.
+	 */
+	function createAccnRowDetailsDialog(gridId, rowDetailsTargetId, datarecord, rowIndex) {
+	   var columns = $('##' + gridId).jqxGrid('columns').records;
+	   var content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul class='card-columns'>";
+	   if (columns.length < 21) {
+	      // don't split into columns for shorter sets of columns.
+	      content = "<div id='" + gridId+  "RowDetailsDialog" + rowIndex + "'><ul>";
+	   }
+	   var gridWidth = $('##' + gridId).width();
+	   var dialogWidth = Math.round(gridWidth/2);
+		var pid = datarecord['pid'];
+		var transaction_id = datarecord['transaction_id'];
+	   if (dialogWidth < 150) { dialogWidth = 150; }
+	   for (i = 1; i < columns.length; i++) {
+	      var text = columns[i].text;
+	      var datafield = columns[i].datafield;
+			if (datafield == 'accn_number') { 
+				if (transaction_id) {
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/editAccn.cfm?Action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'project_name') { 
+				if (pid) {
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/ProjectDetail.cfm?project_id="+pid+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+				} else { 
+	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+				}
+			} else if (datafield == 'permits') { 
+				permits = datarecord[datafield];
+				if (permits.length > 0) { 
+					permits = permits.replaceAll('|','</li><li>');
+	      		content = content + "<li><strong>Perm. &amp; Rights Docs:</strong><ul><li>" + datarecord[datafield] +  "</li></ul></li>";
+				}
+			} else if (datafield == 'id_link') {
+				// don't show to user (duplicates accn number)
+				console.log(datarecord[datafield]);  
+			} else if (datafield == 'transaction_id') {
+				// don't show to user
+				console.log(datarecord[datafield]);  
+			} else {
+	      	content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
+			}
+	   }
+	   content = content + "</ul>";
+		var transaction_id = datarecord['transaction_id'];
+		var accn_number = datarecord['accn_number'];
+		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
+		content = content + "<a href='/findContainer.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
+		content = content + "<a href='/editAccn.cfm?Action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
@@ -1546,6 +1636,7 @@ $(document).ready(function() {
 				{ name: 'addInhouse_agent', type: 'string' },
 				{ name: 'outside_agent', type: 'string' },
 				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'permits', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
 				{ name: 'id_link', type: 'string' }
@@ -1569,13 +1660,13 @@ $(document).ready(function() {
 			},
 			async: true
 		};
-		var loanDataAdapter = new $.jqx.dataAdapter(accnSearch);
+		var accnDataAdapter = new $.jqx.dataAdapter(accnSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -1583,7 +1674,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
-			source: loanDataAdapter,
+			source: accnDataAdapter,
 			filterable: true,
 			sortable: true,
 			pageable: true,
@@ -1622,6 +1713,7 @@ $(document).ready(function() {
 				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
 				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: true },
@@ -1648,8 +1740,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-// TODO: Needs an accession row details dialog linking out to accession object searches, not loan 
-			createLoanRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
