@@ -68,19 +68,25 @@
 				<div>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
                 <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
              	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
+				</cfif>
 				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
 				</cfif>
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
-			</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
-					</cfif>
+				</cfif>
 				</div>
 				</cfif>	
 				</li>
