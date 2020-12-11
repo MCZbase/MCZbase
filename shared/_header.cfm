@@ -243,6 +243,7 @@ limitations under the License.
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
@@ -275,6 +276,7 @@ limitations under the License.
 										<a class="dropdown-item bg-warning" href="">SQL Queries</a> 
 										
 									</cfif>
+								</cfif>
 								</cfif>
 							 </li>
 						</ul>

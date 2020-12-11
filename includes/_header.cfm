@@ -67,20 +67,22 @@
 				<li class="d-md-flex align-items-start justify-content-start">
 				<div>
                 <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
                 <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
              	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
 				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
-			</cfif>
-			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+				</cfif>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
 			</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
 				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
 					</cfif>
 				</div>
+				</cfif>	
 				</li>
              </ul>
          </li><!--end main menu element-->
@@ -92,6 +94,7 @@
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>
+							
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 							</cfif>
