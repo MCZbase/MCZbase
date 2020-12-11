@@ -936,6 +936,8 @@ limitations under the License.
 				project.project_id pid,
 				estimated_count,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
+				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
+				MCZBASE.count_catitems_for_accn(trans.transaction_id) item_count,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,

@@ -1231,7 +1231,7 @@ limitations under the License.
 		var transaction_id = datarecord['transaction_id'];
 		var accn_number = datarecord['accn_number'];
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
-		content = content + "<a href='/findContainer.cfm?transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
+		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
 		content = content + "<a href='/editAccn.cfm?Action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 	   content = content + "</div>";
@@ -1636,7 +1636,9 @@ $(document).ready(function() {
 				{ name: 'addInhouse_agent', type: 'string' },
 				{ name: 'outside_agent', type: 'string' },
 				{ name: 'addOutside_agent', type: 'string' },
-				{ name: 'permits', type: 'string' },
+				{ name: 'permits', type: 'int' },
+				{ name: 'item_count', type: 'int' },
+				{ name: 'shipment_count', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
 				{ name: 'id_link', type: 'string' }
@@ -1699,6 +1701,9 @@ $(document).ready(function() {
 				{text: 'Accession', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false },
 				{text: 'Type', datafield: 'accn_type', width: 100},
 				{text: 'Status', datafield: 'accn_status', width: 100},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
