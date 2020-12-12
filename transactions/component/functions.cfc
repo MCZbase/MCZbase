@@ -2445,6 +2445,7 @@ limitations under the License.
 			</cfquery>
 			<cfswitch expression="#transaction#">
 				<cfcase value="loan">
+					<cfset transLabel = 'Loan'>
 					<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
 					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'stewarship from agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
@@ -2471,6 +2472,7 @@ limitations under the License.
 					</cfif>
 				</cfcase>
 				<cfdefaultcase>
+					<cfset transLabel = transaction>
 					<!--- Obtain list of transaction agent roles --->
 					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by'
@@ -2481,54 +2483,53 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<article id="transactionAgentsTable" tabindex="0" aria-label="Agent Names related to this loan" class="container">
-				<div class="row my-1 bg-grayish pb-1 border rounded">
-					<div class="w-100 text-center m-0 p-0" tabindex="0">
-						<cfif okToPrint >
-							<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
-						<cfelse>
-							<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
-						</cfif>
-					</div>
-					<div class="col-12 mt-0">
-							<h2 class="h4 pl-3" tabindex="0">Loan Agents 				
+				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+					<div class="row my-1 bg-grayish pb-1 border rounded">
+						<div class="w-100 text-center m-0 p-0" tabindex="0">
+							<cfif okToPrint >
+								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
+							<cfelse>
+								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
+							</cfif>
+						</div>
+						<div class="col-12 mt-0">
+<!--- TODO:  Pass name of parent form not hard coded editLoanForm --->
+							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>		
 		
 							</h2>		  
 
-								<cfset i=1>
-								<cfloop query="transAgents">
-										<cfif (i MOD 2) EQ 0> 
-									<section class="row list-even py-1 my-0 border-top border-bottom">
-										<cfelse> 
-									<section class="row list-odd my-0 py-1 border-top border-bottom">
-										</cfif>
-										
-				
-										<div class="col-12 col-md-4">
-											<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
-											<div class="input-group">
+							<cfset i=1>
+							<cfloop query="transAgents">
+								<cfset rowstyle = "list-odd">
+								<cfif (i MOD 2) EQ 0> 
+									<cfset rowstyle = "list-even">
+								</cfif>
+								<section class="row #rowstyle# my-0 py-1 border-top border-bottom">
+									<div class="col-12 col-md-4">
+										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
+										<div class="input-group">
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller" id="agent_icon_#i#"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-												<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
-											</div>
-										</div>							
-										<div class="col-12 col-md-4">
-												<select name="trans_agent_role_#i#" aria-label="role for this loan" id="trans_agent_role_#i#" class="data-entry-select">
-													<cfloop query="cttrans_agent_role">
-														<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
-															<cfset sel = 'selected="selected"'>
-														<cfelse>
-															<cfset sel = ''>
-														</cfif>
-														<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
-													</cfloop>
-												</select>
-										  </div>
-										<div class="col-12 col-md-1">
-											<label for="trans_agent_id_#i#" class="data-entry-label"> 						
-												<div class="input-group pt-1">
+											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
+										</div>
+									</div>							
+									<div class="col-12 col-md-4">
+										<select name="trans_agent_role_#i#" aria-label="role of this agent in this #transLabel#" id="trans_agent_role_#i#" class="data-entry-select">
+											<cfloop query="cttrans_agent_role">
+												<cfif cttrans_agent_role.trans_agent_role is transAgents.trans_agent_role>
+													<cfset sel = 'selected="selected"'>
+												<cfelse>
+													<cfset sel = ''>
+												</cfif>
+												<option #sel# value="#trans_agent_role#">#trans_agent_role#</option>
+											</cfloop>
+										</select>
+									</div>
+									<div class="col-12 col-md-1">
+										<label for="trans_agent_id_#i#" class="data-entry-label"> 						
+											<div class="input-group pt-1">
 												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
 													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 												<script>
@@ -2545,31 +2546,32 @@ limitations under the License.
 														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
 													</cfif>
 												</span>
-											</div></label>
-										</div>
-										<div class="col-12 col-md-3">
-											<div class="input-group">
-											  	<div class="input-group-prepend">
-													<div class="input-group-text py-1 bg-transparent border-0">
-												 		<label class="data-entry-label"> <input type="checkbox"  class="position-relative left-0" aria-label="use checkbox to delete agent from loan form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > Delete?</label>
-													</div>
-											  	</div>
+											</div>
+										</label>
+									</div>
+									<div class="col-12 col-md-3">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<div class="input-group-text py-1 bg-transparent border-0">
+											 		<label class="data-entry-label">
+														<input type="checkbox" class="position-relative left-0" aria-label="use checkbox to delete agent from form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > 
+														Delete?
+													</label>
+<!--- TODO: Delete Button not checkbox --->
+												</div>
 											</div>
 										</div>
+									</div>
 									
 									<cfset i=i+1>	
-										
-										</section>
+								</section>
 								
-								</cfloop>
+							</cfloop>
 		
-								<cfset na=i-1>
-								<input type="hidden" id="numAgents" name="numAgents" value="#na#">
-											
+							<cfset na=i-1>
+							<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
-	
-			
-				</article>
+				</section>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
