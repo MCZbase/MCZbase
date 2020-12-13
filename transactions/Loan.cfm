@@ -707,7 +707,12 @@ limitations under the License.
 						<!--- Begin loan agents table: Load via ajax. --->
 						<div class="form-row my-1">
 							<script>
-								$(document).ready(loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange));
+								function reloadTransactionAgents() { 
+									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+								}
+								$(document).ready(
+									reloadTransactionAgents();
+								);
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>

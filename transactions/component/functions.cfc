@@ -2415,6 +2415,7 @@ limitations under the License.
 <!--- obtain an html block for agents for a transaction  --->
 <cffunction name="agentTableHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="containing_form_id" type="string" required="yes">
 
 	<cfthread name="getAgentHtmlThread">
 		<cftry>
@@ -2493,19 +2494,17 @@ limitations under the License.
 							</cfif>
 						</div>
 						<div class="col-12 mt-0">
-<!--- TODO:  Pass name of parent form not hard coded editLoanForm --->
 							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
-								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','editLoanForm'); handleChange();" class="col-5"> Add Agent</button>		
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#'); handleChange();" class="col-5"> Add Agent</button>		
 		
 							</h2>		  
-
 							<cfset i=1>
 							<cfloop query="transAgents">
 								<cfset rowstyle = "list-odd">
 								<cfif (i MOD 2) EQ 0> 
 									<cfset rowstyle = "list-even">
 								</cfif>
-								<section class="row #rowstyle# my-0 py-1 border-top border-bottom">
+								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
 									<div class="col-12 col-md-4">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 										<div class="input-group">
@@ -2550,28 +2549,28 @@ limitations under the License.
 										</label>
 									</div>
 									<div class="col-12 col-md-3">
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<div class="input-group-text py-1 bg-transparent border-0">
-											 		<label class="data-entry-label">
-														<input type="checkbox" class="position-relative left-0" aria-label="use checkbox to delete agent from form" name="del_agnt_#i#" id="del_agnt_#i#" value="1" > 
-														Delete?
-													</label>
-<!--- TODO: Delete Button not checkbox --->
-												</div>
-											</div>
-										</div>
+										<button type="button" 
+											class="btn btn-xs btn-warning" 
+											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '>Remove</button>
+										<button type="button" class="btn btn-xs btn-secondary" onClick="cloneAgentOnTrans(#agent_id#,#transAgents.trans_agent_role#);">Clone</button>
+<!--- TODO: Implement clone functionality --->
 									</div>
-									
 									<cfset i=i+1>	
-								</section>
-								
+								</div>
 							</cfloop>
-		
 							<cfset na=i-1>
 							<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
 				</section>
+<script>
+	function cloneAgentOnTrans(agent_id,current_role) { 
+		console.log('cloneAgentOnTrans not implemented yet');
+		// clone dialog to pick new role
+		// add trans_agent record
+		// reload agents 
+		reloadTransactionAgents();
+	}
+</script>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>
@@ -2632,7 +2631,56 @@ limitations under the License.
 	</cftry>
 	<cfreturn childLoans>
 </cffunction>
-<!------------------------------------->
+
+<!--- 
+  * method removeTransAgent given a trans_agent_id remove a trans_agent record linking
+  *  a transaction to an agent in a role in that transaction.
+  * @param trans_agent_id the trans_agent row to remove.
+--->
+<cffunction name="removeTransAgent" access="remote">
+	<cfargument name="trans_agent_id" type="string" required="yes">
+
+	<cftry>
+		<cfquery name="delete" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResult">
+			delete from trans_agent 
+			where trans_agent_id = <cfqueryparam value = "#trans_agent_id#" CFSQLType="CF_SQL_DECIMAL"> 
+		</cfquery>
+		<cfif deleteResult.recordcount eq 0>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "0", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "No records deleted. #trans_agent_id# #deleteResult.sql#", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount eq 1>
+			<cfset theResult=queryNew("status, message")>
+			<cfset t = queryaddrow(theResult,1)>
+			<cfset t = QuerySetCell(theResult, "status", "1", 1)>
+			<cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+		</cfif>
+		<cfif deleteResult.recordcount GT 1>
+			<cfthrow message="More than one (#deleteResult.recordcount#) deleted.">
+		</cfif>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+		<cfheader statusCode="500" statusText="#message#">
+		<cfoutput>
+			<div class="container">
+				<div class="row">
+					<div class="alert alert-danger" role="alert">
+						<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+						<h2>Internal Server Error.</h2>
+						<p>#message#</p>
+						<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+					</div>
+				</div>
+			</div>
+		</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+	<cfreturn theResult>
+</cffunction>
 
 <!--- 
   * method removeSubLoan given two transaction ids remove one as the child of the other

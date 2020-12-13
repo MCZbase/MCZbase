@@ -926,6 +926,30 @@ $(target).attr("selected",true);
 	});
 };
 
+/** deleteTransAgent given a trans_agent_id delete the referenced row from trans_agent
+ * removing the agent from the role specified in that record from a transaction, on success
+ * invoke reloadTransactionAgents() to reload the agent list for the transaction.
+ * @param trans_agent_id the primary key of trans_agent to delete.
+ */
+function deleteTransAgent(trans_agent_id) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removeTransAgent",
+			trans_agent_id : trans_agent_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			if (result.DATA.STATUS == "1") { 
+				reloadTransactionAgents();
+			} else {
+				messageDialog("Error removing agent from transaction: " + result.DATA.MESSAGE, "Error removing agent");
+			}
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"removing agent from transaction");
+	});
+};
 
 function deletePermitFromShipment(shipmentId,permitId,transactionId) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
@@ -966,6 +990,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
 		data : {
 			method: 'agentTableHtml',
 			transaction_id: transaction_id
+			containing_form_id: containingFormId
 		},
 		success : function (data) {
 			$('#' + agentsDiv).html(data);
