@@ -1287,16 +1287,16 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mPart">
 								<tr>
-									<td class="inside pl-md-3">#part_name#</td>
-									<td class="inside">#part_condition#</td>
-									<td class="inside">#part_disposition#</td>
-									<td class="inside">#lot_count#</td>
+									<td class=" pl-md-3">#part_name#</td>
+									<td>#part_condition#</td>
+									<td>#part_disposition#</td>
+									<td>#lot_count#</td>
 									<cfif oneOfus is 1>
-										<td class="inside">#label#</td>
+										<td>#label#</td>
 									</cfif>
 									
 								</tr>
-								<tr><td colspan="6" class="bg-light">Remarks: #part_remarks#</td></tr>
+								<tr class="bg-callout bg-callout-info"><td colspan="6" class=""><span class="font-weight-bold">Remarks:</span> #part_remarks#</td></tr>
 							<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
