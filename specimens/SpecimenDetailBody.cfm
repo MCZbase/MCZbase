@@ -1287,7 +1287,7 @@ limitations under the License.
 							<cfset i=1>
 							<cfloop query="mPart">
 								<tr>
-									<td class=" pl-md-3">#part_name#</td>
+									<td class="pl-md-3">#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
 									<td>#lot_count#</td>
@@ -1296,7 +1296,7 @@ limitations under the License.
 									</cfif>
 									
 								</tr>
-								<tr class="bg-callout bg-callout-info"><td colspan="6" class="">
+								<tr class="bg-callout bg-callout-info"><td colspan="6">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
@@ -1322,9 +1322,9 @@ limitations under the License.
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td colspan="6" class="partnameatts">
+										<td colspan="6">
 											<cfloop query="patt">
-												<div class="smaller">
+												<div class="small" style="line-height: .9rem;">
 													#attribute_type#=#attribute_value#
 													<cfif len(attribute_units) gt 0>
 													 #attribute_units#
@@ -1350,14 +1350,14 @@ limitations under the License.
 								</cfquery>
 								<cfloop query="sPart">
 									<tr>
-										<td class="inside_sub"><span>#part_name# subsample</span></td>
-										<td class="inside_sub">#part_condition#</td>
-										<td class="inside_sub">#part_disposition#</td>
-										<td class="inside_sub">#lot_count#</td>
+										<td class=""><span>#part_name# subsample</span></td>
+										<td class="">#part_condition#</td>
+										<td class="">#part_disposition#</td>
+										<td class="">#lot_count#</td>
 										<cfif oneOfus is 1>
-											<td class="inside_sub">#label#</td>
+											<td class="">#label#</td>
 										</cfif>
-										<td class="inside_sub">#part_remarks#</td>
+										<td class="">#part_remarks#</td>
 									</tr>
 								</cfloop>
 							</cfloop>
