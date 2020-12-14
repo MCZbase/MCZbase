@@ -1162,7 +1162,7 @@ table#pairs {
 	border-collapse: collapse;
 }
 table#pairs, th, td {
-	border: 1px solid #cdcdcd;
+	border: 1px solid #f5f5f5;
 }
 .table td, .table th {
     padding: .25rem .75rem;
