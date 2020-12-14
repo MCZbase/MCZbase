@@ -1232,7 +1232,6 @@ limitations under the License.
         order by
                 part_name
 </cfquery>
-	
 <cfquery name="parts" dbtype="query">
         select  
                 part_id,
@@ -1277,14 +1276,14 @@ limitations under the License.
 						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table table-responsive table-striped mb-0">
 							<tr>
-								<th class="inside"><span class="innerDetailLabel">Part Name</span></th>
-								<th class="inside"><span class="innerDetailLabel">Condition</span></th>
-								<th class="inside"><span class="innerDetailLabel">Disposition</span></th>
-								<th class="inside"><span class="innerDetailLabel">##</span></th>
+								<th><span>Part Name</span></th>
+								<th><span>Condition</span></th>
+								<th><span>Disposition</span></th>
+								<th><span>##</span></th>
 								<cfif oneOfus is "1">
-									<th class="inside"><span class="innerDetailLabel">Container Name</span></th>
+									<th><span>Container Name</span></th>
 								</cfif>
-								<th class="inside"><span class="innerDetailLabel">Remarks</span></th>
+								<th><span>Remarks</span></th>
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
@@ -1296,8 +1295,9 @@ limitations under the License.
 									<cfif oneOfus is 1>
 										<td class="inside">#label#</td>
 									</cfif>
-									<td class="inside">#part_remarks#</td>
+									
 								</tr>
+								<tr><td class="inside">#part_remarks#</td></tr>
 							<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
@@ -1340,7 +1340,8 @@ limitations under the License.
 												</div>
 											</cfloop>
 										</td>
-									</tr>									<!---/cfloop--->
+									</tr>
+									<!---/cfloop--->
 								</cfif>
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
