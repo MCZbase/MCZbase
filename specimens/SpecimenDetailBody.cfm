@@ -1296,7 +1296,9 @@ limitations under the License.
 									</cfif>
 									
 								</tr>
-								<tr class="bg-callout bg-callout-info"><td colspan="6" class=""><span class="font-weight-bold">Remarks:</span> #part_remarks#</td></tr>
+								<tr class="bg-callout bg-callout-info"><td colspan="6" class="">
+									<span class="font-italic">Remarks:</span> #part_remarks#</td>
+								</tr>
 							<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
@@ -1322,7 +1324,7 @@ limitations under the License.
 									<tr>
 										<td colspan="6" class="partnameatts">
 											<cfloop query="patt">
-												<div class="detailCellSmall">
+												<div class="smaller">
 													#attribute_type#=#attribute_value#
 													<cfif len(attribute_units) gt 0>
 													 #attribute_units#
