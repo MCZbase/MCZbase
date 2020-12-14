@@ -43,7 +43,7 @@
 	            <cftry>
 				    <cfset guid = listgetat(rdurl,gPos+1,"/")>
                     <!--- Warning: Redesign pages need to be brought into the expected filenaming convention --->
-				    <cfinclude template="/redesign/specimen-detail.cfm">
+				    <cfinclude template="/specimens/SpecimenDetail.cfm">
 	                <cfcatch>
 					    <cfinclude template="/errors/404.cfm">
 	                </cfcatch>
@@ -57,7 +57,7 @@
 						<cfheader statuscode="301" statustext="Moved permanently">
 						<cfheader name="Location" value="/guid/#guid#">
 					</cfif>
-					<cfinclude template="/SpecimenDetail.cfm">
+					<cfinclude template="/specimens/SpecimenDetail.cfm">
 					<cfcatch>
 						<cfinclude template="/errors/404.cfm">
 					</cfcatch>
