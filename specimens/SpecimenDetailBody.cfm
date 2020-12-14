@@ -1285,7 +1285,7 @@ limitations under the License.
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
-								<tr style="border-top: 2px solid ##ccc;">
+								<tr <cfif mPart.recordcount gt 0>style="border-top: 2px solid ##ccc;"</cfif>>
 									<td class="pl-md-3">#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
@@ -1294,9 +1294,11 @@ limitations under the License.
 										<td>#label#</td>
 									</cfif>
 								</tr>
+								<cfif len(part_remarks) gt 0>
 								<tr class=" small"><td colspan="6">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
+								</cfif>
 								<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
