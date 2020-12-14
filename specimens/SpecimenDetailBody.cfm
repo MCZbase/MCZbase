@@ -1273,7 +1273,7 @@ limitations under the License.
 				</div>
 					<div class="card-body p-0">
 						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-							<table class="table d-lg-table table-responsive mb-0">
+							<table class="table d-lg-table border-bottom table-responsive mb-0">
 							<tr class="bg-light">
 								<th><span>Part Name</span></th>
 								<th><span>Condition</span></th>
@@ -1293,7 +1293,6 @@ limitations under the License.
 									<cfif oneOfus is 1>
 										<td>#label#</td>
 									</cfif>
-									
 								</tr>
 								<tr class=" small"><td colspan="6">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
@@ -1359,6 +1358,7 @@ limitations under the License.
 									</tr>
 								</cfloop>
 							</cfloop>
+								
 							</table>
 						</div>
 					</div>
