@@ -1286,7 +1286,8 @@ limitations under the License.
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
-								<div style="background-color: aliceblue;">
+							<tr>
+							<table class="table-striped">
 								<tr>
 									<td class="pl-md-3">#part_name#</td>
 									<td>#part_condition#</td>
@@ -1298,7 +1299,7 @@ limitations under the License.
 									
 								</tr>
 								<tr class=" small"><td colspan="6">
-									<span class="font-italic small">Remarks:</span> #part_remarks#</td>
+									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
 									select
@@ -1342,10 +1343,10 @@ limitations under the License.
 												</div>
 											</cfloop>
 										</td>
-									</tr>
-									</div>
-									<!---/cfloop--->
-								</cfif>
+									</tr>		
+								</cfif><!---/cfloop--->
+							</table>
+							</tr>
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
 									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
