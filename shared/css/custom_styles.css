@@ -1161,7 +1161,10 @@ table#pairs {
 	margin-bottom: 20px;
 	border-collapse: collapse;
 }
-table#pairs, th, td {
+/*table#pairs, th, td {
+	border: 1px solid #f5f5f5;
+}*/
+table#pairs, td {
 	border: 1px solid #f5f5f5;
 }
 .table td, .table th {
