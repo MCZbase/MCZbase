@@ -1271,7 +1271,6 @@ limitations under the License.
 				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 				</div>
-
 					<div class="card-body p-0">
 						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table table-responsive mb-0">
@@ -1343,7 +1342,6 @@ limitations under the License.
 										</td>
 									</tr>		
 								</cfif><!---/cfloop--->
-\
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
 									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
