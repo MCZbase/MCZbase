@@ -1274,8 +1274,8 @@ limitations under the License.
 
 					<div class="card-body p-0">
 						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-							<table class="table d-lg-table table-responsive table-striped mb-0">
-							<tr>
+							<table class="table d-lg-table table-responsive mb-0">
+							<tr class="bg-light">
 								<th><span>Part Name</span></th>
 								<th><span>Condition</span></th>
 								<th><span>Disposition</span></th>
