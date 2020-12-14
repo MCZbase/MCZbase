@@ -518,12 +518,12 @@ limitations under the License.
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 							<!---for media images--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
 					<!---for DRS from library--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
@@ -1286,8 +1286,6 @@ limitations under the License.
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
-							<tr>
-							<table class="table-striped">
 								<tr>
 									<td class="pl-md-3">#part_name#</td>
 									<td>#part_condition#</td>
@@ -1301,7 +1299,7 @@ limitations under the License.
 								<tr class=" small"><td colspan="6">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
-							<cfquery name="patt" dbtype="query">
+								<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
 										attribute_value,
@@ -1345,8 +1343,7 @@ limitations under the License.
 										</td>
 									</tr>		
 								</cfif><!---/cfloop--->
-							</table>
-							</tr>
+\
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
 									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
