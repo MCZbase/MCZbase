@@ -1547,7 +1547,7 @@ limitations under the License.
 <!------------------------------------ parts ---------------------------------------------->
 <cfoutput>
 
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+<!---<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
@@ -1646,7 +1646,7 @@ limitations under the License.
 	select count(*) as ct from parts group by lot_count order by part_name
 	</cfquery>
 
-			<div class="accordion w-100" id="accordionForParts">
+<div class="accordion w-100" id="accordionForParts">
 			<div class="card mb-4 mb-md-5">
 				<div class="card-header w-100" id="headingPart">
 				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
@@ -1720,7 +1720,7 @@ limitations under the License.
 												</div>
 											</cfloop>
 										</td>
-									</tr>									<!---/cfloop--->
+									</tr>						
 								</cfif>
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
@@ -1745,7 +1745,7 @@ limitations under the License.
 				</div>
 			</div>
 
-</cfif>				
+</cfif>	--->			
 </cfoutput>
 
 	</div>
