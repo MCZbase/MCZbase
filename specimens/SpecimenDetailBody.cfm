@@ -1283,7 +1283,6 @@ limitations under the License.
 								<cfif oneOfus is "1">
 									<th><span>Container Name</span></th>
 								</cfif>
-								<th><span>Remarks</span></th>
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
@@ -1297,7 +1296,7 @@ limitations under the License.
 									</cfif>
 									
 								</tr>
-								<tr><td class="inside">#part_remarks#</td></tr>
+								<tr><td colspan="6" class="bg-light">Remarks: #part_remarks#</td></tr>
 							<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
