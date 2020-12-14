@@ -529,7 +529,7 @@ limitations under the License.
 			</cfif>
 			#one_thumb# 
 			<a href="#aForImHref#" target="_blank">
-				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%">
+				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="50%">
 			</a>
 			<p class="small"> #media_type# (#mime_type#) <br>
 				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
@@ -1267,7 +1267,7 @@ limitations under the License.
 	</cfquery>
 
 			<div class="accordion w-100" id="accordionForParts">
-			<div class="card mb-4 mb-md-5">
+			<div class="card mb-2 mb-md-1">
 				<div class="card-header float-left w-100" id="headingPart">
 				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
