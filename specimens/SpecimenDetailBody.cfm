@@ -596,7 +596,7 @@ limitations under the License.
 					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-	<div class="card mb-2 mb-md-0">
+	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Identifications</h3> 
   				<div class="dialog" title="Edit Identification (id: #identification_id#)">
@@ -760,7 +760,7 @@ limitations under the License.
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Citations</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -848,7 +848,7 @@ limitations under the License.
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Other IDs</h4>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -872,7 +872,7 @@ limitations under the License.
 
 	<!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Attributes</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -988,7 +988,7 @@ limitations under the License.
 
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Relationship</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1035,7 +1035,7 @@ limitations under the License.
 			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="card mb-2">
+			<div class="card mb-2 mb-md-1">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-0 float-left">Transactions</h3>
 					<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1288,7 +1288,7 @@ limitations under the License.
 </div>
 
 <!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2 mb-md-0">
+	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1311,7 +1311,7 @@ limitations under the License.
 <!------------------------------------ metadata ------------------------------------------->
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
-			<div class="card mb-5">
+			<div class="card mb-2 mb-md-1">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-0 float-left">Metadata</h4>
 				</div>
