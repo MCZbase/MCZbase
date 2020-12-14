@@ -1296,8 +1296,8 @@ limitations under the License.
 									</cfif>
 									
 								</tr>
-								<tr class="bg-callout bg-callout-info"><td colspan="6">
-									<span class="font-italic">Remarks:</span> #part_remarks#</td>
+								<tr class=""><td colspan="6">
+									<span class="font-italic small">Remarks:</span> #part_remarks#</td>
 								</tr>
 							<cfquery name="patt" dbtype="query">
 									select
