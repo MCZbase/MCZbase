@@ -1450,8 +1450,8 @@ textarea {
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
 }
-.line-bottom {
-	border-bottom: 2px solid #ccc;
+.line-top {
+	border-top: 2px solid #ccc;
 }
 .loginButtons {
 	padding: .2rem .5rem;
