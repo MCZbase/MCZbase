@@ -599,12 +599,25 @@ limitations under the License.
 	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Identifications</h3> 
-  				<div class="dialog" title="Edit Identification (id: #identification_id#)">
+			<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-lg" style="max-width: 750px;">
+					<div class="modal-content">
+  		<!---		<div class="dialog" title="Edit Identification (id: #identification_id#)">
   					<div id="identificationNewForm">Stuff here...</div>
   				</div>
 				  <script type="text/javascript">
 					  $( document ).ready(loadIdentifications(#identification_id#));
-				  </script>
+				  </script>--->
+						<div class="modal-header">
+							<h4 class="modal-title" id="myLargeModalLabel">Large Modal</h4>
+							<button type="button" class="close" data-dismiss="modal" aria-label="close">
+								<span aria-hidden="true">X</span>
+							</button>
+						</div>
+						<div class="modal-body" id="modal-body-content" style="min-height: 500px"> ---</div>
+					</div>
+				</div>
+			</div>
 			 <button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body float-left">
