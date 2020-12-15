@@ -418,14 +418,8 @@ limitations under the License.
 													data: { term: request.term, method: 'getPartName' },
 													dataType: 'json',
 													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-														var message = "";
-														if (error == 'timeout') { 
-															message = ' Server took too long to respond.';
-														} else { 
-															message = jqXHR.responseText;
-														}
-														messageDialog('Error:' + message ,'Error: ' + error);
+													error : function (jqXHR, textStatus, error) {
+														handleFail(jqXHR,textStatus,error,"loading part names");
 													}
 												})
 											},
@@ -765,14 +759,8 @@ limitations under the License.
 													data: { term: request.term, method: 'getPartName' },
 													dataType: 'json',
 													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-														var message = "";
-														if (error == 'timeout') { 
-															message = ' Server took too long to respond.';
-														} else { 
-															message = jqXHR.responseText;
-														}
-														messageDialog('Error:' + message ,'Error: ' + error);
+													error : function (jqXHR, textStatus, error) {
+														handleFail(jqXHR,textStatus,error,"loading part names");
 													}
 												})
 											},
@@ -1339,15 +1327,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running transaction search");
 			},
 			async: true
 		};
@@ -1533,15 +1515,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running loan search");
 			},
 			async: true
 		};
@@ -1684,15 +1660,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running accession search");
 			},
 			async: true
 		};
