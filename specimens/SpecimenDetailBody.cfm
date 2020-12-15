@@ -618,7 +618,7 @@ limitations under the License.
 					</div>
 				</div>
 			</div>
-			 <button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+			 <button type="button" class="btn btn-xs small float-right" onClick="$('.bd-example-modal-lg').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 		</div>
 		<div class="card-body float-left">
 			<cfloop query="identification">
