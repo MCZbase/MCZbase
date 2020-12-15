@@ -623,7 +623,11 @@ function handleFail(jqXHR,textStatus,error,context) {
 	} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
 		message = ' Backing method did not return JSON.';
 	} else {
-		message = jqXHR.responseText;
+		if (jqXHR.responseText == jqXHR.statusText) {
+			message = jqXHR.statusText;
+		}
+			message = jqXHR.responseText + ' ' + jqXHR.statusText;
+		}
 	}
 	var details = 'Error:' + context + ': ' + message;
 	console.log(details);
@@ -648,8 +652,8 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}
