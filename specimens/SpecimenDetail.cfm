@@ -172,7 +172,7 @@ limitations under the License.
 		<div class="row mx-0">
 			<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
 		</div>
-		<div class="row mx-0">
+		<div class="row">
 				<div class="col-12 col-md-6">
 				<h2 class="mt-0 px-0"><a class="font-italic text-dark font-weight-bold" href="##">#scientific_name#</a>&nbsp;<span class="sm-caps h3">#author_text#</span></h2>
 			</div>
