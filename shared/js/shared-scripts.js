@@ -625,7 +625,7 @@ function handleFail(jqXHR,textStatus,error,context) {
 	} else {
 		if (jqXHR.responseText == jqXHR.statusText) {
 			message = jqXHR.statusText;
-		}
+		} else { 
 			message = jqXHR.responseText + ' ' + jqXHR.statusText;
 		}
 	}
