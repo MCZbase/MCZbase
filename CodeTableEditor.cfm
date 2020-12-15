@@ -1482,8 +1482,8 @@
 				accn_show_on_shipment
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_type#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">
