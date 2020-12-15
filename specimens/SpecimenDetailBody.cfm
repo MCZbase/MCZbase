@@ -1285,7 +1285,7 @@ limitations under the License.
 							</tr>
 							<cfset i=1>
 							<cfloop query="mPart">
-								<tr <cfif mPart.recordcount gt 1>style="border-top: 2px solid ##ccc;"<cfelse></cfif>>
+								<tr class="<cfif mPart.recordcount gt 1>border-bottom<cfelse></cfif>">
 									<td class="pl-md-3">#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
