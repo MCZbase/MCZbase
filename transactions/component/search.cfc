@@ -990,9 +990,8 @@ limitations under the License.
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-					left join loan_item on loan.transaction_id=loan_item.transaction_id 
-					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
-					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+					left join cataloged_item on accn.accn_id=cataloged_item.accn_id
+					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
 					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
@@ -1062,7 +1061,7 @@ limitations under the License.
 				</cfif>
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+					and cataloged_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
 					accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
