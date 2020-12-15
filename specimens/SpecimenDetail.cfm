@@ -169,7 +169,7 @@ limitations under the License.
 			<cfelse>
 					<div class="card box-shadow no-card bg-transparent">
 			</cfif>
-		<div class="row mx-0">
+		<div class="row">
 			<h1 class="col-12 col-md-6 mb-0 h4"> #collection#&nbsp;#cat_num#</h1>
 		</div>
 		<div class="row">
