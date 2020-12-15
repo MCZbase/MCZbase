@@ -935,7 +935,7 @@ limitations under the License.
 				accn_status,
 				trans_remarks,
 				collection,
-				collection_cde,
+				collection.collection_cde,
 				project_name,
 				project.project_id pid,
 				estimated_count,
