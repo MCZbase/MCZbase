@@ -1360,7 +1360,7 @@ limitations under the License.
 										<td class="">#part_remarks#</td>
 									</tr>
 								</cfloop>
-									</div>
+								</div>
 							</cfloop>
 								
 							</table>
