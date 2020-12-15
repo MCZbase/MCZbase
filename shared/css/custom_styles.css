@@ -1817,6 +1817,9 @@ content: '⇡';
 		font-size: 0.8rem;
 		text-align: right;
 	}
+	.line-bottom {
+		border-bottom: 2px solid #ccc;
+	}
 }
 @media(max-width:576px) {
 	.count {
