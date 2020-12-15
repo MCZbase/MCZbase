@@ -420,7 +420,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <cfif mediaS2.recordcount gt 1>
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-0 float-left">
+		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-2 px-0 float-left">
     		<div class="accordion" id="accordionE">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
@@ -568,7 +568,7 @@ limitations under the License.
 				</div>
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> float-left">
+	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-lg-9 col-xl-9<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
