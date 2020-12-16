@@ -795,7 +795,9 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="accn_number" class="data-entry-label mb-0">Number: </label>
+													<label for="accn_number" class="data-entry-label mb-0">Number: 
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number).val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+</label>
 													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
 											</div>
@@ -808,10 +810,18 @@ limitations under the License.
 												<cfloop query="ctAccnType">
 													<cfif paccn_type eq ctAccnType.accn_type>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctAccnType.accn_type#" #selected#>#ctAccnType.accn_type#</option>
+												</cfloop>
+												<cfloop query="ctAccnType">
+													<cfif paccn_type eq '!' & ctAccnType.accn_type>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="!#ctAccnType.accn_type#" #selected#>not #ctAccnType.accn_type#</option>
 												</cfloop>
 											</select>
 										</div>
@@ -823,12 +833,19 @@ limitations under the License.
 												<cfloop query="ctAccnStatus">
 													<cfif paccn_status eq ctAccnStatus.accn_status>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
 												</cfloop>
-												<option value="not closed">not closed</option>
+												<cfloop query="ctAccnStatus">
+													<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
+												</cfloop>
 											</select>
 										</div>
 									</div>
