@@ -185,7 +185,7 @@
 			</cfif>
 			<!--- place the code value field first --->
 			<cfif listFind(columnList,ucase(theColumnName)) GT 1>
-				<cfset columnList = listDeleteAt(columnList,listFind(columnList,ucase(theColummName)))>
+				<cfset columnList = listDeleteAt(columnList,listFind(columnList,ucase(theColumnName)))>
 				<cfset columnList = listPrepend(columnList,ucase(thecolumnName))>
 			</cfif>
 			<cfset columnArr = ListToArray(columnList)>
