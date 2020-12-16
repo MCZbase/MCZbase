@@ -796,7 +796,7 @@ limitations under the License.
 												</div>
 												<div class="col-6 px-0">
 													<label for="accn_number" class="data-entry-label mb-0">Number: 
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number).val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 </label>
 													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
