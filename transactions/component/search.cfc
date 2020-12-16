@@ -1165,7 +1165,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
-					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapeQuotes(ucase(permit_remarks))#%">
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
 				</cfif>
 			ORDER BY accn_number
 		</cfquery>
