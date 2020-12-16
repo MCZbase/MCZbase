@@ -1004,7 +1004,7 @@ limitations under the License.
 				accn.transaction_id is not null
 				<cfif isDefined("accn_number") and len(accn_number) gt 0>
 					<cfif left(accn_number,1) is "=">
-						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
+						AND accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
 					<cfelse>
 						<cfif find(',',accn_number) GT 0>
 							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
@@ -1014,10 +1014,10 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("accn_status") and len(accn_status) gt 0>
-					and accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+					AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
-					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					AND collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
 					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
@@ -1058,10 +1058,10 @@ limitations under the License.
 				</cfif>
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					and specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+					AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
 					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
@@ -1088,9 +1088,9 @@ limitations under the License.
 					<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
 						<cfif not isdefined("part_disp_oper")><cfset part_disp_oper='is'></cfif>
 						<cfif part_disp_oper is "is">
-							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							AND coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						<cfelse>
-							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							AND coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
 				</cfif>
