@@ -913,10 +913,24 @@ limitations under the License.
 		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
 			<cfset to_trans_date=trans_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("rec_date") and len(#rec_date#) gt 0>
 		<cfif not isdefined("to_rec_date") or len(to_rec_date) is 0>
 			<cfset to_rec_date=rec_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#rec_date#) EQ 4>
+			<cfset rec_date = "#rec_date#-01-01">
+		</cfif>
+		<cfif len(#to_rec_date#) EQ 4>
+			<cfset to_rec_date = "#to_rec_date#-12-31">
 		</cfif>
 	</cfif>
 
