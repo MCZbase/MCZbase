@@ -838,14 +838,17 @@ limitations under the License.
 													</cfif>
 													<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
 												</cfloop>
-												<cfloop query="ctAccnStatus">
-													<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
-												</cfloop>
+												<cfif ctAccnStatus.recordcount GT 2>
+													<!--- not needed unless we add more than two allowed accession status values --->
+													<cfloop query="ctAccnStatus">
+														<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
+													</cfloop>
+												</cfif>
 											</select>
 										</div>
 									</div>
@@ -1053,6 +1056,12 @@ limitations under the License.
 													<script>
 														$(document).ready(function() {
 															$(makePermitPicker('a_permit_num','a_permit_id'));
+															$('##a_permit_num').blur( function () {
+																// prevent an invisible permit_id from being included in the search.
+																if ($('##a_permit_num').val().trim() == "") { 
+																	$('##a_permit_id').val("");
+																}
+															});
 														});
 													</script>
 												</div>
