@@ -954,7 +954,7 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
 												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>--->
-											<div class="border bg-light rounded py-3 mb-2 px-4">
+											<div class="border bg-light rounded py-3 mb-2 px-3">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
