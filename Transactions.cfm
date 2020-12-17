@@ -1050,7 +1050,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 mt-1">
+													<div class="col-md-12 px-0 pb-1 mt-2">
 														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -1101,7 +1101,7 @@ limitations under the License.
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
 												</div>
-												<div class="col-md-12">
+												<div class="col-md-12 mt-2">
 													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) Contact Agent:</label>
 													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="issued by agent name" >
 													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
