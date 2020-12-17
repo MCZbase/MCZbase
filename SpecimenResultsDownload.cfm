@@ -153,7 +153,7 @@ do not agree</font>.</a>
 	<cfif NOT isdefined("user_id") or len(#user_id#) EQ 0>
 		<!--- user_id wasn't passed for some reason, look it up again --->
 		<cfquery name="getUserID" datasource="cf_dbuser">
-			SELECT cf_users.user_id,
+			SELECT cf_users.user_id
 			FROM cf_users
 			WHERE
 				username = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#session.username#">
