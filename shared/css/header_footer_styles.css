@@ -318,7 +318,7 @@ input#Password {
 	}
 	.nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
-	padding: .5em 1em;
+/*	padding: .5em 1em;*/
 	}	
 }
 @media(min-width:991px) {
