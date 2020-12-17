@@ -916,23 +916,23 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0">
 									<div class="col-md-6">
-											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
+											<div class="date form-row bg-light border pb-2 pt-1 mx-0 px-3 rounded justify-content-center">
+												<label class="data-entry-label px-3 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
+												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-5 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
-												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 data-entry-input hasDatepicker" placeholder="end yyyy-mm-dd">
+												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-5 data-entry-input hasDatepicker" placeholder="end yyyy-mm-dd">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."> </div>
 										</div>
 									<div class="col-md-6">
-											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="accn_rec_date">Date Received:</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 hasDatepicker" value="" aria-label="start of range for date received">
+											<div class="date form-row mx-0 bg-light border pt-1 pb-2 px-3 rounded justify-content-center">
+												<label class="data-entry-label mb-0 px-3 mx-1" for="accn_rec_date">Date Received:</label>
+												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-5 hasDatepicker" value="" aria-label="start of range for date received">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 hasDatepicker">
+												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-5 hasDatepicker">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."> </div>
 										</div>
 											</div>
