@@ -1114,15 +1114,15 @@ limitations under the License.
 													});
 												</script>
 												<div class="col-md-12">
-													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits Provided (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 											</div>
