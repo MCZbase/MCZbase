@@ -959,7 +959,7 @@ limitations under the License.
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12 px-0 mt-2">
+												<div class="col-md-12 px-0">
 													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
@@ -1050,7 +1050,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 mt-4">
+													<div class="col-md-12 px-0">
 														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
