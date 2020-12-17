@@ -954,7 +954,7 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
 												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>--->
-											<div class="border bg-light rounded py-3 mb-2 px-3">
+											<div class="border bg-light rounded py-3 mb-2 px-4">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
@@ -965,7 +965,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
-												<div class="form-row mx-0 mb-1 px-2">
+												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<div class="col-3 px-0">
 														<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
 														<cfif part_name_oper IS "is">
@@ -985,7 +985,7 @@ limitations under the License.
 														<input type="text" id="accn_part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 													</div>
 												</div>
-												<div class="form-row mx-0 px-2">
+												<div class="form-row mx-0 px-2 px-sm-3">
 													<div class="col-3 px-0">
 														<label for="accn_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
@@ -1026,7 +1026,7 @@ limitations under the License.
 														</script> 
 													</div>
 												</div>
-												<div class="form-row mx-0 mb-1 px-2">
+												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<input type="hidden" id="accn_collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
