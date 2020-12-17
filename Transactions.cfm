@@ -915,7 +915,7 @@ limitations under the License.
 									</div>
 									</div>
 									<div class="form-row mx-0 mt-2">
-										<div class="col-md-6">
+										<div class="col-12 col-md-6">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
@@ -930,6 +930,7 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
 												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
 											</div>
+										</div>
 											<div class="border bg-light rounded py-3 mb-2 px-4">
 												<div class="col-md-12">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
