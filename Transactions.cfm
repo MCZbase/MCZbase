@@ -914,8 +914,8 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row">
-									<div class="col-md-6 px-1">
+									<div class="form-row mx-0">
+									<div class="col-md-6">
 											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
