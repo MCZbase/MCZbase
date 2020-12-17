@@ -965,7 +965,7 @@ limitations under the License.
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+												<div class="form-row mx-0 mb-1 px-2 px-sm-2">
 													<div class="col-3 px-0">
 														<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
 														<cfif part_name_oper IS "is">
@@ -985,7 +985,7 @@ limitations under the License.
 														<input type="text" id="accn_part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
 													</div>
 												</div>
-												<div class="form-row mx-0 px-2 px-sm-3">
+												<div class="form-row mx-0 px-2 px-sm-2">
 													<div class="col-3 px-0">
 														<label for="accn_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
 														<cfif part_disp_oper IS "is">
