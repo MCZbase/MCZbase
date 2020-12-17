@@ -1101,7 +1101,7 @@ limitations under the License.
 													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
-												<div class="col-md-4 pl-2 pr-3">
+												<div class="col-md-6 col-xl-4 ml-3 pl-0 pl-xl-2 pr-xl-3">
 													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent:</label>
 													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
 													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
