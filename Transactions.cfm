@@ -935,6 +935,7 @@ limitations under the License.
 												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 hasDatepicker">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."> </div>
 										</div>
+											</div>
 
 									<div class="form-row mx-0 mt-2">
 								
