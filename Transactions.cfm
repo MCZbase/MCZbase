@@ -1090,12 +1090,12 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-md-6">
+												<div class="col-md-6 px-3">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) Issued By:</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-6 px-3">
 													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) Issued To:</label>
 													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
