@@ -926,8 +926,8 @@ limitations under the License.
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="..."> </div>
 										</div>
 									<div class="col-md-6">
-											<div class="date row bg-light border pb-2 pt-1 px-xl-3 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-xl-3 mx-1 mb-0" for="accn_rec_date">Date Received:</label>
+											<div class="date row bg-light border pb-2 pt-1 px-xl-2 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-3 px-xl-3 mx-1 mb-0" for="accn_rec_date">Date Received:</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" value="" aria-label="start of range for date received">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
