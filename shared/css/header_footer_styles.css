@@ -62,7 +62,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
     position: relative;
     font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
     letter-spacing: .02em;
-    margin-right: .15em;
+/*    margin-right: .15em;*/
 }
 .user {
 	font-size: .9em;
@@ -439,7 +439,7 @@ input#Password {
 		top: 4px;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		margin-right:.25rem;
+/*		margin-right:.25rem;*/
 	}
 	.login-form {
 		width: 320px;
