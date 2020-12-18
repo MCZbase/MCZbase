@@ -560,7 +560,7 @@ limitations under the License.
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -569,7 +569,7 @@ limitations under the License.
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" aria-label="due date search range to">
+												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
@@ -578,7 +578,7 @@ limitations under the License.
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5">
+												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 											</div>
 										</div>
 									</div>
