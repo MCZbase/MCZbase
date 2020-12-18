@@ -440,7 +440,7 @@ limitations under the License.
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
-													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
+													<label for="loan_collection_id" class="data-entry-label">Collection Name</label>
 													<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
@@ -454,14 +454,14 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="loan_number" class="data-entry-label mb-0">Number: </label>
+													<label for="loan_number" class="data-entry-label mb-0">Number</label>
 													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyyy-n-Coll">
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
-											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
+											<label for="loan_type" class="data-entry-label mb-0">Type</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
@@ -476,7 +476,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_status = loan_status>
-											<label for="loan_status" class="data-entry-label mb-0">Status:</label>
+											<label for="loan_status" class="data-entry-label mb-0">Status</label>
 											<select name="loan_status" id="loan_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
@@ -556,7 +556,7 @@ limitations under the License.
 									<div class="form-row mx-0 mt-1 my-xl-2">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 mb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-2 mx-1 mb-0" for="trans_date">Loan Date:</label>
+												<label class="data-entry-label px-4 px-md-2 mx-1 mb-0" for="trans_date">Loan Date</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
