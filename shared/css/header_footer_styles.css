@@ -57,14 +57,11 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 }
 /* End navigation menu styles */
 .logout {
-	padding: .12rem .45rem;
-	font-size: 100%;
-	font-weight: bold;
-	position: relative;
-	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	letter-spacing: .02rem;
-/*	margin-right: .25rem;*/
-	line-height: 1.25;
+    padding: .12rem .25rem;
+    font-size: .85rem;
+    position: relative;
+    font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+    letter-spacing: .02em;
 }
 .user {
 	font-size: .9rem;
@@ -310,9 +307,9 @@ input#Password {
 		text-align: right;
 	}
 	.logout {
-		padding: .12rem .5rem;
-		font-size: .875rem;
-		font-weight: bold;
+		padding: .25em .45em;
+		font-size: .83em;
+/*		font-weight: bold;*/
 		position: absolute;
 		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
@@ -326,7 +323,7 @@ input#Password {
 	}
 	.nav-tabs .nav-link, .navbar-nav .nav-link {
 	display: block;
-	padding: .5em 1em;
+/*	padding: .5em 1em;*/
 	}	
 }
 @media(min-width:991px) {

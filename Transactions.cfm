@@ -227,6 +227,9 @@ limitations under the License.
 	<cfif not isdefined("permit_contact_agent")>
 		<cfset permit_contact_agent="">
 	</cfif>
+	<cfif not isdefined("estimated_count")>
+		<cfset estimated_count="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main id="content">
 		<!--- Search form --->
@@ -265,14 +268,14 @@ limitations under the License.
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
-								<li class="nav-item col-4 col-lg-3 px-1"> 
-									<a class="nav-link #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
+								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
+									<a class="nav-link px-3 #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 								</li>
-								<li class="nav-item col-4 col-lg-3 px-1"> 
-									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
+								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
+									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
-								<li class="nav-item col-4 col-lg-3 px-1"> 
-									<a class="nav-link #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
+								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
+									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
 								</li>
 							</ul>
 						</div>
@@ -286,7 +289,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
-											<label for="collection_id" class="data-entry-label">Collection Name:</label>
+											<label for="collection_id" class="data-entry-label">Collection Name</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
@@ -303,13 +306,13 @@ limitations under the License.
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
-											<label for="number" class="data-entry-label">Number:</label>
+											<label for="number" class="data-entry-label">Number</label>
 											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
-											<label for="status" class="data-entry-label">Status:</label>
+											<label for="status" class="data-entry-label">Status</label>
 											<select name="status" id="status" class="data-entry-select">
 												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
@@ -323,12 +326,12 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="bg-light border rounded pt-2 mx-0 mr-1 my-2 px-2">
+									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
 									<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -345,7 +348,7 @@ limitations under the License.
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -362,7 +365,7 @@ limitations under the License.
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -418,14 +421,8 @@ limitations under the License.
 													data: { term: request.term, method: 'getPartName' },
 													dataType: 'json',
 													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-														var message = "";
-														if (error == 'timeout') { 
-															message = ' Server took too long to respond.';
-														} else { 
-															message = jqXHR.responseText;
-														}
-														messageDialog('Error:' + message ,'Error: ' + error);
+													error : function (jqXHR, textStatus, error) {
+														handleFail(jqXHR,textStatus,error,"loading part names");
 													}
 												})
 											},
@@ -446,7 +443,7 @@ limitations under the License.
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
-													<label for="loan_collection_id" class="data-entry-label">Collection Name:</label>
+													<label for="loan_collection_id" class="data-entry-label">Collection Name</label>
 													<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
@@ -460,14 +457,14 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="loan_number" class="data-entry-label mb-0">Number: </label>
+													<label for="loan_number" class="data-entry-label mb-0">Number</label>
 													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyyy-n-Coll">
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_type = loan_type>
-											<label for="loan_type" class="data-entry-label mb-0">Type:</label>
+											<label for="loan_type" class="data-entry-label mb-0">Type</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctLoanType">
@@ -482,7 +479,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset ploan_status = loan_status>
-											<label for="loan_status" class="data-entry-label mb-0">Status:</label>
+											<label for="loan_status" class="data-entry-label mb-0">Status</label>
 											<select name="loan_status" id="loan_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctLoanStatus">
@@ -502,7 +499,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -519,7 +516,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -536,7 +533,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -559,32 +556,32 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0 mt-1 my-xl-2">
+									<div class="form-row mx-0 mt-1 mb-md-2 my-xl-2">
 										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="trans_date">Loan Date:</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="return_due_date">Due Date:</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#" aria-label="start of range for due date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="return_due_date">Due Date</label>
+												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4" aria-label="due date search range to">
+												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 pt-1 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="closed_date">Close Date:</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+											<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
+												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 											</div>
 										</div>
 									</div>
@@ -593,10 +590,10 @@ limitations under the License.
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row mx-0">
 										<div class="col-md-6">
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-4">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
+												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
@@ -671,7 +668,7 @@ limitations under the License.
 														</script> 
 													</div>
 												</div>
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+												<div class="form-row mx-0 mb-0 px-2 px-sm-3">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
@@ -695,8 +692,8 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0">
-														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
+													<div class="col-md-12 px-0 mt-1 mb-2">
+														<label for="specimen_guid" class="data-entry-label mb- pb-0">Cataloged Item in Loan</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
 															onchange="$('##collection_object_id').val('');">
@@ -708,25 +705,25 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
+											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
 												<div class="col-md-12">
-													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
+													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
+													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
 												<div class="col-md-12">
-													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (find exhibition-subloans): </label>
+													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
 												</div>
 											</div>
@@ -765,14 +762,8 @@ limitations under the License.
 													data: { term: request.term, method: 'getPartName' },
 													dataType: 'json',
 													success : function (data) { response(data); },
-													error : function (jqXHR, status, error) {
-														var message = "";
-														if (error == 'timeout') { 
-															message = ' Server took too long to respond.';
-														} else { 
-															message = jqXHR.responseText;
-														}
-														messageDialog('Error:' + message ,'Error: ' + error);
+													error : function (jqXHR, textStatus, error) {
+														handleFail(jqXHR,textStatus,error,"loading part names");
 													}
 												})
 											},
@@ -793,7 +784,7 @@ limitations under the License.
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
-													<label for="accn_collection_id" class="data-entry-label">Collection Name:</label>
+													<label for="accn_collection_id" class="data-entry-label">Collection Name</label>
 													<select name="collection_id" size="1" class="data-entry-prepend-select" id="accn_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
@@ -807,40 +798,60 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="accn_number" class="data-entry-label mb-0">Number: </label>
+													<label for="accn_number" class="data-entry-label mb-0">Number 
+														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+</label>
 													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
 												</div>
 											</div>
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset paccn_type = accn_type>
-											<label for="accn_type" class="data-entry-label mb-0">Type:</label>
+											<label for="accn_type" class="data-entry-label mb-0">Type</label>
 											<select name="accn_type" id="accn_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctAccnType">
 													<cfif paccn_type eq ctAccnType.accn_type>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctAccnType.accn_type#" #selected#>#ctAccnType.accn_type#</option>
+												</cfloop>
+												<cfloop query="ctAccnType">
+													<cfif paccn_type eq '!' & ctAccnType.accn_type>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="!#ctAccnType.accn_type#" #selected#>not #ctAccnType.accn_type#</option>
 												</cfloop>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset paccn_status = accn_status>
-											<label for="accn_status" class="data-entry-label mb-0">Status:</label>
+											<label for="accn_status" class="data-entry-label mb-0">Status</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctAccnStatus">
 													<cfif paccn_status eq ctAccnStatus.accn_status>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
 												</cfloop>
-												<option value="not closed">not closed</option>
+												<cfif ctAccnStatus.recordcount GT 2>
+													<!--- not needed unless we add more than two allowed accession status values --->
+													<cfloop query="ctAccnStatus">
+														<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
+													</cfloop>
+												</cfif>
 											</select>
 										</div>
 									</div>
@@ -849,7 +860,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="accn_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -866,7 +877,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="accn_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -883,7 +894,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="accn_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -906,29 +917,42 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0 mt-2">
-										<div class="col-md-6">
-											<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
-												<input type='text' name='to_trans_date' id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
+									<div class="form-row mx-0">
+										<div class="col-md-4">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
+												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
+												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
-											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="accn_rec_date">Date Received:</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#rec_date#" aria-label="start of range for date received">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+										</div>
+										<div class="col-md-4">
+											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
+												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#rec_date#" aria-label="start of range for date received">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
+												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 											</div>
-											<div class="border bg-light rounded py-3 mb-2 px-4">
-												<div class="col-md-12">
-													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+										</div>
+										<div class="col-md-4">
+											<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+										</div>
+									</div>
+
+									<div class="form-row mx-0 mt-2">
+								
+										<div class="col-md-6">
+		
+											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
+												<div class="col-md-12 px-0">
+													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
-												<div class="col-md-12">
-													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+												<div class="col-md-12 px-0">
+													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
 											</div>
@@ -973,11 +997,11 @@ limitations under the License.
 														<label for="accn_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
 														<div name="coll_obj_disposition" id="accn_coll_obj_disposition" class="w-100"></div>
 														<script>
-															function setDispositionValues() {
+															function setAccnDispositionValues() {
 																$('##coll_obj_disposition').jqxComboBox('clearSelection');
 																<cfloop query="ctCollObjDisp">
 																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-																		$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																		$("##accn_coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
 																	</cfif>
 																</cfloop>
 															};
@@ -988,8 +1012,8 @@ limitations under the License.
 																		,"#ctCollObjDisp.coll_obj_disposition#"
 																	</cfloop>
 																];
-																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true });
-																setDispositionValues();
+																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px'  });
+																setAccnDispositionValues();
 															});
 														</script> 
 													</div>
@@ -1018,7 +1042,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0">
+													<div class="col-md-12 px-0 pb-1 mt-2">
 														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -1032,8 +1056,9 @@ limitations under the License.
 
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
+												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
-													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permission &amp; Rights Document/Permit Number:</label>
+													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
@@ -1048,24 +1073,33 @@ limitations under the License.
 													<script>
 														$(document).ready(function() {
 															$(makePermitPicker('a_permit_num','a_permit_id'));
+															$('##a_permit_num').blur( function () {
+																// prevent an invisible permit_id from being included in the search.
+																if ($('##a_permit_num').val().trim() == "") { 
+																	$('##a_permit_id').val("");
+																}
+															});
 														});
 													</script>
 												</div>
-												<div class="col-md-12">
-													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) issued by:</label>
-													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-select-input col-md-6" value="#IssuedByAgent#" placeholder="issued by agent name" >
+												<div class="form-row mx-0">
+												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
+													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
+													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
-												<div class="col-md-12">
-													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) issued to:</label>
-													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-select-input col-md-6" value="#IssuedToAgent#" placeholder="issued to agent name" >
+												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
+													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
+													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
-												<div class="col-md-12">
-													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Document(s) Contact agent:</label>
-													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-select-input col-md-6" value="#permit_contact_agent#" placeholder="issued by agent name" >
+												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
+													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
+													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
 													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
 												</div>
+												</div>
+											
 												<script>
 													$(document).ready(function() {
 														$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
@@ -1074,15 +1108,15 @@ limitations under the License.
 													});
 												</script>
 												<div class="col-md-12">
-													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Restrictions (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
 												</div>
 												<div class="col-md-12">
-													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Permissions &amp; Rights Benefits Provided (accepts substring, NULL, NOT NULL)</label>
+													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
 											</div>
@@ -1292,7 +1326,7 @@ $(document).ready(function() {
 		dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
 		buttonImageOnly: true,
 		buttonImage: "/shared/images/calendar_icon.png",
-		showOn: "both"
+		showOn: "button"
 	});
 
 	/* Setup jqxgrid for Transactions Search */
@@ -1338,15 +1372,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##searchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running transaction search");
 			},
 			async: true
 		};
@@ -1529,15 +1557,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##loanSearchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running loan search");
 			},
 			async: true
 		};
@@ -1626,7 +1648,21 @@ $(document).ready(function() {
 		});
 
 	});
+	/* End Setup jqxgrid for Loan Search ******************************/
 
+
+	/* Supporting cell renderers for Accession Search *****************************/
+	var catitemsCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var transaction_id = rowData['transaction_id'];
+		if (value > 0) {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/SpecimenResults.cfm?accn_trans_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 
 	/* Setup jqxgrid for Accession Search ******************************************/
 	$('##accnSearchForm').bind('submit', function(evt){
@@ -1677,15 +1713,9 @@ $(document).ready(function() {
 			id: 'transaction_id',
 			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
-			loadError: function(jqXHR, status, error) { 
+			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				var message = "";
-				if (error == 'timeout') { 
-					message = ' Server took too long to respond.';
-				} else { 
-					message = jqXHR.responseText;
-				}
-				messageDialog('Error:' + message ,'Error: ' + error);
+				handleFail(jqXHR,textStatus,error,"running accession search");
 			},
 			async: true
 		};
@@ -1725,19 +1755,20 @@ $(document).ready(function() {
 			},
 			columns: [
 				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: true },
-				{text: 'Accession', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Accession', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false },
-				{text: 'Type', datafield: 'accn_type', width: 100},
-				{text: 'Status', datafield: 'accn_status', width: 100},
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsCellRenderer },
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
+				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: false, width: 100},
+				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: false, width: 90},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
 				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
 				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: false },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
 				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
 				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
 				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
@@ -1747,7 +1778,6 @@ $(document).ready(function() {
 				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: true },
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
 			rowdetails: true,

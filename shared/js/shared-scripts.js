@@ -623,11 +623,16 @@ function handleFail(jqXHR,textStatus,error,context) {
 	} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
 		message = ' Backing method did not return JSON.';
 	} else {
-		message = jqXHR.responseText;
+		if (jqXHR.responseText == jqXHR.statusText) {
+			message = jqXHR.statusText;
+		} else { 
+			message = jqXHR.responseText + ' ' + jqXHR.statusText;
+		}
 	}
-	console.log('Error:' + context + ': ' + message);
+	var details = 'Error:' + context + ': ' + message;
+	console.log(details);
 	if (!error) { error = ""; } 
-	messageDialog('Error '+context+': '+message, 'Error: '+error.substring(0,50));
+	messageDialog(details, 'Error: '+error.substring(0,50));
 }
 
 /** Make a paired hidden id and text name control into an autocomplete publication picker.
@@ -647,8 +652,8 @@ function makePublicationAutocompleteMeta(valueControl, idControl) {
 					var message = "";
 					if (error == 'timeout') { 
 						message = ' Server took too long to respond.';
-               } else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
-                  message = ' Backing method did not return JSON.';
+					} else if (error && error.toString().startsWith('Syntax Error: "JSON.parse:')) {
+						message = ' Backing method did not return JSON.';
 					} else { 
 						message = jqXHR.responseText;
 					}

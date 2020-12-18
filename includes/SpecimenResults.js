@@ -539,6 +539,9 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<th>Media</th>';
 			}
 			theInnerHtml += '<th>Identification</th>';
+			if (data.COLUMNLIST[0].indexOf('STORED_AS')> -1) {
+				theInnerHtml += '<th>STORED AS</th>';
+			}
 			if (data.COLUMNLIST[0].indexOf('ID_SENSU')> -1) {
 				theInnerHtml += '<th>ID sensu</th>';
 			}
@@ -840,6 +843,11 @@ function success_getSpecResultsData(result){
 				theInnerHtml += '<span class="browseLink" type="scientific_name" dval="' + encodeURI(data.SCIENTIFIC_NAME[i]) + '">' + spaceStripper(data.SCIENTIFIC_NAME[i]);
 				theInnerHtml += '</span>';
 				theInnerHtml += '</td>';
+				if (data.COLUMNLIST[0].indexOf('STORED_AS')> -1) {
+					theInnerHtml += '<td>';
+						theInnerHtml += data.STORED_AS[i];
+					theInnerHtml += '</td>';
+				}
 				if (data.COLUMNLIST[0].indexOf('ID_SENSU')> -1) {
 					theInnerHtml += '<td>';
 						theInnerHtml += data.ID_SENSU[i];
