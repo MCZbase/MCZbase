@@ -1083,7 +1083,7 @@ limitations under the License.
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
-												<div class="col-12 col-md-6 col-xl-4 px-2 pr-md-3">
+												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
 													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
 													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
