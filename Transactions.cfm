@@ -227,6 +227,9 @@ limitations under the License.
 	<cfif not isdefined("permit_contact_agent")>
 		<cfset permit_contact_agent="">
 	</cfif>
+	<cfif not isdefined("estimated_count")>
+		<cfset estimated_count="">
+	</cfif>
 	<div id="overlaycontainer" style="position: relative;">
 	<main>
 		<!--- Search form --->
