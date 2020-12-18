@@ -916,7 +916,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0">
 									<div class="col-md-6">
-											<div class="date row bg-light border pb-2 mb-2 pt-1 px-0 px-xl-2 mx-0 rounded justify-content-center">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-xl-2 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
@@ -941,7 +941,7 @@ limitations under the License.
 								
 										<div class="col-md-6">
 		
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3">
+											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
