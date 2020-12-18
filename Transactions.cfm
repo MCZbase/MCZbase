@@ -271,7 +271,7 @@ limitations under the License.
 								<li class="nav-item col-2 px-1"> 
 									<a class="nav-link #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
-								<li class="nav-item col-2 px-1"> 
+								<li class="nav-item col-3 px-1"> 
 									<a class="nav-link #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
 								</li>
 							</ul>
