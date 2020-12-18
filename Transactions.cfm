@@ -557,28 +557,28 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 px-xl-1 mx-1 mb-0" for="trans_date">Loan Date</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 px-xl-1 mx-1 mb-0" for="return_due_date">Due Date</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
+												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5" aria-label="due date search range to">
+												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" aria-label="due date search range to">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 px-xl-1 mx-1 mb-0" for="closed_date">Close Date</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
+												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5">
+												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5">
 											</div>
 										</div>
 									</div>
@@ -918,10 +918,14 @@ limitations under the License.
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-2 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
+												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
+<<<<<<< HEAD
 												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-4 data-entry-input hasDatepicker" placeholder="end yyyy-mm-dd">
+=======
+												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+>>>>>>> origin/test
 											 </div>
 										</div>
 										<div class="col-md-6">

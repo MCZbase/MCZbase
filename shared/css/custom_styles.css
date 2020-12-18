@@ -1264,31 +1264,31 @@ select.data-entry-select option:focus {
 input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 	font-weight: 450;
 	line-height: 1.5em;
-	color: silver;
+	color: darkgrey;
 	font-size: 14px;
 }
 input::-moz-placeholder { /* Firefox 19+ */
 	font-weight: 450;
 	line-height: 1.5em;
-	color: silver;
+	color: darkgrey;
 	font-size: 14px;
 }
 input:-ms-input-placeholder { /* IE 10+ */
 	font-weight: 450;
 	line-height: 1.5em;
-	color: silver;
+	color: darkgrey;
 	font-size: 14px;
 }
 input:-moz-placeholder { /* Firefox 18- */
 	font-weight: 450;
 	line-height: 1.5em;
-	color: silver;
+	color: darkgrey;
 	font-size: 14px;
 }
 input::placeholder {
 	font-weight: 450;
 	line-height: 1.5em;
-	color: silver;
+	color: darkgrey;
 	font-size: 14px;
 }
 .data-entry-input:focus {
