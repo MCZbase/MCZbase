@@ -286,7 +286,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
-											<label for="collection_id" class="data-entry-label">Collection Name:</label>
+											<label for="collection_id" class="data-entry-label">Collection Name</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
 												<option value="-1">any collection</option>
 												<cfloop query="ctcollection">
@@ -303,13 +303,13 @@ limitations under the License.
 											<cfif not isdefined("number")>
 												<cfset number="">
 											</cfif>
-											<label for="number" class="data-entry-label">Number:</label>
+											<label for="number" class="data-entry-label">Number</label>
 											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
 										</div>
 										<div class="col-12 col-md-6"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
-											<label for="status" class="data-entry-label">Status:</label>
+											<label for="status" class="data-entry-label">Status</label>
 											<select name="status" id="status" class="data-entry-select">
 												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
@@ -328,7 +328,7 @@ limitations under the License.
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -345,7 +345,7 @@ limitations under the License.
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -362,7 +362,7 @@ limitations under the License.
 											<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -496,7 +496,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -513,7 +513,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -530,7 +530,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -565,7 +565,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row mx-0 bg-light border pt-1 pb-2 mb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 px-md-2 mx-1" for="return_due_date">Due Date:</label>
+												<label class="data-entry-label mb-0 px-4 px-md-2 mx-1" for="return_due_date">Due Date</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#" aria-label="start of range for due date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
@@ -574,7 +574,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-4">
 											<div class="date form-row border bg-light pb-2 pt-1 mb-2 rounded mx-0 justify-content-center">
-												<label class="data-entry-label mb-0 px-4 px-md-2 mx-1" for="closed_date">Close Date:</label>
+												<label class="data-entry-label mb-0 px-4 px-md-2 mx-1" for="closed_date">Close Date</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
@@ -590,7 +590,7 @@ limitations under the License.
 									<div class="form-row mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number:</label>
+												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
 												<div class="input-group">
 													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
 													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
@@ -704,23 +704,23 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
 												<div class="col-md-12">
-													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description: </label>
+													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
 													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions:</label>
+													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
 													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
 												</div>
 												<div class="col-md-12">
-													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
 												</div>
 												<div class="col-md-12">
-													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (find exhibition-subloans): </label>
+													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number (find exhibition-subloans) </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
 												</div>
 											</div>
@@ -804,7 +804,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset paccn_type = accn_type>
-											<label for="accn_type" class="data-entry-label mb-0">Type:</label>
+											<label for="accn_type" class="data-entry-label mb-0">Type</label>
 											<select name="accn_type" id="accn_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctAccnType">
@@ -827,7 +827,7 @@ limitations under the License.
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset paccn_status = accn_status>
-											<label for="accn_status" class="data-entry-label mb-0">Status:</label>
+											<label for="accn_status" class="data-entry-label mb-0">Status</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctAccnStatus">
@@ -857,7 +857,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="accn_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -874,7 +874,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="accn_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -891,7 +891,7 @@ limitations under the License.
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="accn_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role...</option>
+													<option value="">agent role</option>
 													<cfloop query="cttrans_agent_role">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
@@ -917,7 +917,7 @@ limitations under the License.
 									<div class="form-row mx-0">
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-xl-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
+												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
@@ -927,7 +927,7 @@ limitations under the License.
 										</div>
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 pt-1 px-xl-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_rec_date">Date Received:</label>
+												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" value="" aria-label="start of range for date received">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
@@ -943,11 +943,11 @@ limitations under the License.
 		
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
-													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
+													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
 												</div>
 												<div class="col-md-12 px-0">
-													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks: </label>
+													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
 											</div>
@@ -1079,17 +1079,17 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
-													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By:</label>
+													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-1 pr-md-3">
-													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To:</label>
+													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
 													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
 												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-3 px-3 pl-xl-2 pr-xl-3">
-													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent:</label>
+													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
 													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
 													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
 												</div>
