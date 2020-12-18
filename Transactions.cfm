@@ -924,7 +924,7 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-5 data-entry-input hasDatepicker" placeholder="end yyyy-mm-dd">
 											 </div>
 										</div>
-									<div class="col-md-6">
+										<div class="col-md-6">
 											<div class="date row bg-light border pb-2 pt-1 px-xl-2 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5" value="" aria-label="start of range for date received">
@@ -933,7 +933,7 @@ limitations under the License.
 												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5">
 											</div>
 										</div>
-											</div>
+									</div>
 
 									<div class="form-row mx-0 mt-2">
 								
