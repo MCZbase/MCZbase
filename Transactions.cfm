@@ -941,7 +941,7 @@ limitations under the License.
 								
 										<div class="col-md-6">
 		
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-4">
+											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
