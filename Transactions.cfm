@@ -268,7 +268,7 @@ limitations under the License.
 								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
 									<a class="nav-link px-3 #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 								</li>
-								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
+								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
 									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
