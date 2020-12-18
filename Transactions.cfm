@@ -781,7 +781,7 @@ limitations under the License.
 										<div class="col-12 col-md-6 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
-													<label for="accn_collection_id" class="data-entry-label">Collection Name:</label>
+													<label for="accn_collection_id" class="data-entry-label">Collection Name</label>
 													<select name="collection_id" size="1" class="data-entry-prepend-select" id="accn_collection_id">
 														<option value="-1">any collection</option>
 														<cfloop query="ctcollection">
@@ -795,7 +795,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="accn_number" class="data-entry-label mb-0">Number: 
+													<label for="accn_number" class="data-entry-label mb-0">Number 
 														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 </label>
 													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
