@@ -587,7 +587,7 @@ limitations under the License.
 											$(makePermitPicker('permit_num','permit_id'));
 										});
 									</script>
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row mx-0">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
 												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
