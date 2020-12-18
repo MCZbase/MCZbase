@@ -432,15 +432,15 @@ input#Password {
     	border-radius: .25rem;
 	}
 	.logout {
-		padding: .12rem .35rem;
-		font-size: .89rem;
+		padding: .15rem .35rem;
+		font-size: .8rem;
 /*		font-weight: bold;*/
 		position: absolute;
 		right: 1em;
 		top: 5px;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
-		margin-right:.25em;
+		margin-right:.25rem;
 	}
 	.login-form {
 		width: 320px;
