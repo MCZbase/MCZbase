@@ -573,7 +573,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0rounded justify-content-center">
+											<div class="date form-row border bg-light pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 px-xl-1 mx-1 mb-0" for="closed_date">Close Date</label>
 												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd" value="#closed_date#" aria-label="start of range for closed date">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
