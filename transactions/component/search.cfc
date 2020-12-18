@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 
 <!---   Function getTransactions  --->
 <cffunction name="getTransactions" access="remote" returntype="any" returnformat="json">
