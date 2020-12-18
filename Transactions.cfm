@@ -920,12 +920,8 @@ limitations under the License.
 												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
-<<<<<<< HEAD
-												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-4 data-entry-input hasDatepicker" placeholder="end yyyy-mm-dd">
-=======
+												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
 												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
->>>>>>> origin/test
 											 </div>
 										</div>
 										<div class="col-md-6">
