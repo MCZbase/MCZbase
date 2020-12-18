@@ -1217,6 +1217,7 @@ limitations under the License.
 						AND estimated_count < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 					<cfelseif left(estimated_count,1) is ">">
 						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+						AND estimated_count IS NOT NULL
 					<cfelseif left(estimated_count,1) is "!">
 						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
 							OR estimated_count IS NULL)
