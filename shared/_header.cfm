@@ -549,7 +549,7 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editAccn.cfm">Accessions</a>
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Accessions</a>
+											<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
 										</cfif>			
 										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										<cfif targetMenu EQ "production">
