@@ -432,8 +432,8 @@ input#Password {
     	border-radius: .25rem;
 	}
 	.logout {
-		padding: 0 .35rem;
-		font-size: .89em;
+		padding: .12rem .35rem;
+		font-size: .89rem;
 /*		font-weight: bold;*/
 		position: absolute;
 		right: 1em;
