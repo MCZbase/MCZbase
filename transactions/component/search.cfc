@@ -1222,9 +1222,9 @@ limitations under the License.
 							OR estimated_count IS NULL)
 					<cfelseif left(estimated_count,1) is "=">
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
-					<cfelseif estimated_count,1) is "NULL">
+					<cfelseif estimated_count is "NULL">
 						AND estimated_count IS NULL
-					<cfelseif estimated_count,1) is "NOT NULL">
+					<cfelseif estimated_count is "NOT NULL">
 						AND estimated_count IS NOT NULL
 					<cfelse>
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
