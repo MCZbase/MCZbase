@@ -989,7 +989,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
 		type : "get",
 		data : {
 			method: 'agentTableHtml',
-			transaction_id: transaction_id
+			transaction_id: transaction_id,
 			containing_form_id: containingFormId
 		},
 		success : function (data) {
