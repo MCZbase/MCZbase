@@ -33,6 +33,23 @@ limitations under the License.
 	<cfargument name="agent_3" type="string" required="no">
 	<cfargument name="agent_3_id" type="string" required="no">
 	<cfargument name="trans_agent_role_3" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
+	</cfif>
+
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -119,6 +136,11 @@ limitations under the License.
 					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
 				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -244,15 +266,36 @@ limitations under the License.
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#return_due_date#) EQ 4>
+			<cfset return_due_date = "#return_due_date#-01-01">
+		</cfif>
+		<cfif len(#to_return_due_date#) EQ 4>
+			<cfset to_return_due_date = "#to_return_due_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("closed_date") and len(closed_date) gt 0>
 		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
 			<cfset to_closed_date=closed_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#closed_date#) EQ 4>
+			<cfset closed_date = "#closed_date#-01-01">
+		</cfif>
+		<cfif len(#to_closed_date#) EQ 4>
+			<cfset to_closed_date = "#to_closed_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
 		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
 			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
 
