@@ -1655,7 +1655,21 @@ $(document).ready(function() {
 		});
 
 	});
+	/* End Setup jqxgrid for Loan Search ******************************/
 
+
+	/* Supporting cell renderers for Accession Search *****************************/
+	var catitemsCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var transaction_id = rowData['transaction_id'];
+		if (value > 0) {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/SpecimenResults.cfm?accn_trans_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 
 	/* Setup jqxgrid for Accession Search ******************************************/
 	$('##accnSearchForm').bind('submit', function(evt){
@@ -1752,7 +1766,7 @@ $(document).ready(function() {
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 80 },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 80, cellsrenderer: catitemsCellRenderer },
 				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 80 },
 				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: false, width: 100},
 				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: false, width: 90},
