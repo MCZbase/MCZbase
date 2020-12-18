@@ -1322,7 +1322,7 @@ $(document).ready(function() {
 		dateFormat: 'yy-mm-dd', /* ISO Date format, yy is 4 digit year */
 		buttonImageOnly: true,
 		buttonImage: "/shared/images/calendar_icon.png",
-		showOn: "both"
+		showOn: "button"
 	});
 
 	/* Setup jqxgrid for Transactions Search */
