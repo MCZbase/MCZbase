@@ -1762,12 +1762,12 @@ $(document).ready(function() {
 			},
 			columns: [
 				{text: 'Accn Number', datafield: 'accn_number', width: 120, hideable: true, hidden: true },
-				{text: 'Accession', datafield: 'id_link', width: 120}, // datafield name referenced in createLoanRowDetaisDialog
+				{text: 'Accession', datafield: 'id_link', width: 100}, // datafield name referenced in createLoanRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 80, cellsrenderer: catitemsCellRenderer },
-				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 80 },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsCellRenderer },
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
 				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: false, width: 100},
 				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: false, width: 90},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
@@ -1775,7 +1775,7 @@ $(document).ready(function() {
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
 				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
 				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
-				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: false },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
 				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
 				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
 				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
