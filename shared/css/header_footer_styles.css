@@ -57,7 +57,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 }
 /* End navigation menu styles */
 .logout {
-	padding: 0 .45rem;
+	padding: 0 .25rem;
 	font-size: 100%;
 /*	font-weight: bold;*/
 	position: relative;
