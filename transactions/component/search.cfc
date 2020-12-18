@@ -930,6 +930,7 @@ limitations under the License.
 	<cfargument name="issued_to_id" type="string" required="no">
 	<cfargument name="permit_contact_id" type="string" required="no">
 	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="estimated_count" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1210,6 +1211,24 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
 					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif isDefined("estimated_count") and len(estimated_count) gt 0>
+					<cfif left(estimated_count,1) is "<">
+						AND estimated_count < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif left(estimated_count,1) is ">">
+						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif left(estimated_count,1) is "!">
+						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+							OR estimated_count IS NULL)
+					<cfelseif left(estimated_count,1) is "=">
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif estimated_count,1) is "NULL">
+						AND estimated_count IS NULL
+					<cfelseif estimated_count,1) is "NOT NULL">
+						AND estimated_count IS NOT NULL
+					<cfelse>
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
+					</cfif>
 				</cfif>
 			ORDER BY accn_number
 		</cfquery>
