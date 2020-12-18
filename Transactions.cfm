@@ -1078,17 +1078,17 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-md-4 px-3 pl-md-3 pr-md-2">
+												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By:</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
-												<div class="col-md-4 px-3 px-md-1">
+												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-1 pr-md-3">
 													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To:</label>
 													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
 													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
-												<div class="col-md-6 col-xl-4 ml-0 ml-xl-3 px-3 pl-xl-2 pr-xl-3">
+												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-3 px-3 pl-xl-2 pr-xl-3">
 													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent:</label>
 													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
 													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
