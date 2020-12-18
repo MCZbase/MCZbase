@@ -917,7 +917,7 @@ limitations under the License.
 									<div class="form-row mx-0">
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-5 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
@@ -926,7 +926,7 @@ limitations under the License.
 										</div>
 										<div class="col-md-6">
 											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-3 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-5 mx-1 mb-0" for="accn_rec_date">Date Received</label>
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5" value="" aria-label="start of range for date received">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
