@@ -1290,6 +1290,7 @@ input::placeholder {
 	line-height: 1.5em;
 	color: darkgrey;
 	font-size: 14px;
+	opacity: 0.9;
 }
 .data-entry-input:focus {
 	color: #495057;
