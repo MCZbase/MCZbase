@@ -555,7 +555,7 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0 mt-1 my-xl-2">
 										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 mb-2 pt-1 mx-0 rounded justify-content-center">
+											<div class="date form-row bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 mx-1 mb-0" for="trans_date">Loan Date</label>
 												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
@@ -564,7 +564,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
-											<div class="date form-row mx-0 bg-light border pt-1 pb-2 mb-2 rounded justify-content-center">
+											<div class="date form-row mx-0 bg-light border pt-1 pb-2 mb-md-0 mb-2 rounded justify-content-center">
 												<label class="data-entry-label mb-0 px-4 px-md-2 mx-1" for="return_due_date">Due Date</label>
 												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#return_due_date#" aria-label="start of range for due date">
 												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
