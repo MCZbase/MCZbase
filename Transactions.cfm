@@ -930,10 +930,10 @@ limitations under the License.
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5" value="" aria-label="start of range for date received">
+												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="" aria-label="start of range for date received">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-4">
+												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 											</div>
 										</div>
 										<div class="col-md-4">
