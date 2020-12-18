@@ -272,7 +272,16 @@ limitations under the License.
 									<a class="nav-link px-1 px-sm-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
 								<li class="nav-item col-3 px-1"> 
-									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
+									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accns</a> 	
+								</li>
+								<li class="nav-item col-3 px-1"> 
+									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Deaccns</a> 	
+								</li>
+								<li class="nav-item col-3 px-1"> 
+									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Borrow</a> 	
+								</li>
+								<li class="nav-item col-3 px-1"> 
+									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >P & R</a> 	
 								</li>
 							</ul>
 						</div>
