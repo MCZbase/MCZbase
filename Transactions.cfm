@@ -937,7 +937,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count</label>
+											<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
 											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
 										</div>
 									</div>
