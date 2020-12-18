@@ -266,13 +266,13 @@ limitations under the License.
 						<div class="card-header tab-card-header pb-0" id="content">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-12 px-1"> 
-									<a class="nav-link px-1 px-sm-3 #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
+									<a class="nav-link px-3 #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 								</li>
 								<li class="nav-item col-12 px-1"> 
-									<a class="nav-link px-1 px-sm-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
+									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
 								<li class="nav-item col-12 px-1"> 
-									<a class="nav-link px-1 px-sm-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
+									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
 								</li>
 							</ul>
 						</div>
@@ -917,7 +917,7 @@ limitations under the License.
 									<div class="form-row mx-0">
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-xl-3 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
+												<label class="data-entry-label px-3 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
 												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" placeholder="start yyyy-mm-dd" value="" aria-label="start of range for date entered">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
@@ -927,7 +927,7 @@ limitations under the License.
 										</div>
 									<div class="col-md-6">
 											<div class="date row bg-light border pb-2 pt-1 px-xl-2 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-3 px-xl-3 mx-1 mb-0" for="accn_rec_date">Date Received:</label>
+												<label class="data-entry-label px-3 mx-1 mb-0" for="accn_rec_date">Date Received:</label>
 												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4 col-xl-5 hasDatepicker" value="" aria-label="start of range for date received">
 												<img class="ui-datepicker-trigger" src="/shared/images/calendar_icon.png" alt="..." title="...">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
@@ -940,20 +940,7 @@ limitations under the License.
 									<div class="form-row mx-0 mt-2">
 								
 										<div class="col-md-6">
-			<!---								<div class="date form-row bg-light border pb-2 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 mx-1 mb-0" for="accn_trans_date">Date Entered:</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for date entered">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>
-												<input type='text' name='to_trans_date' id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
-											</div>
-											<div class="date form-row mx-0 bg-light border pt-1 pb-2 rounded justify-content-center">
-												<label class="data-entry-label mb-0 px-4 mx-1" for="accn_rec_date">Date Received:</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd" class="datetimeinput data-entry-input col-4" value="#rec_date#" aria-label="start of range for date received">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type='text' name='to_rec_date' id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd" class="datetimeinput data-entry-input col-4">
-											</div>--->
+		
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-4">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material:</label>
