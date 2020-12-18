@@ -665,7 +665,7 @@ limitations under the License.
 														</script> 
 													</div>
 												</div>
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+												<div class="form-row mx-0 mb-0 px-2 px-sm-3">
 													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
 													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
 													<!--- used in call from specimen details to find loans from parts. --->
@@ -689,7 +689,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 mt-1">
+													<div class="col-md-12 px-0 mt-2">
 														<label for="specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Loan</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
