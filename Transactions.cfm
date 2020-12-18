@@ -1752,9 +1752,10 @@ $(document).ready(function() {
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false },
-				{text: 'Type', datafield: 'accn_type', width: 100},
-				{text: 'Status', datafield: 'accn_status', width: 100},
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 80 },
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 80 },
+				{text: 'Type', datafield: 'accn_type', hidable: true, hidden: false, width: 100},
+				{text: 'Status', datafield: 'accn_status', hideable: true, hidden: false, width: 90},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
 				{text: 'Date Received', datafield: 'received_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received From', datafield: 'rec_from_agent', width: 100, hidable: true, hidden: false },
@@ -1770,7 +1771,6 @@ $(document).ready(function() {
 				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
 				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
-				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: true },
 				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
 			],
 			rowdetails: true,
