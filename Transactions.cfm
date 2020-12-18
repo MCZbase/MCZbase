@@ -555,12 +555,12 @@ limitations under the License.
 									</div>
 									<div class="form-row mx-0 mt-1 my-xl-2">
 										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+											<div class="date form-row bg-light border pb-2 px-xl-3 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-2 px-xl-3 mx-1 mb-0" for="trans_date">Loan Date</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
-												<div class="col-1 col-xl-2 text-center px-0"><small> to</small></div>
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd" value="#trans_date#" aria-label="start of range for loan date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 data-entry-input" placeholder="end yyyy-mm-dd">
+												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-5 data-entry-input" placeholder="end yyyy-mm-dd">
 											</div>
 										</div>
 										<div class="col-12 col-md-4">
