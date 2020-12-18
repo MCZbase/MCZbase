@@ -921,19 +921,19 @@ limitations under the License.
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="" aria-label="start of range for date entered" value="#trans_date#">
+												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
-												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy" value="#to_trans_date#">
+												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="" aria-label="start of range for date received" value="#rec_date#">
+												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#rec_date#" aria-label="start of range for date received">
 												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
 												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" value="#to_rec_date#">
+												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 											</div>
 										</div>
 										<div class="col-md-4">
