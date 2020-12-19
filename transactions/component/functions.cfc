@@ -2506,6 +2506,8 @@ limitations under the License.
 								</cfif>
 								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
 									<div class="col-12 col-md-4">
+										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -2513,7 +2515,25 @@ limitations under the License.
 											</div>
 											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
 										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+											});
+										</script>
 									</div>							
+									<div class="col-12 col-md-1">
+										<label class="data-entry-label"> 						
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+												<cfif transAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif transAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</label>
+									</div>
 									<div class="col-12 col-md-4">
 										<select name="trans_agent_role_#i#" aria-label="role of this agent in this #transLabel#" id="trans_agent_role_#i#" class="data-entry-select">
 											<cfloop query="cttrans_agent_role">
@@ -2526,33 +2546,11 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-1">
-										<label for="trans_agent_id_#i#" class="data-entry-label"> 						
-											<div class="input-group pt-1">
-												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
-												<script>
-													$(document).ready(function() {
-														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
-													});
-												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">View</a>
-													<cfif transAgents.worstagentrank EQ 'A'>
-														&nbsp;
-													<cfelseif transAgents.worstagentrank EQ 'F'>
-														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-													<cfelse>
-														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-													</cfif>
-												</span>
-											</div>
-										</label>
-									</div>
 									<div class="col-12 col-md-3">
 										<button type="button" 
-											class="btn btn-xs btn-warning" 
+											class="btn btn-xs btn-warning float-left" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '>Remove</button>
-										<button type="button" class="btn btn-xs btn-secondary" onClick="cloneAgentOnTrans(#agent_id#,#transAgents.trans_agent_role#);">Clone</button>
+										<button type="button" class="btn btn-xs btn-secondary float-left" onClick="cloneAgentOnTrans(#agent_id#,#transAgents.trans_agent_role#);">Clone</button>
 <!--- TODO: Implement clone functionality --->
 									</div>
 									<cfset i=i+1>	
