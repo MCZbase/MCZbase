@@ -399,9 +399,12 @@ input#Password {
 		padding-top: 1em;
 		text-align: left;
 	}
-	.mcz_logo_krono {
-		margin-left: 1.5rem;
-	}
+	.mcz_logo_krono 
+	{
+    display: block;
+    margin-right: .75em;
+}
+	
 }
 @media(max-width:1024px) {
 
