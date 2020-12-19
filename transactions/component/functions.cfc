@@ -2484,8 +2484,8 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
-					<div class="row my-1 bg-grayish pb-1 border rounded">
+				<section id="transactionAgentsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+					<div class="row my-1 bg-grayish pb-1 border rounded" id="transactionAgentsTable">
 						<div class="w-100 text-center m-0 p-0" tabindex="0">
 							<cfif okToPrint >
 								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
