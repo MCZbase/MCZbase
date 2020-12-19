@@ -452,8 +452,8 @@ input#Password {
 	.loginfld2 {
 		width: 73px!important;
 	}
-		.mcz_logo_krono {
-		display: none;
+	.mcz_logo_krono {
+		width: 5rem;
 	}
 }
 @media(max-width:414px) {
