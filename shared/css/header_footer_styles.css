@@ -307,9 +307,8 @@ input#Password {
 		text-align: right;
 	}
 	.logout {
-		padding: .2rem .45rem;
+		padding: 0 .45rem;
 		font-size: .85rem;
-/*		font-weight: bold;*/
 		position: absolute;
 		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
@@ -437,7 +436,7 @@ input#Password {
 	}
 	.logout {
 		padding: .12rem .45rem;
-		font-size: .73rem;
+		font-size: .78rem;
 /*		font-weight: bold;*/
 		position: absolute;
 		right: .25rem;
