@@ -244,37 +244,31 @@ limitations under the License.
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Media</a>
 								</cfif>		
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/showLocality.cfm">Places</a>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>	
-								</cfif>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+										<!--- current production, agent search and edit are in on place consequently requiring manage_agents to search, intent is to expose a public search separate from editing/managing agents --->
+										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+									</cfif>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Agents</a> 
 								</cfif>		
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
+									<a class="dropdown-item bg-warning" href="">Publications</a>
+									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
-								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
