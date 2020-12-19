@@ -313,25 +313,21 @@
 				</cfif>
 				<!--- end additional main menu items to be shown to authorized users --->
 			</cfif> 
-			<li class="nav-item dropdown">
-				<!--- main menu item account, also login for non-logged users --->
-				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-				<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
-					<li class="d-md-flex align-items-start justify-content-start">
-						<div>
-							<cfif len(session.username) gt 0>
+			<cfif len(session.username) gt 0>
+				<li class="nav-item dropdown">
+					<!--- main menu item account, for logged in users --->
+					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
+					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
+						<li class="d-md-flex align-items-start justify-content-start">
+							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
-							<cfelse>
-								<a class="dropdown-item" target="_top" href="/myArctos.cfm">Log In</a>
-							</cfif>
-							<cfif len(session.username) gt 0>
 								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
-							</cfif>
-						</div>
-					</li>
-				</ul>
-				<!--- end main menu item account --->
-			</li>
+							</div>
+						</li>
+					</ul>
+					<!--- end main menu item account --->
+				</li>
+			</cfif>
 			<li class="nav-item dropdown">
 				<!--- main menu item help --->
 				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
