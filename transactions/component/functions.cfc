@@ -2550,7 +2550,7 @@ limitations under the License.
 										<button type="button" 
 											class="btn btn-xs btn-warning float-left" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '>Remove</button>
-										<button type="button" class="btn btn-xs btn-secondary float-left" onClick="cloneAgentOnTrans(#agent_id#,#transAgents.trans_agent_role#);">Clone</button>
+										<button type="button" class="btn btn-xs btn-secondary float-left" onClick="cloneAgentOnTrans(#agent_id#,'#transAgents.trans_agent_role#');">Clone</button>
 <!--- TODO: Implement clone functionality --->
 									</div>
 									<cfset i=i+1>	
