@@ -464,9 +464,6 @@ limitations under the License.
 												<a class="dropdown-item bg-warning" href="">Find Storage Location/Container</a>
 											</cfif>
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
-											<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
-										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>

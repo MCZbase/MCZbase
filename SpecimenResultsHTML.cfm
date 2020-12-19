@@ -1533,9 +1533,6 @@ document.getElementById('saveme').submit();
 			<option value="addAccn.cfm?collection_object_id=#collObjIdList#">
 				Accession
 			</option>
-			<option value="compDGR.cfm?collection_object_id=#collObjIdList#">
-				MSB<->DGR
-			</option>
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 				<option value="/grouping/addToNamedCollection.cfm">
 					Add To Named Group
