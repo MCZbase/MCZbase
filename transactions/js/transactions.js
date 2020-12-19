@@ -686,18 +686,6 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
 	});
 }
 
-/* function closeTransAgent wrapper for addTransAgentToForm 
- * looks up agent id, agent name, and role to clone into.
- * @param i the i incrementing counter for the agent_id_{i}, trans_agent_{i}, etc controls.
- */
-function cloneTransAgent(i){
-	var id=jQuery('#agent_id_' + i).val();
-	var name=jQuery('#trans_agent_' + i).val();
-	var role=jQuery('#cloneTransAgent_' + i).val();
-	jQuery('#cloneTransAgent_' + i).val('');
-	addTransAgentToForm(id,name,role,'editLoan');
-}
-
 /** Add an agent to a transaction edit form, appends row to table with id transactionAgentsTable.
  *
  * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
