@@ -400,7 +400,7 @@ input#Password {
 		text-align: left;
 	}
 	.mcz_logo_krono {
-		margin-left: 1.75em;
+		margin-right: 1rem;
 	}
 }
 @media(max-width:1024px) {
