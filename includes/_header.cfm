@@ -63,7 +63,7 @@
   <ul class="sf-menu">
 	  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
      <li class="nav-item dropdown"><!--main menu element-->
-          <a href="##" class="nav-link dropdown-toggle text-left">Specimens</a>
+          <a href="##" class="nav-link dropdown-toggle text-left">Search</a>
 			<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 				<div>
