@@ -158,11 +158,11 @@ limitations under the License.
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-		<ul class="navbar col-9 col-lg-9 col-md-7 p-0 m-0" style="background-color: #header_color#; ">
+		<ul class="navbar col-9 col-lg-8 col-md-7 p-0 m-0" style="background-color: #header_color#; ">
 			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
 			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> </li>
 		</ul>
-		<ul class="navbar col-3 col-lg-3 col-md-5 p-0 m-0 d-flex justify-content-end">
+		<ul class="navbar col-3 col-lg-4 col-md-5 p-0 m-0 d-flex justify-content-end">
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
