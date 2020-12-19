@@ -2485,7 +2485,7 @@ limitations under the License.
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
 				<section id="transactionAgentsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
-					<div class="row my-1 bg-grayish pb-1 border rounded" id="transactionAgentsTable">
+					<div class="row my-1 bg-grayish pb-1 border rounded">
 						<div class="w-100 text-center m-0 p-0" tabindex="0">
 							<cfif okToPrint >
 								<div id="printStatus" aria-label="This record has the minimum requirements to print" class="alert alert-success text-center small rounded-0 p-1 m-0">OK to print</div>
@@ -2493,7 +2493,7 @@ limitations under the License.
 								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
 							</cfif>
 						</div>
-						<div class="col-12 mt-0">
+						<div class="col-12 mt-0" id="transactionAgentsTable">
 							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#'); handleChange();" class="col-5"> Add Agent</button>		
 		
