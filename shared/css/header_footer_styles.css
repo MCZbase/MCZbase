@@ -453,7 +453,7 @@ input#Password {
 		width: 73px!important;
 	}
 	.mcz_logo_krono {
-		width: 5rem;
+		display:none
 	}
 }
 @media(max-width:414px) {
