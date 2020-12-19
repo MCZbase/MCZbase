@@ -751,7 +751,7 @@ function addTransAgentToForm (id,name,role,formid) {
 			d+='<div class="col-12 col-md-3">';
 			d+=' <button type="button" ';
 			d+='   class="btn btn-xs btn-warning float-left"';
-			d+='   onClick=\' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { $("#new_trans_agent_div_'+i+'").remove(); } ); \'>Remove</button>';
+			d+='   onClick=\' confirmDialog("Remove not-yet saved new agent from this transaction?", "Confirm Unlink Agent", function() { $("#new_trans_agent_div_'+i+'").remove(); } ); \'>Remove</button>';
 			d+='</div>';
 			d+='<script>';
 			d+='  $(document).ready(function() {';
@@ -775,8 +775,6 @@ function addTransAgentToForm (id,name,role,formid) {
 		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
 }							
-						
-
 
 function cloneTransAgentDeacc(i){
 	var id=jQuery('#agent_id_' + i).val();
