@@ -404,9 +404,7 @@ input#Password {
 	}
 }
 @media(max-width:1024px) {
-	.mcz_logo_krono {
-		display: none;
-	}
+
 	.mczbase a {
 		color: white;
 	}
@@ -453,6 +451,9 @@ input#Password {
 	}
 	.loginfld2 {
 		width: 73px!important;
+	}
+		.mcz_logo_krono {
+		display: none;
 	}
 }
 @media(max-width:414px) {
