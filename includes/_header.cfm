@@ -43,148 +43,146 @@
 </head>
 <body>
 <noscript>
-    <div class="browserCheck"> JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
-  try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. </div>
+	<div class="browserCheck">
+		JavaScript is turned off in your web browser. Please turn it on to take full advantage of MCZbase, or
+		try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. 
+	</div>
 </noscript>
 
 <div id="headerContent" style="background-color: #Application.header_color#;">
-     <div id="image_headerWrap">
-           <div class="headerText">
-              <a href="http://mcz.harvard.edu/" target="_blank">
-              <img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
-              </a>
-              <h1 style="color:#Application.collectionlinkcolor#;"><span>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
-              <h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
-         </div><!---end headerText--->
-    </div><!---end image_headerWrap--->
-  </div><!--- end headerContent div --->
-      <div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	<div id="image_headerWrap">
+		<div class="headerText">
+			<a href="http://mcz.harvard.edu/" target="_blank">
+				<img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
+			</a>
+			<h1 style="color:#Application.collectionlinkcolor#;"><span>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
+			<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
+		</div><!---end headerText--->
+	</div><!---end image_headerWrap--->
+</div><!--- end headerContent div --->
+<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 
-  <ul class="sf-menu">
-	  <cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
-     <li class="nav-item dropdown"><!--main menu element-->
-          <a href="##" class="nav-link dropdown-toggle text-left">Search</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
-				<li class="d-md-flex align-items-start justify-content-start">
-				<div>
-                <a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-                <a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-             	<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-				<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
-				</cfif>
-				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-				<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-				<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
-				</cfif>
-				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-				<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
-				<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
-				</cfif>
-				</div>
-				</li>
-             </ul>
-         </li><!--end main menu element-->
+	<ul class="sf-menu">
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
+			<li class="nav-item dropdown">
+				<!--- main menu element for search, mostly public --->
+				<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
+				<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
+					<li class="d-md-flex align-items-start justify-content-start">
+						<div>
+							<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+							<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
+							<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
+							<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
+							<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+								<a class="dropdown-item" target="_top" href="/agents.cfm">Agents</a>
+							</cfif>
+							<a class="dropdown-item" target="_top" href="/SpecimenUsage.cfm">Publications/Projects</a>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+								<a class="dropdown-item" target="_top" href="/info/reviewAnnotation.cfm">Annotations</a>
+								<a class="dropdown-item" target="_top" href="/tools/userSQL.cfm">SQL Queries</a>
+							</cfif>
+						</div>
+					</li>
+				</ul>
+				<!--- end main menu element for search --->
+ 			</li>
 		</cfif>	
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-              <li class="nav-item dropdown"><!--main menu element-->
-                  <a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
+		<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
+			<!--- begin additional main menu items to be shown to authorized users --->
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+				<li class="nav-item dropdown">
+					<!--- main menu item data entry --->
+					<a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 						<div style="float:left; width: 49%;">
 							<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-							<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-							<a class="dropdown-item"  target="_top" href="/media.cfm?action=newMedia">Media Record</a>
-							</cfif>
-							<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
-							<a class="dropdown-item"  target="_top" href="/agents.cfm">Agent Record</a>
-							</cfif>
-							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
-							<a class="dropdown-item"  target="_top" href="/Publication.cfm?action=newPub">Publication Record</a>
-							<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
-							</cfif>
-						</div>
-						<div style="float:left; width: 49%;">
-							<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
-							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
-							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
-							<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
-							<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
-							<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
-							<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
-						</div>
-					  </li>
-					</ul>
-              	</li>
-			</cfif>
-	<!--start main menu element-->
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
-				<li class="d-md-flex align-items-start justify-content-start">
-					<div style="float:left; width: 33.2%;">
-						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
-						</cfif>
-						<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
-					</div>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-					<div style="float:left; width: 33.2%;">
-						<div class="h5 dropdown-header px-4 text-danger">Create</div>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
-						</cfif>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
-						</cfif>
-						<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Collecting Event Number Series</a>
-					</div>
-					</cfif>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
-							<div style="float:left; width: 33.2%;">
-								<div class="h5 dropdown-header px-4 text-danger">Manage</div>
-								<a class="dropdown-item"  target="_top" href="/Encumbrances.cfm">Encumbrances</a>
-								<a class="dropdown-item"  target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
-								<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
-								<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
+								<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+									<a class="dropdown-item" target="_top" href="/media.cfm?action=newMedia">Media Record</a>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-								<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
-								<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
-								<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+									<a class="dropdown-item" target="_top" href="/agents.cfm">Agent Record</a>
+								</cfif>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
+									<a class="dropdown-item" target="_top" href="/Publication.cfm?action=newPub">Publication Record</a>
+									<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
 								</cfif>
 							</div>
-						</cfif>
-					</cfif>
+							<div style="float:left; width: 49%;">
+								<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
+								<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
+								<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
+								<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
+								<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
+								<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
+								<a class="dropdown-item" target="_top" href="/tools/DataLoanBulkload.cfm">Data Loan Items</a>
+							</div>
+						</li>
+					</ul>
+					<!--- end main menu item data entry --->
 				</li>
-			</ul>
-		</li><!--end main menu element-->
-	  </cfif>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
-		  <li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-			<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
+			</cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+				<li class="nav-item dropdown">
+					<!--- main menu item manage data --->
+					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
+						<li class="d-md-flex align-items-start justify-content-start">
+							<div style="float:left; width: 33.2%;">
+								<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
+								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+									<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
+									<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
+									<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
+								</cfif>
+								<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
+							</div>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
+								<div style="float:left; width: 33.2%;">
+									<div class="h5 dropdown-header px-4 text-danger">Create</div>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
+										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
+									</cfif>
+									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
+										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
+									</cfif>
+									<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Collecting Event Number Series</a>
+								</div>
+							</cfif>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
+								<div style="float:left; width: 33.2%;">
+									<div class="h5 dropdown-header px-4 text-danger">Manage</div>
+										<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
+										<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
+										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING"))>
+											<a class="dropdown-item" target="_top" href="/Admin/agentMergeReview.cfm">Review Pending Agent Merges</a>
+											<a class="dropdown-item" target="_top" href="/Admin/killBadAgentDups.cfm">Merge Bad Duplicate Agents</a>
+										</cfif>
+										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
+											<a class="dropdown-item" target="_top" href="/tools/parent_child_taxonomy.cfm">Sync Parent/Child Taxonomy</a>
+											<a class="dropdown-item" target="_top" href="/tools/pendingRelations.cfm">Pending Relationships</a>
+											<a class="dropdown-item" target="_top" href="/tools/sqlTaxonomy.cfm">SQL Taxonomy</a>
+										</cfif>
+									</div>
+							</cfif>
+						</li>
+					</ul>
+					<!--- end main menu item manage data --->
+				</li>
+			</cfif>
+			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
 				<li class="d-md-flex align-items-start justify-content-start">
 					<div style="float:left; width: 33.2%;">
 						<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
-						<a class="dropdown-item"  href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
+						<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
 						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-						<a class="dropdown-item"  href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
-						<a class="dropdown-item"  href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
+						<a class="dropdown-item" href="/ContainerBrowse.cfm" target="_top">Browse Storage Locations</a>
+						<a class="dropdown-item" href="/findContainer.cfm" target="_top">Find Storage Location/Container</a>
 <!---						<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
 							<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
 						</cfif>--->
