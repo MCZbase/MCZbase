@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 
 <cfinclude template = "/shared/functionLib.cfm">
 
@@ -2550,7 +2551,7 @@ limitations under the License.
 										<button type="button" 
 											class="btn btn-xs btn-warning float-left" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '>Remove</button>
-										<button type="button" class="btn btn-xs btn-secondary float-left" onClick="cloneAgentOnTrans(#agent_id#,'#transAgents.trans_agent_role#');">Clone</button>
+										<button type="button" class="btn btn-xs btn-secondary float-left" onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');">Clone</button>
 <!--- TODO: Implement clone functionality --->
 									</div>
 									<cfset i=i+1>	
@@ -2561,12 +2562,13 @@ limitations under the License.
 					</div>
 				</section>
 <script>
-	function cloneAgentOnTrans(agent_id,current_role) { 
-		console.log('cloneAgentOnTrans not implemented yet');
+	function cloneAgentOnTrans(agent_id,agent_name,current_role) { 
+		console.log('cloneAgentOnTrans dialog not implemented yet');
 		// clone dialog to pick new role
 		// add trans_agent record
+		addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#');
 		// reload agents 
-		reloadTransactionAgents();
+		//reloadTransactionAgents();
 	}
 </script>
 			</cfoutput>
@@ -4142,6 +4144,65 @@ autorowheight: "true",
 	</cfcatch>
 	</cftry>
 	<cfreturn result>
+</cffunction>
+
+<!--- function getCloneAgentHtml given an agent id, transaction id and role, populate a clone agent dialog 
+ * @param agent_id the agent to clone
+ * @param transaction_id the transaction within which to clone this agent
+ * @param current_role the current role of the agent in the transaction
+---->
+<cffunction name="getCloneAgentHtml" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="agent_id" type="string" required="yes">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="current_role" type="string" required="no">
+
+	<cfthread name="getCloneAgentThread">
+		<cftry>
+			<cfquery name="trans_details" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="trans_details_result">
+				select transaction_type from trans 
+				where transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="agent_details" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="agent_details_result">
+				select agent_name.agent_name
+				from agent left join agent_name on agent.preferred_agent_name_id = agent_name.agent_name_id
+				where agent.agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select distinct trans_agent_role
+				from cttrans_agent_role
+			</cfquery>
+			<cfoutput>
+				<h2 class="h3">Select Role for Cloned Agent #agent_details.agent_name# in Transaction </h2>
+				<cfif query.recordcount gt 0>
+					<select>
+						<cfloop query="query">
+							<option value="#query.trans_agent_role#">#query.trans_agent_role#</option>
+						</cfloop>
+					</select>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError)  >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getCloneAgentThread" />
+	<cfreturn getCloneAgentThread.output>
 </cffunction>
 
 </cfcomponent>
