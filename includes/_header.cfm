@@ -294,8 +294,8 @@
 											TODO:  These doesn't seem to work on production, fix or remove. 
 										--->
 										<a class="dropdown-item" target="_top" href="/Admin/blacklist.cfm">Blacklist IP</a>
-										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">All User Stats</a>
-										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
+										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
+										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
 									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>

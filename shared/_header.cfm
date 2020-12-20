@@ -688,14 +688,14 @@ limitations under the License.
 											</cfif>
 												
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
+												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Loan</a>
+												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_report.cfm">All User Stats</a>
+												<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">All User Stats</a>
+												<a class="dropdown-item bg-warning" href="">List of All Users</a>
 											</cfif>
 										</cfif>
 									</div>
