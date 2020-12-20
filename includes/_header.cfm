@@ -148,7 +148,7 @@
 											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
 										</cfif>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
-											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
+											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLocality">Locality</a>
 										</cfif>
 										<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a>
 									</div>
