@@ -637,11 +637,7 @@ limitations under the License.
 											</cfif>
 									
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Dump</a>
-											</cfif>
+											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<cfelse>

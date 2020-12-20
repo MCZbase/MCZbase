@@ -275,7 +275,7 @@
 										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Reporter</a>
 										<a class="dropdown-item" target="_top" href="/tools/downloadData.cfm">Download Tables</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump</a>
+											<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<a class="dropdown-item" target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 											<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
