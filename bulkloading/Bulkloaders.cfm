@@ -1,11 +1,11 @@
-<cfset pageTitle = "Batch Tools">
+<cfset pageTitle = "Bulkloaders">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfoutput>
 	<main class="container py-3">
 		<section class="row">
 			<div class="col-12">
-				<h1 class="h2">Modify Records in Bulk</h1>
+				<h1 class="h2">Tools for Adding or Modifing MCZbase Records in Bulk</h1>
 				<h2 class="h3">Select a Template</h2>
 				<div class="">
 					<h3 class="h4">Bulkload Specimens</h3>

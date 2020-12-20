@@ -1,4 +1,4 @@
-<cfset pageTitle = "Batch Tools">
+<cfset pageTitle = "Reports">
 <cfinclude template = "/shared/_header.cfm">
 
 <cfoutput>
@@ -24,4 +24,3 @@
 	</main>
 </cfoutput>
 <cfinclude template = "/shared/_footer.cfm">
-
