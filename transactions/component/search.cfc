@@ -35,6 +35,10 @@ limitations under the License.
 	<cfargument name="trans_agent_role_3" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="permit_specific_type" type="string" required="no">
 
 	<!--- set start/end date range terms to same if only one is specified --->
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
@@ -102,6 +106,14 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					left join shipment on loan.transaction_id = shipment.transaction_id
+					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+				</cfif>
+				<cfif (isdefined("permit_type") AND len(#permit_type#) gt 0>) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) gt 0>) >
+					left join permit_trans on loan.transaction_id = permit_trans.transaction_id
+					left join permit on permit_trans.permit_id = permit.permit_id 
+				</cfif>
 			WHERE
 				transaction_view.transaction_id > 0
 				<cfif isDefined("number") and len(number) gt 0>
@@ -141,6 +153,22 @@ limitations under the License.
 					AND trans_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
+				</cfif>
+				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
+					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
+				</cfif>
+				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+					AND ( 
+						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+						OR
+						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -906,6 +934,7 @@ limitations under the License.
 	<cfargument name="permit_num" type="string" required="no">
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="rec_date" type="string" required="no">
 	<cfargument name="to_rec_date" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
@@ -1143,6 +1172,9 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
 					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
 					<cfif isdefined("part_name") AND len(part_name) gt 0>
