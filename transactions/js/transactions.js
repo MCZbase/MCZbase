@@ -686,18 +686,6 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
 	});
 }
 
-/* function closeTransAgent wrapper for addTransAgentToForm 
- * looks up agent id, agent name, and role to clone into.
- * @param i the i incrementing counter for the agent_id_{i}, trans_agent_{i}, etc controls.
- */
-function cloneTransAgent(i){
-	var id=jQuery('#agent_id_' + i).val();
-	var name=jQuery('#trans_agent_' + i).val();
-	var role=jQuery('#cloneTransAgent_' + i).val();
-	jQuery('#cloneTransAgent_' + i).val('');
-	addTransAgentToForm(id,name,role,'editLoan');
-}
-
 /** Add an agent to a transaction edit form, appends row to table with id transactionAgentsTable.
  *
  * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
@@ -721,14 +709,24 @@ function addTransAgentToForm (id,name,role,formid) {
 		},
 		function (data) {
 			var i=parseInt($('#numAgents').val())+1;
-			var d=  '<section class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom"><div class="col-12 col-md-4"><div class="input-group">';
-			
-			d+='<input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
-			d+='<div class="input-group"><div class="input-group-prepend">';
-			d+='<span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
-			d+='<input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control data-entry-input data-height" size="30" value="' + name + '" >';
-			d+='</div></div></div><div class="col-12 col-md-4">';
-			d+='<select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '" class="data-entry-select data-height">';
+			var d= '';
+			d+='<div class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom" id="new_trans_agent_div_'+i+'">';
+			d+='<div class="col-12 col-md-4">';
+			d+=' <div class="input-group">';
+			d+='  <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
+			d+='   onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
+			d+='  <input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
+			d+='  <div class="input-group"><div class="input-group-prepend">';
+			d+='   <span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
+			d+='   <input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control data-entry-input data-height" size="30" value="' + name + '" >';
+			d+='  </div>';
+			d+=' </div>';
+			d+='</div>';
+			d+='<div class="col-12 col-md-1">';
+			d+=' <label class="data-entry-label"><span id="agentViewLink_' + i + '" class="px-2 inline-block">'+ i +'</span></label>';
+			d+='</div>';
+			d+='<div class="col-12 col-md-4">';
+			d+=' <select name="trans_agent_role_' + i + '" id="trans_agent_role_' + i + '" class="data-entry-select data-height">';
 			for (a=0; a<data.ROWCOUNT; ++a) {
 				d+='<option ';
 				if(role==data.DATA.TRANS_AGENT_ROLE[a]){
@@ -736,18 +734,21 @@ function addTransAgentToForm (id,name,role,formid) {
 				}
 				d+=' value="' + data.DATA.TRANS_AGENT_ROLE[a] + '">'+ data.DATA.TRANS_AGENT_ROLE[a] +'</option>';
 			}
-			d+='</select></div><div class="col-12 col-md-1"><label for="trans_agent_id_#i#" class="data-entry-label">';
-			d+='<input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
-			d+=' onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
-			d+='<span id="agentViewLink_' + i + '" class="px-2 inline-block">'+ i +'</span></label></div><div class="col-12 col-md-3">';
-			d+='</section>';
+			d+=' </select>';
+			d+='</div>';
+			d+='<div class="col-12 col-md-3">';
+			d+=' <button type="button" ';
+			d+='   class="btn btn-xs btn-warning float-left"';
+			d+='   onClick=\' confirmDialog("Remove not-yet saved new agent from this transaction?", "Confirm Unlink Agent", function() { $("#new_trans_agent_div_'+i+'").remove(); } ); \'>Remove</button>';
+			d+='</div>';
 			d+='<script>';
-			d+=' $(document).ready(function() {';
-			d+='$(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
-			d+=' });';
+			d+='  $(document).ready(function() {';
+			d+='   $(makeRichTransAgentPicker("trans_agent_'+i+'","agent_id_'+i+'","agent_icon_'+i+'","agentViewLink_'+i+'",'+id+'));';
+			d+='  });';
 			d+='</script>';
+			d+='</div>';
 			$('#numAgents').val(i);
-			jQuery('#transactionAgentsTable section:last').after(d);
+			jQuery('#transactionAgentsTable').append(d);
 		}
 	).fail(function(jqXHR,textStatus,error){
 		var message = "";
@@ -762,8 +763,6 @@ function addTransAgentToForm (id,name,role,formid) {
 		messageDialog('Error adding agents to transaction record: '+message, 'Error: '+error.substring(0,50));
 	});
 }							
-						
-
 
 function cloneTransAgentDeacc(i){
 	var id=jQuery('#agent_id_' + i).val();
@@ -989,7 +988,7 @@ function loadAgentTable(agentsDiv,transaction_id,containingFormId,changeHandler)
 		type : "get",
 		data : {
 			method: 'agentTableHtml',
-			transaction_id: transaction_id
+			transaction_id: transaction_id,
 			containing_form_id: containingFormId
 		},
 		success : function (data) {

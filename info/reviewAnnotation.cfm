@@ -1,5 +1,8 @@
 <cfset pageTitle = "Review Annotations">
 <cfinclude template="/shared/_header.cfm">
+<cfif not isdefined("action")>
+	<cfset action="">
+</cfif>
 
 <cfoutput>
 	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">

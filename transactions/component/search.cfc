@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 
 <!---   Function getTransactions  --->
 <cffunction name="getTransactions" access="remote" returntype="any" returnformat="json">
@@ -32,6 +33,23 @@ limitations under the License.
 	<cfargument name="agent_3" type="string" required="no">
 	<cfargument name="agent_3_id" type="string" required="no">
 	<cfargument name="trans_agent_role_3" type="string" required="no">
+	<cfargument name="trans_date" type="string" required="no">
+	<cfargument name="to_trans_date" type="string" required="no">
+
+	<!--- set start/end date range terms to same if only one is specified --->
+	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
+		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
+			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
+	</cfif>
+
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -118,6 +136,11 @@ limitations under the License.
 					AND upper(trans_agent_3.agent_id) like <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_3_id#">
 				<cfelseif isdefined("agent_3") AND len(agent_3) gt 0>
 					AND upper(trans_agent_name_3.agent_name) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(agent_3)#%" >
+				</cfif>
+				<cfif isdefined("trans_date") and len(trans_date) gt 0>
+					AND trans_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
@@ -243,15 +266,36 @@ limitations under the License.
 		<cfif not isdefined("to_return_due_date") or len(to_return_due_date) is 0>
 			<cfset to_return_due_date=return_due_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#return_due_date#) EQ 4>
+			<cfset return_due_date = "#return_due_date#-01-01">
+		</cfif>
+		<cfif len(#to_return_due_date#) EQ 4>
+			<cfset to_return_due_date = "#to_return_due_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("closed_date") and len(closed_date) gt 0>
 		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
 			<cfset to_closed_date=closed_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#closed_date#) EQ 4>
+			<cfset closed_date = "#closed_date#-01-01">
+		</cfif>
+		<cfif len(#to_closed_date#) EQ 4>
+			<cfset to_closed_date = "#to_closed_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("trans_date") and len(#trans_date#) gt 0>
 		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
 			<cfset to_trans_date=trans_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
 
@@ -886,6 +930,7 @@ limitations under the License.
 	<cfargument name="issued_to_id" type="string" required="no">
 	<cfargument name="permit_contact_id" type="string" required="no">
 	<cfargument name="permit_remarks" type="string" required="no">
+	<cfargument name="estimated_count" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -913,10 +958,24 @@ limitations under the License.
 		<cfif not isdefined("to_trans_date") or len(to_trans_date) is 0>
 			<cfset to_trans_date=trans_date>
 		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#trans_date#) EQ 4>
+			<cfset trans_date = "#trans_date#-01-01">
+		</cfif>
+		<cfif len(#to_trans_date#) EQ 4>
+			<cfset to_trans_date = "#to_trans_date#-12-31">
+		</cfif>
 	</cfif>
 	<cfif isdefined("rec_date") and len(#rec_date#) gt 0>
 		<cfif not isdefined("to_rec_date") or len(to_rec_date) is 0>
 			<cfset to_rec_date=rec_date>
+		</cfif>
+		<!--- support search on just a year or pair of years --->
+		<cfif len(#rec_date#) EQ 4>
+			<cfset rec_date = "#rec_date#-01-01">
+		</cfif>
+		<cfif len(#to_rec_date#) EQ 4>
+			<cfset to_rec_date = "#to_rec_date#-12-31">
 		</cfif>
 	</cfif>
 
@@ -935,7 +994,7 @@ limitations under the License.
 				accn_status,
 				trans_remarks,
 				collection,
-				collection_cde,
+				collection.collection_cde,
 				project_name,
 				project.project_id pid,
 				estimated_count,
@@ -982,17 +1041,14 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
 					left join shipment on accn.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
-				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
-					left join loan_item on loan.transaction_id=loan_item.transaction_id 
-					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
-					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
+				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
+					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
+					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
 					<cfif not isdefined("issued_by_id") or len(#issued_by_id#) EQ 0>
@@ -1008,7 +1064,7 @@ limitations under the License.
 				accn.transaction_id is not null
 				<cfif isDefined("accn_number") and len(accn_number) gt 0>
 					<cfif left(accn_number,1) is "=">
-						and accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
+						AND accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
 					<cfelse>
 						<cfif find(',',accn_number) GT 0>
 							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
@@ -1018,10 +1074,14 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isDefined("accn_status") and len(accn_status) gt 0>
-					and accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+					<cfif left(accn_status,1) is "!">
+						AND accn_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
+					<cfelse>
+						AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+					</cfif>
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
-					and collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					AND collection.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 				</cfif>
 				<cfif isdefined("trans_agent_role_1") AND len(trans_agent_role_1) gt 0>
 					AND trans_agent_1.trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_1#">
@@ -1053,7 +1113,7 @@ limitations under the License.
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("rec_date") and len(rec_date) gt 0>
-					AND trans.rec_date between 
+					AND accn.received_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(rec_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>)
 				</cfif>
@@ -1062,10 +1122,14 @@ limitations under the License.
 				</cfif>
 
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					and loan_item.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
+					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
 				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+					<cfif left(accn_type,1) is "!">
+						AND accn_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
+					<cfelse>
+						AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+					</cfif>
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>
 					AND upper(trans_remarks) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(trans_remarks)#%'>
@@ -1092,9 +1156,9 @@ limitations under the License.
 					<cfif isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0>
 						<cfif not isdefined("part_disp_oper")><cfset part_disp_oper='is'></cfif>
 						<cfif part_disp_oper is "is">
-							and coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							AND coll_object.coll_obj_disposition IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						<cfelse>
-							and coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
+							AND coll_object.coll_obj_disposition NOT IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#coll_obj_disposition#" > )
 						</cfif>
 					</cfif>
 				</cfif>
@@ -1146,7 +1210,26 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif  isdefined("permit_remarks") and len(#permit_remarks#) gt 0>
-					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#escapeQuotes(ucase(permit_remarks))#%">
+					AND upper(permit_remarks) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(permit_remarks)#%">
+				</cfif>
+				<cfif isDefined("estimated_count") and len(estimated_count) gt 0>
+					<cfif left(estimated_count,1) is "<">
+						AND estimated_count < <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif left(estimated_count,1) is ">">
+						AND estimated_count > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+						AND estimated_count IS NOT NULL
+					<cfelseif left(estimated_count,1) is "!">
+						AND (estimated_count <> <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+							OR estimated_count IS NULL)
+					<cfelseif left(estimated_count,1) is "=">
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#right(estimated_count,len(estimated_count)-1)#"> 
+					<cfelseif estimated_count is "NULL">
+						AND estimated_count IS NULL
+					<cfelseif estimated_count is "NOT NULL">
+						AND estimated_count IS NOT NULL
+					<cfelse>
+						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
+					</cfif>
 				</cfif>
 			ORDER BY accn_number
 		</cfquery>

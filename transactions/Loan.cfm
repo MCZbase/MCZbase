@@ -710,9 +710,9 @@ limitations under the License.
 								function reloadTransactionAgents() { 
 									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
 								}
-								$(document).ready(
+								$(document).ready(function() {
 									reloadTransactionAgents();
-								);
+								});
 							</script>
 							<div class="col-12 mt-1" id="agentTableContainerDiv">
 								<img src='/shared/images/indicator.gif'>

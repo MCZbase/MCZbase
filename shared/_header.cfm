@@ -158,11 +158,11 @@ limitations under the License.
 	</div>
 	<div class="navbar justify-content-start navbar-expand-md navbar-expand-sm navbar-harvard harvard_banner border-bottom border-dark"> 
 		<!--- Obtain header_color and matching link color for this list from server specific values set in Application.cfm  --->
-		<ul class="navbar col-lg-9 col-xs-6 p-0 m-0" style="background-color: #header_color#; ">
+		<ul class="navbar col-11 col-sm-7 col-md-7 col-lg-8 p-0 m-0" style="background-color: #header_color#; ">
 			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
 			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" >#session.collection_link_text#</a> </li>
 		</ul>
-		<ul class="navbar col-lg-3 col-sm-3 p-0 m-0 d-flex justify-content-end">
+		<ul class="navbar col-12 col-sm-5 col-md-5 col-lg-4 p-0 m-0 d-flex justify-content-end">
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
 		</ul>
 	</div>
@@ -244,37 +244,31 @@ limitations under the License.
 								<cfif targetMenu EQ "redesign">
 									<a class="dropdown-item" href="/specimens/SpecimenBrowse.cfm">Browse Specimens By Category</a>
 								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_taxonomy")>
-									<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+								<a class="dropdown-item" href="/Taxa.cfm">Taxonomy</a>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/MediaSearch.cfm">Media</a><!--- old --->
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Media</a>
 								</cfif>		
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/showLocality.cfm">Places</a>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Places</a>
 								</cfif>	
-								</cfif>
-								<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 								<cfif targetMenu EQ "production">
-									<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+									<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
+										<!--- current production, agent search and edit are in on place consequently requiring manage_agents to search, intent is to expose a public search separate from editing/managing agents --->
+										<a class="dropdown-item" href="/agents.cfm">Agents</a> <!--- old --->
+									</cfif>
 								<cfelse>
 									<a class="dropdown-item bg-warning" href="">Agents</a> 
 								</cfif>		
-								</cfif>
-								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_publications")>
 								<cfif targetMenu EQ "production">
 									<a class="dropdown-item" href="/SpecimenUsage.cfm">Publications/Projects</a><!--- old --->
 								<cfelse>
-									<a class="dropdown-item bg-warning" href="">Publications/Projects</a>
+									<a class="dropdown-item bg-warning" href="">Publications</a>
+									<a class="dropdown-item bg-warning" href="">Projects</a>
 								</cfif>	
-								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 									<cfif targetMenu EQ "production">
 										<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a><!---old - but relocated, not in this menu on current prd --->
@@ -282,7 +276,6 @@ limitations under the License.
 									<cfelse>
 										<a class="dropdown-item bg-warning" href="">Annotations</a>
 										<a class="dropdown-item bg-warning" href="">SQL Queries</a> 
-										
 									</cfif>
 								</cfif>
 							 </li>
@@ -407,11 +400,15 @@ limitations under the License.
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_collection")>
 											<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Encumbrances</a>
-										</cfif>
-											<a class="dropdown-item" href="">Annotations</a>
+												<a class="dropdown-item" href="/Encumbrances.cfm">Encumbrances</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Encumbrances</a>
+											</cfif>
+											<cfif targetMenu EQ "production">
+												<a class="dropdown-item" href="/info/reviewAnnotation.cfm">Annotations</a>
+											<cfelse>
+												<a class="dropdown-item bg-warning" href="">Annotations</a>
+											</cfif>
 										</cfif>
 										<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_agents") or listcontainsnocase(session.roles,"MANAGE_AGENT_RANKING") or listcontainsnocase(session.roles,"ADMIN_AGENT_RANKING "))>
 										<cfif targetMenu EQ "production">
@@ -469,9 +466,6 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Find Storage Location/Container</a>
 											</cfif>
-										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"dgr_locator")>
-											<a class="dropdown-item bg-warning" href="">DGR Locator</a> 
 										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
@@ -549,7 +543,7 @@ limitations under the License.
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/editAccn.cfm">Accessions</a>
 										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Accessions</a>
+											<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
 										</cfif>			
 										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
 										<cfif targetMenu EQ "production">
@@ -562,9 +556,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a>
 										</cfif>	
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
-										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
@@ -585,9 +577,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
-										</cfif>
 									</div>
 									</cfif>
 									</li>
@@ -633,9 +623,9 @@ limitations under the License.
 											</cfif>
 										<!--- TODO: Need another role for report management  --->
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
+												<a class="dropdown-item" href="/Reporter.cfm">Label/Report Management</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Reporter</a>
+												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
 									
 										<!--- TODO: are the rest of these DBA or another role?  --->
@@ -647,11 +637,7 @@ limitations under the License.
 											</cfif>
 									
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump</a>
-											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Dump</a>
-											</cfif>
+											<a class="dropdown-item" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item"  href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
 											<cfelse>
@@ -702,14 +688,14 @@ limitations under the License.
 											</cfif>
 												
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan</a>
+												<a class="dropdown-item" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">User Loan</a>
+												<a class="dropdown-item bg-warning" href="">User Loan Management</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Admin/user_report.cfm">All User Stats</a>
+												<a class="dropdown-item" href="/Admin/user_report.cfm">List of All Users</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">All User Stats</a>
+												<a class="dropdown-item bg-warning" href="">List of All Users</a>
 											</cfif>
 										</cfif>
 									</div>
@@ -721,12 +707,12 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
 											</cfif>
-											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/redirect.cfm">Redirects</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Redirects</a>
 											</cfif> 
+											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										</div>
 									</cfif>
 									</cfif>
@@ -755,7 +741,7 @@ limitations under the License.
 				</ul>
 				<ul class="navbar-nav ml-auto">
 					<cfif isdefined("session.username") and len(#session.username#) gt 0>
-						<li class="nav-item dropdown mr-xl-2"> <a id="dropdownMenu5" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle px-2 text-left">Account
+						<li class="nav-item dropdown mr-xl-0"> <a id="dropdownMenu5" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle px-3 px-xl-2 text-left">Account
 							<cfif isdefined("session.username") and len(#session.username#) gt 0 and session.roles contains "public">
 								<i class="fas fa-user-check color-green"></i>
 								<cfelse>

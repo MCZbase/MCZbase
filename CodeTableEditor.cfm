@@ -1344,7 +1344,7 @@
 			update ctspecific_permit_type set 
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#" />,
 				PERMIT_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
-				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
+				ACCN_SHOW_ON_SHIPMENT= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_show_on_shipment#" />
 			where
 				SPECIFIC_TYPE= <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#origData#" />
 		</cfquery>
@@ -1482,8 +1482,8 @@
 				accn_show_on_shipment
 			) values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#newData#" />,
-				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_type#" />,
-				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_show_on_shipment#" />
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#" />,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#accn_show_on_shipment#" />
 			)
 		</cfquery>
 	<cfelseif tbl is "ctbiol_relations">

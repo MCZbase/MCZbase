@@ -17,6 +17,7 @@ limitations under the License.
 
 --->
 <cfcomponent>
+<cf_rolecheck>
 
 <cfinclude template = "/shared/functionLib.cfm">
 
@@ -2484,7 +2485,7 @@ limitations under the License.
 			</cfswitch>
 			<!--- TODO: Implement ok to print checks for other transaction types --->
 			<cfoutput>
-				<section id="transactionAgentsTable" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
+				<section id="transactionAgentsTableSection" tabindex="0" aria-label="Agent Names participating in functional roles in this transaction" class="container">
 					<div class="row my-1 bg-grayish pb-1 border rounded">
 						<div class="w-100 text-center m-0 p-0" tabindex="0">
 							<cfif okToPrint >
@@ -2493,7 +2494,7 @@ limitations under the License.
 								<div class="alert alert-danger small rounded-0 p-1 m-0" aria-label="needs additional agent roles filled to print record">#okToPrintMessage#</div>
 							</cfif>
 						</div>
-						<div class="col-12 mt-0">
+						<div class="col-12 mt-0" id="transactionAgentsTable">
 							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
 								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#'); handleChange();" class="col-5"> Add Agent</button>		
 		
@@ -2506,6 +2507,8 @@ limitations under the License.
 								</cfif>
 								<div class="row #rowstyle# my-0 py-1 border-top border-bottom">
 									<div class="col-12 col-md-4">
+										<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
+												onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
 										<input type="hidden" name="trans_agent_id_#i#" id="trans_agent_id_#i#" value="#trans_agent_id#">
 										<div class="input-group">
 											<div class="input-group-prepend">
@@ -2513,7 +2516,25 @@ limitations under the License.
 											</div>
 											<input type="text" name="trans_agent_#i#" id="trans_agent_#i#" required class="goodPick form-control form-control-sm data-entry-input" value="#agent_name#">
 										</div>
+										<script>
+											$(document).ready(function() {
+												$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
+											});
+										</script>
 									</div>							
+									<div class="col-12 col-md-1">
+										<label class="data-entry-label"> 						
+											<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" aria-label="View details of this agent" target="_blank">View</a>
+												<cfif transAgents.worstagentrank EQ 'A'>
+													&nbsp;
+												<cfelseif transAgents.worstagentrank EQ 'F'>
+													<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
+												<cfelse>
+													<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
+												</cfif>
+											</span>
+										</label>
+									</div>
 									<div class="col-12 col-md-4">
 										<select name="trans_agent_role_#i#" aria-label="role of this agent in this #transLabel#" id="trans_agent_role_#i#" class="data-entry-select">
 											<cfloop query="cttrans_agent_role">
@@ -2526,34 +2547,15 @@ limitations under the License.
 											</cfloop>
 										</select>
 									</div>
-									<div class="col-12 col-md-1">
-										<label for="trans_agent_id_#i#" class="data-entry-label"> 						
-											<div class="input-group pt-1">
-												<input type="hidden" name="agent_id_#i#" id="agent_id_#i#" value="#agent_id#"
-													onchange="updateAgentLink($('##agent_id_#i#').val(),'agentViewLink_#i#'); ">
-												<script>
-													$(document).ready(function() {
-														$(makeRichTransAgentPicker('trans_agent_#i#','agent_id_#i#','agent_icon_#i#','agentViewLink_#i#',#agent_id#)); 
-													});
-												</script>
-												<span id="agentViewLink_#i#" class="px-2 d-inline-block"><a href="/agents.cfm?agent_id=#agent_id#" class="" target="_blank">View</a>
-													<cfif transAgents.worstagentrank EQ 'A'>
-														&nbsp;
-													<cfelseif transAgents.worstagentrank EQ 'F'>
-														<img src='/shared/images/flag-red.svg.png' width='16' alt="flag-red">
-													<cfelse>
-														<img src='/shared/images/flag-yellow.svg.png' width='16' alt="flag-yellow">
-													</cfif>
-												</span>
-											</div>
-										</label>
-									</div>
 									<div class="col-12 col-md-3">
 										<button type="button" 
-											class="btn btn-xs btn-warning" 
-											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '>Remove</button>
-										<button type="button" class="btn btn-xs btn-secondary" onClick="cloneAgentOnTrans(#agent_id#,#transAgents.trans_agent_role#);">Clone</button>
-<!--- TODO: Implement clone functionality --->
+											class="btn btn-xs btn-warning float-left" 
+											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
+											>Remove</button>
+										<button type="button" 
+											class="btn btn-xs btn-secondary float-left" 
+											onClick="cloneAgentOnTrans(#agent_id#,'#agent_name#','#transAgents.trans_agent_role#');"
+											>Clone</button>
 									</div>
 									<cfset i=i+1>	
 								</div>
@@ -2562,15 +2564,14 @@ limitations under the License.
 							<input type="hidden" id="numAgents" name="numAgents" value="#na#">
 					</div>
 				</section>
-<script>
-	function cloneAgentOnTrans(agent_id,current_role) { 
-		console.log('cloneAgentOnTrans not implemented yet');
-		// clone dialog to pick new role
-		// add trans_agent record
-		// reload agents 
-		reloadTransactionAgents();
-	}
-</script>
+				<script>
+					function cloneAgentOnTrans(agent_id,agent_name,current_role) { 
+						// add trans_agent record
+						addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#');
+						// trigger save needed
+						handleChange();
+					}
+				</script>
 			</cfoutput>
 		<cfcatch>
 			<cfoutput>

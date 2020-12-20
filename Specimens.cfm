@@ -17,6 +17,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<!--- **** Beging temporary block, to prevent Specimens.cfm from displaying on production before we are ready * --->
+<!--- Delete this temporary block when Specimens.cfm is ready for production --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+<cfif findNoCase('redesign',gitBranch) EQ 0>
+	<cfscript>
+		getPageContext().forward("/SpecimenSearch.cfm");
+	</cfscript>
+</cfif>
+<!--- **** End temporary block ******************************************************************************** --->
 <cfinclude template = "/shared/_header.cfm">
 <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
 	<cfset oneOfUs = 1>
