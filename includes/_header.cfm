@@ -272,12 +272,11 @@
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/info/geol_hierarchy.cfm">Geology Hierarchy Table</a>
-										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Reporter</a>
+										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Label/Report Management</a>
 										<a class="dropdown-item" target="_top" href="/tools/downloadData.cfm">Download Tables</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 											<a class="dropdown-item" target="_top" href="/Admin/dumpAll.cfm">Dump Coldfusion Vars</a>
 											<a class="dropdown-item" target="_top" href="/ScheduledTasks/index.cfm">Scheduled Tasks</a>
-											<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 											<a class="dropdown-item" target="_top" href="/tools/imageList.cfm">Image List</a>
 										</cfif>
 									</div>
@@ -289,7 +288,6 @@
 										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
 										<a class="dropdown-item" target="_top" href="/Admin/user_roles.cfm">Database Roles</a>
-										<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 										<!--- 
 											<a class="dropdown-item" target="_top" href="/Admin/form_roles.cfm">Form Permissions</a>
 											<a class="dropdown-item" target="_top" href="/tools/uncontrolledPages.cfm">See Form Permissions</a>
@@ -302,8 +300,8 @@
 									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
-										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">Manage ColdFusion</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
+										<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
 									</div>
 								</cfif>
 							</li>

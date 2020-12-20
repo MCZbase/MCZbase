@@ -623,9 +623,9 @@ limitations under the License.
 											</cfif>
 										<!--- TODO: Need another role for report management  --->
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Reporter.cfm">Reporter</a>
+												<a class="dropdown-item" href="/Reporter.cfm">Label/Report Management</a>
 											<cfelse>
-												<a class="dropdown-item bg-warning" href="">Reporter</a>
+												<a class="dropdown-item bg-warning" href="">Label/Report Management</a>
 											</cfif>
 									
 										<!--- TODO: are the rest of these DBA or another role?  --->
@@ -707,12 +707,12 @@ limitations under the License.
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Manage Collection</a>
 											</cfif>
-											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 											<cfif targetMenu EQ "production">
 												<a class="dropdown-item" href="/Admin/redirect.cfm">Redirects</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Redirects</a>
 											</cfif> 
+											<a class="dropdown-item" href="/CFIDE/administrator/">Manage Coldfusion</a>
 										</div>
 									</cfif>
 									</cfif>
