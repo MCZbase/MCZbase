@@ -553,9 +553,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a>
 										</cfif>	
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
-										</cfif>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
@@ -576,9 +574,7 @@ limitations under the License.
 										<cfelse>
 											<a class="dropdown-item bg-warning" href="">Deaccession</a> 
 										</cfif>
-										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_permits")>
 										<a class="dropdown-item" href="/transactions/Permit.cfm?action=new">Permissions &amp; Rights</a> 
-										</cfif>
 									</div>
 									</cfif>
 									</li>
