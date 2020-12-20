@@ -139,7 +139,7 @@
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findLO">Localities</a>
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findCO">Collecting Event</a>
 									</cfif>
-									<a class="dropdown-item" target="_top" href="">Collecting Event Number Series</a>
+									<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div style="float:left; width: 33.2%;">
@@ -150,7 +150,7 @@
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newLO">Locality</a>
 										</cfif>
-										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newCO">Collecting Event Number Series</a>
+										<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm?action=new">Collecting Event Number Series</a>
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
