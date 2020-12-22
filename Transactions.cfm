@@ -83,10 +83,10 @@ limitations under the License.
 	order by ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecificpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select count(*) as ct, permit_type, specific_type 
-	from ctspecific_permit_type left join permit on ctspecific_permit_type = permit.specific_type
-	group by permit_type, specific_type
-	order by specific_type
+	select count(*) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type 
+	from ctspecific_permit_type left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
