@@ -1180,34 +1180,36 @@ limitations under the License.
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
-												<div class="coll-12 col-md-6">
-													<cfset ppermit_type = permit_type>
-													<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
-													<select name="permit_type" class="data-entry-select" id="accn_permit_type">
-														<option value=""></option>
-														<cfloop query="ctpermit_type">
-															<cfif ppermit_type eq ctpermit_type.permit_type>
-																<cfset selected="selected">
-															<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#ctpermit_type.permit_type#" #selected# >#ctpermit_type.permit_type# (#ctpermit_type.ct#)</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="coll-12 col-md-6">
-													<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
-													<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
-														<option value=""></option>
-														<cfloop query="ctspecific_permit_type">
-															<cfif permit_specific_type eq ctspecific_permit_type.specific_type>
-																<cfset selected="selected">
-															<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#ctspecific_permit_type.specific_type#" #selected# >#ctspecific_permit_type.specific_type# (#ctspecific_permit_type.permit_type# #ctspecific_permit_type.ct#)</option>
-														</cfloop>
-													</select>
+												<div class="form-row mx-0">
+													<div class="coll-12 col-md-6">
+														<cfset ppermit_type = permit_type>
+														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
+															<option value=""></option>
+															<cfloop query="ctpermit_type">
+																<cfif ppermit_type eq ctpermit_type.permit_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctpermit_type.permit_type#" #selected# >#ctpermit_type.permit_type# (#ctpermit_type.ct#)</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="coll-12 col-md-6">
+														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
+															<option value=""></option>
+															<cfloop query="ctspecific_permit_type">
+																<cfif permit_specific_type eq ctspecific_permit_type.specific_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctspecific_permit_type.specific_type#" #selected# >#ctspecific_permit_type.specific_type# (#ctspecific_permit_type.permit_type# #ctspecific_permit_type.ct#)</option>
+															</cfloop>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>
