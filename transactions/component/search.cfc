@@ -110,7 +110,7 @@ limitations under the License.
 					left join shipment on loan.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
-				<cfif (isdefined("permit_type") AND len(#permit_type#) gt 0>) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) gt 0>) >
+				<cfif (isdefined("permit_type") AND len(#permit_type#) gt 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) gt 0) >
 					left join permit_trans on loan.transaction_id = permit_trans.transaction_id
 					left join permit on permit_trans.permit_id = permit.permit_id 
 				</cfif>
