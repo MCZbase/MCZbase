@@ -92,6 +92,22 @@ limitations under the License.
    group by ctpermit_type.permit_type
    order by ctpermit_type.permit_type
 </cfquery>
+<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspeific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) as ct, ctpermit_type.permit_type 
 	from ctpermit_type left join permit on ctpermit_type.permit_type = permit.permit_type
@@ -440,13 +456,13 @@ limitations under the License.
 											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 											<select name="permit_type" class="data-entry-select" id="permit_type">
 												<option value=""></option>
-												<cfloop query="ctpermit_type">
-													<cfif ppermit_type eq ctpermit_type.permit_type>
+												<cfloop query="ctpermit_type_trans">
+													<cfif ppermit_type eq ctpermit_type_trans.permit_type>
 														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctpermit_type.permit_type#" #selected# >#ctpermit_type.permit_type# (#ctpermit_type.ct#)</option>
+													<option value="#ctpermit_type_trans.permit_type#" #selected# >#ctpermit_type_trans.permit_type# (#ctpermit_type_trans.ct#)</option>
 												</cfloop>
 											</select>
 										</div>
@@ -454,13 +470,13 @@ limitations under the License.
 											<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 											<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
 												<option value=""></option>
-												<cfloop query="ctspecific_permit_type">
-													<cfif permit_specific_type eq ctspecific_permit_type.specific_type>
+												<cfloop query="ctspecific_permit_type_trans">
+													<cfif permit_specific_type eq ctspecific_permit_type_trans.specific_type>
 														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctspecific_permit_type.specific_type#" #selected# >#ctspecific_permit_type.specific_type# (#ctspecific_permit_type.permit_type# #ctspecific_permit_type.ct#)</option>
+													<option value="#ctspecific_permit_type_trans.specific_type#" #selected# >#ctspecific_permit_type_trans.specific_type# (#ctspecific_permit_type_trans.permit_type# #ctspecific_permit_type_trans.ct#)</option>
 												</cfloop>
 											</select>
 										</div>
