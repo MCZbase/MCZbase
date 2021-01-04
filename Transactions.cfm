@@ -93,7 +93,7 @@ limitations under the License.
    order by ctpermit_type.permit_type
 </cfquery>
 <cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspeific_permit_type.specific_type
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
    from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
    where 
  	  ctspecific_permit_type.permit_type = permit.permit_type (+)
