@@ -4,55 +4,52 @@
 	<cfset action="">
 </cfif>
 
-<cfoutput>
-	<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+<cfquery name="c" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select collection cln from collection order by collection
 </cfquery>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12">
-	<h1 class="h2">Annotation Review</h1>
-
-<div class="form-row">
-	<div class="col-2">
-		<h3 class="h4 text-right pr-3">Filter For: </h3>
-	</div>
-	<div class="col-12 col-md-3">
-		
-	<h3 class="h4">Specimens</h3>
-				<form name="filter" method="get" action="reviewAnnotation.cfm">
-					<input type="hidden" name="action" value="show">
-					<input type="hidden" name="type" value="collection_object_id">
-					<label for="collection">By Collection</label>
-					<select name="collection" size="1" class="data-entry-select col-9">
-						<option value=""></option>
-						<cfloop query="c">
-							<option value="#cln#">#cln#</option>
-						</cfloop>
-					</select>
-					<input type="submit" class="btn btn-xs btn-secondary"	value="Filter">
-					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-				</form>
-	</div>
-	<div class="col-3">
-	<h3 class="h4">The Rest</h3>
-				<form name="filter" method="get" action="reviewAnnotation.cfm">
-					<input type="hidden" name="action" value="show">
-					<label for="type">By Type</label>
-					<select name="type" size="1" class="col-9 data-entry-select">
-						<option value=""></option>
-						<option value="project_id">Project</option>
-						<option value="publication_id">Publication</option>
-						<option value="taxon_name_id">Taxonomy</option>
-						
-					</select>
-					
-					<input type="submit"  class="btn btn-xs btn-secondary" value="Filter">
-					<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
-		</form>
-	</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<cfoutput>
+				<h1 class="h2">Annotation Review</h1>
+				<div class="form-row">
+					<div class="col-2">
+						<h3 class="h4 text-right pr-3">Filter For: </h3>
+					</div>
+					<div class="col-12 col-md-3">
+						<h3 class="h4">Specimens</h3>
+						<form name="filter" method="get" action="reviewAnnotation.cfm">
+							<input type="hidden" name="action" value="show">
+							<input type="hidden" name="type" value="collection_object_id">
+							<label for="collection">By Collection</label>
+							<select name="collection" size="1" class="data-entry-select col-9">
+								<option value=""></option>
+								<cfloop query="c">
+									<option value="#cln#">#cln#</option>
+								</cfloop>
+							</select>
+							<input type="submit" class="btn btn-xs btn-secondary"	value="Filter">
+							<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
+						</form>
+					</div>
+					<div class="col-3">
+						<h3 class="h4">The Rest</h3>
+						<form name="filter" method="get" action="reviewAnnotation.cfm">
+							<input type="hidden" name="action" value="show">
+							<label for="type">By Type</label>
+							<select name="type" size="1" class="col-9 data-entry-select">
+								<option value=""></option>
+								<option value="project_id">Project</option>
+								<option value="publication_id">Publication</option>
+								<option value="taxon_name_id">Taxonomy</option>
+							</select>
+							<input type="submit"  class="btn btn-xs btn-secondary" value="Filter">
+							<input type="reset"  class="btn btn-xs btn-warning" value="Clear Filter">
+						</form>
+					</div>
 				</div>
-</cfoutput>
+			</cfoutput>
+
 <cfif action is "show">
 	<cfoutput>
 		<cfif type is "collection_object_id">
@@ -400,23 +397,24 @@
 			fail.
 		</cfif>
 		<!--- end collection_object_id ---> 
-</div>
-</div>
-</div>
 	</cfoutput>
 </cfif>
+
 <cfif action is "saveReview">
 	<cfoutput>
 		<cfquery name="annotations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update annotations set
-			REVIEWER_AGENT_ID=#session.myAgentId#,
-			REVIEWED_FG=#REVIEWED_FG#,
-			REVIEWER_COMMENT='#(REVIEWER_COMMENT)#'
-<!---				REVIEWER_COMMENT='#stripQuotes(REVIEWER_COMMENT)#'--->
-		where
-			annotation_id=#annotation_id#
-	</cfquery>
+			update annotations set
+				REVIEWER_AGENT_ID=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#session.myAgentId#">,
+				REVIEWED_FG=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#REVIEWED_FG#">,
+				REVIEWER_COMMENT=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#(REVIEWER_COMMENT)#">
+			where
+				annotation_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#annotation_id#">
+		</cfquery>
 		<cflocation url="reviewAnnotation.cfm?action=show&type=#type#&id=#id#" addtoken="false">
 	</cfoutput>
 </cfif>
+
+		</div>
+	</div>
+</div>
 <cfinclude template="/shared/_footer.cfm">

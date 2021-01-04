@@ -644,7 +644,7 @@ limitations under the License.
 												<a class="dropdown-item"  href="">Scheduled Tasks</a>
 											</cfif>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item"  href="/tools/imageList.cfm">
+												<a class="dropdown-item"  href="/tools/imageList.cfm">Image List</a>
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Image List</a>
 											</cfif>
