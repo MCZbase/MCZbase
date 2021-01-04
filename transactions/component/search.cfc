@@ -59,7 +59,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			SELECT 
+			SELECT DISTINCT
 				transaction_view.transaction_id, 
 				transaction_view.transaction_type,
 				to_char(trans_date,'YYYY-MM-DD') trans_date,
@@ -113,7 +113,7 @@ limitations under the License.
 				<cfif (isdefined("permit_type") AND len(#permit_type#) gt 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) gt 0) >
 					left join permit_trans on transaction_view.transaction_id = permit_trans.transaction_id
 					left join permit on permit_trans.permit_id = permit.permit_id 
-					left join permit on permit_shipment.permit_id = permit.permit_id 
+					left join permit s_permit on permit_shipment.permit_id = permit.permit_id 
 				</cfif>
 			WHERE
 				transaction_view.transaction_id > 0
@@ -166,10 +166,12 @@ limitations under the License.
 					)
 				</cfif>
 				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
-					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					AND (permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR s_permit.permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">)
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
-					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					AND (permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR s_permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">)
 				</cfif>
 		</cfquery>
 		<cfset rows = search_result.recordcount>
