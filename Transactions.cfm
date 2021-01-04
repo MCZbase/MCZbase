@@ -76,6 +76,22 @@ limitations under the License.
 <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
+<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
 <cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select count(*) as ct, ctpermit_type.permit_type 
 	from ctpermit_type left join permit on ctpermit_type.permit_type = permit.permit_type
