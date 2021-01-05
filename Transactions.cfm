@@ -76,6 +76,50 @@ limitations under the License.
 <cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select coll_obj_disposition from ctcoll_obj_disp
 </cfquery>
+<cfquery name="ctpermit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_trans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
+<cfquery name="ctpermit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(*) as ct, ctpermit_type.permit_type 
+	from ctpermit_type left join permit on ctpermit_type.permit_type = permit.permit_type
+	group by ctpermit_type.permit_type
+	order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select count(*) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type 
+	from ctspecific_permit_type left join permit on ctspecific_permit_type.specific_type = permit.specific_type
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
@@ -178,6 +222,15 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("permit_num")>
 		<cfset permit_num="">
+	</cfif>
+	<cfif not isdefined("permit_type")>
+		<cfset permit_type="">
+	</cfif>
+	<cfif not isdefined("permit_specific_type")>
+		<cfset permit_specific_type="">
+	</cfif>
+	<cfif not isdefined("specific_type")>
+		<cfset specific_type="">
 	</cfif>
 	<cfif not isdefined("part_name_oper")>
 		<cfset part_name_oper="is">
@@ -295,7 +348,7 @@ limitations under the License.
 												<cfloop query="ctcollection">
 													<cfif ctcollection.collection eq selectedCollection>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
@@ -318,7 +371,7 @@ limitations under the License.
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
 														<cfset selected="selected">
-														<cfelse>
+													<cfelse>
 														<cfset selected="">
 													</cfif>
 													<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
@@ -327,58 +380,58 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
-									<div class="form-row mb-2 mx-0">
+										<div class="form-row mb-2 mx-0">
 											<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
-															<cfset selected="selected">
+												<div class="input-group">
+													<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
+																<cfset selected="selected">
 															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
-												<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
+													<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
+												</div>
 											</div>
-										</div>
 											<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
-															<cfset selected="selected">
+												<div class="input-group">
+													<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
+																<cfset selected="selected">
 															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
-												<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
+													<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+												</div>
 											</div>
-										</div>
 											<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
-															<cfset selected="selected">
+												<div class="input-group">
+													<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
+																<cfset selected="selected">
 															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
-												<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
+													<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+												</div>
 											</div>
-										</div>
 										</div>
 										<script>
 											$(document).ready(function() {
@@ -387,6 +440,46 @@ limitations under the License.
 												$(makeConstrainedAgentPicker('all_agent_3','all_agent_3_id','transaction_agent'));
 											});
 										</script> 
+									</div>
+									<div class="form-row mx-0">
+										<div class="col-12 col-md-4">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Transaction Date</label>
+												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for transaction date">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for transaction date</label>		
+												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
+										</div>
+										<div class="col-12 col-md-4">
+											<cfset ppermit_type = permit_type>
+											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+											<select name="permit_type" class="data-entry-select" id="permit_type">
+												<option value=""></option>
+												<cfloop query="ctpermit_type_trans">
+													<cfif ppermit_type eq ctpermit_type_trans.permit_type>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#ctpermit_type_trans.permit_type#" #selected# >#ctpermit_type_trans.permit_type# (#ctpermit_type_trans.ct# transactions)</option>
+												</cfloop>
+											</select>
+										</div>
+										<div class="col-12 col-md-4">
+											<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+											<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
+												<option value=""></option>
+												<cfloop query="ctspecific_permit_type_trans">
+													<cfif permit_specific_type eq ctspecific_permit_type_trans.specific_type>
+														<cfset selected="selected">
+													<cfelse>
+														<cfset selected="">
+													</cfif>
+													<option value="#ctspecific_permit_type_trans.specific_type#" #selected# >#ctspecific_permit_type_trans.specific_type# (#ctspecific_permit_type_trans.permit_type#) [#ctspecific_permit_type_trans.ct# transactions]</option>
+												</cfloop>
+											</select>
+										</div>
 									</div>
 									<div class="form-row mb-2">
 										<div class="col-12">
@@ -1118,6 +1211,37 @@ limitations under the License.
 												<div class="col-md-12">
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
+												</div>
+												<div class="form-row mx-0">
+													<div class="coll-12 col-md-6">
+														<cfset ppermit_type = permit_type>
+														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
+															<option value=""></option>
+															<cfloop query="ctpermit_type">
+																<cfif ppermit_type eq ctpermit_type.permit_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctpermit_type.permit_type#" #selected# >#ctpermit_type.permit_type# (#ctpermit_type.ct#)</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="coll-12 col-md-6">
+														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
+															<option value=""></option>
+															<cfloop query="ctspecific_permit_type">
+																<cfif permit_specific_type eq ctspecific_permit_type.specific_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctspecific_permit_type.specific_type#" #selected# >#ctspecific_permit_type.specific_type# (#ctspecific_permit_type.permit_type# #ctspecific_permit_type.ct#)</option>
+															</cfloop>
+														</select>
+													</div>
 												</div>
 											</div>
 										</div>

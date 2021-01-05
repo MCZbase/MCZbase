@@ -81,7 +81,7 @@
 		<li>
 			<a href="BulkloadSpecimens.cfm?action=loadAnyway" target="_self">Just load these records</a>.
 			Use this method if you wish to use Arctos' tools to fix any errors. Everything will go to the normal
-			Bulkloader tables and be available via <a href="Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
+			Bulkloader tables and be available via <a href="/Bulkloader/browseBulk.cfm">the Browse Bulk app</a>.
 			You need a thorough understanding of Arctos' bulkloader tools and great confidence in your data
 			to use this application. Misuse can result in
 			a huge mess in the Bulkloader, which may require sorting out record by record.
@@ -115,7 +115,7 @@
 	Your records have been checked and are now in table Bulkloader and flagged as
 		loaded='BULKLOADED RECORD'. A data administrator can un-flag
 		and load them.
-		You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
+		You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 </cfoutput>
 </cfif>
 <!------------------------------------------->
@@ -161,7 +161,7 @@
 			Your records have been checked and are now in table Bulkloader and flagged as
 			loaded='BULKLOADED RECORD'. A data administrator can un-flag
 			and load them.
-			You can access these records in the Bulkloader with <a href="Bulkloader/browseBulk.cfm">Browse and Edit</a>.
+			You can access these records in the Bulkloader with <a href="/Bulkloader/browseBulk.cfm">Browse and Edit</a>.
 		</cftransaction>
 	</cfif>
 </cfoutput>
