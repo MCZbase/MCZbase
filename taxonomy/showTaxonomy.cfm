@@ -19,7 +19,7 @@
 				<!---  Handle Homonyms, scientific name has more than one match --->
 				<cfoutput>
 					<div class="row mx-0 alert alert-danger border px-4">
-						<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#scientific_name#]</h1>
+						<h1 class="h2">More than one taxonomy record in MCZbase matches the provided name string [#encodeForHTML(scientific_name)#]</h1>
 						<div class="col-12"><p>These may be homonyms or duplicate taxon records.</p></div>
 						<div class="col-12">
 							<ul>
@@ -153,7 +153,7 @@
 									</cfif>
 									<cfset placement = ListDeleteAt(getHomonyms.full_taxon_name,ListLen(getHomonyms.full_taxon_name," ")," ") >
 									<li>
-										<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getHomonyms.taxon_name_id#'><em>#getHomonyms.scientific_name#</em> <span class="sm-caps">#getHomonyms.author_text#</span></a>
+										<a href='/taxonomy/showTaxonomy.cfm?taxon_name_id=#getHomonyms.taxon_name_id#'><em>#getHomonyms.scientific_name#</em> <span class="sm-caps">#encodeForHTML(getHomonyms.author_text)#</span></a>
 										placed in #placement# #below#
 									 </li>
 								</cfloop>
@@ -401,16 +401,16 @@
 							<cfif len(evaluate("one." & rank)) gt 0>
 								<cfif rank EQ "Family">
 									<cfset fam = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&family=#fam#">#fam#</a></td>
+									<td><a href="/Taxa.cfm?execute=true&family=#encodeForURL(fam)#">#encodeForHTML(fam)#</a></td>
 								<cfelseif rank EQ "Genus">
 									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&genus=#highertaxon#">#highertaxon#</a></td>
+									<td><a href="/Taxa.cfm?execute=true&genus=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
 								<cfelseif rank EQ "Superfamily">
 									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&superfamily=#highertaxon#">#highertaxon#</a></td>
+									<td><a href="/Taxa.cfm?execute=true&superfamily=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
 								<cfelseif rank EQ "Suborder">
 									<cfset highertaxon = evaluate("one." & rank)>
-									<td><a href="/Taxa.cfm?execute=true&suborder=#highertaxon#">#highertaxon#</a></td>
+									<td><a href="/Taxa.cfm?execute=true&suborder=#encodeForURL(highertaxon)#">#encodeForHTML(highertaxon)#</a></td>
 								<cfelse>
 									<td>#evaluate("one." & rank)#</td>
 								</cfif>
@@ -420,7 +420,7 @@
 					</tr>
 				</table>
 
-				<h2 class="h4">Name Authority: <b>#one.source_Authority#</b></h2>
+				<h2 class="h4">Name Authority: <b>#encodeForHTML(one.source_Authority)#</b></h2>
 				<cfif len(taxonidlink) GT 0>
 					<p>dwc:taxonID: <a href="#taxonidlink#" target="_blank">#one.taxonid#</a></p>
 				</cfif>
@@ -458,7 +458,7 @@
 							<li>
 								#TAXON_RELATIONSHIP# of <a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#RELATED_TAXON_NAME_ID#"><b><i>#related_name#</i> <span class="sm-caps">#related.related_author_text#<span></b></a>
 								<cfif len(RELATION_AUTHORITY) gt 0>
-									(According to: #RELATION_AUTHORITY#)
+									(According to: #encodeForHTML(RELATION_AUTHORITY)#)
 								</cfif>
 							</li>
 						</cfloop>
@@ -466,7 +466,7 @@
 							<li> 
 								<a href="/taxonomy/showTaxonomy.cfm?taxon_name_id=#imp_RELATED_TAXON_NAME_ID#"><b><i>#imp_related_name#</i> <span class="sm-caps">#imp_related_author_text#</span></b></a> is #imp_TAXON_RELATIONSHIP#
 								<cfif len(imp_RELATION_AUTHORITY) gt 0>
-									(According to: #imp_RELATION_AUTHORITY#)
+									(According to: #encodeForHTML(imp_RELATION_AUTHORITY)#)
 								</cfif>
 							</li>
 						</cfloop>
