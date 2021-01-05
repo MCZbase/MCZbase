@@ -115,7 +115,7 @@
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
-									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Browse &amp; Edit</a>
+									<a class="dropdown-item" target="_top" href="/Bulkloader/browseBulk.cfm">Browse &amp; Edit</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
 									<a class="dropdown-item" target="_top" href="/bulkloading/Bulkloaders.cfm">Bulkloaders</a>
 									<a class="dropdown-item" target="_top" href="/tools/PublicationStatus.cfm">Publication Staging</a>
