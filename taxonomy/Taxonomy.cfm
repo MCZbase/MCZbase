@@ -628,7 +628,7 @@ limitations under the License.
 								</span>
 							</label>
 							<div class="col-12 col-md-9 float-left px-3">
-								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#gettaxa.genus#">
+								<input type="text" name="genus" id="genus" class="data-entry-input my-1" value="#encodeForHtml(gettaxa.genus)#">
 							</div>
 						</div>
 						<div class="col-12 col-md-6 col-xl-3 px-0 float-left">
