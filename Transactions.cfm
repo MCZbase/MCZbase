@@ -96,7 +96,7 @@ limitations under the License.
    select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
    from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
    where 
- 	  ctspecific_permit_type.permit_type = permit.permit_type (+)
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
    	and permit.permit_id = permit_trans.permit_id (+)
 	   and permit.permit_id = permit_shipment.permit_id (+)
    	and permit_shipment.shipment_id = shipment.shipment_id (+)
