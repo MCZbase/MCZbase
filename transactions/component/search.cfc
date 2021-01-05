@@ -113,7 +113,7 @@ limitations under the License.
 				<cfif (isdefined("permit_type") AND len(#permit_type#) gt 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) gt 0) >
 					left join permit_trans on transaction_view.transaction_id = permit_trans.transaction_id
 					left join permit on permit_trans.permit_id = permit.permit_id 
-					left join permit s_permit on permit_shipment.permit_id = permit.permit_id 
+					left join permit s_permit on permit_shipment.permit_id = s_permit.permit_id 
 				</cfif>
 			WHERE
 				transaction_view.transaction_id > 0
