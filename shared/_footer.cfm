@@ -40,7 +40,9 @@ limitations under the License.
         </div>
         </div>
         <div class="branding-container">
-            <div class="copyright-bottom text-center"><small> Copyright &#x24B8; 2021 The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white" aria-label="accessibility_link">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white" aria-label="report_copyright_infringement_link">Report Copyright Infringement</a></small> </div>
+				<cfoutput>
+            <div class="copyright-bottom text-center"><small> Copyright &##x24B8; #Year(now())# The President and Fellows of Harvard College.&nbsp; <a href="http://accessibility.harvard.edu/" class="text-white" aria-label="accessibility_link">Accessibility</a> | <a href="http://www.harvard.edu/reporting-copyright-infringements" class="text-white" aria-label="report_copyright_infringement_link">Report Copyright Infringement</a></small> </div>
+				</cfoutput>
         </div>
     </cfif>
     </div>
