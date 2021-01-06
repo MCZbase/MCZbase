@@ -485,7 +485,7 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ppermit_type = permit_type>
 											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 											<select name="permit_type" class="data-entry-select" id="permit_type">
@@ -500,7 +500,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 											<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
 												<option value=""></option>
@@ -514,7 +514,32 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-									</div>
+										<div class="col-12 col-md-4">
+											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+											<div class="input-group">
+												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
+												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
+												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+												<script>
+													function handleAPermitPickAction(event) {
+														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
+													}
+												</script>
+												<div id="tr_permitpickerdialog"></div>
+											</div>
+											<script>
+												$(document).ready(function() {
+													$(makePermitPicker('tr_permit_num','tr_permit_id'));
+													$('##tr_permit_num').blur( function () {
+														// prevent an invisible permit_id from being included in the search.
+														if ($('##tr_permit_num').val().trim() == "") { 
+														$('##tr_permit_id').val("");
+														}
+													});
+												});
+											</script>
+										</div>
+								</div>
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn-xs btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
