@@ -120,6 +120,40 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
+<cfquery name="ctpermit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'accn'
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'accn'
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
@@ -451,7 +485,7 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<cfset ppermit_type = permit_type>
 											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 											<select name="permit_type" class="data-entry-select" id="permit_type">
@@ -466,7 +500,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-4">
+										<div class="col-12 col-md-2">
 											<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 											<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
 												<option value=""></option>
@@ -480,7 +514,32 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-									</div>
+										<div class="col-12 col-md-4">
+											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+											<div class="input-group">
+												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
+												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
+												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickActionTr();" onclick="handleAPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+												<script>
+													function handleAPermitPickActionTr(event) {
+														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
+													}
+												</script>
+												<div id="tr_permitpickerdialog"></div>
+											</div>
+											<script>
+												$(document).ready(function() {
+													$(makePermitPicker('tr_permit_num','tr_permit_id'));
+													$('##tr_permit_num').blur( function () {
+														// prevent an invisible permit_id from being included in the search.
+														if ($('##tr_permit_num').val().trim() == "") { 
+														$('##tr_permit_id').val("");
+														}
+													});
+												});
+											</script>
+										</div>
+								</div>
 									<div class="form-row mb-2">
 										<div class="col-12">
 											<button class="btn-xs btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
@@ -1218,13 +1277,13 @@ limitations under the License.
 														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
 														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
 															<option value=""></option>
-															<cfloop query="ctpermit_type">
-																<cfif ppermit_type eq ctpermit_type.permit_type>
+															<cfloop query="ctpermit_type_accn">
+																<cfif ppermit_type eq ctpermit_type_accn.permit_type>
 																	<cfset selected="selected">
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctpermit_type.permit_type#" #selected# >#ctpermit_type.permit_type# (#ctpermit_type.ct#)</option>
+																<option value="#ctpermit_type_accn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# accessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1232,13 +1291,13 @@ limitations under the License.
 														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
 															<option value=""></option>
-															<cfloop query="ctspecific_permit_type">
-																<cfif permit_specific_type eq ctspecific_permit_type.specific_type>
+															<cfloop query="ctspecific_permit_type_accn">
+																<cfif permit_specific_type eq ctspecific_permit_type_accn.specific_type>
 																	<cfset selected="selected">
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type.specific_type#" #selected# >#ctspecific_permit_type.specific_type# (#ctspecific_permit_type.permit_type# #ctspecific_permit_type.ct#)</option>
+																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
 															</cfloop>
 														</select>
 													</div>
