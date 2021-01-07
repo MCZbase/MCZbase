@@ -56,15 +56,14 @@ limitations under the License.
 <cfquery name="ctLoanStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select loan_status from ctloan_status order by loan_status
 </cfquery>
-<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+<!--- Obtain list of transaction agent roles relevant to loan editing --->
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select distinct(trans_agent_role) from cttrans_agent_role  
+	select distinct(cttrans_agent_role.trans_agent_role) 
+	from cttrans_agent_role  
+	left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 	where 
-		trans_agent_role != 'entered by' and 
-		trans_agent_role != 'associated with agency' and 
-		trans_agent_role != 'received from' and 
-		trans_agent_role != 'borrow overseen by' 
-	order by trans_agent_role
+		trans_agent_role_allowed.transaction_type = 'Loan'
+	order by cttrans_agent_role.trans_agent_role
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
