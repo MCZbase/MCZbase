@@ -1415,6 +1415,9 @@ textarea {
 	padding-right: .5rem;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
+.autogrow {
+	padding: 2px .5rem;
+}
 .data-entry-textarea { /* Caution: used on autogrow textareas, if changed check that autogrow behavior doesn't break */
 	width: 100%;
 	height: calc(.875rem + .8rem + 1px);
