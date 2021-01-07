@@ -330,7 +330,7 @@ limitations under the License.
 								<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr data-entry-textarea w-100 autogrow" 
+									class="reqdClr form-control form-control-sm w-100 autogrow" 
 									required ></textarea>
 							</div>
 						</div>
