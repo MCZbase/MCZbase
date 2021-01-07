@@ -1415,12 +1415,6 @@ textarea {
 	padding-right: .5rem;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-.autogrow { 
-   /* autogrow textareas must have a vertical padding in pixels for
-     the autogrow calculation of the height to work correctly,
-     otherwise the textareas grow in height with each keystroke.  */
-   padding: 2px 0.5rem;
-}
 .data-entry-textarea { /* Caution: used on autogrow textareas, if changed check that autogrow behavior doesn't break */
 	width: 100%;
 	height: calc(.875rem + .8rem + 1px);
@@ -1433,6 +1427,12 @@ textarea {
 	background-color: #fff;
 	background-clip: padding-box;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+.autogrow { 
+   /* autogrow textareas must have a vertical padding in pixels for
+     the autogrow calculation of the height to work correctly,
+     otherwise the textareas grow in height with each keystroke.  */
+   padding: 2px 0.5rem;
 }
 .input-group > .custom-file, .input-group > .custom-select, .input-group > .form-control, .input-group > .form-control-plaintext {
     position: relative;
