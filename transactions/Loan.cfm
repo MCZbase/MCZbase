@@ -38,15 +38,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<!--- Example lines for demonstrating merge conflict resolution
-Delete this comment block when done.
-
-1 <cfif foo EQ bar>
-2    <cfset foo = bar>
-3    <cfset someFlag = 1 >
-4 </cfif>
-
---->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to loan search page --->
 	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
