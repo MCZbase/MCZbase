@@ -38,6 +38,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
+<!--- Example lines for demonstrating merge conflict resolution
+Delete this comment block when done.
+--->
 <cfif not isdefined('action') OR  action is "nothing">
 	<!--- redirect to loan search page --->
 	<cflocation url="/Transactions.cfm?action=findLoans" addtoken="false">
