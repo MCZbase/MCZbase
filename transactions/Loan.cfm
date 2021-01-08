@@ -41,9 +41,9 @@ limitations under the License.
 <!--- Example lines for demonstrating merge conflict resolution
 Delete this comment block when done.
 
-1 <cfif foo == bar>
-2    <cfset foo = bar>
-3    <cfset someFlag = 1
+1 <cfif foo EQ bar>
+2    <cfset foo = bar >
+3    <cfset someFlag == 1 >
 4 </cfif>
 
 --->
