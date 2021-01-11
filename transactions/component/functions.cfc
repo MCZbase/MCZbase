@@ -2448,11 +2448,15 @@ limitations under the License.
 			<cfswitch expression="#transaction#">
 				<cfcase value="loan">
 					<cfset transLabel = 'Loan'>
-					<!--- Obtain list of transaction agent roles, excluding those not relevant to loan editing --->
+					<!--- Obtain list of transaction agent roles relevant to loan editing to use for piclists for loan agent controls --->
 					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						select distinct(trans_agent_role) from cttrans_agent_role  where trans_agent_role != 'entered by' and trans_agent_role != 'stewarship from agency' and trans_agent_role != 'received from' and trans_agent_role != 'borrow overseen by' order by trans_agent_role
+						select distinct(cttrans_agent_role.trans_agent_role) 
+						from cttrans_agent_role  
+							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+						where trans_agent_role_allowed.transaction_type = 'Loan'
+						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<!--- Obtain picklist values for loan agents controls.  --->
+					<!--- TODO: Change implementation of this block to use lookup against trans_agent_role_allowed.required_to_print instead of hard coded roles  --->
 					<cfquery name="inhouse" dbtype="query">
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='in-house contact'
 					</cfquery>
@@ -2472,6 +2476,18 @@ limitations under the License.
 						<cfset okToPrint = false>
 						<cfset okToPrintMessage = 'One "in-house authorized by", one "in-house contact", one "received by", and one "recipient institution" are required to print loan forms. '>
 					</cfif>
+				</cfcase>
+				<cfcase value="accn">
+					<cfset transLabel = 'Accession'>
+					<!--- Obtain list of transaction agent roles relevant to Accession editing --->
+					<cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						select distinct(cttrans_agent_role.trans_agent_role) 
+						from cttrans_agent_role  
+							left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+						where trans_agent_role_allowed.transaction_type = 'Accn'
+						order by cttrans_agent_role.trans_agent_role
+					</cfquery>
+					<!--- TODO: Complete implementation of this block (check for print required roles, set okToPrint/Message) --->
 				</cfcase>
 				<cfdefaultcase>
 					<cfset transLabel = transaction>
