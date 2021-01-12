@@ -1271,7 +1271,7 @@ limitations under the License.
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row px-3">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
