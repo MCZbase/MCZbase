@@ -2565,7 +2565,7 @@ limitations under the License.
 									</div>
 									<div class="col-12 col-md-3">
 										<button type="button" 
-											class="btn btn-xs btn-warning float-left" 
+											class="btn btn-xs btn-warning float-left mr-2" 
 											onClick=' confirmDialog("Remove #agent_name# as #transAgents.trans_agent_role# from this #transLabel# ?", "Confirm Unlink Agent", function() { deleteTransAgent(#trans_agent_id#); } ); '
 											>Remove</button>
 										<button type="button" 
