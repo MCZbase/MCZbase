@@ -568,7 +568,7 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftry>
 		<cfquery name="search" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="search_result">
-			select permit.permit_id,
+			select distinct permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent,
 				issuedTo.agent_name as IssuedToAgent,
 				Contact.agent_name as ContactAgent,
@@ -579,7 +579,8 @@ limitations under the License.
 				permit_Type,
 				specific_type,
 				permit_title,
-				permit_remarks
+				permit_remarks,
+				MCZBASE.get_media_URI_for_relation(permit.permit_id, 'shows permit','application/pdf') as pdf
 			from
 				permit  
 				left join preferred_agent_name issuedTo on permit.issued_to_agent_id = issuedTo.agent_id
