@@ -475,7 +475,7 @@ limitations under the License.
 											});
 										</script> 
 									</div>
-									<div class="form-row mx-0 mr-md-0">
+									<div class="form-row mr-md-0">
 										<div class="col-12 col-md-4 mb-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Transaction Date</label>
