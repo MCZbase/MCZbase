@@ -283,6 +283,7 @@ limitations under the License.
 									{ name: 'specific_type', type: 'string' },
 									{ name: 'permit_title', type: 'string' },
 									{ name: 'permit_remarks', type: 'string' },
+									{ name: 'pdf', type: 'string' },
 									{ name: 'id_link', type: 'string' }
 								],
 								updaterow: function (rowid, rowdata, commit) {
@@ -350,7 +351,8 @@ limitations under the License.
 									{text: 'Contact', datafield: 'contactagent', width:100, hideable: true, hidden: true },
 									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: true },
 									{text: 'Expires', datafield: 'exp_date', width:80, hideable: true, hidden: true },
-									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: false },
+									{text: 'PDF', datafield: 'pdf', width:200, hideable: true, hidden: true },
+									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: false }
 								],
 								rowdetails: true,
 								rowdetailstemplate: {
