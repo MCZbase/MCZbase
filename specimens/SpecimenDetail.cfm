@@ -108,7 +108,7 @@ limitations under the License.
 		#session.flatTableName#.typestatuswords,
 		MCZBASE.concattypestatus_plain_s(#session.flatTableName#.collection_object_id,1,1,0) as typestatusplain,
 		#session.flatTableName#.toptypestatuskind,
-		concatparts(#session.flatTableName#.collection_object_id) as partString,
+		concatparts_ct(#session.flatTableName#.collection_object_id) as partString,
 		concatEncumbrances(#session.flatTableName#.collection_object_id) as encumbrance_action,
 		#session.flatTableName#.dec_lat,
 		#session.flatTableName#.dec_long
