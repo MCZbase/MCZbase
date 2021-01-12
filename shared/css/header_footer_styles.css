@@ -98,6 +98,10 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	text-decoration: none;
 	border-bottom: 1px dotted white;
 }
+.branding a span {
+	padding-top: 2px;
+	display: inline-block;
+}
 img.shield {
 	width: 19px;
 	height: 19px;
