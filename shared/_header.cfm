@@ -532,7 +532,7 @@ limitations under the License.
 							</ul>
 						</li>
 					</cfif>
-					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_tranasctions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
+					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_transactions") or listcontainsnocase(session.roles,"manage_permits") or listcontainsnocase(session.roles,"admin_transactions") or listcontainsnocase(session.roles,"admin_permits") )>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle px-3 text-left" href="" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 	              			<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">			
