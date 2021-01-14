@@ -254,6 +254,7 @@ limitations under the License.
 			</main>
 		
 			<cfoutput>
+				<cfset cellRenderClasses = "ml-1"><!--- for cell renderers to match default --->
 				<script>
 					/* Supporting cell renderers for Permit Search *****************************/
 					var pdfCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
