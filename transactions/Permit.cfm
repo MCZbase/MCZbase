@@ -255,6 +255,20 @@ limitations under the License.
 		
 			<cfoutput>
 				<script>
+					/* Supporting cell renderers for Permit Search *****************************/
+					var pdfCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+						var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+						var result = "";
+						var pid = rowData['pdf'];
+						if (pid) {
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="'+pid+'" target="_blank">'+value.split('/').pop()+'</a></span>';
+						} else { 
+							result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+						}
+						return result;
+					};
+
+					/* Permit Search */
 					$(document).ready(function() {
 						/* Setup jqxgrid for Search */
 						$('##searchForm').bind('submit', function(evt){
@@ -335,7 +349,7 @@ limitations under the License.
 								autoshowloadelement: false,  // overlay acts as load element for form+results
 								columnsreorder: true,
 								groupable: true,
-								selectionmode: 'none',
+								selectionmode: 'singlerow',
 								altrows: true,
 								showtoolbar: false,
 								columns: [
@@ -351,7 +365,7 @@ limitations under the License.
 									{text: 'Contact', datafield: 'contactagent', width:100, hideable: true, hidden: true },
 									{text: 'Renewed', datafield: 'renewed_date', width:80, hideable: true, hidden: true },
 									{text: 'Expires', datafield: 'exp_date', width:80, hideable: true, hidden: true },
-									{text: 'PDF', datafield: 'pdf', width:200, hideable: true, hidden: true },
+									{text: 'PDF', datafield: 'pdf', width:200, hideable: true, hidden: true, cellsrenderer: pdfCellRenderer},
 									{text: 'Remarks', datafield: 'permit_remarks', hideable: true, hidden: false }
 								],
 								rowdetails: true,
