@@ -1693,7 +1693,7 @@ ul.sf-menu li li li.sfHover ul {
 	color:red;
 }
 .sf-menu a.sf-with-ul {
-	padding-right: 	1.75em;
+	padding-right: 	1.25em;
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
@@ -2063,10 +2063,12 @@ div.ui-datepicker {
 	background-image: url(/images/css/ui-icons_ffd27a_256x240.png);
 }
 .ui-corner-tl {
+	border-top-left-radius: 4px;
 	-moz-border-radius-topleft: 4px;
 	-webkit-border-top-left-radius: 4px;
 }
 .ui-corner-tr {
+	border-top-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
 	-webkit-border-top-right-radius: 4px;
 }
@@ -2075,10 +2077,12 @@ div.ui-datepicker {
 	-webkit-border-bottom-left-radius: 4px;
 }
 .ui-corner-br {
+	border-bottom-right-radius: 4px;
 	-moz-border-radius-bottomright: 4px;
 	-webkit-border-bottom-right-radius: 4px;
 }
 .ui-corner-top {
+	border-top-left-radius: 4px;
 	-moz-border-radius-topleft: 4px;
 	-webkit-border-top-left-radius: 4px;
 	-moz-border-radius-topright: 4px;
@@ -2748,7 +2752,10 @@ span.helpDiv {
 	padding: 10px;
 	margin: 60px 0;
 }
-.media_paging {align-content: center}
+.media_paging {
+	align-content: center
+}
+
 #navbar .activeButton, #navbar .activeButton:hover {
 	border: 1px solid gray;
 	color: gray;
@@ -4807,7 +4814,7 @@ div.ipad {display:none;}
 }
 @media only screen and (max-width: 940px) {
 .sf-menu li {
-	width: 9.6em;
+	width: 10.5%;
     font-size: 12px;
 	z-index: 1;
     padding: 3px 3px 2px 3px;
@@ -6103,5 +6110,31 @@ span.uncertaintyDisplay {
 			padding:1em;
 		}
 	/* END specimendetail map stuff */
-	
-	
+.navbar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+}
+.collapse:not(.show) {
+    display: none;
+}
+.navbar-collapse {
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    -ms-flex-align: center;
+    align-items: center;
+}
+@media (min-width: 1200px){
+.navbar-expand-xl .navbar-nav {
+    -ms-flex-direction: row;
+    flex-direction: row;
+	}}
