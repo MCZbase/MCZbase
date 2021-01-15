@@ -1120,7 +1120,7 @@ limitations under the License.
 					estimated_count
 					)
 				VALUES (
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#n.n#'>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>
 					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(rec_Date,"yyyy-mm-dd")#'>
