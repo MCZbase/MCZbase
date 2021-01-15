@@ -218,10 +218,10 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:22em; border-radius: .2rem;">
+						<a class="nav-link dropdown-toggle text-left" target="_top" id="transactionsDropdown" href="##">Transactions</a>
+						<ul class="dropdown-menu border-0 shadow"  aria-labelledby="transactionsDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 49%;">
+								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
@@ -230,7 +230,7 @@
 									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 								</div>
-								<div style="float:left; width: 49%;">
+								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
@@ -246,14 +246,14 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow">
 						<li class="d-md-flex align-items-start justify-content-start">
-							<div style="float:left; width: 49%;">
+							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
 								<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 							</div>
-							<div style="float:left;width: 49%;">
+							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
 								<a class="dropdown-item"  target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
 								<a class="dropdown-item"  target="_blank" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
@@ -266,10 +266,10 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-									<div style="float:left; width: 33.2%;">
+									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/info/geol_hierarchy.cfm">Geology Hierarchy Table</a>
@@ -283,7 +283,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-									<div style="float:left;width: 33.2%;">
+									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
@@ -298,7 +298,7 @@
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
-									<div style="float:left;width: 33.2%;">
+									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
@@ -316,7 +316,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
@@ -330,7 +330,7 @@
 			<li class="nav-item dropdown">
 				<!--- main menu item help --->
 				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
-				<ul class="dropdown-menu border-0 shadow" style="min-width:15rem;border-radius: .2rem;">
+				<ul class="dropdown-menu border-0 shadow">
 					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
