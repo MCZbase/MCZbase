@@ -37,6 +37,19 @@
 		}
 	});
 </script>
+			<script>
+			// Keyboard shortcut for Search
+			document.addEventListener ("keydown", function (evt) {
+				if (evt.altKey && evt.key === "m") {  
+					evt.preventDefault();
+					evt.stopPropagation();
+					$('##searchDropdown').click();	
+					$('##specimenMenuItem').focus();	
+					return false;
+				}
+			});
+
+		</script>
 <cfoutput>
 	<meta name="keywords" content="#session.meta_keywords#">
 	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
