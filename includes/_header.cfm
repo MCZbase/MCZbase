@@ -386,7 +386,7 @@
 		</div><!---end headerLinks--->
 	</div>
 <!---	</div>---><!--- end sf-mainMenuWrapper--->
-				</div>
+				</nav>
 	<cf_rolecheck>
 
 </cfoutput>
