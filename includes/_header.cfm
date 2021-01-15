@@ -1,6 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
-
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
 	<cfinclude template="/includes/imageInclude.cfm">
 <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
@@ -62,8 +61,10 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
-	
+<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
+<!---	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">--->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
@@ -383,8 +384,9 @@
 				</form>
 			</cfif>
 		</div><!---end headerLinks--->
-	</div><!--- end sf-mainMenuWrapper--->
-
+	</div>
+<!---	</div>---><!--- end sf-mainMenuWrapper--->
+				</div>
 	<cf_rolecheck>
 
 </cfoutput>
