@@ -1058,13 +1058,13 @@ limitations under the License.
 		</cfif>
 		<cfif
 			( 
-				not isDefined("collection_id") is 0 OR 
-				not isDefined("accn_number") is 0 OR
-				not isDefined("accn_status") is 0 OR
-				not isDefined("rec_date") is 0 OR
-				not isDefined("nature_of_material") is 0 OR
-				not isDefined("accn_type") is 0 OR
-				not isDefined("received_agent_id") is 0
+				not isDefined("collection_id") OR 
+				not isDefined("accn_number") OR
+				not isDefined("accn_status") OR
+				not isDefined("rec_date") OR
+				not isDefined("nature_of_material")  OR
+				not isDefined("accn_type") OR
+				not isDefined("received_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
 				len(accn_number) is 0 OR
