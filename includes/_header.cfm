@@ -69,11 +69,11 @@
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
-					<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
-						<li class="d-md-flex align-items-start justify-content-start">
+					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="aboutDropdown">
+						<li class="d-xl-flex align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+								<a class="dropdown-item" id="specimenMenuItem" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
