@@ -203,7 +203,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="date_received">Date Received</label>
-								<input type="text" name="date_received" id="date_received" 
+								<input type="text" name="rec_date" id="date_received" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 form-control data-entry-input">
