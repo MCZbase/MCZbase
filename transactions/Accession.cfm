@@ -13,7 +13,7 @@
 			where
 				accn.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Accession #accessionNumber.loan_number#">
+		<cfset pageTitle = "Edit Accession #accessionNumber.accn_number#">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
@@ -306,7 +306,7 @@ limitations under the License.
 						draggable:true,
 						buttons: {
 							"Ok": function () { 
-								loadTransactionFormMedia(#transaction_id#,"loan"); 
+								loadTransactionFormMedia(#transaction_id#,"accn"); 
 								$(this).dialog("close"); 
 							} 
 						}
