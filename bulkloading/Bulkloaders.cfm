@@ -25,7 +25,8 @@
 					<li><a href="/tools/loanBulkload.cfm">Bulkload Loan Items</a></li>
 					<li><a href="/DataServices/agents.cfm">Bulkload Agents</a></li>
 					<li><a href="/tools/BulkloadOtherId.cfm">Bulkload Identifications</a></li>
-					<li><a href="/tools/DataLoanBulkload.cfm">Bulkload New Parts</a></li>
+					<li><a href="/tools/DataLoanBulkload.cfm">Bulkload Data Loans</a></li>
+					<li><a href="/tools/BulkloadPartContainer.cfm">Bulkload Parts to Containers</a></li>
 					<li><a href="/tools/BulkloadMedia.cfm">Bulkload Media </a></li>
 					<li><a href="/tools/BulkloadRelations.cfm">Bulkload Relationships</a></li>
 					<li><a href="/tools/BulkloadGeoref.cfm">Bulkload Georeferences</a></li>
