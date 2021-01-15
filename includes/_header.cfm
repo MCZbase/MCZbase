@@ -84,7 +84,7 @@
 					<!--- main menu element for search, mostly public --->
 					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
-						<li class="d-xl-flex align-items-start justify-content-start">
+						<li>
 							<div>
 								<a class="dropdown-item" id="specimenMenuItem" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
@@ -111,7 +111,7 @@
 						<!--- main menu item data entry --->
 						<a href="##" class="nav-link dropdown-toggle text-left" id="dataEntryDropdown">Data Entry</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="dataEntryDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
@@ -145,7 +145,7 @@
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="manageDataDropdown">Manage Data</a>
 						<ul class="dropdown-menu border-0 shadow"  aria-labelledby="manageDataDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li>
 								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
@@ -193,7 +193,7 @@
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="curatonDropdown">Curation</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li>
 								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
@@ -233,7 +233,7 @@
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" id="transactionsDropdown" href="##">Transactions</a>
 						<ul class="dropdown-menu border-0 shadow"  aria-labelledby="transactionsDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li>
 								<div>
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
@@ -260,7 +260,7 @@
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
 					<ul class="dropdown-menu border-0 shadow">
-						<li class="d-md-flex align-items-start justify-content-start">
+						<li>
 							<div>
 								<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
@@ -280,7 +280,7 @@
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
 						<ul class="dropdown-menu border-0 shadow">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
@@ -330,7 +330,7 @@
 					<!--- main menu item account, for logged in users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
 					<ul class="dropdown-menu border-0 shadow">
-						<li class="d-md-flex align-items-start justify-content-start">
+						<li>
 							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
 								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
@@ -344,7 +344,7 @@
 				<!--- main menu item help --->
 				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
 				<ul class="dropdown-menu border-0 shadow">
-					<li class="d-md-flex align-items-start justify-content-start">
+					<li>
 						<div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<!--- show internal MCZ wiki link only to users with role coldfusion_user --->
