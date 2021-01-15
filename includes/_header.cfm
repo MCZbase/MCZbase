@@ -65,7 +65,7 @@
 <!---	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">--->
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-		<ul class="sf-menu">
+		<ul  class="navbar-nav nav-fill mr-auto">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
@@ -97,7 +97,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item data entry --->
 						<a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow">
 							<li class="d-md-flex align-items-start justify-content-start">
 							<div style="float:left; width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
@@ -131,7 +131,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div style="float:left; width: 33.2%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
@@ -349,7 +349,7 @@
 		<div id="headerLinks">
 			<!--- login/logout section of menu bar --->
 			<cfif len(#session.username#) gt 0>
-				<ul>
+				<ul  class="navbar-nav nav-fill mr-auto">
 					<li><a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a></li>
 					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
 						<li><span>&nbsp;&nbsp;(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)&nbsp;</span></li>
@@ -368,7 +368,7 @@
 				<form name="logIn" method="post" action="/login.cfm">
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="gotopage" value="#gtp#">
-					<ul>
+					<ul  class="navbar-nav nav-fill mr-auto">
 						<li><span>Username:</span></li>
 						<li>
 							<input type="text" name="username" title="Username" size="14"
