@@ -107,7 +107,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status">Status</label>
-								<select name="status" id="status" class="reqdClr data-entry-select" required >
+								<select name="accn_status" id="status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctAccnStatus">
 											<cfif #ctAccnStatus.accn_status# is "in process">
 												<cfset selected = "selected='selected'">
