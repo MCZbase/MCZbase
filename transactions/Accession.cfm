@@ -89,7 +89,7 @@ limitations under the License.
 			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
 				<section class="col-12 col-sm-8 border bg-white pt-3" id="newAccnFormSection" aria-labeledby="newAccnFormSectionLabel">
-					<form name="newloan" id="newLoan" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
+					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-3">
@@ -121,6 +121,7 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="accn_type">Accession Type</label>
 								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
+									<option value=""></option>
 									<cfloop query="ctAccnType">
 											<option value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
 									</cfloop>
@@ -255,8 +256,8 @@ limitations under the License.
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
-								<input type="button" value="Create Loan" class="btn btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newLoan')[0])) { submit();  } ">
+								<input type="button" value="Create Accession" class="btn btn-xs btn-primary"
+									onClick="if (checkFormValidity($('##newAccession')[0])) { submit();  } ">
 							</div>
 						</div>
 					</form>
@@ -1123,7 +1124,7 @@ limitations under the License.
 					)
 			</cfquery>
 			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
-				<cfquery name="for_use_by" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1134,7 +1135,7 @@ limitations under the License.
 						'for use by')
 				</cfquery>
 			</cfif>
-			<cfquery name="newLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_recFromAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
@@ -1145,7 +1146,7 @@ limitations under the License.
 					'received from')
 			</cfquery>
 			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
-				<cfquery name="recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1157,7 +1158,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("inhouse_contact_agent_id") and len(inhouse_contact_agent_id) gt 0>
-				<cfquery name="inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_inhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
@@ -1169,7 +1170,7 @@ limitations under the License.
 				</cfquery>
 			</cfif>
 			<cfif isdefined("additional_incontact_agent_id") and len(additional_incontact_agent_id) gt 0>
-				<cfquery name="addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfquery name="q_addinhousecontact" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
 						agent_id,
