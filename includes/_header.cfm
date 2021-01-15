@@ -63,7 +63,7 @@
 	</div><!--- end headerContent div --->
 <nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 <!---	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">--->
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
