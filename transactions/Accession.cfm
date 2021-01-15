@@ -437,8 +437,9 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
-								<input type="text" name="initiating_date" id="initiating_date"
+								<label for="date_entered" class="data-entry-label">Date Entered</label>
+								<input type="text" name="date_entered" id="initiating_date" 
+									disabled="true"
 									value="#dateformat(accessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
 							</div>
 						</div>
@@ -1052,24 +1053,32 @@ limitations under the License.
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "makeAccn">
 	<cfoutput>
-		<cfif
-			len(collection_id) is 0 OR
-			len(accn_number) is 0 OR
-			len(accn_status) is 0 OR
-			len(rec_date) is 0 OR
-			len(nature_of_material) is 0 OR
-			len(accn_type) is 0 OR
-			len(received_agent_id) is 0
-		>
-			<br>
-			One or more required fields are missing.<br>
-			You must fill in Collection, Accn Number, Status, Date Received, Nature of Material, Received From, and Accn Type. <br>
-			Use your browser's back button to fix the problem and try again.
-			<cfabort>
+		<cfif not isDefined("date_entered") OR len(date_entered) is 0 >
+			<cfset date_entered = dateformat(now(),"yyyy-mm-dd") >
 		</cfif>
-		<cfif not isDefined("ent_date") OR len(ent_date) is 0>
-		<cfelse>
-			<cfset initiating_date = ent_date>
+		<cfif
+			( 
+				not isDefined("collection_id") is 0 OR 
+				not isDefined("accn_number") is 0 OR
+				not isDefined("accn_status") is 0 OR
+				not isDefined("rec_date") is 0 OR
+				not isDefined("nature_of_material") is 0 OR
+				not isDefined("accn_type") is 0 OR
+				not isDefined("received_agent_id") is 0
+			) OR (
+				len(collection_id) is 0 OR 
+				len(accn_number) is 0 OR
+				len(accn_status) is 0 OR
+				len(rec_date) is 0 OR
+				len(nature_of_material) is 0 OR
+				len(accn_type) is 0 OR
+				len(received_agent_id) is 0
+			)
+		>
+			<h1 class="h2">One or more required fields are missing.</h1>
+			<p>You must fill in Collection, Accn Number, Status, Date Received, Nature of Material, Received From, and Accn Type.</p>
+			<p>Use your browser's back button to fix the problem and try again.</p>
+			<cfabort>
 		</cfif>
 		<cftransaction>
 			<cfquery name="obtainTransNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="obtainTransNumber_result">
@@ -1091,7 +1100,7 @@ limitations under the License.
 					</cfif>)
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#initiating_date#">,
+					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#date_entered#">,
 					0,
 					'loan',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
