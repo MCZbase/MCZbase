@@ -76,8 +76,7 @@ limitations under the License.
 	<script language="javascript" type="text/javascript">
 		// setup date pickers
 		jQuery(document).ready(function() {
-			$("##rec_date").datepicker({ dateFormat: 'yy-mm-dd'});
-			$("##closed_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -202,8 +201,8 @@ limitations under the License.
 								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 form-control data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="date_received">Date Received</label>
-								<input type="text" name="rec_date" id="date_received" 
+								<label for="received_date">Date Received</label>
+								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 form-control data-entry-input">
@@ -455,9 +454,9 @@ limitations under the License.
 								</span>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="date_received" class="data-entry-label">Date Received</label>
-								<input type="text" name="date_received" id="date_received" 
-									value="#dateformat(accessionDetails.date_received,"yyyy-mm-dd")#" class="data-entry-input" >
+								<label for="received_date" class="data-entry-label">Date Received</label>
+								<input type="text" name="received_date" id="received_date" 
+									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="trans_date" class="data-entry-label">Date Entered</label>
@@ -1014,7 +1013,7 @@ limitations under the License.
 				not isDefined("collection_id") OR 
 				not isDefined("accn_number") OR
 				not isDefined("accn_status") OR
-				not isDefined("rec_date") OR
+				not isDefined("received_date") OR
 				not isDefined("nature_of_material")  OR
 				not isDefined("accn_type") OR
 				not isDefined("received_agent_id") 
@@ -1022,7 +1021,7 @@ limitations under the License.
 				len(collection_id) is 0 OR 
 				len(accn_number) is 0 OR
 				len(accn_status) is 0 OR
-				len(rec_date) is 0 OR
+				len(received_date) is 0 OR
 				len(nature_of_material) is 0 OR
 				len(accn_type) is 0 OR
 				len(received_agent_id) is 0
@@ -1076,7 +1075,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>
-					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(rec_Date,"yyyy-mm-dd")#'>
+					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_status#'>
 					<cfif len(estimated_count) gt 0>
 						, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
