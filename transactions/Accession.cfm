@@ -686,12 +686,12 @@ limitations under the License.
 								<script>
 									// callback for ajax methods to reload from dialog
 									function reloadTransMedia() { 
-										loadTransactionFormMedia(#transaction_id#,"loan");
+										loadTransactionFormMedia(#transaction_id#,"accn");
 										if ($("##addMediaDlg_#transaction_id#").hasClass('ui-dialog-content')) {
 											$('##addMediaDlg_#transaction_id#').html('').dialog('destroy');
 										}
 									};
-									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"loan"));
+									$( document ).ready(loadTransactionFormMedia(#transaction_id#,"accn"));
 								</script>
 							</div> 
 						</section>
