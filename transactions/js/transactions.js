@@ -310,9 +310,37 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 	};
 };
 
+/* Update the content of a div containing a count of the items in an an accession which have been cataloged.
+ * @param transactionId the transaction_id of the Accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
 function updateAccnItemCount(transactionId,targetDiv) {
-	alert("Not yet implemented");
+	jQuery.ajax(
+	{
+		dataType: "json",
+		url: "/transactions/component/functions.cfc",
+		data: { 
+			method : "getAccnItemCounts",
+			transaction_id : transactionId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		error: function (jqXHR, status, message) {
+			messageDialog("Error updating item count: " + status + " " + jqXHR.responseText ,'Error: '+ status);
+		},
+		success: function (result) {
+			if (result.DATA.STATUS[0]==1) {
+				var message  = "There are " + result.DATA.PARTCOUNT[0];
+				message += " parts from " + result.DATA.CATITEMCOUNT[0];
+				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types cataloged in this accession."
+				$('#' + targetDiv).html(message);
+			}
+		}
+	},
+	)
 };
+
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).

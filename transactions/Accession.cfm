@@ -500,13 +500,15 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12 col-xl-6">
+							<div class="col-12">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(accessionDetails.nature_of_material)#</textarea>
 							</div>
-							<div class="col-12 col-xl-6">
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
@@ -585,9 +587,8 @@ limitations under the License.
 						<!--- TODO: Impmlement. --->
 						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
-						<!--- TODO: Impmlement. --->
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+							onClick="window.open('/SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
 						<!--- TODO: Impmlement. --->
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateAccnItemCount('#transaction_id#','accnItemCountDiv'); ">
