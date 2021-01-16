@@ -2151,6 +2151,7 @@ limitations under the License.
 	<cfargument name="transaction_type" type="string" required="no">
 
 	<cfif isDefined("transaction_type") AND len(transaction_type) GT 0 >
+		<cfif transaction_type EQ 'accession'><cfset transaction_type = 'accn'></cfif>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct(cttrans_agent_role.trans_agent_role) 
 			from cttrans_agent_role  
@@ -2628,7 +2629,7 @@ limitations under the License.
 						</div>
 						<div class="col-12 mt-0" id="transactionAgentsTable">
 							<h2 class="h4 pl-3" tabindex="0">#transLabel# Agents 
-								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#'); handleChange();" class="col-5"> Add Agent</button>		
+								<button type="button" class="btn btn-secondary btn-xs ui-widget ml-2 ui-corner-all" id="button_add_trans_agent" onclick=" addTransAgentToForm('','','','#containing_form_id#','#transaction#'); handleChange();" class="col-5"> Add Agent</button>		
 		
 							</h2>		  
 							<cfset i=1>
@@ -2699,7 +2700,7 @@ limitations under the License.
 				<script>
 					function cloneAgentOnTrans(agent_id,agent_name,current_role) { 
 						// add trans_agent record
-						addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#');
+						addTransAgentToForm(agent_id,agent_name,current_role,'#containing_form_id#','#transaction#');
 						// trigger save needed
 						handleChange();
 					}

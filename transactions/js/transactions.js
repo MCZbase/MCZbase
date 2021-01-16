@@ -722,7 +722,7 @@ function opencreatepermitdialog(dialogid, related_label, related_id, relation_ty
  * Assumes the presence of an input numAgents holding a count of the number of agents in the transaction.
  * Assumes the presence of an html table with an id transactionAgentsTable, to which the new agent line is added as the last row.
  */
-function addTransAgentToForm (id,name,role,formid) {
+function addTransAgentToForm (id,name,role,formid,transaction_type) {
 	if (typeof id == "undefined") {
 		id = "";
 	 }
@@ -735,6 +735,7 @@ function addTransAgentToForm (id,name,role,formid) {
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getTrans_agent_role",
+			transaction_type : transaction_type,
 			returnformat : "json",
 			queryformat : 'column'
 		},
