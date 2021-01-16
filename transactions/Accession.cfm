@@ -455,8 +455,8 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="received_date" class="data-entry-label">Date Received</label>
-								<input type="text" name="received_date" id="received_date" 
-									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="data-entry-input" >
+								<input type="text" name="received_date" id="received_date" required
+									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Date Entered</span>
@@ -500,14 +500,12 @@ limitations under the License.
 							</script>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12">
+							<div class="col-12 col-xl-6">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(accessionDetails.nature_of_material)#</textarea>
 							</div>
-						</div>
-						<div class="form-row mb-1">
 							<div class="col-12 col-xl-6">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
@@ -524,9 +522,9 @@ limitations under the License.
 								$('textarea.autogrow').keyup();
 							});
 						</script> 
-<!--- TODO: Rework from here. --->
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
+<!--- TODO: Rework from here. --->
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkFormValidity($('##editAccnForm')[0])) { saveEdits();  } " 
 									id="submitButton" >
