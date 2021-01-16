@@ -2148,14 +2148,63 @@ limitations under the License.
 <!------------------------------------------------------->
 <cffunction name="getTrans_agent_role" access="remote">
 	<!---  obtain the list of transaction agent roles, used to populate agent role picklist for new agent rows in edit transaction forms --->
-	<!---  TODO: Add ability to restrict roles by transaction type --->
 	<cfargument name="transaction_type" type="string" required="no">
-	<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
+
+	<cfif isDefined("transaction_type") AND len(transaction_type) GT 0 >
+		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct(cttrans_agent_role.trans_agent_role) 
+			from cttrans_agent_role  
+				left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+			where 
+				trans_agent_role_allowed.transaction_type = <cfqueryparam cf_sql_type="CF_SQL_VARCHAR" value="#transaction_type#">
+			order by cttrans_agent_role.trans_agent_role
 	</cfquery>
+	<cfelse>
+		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
+		</cfquery>
+	</cfif>
 	<cfreturn k>
 </cffunction>
 
+<!------------------------------------------------------->
+<cffunction name="saveAccn" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfset data = ArrayNew(1)>
+	<cftransaction>
+		<cftry>
+			<cfthrow message="saveAccn not yet implemented">
+			<!--- TODO: Implement --->
+
+			<cfset row = StructNew()>
+			<cfset row["status"] = "saved">
+			<cfset row["id"] = "#transaction_id#">
+			<cfset data[1] = row>
+			<cftransaction action="commit">
+		<cfcatch>
+			<cftransaction action="rollback">
+			<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+			<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+			<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+			<cfabort>
+		</cfcatch>
+		</cftry>
+	</cftransaction>
+	<cfreturn #serializeJSON(data)#>
+</cffunction>
 
 <!------------------------------------------------------->
 <cffunction name="saveLoan" access="remote" returntype="any" returnformat="json">
