@@ -535,7 +535,7 @@ limitations under the License.
 									class="btn btn-xs btn-info mr-2" value="Print..."
 									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'AccnPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
-								<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
+								<input type="button" value="Delete Accession" class="btn btn-xs btn-danger float-right"
 									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
 							</div>
 						</div>
@@ -600,50 +600,48 @@ limitations under the License.
 						<script>
 							$(document).ready( updateAccnItemCount('#transaction_id#','accnItemCountDiv') );
 						</script>
-						<cfif accessionDetails.loan_type EQ 'consumable'>
-							<h2 class="h3">Disposition of material in loan:</h2>
-							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-								from accn
-									left join cataloged_item on accn.transaction_id = cataloged_item_item.accn_id
-									left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-									left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
-									left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-								where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-									and coll_obj_disposition is not null
-								group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-							</cfquery>
-							<cfif getDispositions.RecordCount EQ 0 >
-								<h4>There are no attached collection objects.</h4>
-							<cfelse>
-								<table class="table table-responsive">
-									<thead class="thead-light">
+						<h2 class="h3">Disposition of material in this Accession:</h2>
+						<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+							from accn
+								left join cataloged_item on accn.transaction_id = cataloged_item_item.accn_id
+								left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+								left join deacc_item on cataloged_item.collection_object_id = deacc_item.collection_object_id
+								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+							where accn.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
+								and coll_obj_disposition is not null
+							group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+						</cfquery>
+						<cfif getDispositions.RecordCount EQ 0 >
+							<h4>There are no attached collection objects.</h4>
+						<cfelse>
+							<table class="table table-responsive">
+								<thead class="thead-light">
+									<tr>
+										<th>Collection</th>
+										<th>Cataloged Items</th>
+										<th>Disposition</th>
+										<th>Deaccession</th>
+									</tr>
+								</thead>
+								<tbody>
+									<cfloop query="getDispositions">
 										<tr>
-											<th>Collection</th>
-											<th>Cataloged Items</th>
-											<th>Disposition</th>
-											<th>Deaccession</th>
+											<cfif len(trim(getDispositions.deacc_number)) GT 0>
+												<td>#collection_cde#</td>
+												<td>#pcount#</td>
+												<td>#coll_obj_disposition#</td>
+												<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+											<cfelse>
+												<td>#collection_cde#</td>
+												<td>#pcount#</td>
+												<td>#coll_obj_disposition#</td>
+												<td>Not in a Deaccession</td>
+											</cfif>
 										</tr>
-									</thead>
-									<tbody>
-										<cfloop query="getDispositions">
-											<tr>
-												<cfif len(trim(getDispositions.deacc_number)) GT 0>
-													<td>#collection_cde#</td>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-												<cfelse>
-													<td>#collection_cde#</td>
-													<td>#pcount#</td>
-													<td>#coll_obj_disposition#</td>
-													<td>Not in a Deaccession</td>
-												</cfif>
-											</tr>
-										</cfloop>
-									</tbody>
-								</table>
-							</cfif>
+									</cfloop>
+								</tbody>
+							</table>
 						</cfif>
 					</div>
 				</section>
@@ -653,7 +651,8 @@ limitations under the License.
 							<div class="col-12">
 								<h2 class="h3">
 									Media documenting this Accession
-									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</span>
+<!--- TODO: Rework text --->
+									<span class="mt-1 smaller d-block">Include correspondence, specimen lists, etc. here.  Attach deed of gift, collecting permits, etc., as permissions and rights documents, not here.</span>
 								</h2>
 								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
@@ -674,10 +673,10 @@ limitations under the License.
 								</cfquery>
 								<span>
 									<cfset relation="documents loan">
-									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Loan: #accessionDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
+									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accessionDetails.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
 									&nbsp; 
 									<span id='addMedia_#transaction_id#'>
-										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Loan: #accessionDetails.loan_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
+										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Accession: #accessionDetails.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
 									&nbsp; 
 									</span> 
 								</span>
@@ -744,16 +743,16 @@ limitations under the License.
 						<cfinclude template="/transactions/shipmentDialog.cfm">
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
-								<h2 class="h3">Countries of Origin of items in this loan</h2>
+								<h2 class="h3">Countries of Origin of cataloged items in this Accession</h2>
 								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select count(*) as ct, sovereign_nation 
-									from loan_item 
-										left join specimen_part on loan_item.collection_object_id = specimen_part.collection_object_id
+									from cataloged_item 
+										left join specimen_part on cataloged_item.collection_object_id = specimen_part.collection_object_id
 										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
 										left join locality on collecting_event.locality_id = locality.locality_id
 									where
-										loan_item.transaction_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+										cataloged_item.accn_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
 									group by sovereign_nation
 								</cfquery>
 								<cfset sep="">
@@ -770,16 +769,17 @@ limitations under the License.
 								</cfif>
 							</div>
 						</section>
+						<!--- TODO: Not relevant, rework to list loans and deaccessions? 
 						<div class="row mx-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
 								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
 									<div>
 										<h2 class="h3 pl-2">Accessions of material in this loan</h2>
-										<!--- List Accessions for collection objects included in the Loan --->
+										<!--- List Accessions for collection objects included in the Accession --->
 										<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
-											from loan l
-												left join loan_item li on l.transaction_id = li.transaction_id
+											from accession l
+												left join cataloged_item li on l.transaction_id = li.transaction_id
 												left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 												left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
 												left join accn on ci.accn_id = accn.transaction_id
@@ -906,6 +906,7 @@ limitations under the License.
 								</div>
 							</section>
 						</div>
+						---->
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
@@ -950,6 +951,11 @@ limitations under the License.
 <cfif Action is "deleAccn">
 	<cftry>
 		<cftransaction>
+			<cfquery name="getAccnNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select accn_number from accn 
+				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+			</cfquery>
+			<cfset deleteTarget = getAccnNum.accn_number>
 			<cfquery name="killAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				delete from accn 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -964,7 +970,7 @@ limitations under the License.
 			</cfquery>
 		</cftransaction>
 		<section class="container">
-			<h1 class="h2">Loan deleted.....</h1>
+			<h1 class="h2">Accession #deleteTarget# deleted.....</h1>
 			<ul>
 				<li><a href="/Transactions.cfm?action=findAccessions">Search for Accessions</a>.</li>
 				<li><a href="/transactions/Accession.cfm?action=new">Create a New Accession</a>.</li>
