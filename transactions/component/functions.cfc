@@ -2151,7 +2151,7 @@ limitations under the License.
 	<cfargument name="transaction_type" type="string" required="no">
 
 	<cfif isDefined("transaction_type") AND len(transaction_type) GT 0 >
-		<cfif transaction_type EQ 'accession'><cfset transaction_type = 'accn'></cfif>
+		<cfif transaction_type EQ 'accn'><cfset transaction_type = 'accession'></cfif>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct(cttrans_agent_role.trans_agent_role) 
 			from cttrans_agent_role  
