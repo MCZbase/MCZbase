@@ -532,7 +532,7 @@ limitations under the License.
 									id="submitButton" >
 								<button type="button" aria-label="Print Accession Paperwork" id="accnPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
-									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'AccnPrintDialog');">Print...</button>
+									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'accnPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Accession" class="btn btn-xs btn-danger float-right"
 									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
