@@ -2151,7 +2151,12 @@ limitations under the License.
 	<cfargument name="transaction_type" type="string" required="no">
 
 	<cfif isDefined("transaction_type") AND len(transaction_type) GT 0 >
-		<cfif transaction_type EQ 'accn'><cfset transaction_type = 'accession'></cfif>
+		<cfif transaction_type EQ 'accn'><cfset transaction_type = 'Accn'></cfif>
+		<cfif transaction_type EQ 'accession'><cfset transaction_type = 'Accn'></cfif>
+		<cfif transaction_type EQ 'borrow'><cfset transaction_type = 'Borrow'></cfif>
+		<cfif transaction_type EQ 'deacc'><cfset transaction_type = 'Deaccn'></cfif>
+		<cfif transaction_type EQ 'deaccession'><cfset transaction_type = 'Deaccn'></cfif>
+		<cfif transaction_type EQ 'loan'><cfset transaction_type = 'Loan'></cfif>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct(cttrans_agent_role.trans_agent_role) 
 			from cttrans_agent_role  
@@ -2159,7 +2164,10 @@ limitations under the License.
 			where 
 				trans_agent_role_allowed.transaction_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#transaction_type#">
 			order by cttrans_agent_role.trans_agent_role
-	</cfquery>
+		</cfquery>
+		<cfif k.recordcount EQ 0>
+			<cfthrow message="getTrans_agent_role invoked with unknown transaction type (must match trans_agent_role_allowed.transaction_type values).">
+		</cfif>
 	<cfelse>
 		<cfquery name="k" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select trans_agent_role from cttrans_agent_role where trans_agent_role != 'entered by' order by trans_agent_role
