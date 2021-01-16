@@ -391,7 +391,7 @@ limitations under the License.
 					<strong>#accessionDetails.collection# #accessionDetails.accn_number#</strong> 
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
-				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Loan" >
+				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Accession" >
 					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post">
 						<input type="hidden" name="method" value="saveAccn"><!--- used in normal ajax save, which uses the form fields to post to transactions/component/functions.cfc --->
 						<input id="action" type="hidden" name="action" value="edit"><!--- reused by delete accession, not used in normal save --->
@@ -589,7 +589,6 @@ limitations under the License.
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
-						<!--- TODO: Impmlement. --->
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateAccnItemCount('#transaction_id#','accnItemCountDiv'); ">
 					</div>
@@ -598,6 +597,7 @@ limitations under the License.
 						<script>
 							$(document).ready( updateAccnItemCount('#transaction_id#','accnItemCountDiv') );
 						</script>
+						<!--- TODO: ajax update of this block, wrap into updateAccnItemCount  --->
 						<h2 class="h3">Disposition of material in this Accession:</h2>
 						<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
@@ -666,7 +666,7 @@ limitations under the License.
 									where
 										media.media_id=media_labels.media_id (+) and
 										media.media_id=media_relations.media_id and
-										media_relationship like '% loan' and
+										media_relationship like '% accn' and
 										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<span>
@@ -908,8 +908,8 @@ limitations under the License.
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
-									Projects associated with this loan
-									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Projects_and_Permits')" aria-label="help link for projects"></i>
+									Projects associated with this accession
+									<i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Project')" aria-label="help link for projects"></i>
 								</h2>
 								<div id="projectsDiv" class="mx-3"></div>
 								<script>
@@ -921,10 +921,10 @@ limitations under the License.
 									} 
 								</script>
 								<div class="col-12 my-2">
-									<button type="button" aria-label="Link this loan to an existing Project" id="linkProjectDialogLauncher"
+									<button type="button" aria-label="Link this accession to an existing Project" id="linkProjectDialogLauncher"
 											class="btn btn-xs btn-secondary mr-2" value="Link to Project"
 											onClick=" openTransProjectLinkDialog(#transaction_id#, 'projectsLinkDialog','projectsDiv');">Link To Project</button>
-									<button type="button" aria-label="Create a new Project linked to this loan" id="newProjectDialogLauncher"
+									<button type="button" aria-label="Create a new Project linked to this accession" id="newProjectDialogLauncher"
 											class="btn btn-xs btn-secondary" value="New Project"
 											onClick=" openTransProjectCreateDialog(#transaction_id#, 'projectsAddDialog','projectsDiv');">New Project</button>
 								</div>
@@ -981,7 +981,7 @@ limitations under the License.
 				<div class="alert alert-danger" role="alert">
 					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 					<h1 class="h2">DELETE FAILED</h1>
-					<p>You cannot delete an active accession. This loan probably has specimens or
+					<p>You cannot delete an active accession. This accession probably has specimens or
 						shipments attached. Use your back button.</p>
 					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 				</div>
@@ -991,15 +991,6 @@ limitations under the License.
 		</section>
 	</cfcatch>
 	</cftry>
-</cfif>
-<!-------------------------------------------------------------------------------------------------->
-<cfif Action is "delePermit">
-	<cfquery name="killPerm" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		DELETE FROM permit_trans 
-		where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
-				AND permit_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#permit_id#">
-	</cfquery>
-	<cflocation url="/transactions/Loan.cfm?Action=editLoan&transaction_id=#transaction_id#">
 </cfif>
 <!-------------------------------------------------------------------------------------------------->
 <cfif action is "makeAccn">
