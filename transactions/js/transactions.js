@@ -1072,7 +1072,7 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	if (transaction_type == "Loan") { 
 		method = "getLoanPrintListDialogContent";
 	}
-	if (transaction_type == "Loan") { 
+	if (transaction_type == "Accession") { 
 		method = "getAccnPrintListDialogContent";
 	}
 	if (method=="") { 
