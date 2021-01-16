@@ -1080,6 +1080,7 @@ limitations under the License.
 					)
 			</cfquery>
 			<cfif isdefined("for_use_by") and len(for_use_by) gt 0>
+				<!--- support for radio button passing agent id for HMNH agents --->
 				<cfquery name="q_forUseBy" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					INSERT INTO trans_agent (
 						transaction_id,
@@ -1135,20 +1136,6 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_incontact_agent_id#">,
 						'additional in-house contact')
-				</cfquery>
-			</cfif>
-			<!--- support for radio button passing agent id for HMNH agents --->
-			<cfif len(#for_use_by#) gt 0>
-				<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
-					insert into trans_agent (
-						transaction_id,
-						agent_id,
-						trans_agent_role
-					) values (
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#for_use_by#'>,
-						'for_use_by'
-					)
 				</cfquery>
 			</cfif>
 		</cftransaction>
