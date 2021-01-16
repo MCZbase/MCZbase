@@ -672,7 +672,7 @@ limitations under the License.
 										related_primary_key=<cfqueryparam value="#transaction_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
 								<span>
-									<cfset relation="documents loan">
+									<cfset relation="documents accn">
 									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Accession: #accessionDetails.accn_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
 									&nbsp; 
 									<span id='addMedia_#transaction_id#'>
