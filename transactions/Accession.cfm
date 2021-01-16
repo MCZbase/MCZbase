@@ -390,7 +390,7 @@ limitations under the License.
 			<cftry>
 				<h1 class="h2 pb-0 ml-3">Edit Accession
 					<strong>#accessionDetails.collection# #accessionDetails.accn_number#</strong> 
-					<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
+					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Loan" >
 					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Loan.cfm" method="post">

@@ -2488,6 +2488,8 @@ limitations under the License.
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
 					<!--- TODO: Complete implementation of this block (check for print required roles, set okToPrint/Message) --->
+					<cfset okToPrint = false>
+					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
 				</cfcase>
 				<cfdefaultcase>
 					<cfset transLabel = transaction>
