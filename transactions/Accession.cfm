@@ -459,12 +459,12 @@ limitations under the License.
 									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="trans_date" class="data-entry-label">Date Entered</label>
+								<span class="data-entry-label">Date Entered</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
 								</div>
 							</div>
-							<div class="col-12 col-md-3" tabindex="0">
+							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Entered By</span>
 								<div class="col-12 bg-light border non-field-text">
 									<span id="entered_by">#encodeForHTML(accessionDetails.enteredby)#</span>
