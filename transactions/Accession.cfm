@@ -363,7 +363,6 @@ limitations under the License.
 					trans_agent_role,
 					agent_name
 			</cfquery>
-<!--- TODO: Rework from here. --->
 			<script>
 				$(function() {
 					// on page load, hide the create project from accn fields
@@ -394,7 +393,7 @@ limitations under the License.
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Edit_a_Loan')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Loan" >
-					<form class="col-12" name="editLoanForm" id="editLoanForm" action="/transactions/Loan.cfm" method="post">
+					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Loan.cfm" method="post">
 						<input type="hidden" name="method" value="saveLoan">
 						<input id="action" type="hidden" name="action" value="editLoan">
 						<input type="hidden" name="transaction_id" value="#accessionDetails.transaction_id#">
@@ -419,22 +418,45 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
-								<input type="text" name="loan_number" id="loan_number" value="#accessionDetails.loan_number#" class="reqdClr data-entry-input" 
-									required pattern="#LOANNUMBERPATTERN#" >
+								<label for="accn_number" class="data-entry-label">Accession Number (nnnnnn)</label>
+								<input type="text" name="accn_number" id="accn_number" value="#encodeForHTML(accessionDetails.accn_number)#" class="reqdClr data-entry-input" 
+									required pattern="#ACCNNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="loan_type" class="data-entry-label">Loan Type</label>
-								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
-									<cfloop query="ctLoanType">
-										<cfif ctLoanType.loan_type NEQ "transfer" OR accessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctLoanType.loan_type is accessionDetails.loan_type> selected="selected" </cfif>
-												value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-										<cfelseif accessionDetails.loan_type EQ "transfer" AND accessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctLoanType.loan_type is accessionDetails.loan_type> selected="selected" </cfif> value="" ></option>
+								<label for="accn_type" class="data-entry-label">Accession Type</label>
+								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
+									<cfloop query="ctAccnType">
+										<cfif ctAccnType.accn_type NEQ "transfer" OR accessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+											<option <cfif ctAccnType.accn_type is accessionDetails.accn_type> selected="selected" </cfif>
+												value="#ctAccnType.accn_type#">#ctAccnType.accn_type#</option>
+										<cfelseif accessionDetails.accn_type EQ "transfer" AND accessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+											<option <cfif ctAccnType.accn_type is accessionDetails.accn_type> selected="selected" </cfif> value="" ></option>
 										</cfif>
 									</cfloop>
 								</select>
+							</div>
+							<div class="col-12 col-md-3">
+								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
+								<input type="text" name="estimated_count" id="estimated_count" 
+									disabled="true"
+									value="#encodeForHTML(accessionDetails.estimated_count)#" class="reqdClr data-entry-input" required >
+							</div>
+						</div>
+						<div class="form-row mb-1">
+							<div class="col-12 col-md-3">
+								<label for="accn_status" class="data-entry-label">Accn Status</label>
+								<span>
+									<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
+										<!---  Normal transaction users are only allowed certain accn status state transitions, ---> 
+										<!--- users with elevated privileges for accns are allowed to edit accns to place them into any state.  --->
+										<cfloop query="ctAccnStatus">
+											<cfif isAllowedAccnStateChange(accessionDetails.accn_status,ctAccnStatus.accn_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
+												<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
+													value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
+											</cfif>
+										</cfloop>
+									</select>
+								</span>
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="date_entered" class="data-entry-label">Date Entered</label>
@@ -442,50 +464,24 @@ limitations under the License.
 									disabled="true"
 									value="#dateformat(accessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
 							</div>
-						</div>
-						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="loan_status" class="data-entry-label">Loan Status</label>
-								<span>
-									<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
-										<!---  Normal transaction users are only allowed certain loan status state transitions, ---> 
-										<!--- users with elevated privileges for loans are allowed to edit loans to place them into any state.  --->
-										<cfloop query="ctLoanStatus">
-											<cfif isAllowedLoanStateChange(accessionDetails.loan_status,ctLoanStatus.loan_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
-												<option <cfif ctLoanStatus.loan_status is accessionDetails.loan_status> selected="selected" </cfif>
-													value="#ctLoanStatus.loan_status#">#ctLoanStatus.loan_status#</option>
-											</cfif>
-										</cfloop>
-									</select>
-								</span>
-							</div>
-							<div class="col-12 col-md-3">
-								<label for="return_due_date" class="data-entry-label">Due Date</label>
-								<input type="text" id="return_due_date" name="return_due_date" class="data-entry-input"
-									value="#dateformat(accessionDetails.return_due_date,'yyyy-mm-dd')#">
-							</div>
-							<div class="col-12 col-md-3" tabindex="0">
-								<span class="data-entry-label">Date Closed:</span>
-								<div class="col-12 bg-light border non-field-text">
-									<cfif accessionDetails.loan_status EQ 'closed' and len(accessionDetails.closed_date) GT 0>
-									#accessionDetails.closed_date#
-									<cfelse>
-										--
-									</cfif>
-								</div>
+								<label for="trans_date" class="data-entry-label">Date Entered</label>
+								<input type="text" id="trans_date" name="trans_date" class="data-entry-input"
+									value="#dateformat(accessionDetails.trans_date,'yyyy-mm-dd')#">
 							</div>
 							<div class="col-12 col-md-3" tabindex="0">
 								<span class="data-entry-label">Entered By</span>
 								<div class="col-12 bg-light border non-field-text">
-									<span id="entered_by">#accessionDetails.enteredby#</span>
+									<span id="entered_by">#encodeForHTML(accessionDetails.enteredby)#</span>
 								</div>
 							</div>
 						</div>
-						<!--- Begin loan agents table: Load via ajax. --->
+<!--- TODO: Rework from here. --->
+						<!--- Begin transaction agents table: Load via ajax. --->
 						<div class="form-row my-1">
 							<script>
 								function reloadTransactionAgents() { 
-									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+									loadAgentTable("agentTableContainerDiv",#transaction_id#,"editAccnForm",handleChange);
 								}
 								$(document).ready(function() {
 									reloadTransactionAgents();
@@ -504,76 +500,25 @@ limitations under the License.
 								$(document).ready(function() { 
 									$('##agentTableContainerDiv').on('domChanged',function() {
 										console.log("dom change within agentTableContainerDiv");
-										monitorForChanges('editLoanForm',handleChange);
+										monitorForChanges('editAccnForm',handleChange);
 									});
 								});
 							</script>
 						</div>
-						<div class="form-row mb-1" id="insurance_section">
-							<div class="col-12 col-md-6">
-								<label for="insurance_value" class="data-entry-label">Insurance value</label>
-								<input type="text" name="insurance_value" id="insurance_value" value="#accessionDetails.insurance_value#" size="40" class="data-entry-input">
-							</div>
-							<div class="col-12 col-md-6">
-								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
-								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="#accessionDetails.insurance_maintained_by#" size="40" class="data-entry-input">
-							</div>
-						</div>
 						<div class="form-row mb-1">
 							<div class="col-12">
-								<!--- note, parentloan_section and subloan_section are turned on and off with javascript as loan type can change while editing --->
-								<span id="parentloan_section">This is a subloan of Exhibition-Master Loan:
-									<cfif parentLoan.RecordCount GT 0>
-										<cfloop query="parentLoan">
-											<a href="/transactions/Loan.cfm?action=editLoan&transaction_id=#parentLoan.transaction_id#">#parentLoan.loan_number#</a>
-										</cfloop>
-									<cfelse>
-										This exhibition subloan has not been linked to a master loan.
-									</cfif>
-								</span>
-							</div>
-							<div class="col-12 mt-2">
-								<span class="form-row" class="px-2" id="subloan_section">
-									<img src='/shared/images/indicator.gif'>
-									Loading subloans...
-								</span><!--- end subloan section ---> 
-								<script>
-									$(document).ready(function() { 
-										$('##agentTableDiv').on('domChanged',function() {
-											console.log("dom change within agentTableContainerDiv");
-											monitorForChanges('editLoanForm',handleChange);
-										});
-										loadSubLoans(#accessionDetails.transaction_id#);
-									});
-								</script>
-							</div>
-						</div>
-						<div class="form-row mb-1">
-							<div class="col-12 col-xl-6">
 								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="1" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
-									class="reqdClr autogrow data-entry-textarea" required >#accessionDetails.nature_of_material#</textarea>
-							</div>
-							<div class="col-12 col-xl-6">
-								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
-								<textarea name="loan_description" id="loan_description" rows="1"
-									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
-									class="autogrow data-entry-textarea">#accessionDetails.loan_description#</textarea>
+									class="reqdClr autogrow data-entry-textarea" required >#encodeForHtml(accessionDetails.nature_of_material)#</textarea>
 							</div>
 						</div>
 						<div class="form-row mb-1">
-							<div class="col-12 col-xl-6">
-								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
-								<textarea name="loan_instructions" id="loan_instructions" rows="1" 
-									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
-									class="autogrow data-entry-textarea">#accessionDetails.loan_instructions#</textarea>
-							</div>
 							<div class="col-12 col-xl-6">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" rows="1"
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
-									class="autogrow data-entry-textarea">#accessionDetails.trans_remarks#</textarea>
+									class="autogrow data-entry-textarea">#encodeForHTML(accessionDetails.trans_remarks)#</textarea>
 							</div>
 						</div>
 						<script>
@@ -588,20 +533,20 @@ limitations under the License.
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
-									onClick="if (checkFormValidity($('##editLoanForm')[0])) { saveEdits();  } " 
+									onClick="if (checkFormValidity($('##editAccnForm')[0])) { saveEdits();  } " 
 									id="submitButton" >
 								<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
 									onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
-									onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editLoanForm').submit(); } );">
+									onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editAccnForm').submit(); } );">
 							</div>
 						</div>
 						<div id="loanPrintDialog"></div>
 						<script>
 							$(document).ready(function() {
-								monitorForChanges('editLoanForm',handleChange);
+								monitorForChanges('editAccnForm',handleChange);
 							});
 							function saveEdits(){ 
 								$('##saveResultDiv').html('Saving....');
@@ -612,13 +557,13 @@ limitations under the License.
 									url : "/transactions/component/functions.cfc",
 									type : "post",
 									dataType : "json",
-									data : $('##editLoanForm').serialize(),
+									data : $('##editAccnForm').serialize(),
 									success : function (data) {
 										$('##saveResultDiv').html('Saved.');
 										$('##saveResultDiv').addClass('text-success');
 										$('##saveResultDiv').removeClass('text-danger');
 										$('##saveResultDiv').removeClass('text-warning');
-										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editLoanForm",handleChange);
+										loadAgentTable("agentTableContainerDiv",#transaction_id#,"editAccnForm",handleChange);
 									},
 									error: function(jqXHR,textStatus,error){
 										$('##saveResultDiv').html('Error.');
