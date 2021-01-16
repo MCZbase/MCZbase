@@ -1710,8 +1710,8 @@ limitations under the License.
 							deacc_item li
 						<cfelseif transaction EQ "borrow">
 							borrow_item li
-						<cfelse>
-							-- TODO: Accession not supported yet
+						<cfelseif transaction EQ "accn">
+							cataloged_item li
 						</cfif>
 						left join specimen_part sp on li.collection_object_id = sp.collection_object_id
 						left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
@@ -1719,7 +1719,12 @@ limitations under the License.
 						left join permit_trans on accn.transaction_id = permit_trans.transaction_id
 						left join permit p on permit_trans.permit_id = p.permit_id
 						left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
-					where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+					where 
+						<cfif transaction EQ "accn">
+							li.accn_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						<cfelse>
+							li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						</cfif>
 					union
 					select 
 						mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
