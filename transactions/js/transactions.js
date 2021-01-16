@@ -1072,6 +1072,9 @@ function openTransactionPrintDialog(transaction_id, transaction_type, dialogid) 
 	if (transaction_type == "Loan") { 
 		method = "getLoanPrintListDialogContent";
 	}
+	if (transaction_type == "Loan") { 
+		method = "getAccnPrintListDialogContent";
+	}
 	if (method=="") { 
 		messageDialog('No Implementation for print list dialog for transactions of type ' + transaction_type, 'Error: Method not Implemented');
 	} else { 

@@ -2334,6 +2334,31 @@ limitations under the License.
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 
+<!--- obtain an html block to populate a print list dialog for an accession --->
+<cffunction name="getAccnPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnPrintHtmlThread">
+		<cftry>
+			<cfoutput>
+				<h2 class="h2">Print Loan Paperwork</h2> 
+				<p>Links to available reports:</p>
+				<ul>
+					<li><a href="/Reports/report_printer.cfm?transaction_id=#transaction_id#&report=mcz_files_accn_header" target="_blank">Header Copy for MCZ Files</a></li>
+				</ul>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnPrintHtmlThread" />
+	<cfreturn getAccnPrintHtmlThread.output>
+</cffunction>
+
 <!--- obtain an html block to populate a print list dialog for a loan --->
 <cffunction name="getLoanPrintListDialogContent" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
@@ -2493,8 +2518,17 @@ limitations under the License.
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
 					<!--- TODO: Complete implementation of this block (check for print required roles, set okToPrint/Message) --->
-					<cfset okToPrint = false>
-					<cfset okToPrintMessage = 'Print Check Not yet Implemented for #transaction#'>
+					<!--- TODO: Change implementation of this block to use lookup against trans_agent_role_allowed.required_to_print instead of hard coded roles  --->
+					<cfquery name="receivedFrom" dbtype="query">
+						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received from'
+					</cfquery>
+					<cfif receivedFrom.c GT 0  >
+						<cfset okToPrint = true>
+						<cfset okToPrintMessage = "">
+					<cfelse>
+						<cfset okToPrint = false>
+						<cfset okToPrintMessage = 'An agent in the "recieved from" role is required to print accession paperwork. '>
+					</cfif>
 				</cfcase>
 				<cfdefaultcase>
 					<cfset transLabel = transaction>
