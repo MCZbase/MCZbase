@@ -1102,7 +1102,7 @@ limitations under the License.
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 					<cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#date_entered#">,
 					0,
-					'loan',
+					'accn',
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 					<cfif len(#trans_remarks#) gt 0>
