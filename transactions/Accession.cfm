@@ -604,7 +604,7 @@ limitations under the License.
 						<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 							from accn
-								left join cataloged_item on accn.transaction_id = cataloged_item_item.accn_id
+								left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
 								left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 								left join deacc_item on cataloged_item.collection_object_id = deacc_item.collection_object_id
 								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
