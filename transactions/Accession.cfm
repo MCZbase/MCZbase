@@ -393,9 +393,9 @@ limitations under the License.
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Loan" >
-					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Loan.cfm" method="post">
-						<input type="hidden" name="method" value="saveLoan">
-						<input id="action" type="hidden" name="action" value="editLoan">
+					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post">
+						<input type="hidden" name="method" value="saveAccn"><!--- used in normal ajax save, which uses the form fields to post to transactions/component/functions.cfc --->
+						<input id="action" type="hidden" name="action" value="edit"><!--- reused by delete accession, not used in normal save --->
 						<input type="hidden" name="transaction_id" value="#accessionDetails.transaction_id#">
 						<!--- function handleChange: action to take when an input has its value changed, binding to inputs below and on load of agent inputs in table --->
 						<script>
@@ -472,7 +472,6 @@ limitations under the License.
 								</div>
 							</div>
 						</div>
-<!--- TODO: Rework from here. --->
 						<!--- Begin transaction agents table: Load via ajax. --->
 						<div class="form-row my-1">
 							<script>
@@ -526,20 +525,21 @@ limitations under the License.
 								$('textarea.autogrow').keyup();
 							});
 						</script> 
+<!--- TODO: Rework from here. --->
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkFormValidity($('##editAccnForm')[0])) { saveEdits();  } " 
 									id="submitButton" >
-								<button type="button" aria-label="Print Loan Paperwork" id="loanPrintDialogLauncher"
+								<button type="button" aria-label="Print Accession Paperwork" id="accnPrintDialogLauncher"
 									class="btn btn-xs btn-info mr-2" value="Print..."
-									onClick=" openTransactionPrintDialog(#transaction_id#, 'Loan', 'loanPrintDialog');">Print...</button>
+									onClick=" openTransactionPrintDialog(#transaction_id#, 'Accession', 'AccnPrintDialog');">Print...</button>
 								<output id="saveResultDiv" class="text-danger">&nbsp;</output>	
 								<input type="button" value="Delete Loan" class="btn btn-xs btn-danger float-right"
-									onClick=" $('##action').val('editLoan'); confirmDialog('Delete this Loan?','Confirm Delete Loan', function() { $('##action').val('deleLoan'); $('##editAccnForm').submit(); } );">
+									onClick=" $('##action').val('edit'); confirmDialog('Delete this Accession?','Confirm Delete Accession', function() { $('##action').val('deleAccn'); $('##editAccnForm').submit(); } );">
 							</div>
 						</div>
-						<div id="loanPrintDialog"></div>
+						<div id="accnPrintDialog"></div>
 						<script>
 							$(document).ready(function() {
 								monitorForChanges('editAccnForm',handleChange);
@@ -581,34 +581,37 @@ limitations under the License.
 						</script>
 					</form>
 				</section>
-				<section name="loanItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this loan" tabindex="0">
+				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" tabindex="0">
 					<div class="col-12 pt-3 pb-1">
 						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+						<!--- TODO: Impmlement. --->
 						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
+						<!--- TODO: Impmlement. --->
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/a_loanItemReview.cfm?transaction_id=#transaction_id#');">
+						<!--- TODO: Impmlement. --->
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
-							onClick=" updateLoanItemCount('#transaction_id#','loanItemCountDiv'); ">
+							onClick=" updateAccnItemCount('#transaction_id#','accnItemCountDiv'); ">
 					</div>
 					<div class="col-12 pt-2 pb-3">
-						<div id="loanItemCountDiv" tabindex="0"></div>
+						<div id="accnItemCountDiv" tabindex="0"></div>
 						<script>
-							$(document).ready( updateLoanItemCount('#transaction_id#','loanItemCountDiv') );
+							$(document).ready( updateAccnItemCount('#transaction_id#','accnItemCountDiv') );
 						</script>
 						<cfif accessionDetails.loan_type EQ 'consumable'>
 							<h2 class="h3">Disposition of material in loan:</h2>
 							<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								select count(loan_item.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-								from loan 
-									left join loan_item on loan.transaction_id = loan_item.transaction_id
-									left join coll_object on loan_item.collection_object_id = coll_object.collection_object_id
+								select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+								from accn
+									left join cataloged_item on accn.transaction_id = cataloged_item_item.accn_id
+									left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
 									left join deacc_item on loan_item.collection_object_id = deacc_item.collection_object_id
 									left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
 								where loan.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
 									and coll_obj_disposition is not null
-								group by coll_obj_disposition, deacc_number, deacc_type, deacc_status
+								group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 							</cfquery>
 							<cfif getDispositions.RecordCount EQ 0 >
 								<h4>There are no attached collection objects.</h4>
@@ -616,7 +619,8 @@ limitations under the License.
 								<table class="table table-responsive">
 									<thead class="thead-light">
 										<tr>
-											<th>Parts</th>
+											<th>Collection</th>
+											<th>Cataloged Items</th>
 											<th>Disposition</th>
 											<th>Deaccession</th>
 										</tr>
@@ -625,10 +629,12 @@ limitations under the License.
 										<cfloop query="getDispositions">
 											<tr>
 												<cfif len(trim(getDispositions.deacc_number)) GT 0>
+													<td>#collection_cde#</td>
 													<td>#pcount#</td>
 													<td>#coll_obj_disposition#</td>
 													<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
 												<cfelse>
+													<td>#collection_cde#</td>
 													<td>#pcount#</td>
 													<td>#coll_obj_disposition#</td>
 													<td>Not in a Deaccession</td>
@@ -646,7 +652,7 @@ limitations under the License.
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
 								<h2 class="h3">
-									Media documenting this Loan 
+									Media documenting this Accession
 									<span class="mt-1 smaller d-block">Include copies of signed loan invoices and correspondence here.  Attach permits to shipments.</span>
 								</h2>
 								<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -941,11 +947,11 @@ limitations under the License.
 </cfif>
 
 <!-------------------------------------------------------------------------------------------------->
-<cfif Action is "deleLoan">
+<cfif Action is "deleAccn">
 	<cftry>
 		<cftransaction>
-			<cfquery name="killLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				delete from loan 
+			<cfquery name="killAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				delete from accn 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
 			<cfquery name="killTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -960,8 +966,8 @@ limitations under the License.
 		<section class="container">
 			<h1 class="h2">Loan deleted.....</h1>
 			<ul>
-				<li><a href="/Transactions.cfm?action=findLoans">Search for Loans</a>.</li>
-				<li><a href="/transactions/Loan.cfm?action=newLoan">Create a New Loan</a>.</li>
+				<li><a href="/Transactions.cfm?action=findAccessions">Search for Accessions</a>.</li>
+				<li><a href="/transactions/Accession.cfm?action=new">Create a New Accession</a>.</li>
 			</ul>
 		</section>
 	<cfcatch>
@@ -971,8 +977,8 @@ limitations under the License.
 				<div class="alert alert-danger" role="alert">
 					<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
 					<h1 class="h2">DELETE FAILED</h1>
-					<p>You cannot delete an active loan. This loan probably has specimens or
-						other transactions attached. Use your back button.</p>
+					<p>You cannot delete an active accession. This loan probably has specimens or
+						shipments attached. Use your back button.</p>
 					<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
 				</div>
 				</div>

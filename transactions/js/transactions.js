@@ -310,6 +310,9 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 	};
 };
 
+function updateAccnItemCount(transactionId,targetDiv) {
+	alert("Not yet implemented");
+};
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).
