@@ -321,7 +321,7 @@ limitations under the License.
 				select
 					trans.transaction_id,
 					trans.transaction_type,
-					trans_date,
+					trans_date dateEntered,
 					accn_number,
 					accn_type,
 					accn_status,
@@ -455,15 +455,15 @@ limitations under the License.
 								</span>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="date_entered" class="data-entry-label">Date Entered</label>
-								<input type="text" name="date_entered" id="initiating_date" 
-									disabled="true"
-									value="#dateformat(accessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" required >
+								<label for="date_received" class="data-entry-label">Date Received</label>
+								<input type="text" name="date_received" id="date_received" 
+									value="#dateformat(accessionDetails.date_received,"yyyy-mm-dd")#" class="data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="trans_date" class="data-entry-label">Date Entered</label>
-								<input type="text" id="trans_date" name="trans_date" class="data-entry-input"
-									value="#dateformat(accessionDetails.trans_date,'yyyy-mm-dd')#">
+								<div class="col-12 bg-light border non-field-text">
+									<span id="date_entered">#dateformat(accessionDetails.dateEntered,'yyyy-mm-dd')#</span>
+								</div>
 							</div>
 							<div class="col-12 col-md-3" tabindex="0">
 								<span class="data-entry-label">Entered By</span>
@@ -1043,7 +1043,7 @@ limitations under the License.
 			<cfquery name="newAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAccnTrans_result">
 				INSERT INTO trans (
 					TRANSACTION_ID,
-					TRANS_DATE,
+					TRANS_DATE, 
 					CORRESP_FG,
 					TRANSACTION_TYPE,
 					NATURE_OF_MATERIAL,
