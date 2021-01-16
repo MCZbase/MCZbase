@@ -41,7 +41,7 @@ limitations under the License.
 				count(distinct preserve_method) as preserveCount,
 				count(distinct specimen_part.collection_object_id) as partCount
 			FROM
-				cataloged_item,
+				cataloged_item 
 				left join specimen_part on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
 				left join collection on cataloged_item.collection_id=collection.collection_id 
 			WHERE
