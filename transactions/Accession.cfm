@@ -437,7 +437,6 @@ limitations under the License.
 							<div class="col-12 col-md-3">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
 								<input type="text" name="estimated_count" id="estimated_count" 
-									disabled="true"
 									value="#encodeForHTML(accessionDetails.estimated_count)#" class="reqdClr data-entry-input" required >
 							</div>
 						</div>
