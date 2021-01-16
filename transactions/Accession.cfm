@@ -343,7 +343,7 @@ limitations under the License.
 				<cfthrow message = "No such Accession.">
 			</cfif>
 			<cfif accessionDetails.RecordCount GT 0 AND accessionDetails.transaction_type NEQ 'accn'>
-				<cfthrow message = "Request to edit an accession, but the provided transaction_id was for a different transaction type [#acccessionDetails.transaction_type#].">
+				<cfthrow message = "Request to edit an accession, but the provided transaction_id was for a different transaction type [#accessionDetails.transaction_type#].">
 			</cfif>
 			<cfquery name="transAgents" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select
@@ -1188,6 +1188,20 @@ limitations under the License.
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
 						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#additional_incontact_agent_id#">,
 						'additional in-house contact')
+				</cfquery>
+			</cfif>
+			<!--- support for radio button passing agent id for HMNH agents --->
+			<cfif len(#for_use_by#) gt 0>
+				<cfquery name="newAgent" datasource="user_login" username="#session.username#" password="#decrypt(session.epw,cfid)#">
+					insert into trans_agent (
+						transaction_id,
+						agent_id,
+						trans_agent_role
+					) values (
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#for_use_by#'>,
+						'for_use_by'
+					)
 				</cfquery>
 			</cfif>
 		</cftransaction>
