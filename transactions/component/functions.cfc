@@ -2156,7 +2156,7 @@ limitations under the License.
 			from cttrans_agent_role  
 				left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 			where 
-				trans_agent_role_allowed.transaction_type = <cfqueryparam cf_sql_type="CF_SQL_VARCHAR" value="#transaction_type#">
+				trans_agent_role_allowed.transaction_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#transaction_type#">
 			order by cttrans_agent_role.trans_agent_role
 	</cfquery>
 	<cfelse>
