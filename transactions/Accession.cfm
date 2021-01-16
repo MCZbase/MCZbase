@@ -447,13 +447,9 @@ limitations under the License.
 								<label for="accn_status" class="data-entry-label">Accn Status</label>
 								<span>
 									<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
-										<!---  Normal transaction users are only allowed certain accn status state transitions, ---> 
-										<!--- users with elevated privileges for accns are allowed to edit accns to place them into any state.  --->
 										<cfloop query="ctAccnStatus">
-											<cfif isAllowedAccnStateChange(accessionDetails.accn_status,ctAccnStatus.accn_status)  or (isdefined("session.roles") and listfindnocase(session.roles,"ADMIN_TRANSACTIONS"))  >
-												<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
-													value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
-											</cfif>
+											<option <cfif ctAccnStatus.accn_status is accessionDetails.accn_status> selected="selected" </cfif>
+												value="#ctAccnStatus.accn_status#">#ctAccnStatus.accn_status#</option>
 										</cfloop>
 									</select>
 								</span>
