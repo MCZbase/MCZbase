@@ -383,7 +383,7 @@
 						<label for "username" class="mr-1 sr-only">Username</label>
 						<input type="text" name="username" title="Username" id="username" class="loginfields loginButtons loginfld1" onfocus="if(this.value==this.title){this.value=''};">
 						<label for="password" class="mr-1 sr-only">Password</label>
-						<input id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
+						<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
 						<label for="login" class="mr-1 sr-only">Submit</label>
 						<input type="submit" value="log in" id="login" class="loginButtons btn-primary" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
 						<label for="create_account" class="mr-1 sr-only">Create Account</label>
