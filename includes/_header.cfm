@@ -81,11 +81,11 @@
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
 		</button>
 	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-		<ul  class="sf-menu navbar-nav nav-fill mr-auto">
+		<ul  class="navbar-nav nav-fill mr-auto">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
-					<a class="sf-with-ul nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 						<li>
 							<div>
