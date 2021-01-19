@@ -380,7 +380,7 @@
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="gotopage" value="#gtp#">
 					<div class="login-form" id="header_login_form_div">
-						<label for "username" id="header_login_form_div">Username</label>
+						<label for "username" class="mr-1 sr-only">Username</label>
 						<input type="text" name="username" title="Username" id="username" class="loginfields loginButtons loginfld1" onfocus="if(this.value==this.title){this.value=''};">
 						<label for="password" class="mr-1 sr-only">Password</label>
 						<input id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
