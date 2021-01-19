@@ -20,6 +20,30 @@ h3 {
 	-webkit-margin-end: 0px;
 	font-weight: bold;
 }
+.logout {
+    padding: 0 .25rem;
+    font-size: .85rem;
+    position: relative;
+    font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+    letter-spacing: .02em;
+}
+.form-login {
+	position:absolute;
+	top:2px;
+	right:1em;
+}
+.login-form {
+	width:340px;
+	text-align:right;
+}
+.loginButtons {
+	padding: 4px 6px 4px 6px;
+	font-size: .78rem;
+	line-height: 1;
+	border-radius: .2rem;
+	display: inline-block;
+	max-width:100px;
+}
 .px-4 {
 	padding: 0 1.1rem;
 }

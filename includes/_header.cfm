@@ -359,7 +359,6 @@
 				<!--- end main menu item help --->
 			</li>
 		</ul><!---sf-menu--->
-
 			<!--- login/logout section of menu bar --->
 			<cfif isdefined("session.username") and len(#session.username#) gt 0>
 				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
@@ -392,7 +391,6 @@
 					</div>
 				</form>
 			</cfif>
-		
 	</div>
 <!---	</div>---><!--- end sf-mainMenuWrapper--->
 				</nav>
