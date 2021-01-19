@@ -359,44 +359,40 @@
 				<!--- end main menu item help --->
 			</li>
 		</ul><!---sf-menu--->
-		<div id="headerLinks">
+
 			<!--- login/logout section of menu bar --->
-			<cfif len(#session.username#) gt 0>
-				<ul  class="navbar-nav nav-fill mr-auto">
-					<li><a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a></li>
+			<cfif isdefined("session.username") and len(#session.username#) gt 0>
+				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
+				<input type="hidden" name="action" value="signOut">
+				<button class="btn btn-outline-success logout" aria-label="logout" onClick="signOut.action.value='signOut';submit();" target="_top">
+					Log out #session.username#
 					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-						<li><span>&nbsp;&nbsp;(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)&nbsp;</span></li>
+						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</small>
 					</cfif>
-					<cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
-						<br>
-						<li><span> You have no email address in your profile. Please correct. </span></li>
-					</cfif>
-				</ul>
+					</button>
+				</form>
 			<cfelse>
 				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 				<cfelse>
 					<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
 				</cfif>
-				<form name="logIn" method="post" action="/login.cfm">
+				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="gotopage" value="#gtp#">
-					<ul  class="navbar-nav nav-fill mr-auto">
-						<li><span>Username:</span></li>
-						<li>
-							<input type="text" name="username" title="Username" size="14"
-								class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
-						</li>
-						<li><span>Password:</span></li>
-						<li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
-						<li>
-							<input type="submit" value="Log In" class="smallBtn"> <span>or</span>
-							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';submit();">
-						</li>
-					</ul>
+					<div class="login-form" id="header_login_form_div">
+						<label for "username" id="header_login_form_div">Username</label>
+						<input type="text" name="username" title="Username" id="username" class="loginfields loginButtons loginfld1" onfocus="if(this.value==this.title){this.value=''};">
+						<label for="password" class="mr-1 sr-only">Password</label>
+						<input id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
+						<label for="login" class="mr-1 sr-only">Submit</label>
+						<input type="submit" value="log in" id="login" class="loginButtons btn-primary" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
+						<label for="create_account" class="mr-1 sr-only">Create Account</label>
+						<input type="button" value="register" class="btn-primary loginButtons" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
+					</div>
 				</form>
 			</cfif>
-		</div><!---end headerLinks--->
+		
 	</div>
 <!---	</div>---><!--- end sf-mainMenuWrapper--->
 				</nav>
