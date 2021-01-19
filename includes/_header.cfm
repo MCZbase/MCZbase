@@ -19,15 +19,15 @@
 <script type='text/javascript' language="javascript" src='/includes/jquery/jquery-1.3.2.min.js'></script>
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
-//		jQuery("ul.sf-menu").supersubs({
-//			minWidth:    'auto',
-//			maxWidth:    60,
-//			extraWidth:  1
-//		}).superfish({
-//			delay:       600,
-//			animation:   {opacity:'show',height:'show'},
-//			speed:       0
-//		});
+		jQuery("ul.sf-menu").supersubs({
+			minWidth:    'auto',
+			maxWidth:    60,
+			extraWidth:  1
+		}).superfish({
+			delay:       600,
+			animation:   {opacity:'show',height:'show'},
+			speed:       0
+		});
 		if (top.location!=document.location) {
 			// the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
 			// so hide these elements.
@@ -54,12 +54,7 @@
 	<meta name="keywords" content="#session.meta_keywords#">
 	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<cfif not isdefined("session.header_color")>
-	<cfif NOT isDefined('setDbUser')>
-		<cfinclude template="/shared/loginFunctions.cfm">
-	</cfif>
-	<cfset setDbUser()>
-</cfif>
+		
 	</head>
 	<body>
 	<noscript>
@@ -68,8 +63,8 @@
 			try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. 
 		</div>
 	</noscript>
-	
-	<div id="headerContent" style="background-color: #Application.header_color#;">
+	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
+	<header id="headerContent" id="header" role="heading" class="border-bottom" style="background-color: #Application.header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
 				<a href="http://mcz.harvard.edu/" target="_blank">
@@ -79,16 +74,17 @@
 				<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
-	</div><!--- end headerContent div --->
+	</header><!--- end headerContent div --->
 <nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 <!---	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">--->
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
+		</button>
 	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-		<ul  class="navbar-nav nav-fill mr-auto">
+		<ul  class="sf-menu navbar-nav nav-fill mr-auto">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
-					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+					<a class="sf-with-ul nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 						<li>
 							<div>

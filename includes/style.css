@@ -1638,7 +1638,7 @@ p.loginText {
 
 }
 .sf-menu {
-	line-height:	1.0;
+	line-height:	inherit;
 
 }
 .sf-menu ul {
