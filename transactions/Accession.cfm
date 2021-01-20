@@ -642,6 +642,49 @@ limitations under the License.
 						</cfif>
 					</div>
 				</section>
+				<section role="search" aria-labelledby="guid_list_label" class="container my-2">
+					<h2 class="h3">Add Cataloged Items to this Accession</h2>
+						<div class="row border rounded mb-2 pb-2" >
+							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
+							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
+							<input type="hidden" id="method" name="method" value="addObjectsToAccn" >
+							<div class="form-row mx-0 my-2">
+								<div class="col-12 col-md-10">
+									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this accession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
+											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
+								</div>
+								<script>
+									function addCollectionObjects(){ 
+										$('##addResultDiv').html("Saving.... ");
+										jQuery.ajax({
+											url : "/transactions/component/functions.cfc",
+											type : "post",
+											dataType : "json",
+											data : $('##addCollObjectsAccn').serialize(),
+											success : function (data) {
+												updateAccnItemCount('#transaction_id#','accnItemCountDiv');
+												$('##addResultDiv').html("Added " + data[0].added);
+											},
+											error: function(jqXHR,textStatus,error){
+												handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+												$('##addResultDiv').html("Error.");
+											}
+										});
+									};
+								</script>
+								<div class="col-12 col-md-2">
+									<div id="addResultDiv">&nbsp;</div>
+									<input type="button" id="addbutton"
+											value="Add" title="Add" aria-label="Add"
+											class="btn btn-xs btn-secondary"
+											onClick=" addCollectionObjects(); " 
+											>
+								</div>
+							</div>
+						</form>
+						</div>
+					</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
