@@ -2203,12 +2203,12 @@ limitations under the License.
 			</cfif>
 			<cfquery name="updateAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnTrans_result">
 				UPDATE trans set
-					<cfif len(#date_entered#) gt 0>
+					<cfif isdefined("date_entered") AND len(#date_entered#) gt 0 >
 						TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(date_entered,'yyyy-mm-dd')#">,
 					</cfif>
 					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
-					<cfif len(#trans_remarks#) gt 0>
+					<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0 >
 						, trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
 					</cfif>
 				WHERE
@@ -2220,7 +2220,7 @@ limitations under the License.
 					accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>,
 					RECEIVED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>,
 					ACCN_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_status#'>,
-					<cfif len(estimated_count) gt 0>
+					<cfif isdefined("estimated_count") AND len(estimated_count) gt 0 >
 						estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
 					<cfelse>
 						estimated_count = null
