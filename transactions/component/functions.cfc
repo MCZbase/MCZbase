@@ -2179,12 +2179,97 @@ limitations under the License.
 <!------------------------------------------------------->
 <cffunction name="saveAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="date_entered" type="string" required="yes">
+	<cfargument name="nature_of_material" type="string" required="yes">
+	<cfargument name="collection_id" type="string" required="yes">
+	<cfargument name="trans_remarks" type="string" required="no">
+	<cfargument name="accn_type" type="string" required="yes">
+	<cfargument name="accn_number" type="string" required="yes">
+	<cfargument name="received_date" type="string" required="yes">
+	<cfargument name="accn_status" type="string" required="yes">
+	<cfargument name="estimated_count" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
-			<cfthrow message="saveAccn not yet implemented">
-			<!--- TODO: Implement --->
+			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="newAccnCheck_result">
+				SELECT count(*) as ct from trans
+				WHERE  
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+					and transaction_type = 'accn'
+			</cfquery>
+			<cfif updateAccnCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
+			</cfif>
+			<cfquery name="updateAccnTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnTrans_result">
+				UPDATE trans set
+					TRANS_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value="#dateformat(date_entered,'yyyy-mm-dd')#">,
+					NATURE_OF_MATERIAL = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#nature_of_material#">,
+					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+					<cfif len(#trans_remarks#) gt 0>
+						, trans_remarks = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_remarks#">
+					</cfif>
+				WHERE
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+			</cfquery>
+			<cfquery name="updateAccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccn_result">
+				UPDATE accn set
+					ACCN_TYPE = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_type#'>,
+					accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_number#'>,
+					RECEIVED_DATE = <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>,
+					ACCN_STATUS = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#accn_status#'>,
+					<cfif len(estimated_count) gt 0>
+						estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
+					<cfelse>
+						estimated_count = null
+					</cfif>
+				WHERE
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+			</cfquery>
+			<cfloop from="1" to="#numAgents#" index="n">
+				<cfif IsDefined("trans_agent_id_" & n) >
+					<cfset trans_agent_id_ = evaluate("trans_agent_id_" & n)>
+					<cfset agent_id_ = evaluate("agent_id_" & n)>
+					<cfset trans_agent_role_ = evaluate("trans_agent_role_" & n)>
+					<cftry>
+						<cfset del_agnt_=evaluate("del_agnt_" & n)>
+					<cfcatch>
+						<cfset del_agnt_=0>
+					</cfcatch>
+					</cftry>
+					<cfif del_agnt_ is "1" and isnumeric(trans_agent_id_) and trans_agent_id_ gt 0>
+						<cfquery name="del" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							delete from trans_agent 
+							where trans_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+						</cfquery>
+					<cfelse>
+						<cfif len(agent_id_) GT 0>
+							<!--- don't try to add/update a blank row --->
+							<cfif trans_agent_id_ is "new" and del_agnt_ is 0>
+								<cfquery name="newTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									insert into trans_agent (
+										transaction_id,
+										agent_id,
+										trans_agent_role
+									) values (
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">,
+										<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									)
+								</cfquery>
+							<cfelseif del_agnt_ is 0>
+								<cfquery name="upTransAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									update trans_agent set
+										agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#agent_id_#">,
+										trans_agent_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#trans_agent_role_#">
+									where
+										trans_agent_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#trans_agent_id_#">
+								</cfquery>
+							</cfif>
+						</cfif>
+					</cfif>
+				</cfif>
+			</cfloop>
 
 			<cfset row = StructNew()>
 			<cfset row["status"] = "saved">
@@ -2235,6 +2320,15 @@ limitations under the License.
 	<cfset data = ArrayNew(1)>
 	<cftransaction>
 		<cftry>
+			<cfquery name="updateLoanCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateLoanCheck_result">
+				SELECT count(*) as ct from trans
+				WHERE  
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+					and transaction_type = 'loan'
+			</cfquery>
+			<cfif updateAccnCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of loan.">
+			</cfif>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				UPDATE trans SET
 					collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">,
