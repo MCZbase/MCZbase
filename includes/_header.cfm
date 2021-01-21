@@ -87,7 +87,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
 					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
-					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
+					<ul class="sf-menu dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 						<li>
 							<div>
 								<a class="dropdown-item" id="specimenMenuItem" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
