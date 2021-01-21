@@ -62,7 +62,7 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-	<nav class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0 sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 	
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
