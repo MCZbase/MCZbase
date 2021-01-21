@@ -65,7 +65,7 @@
 	<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0 sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 		<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-		<ul class="sf-menu">
+		<ul class="sf-menu navbar-nav nav-fill mr-auto">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
