@@ -246,7 +246,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width:20.5em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" style="min-width:22.5em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
