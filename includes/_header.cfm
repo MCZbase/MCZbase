@@ -245,7 +245,7 @@
 			 	</cfif>
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
-					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
+					<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width:22.5em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
@@ -265,7 +265,7 @@
 				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
-						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##">Admin</a>
+						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
@@ -315,7 +315,7 @@
 			<cfif len(session.username) gt 0>
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->
-					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
+					<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
 					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
@@ -329,7 +329,7 @@
 			</cfif>
 			<li class="nav-item dropdown">
 				<!--- main menu item help --->
-				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
+				<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
 				<ul class="dropdown-menu border-0 shadow" style="min-width:15rem;border-radius: .2rem;">
 					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
