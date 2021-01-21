@@ -85,7 +85,7 @@ label {
 	margin: 1px 0 1px -11px;
 	position: relative;
 	color: #6a6a6a;
-	font-size: 1em;
+	font-size: 1rem;
 }
 table#SD {
 	border-collapse: collapse;
@@ -95,7 +95,7 @@ td#SDCellLeft {
 	row-span: 1;
 }
 .detailElements {
-	font-size: 1em;
+	font-size: 1rem;
 }
 .headerCollectionText {
         font-family: Arial, Helvetica, sans-serif;
@@ -154,13 +154,29 @@ a.info:hover {
 a.info span {
 	display: none
 }
-h1 {
-	font-size: 2em;
-	font-weight: bold;
+h1, h2, h3, h4, h5, h6 {
+	line-height: 1.25;
+	margin: .5rem 0;
+	font-weight: 500;
 }
-h2 {
-	font-size: 1.6em;
-	font-weight: bold;
+h1, .h1 {
+	font-size: 1.35rem;
+	margin-bottom: 1rem;
+}
+h2, .h2 {
+	font-size: 1.25rem;
+}
+h3, .h3 {
+	font-size: 1.15rem;
+}
+h4, .h4 {
+	font-size: 1rem;
+}
+h5, .h5 {
+	font-size: .875rem;
+}
+h6, .h6 {
+	font-size: .75rem;
 }
 table.sortable a.sortheader {
 	background-color: #eee;
