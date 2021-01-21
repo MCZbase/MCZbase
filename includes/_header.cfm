@@ -1,5 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <head>
+
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
 	<cfinclude template="/includes/imageInclude.cfm">
 <cfelseif isdefined("usealternatehead") and #usealternatehead# eq "feedreader">
@@ -16,7 +17,7 @@
 <cfif not isdefined("session.header_color")>
 	<cfset setDbUser()>
 </cfif>
-<script type='text/javascript' language="javascript" src='/includes/jquery/jquery-1.3.2.min.js'></script>
+
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
 		jQuery("ul.sf-menu").supersubs({
@@ -33,27 +34,14 @@
 			// so hide these elements.
 			$("#footerContentBox").hide();
 			$("#headerContent").hide();
+			$(".sf-mainMenuWrapper").hide();
 		}
 	});
 </script>
-			<script>
-			// Keyboard shortcut for Search
-			document.addEventListener ("keydown", function (evt) {
-				if (evt.altKey && evt.key === "m") {  
-					evt.preventDefault();
-					evt.stopPropagation();
-					$('##searchDropdown').click();	
-					$('##specimenMenuItem').focus();	
-					return false;
-				}
-			});
-
-		</script>
 <cfoutput>
 	<meta name="keywords" content="#session.meta_keywords#">
 	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.ico">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-		
 	</head>
 	<body>
 	<noscript>
@@ -62,8 +50,8 @@
 			try our <a target="_top" href="/SpecimenSearchHTML.cfm">HTML SpecimenSearch</a> option. 
 		</div>
 	</noscript>
-	<a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
-	<header id="headerContent" id="header" role="heading" class="border-bottom" style="background-color: #Application.header_color#;">
+	
+	<div id="headerContent" style="background-color: #Application.header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
 				<a href="http://mcz.harvard.edu/" target="_blank">
@@ -73,22 +61,18 @@
 				<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
-	</header><!--- end headerContent div --->
-	<div class="container-fluid bg-light px-0" style="display:block;" id="mainMenuContainer">
-<nav class="sf-mainMenuWrapper navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
-
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
-		</button>
-	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-		<ul  class="navbar-nav nav-fill mr-auto">
+	</div><!--- end headerContent div --->
+	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	
+		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
-					<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
-					<ul class="sf-menu dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
-						<li>
+					<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
+					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
+						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<a class="dropdown-item" id="specimenMenuItem" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
+								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
 								<a class="dropdown-item" target="_top" href="/Taxa.cfm">Taxonomy</a>
 								<a class="dropdown-item" target="_top" href="/MediaSearch.cfm">Media</a>
 								<a class="dropdown-item" target="_top" href="/showLocality.cfm">Places</a>
@@ -111,10 +95,10 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 					<li class="nav-item dropdown">
 						<!--- main menu item data entry --->
-						<a href="##" class="nav-link dropdown-toggle text-left" id="dataEntryDropdown">Data Entry</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="dataEntryDropdown">
-							<li>
-							<div>
+						<a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
+							<li class="d-md-flex align-items-start justify-content-start">
+							<div style="float:left; width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
@@ -128,7 +112,7 @@
 										<a class="dropdown-item" target="_top" href="/Project.cfm?action=makeNew">Project Record</a>
 									</cfif>
 								</div>
-								<div>
+								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Bulkloading</div>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/browseBulk.cfm">Browse &amp; Edit</a>
@@ -145,10 +129,10 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="manageDataDropdown">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow"  aria-labelledby="manageDataDropdown">
-							<li>
-								<div>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
+							<li class="d-md-flex align-items-start justify-content-start">
+								<div style="float:left; width: 33.2%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 										<a class="dropdown-item" target="_top" href="/Locality.cfm?action=findHG">Geography</a>
@@ -158,7 +142,7 @@
 									<a class="dropdown-item" target="_top" href="/vocabularies/CollEventNumberSeries.cfm">Collecting Event Number Series</a>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div>
+									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_geography")>
 											<a class="dropdown-item" target="_top" href="/Locality.cfm?action=newHG">Geography</a>
@@ -170,7 +154,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens") and listcontainsnocase(session.roles,"manage_collection")>
-									<div>
+									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 											<a class="dropdown-item" target="_top" href="/Encumbrances.cfm">Encumbrances</a>
 											<a class="dropdown-item" target="_top" href="/Admin/Collection.cfm">Manage Collection</a>
@@ -193,10 +177,10 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="curatonDropdown">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
-							<li>
-								<div>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
+							<li class="d-md-flex align-items-start justify-content-start">
+								<div style="float:left; width: 33.2%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -205,7 +189,7 @@
 									</cfif>
 								</div>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
-									<div>
+									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Create</div>			
 										<a class="dropdown-item"  href="/grouping/NamedCollection.cfm?action=new" target="_top">Named Grouping</a>
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
@@ -215,7 +199,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_container")>
-									<div>
+									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Manage</div>
 										<a class="dropdown-item"  href="/moveContainer.cfm" target="_top">Move Container</a>
 										<a class="dropdown-item"  href="/batchScan.cfm" target="_top">Batch Scan</a>
@@ -233,10 +217,10 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" id="transactionsDropdown" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow"  aria-labelledby="transactionsDropdown">
-							<li>
-								<div>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
+						<ul class="dropdown-menu border-0 shadow" style="min-width:22em; border-radius: .2rem;">
+							<li class="d-md-flex align-items-start justify-content-start">
+								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
@@ -245,7 +229,7 @@
 									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 								</div>
-								<div>
+								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
@@ -261,14 +245,14 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Review Data</a>
-					<ul class="dropdown-menu border-0 shadow">
-						<li>
-							<div>
+					<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
+						<li class="d-md-flex align-items-start justify-content-start">
+							<div style="float:left; width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
 								<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 							</div>
-							<div>
+							<div style="float:left;width: 49%;">
 								<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
 								<a class="dropdown-item"  target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
 								<a class="dropdown-item"  target="_blank" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
@@ -281,10 +265,10 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
-						<ul class="dropdown-menu border-0 shadow">
-							<li>
+						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
+							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
-									<div>
+									<div style="float:left; width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Data</div>
 										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/info/geol_hierarchy.cfm">Geology Hierarchy Table</a>
@@ -298,7 +282,7 @@
 									</div>
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-									<div>
+									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
@@ -313,7 +297,7 @@
 										<a class="dropdown-item" target="_top" href="/Admin/user_report.cfm">List of All Users</a>
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
-									<div>
+									<div style="float:left;width: 33.2%;">
 										<div class="h5 dropdown-header px-4 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
@@ -331,8 +315,8 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Account</a>
-					<ul class="dropdown-menu border-0 shadow">
-						<li>
+					<ul class="dropdown-menu border-0 shadow" style="min-width:10rem;border-radius: .2rem;">
+						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
 								<a class="dropdown-item" target="_top" href="/saveSearch.cfm?action=manage">Saved Searches</a>
@@ -345,8 +329,8 @@
 			<li class="nav-item dropdown">
 				<!--- main menu item help --->
 				<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Help</a>
-				<ul class="dropdown-menu border-0 shadow">
-					<li>
+				<ul class="dropdown-menu border-0 shadow" style="min-width:15rem;border-radius: .2rem;">
+					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
 								<!--- show internal MCZ wiki link only to users with role coldfusion_user --->
@@ -361,63 +345,47 @@
 				<!--- end main menu item help --->
 			</li>
 		</ul><!---sf-menu--->
+		<div id="headerLinks">
 			<!--- login/logout section of menu bar --->
-			<cfif isdefined("session.username") and len(#session.username#) gt 0>
-				<form class="form-inline logout-style" name="signOut" method="post" action="/login.cfm">
-				<input type="hidden" name="action" value="signOut">
-				<button class="btn btn-outline-success logout" aria-label="logout" onClick="signOut.action.value='signOut';submit();" target="_top">
-					Log out #session.username#
+			<cfif len(#session.username#) gt 0>
+				<ul>
+					<li><a target="_top" href="/login.cfm?action=signOut">Log out #session.username#</a></li>
 					<cfif isdefined("session.last_login") and len(#session.last_login#) gt 0>
-						<small>(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)</small>
+						<li><span>&nbsp;&nbsp;(Last login: #dateformat(session.last_login, "dd-mmm-yyyy")#)&nbsp;</span></li>
 					</cfif>
-					</button>
-				</form>
+					<cfif isdefined("session.needEmailAddr") and session.needEmailAddr is 1>
+						<br>
+						<li><span> You have no email address in your profile. Please correct. </span></li>
+					</cfif>
+				</ul>
 			<cfelse>
 				<cfif isdefined("cgi.REDIRECT_URL") and len(cgi.REDIRECT_URL) gt 0>
 					<cfset gtp=replace(cgi.REDIRECT_URL, "//", "/")>
 				<cfelse>
 					<cfset gtp=replace(cgi.SCRIPT_NAME, "//", "/")>
 				</cfif>
-				<form name="logIn" method="post" action="/login.cfm" class="m-0 form-login">
+				<form name="logIn" method="post" action="/login.cfm">
 					<input type="hidden" name="action" value="signIn">
 					<input type="hidden" name="gotopage" value="#gtp#">
-					<div class="login-form" id="header_login_form_div">
-						<label for "username" class="mr-1 sr-only">Username</label>
-						<input type="text" name="username" title="Username" id="username" class="loginfields loginButtons loginfld1" onfocus="if(this.value==this.title){this.value=''};">
-						<label for="password" class="mr-1 sr-only">Password</label>
-						<input type="password" id="password" name="password" autocomplete="current password" placeholder="password" title="Password" class="loginButtons loginfields d-inline loginfld2">
-						<label for="login" class="mr-1 sr-only">Submit</label>
-						<input type="submit" value="log in" id="login" class="loginButtons btn-primary" onClick="logIn.action.value='signIn';submit();" aria-label="click to login">
-						<label for="create_account" class="mr-1 sr-only">Create Account</label>
-						<input type="button" value="register" class="btn-primary loginButtons" onClick="logIn.action.value='newUser';submit();" aria-label="click to create new account">
-					</div>
+					<ul>
+						<li><span>Username:</span></li>
+						<li>
+							<input type="text" name="username" title="Username" size="14"
+								class="loginTxt" onfocus="if(this.value==this.title){this.value=''};">
+						</li>
+						<li><span>Password:</span></li>
+						<li><input type="password" name="password" title="Password" size="14" class="loginTxt"></li>
+						<li>
+							<input type="submit" value="Log In" class="smallBtn"> <span>or</span>
+							<input type="button" value="Create Account" class="smallBtn" onClick="logIn.action.value='newUser';submit();">
+						</li>
+					</ul>
 				</form>
 			</cfif>
-	</div>
-<!--- end sf-mainMenuWrapper--->
-</nav>
-	</div>
-	<!-- container //  --> 
+		</div><!---end headerLinks--->
+	</div><!--- end sf-mainMenuWrapper--->
 
-</header>
-<script type="text/javascript">
-	/** add active class when selected--makes the link of the menu bar item different color when active */
-	var url = window.location;
-	
-	//makes selected menu header have darker text
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	//makes selected dropdown option have different background --##deebec
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
-	
-	//prevents double click behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    return false;
-	});
-</script>
-<cf_rolecheck>
+	<cf_rolecheck>
 
 </cfoutput>
 <div id="pg_container">
