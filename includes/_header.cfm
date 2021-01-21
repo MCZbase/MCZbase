@@ -19,16 +19,16 @@
 </cfif>
 
 <script language="javascript" type="text/javascript">
-//	jQuery(document).ready(function(){
-//		jQuery("ul.sf-menu").supersubs({
-//			minWidth:    '10rem',
-//			maxWidth:    'auto',
-//			extraWidth:  '1'
-//		}).superfish({
-//			delay:       600,
-//			animation:   {opacity:'show',height:'show'},
-//			speed:       0
-//		});
+	jQuery(document).ready(function(){
+		jQuery("ul.sf-menu").supersubs({
+			minWidth:    '10',
+			maxWidth:    'auto',
+			extraWidth:  '1'
+		}).superfish({
+			delay:       600,
+			animation:   {opacity:'show',height:'show'},
+			speed:       0
+		});
 		if (top.location!=document.location) {
 			// the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
 			// so hide these elements.
@@ -386,23 +386,7 @@
 		</div><!---end headerLinks--->
 		</div><!--- end navbar_toplevel_div--->
 	</nav><!--- end sf-mainMenuWrapper--->
-<script type="text/javascript">
-	/** add active class when selected--makes the link of the menu bar item different color when active */
-	var url = window.location;
-	
-	//makes selected menu header have darker text
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).parentsUntil(".navbar > .navbar-nav").addClass('active');
-	//makes selected dropdown option have different background --##deebec
-	$('ul.navbar-nav a').filter(function() { return this.href == url; }).addClass('active');
-	
-	//prevents double click behavior on menu
-	$('.dropdown-toggle').click(function(e) {
-    e.preventDefault();
-    e.stopPropagation();
 
-    return false;
-	});
-</script>
 	<cf_rolecheck>
 
 </cfoutput>
