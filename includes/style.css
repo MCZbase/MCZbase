@@ -1737,17 +1737,17 @@ ul.sf-menu li li li.sfHover ul {
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-.sf-sub-indicator {
+/*.sf-sub-indicator {
 	position:		absolute;
 	display:		block;
 	right:			.25em;
-	top:			1.05em; /* IE6 only */
+	top:			1.05em;
 	width:			10px;
 	height:			10px;
 	text-indent: 	-999em;
 	overflow:		hidden;
-	background:		url('/images/css/arrows-000000.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
-}
+	background:		url('/images/css/arrows-000000.png') no-repeat -10px -100px;*/ /* 8-bit indexed alpha png. IE6 gets solid image only */
+/*}*/
 a > .sf-sub-indicator {  /* give all except IE6 the correct values */
 	top:			.6em;
 	background-position: 0 -100px; /* use translucent arrow for modern browsers*/
