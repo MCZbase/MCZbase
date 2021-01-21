@@ -33,7 +33,7 @@
 </cfoutput>
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
-</cfif>
+<!---</cfif>--->
 
 <script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
 <!--- Temporary file, to allow resolution of Redmine 674 Bugfix to f2fee81  making javascript messageDialog() available to Taxonomy.cfm without adding /shared/js/shared-scripts.js as an include in alwaysInclude.cfm --->
