@@ -17,7 +17,7 @@
 <script language="JavaScript" src="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.min.js" type="text/javascript"></script>
 	
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
-
+	<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
 <script language="JavaScript" src="/includes/jquery/jquery-ui.datepicker.1.11.4.js" type="text/javascript"></script>
 <cfelse>
 <!--- Use jquery 1.3.2 --->
@@ -27,11 +27,9 @@
 
 <script type="text/javascript" src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script><!--- Use JQuery-UI widgets when available. ---> 
 
-
+</cfoutput>
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
-	<script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
 <script language="JavaScript" src="/includes/jquery/jquery.ui.datepicker.min.js" type="text/javascript"></script>
-	</cfoutput>
 </cfif>
 <script language="JavaScript" src="/shared/js/vocabulary_scripts.js" type="text/javascript"></script>
 <!--- Temporary file, to allow resolution of Redmine 674 Bugfix to f2fee81  making javascript messageDialog() available to Taxonomy.cfm without adding /shared/js/shared-scripts.js as an include in alwaysInclude.cfm --->
