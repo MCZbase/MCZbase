@@ -22,7 +22,7 @@
 	jQuery(document).ready(function(){
 		jQuery("ul.sf-menu").supersubs({
 			minWidth:    'auto',
-			maxWidth:    60,
+			maxWidth:    300,
 			extraWidth:  1
 		}).superfish({
 			delay:       600,
