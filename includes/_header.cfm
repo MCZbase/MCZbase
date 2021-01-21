@@ -130,8 +130,8 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 48em; border-radius: .2rem;">
+						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
+						<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -178,8 +178,8 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 45em; border-radius: .2rem;">
+						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
+						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -218,8 +218,8 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:22em; border-radius: .2rem;">
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
+						<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
