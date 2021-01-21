@@ -219,7 +219,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow"  style="min-width:34rem;border-radius: .2rem;" aria-labelledby="transactionDropdown">
+						<ul class="dropdown-menu border-0 shadow"  style="min-width:21rem;border-radius: .2rem;" aria-labelledby="transactionDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
