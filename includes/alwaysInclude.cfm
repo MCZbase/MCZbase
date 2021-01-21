@@ -6,12 +6,14 @@
 </cfif>
 <cfinclude template="/includes/functionLib.cfm">
 
-<link rel="stylesheet" type="text/css" href="/includes/style.css" >
+
 <cfif isdefined("jquery11")>
+		<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/includes/style.css" >
 <!--- Use jquery 1.11.x --->
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.css">
 <link rel="stylesheet" href="/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.theme.css">
-	<link rel="stylesheet" href="/lib/bootstrap/bootstrap-4.5.0-dist/css/bootstrap.min.css">
+
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
 <script type='text/javascript' language="javascript" src='/includes/jquery/1.11.3/jquery-1.11.3.min.js'></script>
 <script type='text/javascript' language="javascript" src='/includes/jquery/1.11.3/jquery-migrate-1.2.1.min.js'></script>
