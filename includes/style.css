@@ -1785,8 +1785,8 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 .sf-mainMenuWrapper {
 /*	clear:left;*/
 	width:97.25%;
-  /*  margin:0 auto;
-	font-weight:400;
+   margin:0 auto;
+/* 	font-weight:400;
 	background-color:#D5D5DB;
 	background-color: white;
     position:relative;
