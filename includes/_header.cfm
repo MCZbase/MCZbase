@@ -62,7 +62,7 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-	<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0 sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0 sf-mainMenuWrapper">
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 		<div class="collapse navbar-collapse" id="navbar_toplevel_div">
 		<ul class="sf-menu navbar-nav nav-fill mr-auto">
