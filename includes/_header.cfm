@@ -69,7 +69,7 @@
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
-					<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
+					<a href="##" class="nav-link dropdown-toggle text-left" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="search shortcut=alt+m">Search</a>
 					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
@@ -96,8 +96,8 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 					<li class="nav-item dropdown">
 						<!--- main menu item data entry --->
-						<a href="##" class="nav-link dropdown-toggle text-left">Data Entry</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
+						<a href="##" class="nav-link dropdown-toggle text-left" id="createRecordDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
+						<ul class="dropdown-menu border-0 shadow" aria-labelledby="createRecordDrop">
 							<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
