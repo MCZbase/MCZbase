@@ -232,7 +232,7 @@ limitations under the License.
 				<ul class="navbar-nav nav-fill mr-auto">
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> 
-						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
+						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shortcut=alt+m" title="Search (Alt+m)" >Search</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 							<li> 	
 								<div>

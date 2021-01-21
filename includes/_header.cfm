@@ -70,7 +70,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
 					<a href="##" class="nav-link dropdown-toggle text-left">Search</a>
-					<ul class="dropdown-menu border-0 shadow" style="min-width: 12em; border-radius: .2rem;">
+					<ul class="dropdown-menu border-0 shadow" aria-labelledby="searchDropdown">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
