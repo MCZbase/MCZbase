@@ -179,7 +179,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
-						<ul class="dropdown-menu border-0 shadow w-25" aria-labelledby="curationDropdown">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;" aria-labelledby="curationDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -219,8 +219,8 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-						<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
-							<li class="d-md-flex align-items-start justify-content-start" style="min-width:34rem;border-radius: .2rem;">
+						<ul class="dropdown-menu border-0 shadow"  style="min-width:34rem;border-radius: .2rem;" aria-labelledby="transactionDropdown">
+							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
