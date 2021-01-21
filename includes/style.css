@@ -1859,10 +1859,10 @@ div.submenu h2:hover {
 	color: #0000FF;
 }
 .nav-link.dropdown-toggle:hover:before {
-	transform:rotate(0deg);
+	transform:rotate(-90deg);
 }
 .nav-link.dropdown-toggle:hover:after {
-	transform:rotate(-90deg);
+	transform:rotate(0deg);
 }
 .navbar-toggler {
     padding: .2rem .5rem;
@@ -4827,7 +4827,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 }
 .sf-mainMenuWrapper {
 	margin: 0 auto;
-	width: 95%;
+	width: 97.5%;
+	background-color: #ddd;
 }
 
 }
