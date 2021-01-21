@@ -100,7 +100,7 @@
 						<ul class="dropdown-menu border-0 shadow" style="min-width: 23em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<div class="h5 dropdown-header px-2 text-danger">Create New Record</div>
+								<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/DataEntry.cfm">Specimen Record</a>	
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
 										<a class="dropdown-item" target="_top" href="/media.cfm?action=newMedia">Media Record</a>
@@ -114,7 +114,7 @@
 									</cfif>
 								</div>
 								<div>
-									<div class="h5 dropdown-header px-2 text-danger">Bulkloading</div>
+									<div class="h5 dropdown-header px-3 text-danger">Bulkloading</div>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloaderBuilder.cfm">Bulkloader Builder</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/browseBulk.cfm">Browse &amp; Edit</a>
 									<a class="dropdown-item" target="_top" href="/Bulkloader/bulkloader_status.cfm">Bulkload Status</a>
@@ -249,12 +249,12 @@
 					<ul class="dropdown-menu border-0 shadow" style="min-width:23.5em; border-radius: .2rem;">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Reports &amp; Statistics</div>
+								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
 								<a class="dropdown-item"  target="_top" href="/reporting/Reports.cfm">List of Reports</a>
 								<a class="dropdown-item"  target="_top" href="/info/queryStats.cfm">Query Stats</a>
 							</div>
 							<div>
-								<div class="h5 dropdown-header px-4 text-danger">Aggregators</div>
+								<div class="h5 dropdown-header px-3 text-danger">Aggregators</div>
 								<a class="dropdown-item"  target="_blank" href="https://www.gbif.org/occurrence/map?dataset_key=4bfac3ea-8763-4f4b-a71a-76a6f5f243d3">View MCZ data in GBIF </a>
 								<a class="dropdown-item"  target="_blank" href="https://portal.idigbio.org/portal/search">View MCZ data in iDigBio</a>
 							</div>
@@ -270,7 +270,7 @@
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Data</div>
+										<div class="h5 dropdown-header px-3 text-danger">Data</div>
 										<a class="dropdown-item" target="_top" href="/CodeTableEditor.cfm">Code Table Editor</a>
 										<a class="dropdown-item" target="_top" href="/info/geol_hierarchy.cfm">Geology Hierarchy Table</a>
 										<a class="dropdown-item" target="_top" href="/Reports/reporter.cfm">Label/Report Management</a>
@@ -284,7 +284,7 @@
 								</cfif>
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Users/Privileges</div>
+										<div class="h5 dropdown-header px-3 text-danger">Users/Privileges</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Audit SQL</a>
 										<a class="dropdown-item" target="_top" href="/AdminUsers.cfm">MCZbase Users</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">User Role Report</a>
@@ -299,7 +299,7 @@
 										<a class="dropdown-item" target="_top" href="/Admin/manage_user_loan_request.cfm">User Loan Management</a>
 									</div>
 									<div>
-										<div class="h5 dropdown-header px-4 text-danger">Application</div>
+										<div class="h5 dropdown-header px-3 text-danger">Application</div>
 										<a class="dropdown-item" target="_top" href="/Admin/ActivityLog.cfm">Manage Collection</a>
 										<a class="dropdown-item" target="_top" href="/tools/access_report.cfm?action=role">Redirects</a>
 										<a class="dropdown-item" target="_top" href="/CFIDE/administrator/">Manage ColdFusion</a>
