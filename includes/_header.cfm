@@ -220,7 +220,7 @@
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Transactions</a>
 						<ul class="dropdown-menu border-0 shadow" style="min-width:22em; border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
-								<div style="float:left; width: 49%;">
+								<div>
 									<div class="h5 dropdown-header px-2 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
 									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
@@ -229,7 +229,7 @@
 									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
 								</div>
-								<div style="float:left; width: 49%;">
+								<div>
 									<div class="h5 dropdown-header px-2 text-danger">Create New Record</div>
 									<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
