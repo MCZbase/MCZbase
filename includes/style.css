@@ -1679,7 +1679,7 @@ p.loginText {
 .sf-menu li:hover ul,
 .sf-menu li.sfHover ul {
 	left:			0;
-	top:			2em; /* match top ul list item height */
+	top:			1.5rem; /* match top ul list item height */
 	z-index:		99;
 }
 ul.sf-menu li:hover li ul,
