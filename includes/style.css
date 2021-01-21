@@ -1783,18 +1783,17 @@ box-shadow: 6px 10px 20px 0px rgba(0,0,0,0.75);
 	background: transparent;
 }
 .sf-mainMenuWrapper {
-	clear:left;
-	width:90%;
-    margin:0 auto;
+/*	clear:left;*/
+	width:97.25%;
+  /*  margin:0 auto;
 	font-weight:400;
 	background-color:#D5D5DB;
 	background-color: white;
-  /*  border-bottom: 1px solid #d5d5db;*/
     position:relative;
     font-size: 15px;
     height:31px;
     box-sizing: content-box;
-    box-sizing: border-box;
+    box-sizing: border-box;*/
 }
 .sf-mainMenuWrapper {padding-top:1px;}
 /************************ dropdown taxonomy results *****************************/
@@ -4779,8 +4778,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
-	margin: 0 auto;
-	width: 90%;
+/*	margin: 0 auto;
+	width: 90%;*/
 }
 .content_box {
 	width: 90%;
@@ -4803,8 +4802,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
-	margin: 0 auto;
-	width: 90%;
+/*	margin: 0 auto;
+	width: 90%;*/
 }
 .content_box {
 	width: 90%;
@@ -4826,9 +4825,9 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
-	margin: 0 auto;
+/*	margin: 0 auto;
 	width: 97.5%;
-	background-color: #ddd;
+	background-color: #ddd;*/
 }
 
 }
@@ -4856,9 +4855,9 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	width: 130px;
 }
 .sf-mainMenuWrapper {
-	margin: 0 auto;
+/*	margin: 0 auto;
 	width: 98%;
-      position: relative;
+      position: relative;*/
 }
 .content_box {
 	width: 98%;
