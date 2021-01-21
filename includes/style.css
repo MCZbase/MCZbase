@@ -1858,10 +1858,10 @@ div.submenu h2:hover {
 	color: #0000FF;
 }
 .nav-link.dropdown-toggle:hover:before {
-	transform:rotate(-90deg);
+	transform:rotate(0deg);
 }
 .nav-link.dropdown-toggle:hover:after {
-	transform:rotate(0deg);
+	transform:rotate(-90deg);
 }
 .navbar-toggler {
     padding: .2rem .5rem;
