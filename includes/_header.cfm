@@ -131,7 +131,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;" aria-labelledby="manageDropdown">
+						<ul class="dropdown-menu border-0 shadow" style="min-width: 45rem;border-radius: .2rem;" aria-labelledby="manageDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -179,7 +179,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
-						<ul class="dropdown-menu border-0 shadow" style="min-width:40rem;border-radius: .2rem;" aria-labelledby="curationDropdown">
+						<ul class="dropdown-menu border-0 shadow" style="min-width:41.5rem;border-radius: .2rem;" aria-labelledby="curationDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
