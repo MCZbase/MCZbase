@@ -33,7 +33,6 @@
 			// so hide these elements.
 			$("#footerContentBox").hide();
 			$("#headerContent").hide();
-			$(".sf-mainMenuWrapper").hide();
 		}
 	});
 </script>
@@ -76,8 +75,8 @@
 		</div><!---end image_headerWrap--->
 	</header><!--- end headerContent div --->
 	<div class="container-fluid bg-light px-0" style="display:block;" id="mainMenuContainer">
-<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
-<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+<nav class="sf-mainMenuWrapper navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
+
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> 
 		</button>
 	<div class="collapse navbar-collapse" id="navbar_toplevel_div">
@@ -395,13 +394,11 @@
 				</form>
 			</cfif>
 	</div>
-</div><!--- end sf-mainMenuWrapper--->
+<!--- end sf-mainMenuWrapper--->
 </nav>
 	</div>
 	<!-- container //  --> 
-	<script>
-		document.getElementById("mainMenuContainer").style.display = "block";	
-	</script> 
+
 </header>
 <script type="text/javascript">
 	/** add active class when selected--makes the link of the menu bar item different color when active */
