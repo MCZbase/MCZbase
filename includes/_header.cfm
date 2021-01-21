@@ -20,15 +20,15 @@
 
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
-//		jQuery("ul.sf-menu").supersubs({
-//			minWidth:    'auto',
-//			maxWidth:    31,
-//			extraWidth:  1
-//		}).superfish({
-//			delay:       600,
-//			animation:   {opacity:'show',height:'show'},
-//			speed:       0
-//		});
+		jQuery("ul.sf-menu").supersubs({
+			minWidth:    'auto',
+			maxWidth:    31,
+			extraWidth:  1
+		}).superfish({
+			delay:       600,
+			animation:   {opacity:'show',height:'show'},
+			speed:       0
+		});
 		if (top.location!=document.location) {
 			// the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
 			// so hide these elements.
