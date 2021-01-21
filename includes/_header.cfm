@@ -132,7 +132,7 @@
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="manageDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li class="d-md-flex align-items-start justify-content-start"  style="min-width:34rem;border-radius: .2rem;">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
@@ -180,7 +180,7 @@
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="curationDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li class="d-md-flex align-items-start justify-content-start" style="min-width:34rem;border-radius: .2rem;">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" href="/grouping/NamedCollection.cfm" target="_top">Named Groupings</a>
@@ -220,7 +220,7 @@
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
 						<ul class="dropdown-menu border-0 shadow" aria-labelledby="transactionDropdown">
-							<li class="d-md-flex align-items-start justify-content-start">
+							<li class="d-md-flex align-items-start justify-content-start" style="min-width:34rem;border-radius: .2rem;">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
@@ -265,7 +265,7 @@
 				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
-						<a class="nav-link dropdown-toggle text-left" target="_top" href="##">Admin</a>
+						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##">Admin</a>
 						<ul class="dropdown-menu border-0 shadow" style="min-width:34rem;border-radius: .2rem;">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
