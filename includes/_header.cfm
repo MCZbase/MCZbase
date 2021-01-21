@@ -62,7 +62,7 @@
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
 	</div><!--- end headerContent div --->
-	<div class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
+	<nav class="sf-mainMenuWrapper" style="font-size: 14px;background-color: ##ddd;">
 	
 		<ul class="sf-menu">
 			<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
@@ -383,7 +383,7 @@
 				</form>
 			</cfif>
 		</div><!---end headerLinks--->
-	</div><!--- end sf-mainMenuWrapper--->
+	</nav><!--- end sf-mainMenuWrapper--->
 
 	<cf_rolecheck>
 
