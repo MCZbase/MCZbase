@@ -679,6 +679,57 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	});
 }
 
+// Create and open a dialog to find and link existing permit records to a provided transaction
+function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcallback) { 
+	var title = "Link Permit record(s) to " + transaction_label;
+	var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	var h = $(window).height();
+	var w = $(window).width();
+	w = Math.floor(w *.9);
+	var thedialog = $("#"+dialogid).html(content)
+	.dialog({
+		title: title,
+		autoOpen: false,
+		dialogClass: 'dialog_fixed,ui-widget-header',
+		modal: true,
+		stack: true,
+		zindex: 2000,
+		height: h,
+		width: w,
+		minWidth: 400,
+		minHeight: 450,
+		draggable:true,
+		buttons: {
+			"Close Dialog": function() { 
+				$("#"+dialogid).dialog('close'); 
+			}
+		},
+		close: function(event,ui) { 
+			if (jQuery.type(okcallback)==='function') {
+				okcallback();
+	  		}
+			$("#"+dialogid+"_div").html("");
+			$("#"+dialogid).dialog('destroy'); 
+		} 
+	});
+	thedialog.dialog('open');
+	jQuery.ajax({
+		url: "/component/functions.cfc",
+		type: "post",
+		data: {
+			method: "transPermitPickerHtml",
+			returnformat: "plain",
+			transaction_id: transaction_id,
+			transaction_label: transaction_label
+		}, 
+		success: function (data) { 
+			$("#"+dialogid+"_div").html(data);
+		}, 
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"loading link permit dialog");
+		}
+	});
+}
 
 // Create and open a dialog to create a new permit record adding a provided relationship to the permit record
 function opencreatepermitdialog(dialogid, related_label, related_id, relation_type, okcallback) { 
