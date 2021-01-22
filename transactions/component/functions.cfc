@@ -1333,7 +1333,7 @@ limitations under the License.
 					</cfif>
 				</span>
 			</div> <!--- span#permit_tr_, div.permittrans --->
-		<cfoutput>
+		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getPermitsHtmlThread" />
 	<cfreturn getPermitsHtmlThread.output>
