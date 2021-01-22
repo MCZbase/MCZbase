@@ -143,7 +143,7 @@
     <tr><td>
 	<div class="locGroup">
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-		<table>
+		<table class="table table-responsive">
 		<tr>
 			<td>
 				<label for="higher_geog">Higher Geog
