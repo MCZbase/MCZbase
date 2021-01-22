@@ -1279,48 +1279,64 @@ limitations under the License.
 
 <cffunction name="getPermitsForTransHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
-	<cfset resulthtml="">
-	<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select distinct permit_num, permit_type, issued_date, permit.permit_id,
-			issuedBy.agent_name as IssuedByAgent
-		from permit left join permit_trans on permit.permit_id = permit_trans.permit_id
-			left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-		where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-		order by permit_type, issued_date
-	</cfquery>
 
-	<cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
-	<cfloop query="query">
-		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
-			from media_relations left join media on media_relations.media_id = media.media_id
-			where media_relations.media_relationship = 'shows permit'
-				and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+	<cfthread  name="getPermitsHtmlThread" />
+		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct permit_num, permit_type, issued_date, permit.permit_id,
+				issuedBy.agent_name as IssuedByAgent
+			from permit left join permit_trans on permit.permit_id = permit_trans.permit_id
+				left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
+			where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
+			order by permit_type, issued_date
 		</cfquery>
-		<cfset mediaLink = "&##8855;">
-		<cfloop query="mediaQuery">
-			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfif puri EQ "/images/noThumb.jpg">
-				<cfset altText = "Red X in a red square, with text, no preview image available">
-			<cfelse>
-				<cfset altText = mediaQuery.media_descriptor>
-			</cfif>
-			<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
-		</cfloop>
-		<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
-
-		<cfset resulthtml = resulthtml & "<ul class='permitshipul2'>">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick=' window.open(""/transactions/Permit.cfm?action=edit&permit_id=#permit_id#"")' target='_blank' value='Edit'></li> ">
-		<cfset resulthtml = resulthtml & "<li><input type='button' class='btn btn-xs btn-secondary pr-1' onClick='confirmDialog(""Remove this permit from this Transaction (#permit_type# #permit_Num#)?"", ""Confirm Remove Permit"", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' value='Remove Permit'></li>">
-		<cfset resulthtml = resulthtml & "</ul>">
-	</cfloop>
-	<cfif query.recordcount eq 0>
-		 <cfset resulthtml = resulthtml & "None">
-	</cfif>
-	<cfset resulthtml = resulthtml & "</span></div>"> <!--- span#permit_tr_, div.permittrans --->
-
-	<cfreturn resulthtml>
+		<cfoutput>
+			<div class='permittrans'>
+				<span id='permits_tr_#transaction_id#'>
+					<cfloop query="query">
+						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
+							from media_relations left join media on media_relations.media_id = media.media_id
+							where media_relations.media_relationship = 'shows permit'
+								and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
+						</cfquery>
+						<cfset mediaLink = "&##8855;">
+						<cfloop query="mediaQuery">
+							<cfset puri=getMediaPreview(preview_uri,media_type) >
+							<cfif puri EQ "/images/noThumb.jpg">
+								<cfset altText = "Red X in a red square, with text, no preview image available">
+							<cfelse>
+								<cfset altText = mediaQuery.media_descriptor>
+							</cfif>
+							<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+						</cfloop>
+						<ul class='permitshipul'>
+							<li><span>#mediaLink# #permit_type# #permit_Num#</span></li>
+							<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li>
+						</ul>
+						<ul class='permitshipul2'>
+							<li>
+								<input type='button' 
+									class='btn btn-xs btn-secondary pr-1' 
+									onClick=' window.open("/transactions/Permit.cfm?action=edit&permit_id=#permit_id#")' 
+									target='_blank' value='Edit'>
+							</li>
+							<li>
+								<input type='button' class='btn btn-xs btn-warning pr-1' 
+									onClick='confirmDialog("Remove this permit from this Transaction (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' 
+									value='Remove Permit'>
+							</li>
+						</ul>
+					</cfloop>
+					<cfif query.recordcount eq 0>
+				 		None
+					</cfif>
+				</span>
+			</div> <!--- span#permit_tr_, div.permittrans --->
+		<cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getPermitsHtmlThread" />
+	<cfreturn getPermitsHtmlThread.output>
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
