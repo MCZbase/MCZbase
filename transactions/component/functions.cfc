@@ -1280,7 +1280,7 @@ limitations under the License.
 <cffunction name="getPermitsForTransHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">
 
-	<cfthread  name="getPermitsHtmlThread" />
+	<cfthread  name="getPermitsHtmlThread">
 		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct permit_num, permit_type, issued_date, permit.permit_id,
 				issuedBy.agent_name as IssuedByAgent
