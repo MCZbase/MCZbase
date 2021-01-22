@@ -14,9 +14,7 @@
 	<!--- Default elements to be included at the top of the html head --->
 	<cfinclude template="/includes/alwaysInclude.cfm">
 </cfif>
-<cfif not isdefined("session.header_color")>
-	<cfset setDbUser()>
-</cfif>
+
 
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
@@ -38,7 +36,14 @@
 		}
 	});
 </script>
-	<body class="default">
+<cfif not isdefined("session.header_color")>
+	<cfif NOT isDefined('setDbUser')>
+		<cfinclude template="/shared/loginFunctions.cfm">
+	</cfif>
+	<cfset setDbUser()>
+</cfif>
+</head>
+<body class="default">
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
 <!--- determine which git branch is currently checked out --->
@@ -51,6 +56,7 @@
 </cfcatch>
 </cftry>
 <cfset Session.gitBranch = gitBranch>
+<!--- Workaround for current production header/collectionlink color values being different from redesign values  --->
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
@@ -63,6 +69,8 @@
 		<cfset collection_link_color = "##94131C" />
 	</cfif>
 </cfif>
+<!--- End workaround ---> 
+
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom">
 	<div class="branding clearfix bg-black">
@@ -113,14 +121,19 @@
 		</div>
 	</div>
 	</noscript>
-		<cfoutput>
 	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
 		<!--- display turned on with javascript below ---> 
 		<!---	
 			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-
+		<cfif findNoCase('redesign',gitBranch) GT 0>
+			<!--- checkout is redesign, redesign2, or similar --->
+			<cfset targetMenu = "redesign">
+		<cfelse>
+			<!--- checkout is master, integration, test, and other non-redesign branches --->
+			<cfset targetMenu = "production">
+		</cfif>
 		<script>
 			// Keyboard shortcut for Search
 			document.addEventListener ("keydown", function (evt) {
@@ -752,5 +765,6 @@
 <cf_rolecheck>
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
+
 <div id="pg_container">
 <div class="content_box">
