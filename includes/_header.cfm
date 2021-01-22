@@ -1,5 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><head>
 
 <cfif isdefined("usealternatehead") and #usealternatehead# eq "image">
 	<cfinclude template="/includes/imageInclude.cfm">
@@ -39,6 +38,18 @@
 		}
 	});
 </script>
+<cfif findNoCase('redesign',gitBranch) EQ 0>
+	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
+	<cfset header_color = "##A51C30">
+	<cfset collection_link_color = "white">
+	<cfif Application.serverName contains "-test">
+		<cfset header_color = "##ADE1EA" >
+		<cfset collection_link_color = "##94131C" >
+		<cfelseif Application.serverName contains "-dev">
+		<cfset header_color = "##CAEAAD">
+		<cfset collection_link_color = "##94131C" />
+	</cfif>
+</cfif>
 <a href="##content" class="sr-only sr-only-focusable btn-link mx-3 d-block px-2 py-1" aria-label="Skip to main content" title="skip navigation">Skip to main content</a>
 <header id="header" role="heading" class="border-bottom">
 	<div class="branding clearfix bg-black">
