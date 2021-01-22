@@ -931,7 +931,7 @@ limitations under the License.
 	<cfset resulthtml = resulthtml & "<div class='permittrans'><span id='permits_tr_#transaction_id#'>">
 	<cfloop query="query">
 		<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select media.media_id, media_uri, preview_uri, media_type
+			select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
 			from media_relations left join media on media_relations.media_id = media.media_id
 			where media_relations.media_relationship = 'shows permit'
 				and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
