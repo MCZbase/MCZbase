@@ -1907,7 +1907,7 @@ div.submenu h2:hover {
 }
 .nav-item {
 	flex:  1 1 auto;
-	text-align:center;
+/*	text-align:center;*/
 }
 .dropdown {
 	position: relative;
