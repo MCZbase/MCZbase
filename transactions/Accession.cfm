@@ -661,12 +661,12 @@ limitations under the License.
 								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
 								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
 								</p>
-								<div id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
+								<div id="transactionFormPermits">Loading permits...</div>
 								<div id='addPermit_#transaction_id#'>
 									<input type='button' 
-										style='margin-left: 30px;' 
+										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accessionDetails.collection# #accessionDetails.accn_number#',reloadTransPermits);" 
-										value='Add Permit to this Accession' class='lnkBtn'>
+										value='Add Permit to this Accession'>
 								</div>
 								<div id='addPermitDlg_#transaction_id#'></div>
 						</section>
