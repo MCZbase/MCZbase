@@ -70,6 +70,7 @@ limitations under the License.
 						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				</cfquery>
 				<cfset transaction = transType.transaction_type>
+				<cfif transaction EQ 'accn'><cfset transaction='accession'></cfif>
 				<h2 class="h3">Disposition of material in this #transaction#:</h2>
 				<!--- TODO: Generalize to other transaction types --->
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
