@@ -1619,7 +1619,10 @@ true) OR (isdefined("collection_id") AND collection_id EQ 13)>
 		(cataloged_item.collection_object_id = underscore_relation.collection_object_id)">
 	</cfif>
 	<cfif left(underscore_coll_id,1) EQ '!' >
-		<cfset basQual = " #basQual# AND underscore_relation.underscore_collection_id<>'#replace(underscore_coll_id,'!','')#'">
+		<cfset basQual = " #basQual# AND (undrescore_relation.collection_object_id IS NULL 
+			OR  underscore_relation.collection_object_id NOT IN
+				( select collection_object_id from  underscore_relation where underscore_collection_id='#replace(underscore_coll_id,'!','')#' )
+			)">
 	<cfelse>
 		<cfset basQual = " #basQual# AND underscore_relation.underscore_collection_id='#underscore_coll_id#'">
 	</cfif>
