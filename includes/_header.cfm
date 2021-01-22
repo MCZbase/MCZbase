@@ -38,6 +38,19 @@
 		}
 	});
 </script>
+	<body class="default">
+<cfset header_color = Application.header_color>
+<cfset collection_link_color = Application.collectionlinkcolor>
+<!--- determine which git branch is currently checked out --->
+<!--- TODO: Move to initSession --->
+<cftry>
+	<!--- assuming a git repository and readable by coldfusion, determine the checked out branch by reading HEAD --->
+	<cfset gitBranch = FileReadLine(FileOpen("#Application.webDirectory#/.git/HEAD", "read"))>
+<cfcatch>
+	<cfset gitBranch = "unknown">
+</cfcatch>
+</cftry>
+<cfset Session.gitBranch = gitBranch>
 <cfif findNoCase('redesign',gitBranch) EQ 0>
 	<!---  TODO: Remove this block when rollout of redesign is complete (when Application.cfc from redesign is used in master). --->
 	<cfset header_color = "##A51C30">
