@@ -128,6 +128,38 @@ limitations under the License.
 	<cfreturn getAccnItemDispThread.output>
 </cffunction>
 
+<!--- obtain an html block containing restrictions imposed by permissions and rights documents on material in an accession --->
+<cffunction name="getAccnLimitations" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnLimitThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select permit_id, specific_type, restriction_summary, benefits_required, benefits_provided
+					from  permit_trans 
+						left join permit on permit_trans.permit_id = permit.permit_id
+					where 
+						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+						and permit.restrictions_summary IS NOT NULL
+				</cfquery>
+				<cfif accnLimitations.recordcount GT 0>
+					<cfloop query="accnLimitations">
+					</cfloop>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnLimitThread" />
+	<cfreturn getAccnLimitThread.output>
+</cffunction>
+
 <!--- obtain an html block containing countries of origin of items in a transaction --->
 <cffunction name="getTransItemCountries" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="transaction_id" type="string" required="yes">

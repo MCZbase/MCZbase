@@ -1518,6 +1518,14 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 			</div>
 <!------------------------------------ accession ---------------------------------------------->
 			<cfif oneOfUs is 1 and vpdaccn is 1>
+				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select specific_type, restriction_summary 
+					from  permit_trans 
+						left join permit on permit_trans.permit_id = permit.permit_id
+					where 
+						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+						and permit.restrictions_summary IS NOT NULL
+				</cfquery>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
 						media.media_id,
@@ -1547,6 +1555,12 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						<span class="detailData">
 							<cfif oneOfUs is 1>
 								<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+								<cfif accnLimitations.recordcount GT 0>
+									<h3>Restrictions on use</h3>
+									<cfloop query=accnLimitations>
+										<p>#accnLimitations.specific_type#: #accnLimitations.restriction_summary#</p>
+									</cfloop>
+								</cfif>
 							<cfelse>
 								#accession#
 							</cfif>

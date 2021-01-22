@@ -647,6 +647,29 @@ limitations under the License.
 					</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
+							<script>
+								// callback for ajax methods to reload permits from dialog
+								function reloadTransPermits() { 
+									loadTransactionFormPermits(#transaction_id#);
+									if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
+										$('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
+									}
+								};
+								$( document ).ready(loadTransactionFormPermits(#transaction_id#));
+							</script>
+								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
+								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
+								</p>
+								<div id="transactionFormPermits" class="shippermitstyle">Loading permits...</div>
+								<div id='addPermit_#transaction_id#'>
+									<input type='button' 
+										style='margin-left: 30px;' 
+										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#',reloadTransPermits);" 
+										value='Add Permit to this Accession' class='lnkBtn'>
+								</div>
+								<div id='addPermitDlg_#transaction_id#'></div>
+						</section>
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
 								<h2 class="h3">
