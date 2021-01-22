@@ -731,7 +731,7 @@
 	});
 </script>
 <cf_rolecheck>
-</cfoutput>
+
 <cfset HEADER_DELIVERED=true>
 <div id="pg_container">
 <div class="content_box">
