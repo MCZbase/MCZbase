@@ -4074,6 +4074,8 @@ ul.pubLinks {
     display: inline;
     overflow: hidden;
     width: auto;
+	top: 0;
+	right: 1rem;
 
 }
 #headerLinks form {
