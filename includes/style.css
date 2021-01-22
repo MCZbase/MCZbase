@@ -3980,7 +3980,7 @@ ul.pubLinks {
 }
 .editPub {width: 54.5em;margin:0 auto;padding: 2em 0 3em 0;}
 .basic_search_box {
-    width: 56em;
+    width: 100%;
 	margin: 0 auto;
 	margin-bottom: 1em;
     padding: 1.5em 0 5em 0;
@@ -3991,13 +3991,13 @@ ul.pubLinks {
     padding: 5px 0;
 }
 .basic_box {
-	width: 56em;
+	width: 100%;
 	margin: 0 auto;
     padding: 2em 0 3em 0;
 
 }
 .basic_wide_box {
-    width: 65em;
+    width: 100%;
     margin: 0 auto;
     padding: 1em 0 3em 0;
 
@@ -4035,7 +4035,7 @@ ul.pubLinks {
 /*  start NEW  header content */
 /******************/
 #headerContent {
-	width: 90%;
+	width: 100%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
@@ -4469,7 +4469,7 @@ table.navtabs {
 	margin: -1em .5% 0 0;
 }
 .content_box_footer {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 }
 .footer2 {
@@ -4639,7 +4639,7 @@ table.navtabs {
 /* close commented backslash hack */
 
 .editLoanbox {
-	width: 76em;
+	width: 100%;
 	margin: 0 auto;
 }
 .newLoanWidth {
@@ -4776,13 +4776,13 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 
 @media only screen and (max-width: 1800px) {
 #headerContent {
-	width: 90%;
+	width: 100%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box_footer {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
@@ -4790,7 +4790,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	width: 90%;*/
 }
 .content_box {
-	width: 90%;
+	width: 100%;
 }
 .content_box_footer {
 	width: 90%;
@@ -4800,13 +4800,13 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 
 @media only screen and (max-width: 1600px) {
 #headerContent {
-	width: 90%;
+	width: 100%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box_footer {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 }
 .sf-mainMenuWrapper {
@@ -4814,19 +4814,19 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	width: 90%;*/
 }
 .content_box {
-	width: 90%;
+	width: 100%;
 }
 }
 
 @media only screen and (max-width: 1400px) {
 #headerContent {
-	width: 95%;
+	width: 100%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box {
-	width: 95%;
+	width: 100%;
 }
 .content_box_footer {
 	width: 95%;
@@ -4842,13 +4842,13 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 
 @media only screen and (max-width: 1200px) {
 #headerContent {
-	width: 98%;
+	width: 100%;
 	background-color: #000;
 	position: relative;
 	margin: 0 auto;
 }
 .content_box_footer {
-	width: 98%;
+	width: 100%;
 	margin: 0 auto;
 }
 .headerText h1 {
@@ -4868,7 +4868,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
       position: relative;*/
 }
 .content_box {
-	width: 98%;
+	width: 100%;
 	margin: 0 auto;
 }
 #headerLinks {
@@ -4882,9 +4882,15 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 
 }
 #theFrame {width: 98%;}
-.ipad_scrolling {background-color: #F1F1F1;width: 100%;height: 98%;}
-.edit_part {width:80%;overflow:scroll;box-sizing: content-box;}
-div.ipad {display:none;}
+.ipad_scrolling {
+	background-color: #F1F1F1;width: 100%;height: 98%;
+	}
+.edit_part {
+	width:80%;overflow:scroll;box-sizing: content-box;
+	}
+div.ipad {
+	display:none;
+	}
 
 }
 @media only screen and (max-width: 940px) {
