@@ -152,27 +152,27 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cfargument name="underscore_relation_id" type="numeric" required="yes">
 	<cftry>
 		<cftransaction>
-		<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
-			delete from underscore_relation 
-			where underscore_relation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_relation_id#" >
-		</cfquery>
-		<cfset rows = deleteQuery_result.recordcount>
-		<cfif rows EQ 0>
-			<cfthrow message="No matching underscore_relation found for underscore_relation_id=[#underscore_relation_id#].">
-		<cfelseif rows GT 1>
-			<cfthrow message="More than one match found for underscore_relation_id=[#underscore_relation_id#].">
-			<cftransaction action="rollback">
-		</cfif>
-		<cfset row = StructNew()>
-		<cfset row = StructNew()>
-		<cfset row["status"] = "deleted">
-		<cfset row["count"] = rows>
-		<cfset row["id"] = "#underscore_relation_id#">
-		<cfset data[1] = row>
+			<cfquery name="deleteQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteQuery_result">
+				delete from underscore_relation 
+				where underscore_relation_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_relation_id#" >
+			</cfquery>
+			<cfset rows = deleteQuery_result.recordcount>
+			<cfif rows EQ 0>
+				<cfthrow message="No matching underscore_relation found for underscore_relation_id=[#underscore_relation_id#].">
+			<cfelseif rows GT 1>
+				<cfthrow message="More than one match found for underscore_relation_id=[#underscore_relation_id#].">
+				<cftransaction action="rollback">
+			</cfif>
+			<cfset row = StructNew()>
+			<cfset row = StructNew()>
+			<cfset row["status"] = "deleted">
+			<cfset row["count"] = rows>
+			<cfset row["id"] = "#underscore_relation_id#">
+			<cfset data[1] = row>
 		</cftransaction>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing removeObjectFromUndColl: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">
@@ -223,28 +223,27 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 	<cftry>
 		<cfset rows = 0>
 		<cftransaction>
-		<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
-			select distinct 
-				collection_object_id from #session.flatTableName# 
-			where 
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+				select distinct 
+					collection_object_id from #session.flatTableName# 
+				where 
 					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
-		</cfquery>
-		<cfif find_result.recordcount GT 0>
-			<cfloop query=find>
-			<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
-				insert into underscore_relation
-					( 
-						underscore_collection_id, 
-						collection_object_id
-					) values ( 
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
-						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
-					)
 			</cfquery>
-		
-			<cfset rows = rows + add_result.recordcount>
-		</cfloop>
-		</cfif>
+			<cfif find_result.recordcount GT 0>
+				<cfloop query=find>
+					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+						insert into underscore_relation
+						( 
+							underscore_collection_id, 
+							collection_object_id
+						) values ( 
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">,
+							<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
+						)
+					</cfquery>
+					<cfset rows = rows + add_result.recordcount>
+				</cfloop>
+			</cfif>
 		</cftransaction>
 
 		<cfset i = 1>
@@ -257,7 +256,7 @@ Function getUndCollList.  Search for arbitrary collections returning json suitab
 		<cfreturn #serializeJSON(data)#>
 	<cfcatch>
 		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
-		<cfset message = trim("Error processing getUndCollList: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
 		<cfheader statusCode="500" statusText="#message#">
 			<cfoutput>
 				<div class="container">

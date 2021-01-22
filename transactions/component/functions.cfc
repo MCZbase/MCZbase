@@ -2176,6 +2176,93 @@ limitations under the License.
 	<cfreturn k>
 </cffunction>
 
+<!---- function addCollObjectsAccn
+  Given a transaction_id for an accession and a string delimited list of guids, look up the collection object id 
+  values for the guids and update the accn_id values of the cataloged item records.  
+	@param transaction_id the pk of the accession to add the collection objects to.
+	@param guid_list a comma delimited list of guids in the form MCZ:Col:catnum
+	@return a json structure containing added=nummber of updated relations.
+--->
+<cffunction name="addCollObjectsAccn" access="remote" returntype="any" returnformat="json">
+	<cfargument name="transaction_id" type="string" required="yes">
+	<cfargument name="guid_list" type="string" required="yes">
+	<cfset guids = "">
+	<cfif Find(',', guid_list) GT 0>
+		<cfset guidArray = guid_list.Split(',')>
+		<cfset separator ="">
+		<cfloop array="#guidArray#" index=#idx#>
+			<!--- skip any empty elements --->
+			<cfif len(trim(idx)) GT 0>
+				<!--- trim to prevent guid, guid from failing --->
+				<cfset guids = guids & separator & trim(idx)>
+				<cfset separator = ",">
+			</cfif>
+		</cfloop>
+	<cfelse>
+		<cfset guids = trim(guid_list)>
+	</cfif>
+
+	<cfset data = ArrayNew(1)>
+	<cftry>
+		<cfset rows = 0>
+		<cftransaction>
+			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+				SELECT count(*) as ct from trans
+				WHERE  
+					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
+					and transaction_type = 'accn'
+			</cfquery>
+			<cfif updateAccnCheck.ct NEQ 1>
+				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of accn.">
+			</cfif>
+			<cfquery name="find" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+				select distinct 
+					collection_object_id from #session.flatTableName# 
+				where 
+					guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guids#" list="yes" >)
+			</cfquery>
+			<cfif find_result.recordcount GT 0>
+				<cfloop query=find>
+					<cfquery name="add" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="add_result">
+						update cataloged_item 
+						set accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+						where collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#find.collection_object_id#">
+					</cfquery>
+					<cfset rows = rows + add_result.recordcount>
+				</cfloop>
+			</cfif>
+		</cftransaction>
+
+		<cfset i = 1>
+		<cfset row = StructNew()>
+		<cfset row["status"] = "success">
+		<cfset row["added"] = "#rows#">
+		<cfset row["matches"] = "#find_result.recordcount#">
+		<cfset row["findquery"] = "#rereplace(find_result.sql,'[\n\r\t]+',' ','ALL')#">
+		<cfset data[i] = row>
+		<cfreturn #serializeJSON(data)#>
+	<cfcatch>
+		<cfif isDefined("cfcatch.queryError") ><cfset queryError=cfcatch.queryError><cfelse><cfset queryError = ''></cfif>
+		<cfset message = trim("Error processing #GetFunctionCalledName()#: " & cfcatch.message & " " & cfcatch.detail & " " & queryError) >
+		<cfheader statusCode="500" statusText="#message#">
+			<cfoutput>
+				<div class="container">
+					<div class="row">
+						<div class="alert alert-danger" role="alert">
+							<img src="/shared/images/Process-stop.png" alt="[ Error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<h2>Internal Server Error.</h2>
+							<p>#message#</p>
+							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
+						</div>
+					</div>
+				</div>
+			</cfoutput>
+		<cfabort>
+	</cfcatch>
+	</cftry>
+
+</cffunction>
+
 <!------------------------------------------------------->
 <cffunction name="saveAccn" access="remote" returntype="any" returnformat="json">
 	<cfargument name="transaction_id" type="string" required="yes">
