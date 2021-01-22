@@ -158,11 +158,11 @@
 		<table class="table table-fixed">
 			<tr>
 				<td>
-					<label for="continent_ocean">Continent or Ocean</label>
+					<label for="continent_ocean">Continent or Ocean
 					<input type="text" name="continent_ocean" id="continent_ocean" class="form-control form-control-sm">
 				        <span class="infolink" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;">
 									Add = for exact match
-				        </span>
+				        </span></label>
 				</td>
 				<td class="pl-3">
 					<label for="ocean_region">Ocean Region
@@ -241,7 +241,7 @@
 				<td>&nbsp;</td>
         	<td class="pl-3">
 					<label for="geog_auth_rec_id">Geog Auth Rec ID
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id"></label>
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 		</table>
