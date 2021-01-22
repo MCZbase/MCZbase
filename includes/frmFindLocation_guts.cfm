@@ -645,11 +645,11 @@
 		</td>
 		<td>
 			<cfif showLocality is 1 AND showSpecimenCounts>
-				<label for="include_counts">Include Specimen Counts?</label>
+				<label for="include_counts">Include Specimen Counts?
 				<select name="include_counts" id="include_counts">
 					<option selected="selected" value="0">No</option>
 					<option value="1">Yes</option>
-				</select>
+				</select></label>
 			</cfif>
 		</td>
 	</tr>
