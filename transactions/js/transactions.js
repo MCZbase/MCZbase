@@ -714,7 +714,7 @@ function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcal
 	});
 	thedialog.dialog('open');
 	jQuery.ajax({
-		url: "/component/functions.cfc",
+		url: "/transactions/component/functions.cfc",
 		type: "post",
 		data: {
 			method: "transPermitPickerHtml",
