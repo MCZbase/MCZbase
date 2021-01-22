@@ -4126,11 +4126,12 @@ ul.pubLinks {
 	margin-left: 0;
 }
 span#locDetailCtl.infoLink {
-	margin-left: 675px;
+/*	margin-left: 675px;*/
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
+	text-align:right;
 }
 span#geogDetailCtl.infoLink {
 /*	margin-left: 675px;*/
@@ -4141,18 +4142,20 @@ span#geogDetailCtl.infoLink {
 	text-align:right;
 }
 span#eventDetailCtl.infoLink {
-	margin-left: 675px;
+/*	margin-left: 675px;*/
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
+	text-align:right;
 }
 span#geogrefDetailCtl.infoLink {
-	margin-left: 675px;
+/*	margin-left: 675px;*/
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
+	text-align:right;
 }
 select#GeorefMethod {
 	width: 600px;
