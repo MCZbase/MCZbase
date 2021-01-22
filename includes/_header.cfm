@@ -96,13 +96,7 @@
 			Test for redesign checkout is required for continued integration, as the production menu
 			must point to files present on production while the redesign menu points at their replacements in redesign
 		--->
-		<cfif findNoCase('redesign',gitBranch) GT 0>
-			<!--- checkout is redesign, redesign2, or similar --->
-			<cfset targetMenu = "redesign">
-		<cfelse>
-			<!--- checkout is master, integration, test, and other non-redesign branches --->
-			<cfset targetMenu = "production">
-		</cfif>
+
 		<script>
 			// Keyboard shortcut for Search
 			document.addEventListener ("keydown", function (evt) {
