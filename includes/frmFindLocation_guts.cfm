@@ -143,7 +143,7 @@
     <tr><td>
 	<div class="locGroup">
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-		<table class="table table-responsive">
+		<table class="table table-fixed">
 		<tr>
 			<td colspan="2">
 				<label for="higher_geog">Higher Geog
@@ -155,7 +155,7 @@
 		</tr>
 	</table>
 		<div id="geogDetail" class="noShow">
-		<table>
+		<table class="table table-fixed">
 			<tr>
 				<td>
 					<label for="continent_ocean">Continent or Ocean</label>
