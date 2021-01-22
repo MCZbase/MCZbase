@@ -2206,7 +2206,7 @@ limitations under the License.
 	<cftry>
 		<cfset rows = 0>
 		<cftransaction>
-			<cfquery name="check" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="find_result">
+			<cfquery name="updateAccnCheck" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="updateAccnCheck_result">
 				SELECT count(*) as ct from trans
 				WHERE  
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
