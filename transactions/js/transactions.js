@@ -341,7 +341,7 @@ function updateAccnItemCount(transactionId,targetDiv) {
 	)
 };
 
-/* Update the content of a div containing dispositions of the items in an accessoin.
+/* Update the content of a div containing dispositions of the items in an accession.
  * @param transactionId the transaction_id of the accession to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).
  */
@@ -362,6 +362,26 @@ function updateAccnItemDispositions(transaction_id,targetDiv) {
 	});
 };
 
+/* Update the content of a div containing contries of origin of the items in an acession.
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateTransItemCountries(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getTransItemCountries",
+			transaction_id: transaction_id
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining countries of origin of items in transaction");
+		},
+		dataType: "html"
+	});
+};
 
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup

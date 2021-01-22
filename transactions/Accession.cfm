@@ -583,6 +583,7 @@ limitations under the License.
 					function updateItemSections() { 
 						updateAccnItemCount('#transaction_id#','accnItemCountDiv');
 						updateAccnItemDispositions('#transaction_id#','accnItemDispositionsDiv');
+						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
 					};
 					$(document).ready(function() {
 						updateItemSections();
@@ -743,30 +744,7 @@ limitations under the License.
 						<cfinclude template="/transactions/shipmentDialog.cfm">
 						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
 							<div class="col-12 pb-3" tabindex="0">
-								<h2 class="h3">Countries of Origin of cataloged items in this Accession</h2>
-								<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(*) as ct, sovereign_nation 
-									from cataloged_item 
-										left join specimen_part on cataloged_item.collection_object_id = specimen_part.collection_object_id
-										left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
-										left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
-										left join locality on collecting_event.locality_id = locality.locality_id
-									where
-										cataloged_item.accn_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
-									group by sovereign_nation
-								</cfquery>
-								<cfset sep="">
-								<cfif ctSovereignNation.recordcount EQ 0>
-									<span class="var-display">None</span>
-								<cfelse>
-									<cfloop query=ctSovereignNation>
-										<cfif len(sovereign_nation) eq 0>
-											<cfset sovereign_nation = '[no value set]'>
-										</cfif>
-										<span class="var-display">#sep##sovereign_nation#&nbsp;(#ct#)</span>
-										<cfset sep="; ">
-									</cfloop>
-								</cfif>
+								<div id="countriesOfOriginDiv" tabindex="0"></div>
 							</div>
 						</section>
 						<!--- TODO: Not relevant, rework to list loans and deaccessions? 

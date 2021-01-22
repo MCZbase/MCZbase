@@ -63,7 +63,15 @@ limitations under the License.
 	<cfthread name="getAccnItemDispThread">
 		<cftry>
 			<cfoutput>
-				<h2 class="h3">Disposition of material in this Accession:</h2>
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select transaction_type
+					from trans
+					where
+						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
+				<cfset transaction = transType.transaction_type>
+				<h2 class="h3">Disposition of material in this #transaction#:</h2>
+				<!--- TODO: Generalize to other transaction types --->
 				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
 					from accn
@@ -119,6 +127,49 @@ limitations under the License.
 	<cfreturn getAccnItemDispThread.output>
 </cffunction>
 
+<!--- obtain an html block containing countries of origin of items in a transaction --->
+<cffunction name="getTransItemCountries" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getTransItemCountryThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="transType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select transaction_type
+					from trans
+					where
+						transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+				</cfquery>
+				<cfset transaction = transType.transaction_type>
+				<cfif transaction = 'accn'><cfset transaction='accession'></cfif>
+				<h2 class="h3">Countries of Origin of cataloged items in this #transaction#</h2>
+				<!--- TODO: Generalize to other transaction types --->
+				<cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select count(*) as ct, sovereign_nation 
+					from cataloged_item 
+						left join specimen_part on cataloged_item.collection_object_id = specimen_part.collection_object_id
+						left join cataloged_item on specimen_part.derived_from_cat_item = cataloged_item.collection_object_id
+						left join collecting_event on cataloged_item.collecting_event_id = collecting_event.collecting_event_id
+						left join locality on collecting_event.locality_id = locality.locality_id
+					where
+						cataloged_item.accn_id =  <cfqueryparam cfsqltype="cf_sql_number" value="#transaction_id#" >
+					group by sovereign_nation
+				</cfquery>
+				<cfset sep="">
+				<cfif ctSovereignNation.recordcount EQ 0>
+
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getTransItemCountryThread" />
+	<cfreturn getTransItemCountryThread.output>
+</cffunction>
 
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
