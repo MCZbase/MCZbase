@@ -1886,7 +1886,7 @@ div.submenu h2:hover {
     flex-grow: 1;
     -ms-flex-align: center;
     align-items: center;
-    background-color: white;
+/*    background-color: white;*/
     padding: 0 .5rem;
 }
 @media only screen and (max-width: 1200px){
@@ -3654,8 +3654,8 @@ div.updatedAtom p {
 	cursor: pointer;
 }
 header {
-	font-weight: bold;
-	margin-left: 10px;
+/*	font-weight: bold;
+	margin-left: 10px;*/
 }
 .loan_results {
 	width: 100%;
