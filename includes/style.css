@@ -4790,9 +4790,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 /*	margin: 0 auto;
 	width: 90%;*/
 }
-.content_box {
-	width: 100%;
-}
+
 .content_box_footer {
 	width: 90%;
 	margin: 0 auto;
@@ -4814,9 +4812,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 /*	margin: 0 auto;
 	width: 90%;*/
 }
-.content_box {
-	width: 100%;
-}
+
 }
 
 @media only screen and (max-width: 1400px) {
@@ -4826,9 +4822,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	position: relative;
 	margin: 0 auto;
 }
-.content_box {
-	width: 95%;
-}
+
 .content_box_footer {
 	width: 100%;
 	margin: 0 auto;
