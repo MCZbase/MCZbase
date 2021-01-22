@@ -13,7 +13,26 @@
 <script type='text/javascript' language="javascript" src='/includes/jquery/jquery-ui-1.11.4.custom/jquery-ui.js'></script>
 <script type='text/javascript' language="javascript" src='/includes/ajax.min.js'></script>
 <script type="text/javascript" src="/lib/bootstrap/bootstrap-4.5.0-dist/js/bootstrap.bundle.min.js"></script>
-
+<script language="javascript" type="text/javascript">
+	jQuery(document).ready(function(){
+		jQuery("ul.sf-menu").supersubs({
+			minWidth:    '10rem',
+			maxWidth:    'auto',
+			extraWidth:  '1'
+		}).superfish({
+			delay:       600,
+			animation:   {opacity:'show',height:'show'},
+			speed:       0
+		});
+		if (top.location!=document.location) {
+			// the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
+			// so hide these elements.
+			$("#footerContentBox").hide();
+			$("#headerContent").hide();
+			$(".sf-mainMenuWrapper").hide();
+		}
+	});
+</script>
 	<div id="headerContent" style="background-color: #Application.header_color#;">
 		<div id="image_headerWrap">
 			<div class="headerText">
