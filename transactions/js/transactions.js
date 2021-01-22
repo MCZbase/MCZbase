@@ -350,8 +350,7 @@ function updateAccnItemDispositions(transaction_id,targetDiv) {
 		url: "/transactions/component/functions.cfc",
 		data : {
 			method : "getAccnItemDispositions",
-			transaction_id: transaction_id,
-			transaction_type: transaction_type
+			transaction_id: transaction_id
 		},
 		success: function (result) {
 			$("#"+targetDiv).html(result);
