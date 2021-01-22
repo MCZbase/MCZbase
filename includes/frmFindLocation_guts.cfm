@@ -159,30 +159,30 @@
 			<tr>
 				<td>
 					<label for="continent_ocean">Continent or Ocean</label>
-					<input type="text" name="continent_ocean" id="continent_ocean" size="50">
+					<input type="text" name="continent_ocean" id="continent_ocean" class="form-control form-control-sm">
 				        <span class="infolink" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;">
 									Add = for exact match
 				        </span>
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="ocean_region">Ocean Region</label>
-					<input type="text" name="ocean_region" id="ocean_region" size="50">
+					<input type="text" name="ocean_region" id="ocean_region" class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
 			<td>
 				<label for="ocean_subregion">Ocean SubRegion</label>
-				<input type="text" name="ocean_subregion" id="ocean_subregion" size="50">
+				<input type="text" name="ocean_subregion" id="ocean_subregion" class="form-control form-control-sm">
 			</td>
 			<td style="padding-left: 1em;">
 				<label for="sea">Sea</label>
-				<input type="text" name="sea" id="sea" size="50">
+				<input type="text" name="sea" id="sea" class="form-control form-control-sm">
 			</td>
 			</tr>
 			<tr>
 			<td>
 				<label for="island">Island</label>
-						<input type="text" name="island" id="island" size="50">
+						<input type="text" name="island" id="island" class="form-control form-control-sm">
 			</td>
 			<td style="padding-left: 1em;">
 				<label for="island_group">Island Group</label>
@@ -197,7 +197,7 @@
 			<tr>
 			<td>
 				<label for="feature">Land Feature</label>
-				<select name="feature" id="feature">
+				<select name="feature" id="feature" class="form-control form-control-sm">
 					<option value=""></option>
 					<cfloop query="ctFeature">
 						<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
@@ -206,7 +206,7 @@
 			</td>
 			<td style="padding-left: 1em;">
 					<label for="water_feature">Water Feature</label>
-						<select name="water_feature" id="water_feature">
+						<select name="water_feature" id="water_feature" class="form-control form-control-sm">
 							<option value=""></option>
 								<cfloop query="ctWater_Feature">
 								<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
@@ -217,24 +217,24 @@
 			<tr>
 				<td>
 					<label for="country">Country</label>
-					<input type="text" name="country" id="country" size="50">
+					<input type="text" name="country" id="country" class="form-control form-control-sm">
 				        <span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;">
 									Add = for exact match
 				        </span>
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="state_prov">State or Province</label>
-					<input type="text" name="state_prov" id="state_prov" size="50">
+					<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="county">County</label>
-					<input type="text" name="county" id="county" size="50">
+					<input type="text" name="county" id="county" class="form-control form-control-sm">
 				</td>
 				<td style="padding-left: 1em;">
 					<label for="quad">Quad</label>
-					<input type="text" name="quad" id="quad" size="50">
+					<input type="text" name="quad" id="quad" class="form-control form-control-sm">
 				</td>
 				</tr>
 				<tr>
@@ -256,7 +256,7 @@
 		<tr>
 			<td colspan="2">
 				<label for="spec_locality">Specific Locality</label>
-				<input type="text" name="spec_locality" id="spec_locality" size="75">
+				<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
 			</td>
 		</tr>
 		</table>
@@ -265,13 +265,13 @@
 			<tr>
 				<td>
 					<label for="collnOper">Collection</label>
-					<select name="collnOper" id="collnOper" size="1">
+					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<option value="usedOnlyBy">used only by</option>
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
 					</select>
-					<select name="collection_id" id="collection_id" size="1">
+					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -286,7 +286,7 @@
 			<tr>
 				<td>
 					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
-					<select name="MinElevOper" id="MinElevOper" size="1">
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -296,7 +296,7 @@
 				</td>
 				<td>
 					<label for="minDepthOper">Minimum Depth (only with units below)</label>
-					<select name="minDepthOper" id="MinDepthOper" size="1">
+					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -308,7 +308,7 @@
 			<tr>
 				<td>
 					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
-					<select name="MaxElevOper" id="MaxElevOper" size="1">
+					<select name="MaxElevOper" id="MaxElevOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -318,7 +318,7 @@
 				</td>
 				<td>
 					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1">
+					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -330,7 +330,7 @@
 			<tr>
 				<td>
 					<label for="orig_elev_units">Elevation Units</label>
-					<select name="orig_elev_units" id="orig_elev_units" size="1">
+					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
 							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
@@ -339,7 +339,7 @@
 				</td>
 				<td>
 					<label for="depth_units">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1">
+					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
@@ -350,7 +350,7 @@
 			<tr>
 				<td>
 					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
-					<select name="MinElevOperM" id="MinElevOperM" size="1">
+					<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -360,7 +360,7 @@
 				</td>
 				<td>
 					<label for="minDepthOperM">Minimum Depth (in meters)</label>
-					<select name="minDepthOperM" id="MinDepthOperM" size="1">
+					<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -372,7 +372,7 @@
 			<tr>
 				<td>
 					<label for="MaxElevOperM">Maximum Elevation (in meters)</label>
-					<select name="MaxElevOperM" id="MaxElevOperM" size="1">
+					<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -382,7 +382,7 @@
 				</td>
 				<td>
 					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
-					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1">
+					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -394,7 +394,7 @@
 			<tr>
 				<td colspan="2">
 					<label for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" size="80">
+					<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
@@ -403,7 +403,7 @@
 						<tr>
 							<td>
 								<label for="geology_attribute">Geology Attribute</label>
-								<select name="geology_attribute" id="geology_attribute">
+								<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
 									<option value="">Anything</option>
 									<cfloop query="ctgeology_attribute">
 										<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
@@ -416,7 +416,7 @@
 							</td>
 							<td>
 								<label for="geology_attribute_hier">Traverse Hierarchies?</label>
-								<select name="geology_attribute_hier" id="geology_attribute_hier">
+								<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
 									<option selected="selected" value="0">No</option>
 									<option value="1">Yes</option>
 								</select>
@@ -426,7 +426,7 @@
 				</td>
 				<td>
 					<label for="sovereign_nation">Sovereign Nation</label>
-					<select name="sovereign_nation" id="sovereign_nation" size="1">
+					<select name="sovereign_nation" id="sovereign_nation" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctsovereign_nation">
 							<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
@@ -457,7 +457,7 @@
 			<tr>
 				<td>
 					<label for="NoGeorefBecause">NoGeorefBecause</label>
-					<input type="text" name="NoGeorefBecause" size="50" id="NoGeorefBecause">
+					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause">
 				</td>
 				<td>
 					<label for="isIncomplete">isIncomplete</label>
@@ -471,7 +471,7 @@
 			<tr>
 				<td colspan="2">
 					<label for="VerificationStatus">VerificationStatus</label>
-					<select name="VerificationStatus" id="VerificationStatus" size="1">
+					<select name="VerificationStatus" id="VerificationStatus" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctVerificationStatus">
 							<option value="#VerificationStatus#">#VerificationStatus#</option>
@@ -488,7 +488,7 @@
 			<tr>
 				<td colspan="2">
 					<label for="GeorefMethod">GeorefMethod</label>
-					<select name="GeorefMethod" id="GeorefMethod" size="1" style="width: 400px;">
+					<select name="GeorefMethod" id="GeorefMethod" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctGeorefMethod">
 							<option value="#GeorefMethod#">#GeorefMethod#</option>
@@ -498,7 +498,7 @@
 				<td>
 						<div style="margin-left: 2em;" class="geolocateScoreDiv">
 							<label>Geolocate Precision</label>
-							<select name="geolocate_precision" id="geolocate_precision" size="1">
+							<select name="geolocate_precision" id="geolocate_precision" size="1" class="form-control form-control-sm">
 								<option value="" SELECTED></option>
 								<option value="high" >high</option>
 								<option value="medium" >medium</option>
@@ -519,7 +519,7 @@
 
 							<div style="margin-left: 2em;" class="geolocateScoreDiv">
 							<label>Geolocate Score</label>
-							<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)">
+							<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
 								<option value="=" SELECTED>=</option>
 								<option value="<" ><</option>
 								<option value=">" >></option>
@@ -527,11 +527,11 @@
 							</select>
 
 							<label id="hiddenDivlabel" style="display:none;">Min</label>
-							<input type="text" name="geolocate_score" size="3" id="geolocate_score">
+							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm">
 
 							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span>
 								<label style="display: inline;">Max</label>
-								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2">
+								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="form-control form-control-sm">
 							</div>
 							</div>
 				</td>
