@@ -1862,7 +1862,6 @@ div.submenu h2:hover {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     text-align: center;
-	margin-top: .5rem;
 }
 .nav-link.dropdown-toggle:hover:before {
 	transform:rotate(0deg);
