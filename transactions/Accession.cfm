@@ -665,7 +665,7 @@ limitations under the License.
 								<div id='addPermit_#transaction_id#'>
 									<input type='button' 
 										style='margin-left: 30px;' 
-										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accnData.collection# #accndata.accn_number#',reloadTransPermits);" 
+										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accnDetails.collection# #accnDetails.accn_number#',reloadTransPermits);" 
 										value='Add Permit to this Accession' class='lnkBtn'>
 								</div>
 								<div id='addPermitDlg_#transaction_id#'></div>
