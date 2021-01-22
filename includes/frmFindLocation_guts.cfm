@@ -146,10 +146,10 @@
 		<table>
 		<tr>
 			<td>
-				<label for="higher_geog">Higher Geog</label>
-				<input type="text" name="higher_geog" id="higher_geog" size="75">
+				<label for="higher_geog">Higher Geog
+				<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm">
 				<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
-									Add = for exact match
+									Add = for exact match</label>
 				</span>
 			</td>
 		</tr>
