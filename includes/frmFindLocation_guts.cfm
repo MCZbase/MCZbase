@@ -252,11 +252,11 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table>
+	<table class="table table-fixed">
 		<tr>
 			<td colspan="2">
-				<label for="spec_locality">Specific Locality</label>
-				<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
+				<label for="spec_locality">Specific Locality
+				<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm"></label>
 			</td>
 		</tr>
 		</table>
@@ -264,45 +264,45 @@
 		<table>
 			<tr>
 				<td>
-					<label for="collnOper">Collection</label>
-					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
+					<label for="collnOper">Collection
+					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm w-25">
 						<option value=""></option>
 						<option value="usedOnlyBy">used only by</option>
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
 					</select>
-					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm">
+					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm w-75">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 						</cfloop>
-					</select>
+					</select></label>
 				</td>
 				<td>
-					<label for="locality_id">Locality ID</label>
-					<input type="text" name="locality_id" id="locality_id">
+					<label for="locality_id">Locality ID
+					<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
-					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm">
+					<label for="MinElevOper">Minimum Elevation (only with units below)
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm w-25">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="minimum_elevation" id="minimum_elevation">
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control form-control-sm w-75"></label>
 				</td>
 				<td>
-					<label for="minDepthOper">Minimum Depth (only with units below)</label>
-					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm">
+					<label for="minDepthOper">Minimum Depth (only with units below)
+					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm w-25">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="min_depth" id="min_depth">
+					<input type="text" name="min_depth" id="min_depth" class="form-control form-control-sm w-75"></label>
 				</td>
 			</tr>
 			<tr>
@@ -444,14 +444,14 @@
 			<tr>
 				<td>
 					<label for="findNoGeoRef">No Georeferences</label>
-					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef">
+					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-control form-control-sm">
 				</td>
 				<td>
 					<label for="findHasGeoRef">Has Georeferences</label>
-					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef">
+					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="form-control form-control-sm">
 				<td>
 					<label for="findNoAccGeoRef">No Accepted Georeferences</label>
-					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef">
+					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
@@ -461,11 +461,11 @@
 				</td>
 				<td>
 					<label for="isIncomplete">isIncomplete</label>
-					<input type="checkbox" name="isIncomplete" id="isIncomplete">
+					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-control form-control-sm">
 				</td>
 				<td>
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause</label>
-					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause">
+					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
@@ -481,7 +481,7 @@
 				<td>
 					<div style="margin-left: 2em;" class="geolocateScoreDiv">
 						<label>Shared Localities Only</label>
-						<input type="checkbox" name="onlyShared" id="onlyShared">
+						<input type="checkbox" name="onlyShared" id="onlyShared" class="form-control form-control-sm">
 					</div>
 				</td>
 			</tr>
@@ -549,13 +549,13 @@
 		<tr>
 			<td>
 				<label for="verbatim_locality">Verbatim Locality
-				<input type="text" name="verbatim_locality" id="verbatim_locality" ></label>
+				<input type="text" name="verbatim_locality" id="verbatim_locality"  class="form-control form-control-sm"></label>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="begDateOper">Began Date</label>
-				<select name="begDateOper" id="begDateOper" size="1">
+				<select name="begDateOper" id="begDateOper" size="1" class="form-control form-control-sm">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
@@ -566,12 +566,12 @@
 		<tr>
 			<td>
 				<label for="endDateOper">Ended Date</label>
-				<select name="endDateOper" id="endDateOper" size="1">
+				<select name="endDateOper" id="endDateOper" size="1" class="form-control form-control-sm">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
 	            </select>
-				<input type="text" name="ended_date" id="ended_date">
+				<input type="text" name="ended_date" id="ended_date" class="form-control form-control-sm w-50">
 			</td>
 		</tr>
 	</table>
