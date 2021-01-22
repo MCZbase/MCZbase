@@ -4133,11 +4133,12 @@ span#locDetailCtl.infoLink {
 	font-weight: bold;
 }
 span#geogDetailCtl.infoLink {
-	margin-left: 675px;
+/*	margin-left: 675px;*/
 	margin-top: 10px;
 	display: block;
 	font-size: 12px;
 	font-weight: bold;
+	text-align:right;
 }
 span#eventDetailCtl.infoLink {
 	margin-left: 675px;
