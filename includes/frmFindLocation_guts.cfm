@@ -147,7 +147,7 @@
 		<tr>
 			<td>
 				<label for="higher_geog">Higher Geog
-				<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm">
+				<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
 				<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
 									Add = for exact match</label>
 				</span>
