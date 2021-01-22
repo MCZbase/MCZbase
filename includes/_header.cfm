@@ -14,7 +14,7 @@
 	<!--- Default elements to be included at the top of the html head --->
 	<cfinclude template="/includes/alwaysInclude.cfm">
 </cfif>
-
+<cfoutput>
 
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
