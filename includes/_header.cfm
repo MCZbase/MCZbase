@@ -34,7 +34,7 @@
 			// the page is being included in a frame or a dialog within a page which already contains the header, main menu, and footer
 			// so hide these elements.
 			$("#footerContentBox").hide();
-		//	$("#headerContent").hide();
+			$("#headerContent").hide();
 			$(".sf-mainMenuWrapper").hide();
 		}
 	});
