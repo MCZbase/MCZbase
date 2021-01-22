@@ -131,7 +131,7 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
-						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
 						<ul class="dropdown-menu border rounded" aria-labelledby="manageDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
@@ -179,7 +179,7 @@
 				<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_specimens")>
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
-						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
 						<ul class="dropdown-menu border rounded" aria-labelledby="curationDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
@@ -266,7 +266,7 @@
 				<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
-						<a class="nav-link dropdown-toggle px-3 text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
 						<ul class="dropdown-menu border rounded">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
