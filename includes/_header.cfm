@@ -14,7 +14,7 @@
 	<!--- Default elements to be included at the top of the html head --->
 	<cfinclude template="/includes/alwaysInclude.cfm">
 </cfif>
-<cfoutput>
+
 
 <script language="javascript" type="text/javascript">
 	jQuery(document).ready(function(){
@@ -43,6 +43,7 @@
 	<cfset setDbUser()>
 </cfif>
 </head>
+<cfoutput>
 <body class="default">
 <cfset header_color = Application.header_color>
 <cfset collection_link_color = Application.collectionlinkcolor>
