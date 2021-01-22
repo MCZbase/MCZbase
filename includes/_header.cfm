@@ -521,6 +521,8 @@
 									</div>
 								</li>
 							</ul>
+
+
 						</li>
 					<cfif isdefined("session.roles") and ( listcontainsnocase(session.roles,"manage_codetables") or listcontainsnocase(session.roles,"dba") or listcontainsnocase(session.roles,"global_admin") )>
 						<li class="nav-item dropdown">
@@ -764,6 +766,7 @@
 	});
 </script>
 <cf_rolecheck>
+
 </cfoutput>
 <cfset HEADER_DELIVERED=true>
 
