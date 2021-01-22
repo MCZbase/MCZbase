@@ -341,6 +341,29 @@ function updateAccnItemCount(transactionId,targetDiv) {
 	)
 };
 
+/* Update the content of a div containing dispositions of the items in an accessoin.
+ * @param transactionId the transaction_id of the accession to lookup
+ * @param targetDiv the id div for which to replace the contents (without a leading #).
+ */
+function updateAccnItemDispositions(transaction_id,targetDiv) {
+	jQuery.ajax({
+		url: "/transactions/component/functions.cfc",
+		data : {
+			method : "getAccnItemDispositions",
+			transaction_id: transaction_id,
+			transaction_type: transaction_type
+		},
+		success: function (result) {
+			$("#"+targetDiv).html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+		},
+		dataType: "html"
+	});
+};
+
+
 /* Update the content of a div containing a count of the items in a Loan.
  * @param transactionId the transaction_id of the Loan to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).

@@ -55,6 +55,71 @@ limitations under the License.
 	</cfif>
 	<cfreturn rankCount>
 </cffunction>
+
+<!--- obtain an html block containing dispositions of items in an accession --->
+<cffunction name="getAccnItemDispositions" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnItemDispThread">
+		<cftry>
+			<cfoutput>
+				<h2 class="h3">Disposition of material in this Accession:</h2>
+				<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+					from accn
+						left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
+						left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
+						left join deacc_item on cataloged_item.collection_object_id = deacc_item.collection_object_id
+						left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
+					where accn.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
+						and coll_obj_disposition is not null
+					group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
+				</cfquery>
+				<cfif getDispositions.RecordCount EQ 0 >
+					<h4>There are no attached collection objects.</h4>
+				<cfelse>
+					<table class="table table-responsive">
+						<thead class="thead-light">
+							<tr>
+								<th>Collection</th>
+								<th>Cataloged Items</th>
+								<th>Disposition</th>
+								<th>Deaccession</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfloop query="getDispositions">
+								<tr>
+									<cfif len(trim(getDispositions.deacc_number)) GT 0>
+										<td>#collection_cde#</td>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
+									<cfelse>
+										<td>#collection_cde#</td>
+										<td>#pcount#</td>
+										<td>#coll_obj_disposition#</td>
+										<td>Not in a Deaccession</td>
+									</cfif>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnItemDispThread" />
+	<cfreturn getAccnItemDispThread.output>
+</cffunction>
+
+
 <!--- obtain counts of loan items --->
 <cffunction name="getLoanItemCounts" access="remote">
 	<cfargument name="transaction_id" type="string" required="yes">
@@ -2262,6 +2327,9 @@ limitations under the License.
 	</cftry>
 
 </cffunction>
+
+
+
 
 <!------------------------------------------------------->
 <cffunction name="saveAccn" access="remote" returntype="any" returnformat="json">

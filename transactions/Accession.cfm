@@ -579,67 +579,27 @@ limitations under the License.
 						</script>
 					</form>
 				</section>
+				<script>
+					function updateItemSections() { 
+						updateAccnItemCount('#transaction_id#','accnItemCountDiv');
+						updateAccnItemDispositions('#transaction_id#','accnItemDispositionsDiv');
+					};
+					$(document).ready(function() {
+						updateItemSections();
+					});
+				</script>
 				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" tabindex="0">
 					<div class="col-12 pt-3 pb-1">
 						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
-						<!--- TODO: Impmlement. --->
-						<input type="button" value="Add Items BY Barcode" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/loanByBarcode.cfm?transaction_id=#transaction_id#');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
-							onClick=" updateAccnItemCount('#transaction_id#','accnItemCountDiv'); ">
+							onClick=" updateItemSections(); ">
 					</div>
 					<div class="col-12 pt-2 pb-3">
 						<div id="accnItemCountDiv" tabindex="0"></div>
-						<script>
-							$(document).ready( updateAccnItemCount('#transaction_id#','accnItemCountDiv') );
-						</script>
-						<!--- TODO: ajax update of this block, wrap into updateAccnItemCount  --->
-						<h2 class="h3">Disposition of material in this Accession:</h2>
-						<cfquery name="getDispositions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_cde, count(coll_object.collection_object_id) as pcount, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-							from accn
-								left join cataloged_item on accn.transaction_id = cataloged_item.accn_id
-								left join coll_object on cataloged_item.collection_object_id = coll_object.collection_object_id
-								left join deacc_item on cataloged_item.collection_object_id = deacc_item.collection_object_id
-								left join deaccession on deacc_item.transaction_id = deaccession.transaction_id
-							where accn.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-								and coll_obj_disposition is not null
-							group by collection_cde, coll_obj_disposition, deacc_number, deacc_type, deacc_status
-						</cfquery>
-						<cfif getDispositions.RecordCount EQ 0 >
-							<h4>There are no attached collection objects.</h4>
-						<cfelse>
-							<table class="table table-responsive">
-								<thead class="thead-light">
-									<tr>
-										<th>Collection</th>
-										<th>Cataloged Items</th>
-										<th>Disposition</th>
-										<th>Deaccession</th>
-									</tr>
-								</thead>
-								<tbody>
-									<cfloop query="getDispositions">
-										<tr>
-											<cfif len(trim(getDispositions.deacc_number)) GT 0>
-												<td>#collection_cde#</td>
-												<td>#pcount#</td>
-												<td>#coll_obj_disposition#</td>
-												<td><a href="Deaccession.cfm?action=listDeacc&deacc_number=#deacc_number#">#deacc_number# (#deacc_status#)</a></td>
-											<cfelse>
-												<td>#collection_cde#</td>
-												<td>#pcount#</td>
-												<td>#coll_obj_disposition#</td>
-												<td>Not in a Deaccession</td>
-											</cfif>
-										</tr>
-									</cfloop>
-								</tbody>
-							</table>
-						</cfif>
+						<div id="accnItemDispositionsDiv" tabindex="0"></div>
 					</div>
 				</section>
 				<section role="search" aria-labelledby="guid_list_label" class="container my-2">
@@ -663,7 +623,7 @@ limitations under the License.
 											dataType : "json",
 											data : $('##addCollObjectsAccn').serialize(),
 											success : function (data) {
-												updateAccnItemCount('#transaction_id#','accnItemCountDiv');
+												updateItemSections();
 												$('##addResultDiv').html("Added " + data[0].added);
 											},
 											error: function(jqXHR,textStatus,error){
