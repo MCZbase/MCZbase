@@ -1556,7 +1556,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 							<cfif oneOfUs is 1>
 								<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
 								<cfif accnLimitations.recordcount GT 0>
-									<h3>Restrictions on use</h3>
+									<h3 class="detailLabel">Restrictions on use</h3>
 									<cfloop query=accnLimitations>
 										<p>#accnLimitations.specific_type#: #accnLimitations.restriction_summary#</p>
 									</cfloop>
