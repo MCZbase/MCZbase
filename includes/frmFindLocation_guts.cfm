@@ -145,7 +145,7 @@
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
 		<table class="table table-responsive">
 		<tr>
-			<td>
+			<td colspan="2">
 				<label for="higher_geog">Higher Geog
 				<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
 				<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;">
