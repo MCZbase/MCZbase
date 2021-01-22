@@ -525,7 +525,6 @@ limitations under the License.
 						</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
-<!--- TODO: Rework from here. --->
 								<input type="button" value="Save" class="btn btn-xs btn-primary mr-2"
 									onClick="if (checkFormValidity($('##editAccnForm')[0])) { saveEdits();  } " 
 									id="submitButton" >
@@ -747,6 +746,7 @@ limitations under the License.
 								<div id="countriesOfOriginDiv" tabindex="0"></div>
 							</div>
 						</section>
+<!--- TODO: Rework from here. --->
 						<!--- TODO: Not relevant, rework to list loans and deaccessions? 
 						<div class="row mx-0">
 							<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
@@ -809,80 +809,6 @@ limitations under the License.
 									</div>
 								</div>
 							</section>	
-							<!--- Print permits associated with these accessions --->
-							<section title="Permissions And Rights Documents from Accessions and Shipments" class="mt-2 float-left col-12 col-md-6 pl-md-1 p-0" tabindex="0">
-								<div class="border bg-light float-left pl-3 py-0 h-100 w-100 rounded">
-									<div>
-										<h2 class="h3">
-											Permissions and Rights Documents 
-											<span class="smaller d-block mt-1">PDF copies of Permits from Accessions and Shipments of this Loan</span>
-										</h2>
-										<cfquery name="getPermitMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct media_id, uri, permit_type, specific_type, permit_num, permit_title, show_on_shipment 
-											from (
-												select 
-													mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
-													mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-													p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-													ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
-												from loan_item li
-													left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-													left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-													left join accn on ci.accn_id = accn.transaction_id
-													left join permit_trans on accn.transaction_id = permit_trans.transaction_id
-													left join permit p on permit_trans.permit_id = p.permit_id
-													left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
-												where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-												union
-												select 
-													mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id,
-													mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-													p.permit_type, p.permit_num, p.permit_title, p.specific_type,
-													ctspecific_permit_type.accn_show_on_shipment as show_on_shipment
-												from loan_item li
-													left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-													left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-													left join shipment on ci.accn_id = shipment.transaction_id
-													left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-													left join permit p on permit_shipment.permit_id = p.permit_id
-													left join ctspecific_permit_type on p.specific_type = ctspecific_permit_type.specific_type
-												where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-												union
-												select 
-													mczbase.get_media_id_for_relation(p.permit_id, 'shows permit','application/pdf') as media_id, 
-													mczbase.get_media_uri_for_relation(p.permit_id, 'shows permit','application/pdf') as uri,
-													p.permit_type, p.permit_num, p.permit_title, p.specific_type, 1 as show_on_shipment
-												from shipment s
-													left join permit_shipment ps on s.shipment_id = ps.shipment_id
-													left join permit p on ps.permit_id = p.permit_id
-												where s.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-											) where permit_type is not null
-										</cfquery>
-										<cfset uriList = ''>
-										<div id="transPermitMediaListDiv">
-											<ul class="pl-4 pr-0 list-style-disc" tabindex="0">
-												<cfloop query="getPermitMedia">
-													<cfif media_id is ''>
-														<li class="">#permit_type# #specific_type# #permit_num# #permit_title# (no pdf)</li>
-													<cfelse>
-														<cfif show_on_shipment EQ 1>
-															<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title#</li>
-															<cfset uriList = ListAppend(uriList,uri)>
-														<cfelse>
-															<li class=""><a href="#uri#">#permit_type# #permit_num#</a> #permit_title# (not included in PDF of All)</li>
-														</cfif>
-													</cfif>
-												</cfloop>
-											</ul>
-										</div>
-									</div>
-									<cfif ListLen(uriList,',',false) gt 0 >
-										
-										<a href="/Reports/combinePermits.cfm?transaction_id=#accessionDetails.transaction_id#" class="font-weight-bold pl-2 d-block mb-3">PDF of All Permission and Rights documents</a>
-											
-									</cfif>
-								</div>
-							</section>
 						</div>
 						---->
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
