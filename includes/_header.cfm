@@ -71,7 +71,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu element for search, mostly public --->
 					<a href="##" class="nav-link dropdown-toggle text-left" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="search shortcut=alt+m">Search</a>
-					<ul class="dropdown-menu border-0" aria-labelledby="searchDropdown">
+					<ul class="dropdown-menu border rounded overflow-hidden" aria-labelledby="searchDropdown">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/SpecimenSearch.cfm">Specimens</a>
@@ -98,7 +98,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item data entry --->
 						<a href="##" class="nav-link dropdown-toggle text-left" id="createRecordDrop" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Data Entry</a>
-						<ul class="dropdown-menu border rounded" aria-labelledby="createRecordDrop">
+						<ul class="dropdown-menu border rounded overflow-hidden" aria-labelledby="createRecordDrop">
 							<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-3 text-danger">Create New Record</div>
@@ -132,7 +132,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item manage data --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="manageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Manage Data</a>
-						<ul class="dropdown-menu border rounded" aria-labelledby="manageDropdown">
+						<ul class="dropdown-menu border rounded overflow-hidden" aria-labelledby="manageDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -180,7 +180,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item curation --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="curationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Curation</a>
-						<ul class="dropdown-menu border rounded" aria-labelledby="curationDropdown">
+						<ul class="dropdown-menu border rounded overflow-hidden" aria-labelledby="curationDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -220,7 +220,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item transactions --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" id="transactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Transactions</a>
-						<ul class="dropdown-menu border rounded"  aria-labelledby="transactionDropdown">
+						<ul class="dropdown-menu border rounded overflow-hidden"  aria-labelledby="transactionDropdown">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<div>
 									<div class="h5 dropdown-header px-3 text-danger">Search &amp; Edit</div>
@@ -247,7 +247,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item review date, available to all with coldfusion_users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Review Data</a>
-					<ul class="dropdown-menu border-0">
+					<ul class="dropdown-menu border rounded overflow-hidden">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<div class="h5 dropdown-header px-3 text-danger">Reports &amp; Statistics</div>
@@ -267,7 +267,7 @@
 					<li class="nav-item dropdown">
 						<!--- main menu item admin --->
 						<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-						<ul class="dropdown-menu border rounded">
+						<ul class="dropdown-menu border rounded overflow-hidden">
 							<li class="d-md-flex align-items-start justify-content-start">
 								<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_codetables")>
 									<div>
@@ -317,7 +317,7 @@
 				<li class="nav-item dropdown">
 					<!--- main menu item account, for logged in users --->
 					<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
-					<ul class="dropdown-menu border rounded">
+					<ul class="dropdown-menu border rounded overflow-hidden">
 						<li class="d-md-flex align-items-start justify-content-start">
 							<div>
 								<a class="dropdown-item" target="_top" href="/myArctos.cfm">User Profile</a>
@@ -331,7 +331,7 @@
 			<li class="nav-item dropdown">
 				<!--- main menu item help --->
 				<a class="nav-link dropdown-toggle text-left" target="_top" href="##" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Help</a>
-				<ul class="dropdown-menu border rounded">
+				<ul class="dropdown-menu border rounded overflow-hidden">
 					<li class="d-md-flex align-items-start justify-content-start">
 						<div>
 							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"coldfusion_user")>
