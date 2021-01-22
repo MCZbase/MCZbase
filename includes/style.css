@@ -2830,19 +2830,19 @@ span.helpDiv {
 }
 .media_paging {align-content: center}
 #navbar .activeButton, #navbar .activeButton:hover {
-	border: 1px solid gray;
+/*	border: 1px solid gray;
 	color: gray;
 	background-color: lightgray;
-	cursor: default;
+	cursor: default;*/
 }
 #navbar {
-	border-bottom: 2px solid black;
+/*	border-bottom: 2px solid black;
 	border-top: 2px solid black;
 	color: green;
 	margin: 0;
 	padding: 2px 0px;
 	z-index: 400;
-	text-align: center;
+	text-align: center;*/
 }
 #navbar li {
 	display: inline;
@@ -2850,24 +2850,24 @@ span.helpDiv {
 	list-style-type: none;
 }
 #navbar a, a.active {
-	color: green;
-	background-color: #E7E7E7;
-	text-decoration: none;
-	border: 1px solid black;
-	padding: 0 5px 0 5px;
+/*	color: green;*/
+	/*background-color: #E7E7E7;*/
+/*	text-decoration: none;*/
+/*	border: 1px solid black;*/
+/*	padding: 0 5px 0 5px;
 	margin: 0;
 	font-weight: bolder;
-	font-size: small;
+	font-size: small;*/
 }
 #navbar span, span.active {
-	color: green;
+/*	color: green;
 	background-color: #E7E7E7;
 	text-decoration: none;
 	border: 1px solid black;
 	padding: 0px 5px 0px 5px;
 	margin: 0px;
 	font-weight: bolder;
-	font-size: small;
+	font-size: small;*/
 }
 #navbar a.active {
 	background-color: #000000;
@@ -3326,14 +3326,14 @@ pre {
 	list-style-type: none;
 }
 #tabmenu a, a.active {
-	color: blue;
+/*	color: blue;
 	background-color: #E7E7E7;
 	border-right: 1px solid black;
 	text-decoration: none;
 	border-left: 1px solid black;
 	border-top: 1px solid black;
 	padding: 0px 5px 0px 5px;
-	margin: 0px;
+	margin: 0px;*/
 }
 #tabmenu a.active {
 	background: #FFFFFF;
