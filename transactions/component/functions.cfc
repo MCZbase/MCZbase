@@ -937,16 +937,15 @@ limitations under the License.
 				and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#permit_id#>
 		</cfquery>
 		<cfset mediaLink = "&##8855;">
-		<cfset getMediaPreview = ''>
-			<cfloop query="mediaQuery">
+		<cfloop query="mediaQuery">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
 			<cfif puri EQ "/images/noThumb.jpg">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
 				<cfset altText = mediaQuery.media_descriptor>
 			</cfif>
-		<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
-	</cfloop>
+			<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+		</cfloop>
 		<cfset resulthtml = resulthtml & "<ul class='permitshipul'><li><span>#mediaLink# #permit_type# #permit_Num#</span></li><li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li></ul>">
 
 
