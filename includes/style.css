@@ -1775,17 +1775,18 @@ li.sfHover > a > .sf-sub-indicator {
 
 /*** shadows for all but IE6 ***/
 .sf-shadow ul {
--webkit-box-shadow: 3px 5px 10px 0px rgba(0,0,0,0.65);
+/*-webkit-box-shadow: 3px 5px 10px 0px rgba(0,0,0,0.65);
 -moz-box-shadow: 3px 5px 10px 0px rgba(0,0,0,0.65);
-box-shadow: 3px 5px 10px 0px rgba(0,0,0,0.65);
+box-shadow: 3px 5px 10px 0px rgba(0,0,0,0.65);*/
 }
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
 .sf-mainMenuWrapper {
 /*	clear:left;*/
-	width:97.25%;
+	width:100%;
    margin:0 auto;
+	border-bottom: 3px solid #ccc;
 /* 	font-weight:400;
 	background-color:#D5D5DB;
 	background-color: white;
@@ -3843,12 +3844,12 @@ ul.lisc li {
 	margin-bottom: 1em;
 	padding-top: 1em;
 	background-color: #fff;
-	-webkit-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
+/*	-webkit-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
 	box-shadow: -2px 15px 40px -5px rgba(204,204,204,1);
 	-webkit-box-shadow: -1px 11px 40px -5px rgba(204,204,204,1);
 	-moz-box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
-	box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);
+	box-shadow: -1px 8px 40px -3px rgba(204,204,204,1);*/
  /*   ::-webkit-scrollbar
     display: none;*/
 }
