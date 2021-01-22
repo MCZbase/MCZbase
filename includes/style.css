@@ -1880,7 +1880,7 @@ div.submenu h2:hover {
     -ms-flex-align: center;
     align-items: center;
     background-color: white;
-    padding: .5rem 1.5rem;
+    padding: 0 .5rem;
 }
 @media only screen and (max-width: 1200px){
 #headerLinks {
