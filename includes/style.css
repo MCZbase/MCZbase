@@ -4506,12 +4506,12 @@ table.navtabs {
 	margin-top: 1em;
 }
 .footer a {
-	font-size: 13px;
+/*	font-size: 13px;
 	width: 33%;
 	display: block;
 	display: inline-block;
 	text-align: center;
-	font-weight: bold;
+	font-weight: bold;*/
 }
 .databases {
 	font-size: 12px;
