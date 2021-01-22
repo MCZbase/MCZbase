@@ -679,6 +679,23 @@ function openfindpermitdialog(valueControl, idControl, dialogid) {
 	});
 }
 
+function deletePermitFromTransaction(permitId,transactionId) {
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "removePermitFromTransaction",
+			transaction_id : transactionId,
+			permit_id : permitId,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			loadTransactionFormPermits(transactionId);
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"deleting permit");
+	});
+}
+
 // Create and open a dialog to find and link existing permit records to a provided transaction
 function openlinkpermitdialog(dialogid, transaction_id, transaction_label, okcallback) { 
 	var title = "Link Permit record(s) to " + transaction_label;

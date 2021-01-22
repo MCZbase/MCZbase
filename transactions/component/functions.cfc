@@ -914,7 +914,44 @@ limitations under the License.
 	<cfreturn theResult>
 </cffunction>
 
-<!----------------------------------------------------------------------------------------------------------------->
+<!--- Given a transaction_id and a permit_id, remove the relationship between the permit and the transaction.
+--->
+<cffunction name="removePermitFromTransaction" returntype="query" access="remote">
+        <cfargument name="permit_id" type="string" required="yes">
+        <cfargument name="transaction_id" type="string" required="yes">
+        <cfset r=1>
+        <cftry>
+            <cfquery name="deleteResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="deleteResultRes">
+             delete from permit_trans
+             where permit_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+               and transaction_id =<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
+            </cfquery>
+                <cfif deleteResultRes.recordcount eq 0>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "No records deleted. #permit_id# #transaction_id# #deleteResult.sql#", 1)>
+                </cfif>
+                <cfif deleteResultRes.recordcount eq 1>
+                  <cfset theResult=queryNew("status, message")>
+                  <cfset t = queryaddrow(theResult,1)>
+                  <cfset t = QuerySetCell(theResult, "status", "1", 1)>
+                  <cfset t = QuerySetCell(theResult, "message", "Record deleted.", 1)>
+                </cfif>
+        <cfcatch>
+          <cfset theResult=queryNew("status, message")>
+                <cfset t = queryaddrow(theResult,1)>
+                <cfset t = QuerySetCell(theResult, "status", "-1", 1)>
+                <cfset t = QuerySetCell(theResult, "message", "#cfcatch.type# #cfcatch.message# #cfcatch.detail#", 1)>
+          </cfcatch>
+        </cftry>
+    <cfif isDefined("asTable") AND asTable eq "true">
+            <cfreturn resulthtml>
+    <cfelse>
+            <cfreturn theResult>
+    </cfif>
+</cffunction>
+
 <!---  Given a transaction_id, return a block of html code for a permit picking dialog to pick permits for the given
        transaction.
        @param transaction_id the transaction to which selected permits are to be related.
