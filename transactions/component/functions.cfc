@@ -1292,7 +1292,7 @@ limitations under the License.
 
 		<cfoutput>
 			<div class='permittrans'>
-				<span id='permits_tr_#transaction_id#'>
+				<span id='permits_tr_#transaction_id#' class="pb-2">
 					<cfloop query="query">
 						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
@@ -1310,18 +1310,14 @@ limitations under the License.
 							</cfif>
 							<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
 						</cfloop>
-						<ul class='permitshipul'>
-							<li><span>#mediaLink# #permit_type# #permit_Num#</span></li>
-							<li>Issued: #dateformat(issued_Date,'yyyy-mm-dd')#</li><li style='width:300px;'>#IssuedByAgent#</li>
-						</ul>
-						<ul class='permitshipul2'>
-							<li>
+						<ul class='list-style-disc pl-4 pr-0'>
+							<li class="my-1">
+								#mediaLink# #permit_type# #permit_Num#<
+								| Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
 								<input type='button' 
 									class='btn btn-xs btn-secondary pr-1' 
 									onClick=' window.open("/transactions/Permit.cfm?action=edit&permit_id=#permit_id#")' 
 									target='_blank' value='Edit'>
-							</li>
-							<li>
 								<input type='button' class='btn btn-xs btn-warning pr-1' 
 									onClick='confirmDialog("Remove this permit from this Transaction (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' 
 									value='Remove Permit'>
