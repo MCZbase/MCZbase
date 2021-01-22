@@ -647,7 +647,7 @@ limitations under the License.
 						<div class="row border rounded mb-2 pb-2" >
 							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
 							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
-							<input type="hidden" id="method" name="method" value="addObjectsToAccn" >
+							<input type="hidden" id="method" name="method" value="addCollObjectsAccn" >
 							<div class="form-row mx-0 my-2">
 								<div class="col-12 col-md-10">
 									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this accession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
