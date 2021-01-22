@@ -284,9 +284,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td  class="input-group">
 					<label for="MinElevOper">Minimum Elevation (only with units below)
-					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm w-25">
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-prepend form-control-sm w-25">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
