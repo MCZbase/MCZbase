@@ -1524,7 +1524,7 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
 						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
-						and permit.restrictions_summary IS NOT NULL
+						and permit.restriction_summary IS NOT NULL
 				</cfquery>
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select
