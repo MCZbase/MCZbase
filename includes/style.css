@@ -4829,13 +4829,8 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	width: 100%;
 }
 .content_box_footer {
-	width: 95%;
+	width: 100%;
 	margin: 0 auto;
-}
-.sf-mainMenuWrapper {
-/*	margin: 0 auto;
-	width: 97.5%;
-	background-color: #ddd;*/
 }
 
 }
@@ -4861,11 +4856,6 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin-left: 2%;
 	padding: 1% .5% 1% .5em;
 	width: 130px;
-}
-.sf-mainMenuWrapper {
-/*	margin: 0 auto;
-	width: 98%;
-      position: relative;*/
 }
 .content_box {
 	width: 100%;
