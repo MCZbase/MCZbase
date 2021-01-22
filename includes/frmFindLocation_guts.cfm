@@ -164,84 +164,84 @@
 									Add = for exact match
 				        </span>
 				</td>
-				<td style="padding-left: 1em;">
-					<label for="ocean_region">Ocean Region</label>
-					<input type="text" name="ocean_region" id="ocean_region" class="form-control form-control-sm">
+				<td class="pl-3">
+					<label for="ocean_region">Ocean Region
+					<input type="text" name="ocean_region" id="ocean_region" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
 			<td>
-				<label for="ocean_subregion">Ocean SubRegion</label>
-				<input type="text" name="ocean_subregion" id="ocean_subregion" class="form-control form-control-sm">
+				<label for="ocean_subregion">Ocean SubRegion
+				<input type="text" name="ocean_subregion" id="ocean_subregion" class="form-control form-control-sm"></label>
 			</td>
-			<td style="padding-left: 1em;">
-				<label for="sea">Sea</label>
-				<input type="text" name="sea" id="sea" class="form-control form-control-sm">
+			<td class="pl-3">
+				<label for="sea">Sea
+				<input type="text" name="sea" id="sea" class="form-control form-control-sm"></label>
 			</td>
 			</tr>
 			<tr>
 			<td>
-				<label for="island">Island</label>
-						<input type="text" name="island" id="island" class="form-control form-control-sm">
+				<label for="island">Island
+						<input type="text" name="island" id="island" class="form-control form-control-sm"></label>
 			</td>
-			<td style="padding-left: 1em;">
-				<label for="island_group">Island Group</label>
-					<select name="island_group" id="island_group">
+			<td class="pl-3">
+				<label for="island_group">Island Group
+					<select name="island_group" id="island_group"  class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctIslandGroup">
 							<option value = "#ctIslandGroup.island_group#">#ctIslandGroup.island_group#</option>
 						</cfloop>
-					</select>
+					</select></label>
 			</td>
 			</tr>
 			<tr>
 			<td>
-				<label for="feature">Land Feature</label>
+				<label for="feature">Land Feature
 				<select name="feature" id="feature" class="form-control form-control-sm">
 					<option value=""></option>
 					<cfloop query="ctFeature">
 						<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
 					</cfloop>
-				</select>
+				</select></label>
 			</td>
-			<td style="padding-left: 1em;">
-					<label for="water_feature">Water Feature</label>
+				<td class="pl-3">
+					<label for="water_feature">Water Feature
 						<select name="water_feature" id="water_feature" class="form-control form-control-sm">
 							<option value=""></option>
 								<cfloop query="ctWater_Feature">
 								<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
 								</cfloop>
-						</select>
+						</select></label>
 			</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="country">Country</label>
+					<label for="country">Country
 					<input type="text" name="country" id="country" class="form-control form-control-sm">
 				        <span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;">
 									Add = for exact match
-				        </span>
+				        </span></label>
 				</td>
-				<td style="padding-left: 1em;">
-					<label for="state_prov">State or Province</label>
-					<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm">
+				<td class="pl-3">
+					<label for="state_prov">State or Province
+					<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="county">County</label>
-					<input type="text" name="county" id="county" class="form-control form-control-sm">
+					<label for="county">County
+					<input type="text" name="county" id="county" class="form-control form-control-sm"></label>
 				</td>
-				<td style="padding-left: 1em;">
-					<label for="quad">Quad</label>
-					<input type="text" name="quad" id="quad" class="form-control form-control-sm">
+					<td class="pl-3">
+					<label for="quad">Quad
+					<input type="text" name="quad" id="quad" class="form-control form-control-sm"></label>
 				</td>
 				</tr>
 				<tr>
 				<td>&nbsp;</td>
-        <td style="padding-left: 1em;">
-					<label for="geog_auth_rec_id">Geog Auth Rec ID</label>
-					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id">
+        	<td class="pl-3">
+					<label for="geog_auth_rec_id">Geog Auth Rec ID
+					<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id"></label>
 				</td>
 			</tr>
 		</table>
@@ -548,8 +548,8 @@
 	<table cellpadding="0" cellspacign="0">
 		<tr>
 			<td>
-				<label for="verbatim_locality">Verbatim Locality</label>
-				<input type="text" name="verbatim_locality" id="verbatim_locality" size="75">
+				<label for="verbatim_locality">Verbatim Locality
+				<input type="text" name="verbatim_locality" id="verbatim_locality" ></label>
 			</td>
 		</tr>
 		<tr>
