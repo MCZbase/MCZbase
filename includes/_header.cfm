@@ -89,6 +89,7 @@
 		</div>
 	</div>
 	</noscript>
+		<cfoutput>
 	<div class="container-fluid bg-light px-0" style="display: none;" id="mainMenuContainer">
 		<!--- display turned on with javascript below ---> 
 		<!---	
@@ -731,7 +732,7 @@
 	});
 </script>
 <cf_rolecheck>
-
+</cfoutput>
 <cfset HEADER_DELIVERED=true>
 <div id="pg_container">
 <div class="content_box">
