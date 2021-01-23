@@ -364,7 +364,7 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
+					<label for="MinElevOperM" class="mb-0">Minimum Elevation (in meters)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
 					<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
@@ -373,46 +373,54 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
+					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control mr-5 form-control-sm input-group-append d-flex">
 					</div>
 				</td>
 				<td>
-					<label for="minDepthOperM">Minimum Depth (in meters)</label>
+					<label for="minDepthOperM" class="mb-0">Minimum Depth (in meters)</label>
+						<div class="input-group">
+					<div class="input-group-prepend">
 					<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="min_depth_m" id="min_depth_m" class="form-control form-control-sm input-group-append d-flex">
+					<input type="text" name="min_depth_m" id="min_depth_m" class="form-control form-control-sm mr-5 input-group-append d-flex">
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<label for="MaxElevOperM">Maximum Elevation (in meters)</label>
+						<div class="input-group">
+					<div class="input-group-prepend">
 					<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
+					</select></div>
 					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
+			</div>
 				</td>
 				<td class="pl-3">
 					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
+						<div class="input-group">
+					<div class="input-group-prepend">
 					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
+						</select></div>
 					<input type="text" name="max_depth_m" id="max_depth_m" class="form-control form-control-sm input-group-append d-flex">
+							</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
 					<label for="locality_remarks">Locality Remarks
-					<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm input-group-append d-flex"></label>
+					<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
@@ -443,7 +451,7 @@
 					</table>
 				</td>
 				<td>
-					<label for="sovereign_nation">Sovereign Nation</label>
+					<label for="sovereign_nation">Sovereign Nation
 					<select name="sovereign_nation" id="sovereign_nation" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctsovereign_nation">
@@ -452,7 +460,7 @@
 						<cfloop query="ctsovereign_nation" startRow="1">
 							<option value="!#ctsovereign_nation.sovereign_nation#">!#ctsovereign_nation.sovereign_nation#</option>
 						</cfloop>
-					</select>
+					</select></label>
 				</td>
 			</tr>
 		</table>
