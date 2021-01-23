@@ -132,11 +132,11 @@
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
        <div style="float:left;width: 750px;margin-bottom: .25em;">
       <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
+      <input type="text" name="media_uri" id="media_uri" >
       </div>
       <div style="float:left;width: 250px;padding-top:.25em;">
       <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type" class="form-control form-control-sm">
+      <select name="mime_type" id="mime_type" >
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
