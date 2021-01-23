@@ -35,8 +35,8 @@
    			 </select>
 		</td>
 		<td>
-			<label for="first_name">First Name</label>
-			<input type="text" name="first_name">
+			<label for="first_name" class="mb-0">First Name</label>
+			<input type="text" name="first_name" class="rounded border">
 		</td>
 	</tr>
     <tr>
@@ -52,15 +52,15 @@
 	   		 </select>
 		</td>
 		<td>
-			<label for="middle_name">
+			<label for="middle_name" class="mb-0">
 				Middle Name
 			</label>
-			<input type="text" name="middle_name" id="middle_name">
+			<input type="text" name="middle_name" id="middle_name" class="rounded border">
 		</td>
     </tr>
     <tr>
         <td>
-			<label for="birthOper">
+			<label for="birthOper" class="mb-0">
 				Birth Date
 			</label>
 			<select name="birthOper" size="1" id="birthOper">
@@ -68,13 +68,13 @@
 				<option selected value="=" >Is</option>
 				<option value=">=">After</option>
 			</select>
-			<input type="text" size="10" name="birth_date" id="birth_date">
+			<input type="text" size="10" name="birth_date" id="birth_date" class="rounded border">
 		</td>
 		<td>
-			<label for="last_name">
+			<label for="last_name" class="mb-0">
 			Last Name
 			</label>
-			<input type="text" name="last_name" id="last_name">
+			<input type="text" name="last_name" id="last_name" class="rounded border">
 		</td>
 	<tr>
 	<tr>
@@ -90,10 +90,10 @@
 			<input type="text" size="10" name="death_date" id="death_date">
 		</td>
 		<td>
-			<label for="agent_id">
+			<label for="agent_id" class="mb-0">
 				Agent ID
 			</label>
-			<input type="text" name="agent_id" size="10" id="agent_id">
+			<input type="text" name="agent_id" size="10" id="agent_id" class="rounded border">
 		</td>
 	</tr>
 
@@ -105,10 +105,10 @@
 			<input type="text" name="address" id="address" size="20">
 		</td>
 		<td>
-			<label for="anyName">
+			<label for="anyName" class="mb-0">
 				Any part of any name
 			</label>
-			<input type="text" name="anyName" id="anyName" size="20">
+			<input type="text" name="anyName" id="anyName" size="20" class="border rounded">
 		</td>
 	</tr>
    
