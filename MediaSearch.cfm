@@ -130,11 +130,11 @@
       <input type="hidden" name="srchType" value="full">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-       <div style="float:left;width: 750px;margin-bottom: .25em;">
+       <div class="my-2 float-left w-100">
       <label for="media_uri">Media URI</label>
       <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
-      <div style="float:left;width: 250px;padding-top:.25em;">
+      <div class="my-2 float-left w-100">
       <label for="mime_type">MIME Type</label>
       <select name="mime_type" id="mime_type" class="form-control form-control-sm">
         <option value=""></option>
@@ -143,7 +143,7 @@
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 200px;">
+       <div class="my-2 float-left w-100">
       <label for="media_type">Media Type</label>
       <select name="media_type" id="media_type" class="form-control form-control-sm">
         <option value=""></option>
