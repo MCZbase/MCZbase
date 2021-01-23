@@ -429,7 +429,7 @@
 					<table class="table table-responsive">
 						<tr>
 							<td>
-								<label for="geology_attribute">Geology Attribute</label>
+								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
 									<div class="input-group">
 					<div class="input-group-prepend">
 								<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
@@ -523,7 +523,7 @@
 					</select></label>
 				</td>
 				<td>
-						<div style="margin-left: 2em;" class="geolocateScoreDiv">
+						<div  class="geolocateScoreDiv">
 							<label>Geolocate Precision
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="form-control form-control-sm">
 								<option value="" SELECTED></option>
@@ -546,15 +546,17 @@
 
 							<div class="geolocateScoreDiv">
 							<label>Geolocate Score</label>
+											<div class="input-group">
+					<div class="input-group-prepend">
 							<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
 								<option value="=" SELECTED>=</option>
 								<option value="<" ><</option>
 								<option value=">" >></option>
 								<option value="between" >between</option>
-							</select>
+						</select></div>
 
 							<label id="hiddenDivlabel" style="display:none;">Min</label>
-							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm">
+							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
 
 							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span>
 								<label style="display: inline;">Max</label>
