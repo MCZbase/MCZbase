@@ -749,7 +749,7 @@ function opendialogrank(page,id,title,agentId) {
 			</cfloop>
 
 		<div class="newRec p-2">
-			<label>Add Relationship</label>
+			<label for="relagent" class="mb-0">Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="action" value="addRelationship">
 				<input type="hidden" name="newRelatedAgentId">
@@ -759,7 +759,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctRelns.AGENT_RELATIONSHIP#">#ctRelns.AGENT_RELATIONSHIP#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="related_agent" class="reqdClr border rounded" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+				<input id="relagent" type="text" name="related_agent" class="reqdClr border rounded" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 					onchange="getAgent('newRelatedAgentId','related_agent','newRelationship',this.value); return false;"
 					onKeyPress="return noenter(event);">
 				<input type="submit" class="insBtn" value="Create Relationship">
