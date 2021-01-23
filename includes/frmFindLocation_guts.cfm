@@ -263,7 +263,7 @@
 		<div id="locDetail" class="noShow">
 		<table class="table table-responsive">
 			<tr>
-				<td colspan="2">
+				<td colspan="1">
 					<label for="collnOper" class="mb-0">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -281,7 +281,7 @@
 					</select>
 					</div>
 				</td>
-				<td>
+				<td colspan="1">
 					<label for="locality_id">Locality ID
 					<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm"></label>
 				</td>
