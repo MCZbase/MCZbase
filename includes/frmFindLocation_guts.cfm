@@ -426,7 +426,7 @@
 			</tr>
 			<tr>
 				<td>
-					<table class="table border-0 pb-0">
+					<table class="table border-0 mb-0">
 						<tr>
 							<td>
 								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
