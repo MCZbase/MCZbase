@@ -22,7 +22,7 @@
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
 
-		<table class="table">
+		<table class="table table-responsive">
 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
