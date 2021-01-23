@@ -559,8 +559,11 @@
 							<input type="text" name="geolocate_score" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
 
 							<div id="hiddenDiv" style="display:none">
-								<label style="display: inline;">Max</label>
-								<input type="text" name="geolocate_score2" id="geolocate_score2" class="form-control form-control-sm input-group-append">
+								<div class="input-group">
+								<div class="input-group-prepend">
+								<label>Max</label>
+								</div>
+								<input type="text" name="geolocate_score2" id="geolocate_score2" class="form-control w-50 form-control-sm input-group-append">
 							</div>
 							</div>
 				</td>
