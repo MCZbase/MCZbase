@@ -134,7 +134,7 @@
       <label for="media_uri">Media URI</label>
       <input type="text" name="media_uri" id="media_uri" >
       </div>
-      <div style="float:left;width: 250px;padding-top:.25em;">
+      <div style="float:left;width: 250px;padding-top:.25em;float:left;">
       <label for="mime_type">MIME Type</label>
       <select name="mime_type" id="mime_type" >
         <option value=""></option>
