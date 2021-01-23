@@ -374,13 +374,13 @@
           </cfloop>
         </select>
         :&nbsp;
-        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly class="border round">
+        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly class="border rounded">
         <input type="hidden" name="related_id__1" id="related_id__1">
        <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
-      <label for="labels" style="margin-top:.5em;">Media Labels</label>
-      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p><label for="labels">Media Labels <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
+      <label for="labels" style="margin-top:.5em;">Media Labels  <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
+      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot" style="padding: .5em .25em;">
       <cfset i=1>
       <cfloop>
@@ -392,7 +392,7 @@
             </cfloop>
           </select>
           :&nbsp;
-          <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="">
+          <input type="text" name="label_value__#i#" id="label_value__#i#" size="80" value="" class="border rounded">
 	 </div>
 	 <cfset i=i+1>
 	</cfloop>
