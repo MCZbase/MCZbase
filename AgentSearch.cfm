@@ -26,7 +26,7 @@
 <table>	
 	<tr>
 		<td>
-			<label for="prefix">Prefix</label>
+			<label for="prefix" class="mb-0">Prefix</label>
 			<select name="prefix" size="1" id="prefix">
 				<option selected value="">none</option>
       	    	<cfloop query="prefix"> 
@@ -41,7 +41,7 @@
 	</tr>
     <tr>
        <td>
-			<label for="suffix">
+			<label for="suffix" class="mb-0">
 				Suffix
 			</label>
 			<select name="suffix" size="1" id="suffix">
@@ -79,7 +79,7 @@
 	<tr>
 	<tr>
 		<td>
-			<label for="deathOper">
+			<label for="deathOper" class="mb-0">
 				Death Date
 			</label>
 			<select name="deathOper" size="1" id="deathOper">
@@ -87,7 +87,7 @@
 				<option selected value="=" >Is</option>
 				<option value=">=">After</option>
 			</select>
-			<input type="text" size="10" name="death_date" id="death_date">
+			<input type="text" size="10" name="death_date" id="death_date" class="rounded border">
 		</td>
 		<td>
 			<label for="agent_id" class="mb-0">
