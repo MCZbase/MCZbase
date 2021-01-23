@@ -460,22 +460,22 @@ function opendialogrank(page,id,title,agentId) {
  						<tr>
 							<td>
  								<label for="birth_date" class="mb-0">Birth Date</label>
- 								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="10" class="border rounded">
+ 								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="14" class="border mb-2 rounded">
  							</td>
 							<td>
  								<label for="death_date" class="mb-0">Death Date</label>
- 								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10" class="border rounded">
+ 								<input type="text" name="death_date" id="death_date" value="#death_date#" size="14" class="border mb-2 rounded">
  							</td>
 						        <td colspan="2">
                                       <label for="editedPerson" class="mb-0">Edited</label>
-				                            <select name="editedPerson" size="1">
+				                            <select name="editedPerson" class="mb-2" size="1">
 					                       <option value=1 <cfif #edited# EQ 1>selected</cfif>>yes *</option>
 					                       <option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
 				                            </select>
 				                        </td>
  						</tr>
  						<tr>
-							<td colspan="4" class="detailCell border-0 py-3">
+							<td colspan="4" class="detailCell border-0 py-2">
 								<label for="agentguid" class="mb-0">GUID for Agent</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
@@ -496,7 +496,7 @@ function opendialogrank(page,id,title,agentId) {
 										</cfif>
 									</cfif>
 								</cfloop>
-								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1">
+								<select name="agentguid_guid_type" id="agentguid_guid_type" size="1" class="mb-2">
 									<cfif searchtext EQ "">
 										<option value=""></option>
 									</cfif>
