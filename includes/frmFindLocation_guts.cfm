@@ -441,7 +441,7 @@
 							<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
 								</div>
 							</td>
-							<td>
+								<td class="border-0">
 								<label for="geology_attribute_hier">Traverse Hierarchies?
 								<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
 									<option selected="selected" value="0">No</option>
