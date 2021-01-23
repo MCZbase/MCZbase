@@ -316,10 +316,10 @@
 			</tr>
 			<tr>
 				<td  class="mr-3">
-					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
+					<label for="MaxElevOper" class="mb-0">Maximum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MaxElevOper" id="MaxElevOper" size="1" class=" form-control form-control-sm">
+					<select name="MaxElevOper" id="MaxElevOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -329,7 +329,7 @@
 					</div>
 				</td>
 				<td class="pl-3">
-					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
+					<label for="MaxDepthOper" class="mb-0">Maximum Depth (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
 					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
@@ -344,17 +344,17 @@
 			</tr>
 			<tr>
 				<td class="mr-3">
-					<label for="orig_elev_units">Elevation Units</label>
+					<label for="orig_elev_units">Elevation Units
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
 							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
 						</cfloop>
-					</select>
+					</select></label>
 				</td>
 				<td class="pl-3">
 					<label for="depth_units">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
+					<select name="depth_units" id="depth_units" size="1" class="form-control mr-5 form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
