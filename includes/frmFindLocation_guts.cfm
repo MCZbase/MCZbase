@@ -497,7 +497,7 @@
 												<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer">
 											</label></td>
 										<td><div class="geolocateScoreDiv">
-											<label for="gs_comparator">Geolocate Score</label>
+											<label for="gs_comparator" class="mb-0">Geolocate Score</label>
 											<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
