@@ -90,11 +90,7 @@
       <label for="media_uri">Media URI</label>
      <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
      </div>
-      <div style="width: 100px;margin: .5em 0;">
-        <label for="tag">Require TAG?</label>
-        <input type="checkbox" id="tag" name="tag" value="1"  class="form-control form-control-sm">
-      </div>
-
+  
       <div style="width: 420px;margin-top:.5em;">
         <div style="display: inline; width: 200px; float:left;">
           <label for="mime_type">MIME Type</label>
@@ -105,7 +101,7 @@
             </cfloop>
           </select>
         </div>
-        <div style="display: inline; width: 200px;margin-bottom: 1em;">
+        <div style="display: inline; width: 200px;margin-bottom: 1em;float:left;">
           <label for="media_type">Media Type</label>
           <select name="media_type" id="media_type" multiple="multiple" size="5"  class="form-control form-control-sm">
             <option value="" selected="selected">Anything</option>
