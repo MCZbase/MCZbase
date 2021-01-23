@@ -55,9 +55,9 @@
 
 					<h4 style="padding-top: 1em;">Project Details</h4>
 					<label for="sponsor"><span id="project_sponsor">Sponsor</span></label>
-					<input name="sponsor" id="sponsor" type="text">
+					<input name="sponsor" id="sponsor" type="text" class="form-control form-control-sm">
 					<label for="project_type"><span id="project_type">Type</span></label>
-					<select name="project_type" id="project_type">
+					<select name="project_type" id="project_type" class="form-control form-control-sm">
 						<option value=""></option>
 						<option value="loan">Uses Specimens</option>
 						<option value="loan_no_pub">Uses Specimens, no publication</option>
@@ -66,27 +66,27 @@
 						<option value="neither">Neither Uses nor Contributes</option>
 					</select>
 					<label for="descr_len"> Description Min. Length</label>
-					<input name="descr_len" id="descr_len" type="text" value="100">
+					<input name="descr_len" id="descr_len" type="text" value="100" class="form-control form-control-sm">
 				</td>
 				<td>
 					<h4>Publication Details</h4>
 					<cfoutput>
 						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
-						<select name="publication_type" id="publication_type" size="1">
+						<select name="publication_type" id="publication_type" size="1" class="form-control form-control-sm">
 							<option value=""></option>
 							<cfloop query="ctpublication_type">
 								<option value="#publication_type#">#publication_type#</option>
 							</cfloop>
 						</select>
 						<label for="journal">Journal Name</label>
-						<select name="journal" id="journal" size="1">
+						<select name="journal" id="journal" size="1" class="form-control form-control-sm">
 							<option value=""></option>
 							<cfloop query="ctjournal_name">
 								<option value="#journal_name#">#journal_name#</option>
 							</cfloop>
 						</select>
 						<label for="collection_id">Cites Collection</label>
-						<select name="collection_id" id="collection_id" size="1">
+						<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm">
 							<option value="">All</option>
 							<cfloop query="ctColl">
 								<option value="#collection_id#">#collection#</option>
@@ -96,7 +96,7 @@
 					<label for="onlyCitePubs">
 						<span id="pub_cites_specimens">Cites specimens?</span>
 					</label>
-					<select name="onlyCitePubs" id="onlyCitePubs">
+					<select name="onlyCitePubs" id="onlyCitePubs" class="form-control form-control-sm">
 						<option value=""></option>
 						<option value="1">Cites Specimens</option>
 						<option value="0">Cites no Specimens</option>
@@ -104,13 +104,13 @@
 					<label for="cited_sci_Name">
 						<span id="cited_sci_Name">Cited Scientific Name</span>
 					</label>
-					<input name="cited_sci_Name" id="cited_sci_Name" type="text">
+					<input name="cited_sci_Name" id="cited_sci_Name" type="text" class="form-control form-control-sm">
 					<label for="current_sci_Name">
 						<span id="accepted_sci_name">Accepted Scientific Name</span>
 					</label>
-					<input name="current_sci_Name" id="current_sci_Name" type="text">
+					<input name="current_sci_Name" id="current_sci_Name" type="text" class="form-control form-control-sm">
 					<label for="is_peer_reviewed_fg"><span id="is_peer_reviewed_fg">Peer Reviewed only?</span></label>
-					<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg">
+					<select name="is_peer_reviewed_fg" id="is_peer_reviewed_fg" class="form-control form-control-sm">
 						<option value=""></option>
 						<option value="1">yes</option>
 					</select>
@@ -118,7 +118,7 @@
 
 			</tr>
 			<tr>
-				<td colspan="2" align="center" style="padding-top: 2em;">
+				<td colspan="2" align="center">
 					<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 
                     <input type="reset"	value="Clear Form"	class="clrBtn">
