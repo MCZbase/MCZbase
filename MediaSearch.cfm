@@ -134,7 +134,7 @@
       <label for="media_uri">Media URI</label>
       <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
-      <div style="float:left;width: 250px;padding-top:.25em;clear:both;">
+      <div style="float:left;width: 250px;padding-top:.25em;">
       <label for="mime_type">MIME Type</label>
       <select name="mime_type" id="mime_type" class="form-control form-control-sm">
         <option value=""></option>
@@ -143,7 +143,7 @@
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 200px;margin-left: 1rem;">
+       <div style="float:left;width: 200px;">
       <label for="media_type">Media Type</label>
       <select name="media_type" id="media_type" class="form-control form-control-sm">
         <option value=""></option>
@@ -153,7 +153,7 @@
       </select>
       </div>
    	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-          <div style="float:left;width: 150px;margin-left:1rem;">
+          <div style="float:left;width: 150px;">
            <span>
                <label for "unlinked">Limit to Media not yet linked to any record.</label>
                <input type="checkbox" name="unlinked" id="unlinked" value="true">
@@ -163,28 +163,26 @@
       <div style="clear: both;padding-top: .5em;">
       <label for="relationships">Media Relationships</label>
       <div id="relationships" class="relationship_dd">
-        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;" class="float-left form-control form-control-sm">
+        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
           <option value=""></option>
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>
-		  <input type="text" name="related_value__1" id="related_value__1"  class="form-control w-50 d-flex float-left form-control-sm">
-		    <br clear="all">
+        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control form-control-sm">
         <input type="hidden" name="related_id__1" id="related_id__1">
-      
-        <span class="infoLink" id="addRelationship" onclick="addRelation(2)" class="d-block float-left">Add Relationship</span> </div>
+        <br>
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
         </div>
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
         <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;" class="float-left form-control form-control-sm">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;"  class="form-control form-control-sm">
             <option value=""></option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>:&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1"  class="form-control w-50 d-flex float-left form-control-sm">
+          <input type="text" name="label_value__1" id="label_value__1" class="form-control form-control-sm">
         </div>
         <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
          </div>
