@@ -425,9 +425,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="mb-0">
 					<table class="table border-0 mb-0">
-						<tr>
+						<tr class="row">
 							<td>
 								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
 									<div class="input-group">
