@@ -263,7 +263,7 @@
 		<div id="locDetail" class="noShow">
 		<table class="table table-responsive">
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="collnOper" class="mb-0">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
