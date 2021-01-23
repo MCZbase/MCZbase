@@ -273,7 +273,7 @@
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
 						</select></div>
-					<select name="collection_id" id="collection_id" size="1" class="form-control mr-5 form-control-sm d-flex">
+					<select name="collection_id" id="collection_id" size="1" class="form-control input-group-append mr-5 form-control-sm d-flex">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
