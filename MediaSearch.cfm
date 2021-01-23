@@ -168,7 +168,8 @@
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control w-50 d-flex float-left form-control-sm">
+        </select>
+		  <input type="text" name="related_value__1" id="related_value__1"  class="form-control w-50 d-flex float-left form-control-sm">
 		    <br clear="all">
         <input type="hidden" name="related_id__1" id="related_id__1">
       
