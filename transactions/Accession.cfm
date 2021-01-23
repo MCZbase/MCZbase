@@ -659,7 +659,7 @@ limitations under the License.
 									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
 								};
 								$( document ).ready(
-									loadTransactionFormPermits(#transaction_id#)
+									loadTransactionFormPermits(#transaction_id#);
 									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
 								);
 							</script>
@@ -675,7 +675,6 @@ limitations under the License.
 								</div>
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
-						<!--- TODO: load summary of restrictions/benefits --->
 						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
 							<div class="col-12">
 								<h2 class="h3">
