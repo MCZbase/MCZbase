@@ -356,7 +356,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td><label for="MaxElevOperM">Maximum Elevation (in meters)</label>
+									<td><label for="MaxElevOperM" class="mb-0">Maximum Elevation (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
@@ -368,7 +368,7 @@
 											</div>
 											<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 										</div></td>
-									<td><label for="MaxDepthOperM">Maximum Depth (in meters)</label>
+									<td><label for="MaxDepthOperM" class="mb-0">Maximum Depth (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
