@@ -90,6 +90,9 @@
   }
 </script>
 		<style>
+			.table {
+				margin-bottom: .5rem;
+			}
 			.table td {
 				border:none;
 				padding: 0 .5rem;
