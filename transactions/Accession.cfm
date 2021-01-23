@@ -610,7 +610,7 @@ limitations under the License.
 							<input type="hidden" id="method" name="method" value="addCollObjectsAccn" >
 							<div class="form-row mx-0 my-2">
 								<div class="col-12 col-md-10">
-									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to add to this accession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
+									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to move into to this accession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
 											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 								</div>
