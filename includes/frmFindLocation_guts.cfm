@@ -426,7 +426,7 @@
 			</tr>
 			<tr>
 				<td>
-					<table>
+					<table class="table table-responsive">
 						<tr>
 							<td>
 								<label for="geology_attribute">Geology Attribute</label>
