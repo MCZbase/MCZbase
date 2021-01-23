@@ -140,7 +140,7 @@ limitations under the License.
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
-						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+						permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 						and permit.restriction_summary IS NOT NULL
 				</cfquery>
 				<cfif accnLimitations.recordcount GT 0>
