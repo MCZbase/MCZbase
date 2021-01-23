@@ -644,17 +644,17 @@
 			</tr>
 			<tr>
 				<td>
-					<label for="collecting_source">Collecting Source</label>
-					<select name="collecting_source" id="collecting_source" size="1">
+					<label for="collecting_source">Collecting Source
+					<select name="collecting_source" id="collecting_source" size="1" class="form-control form-control-sm">
 		            	<option value=""></option>
 		                <cfloop query="ctCollectingSource">
 		                	<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
 		                </cfloop>
-		           	</select>
+		           	</select></label>
 				</td>
                 	 <td>
-                	<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
-					<input type="text" name="verbatimSRS" id="verbatimSRS"  class="form-control form-control-sm">
+                	<label for="verbatimSRS">Verbatim SRS (e.g., datum)
+					<input type="text" name="verbatimSRS" id="verbatimSRS"  class="form-control form-control-sm"></label>
                   </td>
                 	<td>
 					<label for="collecting_event_id">Collecting Event ID
