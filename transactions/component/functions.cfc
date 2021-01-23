@@ -1224,7 +1224,7 @@ limitations under the License.
 							$('##pp_#permit_id#_#transaction_id#_#i#').removeClass('ui-widget-content');
 							function linkpermit(permit_id, transaction_id, transaction_label, div_id) { 
 								jQuery.ajax({
-									url: '/transactions/comonent/functions.cfc',
+									url: '/transactions/component/functions.cfc',
 									type: 'post',
 									data: {
 										method: 'linkPermitToTrans',
