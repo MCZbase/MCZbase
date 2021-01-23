@@ -72,7 +72,7 @@
   <div class="greenbox float-left">
     <a name="kwFrm"></a>
 	  <h2 class="h3">Keyword Search</h2>
-  <p style="font-size: 14px;" class="small">
+  <p class="small">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
       </p>
 	  <div class="mb-2 float-left w-100">
@@ -127,7 +127,7 @@
           <div class="greenbox">
     <a name="relFrm"></a>
 			  	  <h2 class="h3">Relational Search</h2>
-    <div> <p style="font-size: 14px;padding-bottom: 1em;" class="small">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
+    <div> <p class="small">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="full">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
