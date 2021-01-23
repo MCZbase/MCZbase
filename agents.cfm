@@ -78,7 +78,7 @@ window.onload=resizeCaller
 
 <cfoutput>
 
-<table width="100%" style="margin-bottom: -60px;">
+<table width="100%" style="margin-bottom: 60px;">
 	<tr>
 		<td width="35%" valign="top" style="padding: 0;">
 
