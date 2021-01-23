@@ -189,6 +189,7 @@ limitations under the License.
 						left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
 						left join loan on loan_item.transaction_id = loan.transaction_id
 					where 
+						loan.transaction_id is not null and
 						cataloged_item.accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 				</cfquery>
 				<cfif accnLoans.recordcount GT 0>
