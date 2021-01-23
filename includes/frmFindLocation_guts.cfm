@@ -585,7 +585,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="1">
 				<label for="begDateOper">Began Date</label>
 				<div class="input-group">
 					<div class="input-group-prepend">
@@ -596,9 +596,8 @@
 						</select></div>
 					<input type="text" name="began_date" id="began_date" class="form-control form-control-sm d-flex input-group-append"></div>
 			</td>
-		</tr>
-		<tr>
-			<td>
+	
+			<td colspan="1">
 				<label for="endDateOper">Ended Date</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -615,29 +614,32 @@
 		<div id="eventDetail" class="noShow">
 			<table class="table">
 			<tr>
-				<td style="padding-right: 1em;">
+				<td>
 					<label for="verbatim_date">Verbatim Date</label>
-					<input type="text" name="verbatim_date" id="verbatim_date" size="30">
+					<input type="text" name="verbatim_date" id="verbatim_date" class="form-control form-control-sm">
 				</td>
                 <td>
                 	<label for="verbatimCoordinates">Verbatim Coordinates</label>
-					<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" size="30">
+					<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="form-control form-control-sm">
                   </td>
-                	<td style="padding-left: 1em;">
-					<label for="collecting_method">Collecting Method</label>
-					<input type="text" name="collecting_method" id="collecting_method" size="30">
-				</td>
+              
 			</tr>
 			<tr>
-				<td style="padding-right: 1em;">
-					<label for="coll_event_remarks">Collecting Event Remarks</label>
-					<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="form-control form-control-sm">
+				  	<td>
+					<label for="collecting_method">Collecting Method</label>
+					<input type="text" name="collecting_method" id="collecting_method" class="form-control form-control-sm">
 				</td>
+				<td>
+					<label for="coll_event_remarks">Collecting Event Remarks</label>
+					<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="form-control form-control-sm">
+				</td>
+				</tr>
+				<tr>
                  <td>
                 	<label for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
-					<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" size="30">
+					<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="form-control form-control-sm">
                   </td>
-                	<td style="padding-left: 1em;">
+                	<td>
 					<label for="habitat_desc">Habitat</label>
 					<input type="text" name="habitat_desc" id="habitat_desc"  class="form-control form-control-sm">
 				</td>
@@ -656,11 +658,13 @@
                 	<label for="verbatimSRS">Verbatim SRS (e.g., datum)
 					<input type="text" name="verbatimSRS" id="verbatimSRS"  class="form-control form-control-sm"></label>
                   </td>
-                	<td>
+              
+			</tr>
+				<tr>  	<td>
 					<label for="collecting_event_id">Collecting Event ID
 					<input type="text" name="collecting_event_id" id="collecting_event_id" class="form-control form-control-sm"></label>
 				</td>
-			</tr>
+				</tr>
 
 		</table>
 		</div>
