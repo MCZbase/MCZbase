@@ -581,7 +581,7 @@
 		<tr>
 			<td colspan="2">
 				<label for="verbatim_locality">Verbatim Locality
-				<input type="text" name="verbatim_locality" id="verbatim_locality"  class="form-control form-control-sm"></label>
+				<input type="text" name="verbatim_locality" id="verbatim_locality"  class="form-control form-control-sm w-100"></label>
 			</td>
 		</tr>
 		<tr>
