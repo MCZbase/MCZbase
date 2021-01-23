@@ -2,6 +2,9 @@
 <cfif isdefined("action") AND action EQ 'newLoan'>
 	<cfset pageTitle = "Create New Loan">
 </cfif>
+<cfif isdefined("action") AND action EQ 'edit'>
+	<cfset action="editLoan">
+</cfif>
 <cfif isdefined("action") AND action EQ 'editLoan'>
 	<cfset pageTitle = "Edit Loan">
 	<cfif isdefined("transaction_id") >
