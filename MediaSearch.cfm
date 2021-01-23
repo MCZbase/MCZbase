@@ -62,7 +62,7 @@
 	</cfquery>
 
     <br>
-    <h2 class="wikilink">Search Media
+    <h1 class="h2 wikilink">Search Media
       <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
         <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
       </cfif>
@@ -71,7 +71,7 @@
 <form name="newMedia" method="post" action="">
   <div class="greenbox float-left">
     <a name="kwFrm"></a>
-	  <h3 class="">Keyword Search</h3>
+	  <h2 class="h3">Keyword Search</h2>
   <p style="font-size: 14px;padding-bottom: 1em;" class="small">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
       </p>
@@ -126,7 +126,7 @@
     <form name="newMedia" method="post" action="">
           <div class="greenbox">
     <a name="relFrm"></a>
-			  	  <h3 class="">Relational Search</h3>
+			  	  <h2 class="h3">Relational Search</h2>
     <div> <p style="font-size: 14px;padding-bottom: 1em;" class="small">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="full">
