@@ -379,8 +379,8 @@
        <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
  
-      <label for="labels" style="margin-top:.5em;">Media Labels  <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
-      <p>Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
+      <label for="labels" class="mb-0 mt-4">Media Labels  <span class="likeLink" onclick="getCtDoc('ctmedia_label');"> Define</span></label>
+      <p class="small">Note: For media of permits, correspondence, and other transaction related documents, please enter a 'description' media label.</p>
       <div id="labels" class="graydot" style="padding: .5em .25em;">
       <cfset i=1>
       <cfloop>
