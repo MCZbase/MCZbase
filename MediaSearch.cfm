@@ -78,7 +78,7 @@
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="key">
       <label for="keyword">Keyword</label>
-      <input type="text" name="keyword" id="keyword"  class="form-control form-control-sm">
+      <input type="text" name="keyword" id="keyword"  class="rounded border">
       <span class="rdoCtl">Match Any
       <input type="radio" name="kwType" value="any">
       </span> <span class="rdoCtl">Match All
@@ -90,13 +90,13 @@
 
      <div class="my-2 float-left w-100">
       <label for="media_uri" class="mb-0">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
+     <input type="text" name="media_uri" id="media_uri"  class="rounded border">
      </div>
   
       <div style="width: 420px;margin-top:.5em;">
         <div style="display: inline; width: 200px; float:left;">
           <label for="mime_type">MIME Type</label>
-          <select name="mime_type" id="mime_type" multiple="multiple" size="5" class="form-control form-control-sm">
+          <select name="mime_type" id="mime_type" multiple="multiple" size="5" class="border rounded">
             <option value="" selected="selected">Anything</option>
             <cfloop query="ctmime_type">
               <option value="#mime_type#">#mime_type#</option>
@@ -104,8 +104,8 @@
           </select>
         </div>
         <div style="display: inline; width: 200px;margin-bottom: 1em;float:left;">
-          <label for="media_type">Media Type</label>
-          <select name="media_type" id="media_type" multiple="multiple" size="5"  class="form-control form-control-sm">
+          <label for="media_type" >Media Type</label>
+          <select name="media_type" id="media_type" multiple="multiple" size="5"  class="border rounded">
             <option value="" selected="selected">Anything</option>
             <cfloop query="ctmedia_type">
               <option value="#media_type#">#media_type#</option>
@@ -132,7 +132,7 @@
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
        <div style="float:left;width: 750px;margin-bottom: .25em;">
       <label for="media_uri" class="mb-0">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri"  class="border rounded ">
+      <input type="text" name="media_uri" id="media_uri"  class="border rounded w-100">
       </div>
       <div style="float:left;width: 250px;padding-top:.25em;clear:both;">
       <label for="mime_type" class="mb-0">MIME Type</label>
