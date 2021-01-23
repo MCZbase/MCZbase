@@ -86,7 +86,7 @@
       <input type="radio" name="kwType" value="phrase">
       </span>
 
-     <div style="margin: .5em 0 .5em 0;">
+     <div class="my-2 float-left">
       <label for="media_uri">Media URI</label>
      <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
      </div>
