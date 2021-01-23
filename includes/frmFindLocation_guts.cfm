@@ -540,7 +540,7 @@
 									</label></td>
 							</tr>
 							<tr>
-								<td colspan="1"><label for="begDateOper">Began Date</label>
+								<td colspan="1"><label for="begDateOper" class="mb-0">Began Date</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<select name="begDateOper" id="begDateOper" size="1" class="form-control form-control-sm">
@@ -551,7 +551,7 @@
 										</div>
 										<input type="text" name="began_date" id="began_date" class="form-control form-control-sm d-flex input-group-append">
 									</div></td>
-								<td colspan="1"><label for="endDateOper">Ended Date</label>
+								<td colspan="1"><label for="endDateOper" class="mb-0">Ended Date</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
 											<select name="endDateOper" id="endDateOper" size="1" class="form-control form-control-sm">
