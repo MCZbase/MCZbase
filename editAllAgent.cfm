@@ -695,7 +695,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfset i = i + 1>
 			</cfloop>
 
-		<div id="nagnndv" class="newRec" style="padding-top: 0em;">
+		<div id="nagnndv" class="newRec p-2">
 			<label for="nagnndv">Add agent name</label>
 			<form name="newName" action="editAllAgent.cfm" method="post" target="_person">
 				<input type="hidden" name="Action" value="newName">
@@ -748,7 +748,7 @@ function opendialogrank(page,id,title,agentId) {
 				<cfset i=#i#+1>
 			</cfloop>
 
-		<div class="newRec" style="margin-top: 1em;">
+		<div class="newRec p-2">
 			<label>Add Relationship</label>
 			<form name="newRelationship" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="action" value="addRelationship">
@@ -767,7 +767,7 @@ function opendialogrank(page,id,title,agentId) {
 		</div></div>
         	<h4 class="groupAgent">Address</h4>
             <div class="grayishbox">
-		<div class="newRec py-2">
+		<div class="newRec p-2">
 
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
