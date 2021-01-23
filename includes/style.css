@@ -178,10 +178,7 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem;
 }
-.table td {
-	border:none;
-	padding: 0;
-}
+
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;
