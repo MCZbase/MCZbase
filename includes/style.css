@@ -4158,7 +4158,7 @@ span#geogrefDetailCtl.infoLink {
 	text-align:right;
 }
 select#GeorefMethod {
-	width: 600px;
+/*	width: 600px;*/
 }
 .rdoCtl {
 	font-size: small;
