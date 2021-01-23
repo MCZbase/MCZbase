@@ -429,24 +429,24 @@
 					<table class="table table-responsive">
 						<tr>
 							<td>
-								<label for="geology_attribute">Geology Attribute</label>
+								<label for="geology_attribute">Geology Attribute
 								<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
 									<option value="">Anything</option>
 									<cfloop query="ctgeology_attribute">
 										<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
 									</cfloop>
-								</select>
+								</select></label>
 							</td>
 							<td>
 								<label for="geo_att_value">Attribute Value
 								<input type="text" name="geo_att_value" class="form-control form-control-sm"></label>
 							</td>
 							<td>
-								<label for="geology_attribute_hier">Traverse Hierarchies?</label>
+								<label for="geology_attribute_hier">Traverse Hierarchies?
 								<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
 									<option selected="selected" value="0">No</option>
 									<option value="1">Yes</option>
-								</select>
+								</select></label>
 							</td>
 						</tr>
 					</table>
