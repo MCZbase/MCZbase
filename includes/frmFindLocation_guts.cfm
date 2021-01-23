@@ -556,11 +556,11 @@
 						</select></div>
 
 							<label id="hiddenDivlabel" style="display:none;">Min</label>
-							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
+							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append" style="width:3rem">
 
 							<div id="hiddenDiv" style="display:none"><span style="font-size: 12px;">&amp;</span>
 								<label style="display: inline;">Max</label>
-								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="form-control form-control-sm">
+								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="form-control form-control-sm" style="width:3rem">
 							</div>
 							</div>
 				</td>
