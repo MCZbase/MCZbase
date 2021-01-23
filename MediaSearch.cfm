@@ -77,7 +77,7 @@
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="key">
       <label for="keyword">Keyword</label>
-      <input type="text" name="keyword" id="keyword" size="40">
+      <input type="text" name="keyword" id="keyword"  class="form-control form-control-sm">
       <span class="rdoCtl">Match Any
       <input type="radio" name="kwType" value="any">
       </span> <span class="rdoCtl">Match All
@@ -88,17 +88,17 @@
 
      <div style="margin: .5em 0 .5em 0;">
       <label for="media_uri">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri" size="90">
+     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
      </div>
       <div style="width: 100px;margin: .5em 0;">
         <label for="tag">Require TAG?</label>
-        <input type="checkbox" id="tag" name="tag" value="1">
+        <input type="checkbox" id="tag" name="tag" value="1"  class="form-control form-control-sm">
       </div>
 
       <div style="width: 420px;margin-top:.5em;">
         <div style="display: inline; width: 200px; float:left;">
           <label for="mime_type">MIME Type</label>
-          <select name="mime_type" id="mime_type" multiple="multiple" size="5">
+          <select name="mime_type" id="mime_type" multiple="multiple" size="5" class="form-control form-control-sm">
             <option value="" selected="selected">Anything</option>
             <cfloop query="ctmime_type">
               <option value="#mime_type#">#mime_type#</option>
@@ -107,7 +107,7 @@
         </div>
         <div style="display: inline; width: 200px;margin-bottom: 1em;">
           <label for="media_type">Media Type</label>
-          <select name="media_type" id="media_type" multiple="multiple" size="5" >
+          <select name="media_type" id="media_type" multiple="multiple" size="5"  class="form-control form-control-sm">
             <option value="" selected="selected">Anything</option>
             <cfloop query="ctmedia_type">
               <option value="#media_type#">#media_type#</option>
@@ -134,11 +134,11 @@
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
        <div style="float:left;width: 750px;margin-bottom: .25em;">
       <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="90">
+      <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
       <div style="float:left;width: 250px;padding-top:.25em;">
       <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type">
+      <select name="mime_type" id="mime_type" class="form-control form-control-sm">
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
@@ -147,7 +147,7 @@
       </div>
        <div style="float:left;width: 200px;">
       <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type">
+      <select name="media_type" id="media_type" class="form-control form-control-sm">
         <option value=""></option>
         <cfloop query="ctmedia_type">
           <option value="#media_type#">#media_type#</option>
@@ -174,7 +174,7 @@
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" size="70">
+        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control form-control-sm">
         <input type="hidden" name="related_id__1" id="related_id__1">
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
@@ -182,13 +182,13 @@
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
         <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;"  class="form-control form-control-sm">
             <option value=""></option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>:&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" size="70">
+          <input type="text" name="label_value__1" id="label_value__1" class="form-control form-control-sm">
         </div>
         <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
          </div>
