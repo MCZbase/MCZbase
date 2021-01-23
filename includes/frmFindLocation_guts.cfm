@@ -263,7 +263,7 @@
 		<div id="locDetail" class="noShow">
 		<table class="table table-fixed">
 			<tr>
-				<td class="pr-3">
+				<td class="mr-3">
 					<label for="collnOper">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -287,8 +287,8 @@
 				</td>
 			</tr>
 			<tr>
-				<td  class="pr-3">
-					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
+				<td  class="mr-3">
+					<label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
 					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-text form-control-sm">
@@ -297,53 +297,53 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control form-control-sm d-flex">
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append form-control-sm d-flex">
 						</div>
 				</td>
 				<td  class="pl-3">
-					<label for="minDepthOper">Minimum Depth (only with units below)</label>
+					<label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
 						<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="minDepthOper" id="MinDepthOper" size="1" class="input-group-text form-control py-0 form-control-sm">
+					<select name="minDepthOper" id="MinDepthOper" size="1" class="input-group-text form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="min_depth" id="min_depth" class="form-control form-control-sm input-group-text d-flex">
+					<input type="text" name="min_depth" id="min_depth" class="form-control form-control-sm input-group-append d-flex">
 							</div>
 				</td>
 			</tr>
 			<tr>
-				<td  class="pr-3">
+				<td  class="mr-3">
 					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MaxElevOper" id="MaxElevOper" size="1" class="input-group-text form-control py-0 form-control-sm">
+					<select name="MaxElevOper" id="MaxElevOper" size="1" class="input-group-text form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-text form-control-sm d-flex">
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-append form-control-sm d-flex">
 					</div>
 				</td>
 				<td class="pl-3">
 					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
+					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control input-group-text form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="max_depth" id="max_depth" class="form-control input-group-text form-control-sm d-flex">
+					<input type="text" name="max_depth" id="max_depth" class="form-control form-control-sm input-group-append d-flex">
 					</div>
 				</td>
 			</tr>
 			<tr>
-				<td class="pr-3">
+				<td class="mr-3">
 					<label for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
