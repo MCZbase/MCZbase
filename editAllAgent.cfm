@@ -422,7 +422,7 @@ function opendialogrank(page,id,title,agentId) {
 					<table>
 						<tr>
 							<td>
-								<label for="prefix">Prefix</label>
+								<label for="prefix" class="mb-0">Prefix</label>
 								<select name="prefix" id="prefix" size="1">
 									<option value=""></option>
 									<cfloop query="ctprefix">
@@ -432,20 +432,22 @@ function opendialogrank(page,id,title,agentId) {
 									</cfloop>
 								</select>
 							</td>
+				</tr>
+			<tr>
 							<td>
-								<label for="first_name">First Name</label>
+								<label for="first_name" class="mb-0">First Name</label>
 								<input type="text" name="first_name" id="first_name" value="#first_name#">
 							</td>
 							<td>
-								<label for="middle_name">Middle Name</label>
+								<label for="middle_name" class="mb-0">Middle Name</label>
 								<input type="text" name="middle_name" id="middle_name" value="#middle_name#">
 							</td>
 							<td>
-								<label for="last_name">Last Name</label>
+								<label for="last_name" class="mb-0">Last Name</label>
 								<input type="text" name="last_name" id="last_name" value="#last_name#">
 							</td>
 							<td>
-								<label for="suffix">Suffix</label>
+								<label for="suffix" class="mb-0">Suffix</label>
 								<select name="suffix" id="suffix" size="1">
 									<option value=""></option>
 									   <cfloop query="ctsuffix">
@@ -457,15 +459,15 @@ function opendialogrank(page,id,title,agentId) {
 						</tr>
  						<tr>
 							<td>
- 								<label for="birth_date">Birth Date</label>
+ 								<label for="birth_date" class="mb-0">Birth Date</label>
  								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="10">
  							</td>
 							<td>
- 								<label for="death_date">Death Date</label>
+ 								<label for="death_date" class="mb-0">Death Date</label>
  								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10">
  							</td>
 						        <td colspan="2">
-                                                            <label for="editedPerson">Edited</label>
+                                      <label for="editedPerson" class="mb-0">Edited</label>
 				                            <select name="editedPerson" size="1">
 					                       <option value=1 <cfif #edited# EQ 1>selected</cfif>>yes *</option>
 					                       <option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
@@ -474,7 +476,7 @@ function opendialogrank(page,id,title,agentId) {
  						</tr>
  						<tr>
 							<td colspan="5" class="detailCell">
-								<label for="agentguid">GUID for Agent</label>
+								<label for="agentguid" class="mb-0">GUID for Agent</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
 								<cfset regex = "">
