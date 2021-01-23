@@ -786,7 +786,6 @@ limitations under the License.
 								<div id="accnLimitationsDiv"></div>
 							</div>
 						</section>	
-						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">

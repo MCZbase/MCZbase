@@ -152,7 +152,7 @@ limitations under the License.
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
 									<td>#restriction_summary#</td>
 									<td>#benefits_summary#</td>
-									<td>#benifits_provided#</td>
+									<td>#benefits_provided#</td>
 								</tr>
 							</cfloop>
 						</tbody>
