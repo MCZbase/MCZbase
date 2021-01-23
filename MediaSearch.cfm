@@ -87,8 +87,8 @@
       </span>
 
      <div class="my-2 float-left">
-      <label for="media_uri">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
+      <label for="media_uri" class="mb-0">Media URI</label>
+     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm w-100">
      </div>
   
       <div style="width: 420px;margin-top:.5em;">
