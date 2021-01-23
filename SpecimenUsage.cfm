@@ -45,9 +45,9 @@
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text" class="form-control form-control-sm">
 					<fieldset style="margin-left: 0; width: 415px;">
-						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked"  class="float-left mt-1" style="width:15px;margin-top:.35rem;">
+						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked"  class="float-left" style="width:15px;margin-top:.35rem;">
 						<label for="searchPubs">Search Publications Only</label>
-						<input type="radio" id="searchProj" name="search_type" value="projects"  class="float-left mt-1" style="width:15px;margin-top:.35rem">
+						<input type="radio" id="searchProj" name="search_type" value="projects"  class="float-left" style="width:15px;margin-top:.35rem">
 						<label for="searchProj">Search Projects Only</label>
 						<input type="radio" id="searchBoth" name="search_type" value="both" class="float-left" style="width:15px;margin-top:.35rem">
 						<label for="searchBoth">Search Both</label>
