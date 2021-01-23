@@ -471,32 +471,32 @@
 			<tr>
 				<td>
 					<label for="findNoGeoRef">No Georeferences</label>
-					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="form-control form-control-sm">
+					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="checkbox">
 				</td>
 				<td>
 					<label for="findHasGeoRef">Has Georeferences</label>
-					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="form-control form-control-sm">
+					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="checkbox">
 				<td>
-					<label for="findNoAccGeoRef">No Accepted Georeferences</label>
-					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="form-control form-control-sm">
+					<label for="findNoAccGeoRef">No Accepted Georeferences
+					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="checkbox"></label>
 				</td>
 			</tr>
 			<tr>
 				<td>
-					<label for="NoGeorefBecause">NoGeorefBecause</label>
-					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause">
+					<label for="NoGeorefBecause">NoGeorefBecause
+					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause"></label>
 				</td>
 				<td>
-					<label for="isIncomplete">isIncomplete</label>
-					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-control form-control-sm">
+					<label for="isIncomplete">isIncomplete
+					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-control form-control-sm"></label>
 				</td>
 				<td>
-					<label for="nullNoGeorefBecause">NULL NoGeorefBecause</label>
-					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-control form-control-sm">
+					<label for="nullNoGeorefBecause">NULL NoGeorefBecause
+					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td colspan="">
 					<label for="VerificationStatus">VerificationStatus</label>
 					<select name="VerificationStatus" id="VerificationStatus" size="1" class="form-control form-control-sm">
 						<option value=""></option>
