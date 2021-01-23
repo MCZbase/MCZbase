@@ -484,7 +484,7 @@
 			<tr>
 				<td>
 					<label for="NoGeorefBecause">NoGeorefBecause
-					<input type="text" name="NoGeorefBecause" class="checkbox" id="NoGeorefBecause"></label>
+					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause"></label>
 				</td>
 				<td>
 					<label for="isIncomplete">isIncomplete
@@ -492,7 +492,7 @@
 				</td>
 				<td>
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause
-					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="form-control form-control-sm"></label>
+					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="checkbox"></label>
 				</td>
 			</tr>
 			<tr>
@@ -541,10 +541,10 @@
 					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
 				</td>
 
-				<td>
+				<td colspan="2">
 
 
-							<div style="margin-left: 2em;" class="geolocateScoreDiv">
+							<div class="geolocateScoreDiv">
 							<label>Geolocate Score</label>
 							<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
 								<option value="=" SELECTED>=</option>
