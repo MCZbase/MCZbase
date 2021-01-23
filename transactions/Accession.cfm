@@ -583,6 +583,7 @@ limitations under the License.
 						updateAccnItemCount('#transaction_id#','accnItemCountDiv');
 						updateAccnItemDispositions('#transaction_id#','accnItemDispositionsDiv');
 						updateTransItemCountries('#transaction_id#','countriesOfOriginDiv');
+						updateAccnLoans('#transaction_id#','accnLoansDiv');
 					};
 					$(document).ready(function() {
 						updateItemSections();
@@ -655,8 +656,12 @@ limitations under the License.
 									if ($("##addPermitDlg_#transaction_id#").hasClass('ui-dialog-content')) {
 										$('##addPermitDlg_#transaction_id#').html('').dialog('destroy');
 									}
+									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
 								};
-								$( document ).ready(loadTransactionFormPermits(#transaction_id#));
+								$( document ).ready(
+									loadTransactionFormPermits(#transaction_id#)
+									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
+								);
 							</script>
 								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
 								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
@@ -770,71 +775,22 @@ limitations under the License.
 								<div id="countriesOfOriginDiv" tabindex="0"></div>
 							</div>
 						</section>
-<!--- TODO: Rework from here. --->
-						<!--- TODO: Not relevant, rework to list loans and deaccessions? 
 						<div class="row mx-0">
-							<section title="Accessions associated with material in this loan" name="accessionsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
+							<section title="Loans of material in this accession" name="loansSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
 								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
-									<div>
-										<h2 class="h3 pl-2">Accessions of material in this loan</h2>
-										<!--- List Accessions for collection objects included in the Accession --->
-										<cfquery name="getAccessions" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select distinct accn.accn_type, accn.received_date, accn.accn_number, accn.transaction_id 
-											from accession l
-												left join cataloged_item li on l.transaction_id = li.transaction_id
-												left join specimen_part sp on li.collection_object_id = sp.collection_object_id
-												left join cataloged_item ci on sp.derived_from_cat_item = ci.collection_object_id
-												left join accn on ci.accn_id = accn.transaction_id
-											where li.transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#accessionDetails.transaction_id#">
-										</cfquery>
-										<ul class="ml-1 pl-4 pr-2 list-style-disc">
-											<cfloop query="getAccessions">
-												<li class="accn2">
-													<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span>#accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
-														from (
-															select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
-																issuedBy.agent_name as IssuedByAgent
-															from permit_trans 
-																left join permit on permit_trans.permit_id = permit.permit_id
-																left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-																left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-															where permit_trans.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-																and ctspecific_permit_type.accn_show_on_shipment = 1
-														union
-															select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
-																issuedBy.agent_name as IssuedByAgent
-															from shipment
-																left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
-																left join permit on permit_shipment.permit_id = permit.permit_id
-																left join ctspecific_permit_type on permit.specific_type = ctspecific_permit_type.specific_type
-																left join preferred_agent_name issuedBy on permit.issued_by_agent_id = issuedBy.agent_id
-															where shipment.transaction_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#transaction_id#>
-																and ctspecific_permit_type.accn_show_on_shipment = 1
-														)
-														where permit_id is not null
-														order by permit_type, issued_date
-													</cfquery>
-													<cfif getAccnPermits.recordcount gt 0>
-														<ul class="list-style-circle pl-4 pr-2">
-															<cfloop query="getAccnPermits">
-																<li>
-																	<span style="font-weight:bold;">#permit_type#:</span> 
-																	#specific_type# #permit_num#, 
-																	<span>Issued:</span> #dateformat(issued_date,'yyyy-mm-dd')# <span>by</span> #IssuedByAgent# 
-																	<a href="/transactions/Permit.cfm?action=edit&permit_id=#permit_id#" target="_blank">Edit</a>
-																</li>
-															</cfloop>
-														</ul>
-													</cfif>
-												</li>
-											</cfloop>
-										</ul>
-									</div>
+									<h2 class="h3 pl-2">Loans of material in this accession</h2>
+									<div id="accnLoansDiv"></div>
 								</div>
 							</section>	
 						</div>
-						---->
+						<div class="row mx-0">
+							<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
+								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
+									<h2 class="h3 pl-2">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+									<div id="accnLimitationsDiv"></div>
+								</div>
+							</section>	
+						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">

@@ -144,8 +144,21 @@ limitations under the License.
 						and permit.restriction_summary IS NOT NULL
 				</cfquery>
 				<cfif accnLimitations.recordcount GT 0>
-					<cfloop query="accnLimitations">
-					</cfloop>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Document</th><th>Restrictions Summary</th><th>Agreed Benefits</th><th>Benefits Provided</th></thead>
+						<tbody>
+							<cfloop query="accnLimitations">
+								<tr>
+									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
+									<td>#restrictions_summary#</td>
+									<td>#benefits_required#</td>
+									<td>#benifits_provided#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None recorded.
 				</cfif>
 			</cfoutput>
 		<cfcatch>
@@ -158,6 +171,59 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="getAccnLimitThread" />
 	<cfreturn getAccnLimitThread.output>
+</cffunction>
+
+<!--- obtain an html block containing a list of loans on which any material in an accession has been sent --->
+<cffunction name="getAccnLoans" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="transaction_id" type="string" required="yes">
+
+	<cfthread name="getAccnLoanThread">
+		<cftry>
+			<cfoutput>
+				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					select loan.transaction_id loan_id, loan_number, loan_status, 
+						return_due_date, closed_date, 
+						loan.return_due_date - trunc(sysdate) dueindays,
+					from cataloged_item
+						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
+						left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
+						left join loan on loan_item.transaction_id = loan.transaction_id
+					where 
+						cataloged_item.accn_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.accn_id#">
+				</cfquery>
+				<cfif accnLoans.recordcount GT 0>
+					<table class='table table-responsive d-md-table mb-0'>
+						<thead class='thead-light'><th>Loan</th><th>Status</th><th>Due Date</th><th>Date Closed</th></thead>
+						<tbody>
+							<cfloop query="accnLoans">
+								<tr>
+									<cfif len(accnLoans.closed_date) EQ 0 AND accnLoans.dueindays LT 0>
+										<cfset returndate = "<strong class='text-danger'>#accnLoans.return_due_date#</strong>">
+									<cfelse>
+										<cfset returndate = "#accn.Loans.return_due_date#" >
+									</cfif>
+									<td><a href='/transactions/Loan.cfm?action=edit&transaction_id=#accnLoans.loan_id#'>#accnLoans.loan_number#</a></td>
+									<td>#accnLoans.loan_status#</td>
+									<td>#returndate#</td>
+									<td>#accnLoans.closed_date#</td>
+								</tr>
+							</cfloop>
+						</tbody>
+					</table>
+				<cfelse>
+					None.
+				</cfif>
+			</cfoutput>
+		<cfcatch>
+			<cfoutput>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
+			</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cfthread>
+	<cfthread action="join" name="getAccnLoanThread" />
+	<cfreturn getAccnLoanThread.output>
 </cffunction>
 
 <!--- obtain an html block containing countries of origin of items in a transaction --->
