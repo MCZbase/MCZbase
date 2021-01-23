@@ -261,9 +261,9 @@
 		</tr>
 		</table>
 		<div id="locDetail" class="noShow">
-		<table>
+		<table class="table table-fixed">
 			<tr>
-				<td>
+				<td class="pr-3">
 					<label for="collnOper">Collection
 					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm w-25">
 						<option value=""></option>
@@ -278,23 +278,26 @@
 						</cfloop>
 					</select></label>
 				</td>
-				<td>
+				<td class="pl-3">
 					<label for="locality_id">Locality ID
 					<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
-				<td  class="input-group">
-					<label for="MinElevOper">Minimum Elevation (only with units below)
-					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-prepend form-control-sm w-25">
+				<td  class="pr-3">
+					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
+					<div class="input-group">
+					<div class="input-group-prepend">
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-prepend form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
-					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control form-control-sm w-75"></label>
+						</select></div>
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control form-control-sm d-flex">
+						</div>
 				</td>
-				<td>
+				<td  class="pl-3">
 					<label for="minDepthOper">Minimum Depth (only with units below)
 					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm w-25">
 						<option value="=">is</option>
@@ -306,7 +309,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td  class="pr-3">
 					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -319,7 +322,7 @@
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control form-control-sm d-flex">
 					</div>
 				</td>
-				<td>
+				<td class="pl-3">
 					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
 					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -331,7 +334,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="pr-3">
 					<label for="orig_elev_units">Elevation Units</label>
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
@@ -340,7 +343,7 @@
 						</cfloop>
 					</select>
 				</td>
-				<td>
+				<td class="pl-3">
 					<label for="depth_units">Depth Units</label>
 					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
@@ -351,7 +354,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="pr-3">
 					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
 					<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -361,7 +364,7 @@
 					</select>
 					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m">
 				</td>
-				<td>
+				<td class="pl-3">
 					<label for="minDepthOperM">Minimum Depth (in meters)</label>
 					<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -373,7 +376,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td class="pr-3">
 					<label for="MaxElevOperM">Maximum Elevation (in meters)</label>
 					<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -383,7 +386,7 @@
 					</select>
 					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m">
 				</td>
-				<td>
+				<td class="pl-3">
 					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
 					<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
