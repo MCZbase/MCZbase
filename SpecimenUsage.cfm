@@ -22,11 +22,11 @@
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
 
-		<table class="table table-responsive">
+		<table class="table">
 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
-					<td>
+					<td class="border-0">
 						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
 
 						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
