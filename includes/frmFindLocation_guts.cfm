@@ -345,7 +345,7 @@
 			<tr>
 				<td class="mr-3">
 					<label for="orig_elev_units">Elevation Units
-					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control mr-5 form-control-sm">
+					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control w-75 form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
 							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
@@ -354,7 +354,7 @@
 				</td>
 				<td class="pl-3">
 					<label for="depth_units">Depth Units
-					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
+					<select name="depth_units" id="depth_units" size="1" class="form-control w-75 form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
@@ -371,7 +371,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m">
+					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 				</td>
 				<td class="pl-3">
 					<label for="minDepthOperM">Minimum Depth (in meters)</label>
@@ -381,7 +381,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="min_depth_m" id="min_depth_m">
+					<input type="text" name="min_depth_m" id="min_depth_m" class="form-control form-control-sm input-group-append d-flex">
 				</td>
 			</tr>
 			<tr>
@@ -393,7 +393,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m">
+					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 				</td>
 				<td class="pl-3">
 					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
@@ -403,13 +403,13 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select>
-					<input type="text" name="max_depth_m" id="max_depth_m">
+					<input type="text" name="max_depth_m" id="max_depth_m" class="form-control form-control-sm input-group-append d-flex">
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<label for="locality_remarks">Locality Remarks</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
+					<label for="locality_remarks">Locality Remarks
+					<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm input-group-append d-flex"></label>
 				</td>
 			</tr>
 			<tr>
