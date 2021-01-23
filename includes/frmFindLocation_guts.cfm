@@ -463,7 +463,7 @@
 									
 										<div class="geolocateScoreDiv">
 									
-										<label>
+										<label for="onlyShared" class="mb-0">
 									Shared Localities Only
 									<input type="checkbox" name="onlyShared" id="onlyShared" class="checkbox">
 										</div>
