@@ -436,15 +436,15 @@ function opendialogrank(page,id,title,agentId) {
 			<tr>
 							<td>
 								<label for="first_name" class="mb-0">First Name</label>
-								<input type="text" name="first_name" id="first_name" value="#first_name#">
+								<input type="text" name="first_name" id="first_name" value="#first_name#" class="border rounded">
 							</td>
 							<td>
 								<label for="middle_name" class="mb-0">Middle Name</label>
-								<input type="text" name="middle_name" id="middle_name" value="#middle_name#">
+								<input type="text" name="middle_name" id="middle_name" value="#middle_name#" class="border rounded">
 							</td>
 							<td>
 								<label for="last_name" class="mb-0">Last Name</label>
-								<input type="text" name="last_name" id="last_name" value="#last_name#">
+								<input type="text" name="last_name" id="last_name" value="#last_name#" class="border rounded">
 							</td>
 							<td>
 								<label for="suffix" class="mb-0">Suffix</label>
@@ -460,11 +460,11 @@ function opendialogrank(page,id,title,agentId) {
  						<tr>
 							<td>
  								<label for="birth_date" class="mb-0">Birth Date</label>
- 								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="10">
+ 								<input type="text" name="birth_date" id="birth_date" value="#birth_date#" size="10" class="border rounded">
  							</td>
 							<td>
  								<label for="death_date" class="mb-0">Death Date</label>
- 								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10">
+ 								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10" class="border rounded">
  							</td>
 						        <td colspan="2">
                                       <label for="editedPerson" class="mb-0">Edited</label>
@@ -513,7 +513,7 @@ function opendialogrank(page,id,title,agentId) {
 									</cfloop>
 								</select>
 								<a href="#searchlink#" id="agentguid_search" target="_blank" #searchclass#>#searchtext#</a>
-								<input size="55" name="agentguid" id="agentguid" value="#person.agentguid#"
+								<input size="55" class="border rounded" name="agentguid" id="agentguid" value="#person.agentguid#"
 									placeholder="#placeholder#"
 									pattern="#pattern#" title="Enter a guid in the form #placeholder#">
 								<cfif len(regex) GT 0 >
@@ -521,7 +521,7 @@ function opendialogrank(page,id,title,agentId) {
 								<cfelse>
 									<cfset link = person.agentguid>
 								</cfif>
-								<a id="agentguid_link" href="#link#" target="_blank" class="hints">#agentguid#</a>
+								<a id="agentguid_link" href="#link#" target="_blank" class="hints" >#agentguid#</a>
 								<script>
 									$(document).ready(function () {
 										if ($('##agentguid').val().length > 0) {
