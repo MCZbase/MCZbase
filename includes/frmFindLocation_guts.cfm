@@ -136,14 +136,14 @@
 	select collection,collection_id from collection order by collection
 </cfquery>
 
-<table>
+<table class="table table-responsive">
     <tr><td>
         <span id="_generic_m_ai">Accent&nbsp;Insensitive?</span><input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1">
     </td></tr>
     <tr><td>
 	<div class="locGroup">
 		<span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-		<table class="table table-fixed">
+		<table class="table">
 		<tr>
 			<td colspan="2">
 				<label for="higher_geog">Higher Geog
