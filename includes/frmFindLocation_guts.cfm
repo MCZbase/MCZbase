@@ -428,7 +428,7 @@
 				<td class="mb-0">
 					<table class="table border-0 mb-0">
 						<tr class="row">
-							<td>
+							<td class="border-0">
 								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
 									<div class="input-group">
 					<div class="input-group-prepend">
