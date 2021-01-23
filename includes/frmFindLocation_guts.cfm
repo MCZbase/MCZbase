@@ -264,16 +264,16 @@
 		<table class="table table-fixed">
 			<tr>
 				<td class="mr-3">
-					<label for="collnOper">Collection</label>
+					<label for="collnOper" class="mb-0">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="collnOper" id="collnOper" size="1" class="form-control  input-group-prepend form-control-sm">
+					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
 						<option value="">Choose</option>
 						<option value="usedOnlyBy">used only by</option>
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
 						</select></div>
-					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm d-flex">
+					<select name="collection_id" id="collection_id" size="1" class="form-control mr-5 form-control-sm d-flex">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -297,7 +297,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append form-control-sm d-flex">
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append mr-5 form-control-sm d-flex">
 						</div>
 				</td>
 				<td  class="pl-3">
@@ -325,7 +325,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-append form-control-sm d-flex">
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control mr-5 input-group-append form-control-sm d-flex">
 					</div>
 				</td>
 				<td class="pl-3">
