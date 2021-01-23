@@ -134,17 +134,17 @@
       <label for="media_uri">Media URI</label>
       <input type="text" name="media_uri" id="media_uri" >
       </div>
-      <div style="float:left;width: 250px;padding-top:.25em;float:left;">
-      <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type" >
+      <div style="float:left;width: 250px;padding-top:.25em;">
+      <label for="mime_type" class="mb-0">MIME Type</label>
+      <select name="mime_type" id="mime_type" class="form-control form-control-sm" >
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 200px;">
-      <label for="media_type">Media Type</label>
+       <div style="float:left;width: 200px;margin-left:1rem">
+      <label for="media_type" class="mb-0">Media Type</label>
       <select name="media_type" id="media_type" class="form-control form-control-sm">
         <option value=""></option>
         <cfloop query="ctmedia_type">
@@ -153,7 +153,7 @@
       </select>
       </div>
    	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-          <div style="float:left;width: 150px;">
+          <div style="float:left;width: 150px;margin-left: 1rem">
            <span>
                <label for "unlinked">Limit to Media not yet linked to any record.</label>
                <input type="checkbox" name="unlinked" id="unlinked" value="true">
