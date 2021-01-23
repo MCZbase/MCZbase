@@ -385,8 +385,9 @@
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
-					<input type="text" name="min_depth_m" id="min_depth_m" class="form-control form-control-sm mr-5 input-group-append d-flex">
+						</select></div>
+					<input type="text" name="min_depth_m" id="min_depth_m" class="form-control form-control-sm input-group-append d-flex">
+					</div>
 				</td>
 			</tr>
 			<tr>
