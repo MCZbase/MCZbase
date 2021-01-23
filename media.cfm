@@ -364,7 +364,7 @@
            <option value="1">Hidden</option>
       </select>
    
-      <label for="relationships" style="margin-top:.5em;">Media Relationships</label>
+      <label for="relationships" class="mb-0 mt-3">Media Relationships</label>
       <div id="relationships" class="graydot">
         <div id="relationshiperror"></div>
         <select name="relationship__1" id="relationship__1" size="1" onchange="pickedRelationship(this.id)" style="width: 200px;">
