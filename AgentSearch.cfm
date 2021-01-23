@@ -23,7 +23,7 @@
 <cfoutput>
 <form name="agntSearch" action="AgentGrid.cfm" method="post" target="_pick">
 	<input type="hidden" name="Action" value="search">
-<table class="table">	
+<table>	
 	<tr>
 		<td>
 			<label for="prefix" class="mb-0">Prefix</label>
