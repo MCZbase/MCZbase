@@ -555,12 +555,12 @@
 								<option value="between" >between</option>
 						</select></div>
 
-							<label id="hiddenDivlabel" style="display:none;">Min
-							<input type="text" name="geolocate_score" size="3" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
-</label>
+							<label id="hiddenDivlabel" style="display:none;">Min</label>
+							<input type="text" name="geolocate_score" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
+
 							<div id="hiddenDiv" style="display:none">
-								<label style="display: inline;">Max
-								<input type="text" name="geolocate_score2" size="3" id="geolocate_score2" class="form-control form-control-sm"></label>
+								<label style="display: inline;">Max</label>
+								<input type="text" name="geolocate_score2" id="geolocate_score2" class="form-control form-control-sm input-group-append">
 							</div>
 							</div>
 				</td>
