@@ -774,21 +774,18 @@ limitations under the License.
 								<div id="countriesOfOriginDiv" tabindex="0"></div>
 							</div>
 						</section>
-						<div class="row mx-0">
-							<section title="Loans of material in this accession" name="loansSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
-								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
-									<h2 class="h3 pl-2">Loans of material in this accession</h2>
-									<div id="accnLoansDiv"></div>
-								</div>
-							</section>	
-						</div>
-						<div class="row mx-0">
-							<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="mt-2 float-left col-12 col-md-6 p-0 pr-md-1" tabindex="0">
-								<div class="border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
-									<h2 class="h3 pl-2">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
-									<div id="accnLimitationsDiv"></div>
-								</div>
-							</section>	
+						<section title="Loans of material in this accession" name="loansSection" class="row mx-0" tabindex="0">
+							<div class="col-12 border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
+								<h2 class="h3 pl-2">Loans of material in this accession</h2>
+								<div id="accnLoansDiv"></div>
+							</div>
+						</section>	
+						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0" tabindex="0">
+							<div class="col-12 border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
+								<h2 class="h3 pl-2">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+								<div id="accnLimitationsDiv"></div>
+							</div>
+						</section>	
 						</div>
 						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
 							<div class="col-12 pb-0 px-0">

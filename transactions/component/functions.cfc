@@ -150,7 +150,7 @@ limitations under the License.
 							<cfloop query="accnLimitations">
 								<tr>
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
-									<td>#restrictions_summary#</td>
+									<td>#restriction_summary#</td>
 									<td>#benefits_summary#</td>
 									<td>#benifits_provided#</td>
 								</tr>
