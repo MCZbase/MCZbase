@@ -252,9 +252,9 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table class="table table-responsive">
+	<table class="table">
 		<tr>
-			<td>
+			<td colspan="2">
 				<label for="spec_locality">Specific Locality
 				<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm"></label>
 			</td>
@@ -577,7 +577,7 @@
 	<cfif #showEvent# is 1>
 	<div class="locGroup">
 		<span id="eventDetailCtl" class="infoLink" onclick="toggleEventDetail(1)";>Show More Options</span>
-	<table class="table table-responsive">
+	<table class="table">
 		<tr>
 			<td colspan="2">
 				<label for="verbatim_locality">Verbatim Locality
