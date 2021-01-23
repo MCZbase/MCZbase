@@ -524,21 +524,21 @@
 				</td>
 				<td>
 						<div style="margin-left: 2em;" class="geolocateScoreDiv">
-							<label>Geolocate Precision</label>
+							<label>Geolocate Precision
 							<select name="geolocate_precision" id="geolocate_precision" size="1" class="form-control form-control-sm">
 								<option value="" SELECTED></option>
 								<option value="high" >high</option>
 								<option value="medium" >medium</option>
 								<option value="low" >low</option>
-							</select>
+							</select></label>
 
 						</div>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<label for="coordinateDeterminer">Coordinate Determiner</label>
-					<input type="text" name="coordinateDeterminer" size="50" id="coordinateDeterminer">
+					<label for="coordinateDeterminer">Coordinate Determiner
+					<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer"></label>
 				</td>
 
 				<td colspan="2">
