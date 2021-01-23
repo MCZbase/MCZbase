@@ -143,7 +143,7 @@
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 200px;margin-left:1rem">
+       <div style="float:left;width: 200px;padding-top:.25em;margin-left:1rem">
       <label for="media_type" class="mb-0">Media Type</label>
       <select name="media_type" id="media_type">
         <option value=""></option>
@@ -155,7 +155,7 @@
    	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
           <div style="float:left;width: 150px;margin-left: 1rem">
            <span>
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
+               <label for "unlinked" class="mb-1">Limit to Media not yet linked to any record.</label>
                <input type="checkbox" name="unlinked" id="unlinked" value="true">
            </span>
            </div>
