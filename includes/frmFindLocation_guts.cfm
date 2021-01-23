@@ -89,7 +89,12 @@
     }
   }
 </script>
-
+		<style>
+			.table td {
+				border:none;
+				padding: 0 .5rem;
+			}
+			</style>
 <cfoutput>
 	<cfif not isdefined("showLocality")>
 		<cfset showLocality=0>

@@ -117,12 +117,7 @@
 			from localityResults
 			order by higher_geog, spec_locality
 		</cfquery>
-		<style>
-			.table td {
-				border:none;
-				padding: 0 .5rem;
-			}
-			</style>
+
 		<a href="showLocality.cfm">Search Again</a>
 		<table border id="t" class="sortable">
 			<tr>
