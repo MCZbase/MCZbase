@@ -846,20 +846,20 @@ function opendialogrank(page,id,title,agentId) {
 				                     <label for="country_cde">Country <img src="/images/icon_info.gif" border="0" onclick="getMCZDocs('Country_Name_List')" class="likeLink" style="margin-top: -10px;" alt="[ help ]"></label>
 				                     <span>
 				                     <input type="hidden" name="country_cde" id="country_cde" class="reqdClr" value="USA">
-				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold">USA</span>
-				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther">Other</span>
+				                     <input type="radio" name="country" value="USA" onclick="handleCountrySelect();" checked="checked" ><span id="textUS" style="color: black; font-weight: bold"> USA</span>
+				                     <input type="radio" name="country" value="other" onclick="handleCountrySelect();" ><span id="textOther"> Other</span>
 				                     <input type="text" name="other_country_cde" id="other_country_cde" onblur=" $('##country_cde').val($('##other_country_cde').val());" style="display: none;" >
 				                     <span>
 				                  </td>
 					</tr>
 					<tr>
 						<td>
-							<label for="mail_stop">Mail Stop</label>
-							<input type="text" name="mail_stop" id="mail_stop">
+							<label for="mail_stop" class="mb-0">Mail Stop</label>
+							<input type="text" name="mail_stop" id="mail_stop" class="border rounded">
 						</td>
 						<td>
-							<label for="valid_addr_fg">Valid?</label>
-							<select name="valid_addr_fg" id="valid_addr_fg" size="1">
+							<label for="valid_addr_fg" class="mb-0">Valid?</label>
+							<select name="valid_addr_fg" id="valid_addr_fg" size="1" class="border rounded">
 								<option value="1">yes</option>
 								<option value="0">no</option>
 							</select>
@@ -879,8 +879,8 @@ function opendialogrank(page,id,title,agentId) {
 				</table>
 			</form>
 
-		<div class="newRec" style="margin-top:.5em;">
-			<label>Add Electronic Address</label>
+		<div class="newRec" style="margin-top:.5em;padding-bottom: 1rem;">
+			<label for="address" class="mb-0">Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
@@ -889,7 +889,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctElecAddrType.address_type#">#ctElecAddrType.address_type#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="address" id="address" size="50">
+				<input type="text" name="address" id="address" size="50" class="border rounded">
 				<input type="submit" class="insBtn" value="Create Address">
 			</form>
 		</div></div></div>
