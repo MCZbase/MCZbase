@@ -867,8 +867,8 @@ function opendialogrank(page,id,title,agentId) {
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label for="addr_remarks">Address Remark</label>
-							<input type="text" name="addr_remarks" id="addr_remarks" size="50">
+							<label for="addr_remarks" class="mb-0">Address Remark</label>
+							<input type="text" name="addr_remarks" id="addr_remarks" size="50" class="border rounded">
 						</td>
 					</tr>
 					<tr>
@@ -879,7 +879,7 @@ function opendialogrank(page,id,title,agentId) {
 				</table>
 			</form>
 
-		<div class="newRec" style="margin-top:.5em;padding-bottom: 1rem;">
+		<div class="newRec" style="margin-top:1rem;padding-bottom: 1rem;">
 			<label for="address" class="mb-0">Add Electronic Address</label>
 			<form name="newElecAddr" method="post" action="editAllAgent.cfm">
 				<input name="Action" type="hidden" value="newElecAddr">
