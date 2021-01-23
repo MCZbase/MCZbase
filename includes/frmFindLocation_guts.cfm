@@ -306,16 +306,17 @@
 				</td>
 			</tr>
 			<tr>
-				<td><div class="input-group">
+				<td>
+					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
+					<div class="input-group">
 					<div class="input-group-prepend">
-					<label for="MaxElevOper">Maximum Elevation (only with units below)
-					<select name="MaxElevOper" id="MaxElevOper" size="1" class="form-control w-25 input-group-text form-control-sm">
+					<select name="MaxElevOper" id="MaxElevOper" size="1" class="input-group-text form-control py-0 form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control form-control-sm w-75"></label>
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control form-control-sm d-flex">
 					</div>
 				</td>
 				<td>
