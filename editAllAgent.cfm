@@ -767,7 +767,7 @@ function opendialogrank(page,id,title,agentId) {
 		</div></div>
         	<h4 class="groupAgent">Address</h4>
             <div class="grayishbox">
-		<div class="newRec">
+		<div class="newRec py-2">
 
 			<form name="newAddress" method="post" action="editAllAgent.cfm">
 				<input type="hidden" name="agent_id" value="#person.agent_id#">
