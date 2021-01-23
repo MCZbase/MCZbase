@@ -401,7 +401,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select></div>
-					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
+					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm mr-5 input-group-append d-flex">
 			</div>
 				</td>
 				<td class="pl-3">
