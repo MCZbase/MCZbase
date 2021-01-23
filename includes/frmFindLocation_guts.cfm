@@ -297,7 +297,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append mr-5 form-control-sm d-flex">
+					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append form-control-sm d-flex">
 						</div>
 				</td>
 				<td>
@@ -325,7 +325,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control mr-5 input-group-append form-control-sm d-flex">
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-append form-control-sm d-flex">
 					</div>
 				</td>
 				<td>
@@ -373,7 +373,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control mr-5 form-control-sm input-group-append d-flex">
+					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 					</div>
 				</td>
 				<td>
@@ -401,7 +401,7 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 					</select></div>
-					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm mr-5 input-group-append d-flex">
+					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 			</div>
 				</td>
 				<td class="pl-3">
