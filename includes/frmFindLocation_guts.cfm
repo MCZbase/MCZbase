@@ -465,7 +465,7 @@
 				</td>
 			</tr>
 		</table>
-		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
+		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
 		<div id="georefDetail" class="noShow">
 		<table class="table table-responsive">
 			<tr>
@@ -482,7 +482,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td colspan="2">
 					<label for="NoGeorefBecause">NoGeorefBecause
 					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause"></label>
 				</td>
