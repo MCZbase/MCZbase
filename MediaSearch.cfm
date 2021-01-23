@@ -131,8 +131,8 @@
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
        <div style="float:left;width: 750px;margin-bottom: .25em;">
-      <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" >
+      <label for="media_uri" class="mb-0">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
       <div style="float:left;width: 250px;padding-top:.25em;">
       <label for="mime_type" class="mb-0">MIME Type</label>
