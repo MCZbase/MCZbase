@@ -22,7 +22,7 @@
 			<input name="toproject_id" type="hidden" value="#toproject_id#">
 		</cfoutput>
 
-		<table style="width: 100%;">
+		<table class="table table-responsive">
 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
@@ -35,7 +35,7 @@
 				</cfif>
               <tr>
 
-				<td>
+				<td class="border-0">
 
 					<h4>Project or Publication Basics</h4>
 					<label for="p_title"><span id="project_publication_title">Title</span>
@@ -68,7 +68,7 @@
 					<label for="descr_len"> Description Min. Length</label>
 					<input name="descr_len" id="descr_len" type="text" value="100" class="form-control form-control-sm">
 				</td>
-				<td>
+				<td class="border-0">
 					<h4>Publication Details</h4>
 					<cfoutput>
 						<label for="publication_type"><span id="publication_type">Publication Type</span></label>
