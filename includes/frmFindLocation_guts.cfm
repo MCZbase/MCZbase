@@ -252,9 +252,9 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table class="table">
+	<table class="table table-responsive">
 		<tr>
-			<td colspan="2">
+			<td>
 				<label for="spec_locality">Specific Locality
 				<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm"></label>
 			</td>
@@ -263,7 +263,7 @@
 		<div id="locDetail" class="noShow">
 		<table class="table table-responsive">
 			<tr>
-				<td colspan="1">
+				<td>
 					<label for="collnOper" class="mb-0">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -281,7 +281,7 @@
 					</select>
 					</div>
 				</td>
-				<td colspan="1">
+				<td>
 					<label for="locality_id">Locality ID
 					<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm"></label>
 				</td>
@@ -365,13 +365,16 @@
 			<tr>
 				<td>
 					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
+					<div class="input-group">
+					<div class="input-group-prepend">
 					<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
+						</select></div>
 					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
+					</div>
 				</td>
 				<td>
 					<label for="minDepthOperM">Minimum Depth (in meters)</label>
