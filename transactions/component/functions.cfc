@@ -183,7 +183,7 @@ limitations under the License.
 				<cfquery name="accnLoans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					select loan.transaction_id loan_id, loan_number, loan_status, 
 						return_due_date, closed_date, 
-						loan.return_due_date - trunc(sysdate) dueindays,
+						loan.return_due_date - trunc(sysdate) dueindays
 					from cataloged_item
 						left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 						left join loan_item on specimen_part.collection_object_id = loan_item.collection_object_id
