@@ -99,10 +99,10 @@
 
 	<tr>
 		<td>
-			<label for="address">
+			<label for="address" class="mb-0">
 			Address
 			</label>
-			<input type="text" name="address" id="address" size="20">
+			<input type="text" name="address" id="address" size="20" class="border rounded">
 		</td>
 		<td>
 			<label for="anyName" class="mb-0">
