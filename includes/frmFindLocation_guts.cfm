@@ -273,7 +273,7 @@
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
 						</select></div>
-					<select name="collection_id" id="collection_id" size="1" class="form-control input-group-append mr-5 form-control-sm d-flex">
+					<select name="collection_id" id="collection_id" size="1" class="form-control input-group-append form-control-sm d-flex">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -345,7 +345,7 @@
 			<tr>
 				<td>
 					<label for="orig_elev_units">Elevation Units
-					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control w-75 form-control-sm">
+					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
 							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
@@ -404,7 +404,7 @@
 					<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 			</div>
 				</td>
-				<td class="pl-3">
+				<td>
 					<label for="MaxDepthOperM">Maximum Depth (in meters)</label>
 						<div class="input-group">
 					<div class="input-group-prepend">
