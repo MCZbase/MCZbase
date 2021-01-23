@@ -668,7 +668,7 @@ function opendialogrank(page,id,title,agentId) {
 				<input type="hidden" name="agent_id" value="#pname.agent_id#">
 				<input type="hidden" name="agent_name_type" value="#pname.agent_name_type#">
 				<label for="agent_name">Preferred Name</label>
-				<input type="text" value="#pname.agent_name#" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
+				<input type="text" value="#pname.agent_name#" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="border rounded">
 				<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
                 <input type="button" value="Copy" class="lnkBtn" onClick="newName.agent_name.value='#pname.agent_name#';">
                 <span class="hints" style="color: green;">(add a space between initials for all forms with two initials)</span>
@@ -687,7 +687,7 @@ function opendialogrank(page,id,title,agentId) {
 								value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 						</cfloop>
 					</select>
-					<input type="text" value="#npname.agent_name#" name="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
+					<input type="text" value="#npname.agent_name#" name="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="border rounded">
 					<input type="button" value="Update" class="savBtn" onClick="a#i#.action.value='updateName';a#i#.submit();">
 					<input type="button" value="Delete" class="delBtn" onClick="a#i#.action.value='deleteName';confirmDelete('a#i#');">
 					<input type="button" class="lnkBtn" value="Copy" onClick="newName.agent_name.value='#pname.agent_name#';">
@@ -705,7 +705,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctNameType.agent_name_type#">#ctNameType.agent_name_type#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');">
+				<input type="text" name="agent_name" id="agent_name" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');" class="border rounded">
 				<input type="submit" class="insBtn" value="Create Name">
 			</form>
 		</div>
@@ -739,7 +739,7 @@ function opendialogrank(page,id,title,agentId) {
 								>#ctRelns.AGENT_RELATIONSHIP#</option>
 						</cfloop>
 					</select>
-					<input type="text" name="related_agent" class="reqdClr" value="#agent_name#" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+					<input type="text" name="related_agent" class="reqdClr border rounded" value="#agent_name#" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 						onchange="getAgent('newRelatedAgentId','related_agent','agentRelations#i#',this.value); return false;"
 						onKeyPress="return noenter(event);">
 					<input type="button" class="savBtn" value="Save" onClick="agentRelations#i#.action.value='changeRelated';agentRelations#i#.submit();">
@@ -759,7 +759,7 @@ function opendialogrank(page,id,title,agentId) {
 						<option value="#ctRelns.AGENT_RELATIONSHIP#">#ctRelns.AGENT_RELATIONSHIP#</option>
 					</cfloop>
 				</select>
-				<input type="text" name="related_agent" class="reqdClr" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
+				<input type="text" name="related_agent" class="reqdClr border rounded" readonly autocomplete="off" onfocus="this.removeAttribute('readonly');"
 					onchange="getAgent('newRelatedAgentId','related_agent','newRelationship',this.value); return false;"
 					onKeyPress="return noenter(event);">
 				<input type="submit" class="insBtn" value="Create Relationship">
@@ -775,7 +775,7 @@ function opendialogrank(page,id,title,agentId) {
 				<table>
 					<tr>
 						<td>
-							<label for="addr_type">Address Type</label>
+							<label for="addr_type" class="mb-0">Address Type</label>
 							<select name="addr_type" id="addr_type" size="1">
 								<cfloop query="ctAddrType">
 								<option value="#ctAddrType.addr_type#">#ctAddrType.addr_type#</option>
@@ -783,48 +783,48 @@ function opendialogrank(page,id,title,agentId) {
 							</select>
 						</td>
 						<td>
-							<label for="job_title">Job Title</label>
-							<input type="text" name="job_title" id="job_title">
+							<label for="job_title" class="mb-0">Job Title</label>
+							<input type="text" name="job_title" id="job_title" class="border rounded">
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label for="institution">Institution</label>
-							<input type="text" name="institution" id="institution"size="50" >
+							<label for="institution" class="mb-0">Institution</label>
+							<input type="text" name="institution" id="institution"size="50" class="border rounded" >
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label for="department">Department</label>
-							<input type="text" name="department" id="department" size="50" >
+							<label for="department" class="mb-0">Department</label>
+							<input type="text" name="department" id="department" size="50" class="border rounded">
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label for="street_addr1">Street Address 1</label>
-							<input type="text" name="street_addr1" id="street_addr1" size="50" class="reqdClr">
+							<label for="street_addr1" class="mb-0">Street Address 1</label>
+							<input type="text" name="street_addr1" id="street_addr1" size="50" class="reqdClr border rounded">
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label for="street_addr2">Street Address 2</label>
-							<input type="text" name="street_addr2" id="street_addr2" size="50">
+							<label for="street_addr2" class="mb-0">Street Address 2</label>
+							<input type="text" name="street_addr2" id="street_addr2" size="50" class="border rounded">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="city">City</label>
-							<input type="text" name="city" id="city" class="reqdClr">
+							<label for="city" class="mb-0">City</label>
+							<input type="text" name="city" id="city" class="reqdClr border rounded">
 						</td>
 						<td>
-							<label for="state">State</label>
-							<input type="text" name="state" id="state" class="reqdClr">
+							<label for="state" class="mb-0">State</label>
+							<input type="text" name="state" id="state" class="reqdClr border rounded">
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="zip">Zip</label>
-							<input type="text" name="zip" id="zip" class="reqdClr">
+							<label for="zip" class="mb-0">Zip</label>
+							<input type="text" name="zip" id="zip" class="reqdClr border rounded">
 						</td>
                   				<td>
 						<script>
