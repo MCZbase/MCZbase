@@ -117,7 +117,7 @@
 				</td>
 
 			</tr>
-			<tr>
+			<tr class="pt-2">
 				<td colspan="2" align="center">
 					<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 
