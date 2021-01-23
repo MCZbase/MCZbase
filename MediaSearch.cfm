@@ -72,10 +72,10 @@
   <div class="greenbox float-left">
     <a name="kwFrm"></a>
 	  <h2 class="h3">Keyword Search</h2>
-  <p style="font-size: 14px;padding-bottom: 1em;" class="small">
+  <p style="font-size: 14px;" class="small">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
       </p>
-	  <div class="my-2 float-left w-100">
+	  <div class="mb-2 float-left w-100">
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="key">
       <label for="keyword">Keyword</label>
