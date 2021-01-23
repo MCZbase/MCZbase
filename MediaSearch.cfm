@@ -165,7 +165,7 @@
 			<div class="input-group-prepend">
       <label for="relationships">Media Relationships</label>
       <div id="relationships" class="relationship_dd">
-        <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
+        <select name="relationship__1" id="relationship__1" size="1" class="form-control form-control-sm">
           <option value=""></option>
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
