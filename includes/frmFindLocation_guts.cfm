@@ -490,8 +490,7 @@
 				<td>
 					<label for="isIncomplete">isIncomplete
 					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="checkbox"></label>
-				</td>
-				<td>
+			
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause
 					<input type="checkbox" name="nullNoGeorefBecause" id="nullNoGeorefBecause" class="checkbox"></label>
 				</td>
@@ -514,7 +513,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<label for="GeorefMethod">GeorefMethod
 					<select name="GeorefMethod" id="GeorefMethod" size="1" class="form-control form-control-sm">
 						<option value=""></option>
@@ -537,12 +536,12 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<label for="coordinateDeterminer">Coordinate Determiner
 					<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer"></label>
 				</td>
 
-				<td colspan="2">
+				<td>
 
 
 							<div class="geolocateScoreDiv">
