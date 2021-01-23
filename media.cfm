@@ -323,27 +323,27 @@
       <input type="hidden" name="action" value="saveNew">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
-      <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr border round">
+      <label for="media_uri" class="mb-0">Media URI</label>
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr border rounded">
       <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
       <label for="preview_uri">Preview URI</label>
-      <input type="text" name="preview_uri" id="preview_uri" size="105" class="border round">
-      <label for="mime_type">MIME Type</label>
+      <input type="text" name="preview_uri" id="preview_uri" size="105" class="border rounded">
+      <label for="mime_type" class="mb-0">MIME Type</label>
       <select name="mime_type" id="mime_type" class="reqdClr border rounded" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
         </cfloop>
       </select>
-      <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type" class="reqdClr border round" style="width: 160px;">
+      <label for="media_type" class="mb-0">Media Type</label>
+      <select name="media_type" id="media_type" class="reqdClr border rounded" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmedia_type">
           <option value="#media_type#">#media_type#</option>
         </cfloop>
       </select>
       <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
-        <label for="media_license_id">License</label>
+        <label for="media_license_id" class="mb-0">License</label>
         <select name="media_license_id" id="media_license_id" class="" style="width:300px;">
           <option value="">Research copyright &amp; then choose...</option>
           <cfloop query="ctmedia_license">
