@@ -155,12 +155,14 @@
    	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
           <div class="my-2 float-left">
            <span>
-               <label for "unlinked">Limit to Media not yet linked to any record.</label>
-               <input type="checkbox" name="unlinked" id="unlinked" value="true">
+               <label for "unlinked" class="mb-0">Limit to Media not yet linked to any record.</label>
+               <input type="checkbox" name="unlinked" id="unlinked" value="true" class="checkbox">
            </span>
            </div>
         </cfif>
       <div style="clear: both;padding-top: .5em;">
+	<div class="input-group">
+			<div class="input-group-prepend">
       <label for="relationships">Media Relationships</label>
       <div id="relationships" class="relationship_dd">
         <select name="relationship__1" id="relationship__1" size="1" style="width: 200px;">
@@ -168,11 +170,12 @@
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control form-control-sm">
+		  </select></div>
+		<input type="text" name="related_value__1" id="related_value__1"  class="form-control input-group-append form-control-sm d-flex">
         <input type="hidden" name="related_id__1" id="related_id__1">
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
-        </div>
+		  </div></div>
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
         <div id="labelsDiv__1">
