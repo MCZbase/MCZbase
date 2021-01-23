@@ -426,7 +426,7 @@
 			</tr>
 			<tr>
 				<td>
-					<table class="table table-responsive">
+					<table class="table">
 						<tr>
 							<td>
 								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
@@ -613,7 +613,7 @@
 		</tr>
 	</table>
 		<div id="eventDetail" class="noShow">
-			<table class="table table-responsive">
+			<table class="table">
 			<tr>
 				<td style="padding-right: 1em;">
 					<label for="verbatim_date">Verbatim Date</label>
@@ -631,7 +631,7 @@
 			<tr>
 				<td style="padding-right: 1em;">
 					<label for="coll_event_remarks">Collecting Event Remarks</label>
-					<input type="text" name="coll_event_remarks" id="coll_event_remarks" size="30">
+					<input type="text" name="coll_event_remarks" id="coll_event_remarks"  class="form-control form-control-sm">
 				</td>
                  <td>
                 	<label for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
@@ -639,11 +639,11 @@
                   </td>
                 	<td style="padding-left: 1em;">
 					<label for="habitat_desc">Habitat</label>
-					<input type="text" name="habitat_desc" id="habitat_desc" size="30">
+					<input type="text" name="habitat_desc" id="habitat_desc"  class="form-control form-control-sm">
 				</td>
 			</tr>
 			<tr>
-				<td style="padding-right: 1em;">
+				<td>
 					<label for="collecting_source">Collecting Source</label>
 					<select name="collecting_source" id="collecting_source" size="1">
 		            	<option value=""></option>
@@ -654,11 +654,11 @@
 				</td>
                 	 <td>
                 	<label for="verbatimSRS">Verbatim SRS (e.g., datum)</label>
-					<input type="text" name="verbatimSRS" id="verbatimSRS" size="30">
+					<input type="text" name="verbatimSRS" id="verbatimSRS"  class="form-control form-control-sm">
                   </td>
-                	<td style="padding-left: 1em;">
-					<label for="collecting_event_id">Collecting Event ID</label>
-					<input type="text" name="collecting_event_id" id="collecting_event_id" >
+                	<td>
+					<label for="collecting_event_id">Collecting Event ID
+					<input type="text" name="collecting_event_id" id="collecting_event_id" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 
