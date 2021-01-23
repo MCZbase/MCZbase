@@ -475,7 +475,7 @@ function opendialogrank(page,id,title,agentId) {
 				                        </td>
  						</tr>
  						<tr>
-							<td colspan="4" class="detailCell border-dotted py-2">
+							<td colspan="4" class="detailCell border-solid py-2">
 								<label for="agentguid" class="mb-0">GUID for Agent</label>
 								<cfset pattern = "">
 								<cfset placeholder = "">
