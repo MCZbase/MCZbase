@@ -291,7 +291,7 @@
 					<label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-text form-control-sm">
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -304,7 +304,7 @@
 					<label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
 						<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="minDepthOper" id="MinDepthOper" size="1" class="input-group-text form-control form-control-sm">
+					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -319,7 +319,7 @@
 					<label for="MaxElevOper">Maximum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MaxElevOper" id="MaxElevOper" size="1" class="input-group-text form-control form-control-sm">
+					<select name="MaxElevOper" id="MaxElevOper" size="1" class=" form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -332,7 +332,7 @@
 					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control input-group-text form-control-sm">
+					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
