@@ -169,9 +169,10 @@
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
         </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control w-50 d-flex float-left form-control-sm">
+		    <br clear="all">
         <input type="hidden" name="related_id__1" id="related_id__1">
-        <br clear="all">
-        <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+      
+        <span class="infoLink" id="addRelationship" onclick="addRelation(2)" class="d-block float-left">Add Relationship</span> </div>
         </div>
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
