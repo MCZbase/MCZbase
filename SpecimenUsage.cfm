@@ -14,7 +14,7 @@
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
    <div class="content_box_pub">
-     <h2 class="wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h2>
+     <h1 class="h2 wikilink">Publication&#8239;/&#8239;Project Search&nbsp;<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")><img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication or Project Search')" class="likeLink" alt="[ help ]" style="vertical-align:top;"></cfif></h1>
 	<form action="SpecimenUsage.cfm" method="post">
 		<input name="action" type="hidden" value="search">
 		<cfif not isdefined("toproject_id")><cfset toproject_id=""></cfif>
@@ -26,7 +26,7 @@
 
 				<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
                 <tr>
-					<td class="border-0">
+					<td class="border-0 py-0">
 						<a  style="padding: .5em 0;display: block;" href="/Project.cfm?action=makeNew">[ New Project ]</a>
 
 						<a style="padding: .5em 0;display: block;" href="/Publication.cfm?action=newPub">[ New Publication ]</a>
@@ -37,7 +37,7 @@
 
 				<td class="border-0">
 
-					<h4>Project or Publication Basics</h4>
+					<h2 class="h4">Project or Publication Basics</h2>
 					<label for="p_title"><span id="project_publication_title">Title</span>
 					<input name="p_title" id="p_title" type="text" class="form-control form-control-sm">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
