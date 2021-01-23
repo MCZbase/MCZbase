@@ -71,7 +71,8 @@
 <form name="newMedia" method="post" action="">
   <div class="greenbox float-left">
     <a name="kwFrm"></a>
-  <p style="font-size: 14px;padding-bottom: 1em;">
+	  <h3 class="">Keyword Search</h3>
+  <p style="font-size: 14px;padding-bottom: 1em;" class="small">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
       </p>
 	  <div class="my-2 float-left w-100">
@@ -125,7 +126,8 @@
     <form name="newMedia" method="post" action="">
           <div class="greenbox">
     <a name="relFrm"></a>
-    <div> <p style="font-size: 14px;padding-bottom: 1em;">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
+			  	  <h3 class="">Relational Search</h3>
+    <div> <p style="font-size: 14px;padding-bottom: 1em;" class="small">You can use the also use the <a href="##kwFrm">keyword search form</a> above.</p> </div>
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="full">
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
