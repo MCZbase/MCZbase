@@ -658,10 +658,10 @@ limitations under the License.
 									}
 									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
 								};
-								$( document ).ready(
+								$( document ).ready( function() { 
 									loadTransactionFormPermits(#transaction_id#);
 									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
-								);
+								});
 							</script>
 								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
 								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
