@@ -168,7 +168,7 @@
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>:&nbsp;<input type="text" name="related_value__1" id="related_value__1" class="w-50" >
+        </select>:&nbsp;<input type="text" name="related_value__1" id="related_value__1" class="w-50 border rounded" >
         <input type="hidden" name="related_id__1" id="related_id__1" >
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
@@ -181,7 +181,7 @@
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
-          </select>:&nbsp;<input type="text" name="label_value__1" id="label_value__1" class="w-50">
+          </select>:&nbsp;<input type="text" name="label_value__1" id="label_value__1" class="w-50 border rounded">
         </div>
         <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
          </div>
