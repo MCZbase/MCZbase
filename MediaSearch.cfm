@@ -145,7 +145,7 @@
 							</span> </div>
 					</cfif>
 					<div class="w-100 float-left">
-						<label for="relationships">Media Relationships</label>
+						<label for="relationships" class="mb-0">Media Relationships</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<div id="relationships">
@@ -157,8 +157,8 @@
 									</select>
 								</div>
 								<input type="text" name="related_value__1" id="related_value__1"  class="form-control input-group-append form-control-sm d-flex">
-										</div>
-								<input type="hidden" name="related_id__1" id="related_id__1">
+										
+								<input type="hidden" name="related_id__1" id="related_id__1"></div>
 								<span class="infoLink ml-2" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
 				
 					</div>
