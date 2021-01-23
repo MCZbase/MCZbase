@@ -44,7 +44,7 @@
 					<input name="author" id="author" type="text" class="form-control form-control-sm">
 					<label for="year"><span id="project_publication_year">Year</span></label>
 					<input name="year" id="year" type="text" class="form-control form-control-sm">
-					<fieldset style="margin-left: 0; width: 415px;">
+					<fieldset>
 						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked"  class="float-left" style="width:15px;margin-top:.35rem;">
 						<label for="searchPubs">Search Publications Only</label>
 						<input type="radio" id="searchProj" name="search_type" value="projects"  class="float-left" style="width:15px;margin-top:.35rem">
