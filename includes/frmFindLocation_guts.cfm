@@ -666,6 +666,8 @@
 					<label for="collecting_event_id">Collecting Event ID
 					<input type="text" name="collecting_event_id" id="collecting_event_id" class="form-control form-control-sm"></label>
 				</td>
+					<td>
+					</td>
 				</tr>
 
 		</table>
