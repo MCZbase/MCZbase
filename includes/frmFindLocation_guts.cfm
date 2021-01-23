@@ -252,7 +252,7 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table class="table table-fixed">
+	<table class="table table-responsive">
 		<tr>
 			<td colspan="2">
 				<label for="spec_locality">Specific Locality
@@ -261,9 +261,9 @@
 		</tr>
 		</table>
 		<div id="locDetail" class="noShow">
-		<table class="table table-fixed">
+		<table class="table table-responsive">
 			<tr>
-				<td class="mr-3">
+				<td>
 					<label for="collnOper" class="mb-0">Collection</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -281,13 +281,13 @@
 					</select>
 					</div>
 				</td>
-				<td class="pl-3">
+				<td>
 					<label for="locality_id">Locality ID
 					<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm"></label>
 				</td>
 			</tr>
 			<tr>
-				<td  class="mr-3">
+				<td>
 					<label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -300,7 +300,7 @@
 					<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append mr-5 form-control-sm d-flex">
 						</div>
 				</td>
-				<td  class="pl-3">
+				<td>
 					<label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
 						<div class="input-group">
 					<div class="input-group-prepend">
@@ -315,7 +315,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td  class="mr-3">
+				<td>
 					<label for="MaxElevOper" class="mb-0">Maximum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -328,7 +328,7 @@
 					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control mr-5 input-group-append form-control-sm d-flex">
 					</div>
 				</td>
-				<td class="pl-3">
+				<td>
 					<label for="MaxDepthOper" class="mb-0">Maximum Depth (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
@@ -343,7 +343,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="mr-3">
+				<td>
 					<label for="orig_elev_units">Elevation Units
 					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control w-75 form-control-sm">
 						<option value=""></option>
@@ -352,7 +352,7 @@
 						</cfloop>
 					</select></label>
 				</td>
-				<td class="pl-3">
+				<td>
 					<label for="depth_units">Depth Units
 					<select name="depth_units" id="depth_units" size="1" class="form-control w-75 form-control-sm">
 						<option value=""></option>
@@ -363,7 +363,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="pr-3">
+				<td>
 					<label for="MinElevOperM">Minimum Elevation (in meters)</label>
 					<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -373,7 +373,7 @@
 					</select>
 					<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 				</td>
-				<td class="pl-3">
+				<td>
 					<label for="minDepthOperM">Minimum Depth (in meters)</label>
 					<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
@@ -385,7 +385,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="pr-3">
+				<td>
 					<label for="MaxElevOperM">Maximum Elevation (in meters)</label>
 					<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
