@@ -264,19 +264,22 @@
 		<table class="table table-fixed">
 			<tr>
 				<td class="pr-3">
-					<label for="collnOper">Collection
-					<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm w-25">
+					<label for="collnOper">Collection</label>
+					<div class="input-group">
+					<div class="input-group-prepend">
+					<select name="collnOper" id="collnOper" size="1" class="form-control  input-group-prepend form-control-sm">
 						<option value=""></option>
 						<option value="usedOnlyBy">used only by</option>
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
-					</select>
-					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm w-75">
+						</select></div>
+					<select name="collection_id" id="collection_id" size="1" class="form-control form-control-sm d-flex">
 						<option value=""></option>
 						<cfloop query="ctcollection">
 							<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
 						</cfloop>
-					</select></label>
+					</select>
+					</div>
 				</td>
 				<td class="pl-3">
 					<label for="locality_id">Locality ID
