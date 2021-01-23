@@ -354,7 +354,7 @@
 				</td>
 				<td>
 					<label for="depth_units">Depth Units
-					<select name="depth_units" id="depth_units" size="1" class="form-control w-75 form-control-sm">
+					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
