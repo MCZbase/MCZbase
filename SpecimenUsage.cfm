@@ -118,7 +118,7 @@
 
 			</tr>
 			<tr class="pt-2">
-				<td colspan="2" align="center">
+				<td colspan="2" class="border-0" align="center">
 					<input type="submit" value="Search" class="schBtn">&nbsp;&nbsp;
 
                     <input type="reset"	value="Clear Form"	class="clrBtn">
