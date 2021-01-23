@@ -577,9 +577,9 @@
 	<cfif #showEvent# is 1>
 	<div class="locGroup">
 		<span id="eventDetailCtl" class="infoLink" onclick="toggleEventDetail(1)";>Show More Options</span>
-	<table cellpadding="0" cellspacign="0">
+	<table class="table table-responsive">
 		<tr>
-			<td>
+			<td colspan="2">
 				<label for="verbatim_locality">Verbatim Locality
 				<input type="text" name="verbatim_locality" id="verbatim_locality"  class="form-control form-control-sm"></label>
 			</td>
@@ -587,23 +587,28 @@
 		<tr>
 			<td>
 				<label for="begDateOper">Began Date</label>
+				<div class="input-group">
+					<div class="input-group-prepend">
 				<select name="begDateOper" id="begDateOper" size="1" class="form-control form-control-sm">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
-	            </select>
-				<input type="text" name="began_date" id="began_date">
+						</select></div>
+					<input type="text" name="began_date" id="began_date" class="form-control form-control-sm d-flex input-group-append"></div>
 			</td>
 		</tr>
 		<tr>
 			<td>
 				<label for="endDateOper">Ended Date</label>
+					<div class="input-group">
+					<div class="input-group-prepend">
 				<select name="endDateOper" id="endDateOper" size="1" class="form-control form-control-sm">
 	            	<option value="=">is</option>
 	                <option value="<">before</option>
 	                <option value=">">after</option>
-	            </select>
-				<input type="text" name="ended_date" id="ended_date" class="form-control form-control-sm w-50">
+						</select></div>
+				<input type="text" name="ended_date" id="ended_date" class="form-control form-control-sm d-flex input-group-append">
+				</div>
 			</td>
 		</tr>
 	</table>
