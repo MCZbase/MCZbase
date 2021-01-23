@@ -497,7 +497,7 @@
 												<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer">
 											</label></td>
 										<td><div class="geolocateScoreDiv">
-											<label>Geolocate Score</label>
+											<label for="gs_comparator">Geolocate Score</label>
 											<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
@@ -507,12 +507,12 @@
 													<option value="between" >between</option>
 												</select>
 											</div>
-											<label id="hiddenDivlabel" style="display:none;">Min</label>
+											<label id="hiddenDivlabel" class="mb-0" style="display:none;">Min</label>
 											<input type="text" name="geolocate_score" id="geolocate_score" class="form-control form-control-sm d-flex input-group-append">
 											<div id="hiddenDiv" style="display:none">
 												<div class="input-group">
 													<div class="input-group-prepend">
-														<label>Max</label>
+														<label class="mb-0">Max</label>
 													</div>
 													<input type="text" name="geolocate_score2" id="geolocate_score2" class="form-control w-50 form-control-sm input-group-append">
 												</div>
