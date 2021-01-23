@@ -268,7 +268,7 @@
 					<div class="input-group">
 					<div class="input-group-prepend">
 					<select name="collnOper" id="collnOper" size="1" class="form-control  input-group-prepend form-control-sm">
-						<option value=""></option>
+						<option value="">Choose</option>
 						<option value="usedOnlyBy">used only by</option>
 						<option value="usedBy">used by</option>
 						<option value="notUsedBy">not used by</option>
@@ -291,7 +291,7 @@
 					<label for="MinElevOper">Minimum Elevation (only with units below)</label>
 					<div class="input-group">
 					<div class="input-group-prepend">
-					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-prepend form-control-sm">
+					<select name="MinElevOper" id="MinElevOper" size="1" class="form-control input-group-text form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
@@ -301,14 +301,17 @@
 						</div>
 				</td>
 				<td  class="pl-3">
-					<label for="minDepthOper">Minimum Depth (only with units below)
-					<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm w-25">
+					<label for="minDepthOper">Minimum Depth (only with units below)</label>
+						<div class="input-group">
+					<div class="input-group-prepend">
+					<select name="minDepthOper" id="MinDepthOper" size="1" class="input-group-text form-control py-0 form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
-					<input type="text" name="min_depth" id="min_depth" class="form-control form-control-sm w-75"></label>
+						</select></div>
+					<input type="text" name="min_depth" id="min_depth" class="form-control form-control-sm input-group-text d-flex">
+							</div>
 				</td>
 			</tr>
 			<tr>
@@ -322,18 +325,21 @@
 						<option value=">">more than</option>
 						<option value="<">less than</option>
 						</select></div>
-					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control form-control-sm d-flex">
+					<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-text form-control-sm d-flex">
 					</div>
 				</td>
 				<td class="pl-3">
 					<label for="MaxDepthOper">Maximum Depth (only with units below)</label>
+					<div class="input-group">
+					<div class="input-group-prepend">
 					<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
 						<option value="=">is</option>
 						<option value="<>">is not</option>
 						<option value=">">more than</option>
 						<option value="<">less than</option>
-					</select>
-					<input type="text" name="max_depth" id="max_depth">
+						</select></div>
+					<input type="text" name="max_depth" id="max_depth" class="form-control input-group-text form-control-sm d-flex">
+					</div>
 				</td>
 			</tr>
 			<tr>
