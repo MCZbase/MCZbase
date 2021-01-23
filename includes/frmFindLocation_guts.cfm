@@ -613,7 +613,7 @@
 		</tr>
 	</table>
 		<div id="eventDetail" class="noShow">
-			<table cellpadding="0" cellspacign="0">
+			<table class="table table-responsive">
 			<tr>
 				<td style="padding-right: 1em;">
 					<label for="verbatim_date">Verbatim Date</label>
