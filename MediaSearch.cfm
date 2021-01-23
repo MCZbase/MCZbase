@@ -134,7 +134,7 @@
       <label for="media_uri" class="mb-0">Media URI</label>
       <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
-      <div style="float:left;width: 250px;padding-top:.25em;">
+      <div style="float:left;width: 250px;padding-top:.25em;clear:both;">
       <label for="mime_type" class="mb-0">MIME Type</label>
       <select name="mime_type" id="mime_type" class="form-control form-control-sm" >
         <option value=""></option>
@@ -145,7 +145,7 @@
       </div>
        <div style="float:left;width: 200px;margin-left:1rem">
       <label for="media_type" class="mb-0">Media Type</label>
-      <select name="media_type" id="media_type" class="form-control form-control-sm">
+      <select name="media_type" id="media_type">
         <option value=""></option>
         <cfloop query="ctmedia_type">
           <option value="#media_type#">#media_type#</option>
@@ -168,7 +168,7 @@
           <cfloop query="ctmedia_relationship">
             <option value="#media_relationship#">#media_relationship#</option>
           </cfloop>
-        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1"  class="form-control form-control-sm">
+        </select>: &nbsp;<input type="text" name="related_value__1" id="related_value__1" >
         <input type="hidden" name="related_id__1" id="related_id__1">
         <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
@@ -176,13 +176,13 @@
       <label for="labels" style="margin-top: .5em">Media Labels</label>
       <div id="labels" class="relationship_dd">
         <div id="labelsDiv__1">
-          <select name="label__1" id="label__1" size="1" style="width: 200px;"  class="form-control form-control-sm">
+          <select name="label__1" id="label__1" size="1" style="width: 200px;"  >
             <option value=""></option>
             <cfloop query="ctmedia_label">
               <option value="#media_label#">#media_label#</option>
             </cfloop>
           </select>:&nbsp;
-          <input type="text" name="label_value__1" id="label_value__1" class="form-control form-control-sm">
+          <input type="text" name="label_value__1" id="label_value__1" >
         </div>
         <span class="infoLink" id="addLabel" onclick="addLabel(2)">Add Label</span> </div>
          </div>
