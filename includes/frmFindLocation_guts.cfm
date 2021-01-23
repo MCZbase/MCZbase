@@ -478,13 +478,12 @@
 				<td>
 					<label for="findHasGeoRef">Has Georeferences
 					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="checkbox"></label>
-				<td>
 					<label for="findNoAccGeoRef">No Accepted Georeferences
 					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="checkbox"></label>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<label for="NoGeorefBecause">NoGeorefBecause
 					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause"></label>
 				</td>
