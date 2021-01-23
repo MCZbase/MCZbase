@@ -438,8 +438,8 @@
 								</select>
 							</td>
 							<td>
-								<label for="geo_att_value">Attribute Value</label>
-								<input type="text" name="geo_att_value">
+								<label for="geo_att_value">Attribute Value
+								<input type="text" name="geo_att_value" class="form-control form-control-sm"></label>
 							</td>
 							<td>
 								<label for="geology_attribute_hier">Traverse Hierarchies?</label>
