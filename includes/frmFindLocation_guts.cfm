@@ -242,7 +242,7 @@
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
-													<option value="">Choose</option>
+													<option value=""></option>
 													<option value="usedOnlyBy">used only by</option>
 													<option value="usedBy">used by</option>
 													<option value="notUsedBy">not used by</option>
