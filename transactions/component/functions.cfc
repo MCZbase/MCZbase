@@ -136,7 +136,7 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select permit_id, specific_type, restriction_summary, benefits_summary, benefits_provided
+					select permit.permit_id, permit.specific_type, permit.restriction_summary, permit.benefits_summary, permit.benefits_provided
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
