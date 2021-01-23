@@ -74,6 +74,7 @@
   <p style="font-size: 14px;padding-bottom: 1em;">
       This form may not find very recent changes. You can use the also use the <a href="##relFrm">relational search form</a> below.
       </p>
+	  <div class="my-2 float-left w-100">
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="key">
       <label for="keyword">Keyword</label>
@@ -85,10 +86,11 @@
       </span> <span class="rdoCtl">Match Phrase
       <input type="radio" name="kwType" value="phrase">
       </span>
+	  </div>
 
-     <div class="my-2 float-left">
+     <div class="my-2 float-left w-100">
       <label for="media_uri" class="mb-0">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm w-100">
+     <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
      </div>
   
       <div style="width: 420px;margin-top:.5em;">
