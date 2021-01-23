@@ -2692,7 +2692,7 @@ p.topspace {
 	color: #444444;
 }
 .detailCell {
-	border: 1px dotted #666;
+	border: 1px solid #666;
 	text-align: left;
 	padding: 2px 3px 7px 15px;
 	position: relative;
