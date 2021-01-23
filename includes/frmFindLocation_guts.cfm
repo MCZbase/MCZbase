@@ -425,10 +425,10 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="mb-0">
+				<td class="mb-0 p-0" colspan="2">
 					<table class="table border-0 mb-0">
 						<tr class="row">
-							<td class="border-0 py-0">
+							<td class="border-0">
 								<label for="geology_attribute" class="mb-0">Geology Attribute</label>
 									<div class="input-group">
 					<div class="input-group-prepend">
@@ -441,7 +441,7 @@
 							<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
 								</div>
 							</td>
-								<td class="border-0 py-0">
+								<td class="border-0">
 								<label for="geology_attribute_hier">Traverse Hierarchies?
 								<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
 									<option selected="selected" value="0">No</option>
