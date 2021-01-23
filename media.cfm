@@ -324,19 +324,19 @@
       <input type="hidden" id="number_of_relations" name="number_of_relations" value="1">
       <input type="hidden" id="number_of_labels" name="number_of_labels" value="1">
       <label for="media_uri">Media URI</label>
-      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr">
+      <input type="text" name="media_uri" id="media_uri" size="105" class="reqdClr border round">
       <!--- <span class="infoLink" id="uploadMedia">Upload</span> --->
       <label for="preview_uri">Preview URI</label>
-      <input type="text" name="preview_uri" id="preview_uri" size="105">
+      <input type="text" name="preview_uri" id="preview_uri" size="105" class="border round">
       <label for="mime_type">MIME Type</label>
-      <select name="mime_type" id="mime_type" class="reqdClr" style="width: 160px;">
+      <select name="mime_type" id="mime_type" class="reqdClr border rounded" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmime_type">
           <option value="#mime_type#">#mime_type#</option>
         </cfloop>
       </select>
       <label for="media_type">Media Type</label>
-      <select name="media_type" id="media_type" class="reqdClr" style="width: 160px;">
+      <select name="media_type" id="media_type" class="reqdClr border round" style="width: 160px;">
         <option value=""></option>
         <cfloop query="ctmedia_type">
           <option value="#media_type#">#media_type#</option>
@@ -344,7 +344,7 @@
       </select>
       <div class="license_box" style="padding-bottom: 1em;padding-left: 1.15em;">
         <label for="media_license_id">License</label>
-        <select name="media_license_id" id="media_license_id" style="width:300px;">
+        <select name="media_license_id" id="media_license_id" class="" style="width:300px;">
           <option value="">Research copyright &amp; then choose...</option>
           <cfloop query="ctmedia_license">
             <option value="#media_license_id#">#media_license#</option>
@@ -374,7 +374,7 @@
           </cfloop>
         </select>
         :&nbsp;
-        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly>
+        <input type="text" name="related_value__1" id="related_value__1" size="70" readonly class="border round">
         <input type="hidden" name="related_id__1" id="related_id__1">
        <br>
         <span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
