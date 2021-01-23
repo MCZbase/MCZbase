@@ -252,7 +252,7 @@
 <cfif #showLocality# is 1>
 	<div class="locGroup">
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-	<table class="table table-responsive">
+	<table class="table">
 		<tr>
 			<td colspan="2">
 				<label for="spec_locality">Specific Locality
