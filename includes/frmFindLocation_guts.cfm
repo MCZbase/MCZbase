@@ -467,15 +467,15 @@
 		</table>
 		<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-left: 600px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
 		<div id="georefDetail" class="noShow">
-		<table cellpadding="0" cellspacign="0">
+		<table class="table table-responsive">
 			<tr>
 				<td>
-					<label for="findNoGeoRef">No Georeferences</label>
-					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="checkbox">
+					<label for="findNoGeoRef">No Georeferences
+					<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="checkbox"></label>
 				</td>
 				<td>
-					<label for="findHasGeoRef">Has Georeferences</label>
-					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="checkbox">
+					<label for="findHasGeoRef">Has Georeferences
+					<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="checkbox"></label>
 				<td>
 					<label for="findNoAccGeoRef">No Accepted Georeferences
 					<input type="checkbox" name="findNoAccGeoRef" id="findNoAccGeoRef" class="checkbox"></label>
@@ -484,11 +484,11 @@
 			<tr>
 				<td>
 					<label for="NoGeorefBecause">NoGeorefBecause
-					<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause"></label>
+					<input type="text" name="NoGeorefBecause" class="checkbox" id="NoGeorefBecause"></label>
 				</td>
 				<td>
 					<label for="isIncomplete">isIncomplete
-					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="form-control form-control-sm"></label>
+					<input type="checkbox" name="isIncomplete" id="isIncomplete" class="checkbox"></label>
 				</td>
 				<td>
 					<label for="nullNoGeorefBecause">NULL NoGeorefBecause
@@ -496,14 +496,14 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="">
-					<label for="VerificationStatus">VerificationStatus</label>
+				<td>
+					<label for="VerificationStatus">VerificationStatus
 					<select name="VerificationStatus" id="VerificationStatus" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctVerificationStatus">
 							<option value="#VerificationStatus#">#VerificationStatus#</option>
 						</cfloop>
-					</select>
+					</select></label>
 				</td>
 				<td>
 					<div style="margin-left: 2em;" class="geolocateScoreDiv">
@@ -514,13 +514,13 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<label for="GeorefMethod">GeorefMethod</label>
+					<label for="GeorefMethod">GeorefMethod
 					<select name="GeorefMethod" id="GeorefMethod" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctGeorefMethod">
 							<option value="#GeorefMethod#">#GeorefMethod#</option>
 						</cfloop>
-					</select>
+					</select></label>
 				</td>
 				<td>
 						<div style="margin-left: 2em;" class="geolocateScoreDiv">
