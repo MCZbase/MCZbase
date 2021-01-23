@@ -6797,13 +6797,7 @@ nav.navbar { /* makes the navbar text slightly smaller than default and give pad
 	color: rgba(0, 0, 0, .7) !important;
 }
 /* End navigation menu styles */
-.logout {
-	padding: 0 .25rem;
-	font-size: .85rem;
-	position: relative;
-	font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-	letter-spacing: .02em;
-}
+
 .user {
 	font-size: .9rem;
 	height: calc(1rem + .5rem + 2px);
@@ -7054,6 +7048,7 @@ input#Password {
 		right: 1rem;
 		font-family: Arial narrow, "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
 		letter-spacing: .02em;
+		top: 5px;
 	}
 	.loginfld1 {
 		width: 100px;
