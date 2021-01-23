@@ -78,7 +78,7 @@
       <input type="hidden" name="action" value="search">
       <input type="hidden" name="srchType" value="key">
       <label for="keyword">Keyword</label>
-      <input type="text" name="keyword" id="keyword"  class="rounded border">
+      <input type="text" name="keyword" id="keyword"  class="rounded border w-50">
       <span class="rdoCtl">Match Any
       <input type="radio" name="kwType" value="any">
       </span> <span class="rdoCtl">Match All
@@ -90,7 +90,7 @@
 
      <div class="my-2 float-left w-100">
       <label for="media_uri" class="mb-0">Media URI</label>
-     <input type="text" name="media_uri" id="media_uri"  class="rounded border">
+     <input type="text" name="media_uri" id="media_uri"  class="rounded border w-100">
      </div>
   
       <div style="width: 420px;margin-top:.5em;">
