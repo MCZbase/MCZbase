@@ -136,7 +136,7 @@ limitations under the License.
 		<cftry>
 			<cfoutput>
 				<cfquery name="accnLimitations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select permit_id, specific_type, restriction_summary, benefits_required, benefits_provided
+					select permit_id, specific_type, restriction_summary, benefits_summary, benefits_provided
 					from  permit_trans 
 						left join permit on permit_trans.permit_id = permit.permit_id
 					where 
@@ -151,7 +151,7 @@ limitations under the License.
 								<tr>
 									<td><a href='/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#'>#specific_type#</a></td>
 									<td>#restrictions_summary#</td>
-									<td>#benefits_required#</td>
+									<td>#benefits_summary#</td>
 									<td>#benifits_provided#</td>
 								</tr>
 							</cfloop>
