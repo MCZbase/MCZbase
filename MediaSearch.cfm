@@ -134,7 +134,7 @@
       <label for="media_uri">Media URI</label>
       <input type="text" name="media_uri" id="media_uri"  class="form-control form-control-sm">
       </div>
-      <div class="my-2 float-left w-100">
+      <div class="my-2 float-left ">
       <label for="mime_type">MIME Type</label>
       <select name="mime_type" id="mime_type" class="form-control form-control-sm">
         <option value=""></option>
@@ -143,7 +143,7 @@
         </cfloop>
       </select>
       </div>
-       <div class="my-2 float-left w-100">
+       <div class="my-2 float-left">
       <label for="media_type">Media Type</label>
       <select name="media_type" id="media_type" class="form-control form-control-sm">
         <option value=""></option>
@@ -153,7 +153,7 @@
       </select>
       </div>
    	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
-          <div style="float:left;width: 150px;">
+          <div class="my-2 float-left">
            <span>
                <label for "unlinked">Limit to Media not yet linked to any record.</label>
                <input type="checkbox" name="unlinked" id="unlinked" value="true">
