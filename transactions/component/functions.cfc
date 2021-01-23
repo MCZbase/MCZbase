@@ -1196,7 +1196,7 @@ limitations under the License.
 					<cfif (i MOD 2) EQ 0> 
 						<cfset divclass = "class='evenRow'"> 
 					<cfelse> 
-						<cfset divclass "class='oddRow'"> 
+						<cfset divclass = "class='oddRow'"> 
 					</cfif>
 					<div #divclass# >
 						<form id='pp_#permit_id#_#transaction_id#_#i#' >
