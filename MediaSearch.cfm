@@ -144,11 +144,11 @@
 							<input type="checkbox" name="unlinked" id="unlinked" value="true" class="checkbox">
 							</span> </div>
 					</cfif>
-					<div class="w-100">
+					<div class="w-100 float-left">
 						<label for="relationships">Media Relationships</label>
 						<div class="input-group">
 							<div class="input-group-prepend">
-								<div id="relationships" class="relationship_dd">
+								<div id="relationships">
 									<select name="relationship__1" id="relationship__1" size="1" class="form-control form-control-sm">
 										<option value=""></option>
 										<cfloop query="ctmedia_relationship">
@@ -159,7 +159,7 @@
 								<input type="text" name="related_value__1" id="related_value__1"  class="form-control input-group-append form-control-sm d-flex">
 										</div>
 								<input type="hidden" name="related_id__1" id="related_id__1">
-								<span class="infoLink" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
+								<span class="infoLink ml-2" id="addRelationship" onclick="addRelation(2)">Add Relationship</span> </div>
 				
 					</div>
 					<label for="labels" style="margin-top: .5em">Media Labels</label>
