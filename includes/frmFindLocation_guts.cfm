@@ -453,7 +453,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<label for="sovereign_nation">Sovereign Nation
 					<select name="sovereign_nation" id="sovereign_nation" size="1" class="form-control form-control-sm">
 						<option value=""></option>
