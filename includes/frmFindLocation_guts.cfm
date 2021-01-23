@@ -345,7 +345,7 @@
 			<tr>
 				<td class="mr-3">
 					<label for="orig_elev_units">Elevation Units
-					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
+					<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control mr-5 form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctElevUnit">
 							<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
@@ -353,13 +353,13 @@
 					</select></label>
 				</td>
 				<td class="pl-3">
-					<label for="depth_units">Depth Units</label>
-					<select name="depth_units" id="depth_units" size="1" class="form-control mr-5 form-control-sm">
+					<label for="depth_units">Depth Units
+					<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
 						<option value=""></option>
 						<cfloop query="ctDepthUnit">
 							<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
 						</cfloop>
-					  	</select>
+					  	</select></label>
 				</td>
 			</tr>
 			<tr>
