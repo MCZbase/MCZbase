@@ -23,7 +23,7 @@
 <cfoutput>
 <form name="agntSearch" action="AgentGrid.cfm" method="post" target="_pick">
 	<input type="hidden" name="Action" value="search">
-<table>	
+<table class="table">	
 	<tr>
 		<td>
 			<label for="prefix" class="mb-0">Prefix</label>
@@ -76,7 +76,7 @@
 			</label>
 			<input type="text" name="last_name" id="last_name" class="rounded border">
 		</td>
-	<tr>
+	</tr>
 	<tr>
 		<td>
 			<label for="deathOper" class="mb-0">
@@ -96,7 +96,6 @@
 			<input type="text" name="agent_id" size="10" id="agent_id" class="rounded border">
 		</td>
 	</tr>
-
 	<tr>
 		<td>
 			<label for="address" class="mb-0">
@@ -110,8 +109,7 @@
 			</label>
 			<input type="text" name="anyName" id="anyName" size="20" class="border rounded">
 		</td>
-	</tr>
-   
+	</tr>  
 	<tr>
 		<td colspan="2" align="center" style="padding-top: 1em;font-size: 15px;">
 		      <input type="button" 
