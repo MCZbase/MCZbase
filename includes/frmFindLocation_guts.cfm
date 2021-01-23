@@ -506,9 +506,9 @@
 					</select></label>
 				</td>
 				<td>
-					<div style="margin-left: 2em;" class="geolocateScoreDiv">
-						<label>Shared Localities Only</label>
-						<input type="checkbox" name="onlyShared" id="onlyShared" class="form-control form-control-sm">
+					<div class="geolocateScoreDiv">
+						<label>Shared Localities Only
+						<input type="checkbox" name="onlyShared" id="onlyShared" class="checkbox">
 					</div>
 				</td>
 			</tr>
