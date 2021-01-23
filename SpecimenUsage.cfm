@@ -38,18 +38,18 @@
 				<td>
 
 					<h4>Project or Publication Basics</h4>
-					<label for="p_title"><span id="project_publication_title">Title</span></label>
-					<input name="p_title" id="p_title" type="text">
+					<label for="p_title"><span id="project_publication_title">Title</span>
+					<input name="p_title" id="p_title" type="text" class="form-control form-control-sm">
 					<label for="author"><span id="project_publication_agent">Participant</span></label>
-					<input name="author" id="author" type="text">
+					<input name="author" id="author" type="text" class="form-control form-control-sm">
 					<label for="year"><span id="project_publication_year">Year</span></label>
-					<input name="year" id="year" type="text">
+					<input name="year" id="year" type="text" class="form-control form-control-sm">
 					<fieldset style="margin-left: 0; width: 415px;">
 						<input type="radio" id="searchPubs" name="search_type" value="publications" checked="checked" style="float: left; width: 15px;">
 						<label for="searchPubs">Search Publications Only</label>
 						<input type="radio" id="searchProj" name="search_type" value="projects" style="float: left; width: 15px;">
 						<label for="searchProj">Search Projects Only</label>
-						<input type="radio" id="searchBoth" name="search_type" value="both" style="float: left; width: 15px;">
+						<input type="radio" id="searchBoth" name="search_type" value="both" class="float-left mt-2">
 						<label for="searchBoth">Search Both</label>
 					</fieldset>
 
