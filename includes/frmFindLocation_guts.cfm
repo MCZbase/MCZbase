@@ -155,7 +155,7 @@
 					<table class="table">
 						<tr>
 							<td colspan="2"><label for="higher_geog">Higher Geog
-									<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
+									<input type="text" name="higher_geog" id="higher_geog" class="border rounded py-1 w-100">
 									<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;"> Add = for exact match</label>
 								</span></td>
 						</tr>
@@ -164,26 +164,26 @@
 						<table class="table table-fixed">
 							<tr>
 								<td><label for="continent_ocean">Continent or Ocean
-										<input type="text" name="continent_ocean" id="continent_ocean" class="form-control form-control-sm">
+										<input type="text" name="continent_ocean" id="continent_ocean" class="border rounded w-100 py-1">
 										<span class="infolink" onclick="var e=document.getElementById('continent_ocean');e.value='='+e.value;"> Add = for exact match </span></label></td>
 								<td><label for="ocean_region">Ocean Region
-										<input type="text" name="ocean_region" id="ocean_region" class="form-control form-control-sm">
+										<input type="text" name="ocean_region" id="ocean_region" class="py-1 border rounded w-100">
 									</label></td>
 							</tr>
 							<tr>
 								<td><label for="ocean_subregion">Ocean SubRegion
-										<input type="text" name="ocean_subregion" id="ocean_subregion" class="form-control form-control-sm">
+										<input type="text" name="ocean_subregion" id="ocean_subregion" class="w-100 py-1 rounded border">
 									</label></td>
 								<td><label for="sea">Sea
-										<input type="text" name="sea" id="sea" class="form-control form-control-sm">
+										<input type="text" name="sea" id="sea" class="w-100 py-1 rounded border">
 									</label></td>
 							</tr>
 							<tr>
 								<td><label for="island">Island
-										<input type="text" name="island" id="island" class="form-control form-control-sm">
+										<input type="text" name="island" id="island" class="border rounded w-100 py-1">
 									</label></td>
 								<td><label for="island_group">Island Group
-										<select name="island_group" id="island_group"  class="form-control form-control-sm">
+										<select name="island_group" id="island_group"  class="border rounded w-100 py-1">
 											<option value=""></option>
 											<cfloop query="ctIslandGroup">
 												<option value = "#ctIslandGroup.island_group#">#ctIslandGroup.island_group#</option>
@@ -193,7 +193,7 @@
 							</tr>
 							<tr>
 								<td><label for="feature">Land Feature
-										<select name="feature" id="feature" class="form-control form-control-sm">
+										<select name="feature" id="feature" class=" py-1">
 											<option value=""></option>
 											<cfloop query="ctFeature">
 												<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
@@ -201,7 +201,7 @@
 										</select>
 									</label></td>
 								<td><label for="water_feature">Water Feature
-										<select name="water_feature" id="water_feature" class="form-control form-control-sm">
+										<select name="water_feature" id="water_feature" class="border rounded w-100 py-1">
 											<option value=""></option>
 											<cfloop query="ctWater_Feature">
 												<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
@@ -211,7 +211,7 @@
 							</tr>
 							<tr>
 								<td><label for="country">Country
-										<input type="text" name="country" id="country" class="form-control form-control-sm">
+										<input type="text" name="country" id="country" class="border">
 										<span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;"> Add = for exact match </span></label></td>
 								<td><label for="state_prov">State or Province
 										<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm">
