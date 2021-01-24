@@ -651,8 +651,8 @@
 	<cfoutput>
 
 
-      <h2 class="wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
-		</h2>
+      <h1 class="h2 wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
+		</h1>
 
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
@@ -661,10 +661,10 @@
 			<table class="pubtitle">
 				<tr>
 					<td>
-						<label for="publication_title">Publication Title</label>
+						<label for="publication_title" class="mb-0">Publication Title</label>
 						<textarea name="publication_title" id="publication_title" class="reqdClr" rows="3" cols="70"></textarea>
 					</td>
-					<td style="padding-right: 2em;padding-top: 1em;">
+					<td style="padding-right: 2em;padding-top: 1.75rem;padding-bottom: .5rem">
 						<span class="infoLink" onclick="italicize('publication_title')">italicize selected text</span>
 						<br><span class="infoLink" onclick="bold('publication_title')">bold selected text</span>
 						<br><span class="infoLink" onclick="superscript('publication_title')">superscript selected text</span>
