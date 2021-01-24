@@ -579,7 +579,7 @@
 				return true;
         	}
 
-		function toggleMedia() {
+		function showMedia() {
 			if($('#media').css('display')=='none') {
 				$('#mediaToggle').html('[ Hide Media ]');
 				$('#media').show();
