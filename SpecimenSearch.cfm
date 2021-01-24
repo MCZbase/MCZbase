@@ -240,8 +240,7 @@
 					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
 			</td>
-		</tr>
-		<tr>
+
 			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
 			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
