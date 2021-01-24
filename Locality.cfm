@@ -447,10 +447,10 @@ You do not have permission to create Higher Geographies
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findLO">
 	<cfoutput>
-           <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
+           <div style="margin:0 auto; padding: 1rem 0 5rem 0;">
 		<cfset title="Find Locality">
 		<cfset showLocality=1>
-		  <h2 class="wikilink">Search Locality <img src="/images/info_i_2.gif" onClick="getMCZDocs('Searching_for_Localities')" class="likeLink" alt="[help]"/></h2>
+		  <h1 class="h2 wikilink">Search Locality <img src="/images/info_i_2.gif" onClick="getMCZDocs('Searching_for_Localities')" class="likeLink" alt="[help]"/></h1>
 	    <form name="getCol" method="post" action="Locality.cfm">
 			<input type="hidden" name="Action" value="findLocality">
 			<cfinclude template="/includes/frmFindLocation_guts.cfm">
@@ -464,8 +464,8 @@ You do not have permission to create Higher Geographies
 	<cfset title="Find Collecting Events">
 	<cfset showLocality=1>
 	<cfset showEvent=1>
-        <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
-	<h2 class="wikilink">Search Collecting Events:</h2>
+        <div style="margin:0 auto; padding: 1rem 0 5rem 0;">
+	<h1 class="h2 wikilink">Search Collecting Events:</h1>
     <form name="getCol" method="post" action="Locality.cfm">
 		<input type="hidden" name="Action" value="findCollEvent">
 		<cfinclude template="/includes/frmFindLocation_guts.cfm">
@@ -477,8 +477,8 @@ You do not have permission to create Higher Geographies
 <cfif action is "editGeog">
 <cfset title = "Edit Geography">
 	<cfoutput>
-   <div style="margin:0 auto; padding: 1em 1em 3em 1em;">
-	<h2 class="wikilink">Edit Higher Geography:</h2>
+   <div style="margin:0 auto; padding: 1rem 0 5rem 0;">
+	<h1 class="h2 wikilink">Edit Higher Geography:</h1>
 		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select * from geog_auth_rec 
 			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
