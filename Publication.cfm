@@ -713,7 +713,7 @@
 				</tr>
 				<tr id="authortr1">
 					<td style="width: 60px;">
-						<select name="author_role_1" id="author_role_1" style="width: auto;">
+						<select name="author_role_1" id="author_role_1" style="width: auto;" class="py-1 border rounded">
 							<option value="author">author</option>
 							<option value="editor">editor</option>
 						</select>
