@@ -396,7 +396,7 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="mb-0 p-0" colspan="2">
+									<td colspan="1">
 									<label for="geology_attribute" class="mb-0">Geology Attribute</label>
 											<div class="input-group">
 												<div class="input-group-prepend">
