@@ -240,8 +240,9 @@
 					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
 			</td>
-
-			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+		</tr>
+		<tr>
+			<td colspan="1"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
 			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
 		<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
