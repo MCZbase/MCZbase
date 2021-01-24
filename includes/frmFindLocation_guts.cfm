@@ -392,31 +392,32 @@
 								<tr>
 									<td colspan="1"><label for="locality_remarks">Locality Remarks
 											<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
-										</label></td>
+										</label>
+									</td>
 								</tr>
 								<tr>
-									<td class="mb-0 p-0" colspan="1"><table class="table border-0 mb-0">
-											<tr>
-												<td colspan="1" class="border-0"><label for="geology_attribute" class="mb-0">Geology Attribute</label>
-													<div class="input-group">
-														<div class="input-group-prepend">
-															<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
-																<option value="">Anything</option>
-																<cfloop query="ctgeology_attribute">
-																	<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
-																</cfloop>
-															</select>
-														</div>
-														<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
-													</div></td>
-												<td colspan="1" class="border-0"><label for="geology_attribute_hier">Traverse Hierarchies?
-														<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
-															<option selected="selected" value="0">No</option>
-															<option value="1">Yes</option>
-														</select>
-													</label></td>
-											</tr>
-										</table></td>
+									<td class="mb-0 p-0" colspan="2">
+									<label for="geology_attribute" class="mb-0">Geology Attribute</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
+														<option value="">Anything</option>
+														<cfloop query="ctgeology_attribute">
+															<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
+														</cfloop>
+													</select>
+												</div>
+												<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
+											</div>
+									</td>
+									<td colspan="1" class="border-0">
+										<label for="geology_attribute_hier">Traverse Hierarchies?
+											<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
+												<option selected="selected" value="0">No</option>
+												<option value="1">Yes</option>
+											</select>
+										</label>
+									</td>
 								</tr>
 								<tr>
 									<td colspan="1"><label for="sovereign_nation">Sovereign Nation
