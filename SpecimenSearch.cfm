@@ -217,7 +217,7 @@
 			<td class="lbl pt-2" valign="top">
 				<span id="collection">Institutional Catalog</span>:
 			</td>
-			<td class="srch pt-2" valign="top">
+			<td class="srch pt-2" valign="top" style="width: 260px;">
 				<select name="collection_id" id="collection_id" size="1" class="">
 			   	<cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
@@ -230,7 +230,7 @@
 					</cfloop>
 				</select>
 			</td>
-			<td class="lbl pt-2" valign="top">
+			<td class="lbl pt-2" valign="top" style="width:120px;">
 				<span id="cat_num">Number:</span>
 			</td>
 			<td class="srch pt-2" valign="top">
