@@ -196,7 +196,7 @@
 <!---------------------------------------------------------------------------------------------------->
 <cfif action is "findHG">
 	<cfoutput>
-        <div style="width: 52em; margin:0 auto; padding: 1em 0 3em 0;">
+        <div style="margin:0 auto; padding: 1em 0 3em 0;">
             <cfset title="Find Geography">
 		<h2 class="wikilink">Find Higher Geography:</h2>
 		<form name="getCol" method="post" action="Locality.cfm">
@@ -210,7 +210,7 @@
 <cfif action is "newHG">
 <cfoutput>
 <cfif len(session.roles) gt 0 and FindNoCase("manage_geography",session.roles) NEQ 0>
-       <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
+       <div style="width: 40em; margin:0 auto; padding: 1rem 0 5rem 0;">
 	<cfset title="Create Higher Geography">
         <h2 class="wikilink">Create Higher Geography:</h2>
 	<cfform name="getHG" method="post" action="Locality.cfm">
