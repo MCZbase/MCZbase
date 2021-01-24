@@ -232,15 +232,17 @@
 			</td>
 			<td class="lbl pt-2" valign="top" style="width: 5em;">
 				<span id="cat_num">Number:</span>
-		
+			
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
-					<input type="text" name="listcatnum" id="listcatnum" size="25" value="" class="border rounded">
+					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
-		
-			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes">
-		<span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"><input class="lblone" type="checkbox" name="searchOtherIds" value="Yes"></td>
+			<td colspan="2"><span class="lbltwo">Include Other Identifiers in search (original number, previous number, etc.)</span></td>
 		</tr>
 		<cfif isdefined("session.CustomOtherIdentifier") and len(#session.CustomOtherIdentifier#) gt 0>
 		<tr>
