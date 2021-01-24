@@ -233,11 +233,11 @@
 			<td class="lbl pt-2" valign="top" style="width: 5em;">
 				<span id="cat_num">Number:</span>
 			</td>
-			<td class="srch" valign="top">
+			<td class="srch pt-2" valign="top">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
-					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
+					<input type="text" name="listcatnum" id="listcatnum" size="25" value="" class="">
 				</cfif>
 			</td>
 		</tr>
