@@ -193,7 +193,7 @@
 							</tr>
 							<tr>
 								<td><label for="feature">Land Feature
-										<select name="feature" id="feature" class=" py-1">
+										<select name="feature" id="feature" class="border rounded w-100 py-1">
 											<option value=""></option>
 											<cfloop query="ctFeature">
 												<option value = "#ctFeature.feature#">#ctFeature.feature#</option>
@@ -201,7 +201,7 @@
 										</select>
 									</label></td>
 								<td><label for="water_feature">Water Feature
-										<select name="water_feature" id="water_feature" class="">
+										<select name="water_feature" id="water_feature" class="border rounded w-100 py-1">
 											<option value=""></option>
 											<cfloop query="ctWater_Feature">
 												<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
@@ -214,21 +214,21 @@
 										<input type="text" name="country" id="country" class="border rounded py-1 w-100">
 										<span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;"> Add = for exact match </span></label></td>
 								<td><label for="state_prov">State or Province
-										<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm">
+										<input type="text" name="state_prov" id="state_prov" class="border rounded w-100 py-1">
 									</label></td>
 							</tr>
 							<tr>
 								<td><label for="county">County
-										<input type="text" name="county" id="county" class="form-control form-control-sm">
+										<input type="text" name="county" id="county" class="border rounded w-100 py-1">
 									</label></td>
 								<td><label for="quad">Quad
-										<input type="text" name="quad" id="quad" class="form-control form-control-sm">
+										<input type="text" name="quad" id="quad" class="border rounded w-100 py-1">
 									</label></td>
 							</tr>
 							<tr>
 								<td>&nbsp;</td>
 								<td><label for="geog_auth_rec_id">Geog Auth Rec ID
-										<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="form-control form-control-sm">
+										<input type="text" name="geog_auth_rec_id" id="geog_auth_rec_id" class="border rounded w-100 py-1">
 									</label></td>
 							</tr>
 						</table>
@@ -239,7 +239,7 @@
 						<table class="table">
 							<tr>
 								<td colspan="2"><label for="spec_locality">Specific Locality
-										<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
+										<input type="text" name="spec_locality" id="spec_locality" class="border rounded w-100 py-1">
 									</label></td>
 							</tr>
 						</table>
@@ -249,7 +249,7 @@
 									<td><label for="collnOper" class="mb-0">Collection</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
+												<select name="collnOper" id="collnOper" size="1" class="border rounded w-100 py-1">
 													<option value=""></option>
 													<option value="usedOnlyBy">used only by</option>
 													<option value="usedBy">used by</option>
