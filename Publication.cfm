@@ -720,7 +720,7 @@
 					</td>
 					<td  style="background-color: white;">
 						<input type="hidden" name="author_id_1" id="author_id_1">
-						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr" size="50"
+						<input type="text" name="author_name_1" id="author_name_1" class="reqdClr py-1 border rounded " size="50"
 							onchange="findAgentName('author_id_1',this.name,this.value)"
 		 					onKeyPress="return noenter(event);">
 					</td>
