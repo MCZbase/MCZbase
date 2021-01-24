@@ -246,7 +246,7 @@
 						<div id="locDetail" class="noShow">
 							<table class="table">
 								<tr>
-									<td><label for="collnOper" class="mb-0">Collection</label>
+									<td colspan="1"><label for="collnOper" class="mb-0">Collection</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
@@ -263,12 +263,12 @@
 												</cfloop>
 											</select>
 										</div></td>
-									<td><label for="locality_id">Locality ID
+									<td colspan="1"><label for="locality_id">Locality ID
 											<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm">
 										</label></td>
 								</tr>
 								<tr>
-									<td><label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
+									<td colspan="1"><label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm">
@@ -280,7 +280,7 @@
 											</div>
 											<input type="text" name="minimum_elevation" id="minimum_elevation" class="form-control input-group-append form-control-sm d-flex">
 										</div></td>
-									<td><label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
+									<td colspan="1"><label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm">
@@ -294,7 +294,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td><label for="MaxElevOper" class="mb-0">Maximum Elevation (only with units below)</label>
+									<td colspan="1"><label for="MaxElevOper" class="mb-0">Maximum Elevation (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxElevOper" id="MaxElevOper" size="1" class="form-control form-control-sm">
@@ -306,7 +306,7 @@
 											</div>
 											<input type="text" name="maximum_elevation" id="maximum_elevation" class="form-control input-group-append form-control-sm d-flex">
 										</div></td>
-									<td><label for="MaxDepthOper" class="mb-0">Maximum Depth (only with units below)</label>
+									<td colspan="1"><label for="MaxDepthOper" class="mb-0">Maximum Depth (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
@@ -320,7 +320,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td><label for="orig_elev_units">Elevation Units
+									<td colspan="1"><label for="orig_elev_units">Elevation Units
 											<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
 												<option value=""></option>
 												<cfloop query="ctElevUnit">
@@ -328,7 +328,7 @@
 												</cfloop>
 											</select>
 										</label></td>
-									<td><label for="depth_units">Depth Units
+									<td colspan="1"><label for="depth_units">Depth Units
 											<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
 												<option value=""></option>
 												<cfloop query="ctDepthUnit">
@@ -338,7 +338,7 @@
 										</label></td>
 								</tr>
 								<tr>
-									<td><label for="MinElevOperM" class="mb-0">Minimum Elevation (in meters)</label>
+									<td colspan="1"><label for="MinElevOperM" class="mb-0">Minimum Elevation (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
@@ -350,7 +350,7 @@
 											</div>
 											<input type="text" name="minimum_elevation_m" id="minimum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 										</div></td>
-									<td><label for="minDepthOperM" class="mb-0">Minimum Depth (in meters)</label>
+									<td colspan="1"><label for="minDepthOperM" class="mb-0">Minimum Depth (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
@@ -364,7 +364,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td><label for="MaxElevOperM" class="mb-0">Maximum Elevation (in meters)</label>
+									<td colspan="1"><label for="MaxElevOperM" class="mb-0">Maximum Elevation (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
@@ -376,7 +376,7 @@
 											</div>
 											<input type="text" name="maximum_elevation_m" id="maximum_elevation_m" class="form-control form-control-sm input-group-append d-flex">
 										</div></td>
-									<td><label for="MaxDepthOperM" class="mb-0">Maximum Depth (in meters)</label>
+									<td colspan="1"><label for="MaxDepthOperM" class="mb-0">Maximum Depth (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
@@ -397,7 +397,7 @@
 								<tr>
 									<td class="mb-0 p-0" colspan="2"><table class="table border-0 mb-0">
 											<tr>
-												<td class="border-0"><label for="geology_attribute" class="mb-0">Geology Attribute</label>
+												<td colspan="1" class="border-0"><label for="geology_attribute" class="mb-0">Geology Attribute</label>
 													<div class="input-group">
 														<div class="input-group-prepend">
 															<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
@@ -409,7 +409,7 @@
 														</div>
 														<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
 													</div></td>
-												<td class="border-0"><label for="geology_attribute_hier">Traverse Hierarchies?
+												<td colspan="1" class="border-0"><label for="geology_attribute_hier">Traverse Hierarchies?
 														<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
 															<option selected="selected" value="0">No</option>
 															<option value="1">Yes</option>
@@ -419,7 +419,7 @@
 										</table></td>
 								</tr>
 								<tr>
-									<td><label for="sovereign_nation">Sovereign Nation
+									<td colspan="1"><label for="sovereign_nation">Sovereign Nation
 											<select name="sovereign_nation" id="sovereign_nation" size="1" class="form-control form-control-sm">
 												<option value=""></option>
 												<cfloop query="ctsovereign_nation">
@@ -436,10 +436,10 @@
 							<div id="georefDetail" class="noShow">
 								<table class="table">
 									<tr>
-										<td><label for="findNoGeoRef">No Georeferences
+										<td colspan="1"><label for="findNoGeoRef">No Georeferences
 												<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="checkbox">
 											</label></td>
-										<td><label for="findHasGeoRef">Has Georeferences
+										<td colspan="1"><label for="findHasGeoRef">Has Georeferences
 												<input type="checkbox" name="findHasGeoRef" id="findHasGeoRef" class="checkbox">
 											</label>
 											<label for="findNoAccGeoRef">No Accepted Georeferences
@@ -447,10 +447,10 @@
 											</label></td>
 									</tr>
 									<tr>
-										<td><label for="NoGeorefBecause">NoGeorefBecause
+										<td colspan="1"><label for="NoGeorefBecause">NoGeorefBecause
 												<input type="text" name="NoGeorefBecause" class="form-control form-control-sm" id="NoGeorefBecause">
 											</label></td>
-										<td><label for="isIncomplete">isIncomplete
+										<td colspan="1"><label for="isIncomplete">isIncomplete
 												<input type="checkbox" name="isIncomplete" id="isIncomplete" class="checkbox">
 											</label>
 											<label for="nullNoGeorefBecause">NULL NoGeorefBecause
@@ -459,7 +459,7 @@
 									</tr>
 										<tr>
 									
-									<td><label for="VerificationStatus">VerificationStatus
+									<td colspan="1"><label for="VerificationStatus">VerificationStatus
 											<select name="VerificationStatus" id="VerificationStatus" size="1" class="form-control form-control-sm">
 												<option value=""></option>
 												<cfloop query="ctVerificationStatus">
@@ -467,7 +467,7 @@
 												</cfloop>
 											</select>
 										</label></td>
-										<td>
+									<td colspan="1">
 									
 										<div class="geolocateScoreDiv">
 									
@@ -481,7 +481,7 @@
 										</tr>
 									
 									<tr>
-										<td><label for="GeorefMethod">GeorefMethod
+										<td colspan="1"><label for="GeorefMethod">GeorefMethod
 												<select name="GeorefMethod" id="GeorefMethod" size="1" class="form-control form-control-sm">
 													<option value=""></option>
 													<cfloop query="ctGeorefMethod">
@@ -489,7 +489,7 @@
 													</cfloop>
 												</select>
 											</label></td>
-										<td><div  class="geolocateScoreDiv">
+										<td colspan="1"><div  class="geolocateScoreDiv">
 												<label>Geolocate Precision
 													<select name="geolocate_precision" id="geolocate_precision" size="1" class="form-control form-control-sm">
 														<option value="" SELECTED></option>
@@ -501,10 +501,10 @@
 											</div></td>
 									</tr>
 									<tr>
-										<td><label for="coordinateDeterminer">Coordinate Determiner
+										<td colspan="1"><label for="coordinateDeterminer">Coordinate Determiner
 												<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer">
 											</label></td>
-										<td><div class="geolocateScoreDiv">
+										<td colspan="1"><div class="geolocateScoreDiv">
 											<label for="gs_comparator" class="mb-0">Geolocate Score</label>
 											<div class="input-group">
 											<div class="input-group-prepend">

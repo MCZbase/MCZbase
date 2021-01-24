@@ -62,11 +62,11 @@
 	</cfquery>
 
     <br>
-    <h1 class="h2 wikilink">Search Media
+    <h1 class="h2 wikilink mb-0">Search Media
       <cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
         <img class="infoLink" src="images/info_i_2.gif" onClick="getMCZDocs('Search Media')" alt="[ help ]" style="vertical-align:top;">
       </cfif>
-    </h2>
+    </h1>
 
 <form name="newMedia" method="post" action="">
   <div class="greenbox float-left">
