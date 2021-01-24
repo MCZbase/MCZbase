@@ -152,7 +152,7 @@
 		<nav class="navbar navbar-light bg-transparent navbar-expand-xl py-0" id="main_nav">
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbar_toplevel_div" aria-controls="navbar_toplevel_div" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
 			<div class="collapse navbar-collapse" id="navbar_toplevel_div">
-				<ul class="navbar-nav nav-fill mr-auto">
+				<ul class="navbar-nav nav-fill mr-auto pt-1">
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"public")>
 					<li class="nav-item dropdown"> 
 						<a class="nav-link dropdown-toggle px-3 text-left" href="##" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Search shorcut=alt+m" title="Search (Alt+m)" >Search</a>
