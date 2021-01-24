@@ -145,7 +145,7 @@
 	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
-	<table class="table table-responsive">
+	<table class="table">
 		<tr>
 			<td><span id="_generic_m_ai">Accent&nbsp;Insensitive?</span>
 				<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1"></td>
