@@ -244,7 +244,7 @@
 							</tr>
 						</table>
 						<div id="locDetail" class="noShow">
-							<table class="table table-responsive">
+							<table class="table">
 								<tr>
 									<td><label for="collnOper" class="mb-0">Collection</label>
 										<div class="input-group">
@@ -434,7 +434,7 @@
 							</table>
 							<span id="georefDetailCtl" class="infoLink" style="font-size: 12px;margin-bottom: 1em;display:block;" onclick="toggleGeorefDetail(1)";>Show Georeference Options</span>
 							<div id="georefDetail" class="noShow">
-								<table class="table table-responsive">
+								<table class="table">
 									<tr>
 										<td><label for="findNoGeoRef">No Georeferences
 												<input type="checkbox" name="findNoGeoRef" id="findNoGeoRef" class="checkbox">
