@@ -390,7 +390,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td colspan="2"><label for="locality_remarks">Locality Remarks
+									<td colspan="1"><label for="locality_remarks">Locality Remarks
 											<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
 										</label></td>
 								</tr>
