@@ -529,7 +529,7 @@
 <cfif action is "newPub">
 <cfset title = "Create New Publication">
 		<cfif not isdefined("showMedia")>
-		<cfset showEvent=0>
+		<cfset showMedia=0>
 	</cfif>
 <cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
