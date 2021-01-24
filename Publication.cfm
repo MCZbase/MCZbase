@@ -690,18 +690,18 @@
 				<option value="0">no</option>
 			</select>
 			<label for="published_year">Published Year</label>
-			<input type="text" name="published_year" id="published_year" class="reqdClr">
+			<input type="text" name="published_year" id="published_year" class="reqdClr py-1 border rounded ">
 
 
 			<label for="doi">Digital Object Identifier (<a target="_blank" href="https://dx.doi.org/" >DOI</a>)</label>
-			<input type="text" name="doi" id="doi" size="50">
+			<input type="text" name="doi" id="doi" size="50" class="py-1 border rounded">
 <!---  TODO: This lookup requires a crossref user account, needs a script containing the getPubMeta function and to have getPublication added to component/functions.cfc
 			<span class="likeLink" id="doilookup" onclick="getPubMeta('DOI');"> [ crossref ] </span>
 --->
 			<label for="publication_loc">Storage Location</label>
-			<input type="text" name="publication_loc" id="publication_loc" size="100">
+			<input type="text" name="publication_loc" id="publication_loc" size="100" class="py-1 border rounded">
 			<label for="publication_remarks">Remark</label>
-			<input type="text" name="publication_remarks" id="publication_remarks" size="100">
+			<input type="text" name="publication_remarks" id="publication_remarks" size="100" class="py-1 border rounded">
 			<input type="hidden" name="numberAuthors" id="numberAuthors" value="1">
 			</div></div>
 			<div class="cellDiv">
