@@ -232,7 +232,8 @@
 			</td>
 			<td class="lbl pt-2" valign="top" style="width: 5em;">
 				<span id="cat_num">Number:</span>
-			
+			</td>
+			<td class="srch" valign="top">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
