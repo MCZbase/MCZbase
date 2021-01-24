@@ -46,12 +46,12 @@
 			<tr>
 				<td>
 					<label for="project_name">Project Title</label>
-					<textarea name="project_name" id="project_name" cols="70" rows="3" class="reqdClr"></textarea>
+					<textarea name="project_name" id="project_name" cols="70" rows="3" class="reqdClr border rounded"></textarea>
 				</td>
 				<td>
-					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers" onclick="bold('project_name')">bold selected text</span>
-					<span class="infoLink helpers" onclick="superscript('project_name')">superscript selected text</span>
-                    <span class="infoLink helpers" onclick="subscript('project_name')">subscript selected text</span>
+					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers small" onclick="bold('project_name')">bold selected text</span>
+					<span class="infoLink helpers small" onclick="superscript('project_name')">superscript selected text</span>
+                    <span class="infoLink helpers small" onclick="subscript('project_name')">subscript selected text</span>
 				</td>
 			</tr>
 		</table>
@@ -62,12 +62,12 @@
 				<label for="end_date">Description</label>
 				<textarea name="project_description" id="project_description" cols="100" rows="6" class="border rounded"></textarea>
 				<label for="project_remarks">Remarks</label>
-				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3"></textarea>
+				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3" class="border rounded"></textarea>
 				<br>
 	
  </div>
        <input type="submit" value="Create Project" class="insBtn" style="margin-top: 1.5em;">
-				<p style="margin-top: 1em;">You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.</p>
+				<p style="margin-top: 1em;" class="small">You can add Agents, Publications, Media, Transactions, and Taxonomy after you create the basic project.</p>
     			
 			</form>
 </cfoutput>
