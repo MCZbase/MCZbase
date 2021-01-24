@@ -739,9 +739,9 @@
                 <tr>
              <!---  Add:--->
 			<input type="hidden" name="numberAttributes" id="numberAttributes" value="0" size="30">
-			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;;font-size: 12px; font-weight: 800;">
+			 <td style="width: 200px;border: 1px double ##ccc;background-color: ##f8f8f8;;font-size: 12px; font-weight: 600;">
             &nbsp;&nbsp; Add Attribute:</td><td>
-             <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)" style="font-">
+             <select name="n_attr" id="n_attr" onchange="addAttribute(this.value)" class="border py-1 rounded">
 				<option value="">pick</option>
 				<cfloop query="CTPUBLICATION_ATTRIBUTE">
 					<option value="#publication_attribute#">#publication_attribute#</option>
