@@ -593,6 +593,15 @@
 				$('#media_desc').val('').removeClass('reqdClr');
 			}
 		}
+	function toggleMediaDetail(onOff) {
+		if (onOff==0) {
+			$("#mediaDetail").hide();
+			$("#mediaDetailCtl").attr('onCLick','toggleMediaDetail(1)').html('Show More Options');
+		} else {
+			$("#mediaDetail").show();
+			$("#mediaDetailCtl").attr('onCLick','toggleMediaDetail(0)').html('Show Fewer Options');
+		}
+	}
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
@@ -650,7 +659,9 @@
 	</script>
 	<cfoutput>
 
-
+	<cfif not isdefined("showMedia")>
+		<cfset showEvent=0>
+	</cfif>
       <h1 class="h2 wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h1>
 
@@ -752,7 +763,7 @@
 			</table>
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-
+			<cfif #showMedia# is 1>
 			<div class="cellDiv" id="media">
 				Media:
 				<label for="media_uri">Media URI</label>
@@ -776,6 +787,7 @@
 				<label for="media_desc">Media Description</label>
 				<input type="text" name="media_desc" id="media_desc" size="80">
 			</div>
+			</cfif>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
 
