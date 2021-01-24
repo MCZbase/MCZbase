@@ -201,7 +201,7 @@
 										</select>
 									</label></td>
 								<td><label for="water_feature">Water Feature
-										<select name="water_feature" id="water_feature" class="border rounded w-100 py-1">
+										<select name="water_feature" id="water_feature" class="">
 											<option value=""></option>
 											<cfloop query="ctWater_Feature">
 												<option value = "#ctWater_Feature.water_feature#">#ctWater_Feature.water_feature#</option>
@@ -211,7 +211,7 @@
 							</tr>
 							<tr>
 								<td><label for="country">Country
-										<input type="text" name="country" id="country" class="border">
+										<input type="text" name="country" id="country" class="border rounded py-1 w-100">
 										<span class="infolink" onclick="var e=document.getElementById('country');e.value='='+e.value;"> Add = for exact match </span></label></td>
 								<td><label for="state_prov">State or Province
 										<input type="text" name="state_prov" id="state_prov" class="form-control form-control-sm">
