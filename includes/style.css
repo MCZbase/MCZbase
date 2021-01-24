@@ -3929,6 +3929,13 @@ ul.loan_buttons li.edit:hover, ul.loan_buttons li.add:hover, ul.loan_buttons li.
 	color: #212529;
 	border: 1px solid #ced4da;
 }
+.loginfields {
+	padding: 0 .25rem .14rem .25rem;
+	line-height:1.2rem;
+	font-size: .875rem;
+	margin-bottom:.25rem;
+	border: 1px solid #A51C30;
+}
 ul.lisc {
 	-webkit-padding-start: 5px;
 	-moz-padding-start: 5px;
