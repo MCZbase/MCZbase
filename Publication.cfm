@@ -1,6 +1,6 @@
 <cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
-    <div class="editPub" style="padding: 2em 0 5em 0;margin:0 auto;">
+    <div style="padding: 2em 0 5em 0;margin:0 auto;">
 <script type='text/javascript' src='/includes/internalAjax.js'></script>
 <cfif action is "nothing" and isdefined("publication_id") and isnumeric(publication_id)>
 	<cfoutput><cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false"></cfoutput>
