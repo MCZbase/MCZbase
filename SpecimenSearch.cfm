@@ -217,8 +217,8 @@
 			<td class="lbl pt-2" valign="top">
 				<span id="collection">Institutional Catalog</span>:
 			</td>
-			<td class="srch pt-2" valign="top">
-				<select name="collection_id" id="collection_id" size="1" class="w-100">
+			<td class="srch pt-2 w-50" valign="top">
+				<select name="collection_id" id="collection_id" size="1" class="">
 			   	<cfif len(#session.exclusive_collection_id#) is 0>
 						<option value="">All</option>
 					</cfif>
@@ -230,14 +230,14 @@
 					</cfloop>
 				</select>
 			</td>
-			<td class="lbl pt-2" valign="top" style="width: 5em;">
+			<td class="lbl pt-2" valign="top">
 				<span id="cat_num">Number:</span>
 			</td>
 			<td class="srch pt-2" valign="top">
 				<cfif #ListContains(session.searchBy, 'bigsearchbox')# gt 0>
 					<textarea name="listcatnum" id="listcatnum" rows="6" cols="40" wrap="soft" style="width: 475px;"></textarea>
 				<cfelse>
-					<input type="text" name="listcatnum" id="listcatnum" size="25" value="" class="w-100">
+					<input type="text" name="listcatnum" id="listcatnum" size="25" value="">
 				</cfif>
 			</td>
 		</tr>
