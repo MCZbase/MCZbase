@@ -238,14 +238,15 @@
 					<div class="locGroup"> <span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
 						<table class="table">
 							<tr>
-								<td colspan="1"><label for="spec_locality">Specific Locality
+								<td colspan="2"><label for="spec_locality">Specific Locality
 										<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
 									</label></td>
-								<td></td>
+							
 							</tr>
 						</table>
 						<div id="locDetail" class="noShow">
 							<table class="table">
+								<tbody>
 								<tr>
 									<td colspan="1"><label for="collnOper" class="mb-0">Collection</label>
 										<div class="input-group">
@@ -391,7 +392,7 @@
 										</div></td>
 								</tr>
 								<tr>
-									<td colspan="1"><label for="locality_remarks">Locality Remarks
+									<td colspan="2"><label for="locality_remarks">Locality Remarks
 											<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
 										</label>
 									</td>
@@ -570,7 +571,7 @@
 							</tr>
 						</table>
 						<div id="eventDetail" class="noShow">
-							<table class="table">
+						<table class="table">
 								<tr>
 									<td><label for="verbatim_date">Verbatim Date</label>
 										<input type="text" name="verbatim_date" id="verbatim_date" class="form-control form-control-sm"></td>
