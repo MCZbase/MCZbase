@@ -27,7 +27,7 @@
 	<cfset isClicky = "">
 </cfif>
 
-<div class="basic_box" style="margin-top: -1.5em;">
+<div class="basic_box">
 <table>
 	<tr>
 		<td>
@@ -262,8 +262,8 @@
 		</tr>
 		<cfif isdefined("session.fancyCOID") and #session.fancyCOID# is 1>
 		<tr>
-			<td class="lbl" colspan="2">
-					&nbsp;
+			<td class="lbl" colspan="2">&nbsp;
+					
 			</td>
 			<td class="srch" colspan="2">
 				<table>
