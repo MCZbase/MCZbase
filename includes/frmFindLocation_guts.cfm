@@ -264,14 +264,14 @@
 											</select>
 										</div></td>
 									<td><label for="locality_id">Locality ID
-											<input type="text" name="locality_id" id="locality_id" class="form-control form-control-sm">
+											<input type="text" name="locality_id" id="locality_id" class="border rounded w-100 py-1">
 										</label></td>
 								</tr>
 								<tr>
 									<td><label for="MinElevOper" class="mb-0">Minimum Elevation (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MinElevOper" id="MinElevOper" size="1" class="form-control form-control-sm">
+												<select name="MinElevOper" id="MinElevOper" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -283,7 +283,7 @@
 									<td><label for="minDepthOper" class="mb-0">Minimum Depth (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="minDepthOper" id="MinDepthOper" size="1" class="form-control form-control-sm">
+												<select name="minDepthOper" id="MinDepthOper" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -297,7 +297,7 @@
 									<td><label for="MaxElevOper" class="mb-0">Maximum Elevation (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MaxElevOper" id="MaxElevOper" size="1" class="form-control form-control-sm">
+												<select name="MaxElevOper" id="MaxElevOper" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -309,7 +309,7 @@
 									<td><label for="MaxDepthOper" class="mb-0">Maximum Depth (only with units below)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="form-control form-control-sm">
+												<select name="MaxDepthOper" id="MaxDepthOper" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -321,7 +321,7 @@
 								</tr>
 								<tr>
 									<td><label for="orig_elev_units">Elevation Units
-											<select name="orig_elev_units" id="orig_elev_units" size="1" class="form-control form-control-sm">
+											<select name="orig_elev_units" id="orig_elev_units" size="1" class="border rounded w-100 py-1">
 												<option value=""></option>
 												<cfloop query="ctElevUnit">
 													<option value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
@@ -329,7 +329,7 @@
 											</select>
 										</label></td>
 									<td><label for="depth_units">Depth Units
-											<select name="depth_units" id="depth_units" size="1" class="form-control form-control-sm">
+											<select name="depth_units" id="depth_units" size="1" class="border rounded w-100 py-1">
 												<option value=""></option>
 												<cfloop query="ctDepthUnit">
 													<option value="#ctDepthUnit.Depth_units#">#ctDepthUnit.Depth_units#</option>
@@ -341,7 +341,7 @@
 									<td><label for="MinElevOperM" class="mb-0">Minimum Elevation (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MinElevOperM" id="MinElevOperM" size="1" class="form-control form-control-sm">
+												<select name="MinElevOperM" id="MinElevOperM" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -353,7 +353,7 @@
 									<td><label for="minDepthOperM" class="mb-0">Minimum Depth (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="minDepthOperM" id="MinDepthOperM" size="1" class="form-control form-control-sm">
+												<select name="minDepthOperM" id="MinDepthOperM" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -367,7 +367,7 @@
 									<td><label for="MaxElevOperM" class="mb-0">Maximum Elevation (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="form-control form-control-sm">
+												<select name="MaxElevOperM" id="MaxElevOperM" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -379,7 +379,7 @@
 									<td><label for="MaxDepthOperM" class="mb-0">Maximum Depth (in meters)</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="form-control form-control-sm">
+												<select name="MaxDepthOperM" id="MaxDepthOperM" size="1" class="border rounded w-100 py-1">
 													<option value="=">is</option>
 													<option value="<>">is not</option>
 													<option value=">">more than</option>
@@ -391,7 +391,7 @@
 								</tr>
 								<tr>
 									<td colspan="2"><label for="locality_remarks">Locality Remarks
-											<input type="text" name="locality_remarks" id="locality_remarks" class="form-control form-control-sm">
+											<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded w-100 py-1">
 										</label></td>
 								</tr>
 								<tr>
@@ -400,7 +400,7 @@
 												<td class="border-0"><label for="geology_attribute" class="mb-0">Geology Attribute</label>
 													<div class="input-group">
 														<div class="input-group-prepend">
-															<select name="geology_attribute" id="geology_attribute" class="form-control form-control-sm">
+															<select name="geology_attribute" id="geology_attribute" class="border rounded w-100 py-1">
 																<option value="">Anything</option>
 																<cfloop query="ctgeology_attribute">
 																	<option value = "#ctgeology_attribute.geology_attribute#">#ctgeology_attribute.geology_attribute#</option>
@@ -410,7 +410,7 @@
 														<input type="text" name="geo_att_value" class="form-control form-control-sm input-group-append d-flex">
 													</div></td>
 												<td class="border-0"><label for="geology_attribute_hier">Traverse Hierarchies?
-														<select name="geology_attribute_hier" id="geology_attribute_hier" class="form-control form-control-sm">
+														<select name="geology_attribute_hier" id="geology_attribute_hier" class="border rounded w-100 py-1">
 															<option selected="selected" value="0">No</option>
 															<option value="1">Yes</option>
 														</select>
@@ -420,7 +420,7 @@
 								</tr>
 								<tr>
 									<td><label for="sovereign_nation">Sovereign Nation
-											<select name="sovereign_nation" id="sovereign_nation" size="1" class="form-control form-control-sm">
+											<select name="sovereign_nation" id="sovereign_nation" size="1" class="border rounded w-100 py-1">
 												<option value=""></option>
 												<cfloop query="ctsovereign_nation">
 													<option value="#ctsovereign_nation.sovereign_nation#">#ctsovereign_nation.sovereign_nation#(#ctsovereign_nation.ct#)</option>
@@ -460,7 +460,7 @@
 										<tr>
 									
 									<td><label for="VerificationStatus">VerificationStatus
-											<select name="VerificationStatus" id="VerificationStatus" size="1" class="form-control form-control-sm">
+											<select name="VerificationStatus" id="VerificationStatus" size="1" class="border rounded w-100 py-1">
 												<option value=""></option>
 												<cfloop query="ctVerificationStatus">
 													<option value="#VerificationStatus#">#VerificationStatus#</option>
@@ -482,7 +482,7 @@
 									
 									<tr>
 										<td><label for="GeorefMethod">GeorefMethod
-												<select name="GeorefMethod" id="GeorefMethod" size="1" class="form-control form-control-sm">
+												<select name="GeorefMethod" id="GeorefMethod" size="1" class="border rounded w-100 py-1">
 													<option value=""></option>
 													<cfloop query="ctGeorefMethod">
 														<option value="#GeorefMethod#">#GeorefMethod#</option>
@@ -491,7 +491,7 @@
 											</label></td>
 										<td><div  class="geolocateScoreDiv">
 												<label>Geolocate Precision
-													<select name="geolocate_precision" id="geolocate_precision" size="1" class="form-control form-control-sm">
+													<select name="geolocate_precision" id="geolocate_precision" size="1" class="border rounded w-100 py-1">
 														<option value="" SELECTED></option>
 														<option value="high" >high</option>
 														<option value="medium" >medium</option>
@@ -502,13 +502,13 @@
 									</tr>
 									<tr>
 										<td><label for="coordinateDeterminer">Coordinate Determiner
-												<input type="text" name="coordinateDeterminer" class="form-control form-control-sm" id="coordinateDeterminer">
+												<input type="text" name="coordinateDeterminer" class="border rounded w-100 py-1" id="coordinateDeterminer">
 											</label></td>
 										<td><div class="geolocateScoreDiv">
 											<label for="gs_comparator" class="mb-0">Geolocate Score</label>
 											<div class="input-group">
 											<div class="input-group-prepend">
-												<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="form-control form-control-sm">
+												<select name="gs_comparator" id="gs_comparator" size="1" onchange="java_script_:show(this.options[this.selectedIndex].value)"  class="border rounded w-100 py-1">
 													<option value="=" SELECTED>=</option>
 													<option value="<" ><</option>
 													<option value=">" >></option>
@@ -539,14 +539,14 @@
 						<table class="table">
 							<tr>
 								<td colspan="2"><label for="verbatim_locality">Verbatim Locality
-										<input type="text" name="verbatim_locality" id="verbatim_locality"  class="form-control form-control-sm w-100">
+										<input type="text" name="verbatim_locality" id="verbatim_locality"  class="border rounded w-100 py-1">
 									</label></td>
 							</tr>
 							<tr>
 								<td colspan="1"><label for="begDateOper" class="mb-0">Began Date</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<select name="begDateOper" id="begDateOper" size="1" class="form-control form-control-sm">
+											<select name="begDateOper" id="begDateOper" size="1" class="border rounded w-100 py-1">
 												<option value="=">is</option>
 												<option value="<">before</option>
 												<option value=">">after</option>
@@ -557,7 +557,7 @@
 								<td colspan="1"><label for="endDateOper" class="mb-0">Ended Date</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
-											<select name="endDateOper" id="endDateOper" size="1" class="form-control form-control-sm">
+											<select name="endDateOper" id="endDateOper" size="1" class="border rounded w-100 py-1">
 												<option value="=">is</option>
 												<option value="<">before</option>
 												<option value=">">after</option>
@@ -571,25 +571,25 @@
 							<table class="table">
 								<tr>
 									<td><label for="verbatim_date">Verbatim Date</label>
-										<input type="text" name="verbatim_date" id="verbatim_date" class="form-control form-control-sm"></td>
+										<input type="text" name="verbatim_date" id="verbatim_date" class="border rounded w-100 py-1"></td>
 									<td><label for="verbatimCoordinates">Verbatim Coordinates</label>
-										<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="form-control form-control-sm"></td>
+										<input type="text" name="verbatimCoordinates" id="verbatimCoordinates" class="border rounded w-100 py-1"></td>
 								</tr>
 								<tr>
 									<td><label for="collecting_method">Collecting Method</label>
-										<input type="text" name="collecting_method" id="collecting_method" class="form-control form-control-sm"></td>
+										<input type="text" name="collecting_method" id="collecting_method" class="border rounded w-100 py-1"></td>
 									<td><label for="coll_event_remarks">Collecting Event Remarks</label>
-										<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="form-control form-control-sm"></td>
+										<input type="text" name="coll_event_remarks" id="coll_event_remarks" class="border rounded w-100 py-1"></td>
 								</tr>
 								<tr>
 									<td><label for="verbatimCoordinateSystem">Verbatim Coordinate System</label>
-										<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="form-control form-control-sm"></td>
+										<input type="text" name="verbatimCoordinateSystem" id="verbatimCoordinateSystem" class="border rounded w-100 py-1"></td>
 									<td><label for="habitat_desc">Habitat</label>
-										<input type="text" name="habitat_desc" id="habitat_desc"  class="form-control form-control-sm"></td>
+										<input type="text" name="habitat_desc" id="habitat_desc"  class="border rounded w-100 py-1"></td>
 								</tr>
 								<tr>
 									<td><label for="collecting_source">Collecting Source
-											<select name="collecting_source" id="collecting_source" size="1" class="form-control form-control-sm">
+											<select name="collecting_source" id="collecting_source" size="1" class="border rounded w-100 py-1">
 												<option value=""></option>
 												<cfloop query="ctCollectingSource">
 													<option value="#ctCollectingSource.collecting_source#">#ctCollectingSource.collecting_source#</option>
@@ -597,12 +597,12 @@
 											</select>
 										</label></td>
 									<td><label for="verbatimSRS">Verbatim SRS (e.g., datum)
-											<input type="text" name="verbatimSRS" id="verbatimSRS"  class="form-control form-control-sm">
+											<input type="text" name="verbatimSRS" id="verbatimSRS" class="border rounded w-100 py-1">
 										</label></td>
 								</tr>
 								<tr>
 									<td><label for="collecting_event_id">Collecting Event ID
-											<input type="text" name="collecting_event_id" id="collecting_event_id" class="form-control form-control-sm">
+											<input type="text" name="collecting_event_id" id="collecting_event_id" class="border rounded w-100 py-1">
 										</label></td>
 									<td></td>
 								</tr>
