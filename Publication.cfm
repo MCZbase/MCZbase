@@ -74,7 +74,7 @@
 			<option <cfif pub.is_peer_reviewed_fg is 0> selected="selected" </cfif>value="0">no</option>
 		</select>
 		<label for="published_year">Published Year</label>
-		<input type="text" name="published_year" id="published_year" value="#pub.published_year#">
+		<input type="text" name="published_year" id="published_year" value="#pub.published_year#" class="border rounded py-1 w-100">
 <script>
    // TODO: Move back into ajax.js and rebuild ajax.min.js
    function findDOI(publication_title){
@@ -109,9 +109,9 @@
                   <a id="addadoiplease" class="red likeLink" onclick="findDOI('#URLEncodedFormat(pub.formatted_publication)#')">add DOI</a--->
                 </cfif>
 		<label for="publication_loc">Storage Location</label>
-		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#">
+		<input type="text" name="publication_loc" id="publication_loc" size="100" value="#pub.publication_loc#" accept=""class="border rounded py-1 w-100">>
 		<label for="publication_remarks">Remark</label>
-		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#stripQuotes(pub.publication_remarks)#">
+		<input type="text" name="publication_remarks" id="publication_remarks" size="100" value="#stripQuotes(pub.publication_remarks)#" class="border rounded py-1 w-100">>
 		</div>
 		<div class="cellDiv">
 		<span >Authors</span>: <span class="infoLink" onclick="addAgent()">Add Row</span>
@@ -135,7 +135,7 @@
 							</select>
 						</td>
 						<td>
-							<input type="text" name="author_name_#i#" id="author_name_#i#" class="reqdClr" size="50"
+							<input type="text" name="author_name_#i#" id="author_name_#i#" class="reqdClr py-1 border rounded" size="50"
 								onchange="findAgentName('author_id_#i#',this.name,this.value)"
 			 					onkeypress="return noenter(event);"
 			 					value="#agent_name#">
