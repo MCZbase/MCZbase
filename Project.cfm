@@ -24,7 +24,7 @@
 	}
 </script>
 </cfoutput>
-<div style="width: 55em; margin: 0 auto;padding:2em 0 5em 0;">
+<div style="margin: 0 auto;padding:2em 0 5em 0;">
 
 <cfif action is "nothing">
 	<cfheader statuscode="301" statustext="Moved permanently">
@@ -37,7 +37,7 @@
 <cfif Action is "makeNew">
 	<cfset title="create project">
 
-<h2 class="wikilink">Create New Project:</h2>
+<h1 class="h2 wikilink">Create New Project:</h1>
 <div class="content_box_proj" style="background-color: #f8f8f8; border: 1px dotted #ccc;padding: .75em 1.25em 1.25em 1.25em;margin-top: .5em;">
 <cfoutput>
 	<form name="project" action="Project.cfm" method="post">
@@ -46,7 +46,7 @@
 			<tr>
 				<td>
 					<label for="project_name">Project Title</label>
-					<textarea name="project_name" id="project_name" cols="70" rows="2" class="reqdClr"></textarea>
+					<textarea name="project_name" id="project_name" cols="70" rows="3" class="reqdClr"></textarea>
 				</td>
 				<td>
 					<span class="infoLink helpers" style="margin-top: 11px;" onclick="italicize('project_name')">italicize selected text</span>				<span class="infoLink helpers" onclick="bold('project_name')">bold selected text</span>
@@ -56,11 +56,11 @@
 			</tr>
 		</table>
 			<label for="start_date">Start&nbsp;Date</label>
-				<input type="text" name="start_date" id="start_date" placeholder="yyyy-mm-dd">
+				<input type="text" name="start_date" id="start_date" placeholder="yyyy-mm-dd" class="border rounded">
 				<label for="end_date">End&nbsp;Date</label>
-				<input type="text" name="end_date" id="end_date" placeholder="yyyy-mm-dd">
+				<input type="text" name="end_date" id="end_date" placeholder="yyyy-mm-dd" class="border rounded">
 				<label for="end_date">Description</label>
-				<textarea name="project_description" id="project_description" cols="100" rows="6"></textarea>
+				<textarea name="project_description" id="project_description" cols="100" rows="6" class="border rounded"></textarea>
 				<label for="project_remarks">Remarks</label>
 				<textarea name="project_remarks" id="project_remarks" cols="100" rows="3"></textarea>
 				<br>
