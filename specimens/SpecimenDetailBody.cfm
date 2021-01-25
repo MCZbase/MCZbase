@@ -1376,7 +1376,7 @@ limitations under the License.
 <div class="accordion" id="accordionExample4">
     <div class="card bg-light mb-2 mb-md-1">
 		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="h4 my-0 float-left"> Location & Collecting Event </h3>
+				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
 					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
             </div>
   		<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="##accordionExample4">
@@ -1401,9 +1401,9 @@ limitations under the License.
 						MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
 		<cfif len(one.spec_locality) gt 0>
-			<cfif localityMedia.recordcount gt 0>
-				<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-			</cfif>
+		<cfif localityMedia.recordcount gt 0>
+			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
+		</cfif>
 		</cfif>
 			<ul class="list-unstyled row px-3 py-1 mb-0">
 				<cfif len(one.continent_ocean) gt 0>
@@ -1489,7 +1489,9 @@ limitations under the License.
 				</cfif>
 			</ul>
 		</div>
-	
+	<!---
+				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
+			
 			</div>
  	</div>
 </div>
@@ -1498,7 +1500,7 @@ limitations under the License.
 	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#person_id#);">Edit</button>
+			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body float-left">
