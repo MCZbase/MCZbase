@@ -4314,7 +4314,7 @@ limitations under the License.
 								}
 							</script>
 							<button type="button" class="btn btn-xs btn-secondary" 
-								onclick="alert('temporary address creation not yet implemented'); // addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id',#transaction_id#,addTempAddrCallback) " 
+								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address"
 								value="Create Temporary Address">Create Temporary Address</button>
 						</cfif>

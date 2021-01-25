@@ -1999,6 +1999,9 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,transaction_id,
                         $("#"+targetAddressIdControl).val($('#new_address_id').val());
                         $("#"+targetAddressControl).val(addr);
                      }
+							if (jQuery.type(callback)==='function') {
+								callback();
+							}
                   },
                   close: function(event,ui) { 
                      $("#tempAddressDialog").dialog('destroy'); 
