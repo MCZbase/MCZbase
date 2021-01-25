@@ -501,7 +501,7 @@
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
 			<br><br>
-            <table style="margin-top: 3em;">
+            <table class="table mt-4">
 			<tr>
 				<td><h2 class="mb-1">Locality</h2></td>
 			</tr>
@@ -559,7 +559,7 @@
 										Elev. Unit
 								
 								</label>
-								<select name="orig_elev_units" size="1" id="orig_elev_units">
+								<select name="orig_elev_units" size="1" id="orig_elev_units" style="min-width: 75px;">
 									<option value=""></option>
 				                    <cfloop query="ctElevUnit">
 				                      <option <cfif #ctelevunit.orig_elev_units# is "#locdet.orig_elev_units#"> selected </cfif>value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
