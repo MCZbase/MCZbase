@@ -517,7 +517,7 @@ limitations under the License.
 				<cfset description=desc.label_value>
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-							<!---for media images--->
+							<!---for media images -- remove absolute url after demo / test db issue?--->
 				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
@@ -789,11 +789,10 @@ limitations under the License.
 								&nbsp;sp. nov.
 							</cfif>
 						</cfif>
-						#CITATION_REMARKS# </li>
-				</cfloop>
-				<cfif publicationMedia.recordcount gt 0>
+						#CITATION_REMARKS# 
+											<cfif publicationMedia.recordcount gt 0>
 					<cfloop query="publicationMedia">
-						<li class="list-group-item">
+				
 							<!---<cfset puri=getMediaPreview(preview_uri,media_type)>--->
 							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
@@ -816,6 +815,10 @@ limitations under the License.
 							<span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
 					</cfloop>
 				</cfif>
+							
+					</li>
+				</cfloop>
+
 			</ul>
 			</div>
 		</div>
