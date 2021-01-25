@@ -414,7 +414,7 @@
 			<td>
 				<div style="position: relative;">
 					<div style="postion: relative;">
-					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
+					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;">
 						<li>
 					<h1 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
 							<br><span class="small">
