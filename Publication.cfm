@@ -603,15 +603,15 @@
 //			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
 //		}
 //	}
-$(document).ready(function(){
-  $("#hide").click(function(){
-    $("#mediaToggle").hide();
-  });
-  $("#show").click(function(){
-    $("#mediaToggle").show();
-  });
-});
-
+	function toggleLocDetail(onOff) {
+		if (onOff==0) {
+			$("#locDetail").hide();
+			$("#locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Show More Options');
+		} else {
+			$("#locDetail").show();
+			$("#locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Show Fewer Options');
+		}
+	}
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
@@ -767,8 +767,8 @@ $(document).ready(function(){
                 <tr>
 			</table>
 			</div>
-			<span id="hide" onClick="mediaToggle">Hide Media</span>
-			<span id="show" onClick="mediaToggle">Show Media</span>
+		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
+			<div id="locDetail" class="noShow">
 			<div class="cellDiv" id="mediaToggle">
 				Media:
 				<label for="media_uri">Media URI</label>
@@ -791,6 +791,7 @@ $(document).ready(function(){
 				</select>
 				<label for="media_desc">Media Description</label>
 				<input type="text" name="media_desc" id="media_desc" size="80" class="border rounded py-1">
+			</div>
 			</div>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
