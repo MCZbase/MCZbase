@@ -634,7 +634,7 @@ limitations under the License.
 										});
 									};
 									$(document).ready( function() {
-										$('##addCollObjectsAccn').addEventListener('onsubmit', 
+										$('##addCollObjectsAccn').on('submit', 
 											function(event){
 												event.preventDefault();
 												if ($('##guid_list').val().length > 0)  {
