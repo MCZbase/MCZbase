@@ -303,7 +303,7 @@
 										</cfif>		
 										<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_locality")>
 											<cfif targetMenu EQ "production">
-												<a class="dropdown-item" href="/Locality.cfm?action=newLO">Locality</a> 
+												<a class="dropdown-item" href="/Locality.cfm?action=newLocality">Locality</a> 
 											<cfelse>
 												<a class="dropdown-item bg-warning" href="">Locality</a> 
 											</cfif>
