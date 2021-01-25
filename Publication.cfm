@@ -541,11 +541,6 @@
 	<cfquery name="ctmime_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select mime_type from ctmime_type order by mime_type
 	</cfquery>
-	<style>
-		.missing {
-			border:2px solid red;
-			}
-	</style>
 	<script>
 		function confirmpub() {
 			var r=true;
@@ -566,7 +561,7 @@
 
 				return true;
         	}
-
+		}
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
