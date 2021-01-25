@@ -1290,7 +1290,7 @@ You do not have permission to create Higher Geographies
 				<cfif isdefined("geog_auth_rec_id")>
 					value = "#geog_auth_rec_id#"
 				</cfif>>
-			<input type="text" name="higher_geog" class="readClr" id="higherG"
+			<input type="text" name="higher_geog" class="readClr border rounded py-1" id="higherG"
 				<cfif isdefined("getHG.higher_geog")>
 					value = "#getHG.higher_geog#"
 				</cfif>
@@ -1307,7 +1307,7 @@ You do not have permission to create Higher Geographies
             	    <option <cfif isdefined("sovereign_nation") AND ctsovereignnation.sovereign_nation is sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
                 </cfloop>
 		   </select>
-           <label for="spec_locality">Specific Locality</label>
+           <label for="spec_locality" class="mb-0">Specific Locality</label>
            <input type="text" name="spec_locality" id="spec_locality" class="border rounded py-1"
 				<cfif isdefined("spec_locality")>
 					value= "#spec_locality#"
@@ -1340,7 +1340,7 @@ You do not have permission to create Higher Geographies
 				Y<input type="radio" name="cloneCoords" value="yes" />
 				<br>N<input type="radio" name="cloneCoords" value="no" checked="checked" />
 		 	</cfif>
-            <br><input type="submit" value="Save" class="savBtn">
+            <br><input type="submit" value="Save" class="savBtn mt-3">
   			<input type="button" value="Quit" class="qutBtn" onClick="document.location='Locality.cfm';">
 		</form>
 </div>
