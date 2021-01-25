@@ -767,8 +767,8 @@ $(document).ready(function(){
                 <tr>
 			</table>
 			</div>
-			<span id="hide">Hide Media</span>
-			<span id="show">Show Media</span>
+			<span id="hide" onClick="hide">Hide Media</span>
+			<span id="show" onClick="show">Show Media</span>
 			<div class="cellDiv" id="mediaToggle">
 				Media:
 				<label for="media_uri">Media URI</label>
