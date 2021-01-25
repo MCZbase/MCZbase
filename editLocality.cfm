@@ -416,7 +416,8 @@
 					<div style="width: 60em;postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
-					<h2 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h2><h3>
+					<h1 class="h2 wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h1>
+							<h2 class="h3">
 						<cfif #whatSpecs.recordcount# is 0>
 							<font color="##FF0000">This Locality (#locDet.locality_id#)
 							contains no specimens. Please delete it if you don't have plans for it!</font>
@@ -436,7 +437,7 @@
 							</ul>
 
 						</cfif>
-						</h3>
+						</h2>
 						</li>
 					</ul>
 
@@ -462,14 +463,14 @@
 
 			<tr>
 				<td>
-                    <h4 style="margin-bottom:.5em;">Higher Geography</h4>
+                    <h3 class="h4 mb-1">Higher Geography</h4>
 	            	<input type="text"
 						name="higher_geog"
 						id="higher_geog"
 						value="#higher_geog#"
 						size="90"
-						class="readClr"
-						readonly="yes" >
+						class="readClr border rounded py-1"
+						readonly="yes">
 				</td>
 			</tr>
 			<tr>
@@ -501,11 +502,11 @@
 			<br><br>
             <table style="margin-top: 3em;">
 			<tr>
-				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
+				<td><h3 class="h4 mb-1">Locality</h4></td>
 			</tr>
             <tr>
             	<td>
-					<label for="spec_locality">
+					<label for="spec_locality" class="mb-0">
 						<a href="javascript:void(0);" onClick="getMCZDocs(''Edit_Locality')">
 							Specific Locality
 						</a>
@@ -514,12 +515,12 @@
 						id="spec_locality"
 						name="spec_locality"
 						value="#stripQuotes(spec_locality)#"
-						size="131">
+						size="131" class="border rounded py-1">
 				</td>
 			</tr>
             <tr>
             	<td>
-                   <label for="sovereign_nation">Sovereign Nation</label>
+                   <label for="sovereign_nation" class="mb-0">Sovereign Nation</label>
 	    	       <select name="sovereign_nation" id="sovereign_nation" size="1">
                        <cfloop query="ctSovereignNation">
             	           <option <cfif isdefined("locDet.sovereign_nation") AND ctsovereignnation.sovereign_nation is locDet.sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
@@ -532,30 +533,30 @@
 					<table>
 						<tr>
 							<td style="width: 134px;">
-								<label for="minimum_elevation">
-									<a href="javascript:void(0);" onClick="getDocs('locality','elevation')">
+								<label for="minimum_elevation" class="mb-0">
+									
 										Min. Elev.
-									</a>
+									
 								</label>
 								<input type="text" name="minimum_elevation"
-									id="minimum_elevation"
+									id="minimum_elevation" class="border rounded py-1"
 									value="#minimum_elevation#" size="10">&nbsp;TO&nbsp;
 							</td>
 							<td style="width:115px;">
 								<label for="maximum_elevation">
-									<a href="javascript:void(0);" onClick="getDocs('locality','elevation')">
+								
 										Max. Elev.
-									</a>
+								
 								</label>
-								<input type="text" name="maximum_elevation"
-									id="maximum_elevation"
+								<input type="text" name="maximum_elevation" class="border rounded py-1"
+ 									id="maximum_elevation"
 									value="#maximum_elevation#" size="10">&nbsp;&nbsp;
 							</td>
 							<td>
-								<label for="orig_elev_units">
-									<a href="javascript:void(0);" onClick="getDocs('locality','elevation')">
+								<label for="orig_elev_units" class="mb-0">
+							
 										Elev. Unit
-									</a>
+								
 								</label>
 								<select name="orig_elev_units" size="1" id="orig_elev_units">
 									<option value=""></option>
@@ -573,30 +574,30 @@
 					<table>
 						<tr>
 							<td style="width: 134px;">
-								<label for="min_depth">
-									<a href="javascript:void(0);" onClick="getDocs('locality','depth')">
+								<label for="min_depth" class="mb-0">
+							
 										Min. Depth.
-									</a>
+								
 								</label>
-								<input type="text" name="min_depth"
+								<input type="text" name="min_depth" class="border rounded py-1"
 									id="min_depth"
 									value="#min_depth#" size="10">&nbsp;TO&nbsp;
 							</td>
 							<td style="width: 115px;">
-								<label for="max_depth">
-									<a href="javascript:void(0);" onClick="getDocs('locality','depth')">
+								<label for="max_depth" class="mb-0">
+									
 										Max. Depth.
-									</a>
+									
 								</label>
-								<input type="text" name="max_depth"
+								<input type="text" name="max_depth" class="border rounded py-1"
 									id="max_depth"
 									value="#max_depth#" size="10">&nbsp;&nbsp;
 							</td>
 							<td>
-								<label for="depth_units">
-									<a href="javascript:void(0);" onClick="getDocs('locality','depth')">
+								<label for="depth_units" class="mb-0">
+									
 										Depth Unit
-									</a>
+									
 								</label>
 								<select name="depth_units" size="1" id="depth_units">
 									<option value=""></option>
@@ -611,29 +612,29 @@
 			</tr>
               <tr>
                 <td>
-					<label for="locality_remarks">
+					<label for="locality_remarks" class="mb-0">
 						Locality Remarks
 					</label>
-					<input type="text" name="locality_remarks" id="locality_remarks"
+					<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded py-1"
 						value="#stripQuotes(locality_remarks)#"  style="width:71em;">
 				</td>
               </tr>
 			<tr>
                 <td>
-					<label for="locality_remarks">
+					<label for="locality_remarks" class="mb-0">
 						Not Georeferenced Because <a href="##" onClick="getMCZDocs('Not_Georeferenced_Because')">
 										(Suggested Entries)
 									</a>
 					</label>
-					<input type="text" name="NoGeorefBecause"
+					<input type="text" name="NoGeorefBecause" class="border rounded py-1"
 						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:71em;">
 					<cfif getLL.recordcount gt 0 AND len(#NoGeorefBecause#) gt 0>
-						<div style="background-color:red">
+						<div class="alert alert-danger">
 							NoGeorefBecause should be NULL for localities with georeferences.
 							Please review this locality and update accordingly.
 						</div>
 					<cfelseif getLL.recordcount is 0 AND len(#NoGeorefBecause#) is 0>
-						<div style="background-color:red">
+						<div class="alert alert-danger">
 							Please georeference this locality or enter a value for Not Georeferenced Because.
 						</div>
 					</cfif>
@@ -714,7 +715,7 @@
         <table>
 			<tr>
 				<td>
-					<h3 style="margin: 1.5em 0 1em 0;">Coordinates for this locality:</h3>
+					<h3 class="h4 mb-2">Coordinates for this locality:</h3>
 				</td>
 
 			</tr>
