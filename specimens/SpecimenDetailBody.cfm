@@ -1498,7 +1498,7 @@ limitations under the License.
 	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#person_id#);">Edit</button>
 			
 		</div>
 		<div class="card-body float-left">
