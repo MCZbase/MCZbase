@@ -161,7 +161,7 @@
 						</tr>
 					</table>
 					<div id="geogDetail" class="noShow">
-						<table class="table table-fixed">
+						<table class="table">
 							<tr>
 								<td><label for="continent_ocean">Continent or Ocean
 										<input type="text" name="continent_ocean" id="continent_ocean" class="form-control form-control-sm">
