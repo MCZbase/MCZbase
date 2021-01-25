@@ -392,7 +392,7 @@ limitations under the License.
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Accession" >
-					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">>
+					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="method" value="saveAccn"><!--- used in normal ajax save, which uses the form fields to post to transactions/component/functions.cfc --->
 						<input id="action" type="hidden" name="action" value="edit"><!--- reused by delete accession, not used in normal save --->
 						<input type="hidden" name="transaction_id" value="#accessionDetails.transaction_id#">
@@ -606,7 +606,7 @@ limitations under the License.
 				<section role="search" aria-labelledby="guid_list_label" class="container my-2">
 					<h2 class="h3">Add Cataloged Items to this Accession</h2>
 						<div class="row border rounded mb-2 pb-2" >
-							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
+							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12" onSubmit="return noenter();">
 							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
 							<input type="hidden" id="method" name="method" value="addCollObjectsAccn" >
 							<div class="form-row mx-0 my-2">
