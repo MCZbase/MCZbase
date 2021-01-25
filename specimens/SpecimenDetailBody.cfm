@@ -768,34 +768,7 @@ limitations under the License.
 			<div class="card-body float-left">
 				<ul class="list-group px-0 float-left">
 				<cfloop query="citations">
-					<li class="list-group-item border"> 
-					<cfif publicationMedia.recordcount gt 0>
-					<cfloop query="publicationMedia">
-				
-							<cfset puri=getMediaPreview(preview_uri,media_type)>
-							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-											media_label,
-											label_value
-									from
-											media_labels
-									where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-							<cfquery name="desc" dbtype="query">
-							select label_value from labels where media_label='description'
-						</cfquery>
-							<cfset alt="Media Preview Image">
-							<cfif desc.recordcount is 1>
-								<cfset alt=desc.label_value>
-							</cfif>
-							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="float-left d-block" style="width: 70px;"></a><br/> 
-							<span>#media_type# (#mime_type#) 
-								<br/> <a href="/media/#media_id#" target="_blank">Media Details</a>
-								<br/> #alt# </span> </li>
-					</cfloop>
-				</cfif>
-						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+					<li class="list-group-item"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>
 							Page
@@ -816,13 +789,33 @@ limitations under the License.
 								&nbsp;sp. nov.
 							</cfif>
 						</cfif>
-						#CITATION_REMARKS# 
-			
-							
-					</li>
-
+						#CITATION_REMARKS# </li>
 				</cfloop>
-
+				<cfif publicationMedia.recordcount gt 0>
+					<cfloop query="publicationMedia">
+				
+							<!---<cfset puri=getMediaPreview(preview_uri,media_type)>--->
+							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+											media_label,
+											label_value
+									from
+											media_labels
+									where
+											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+							<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+							<cfset alt="Media Preview Image">
+							<cfif desc.recordcount is 1>
+								<cfset alt=desc.label_value>
+							</cfif>
+							<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> 
+							<!--- <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumbSmall"></a>---> 
+							<span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
+					</cfloop>
+				</cfif>
 			</ul>
 			</div>
 		</div>
