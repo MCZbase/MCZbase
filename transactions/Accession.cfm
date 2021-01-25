@@ -598,7 +598,7 @@ limitations under the License.
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
 							onClick=" updateItemSections(); ">
 					</div>
-					<div class="col-12 pt-2 pb-3">
+					<div class="col-12 pt-2 pb-1">
 						<div id="accnItemCountDiv" tabindex="0"></div>
 						<div id="accnItemDispositionsDiv" tabindex="0"></div>
 					</div>
