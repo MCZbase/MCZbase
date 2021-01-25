@@ -179,7 +179,7 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem;
 }
-input, select {font-size: 1rem;}
+
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;
@@ -2515,6 +2515,7 @@ div.subnote {
 	text-decoration: underline;
 	color: black;
 }
+input, select {font-size: 1rem;}
 select {
 	border-radius: 3px;
 	border: 1px solid #ccc;
