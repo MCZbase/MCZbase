@@ -3936,6 +3936,9 @@ ul.loan_buttons li.edit:hover, ul.loan_buttons li.add:hover, ul.loan_buttons li.
 	margin-bottom:.25rem;
 	border: 1px solid #A51C30;
 }
+		.missing {
+			border:2px solid red;
+			}
 ul.lisc {
 	-webkit-padding-start: 5px;
 	-moz-padding-start: 5px;
