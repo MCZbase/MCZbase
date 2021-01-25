@@ -791,7 +791,9 @@ limitations under the License.
 						</cfif>
 						#CITATION_REMARKS# </li>
 				</cfloop>
-				<cfif publicationMedia.recordcount gt 0>
+	
+			</ul>
+								<cfif publicationMedia.recordcount gt 0>
 					<cfloop query="publicationMedia">
 				
 							<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -816,7 +818,6 @@ limitations under the License.
 						<span class="d-block">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
 					</cfloop>
 				</cfif>
-			</ul>
 			</div>
 		</div>
 	</cfif>
