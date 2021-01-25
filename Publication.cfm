@@ -594,15 +594,23 @@
 //				$('#media_desc').val('').removeClass('reqdClr');
 //			}
 //		}
-	function toggleMedia(onOff) {
-		if (onOff==0) {
-			$("#media").hide();
-			$("#mediaToggle").attr('onCLick','toggleMedia(1)').html('Hide Media');
-		} else {
-			$("#media").show();
-			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
-		}
-	}
+//	function toggleMedia(onOff) {
+//		if (onOff==0) {
+//			$("#media").hide();
+//			$("#mediaToggle").attr('onCLick','toggleMedia(1)').html('Hide Media');
+//		} else {
+//			$("#media").show();
+//			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
+//		}
+//	}
+$(document).ready(function(){
+  $("#hide").click(function(){
+    $("#mediaToggle").hide();
+  });
+  $("#show").click(function(){
+    $("#mediaToggle").show();
+  });
+});
 
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
@@ -659,15 +667,9 @@
 			);
 		}
 	</script>
-			<cfif not isdefined("toggleMedia")>
-		<cfset toggleMedia=0>
-	</cfif>
 	<cfoutput>
-
-
       <h1 class="h2 wikilink">Create New Publication <img src="/images/info_i_2.gif" onClick="getMCZDocs('Publication-Data Entry')" class="likeLink" alt="[ help ]">
 		</h1>
-
 		<form name="newpub" method="post" onsubmit="if (!confirmpub()){return false;}" action="Publication.cfm">
 			<div class="cellDiv">
 			The Basics:
@@ -688,7 +690,7 @@
 			</table>
 
 			<div class="pubS"><label for="publication_type">Publication Type</label>
-			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)"  style="border: 1px solid ##ccc;">
+			<select name="publication_type" id="publication_type" class="reqdClr" onchange="setDefaultPub(this.value)">
 				<option value=""></option>
 				<cfloop query="ctpublication_type">
 					<option value="#publication_type#">#publication_type#</option>
@@ -765,14 +767,14 @@
                 <tr>
 			</table>
 			</div>
-			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-			<cfif #toggleMedia# is 0>
-			<div class="cellDiv" id="media">
+			<button id="hide">Hide Media</button>
+			<button id="show">Show Media</button>
+			<div class="cellDiv" id="mediaToggle">
 				Media:
 				<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90"><!---span class="infoLink" id="uploadMedia">Upload</span--->
+			<input type="text" name="media_uri" id="media_uri" size="90" class="border rounded py-1"><!---span class="infoLink" id="uploadMedia">Upload</span--->
 				<label for="preview_uri">Preview URI</label>
-				<input type="text" name="preview_uri" id="preview_uri" size="90">
+				<input type="text" name="preview_uri" id="preview_uri" size="90" class="border rounded py-1">
 				<label for="mime_type">MIME Type</label>
 				<select name="mime_type" id="mime_type">
 					<option value=""></option>
@@ -788,9 +790,8 @@
 					</cfloop>
 				</select>
 				<label for="media_desc">Media Description</label>
-				<input type="text" name="media_desc" id="media_desc" size="80">
+				<input type="text" name="media_desc" id="media_desc" size="80" class="border rounded py-1">
 			</div>
-			</cfif>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
 
