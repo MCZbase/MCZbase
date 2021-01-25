@@ -765,6 +765,7 @@
                 <tr>
 			</table>
 			</div>
+			<cfset toggleMedia = 1>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia(0)">[ Add Media ]</span>
 			<cfif #toggleMedia# is 0>
 			<div class="cellDiv" id="media">
