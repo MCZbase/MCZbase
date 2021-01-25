@@ -676,8 +676,8 @@ limitations under the License.
 								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
 								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
 								</p>
-								<div id="transactionFormPermits" class="col-12">Loading permits...</div>
-								<div id='addPermit_#transaction_id#' class="col-12">
+								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
+								<div id='addPermit_#transaction_id#' class="col-12 px-0">
 									<input type='button' 
 										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Accession: #accessionDetails.collection# #accessionDetails.accn_number#',reloadTransPermits);" 
@@ -785,13 +785,13 @@ limitations under the License.
 							</div>
 						</section>
 						<section title="Loans of material in this accession" name="loansSection" class="row mx-0 mt-2" tabindex="0">
-							<div class="col-12 border bg-light float-left pl-3 px-3 pb-3 h-100 w-100 rounded">
+							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Loans of material in this accession</h2>
 								<div id="accnLoansDiv"></div>
 							</div>
 						</section>	
 						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2" tabindex="0">
-							<div class="col-12 border bg-light float-left pl-3 px-3 pb-3 mb-2 h-100 w-100 rounded">
+							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 								<div id="accnLimitationsDiv"></div>
 							</div>
