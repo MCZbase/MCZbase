@@ -416,8 +416,8 @@
 					<div style="width: 60em;postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
-					<h1 class="h2 wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]"></h1>
-							<h2 class="h3">
+					<h1 class="h2 wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
+							<span class="smaller">
 						<cfif #whatSpecs.recordcount# is 0>
 							<font color="##FF0000">This Locality (#locDet.locality_id#)
 							contains no specimens. Please delete it if you don't have plans for it!</font>
@@ -437,7 +437,8 @@
 							</ul>
 
 						</cfif>
-						</h2>
+							</span>
+						</h1>
 						</li>
 					</ul>
 
@@ -507,9 +508,9 @@
             <tr>
             	<td>
 					<label for="spec_locality" class="mb-0">
-						<a href="javascript:void(0);" onClick="getMCZDocs(''Edit_Locality')">
+						
 							Specific Locality
-						</a>
+						
 					</label>
 					<input type="text"
 						id="spec_locality"
@@ -715,7 +716,7 @@
         <table>
 			<tr>
 				<td>
-					<h3 class="h4 mb-2">Coordinates for this locality:</h3>
+					<h3 class="mb-2">Coordinates for this locality:</h3>
 				</td>
 
 			</tr>
