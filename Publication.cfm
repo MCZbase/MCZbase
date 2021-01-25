@@ -579,7 +579,7 @@
 				return true;
         	}
 
-		function showMedia() {
+		function toggleMedia() {
 			if($('#media').css('display')=='none') {
 				$('#mediaToggle').html('[ Hide Media ]');
 				$('#media').show();
@@ -596,15 +596,7 @@
 				$('#media_desc').val('').removeClass('reqdClr');
 			}
 		}
-	function toggleMediaDetail(onOff) {
-		if (onOff==0) {
-			$("#mediaDetail").hide();
-			$("#mediaDetailCtl").attr('onCLick','toggleMediaDetail(1)').html('Show More Options');
-		} else {
-			$("#mediaDetail").show();
-			$("#mediaDetailCtl").attr('onCLick','toggleMediaDetail(0)').html('Show Fewer Options');
-		}
-	}
+
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
@@ -765,7 +757,7 @@
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
 			<cfif #showMedia# is 1>
-			<div class="cellDiv" id="media">
+			<div class="cellDiv" id="media" style="display:none;">
 				Media:
 				<label for="media_uri">Media URI</label>
 			<input type="text" name="media_uri" id="media_uri" size="90"><!---span class="infoLink" id="uploadMedia">Upload</span--->
