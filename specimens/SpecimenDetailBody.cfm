@@ -1373,7 +1373,7 @@ limitations under the License.
 </cfif>				
 </cfoutput>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
-<div class="accordion" id="accordionExample4">
+
     <div class="card bg-light mb-2">
 		<div class="card-header float-left w-100" id="headingOne">
 				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
@@ -1495,7 +1495,7 @@ limitations under the License.
 			
 	
  	</div>
-</div>
+
 
 <!------------------------------------ Collectors and Preparators ----------------------------------->
 	<div class="card mb-2 mb-md-1">
