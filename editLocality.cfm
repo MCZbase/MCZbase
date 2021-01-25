@@ -500,8 +500,7 @@
             <input type="hidden" name="action" value="saveLocalityEdit">
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
-			<br><br>
-            <table class="mt-2">
+            <table class="mt-3">
 			<tr>
 				<td><h2 class="mb-1">Locality</h2></td>
 			</tr>
