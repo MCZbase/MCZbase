@@ -813,7 +813,7 @@ limitations under the License.
 							</cfif>
 					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mr-2 mb-2" width="70" height="100"></a> 
-							<div style="width: 75px;"><span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div> </li>
+							<div style="width: 75px;float:left;"><span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div> </li>
 					</cfloop>
 				</cfif>
 			</ul>
