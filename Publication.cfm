@@ -765,7 +765,7 @@
 			</table>
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-			<cfif #toggleMedia# is 1>
+			<cfif #toggleMedia# is 0>
 			<div class="cellDiv" id="media">
 				Media:
 				<label for="media_uri">Media URI</label>
