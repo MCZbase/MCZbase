@@ -768,32 +768,8 @@ limitations under the License.
 			<div class="card-body float-left">
 				<ul class="list-group px-0 float-left">
 				<cfloop query="citations">
-					<li class="list-group-item border"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-								target="_mainFrame"> #formatted_publication#</a>,
-						<cfif len(occurs_page_number) gt 0>
-							Page
-							<cfif len(citation_page_uri) gt 0>
-								<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-								<cfelse>
-								#occurs_page_number#,
-							</cfif>
-						</cfif>
-						#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-						<cfif find("(ms)", #type_status#) NEQ 0>
-							<!--- Type status with (ms) is used to mark to be published types,
-`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-									as appropriate to the name of the parent taxon of the new name --->
-							<cfif find(" ", #cited_name#) NEQ 0>
-								&nbsp;ssp. nov.
-								<cfelse>
-								&nbsp;sp. nov.
-							</cfif>
-						</cfif>
-						#CITATION_REMARKS# 
-			
-							
-					</li>
-								<cfif publicationMedia.recordcount gt 0>
+					<li class="list-group-item border"> 
+					<cfif publicationMedia.recordcount gt 0>
 					<cfloop query="publicationMedia">
 				
 							<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -819,6 +795,32 @@ limitations under the License.
 								<br/> #alt# </span> </li>
 					</cfloop>
 				</cfif>
+						<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+								target="_mainFrame"> #formatted_publication#</a>,
+						<cfif len(occurs_page_number) gt 0>
+							Page
+							<cfif len(citation_page_uri) gt 0>
+								<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+								<cfelse>
+								#occurs_page_number#,
+							</cfif>
+						</cfif>
+						#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+						<cfif find("(ms)", #type_status#) NEQ 0>
+							<!--- Type status with (ms) is used to mark to be published types,
+`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
+									as appropriate to the name of the parent taxon of the new name --->
+							<cfif find(" ", #cited_name#) NEQ 0>
+								&nbsp;ssp. nov.
+								<cfelse>
+								&nbsp;sp. nov.
+							</cfif>
+						</cfif>
+						#CITATION_REMARKS# 
+			
+							
+					</li>
+
 				</cfloop>
 
 			</ul>
