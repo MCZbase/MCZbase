@@ -145,14 +145,14 @@
 	<cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedWithin="#CreateTimeSpan(0,1,0,0)#">
 	select collection,collection_id from collection order by collection
 </cfquery>
-	<table class="table">
+	<table>
 		<tr>
 			<td><span id="_generic_m_ai">Accent&nbsp;Insensitive?</span>
 				<input type="checkbox" name="accentInsensitive" id="accentInsensitive" value="1"></td>
 		</tr>
 		<tr>
 			<td><div class="locGroup"> <span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-					<table class="table">
+					<table>
 						<tr>
 							<td colspan="2"><label for="higher_geog">Higher Geog
 									<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
@@ -236,7 +236,7 @@
 				</div>
 				<cfif #showLocality# is 1>
 					<div class="locGroup"> <span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-						<table class="table">
+						<table>
 							<tr>
 								<td colspan="2"><label for="spec_locality">Specific Locality
 										<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
@@ -571,7 +571,7 @@
 							</tr>
 						</table>
 						<div id="eventDetail" class="noShow">
-						<table class="table">
+						<table>
 								<tr>
 									<td><label for="verbatim_date">Verbatim Date</label>
 										<input type="text" name="verbatim_date" id="verbatim_date" class="form-control form-control-sm"></td>
