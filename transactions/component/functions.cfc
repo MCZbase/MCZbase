@@ -1421,7 +1421,7 @@ limitations under the License.
 						</cfloop>
 						<ul class='list-style-disc pl-4 pr-0'>
 							<li class="my-1">
-								#mediaLink# #permit_type# #permit_Num#<
+								#mediaLink# #permit_type# #permit_Num#
 								| Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
 								<input type='button' 
 									class='btn btn-xs btn-secondary pr-1' 
