@@ -501,7 +501,7 @@
             <input type="hidden" name="locality_id" value="#locality_id#">
          </table>
 			<br><br>
-            <table class="table mt-4">
+            <table class="mt-4">
 			<tr>
 				<td><h2 class="mb-1">Locality</h2></td>
 			</tr>
