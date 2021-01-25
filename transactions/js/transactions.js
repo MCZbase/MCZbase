@@ -1975,7 +1975,7 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,transaction_id,
    var agent_id = $("#"+agentIdControl).val();
 
    jQuery.ajax({
-          url: "agents/component/functions.cfc",
+          url: "/agents/component/functions.cfc",
           type : "post",
           dataType : "json",
           data : {
