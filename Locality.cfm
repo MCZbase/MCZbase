@@ -1281,27 +1281,27 @@ You do not have permission to create Higher Geographies
 	</cfif>
 	<cfoutput>
              <div style="width: 40em; margin:0 auto; padding: 1em 0 3em 0;">
-	<h2 class="wikilink">Create Locality:</h2>
+	<h1 class="h2 wikilink">Create Locality:</h1>
 
-		<label>Higher Geography:</label>
+		<label class="mb-0" for="higherG">Higher Geography:</label>
 		<form name="geog" action="Locality.cfm" method="post">
             <input type="hidden" name="Action" value="makenewLocality">
             <input type="hidden" name="geog_auth_rec_id"
 				<cfif isdefined("geog_auth_rec_id")>
 					value = "#geog_auth_rec_id#"
 				</cfif>>
-			<input type="text" name="higher_geog" class="readClr"
+			<input type="text" name="higher_geog" class="readClr" id="higherG"
 				<cfif isdefined("getHG.higher_geog")>
 					value = "#getHG.higher_geog#"
 				</cfif>
-			size="50"  readonly="yes" >
+			size="50"  readonly="yes" class="border rounded py-1" >
 			<input type="button" value="Pick" class="picBtn"
-				onclick="GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;">
+				onclick="GeogPick('geog_auth_rec_id','higher_geog','geog'); return false;" aria-labelledby="higherG">
    			<cfif isdefined("geog_auth_rec_id")>
 				<input type="button" value="Details" class="lnkBtn"
 					onclick="document.location='Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#'">
          	</cfif>
-           <label for="sovereign_nation">Sovereign Nation</label>
+           <label for="sovereign_nation" class="mb-0">Sovereign Nation</label>
 		   <select name="sovereign_nation" id="sovereign_nation" size="1">
                 <cfloop query="ctSovereignNation">
             	    <option <cfif isdefined("sovereign_nation") AND ctsovereignnation.sovereign_nation is sovereign_nation> selected="selected" </cfif>value="#ctSovereignNation.sovereign_nation#">#ctSovereignNation.sovereign_nation#</option>
@@ -1313,30 +1313,30 @@ You do not have permission to create Higher Geographies
 					value= "#spec_locality#"
 				</cfif>
 			>
-			<label for="minimum_elevation">Minimum Elevation</label>
-            <input type="text" name="minimum_elevation" id="minimum_elevation"
+			<label for="minimum_elevation" class="mb-0">Minimum Elevation</label>
+            <input type="text" name="minimum_elevation" id="minimum_elevation" class="border rounded py-1"
 				<cfif isdefined("minimum_elevation")>
 					value = "#minimum_elevation#"
 				</cfif>
 			>
-			<label for="maximum_elevation">Maximum Elevation</label>
-			<input type="text" name="maximum_elevation" id="maximum_elevation"
+			<label for="maximum_elevation" class="mb-0">Maximum Elevation</label>
+			<input type="text" name="maximum_elevation" id="maximum_elevation" class="border rounded py-1"
 				<cfif isdefined("maximum_elevation")>
 					value = "#maximum_elevation#"
 				</cfif>
 			>
-			<label for="orig_elev_units">Elevation Units</label>
+			<label for="orig_elev_units" class="mb-0">Elevation Units</label>
 			<select name="orig_elev_units" id="orig_elev_units" size="1">
 				<option value=""></option>
                 <cfloop query="ctElevUnit">
             	    <option <cfif isdefined("origelevunits") AND ctelevunit.orig_elev_units is origelevunits> selected="selected" </cfif>value="#ctElevUnit.orig_elev_units#">#ctElevUnit.orig_elev_units#</option>
                 </cfloop>
 			</select>
-			<label for="locality_remarks">Locality Remarks</label>
+			<label for="locality_remarks" class="mb-0">Locality Remarks</label>
 			<input type="text" name="locality_remarks" id="locality_remarks">
 			<cfif isdefined("locality_id") and len(locality_id) gt 0>
 				<input type="hidden" name="locality_id" value="locality_id" />
-				<label for="">Include coordinates from <a href="/editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>?</label>
+				<label for="" class="mb-0">Include coordinates from <a href="/editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>?</label>
 				Y<input type="radio" name="cloneCoords" value="yes" />
 				<br>N<input type="radio" name="cloneCoords" value="no" checked="checked" />
 		 	</cfif>
