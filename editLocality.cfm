@@ -470,7 +470,7 @@
 						id="higher_geog"
 						value="#higher_geog#"
 						size="90"
-						class="readClr border rounded py-1"
+						class="readClr border rounded p-1"
 						readonly="yes">
 				</td>
 			</tr>
@@ -516,7 +516,7 @@
 						id="spec_locality"
 						name="spec_locality"
 						value="#stripQuotes(spec_locality)#"
-						size="131" class="border rounded py-1">
+						size="131" class="border rounded p-1">
 				</td>
 			</tr>
             <tr>
@@ -540,7 +540,7 @@
 									
 								</label>
 								<input type="text" name="minimum_elevation"
-									id="minimum_elevation" class="border rounded py-1"
+									id="minimum_elevation" class="border rounded p-1"
 									value="#minimum_elevation#" size="10">&nbsp;TO&nbsp;
 							</td>
 							<td style="width:115px;">
@@ -549,7 +549,7 @@
 										Max. Elev.
 								
 								</label>
-								<input type="text" name="maximum_elevation" class="border rounded py-1"
+								<input type="text" name="maximum_elevation" class="border rounded p-1"
  									id="maximum_elevation"
 									value="#maximum_elevation#" size="10">&nbsp;&nbsp;
 							</td>
@@ -580,7 +580,7 @@
 										Min. Depth.
 								
 								</label>
-								<input type="text" name="min_depth" class="border rounded py-1"
+								<input type="text" name="min_depth" class="border rounded p-1"
 									id="min_depth"
 									value="#min_depth#" size="10">&nbsp;TO&nbsp;
 							</td>
@@ -590,7 +590,7 @@
 										Max. Depth.
 									
 								</label>
-								<input type="text" name="max_depth" class="border rounded py-1"
+								<input type="text" name="max_depth" class="border rounded p-1"
 									id="max_depth"
 									value="#max_depth#" size="10">&nbsp;&nbsp;
 							</td>
@@ -616,7 +616,7 @@
 					<label for="locality_remarks" class="mb-0">
 						Locality Remarks
 					</label>
-					<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded py-1 w-100"
+					<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded p-1 w-100"
 						value="#stripQuotes(locality_remarks)#">
 				</td>
               </tr>
@@ -627,7 +627,7 @@
 										(Suggested Entries)
 									</a>
 					</label>
-					<input type="text" name="NoGeorefBecause" class="border rounded py-1 w-100"
+					<input type="text" name="NoGeorefBecause" class="border rounded p-1 w-100"
 						id="NoGeorefBecause" value="#NoGeorefBecause#">
 					<cfif getLL.recordcount gt 0 AND len(#NoGeorefBecause#) gt 0>
 						<div class="alert alert-danger">
