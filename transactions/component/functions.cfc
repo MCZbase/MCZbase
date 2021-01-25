@@ -4278,16 +4278,6 @@ limitations under the License.
 				<input type="hidden" name="method" value="getAddressesJSON" class="keeponclear">
 				<input type="hidden" name="include_temporary" value="#includeTemporary#" class="keeponclear">
 
-				<cfif includeTemporary EQ "true">
-					<script>
-						function addTempAddrCallback() { 
-							$('##findAddressSearchForm').submit();			
-						}
-					</script>
-					<button type="button" class="btn btn-xs btn-secondary" 
-						onclick="alert('temporary address creation not yet implemented'); // addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id',#transaction_id#,addTempAddrCallback) " 
-						value="Create Temporary Address">Create Temporary Address</button>
-				</cfif>
 
 				<div class="row col-12">
 					<div class="col-12 col-md-4 mt-1">
@@ -4310,13 +4300,23 @@ limitations under the License.
 						</script>
 					</div>
 					<div class="col-12 col-md-4 mt-1">
-						<label for="start_date" class="data-entry-label">Address</label>
+						<label for="formatted_address" class="data-entry-label">Address</label>
 						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-4 mt-0 mt-md-1">
-							<label for="start_date" class="data-entry-label invisible">search for shipping address</label>
 						<button class="btn btn-xs btn-primary px-3" id="searchButton"
-							type="submit" aria-label="Search for addresses">Search<span class="fa fa-search pl-1"></span></button>
+							type="submit" aria-label="Search for shipping addresses">Search<span class="fa fa-search pl-1"></span></button>
+						<cfif includeTemporary EQ "true">
+							<script>
+								function addTempAddrCallback() { 
+									$('##findAddressSearchForm').submit();			
+								}
+							</script>
+							<button type="button" class="btn btn-xs btn-secondary" 
+								onclick="alert('temporary address creation not yet implemented'); // addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id',#transaction_id#,addTempAddrCallback) " 
+								aria-label="Create a temporary address"
+								value="Create Temporary Address">Create Temporary Address</button>
+						</cfif>
 					</div>
 				</div>
 			</form>
