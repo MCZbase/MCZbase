@@ -420,7 +420,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <cfif mediaS2.recordcount gt 1>
-		<div class="col-12 col-sm-12 col-md-3 col-xl-3 mb-2 px-0 float-left">
+		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-2 px-0 float-left">
     		<div class="accordion" id="accordionE">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
@@ -518,12 +518,12 @@ limitations under the License.
 			</cfif>
 			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
 							<!---for media images--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 				<cfelse>
 					<!---for DRS from library--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
 				<cfset aForDetHref = "/media/#media_id#">
 			</cfif>
@@ -568,7 +568,7 @@ limitations under the License.
 				</div>
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
-	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-xl-9<cfelse>col-md-12 col-xl-12</cfif> float-left">
+	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-lg-9 col-xl-9<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 		<div class="card-columns"> 
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
@@ -596,7 +596,7 @@ limitations under the License.
 					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-	<div class="card mb-2 mb-md-0">
+	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Identifications</h3> 
   				<div class="dialog" title="Edit Identification (id: #identification_id#)">
@@ -760,7 +760,7 @@ limitations under the License.
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
 	<cfif len(citations.cited_name) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Citations</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -848,7 +848,7 @@ limitations under the License.
 			display_value
 	</cfquery>
 	<cfif len(oid.other_id_type) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Other IDs</h4>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -872,7 +872,7 @@ limitations under the License.
 
 	<!------------------------------------ attributes ----------------------------------------->
 	<cfif len(attribute.attribute_type) gt 0>
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Attributes</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -988,7 +988,7 @@ limitations under the License.
 
 <!------------------------------------ relationships  ------------------------------------->
 	<cfif len(relns.biol_indiv_relationship) gt 0 >
-		<div class="card mb-2 mb-md-0">
+		<div class="card mb-2 mb-md-1">
 			<div class="card-header float-left w-100">
 				<h3 class="h4 my-0 float-left">Relationship</h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1035,7 +1035,7 @@ limitations under the License.
 			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="card mb-2">
+			<div class="card mb-2 mb-md-1">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-0 float-left">Transactions</h3>
 					<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1163,9 +1163,218 @@ limitations under the License.
 				</div>
 			</div>
 	</cfif>
+	
+<!------------------------------------ parts ---------------------------------------------->
+<cfoutput>
+
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select
+		specimen_part.collection_object_id part_id,
+		Case
+			when #oneOfus#= 1
+			then pc.label
+			else null
+		End label,
+		nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+		sampled_from_obj_id,
+		coll_object.COLL_OBJ_DISPOSITION part_disposition,
+		coll_object.CONDITION part_condition,
+		nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+		coll_object_remarks part_remarks,
+		attribute_type,
+		attribute_value,
+		attribute_units,
+		determined_date,
+		attribute_remark,
+		agent_name
+	from
+		specimen_part,
+		coll_object,
+		coll_object_remark,
+		coll_obj_cont_hist,
+		container oc,
+		container pc,
+		specimen_part_attribute,
+		preferred_agent_name
+	where
+		specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+		specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+		specimen_part.collection_object_id=coll_object.collection_object_id and
+		coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+		coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+		coll_obj_cont_hist.container_id=oc.container_id and
+		oc.parent_container_id=pc.container_id (+) and
+		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+</cfquery>
+<cfquery name="parts" dbtype="query">
+        select  
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        from
+                rparts
+        group by
+			
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        order by
+                part_name
+</cfquery>
+<cfquery name="parts" dbtype="query">
+        select  
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        from
+                rparts
+        group by
+			
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        order by
+                part_name
+</cfquery>
+<cfquery name="mPart" dbtype="query">
+	select * from parts where sampled_from_obj_id is null order by part_name
+</cfquery>
+<cfset ctPart.ct=''>
+<cfquery name="ctPart" dbtype="query">
+	select count(*) as ct from parts group by lot_count order by part_name
+	</cfquery>
+
+			<div class="accordion w-100" id="accordionForParts">
+			<div class="card mb-2 mb-md-1">
+				<div class="card-header float-left w-100" id="headingPart">
+				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
+				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+				</div>
+					<div class="card-body p-0">
+						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
+							<table class="table d-lg-table border-bottom table-responsive mb-0">
+							<tr class="bg-light">
+								<th><span>Part Name</span></th>
+								<th><span>Condition</span></th>
+								<th><span>Disposition</span></th>
+								<th><span>##</span></th>
+								<cfif oneOfus is "1">
+									<th><span>Container</span></th>
+								</cfif>
+							</tr>
+							<cfset i=1>
+						
+							<cfloop query="mPart">
+							
+								<tr <cfif mPart.recordcount gt 1>class="line-top"<cfelse></cfif>>
+									<td>#part_name#</td>
+									<td>#part_condition#</td>
+									<td>#part_disposition#</td>
+									<td>#lot_count#</td>
+									<cfif oneOfus is 1>
+										<td>#label#</td>
+									</cfif>
+								</tr>
+								<cfif len(part_remarks) gt 0>
+								<tr class=" small"><td colspan="6">
+									<span class="font-italic">Remarks:</span> #part_remarks#</td>
+								</tr>
+								</cfif>
+								<cfquery name="patt" dbtype="query">
+									select
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+									from
+										rparts
+									where
+										attribute_type is not null and
+										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+									group by
+										attribute_type,
+										attribute_value,
+										attribute_units,
+										determined_date,
+										attribute_remark,
+										agent_name
+								</cfquery>
+								<cfif patt.recordcount gt 0>
+									<tr>
+										<td colspan="6">
+											<cfloop query="patt">
+												<div class="small" style="line-height: .9rem;">
+													#attribute_type#=#attribute_value#
+													<cfif len(attribute_units) gt 0>
+													 #attribute_units#
+													</cfif>
+													<cfif len(determined_date) gt 0>
+													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+													</cfif>
+													<cfif len(agent_name) gt 0>
+													 	determined by=#agent_name#
+													</cfif>
+													<cfif len(attribute_remark) gt 0>
+													 	remark=#attribute_remark#
+													</cfif>
+												</div>
+											</cfloop>
+										</td>
+									</tr>		
+								</cfif><!---/cfloop--->
+								<cfquery name="sPart" dbtype="query">
+									select * from parts 
+									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+								</cfquery>
+								<cfloop query="sPart">
+									<tr>
+										<td class=""><span>#part_name# subsample</span></td>
+										<td class="">#part_condition#</td>
+										<td class="">#part_disposition#</td>
+										<td class="">#lot_count#</td>
+										<cfif oneOfus is 1>
+											<td class="">#label#</td>
+										</cfif>
+										<td class="">#part_remarks#</td>
+									</tr>
+								</cfloop>
+							
+							</cfloop>
+								
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+</cfif>				
+</cfoutput>
 <!------------------------------------ locality and collecting event-------------------------------------------> 
 <div class="accordion" id="accordionExample4">
-    <div class="card bg-light">
+    <div class="card bg-light mb-2 mb-md-1">
 		<div class="card-header float-left w-100" id="headingOne">
 				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
 					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1288,7 +1497,7 @@ limitations under the License.
 </div>
 
 <!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2 mb-md-0">
+	<div class="card mb-2 mb-md-1">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1308,7 +1517,33 @@ limitations under the License.
 		</div>
 	</div>		
 
-
+<!------------------------------------ metadata ------------------------------------------->
+<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+		<cfif oneOfUs is 1>
+			<div class="card mb-2 mb-md-1">
+				<div class="card-header float-left w-100">
+					<h3 class="h4 my-0 float-left">Metadata</h4>
+				</div>
+				<div class="card-body float-left">
+					<ul  class="pl-0 pt-1">
+						<cfif len(#one.coll_object_remarks#) gt 0>
+							<li>Remarks: #one.coll_object_remarks# </li>
+						</cfif>
+						<li> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
+						<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
+							<li> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+						</cfif>
+						<cfif len(#one.flags#) is not 0>
+							<li> Missing (flags): #one.flags# </li>
+						</cfif>
+						<cfif len(#one.encumbranceDetail#) is not 0>
+							<li> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+						</cfif>
+					</ul>
+				</div>
+			</div>
+		</cfif>
+	</cfif>
 			
 		</div><!--- end of two column section --->						
 		<div class="one-column">
@@ -1317,7 +1552,7 @@ limitations under the License.
 <!------------------------------------ parts ---------------------------------------------->
 <cfoutput>
 
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+<!---<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
@@ -1416,8 +1651,8 @@ limitations under the License.
 	select count(*) as ct from parts group by lot_count order by part_name
 	</cfquery>
 
-			<div class="accordion w-100" id="accordionForParts">
-			<div class="card mb-2">
+<div class="accordion w-100" id="accordionForParts">
+			<div class="card mb-4 mb-md-5">
 				<div class="card-header w-100" id="headingPart">
 				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1490,7 +1725,7 @@ limitations under the License.
 												</div>
 											</cfloop>
 										</td>
-									</tr>									<!---/cfloop--->
+									</tr>						
 								</cfif>
 								<cfquery name="sPart" dbtype="query">
 									select * from parts 
@@ -1515,35 +1750,9 @@ limitations under the License.
 				</div>
 			</div>
 
-</cfif>				
+</cfif>	--->			
 </cfoutput>
-<!------------------------------------ metadata ------------------------------------------->
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-		<cfif oneOfUs is 1>
-			<div class="card mb-5">
-				<div class="card-header float-left w-100">
-					<h3 class="h4 my-0 float-left">Metadata</h4>
-				</div>
-				<div class="card-body float-left">
-					<ul  class="pl-0 pt-1">
-						<cfif len(#one.coll_object_remarks#) gt 0>
-							<li>Remarks: #one.coll_object_remarks# </li>
-						</cfif>
-						<li> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
-						<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
-							<li> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
-						</cfif>
-						<cfif len(#one.flags#) is not 0>
-							<li> Missing (flags): #one.flags# </li>
-						</cfif>
-						<cfif len(#one.encumbranceDetail#) is not 0>
-							<li> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
-						</cfif>
-					</ul>
-				</div>
-			</div>
-		</cfif>
-	</cfif>
+
 	</div>
 		<cfif oneOfUs is 1>
 			</form>

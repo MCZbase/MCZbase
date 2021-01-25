@@ -1157,14 +1157,6 @@ tr.pairs td {
 form.keyword {
 	margin: 20px 0;
 }
-table#pairs {
-	width: 100%;
-	margin-bottom: 20px;
-	border-collapse: collapse;
-}
-table#pairs, th, td {
-	border: 1px solid #cdcdcd;
-}
 .table td, .table th {
     padding: .25rem .75rem;
     vertical-align: top;
@@ -1218,6 +1210,11 @@ table#pairs, th, td {
 	width: 100%;
 	border: 1px solid #ccc;
     height: calc(1.15em + .5rem + 2px);
+}
+#collapseParts .table td, #collapseParts.table th {
+    padding: .25rem 1rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
 }
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
@@ -1415,7 +1412,6 @@ textarea {
 	padding-right: .5rem;
 	font: 500 .875rem apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
-
 .data-entry-textarea { /* Caution: used on autogrow textareas, if changed check that autogrow behavior doesn't break */
 	width: 100%;
 	height: calc(.875rem + .8rem + 1px);
@@ -1455,6 +1451,12 @@ textarea {
 .border-fill { /* This is for each square on the data entry full form */
 	border: 1px solid #bac5c6 !important;
 	background-color: #fff;
+}
+tr.line-top {
+	border-top: 2px solid #ccc;
+}
+tr.line-top:first-child {
+	border-top: 2px solid transparent;
 }
 .loginButtons {
 	padding: .2rem .5rem;
@@ -1722,6 +1724,29 @@ right: 0;
 content: '⇡'; 
 }
 }
+@media screen and (min-width: 68.5333333em) { /*  sizes greater than old iPad  78=  */
+		.card-columns {
+		-webkit-column-count: 2;
+    	-moz-column-count: 2;
+		column-count: 2;
+		-webkit-column-gap: .35rem;
+    	-moz-column-gap: .35rem;
+		column-gap: .35rem;
+		orphans: 1;
+		widows: 1;
+		column-span: all;
+		margin-right: 0px;
+    	margin-left: 4px;
+	}
+	.one-column {
+		column-count: 1;
+		column-gap: 0;
+		widows:1;
+		orphans:1;
+		column-span:all;
+		margin-left:4px;
+	}
+}
 @media screen and (max-width: 55.1875em) {
 	.cbp-spmenu-horizontal {
 		font-size: 75%;
@@ -1794,9 +1819,24 @@ content: '⇡';
 		max-width: 1600px;
 	}
 }
-@media(max-width:1024px) {
+@media screen and (min-width:576px) {
 	.card-columns {
+		-webkit-column-count: 2;
+    	-moz-column-count: 2;
 		column-count: 2;
+		-webkit-column-gap: .35rem;
+    	-moz-column-gap: .35rem;
+		column-gap: .35rem;
+		orphans: 1;
+		widows: 1;
+		column-span: all;
+		margin-right: 0px;
+    	margin-left: 4px;
+	}
+}
+@media(max-width:1023px) {
+	.card-columns {
+		column-count: 1;
 	}
 	.card-body h5 {
 		margin-top: -0.5rem;
