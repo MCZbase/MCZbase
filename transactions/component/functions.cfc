@@ -1255,7 +1255,7 @@ limitations under the License.
 						<cfif len(#permit_id#) GT 0>
 							AND permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#"> 
 						</cfif>
-						<cfif len(#permit_num#) GT 0>
+						<cfif len(#permit_num#) GT 0 and len(#permit_id#) EQ 0 >
 							<cfif left(permit_num,1) IS "=">
 								AND permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(permit_num,len(permit_num)-1)#"> 
 							<cfelseif permit_num IS "NULL">
