@@ -179,7 +179,7 @@ h5, .h5 {
 h6, .h6 {
 	font-size: .75rem;
 }
-
+input {font-size: 1rem;}
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;
