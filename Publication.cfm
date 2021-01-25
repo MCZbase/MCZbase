@@ -769,6 +769,11 @@
 			$("#locDetailCtl").attr('onClick','toggleLocDetail(0)').html('Show Fewer Options');
 		}
 				} </script>
+			<output>
+				<cfif not isdefined("showLocality")>
+		<cfset showLocality=0>
+			</cfif></output>
+				<cfif #showLocality# is 1>
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
 			<div id="locDetail" class="noShow">
 			<div >
@@ -794,7 +799,7 @@
 				<label for="media_desc">Media Description</label>
 				<input type="text" name="media_desc" id="media_desc" size="80" class="border rounded py-1">
 			</div>
-			</div>
+					</div></cfif>
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
 
