@@ -594,15 +594,6 @@
 //				$('#media_desc').val('').removeClass('reqdClr');
 //			}
 //		}
-	function toggleMedia(onOff) {
-		if (onOff==0) {
-			$("#media").hide();
-			$("#mediaToggle").attr('onCLick','toggleMedia(1)').html('Hide Media');
-		} else {
-			$("#media").show();
-			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
-		}
-	}
 
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
@@ -659,9 +650,7 @@
 			);
 		}
 	</script>
-	<cfif not isdefined("toggleMedia")>
-		<cfset toggleMedia=0>
-	</cfif>
+
 	<cfoutput>
 
 
@@ -765,9 +754,9 @@
                 <tr>
 			</table>
 			</div>
-			<cfset toggleMedia = 1>
-			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia(0)">[ Add Media ]</span>
-			<cfif #toggleMedia# is 0>
+			
+	<!---		<span class="likeLink mediaToggle" id="mediaToggle">[ Add Media ]</span>--->
+		
 			<div class="cellDiv" id="media">
 				Media:
 				<label for="media_uri">Media URI</label>
@@ -791,7 +780,7 @@
 				<label for="media_desc">Media Description</label>
 				<input type="text" name="media_desc" id="media_desc" size="80" class="border py-1 rounded">
 			</div>
-			</cfif>
+		
 			<p class="pubSpace"><input type="submit" value="create publication" class="insBtn"></p>
 		</form>
 
