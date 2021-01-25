@@ -1076,8 +1076,20 @@ limitations under the License.
 						</div>
 						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="permit_Num">Permit Number</label>
-							<input type="text" name="permit_Num" id="permit_Num" class="data-entry-input">
+							<input type="text" name="permit_num" id="search_permit_num" class="data-entry-input">
+							<input type="hidden" name="permit_id" id="search_permit_id" class="data-entry-input">
 						</div>
+						<script>
+							$(document).ready(function() {
+								$(makePermitPicker('search_permit_num','search_permit_id'));
+								$('##search_permit_num').blur( function () {
+									// prevent an invisible permit_id from being included in the search.
+									if ($('##search_permit_num').val().trim() == "") { 
+										$('##search_permit_id').val("");
+									}
+								});
+							});
+						</script>
 						<div class="col-12 col-md-3">
 							<label class="data-entry-label" for="pf_permit_type">Permit Type</label>
 							<select name="permit_Type" size="1" class="data-entry-select" id="pf_permit_type">
@@ -1171,7 +1183,8 @@ limitations under the License.
 	<cfargument name="issued_Date" type="string" required="no">
 	<cfargument name="renewed_Date" type="string" required="no">
 	<cfargument name="exp_Date" type="string" required="no">
-	<cfargument name="permit_Num" type="string" required="no">
+	<cfargument name="permit_num" type="string" required="no">
+	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="specific_type" type="string" required="no">
 	<cfargument name="permit_Type" type="string" required="no">
 	<cfargument name="permit_title" type="string" required="no">
@@ -1185,7 +1198,8 @@ limitations under the License.
 				<cfif NOT isdefined('issued_Date')><cfset issued_Date=''></cfif>
 				<cfif NOT isdefined('renewed_Date')><cfset renewed_Date=''></cfif>
 				<cfif NOT isdefined('exp_Date')><cfset exp_Date=''></cfif>
-				<cfif NOT isdefined('permit_Num')><cfset permit_Num=''></cfif>
+				<cfif NOT isdefined('permit_num')><cfset permit_Num=''></cfif>
+				<cfif NOT isdefined('permit_id')><cfset permit_id=''></cfif>
 				<cfif NOT isdefined('specific_type')><cfset specific_type=''></cfif>
 				<cfif NOT isdefined('permit_Type')><cfset permit_Type=''></cfif>
 				<cfif NOT isdefined('permit_title')><cfset permit_title=''></cfif>
@@ -1238,8 +1252,19 @@ limitations under the License.
 						<cfif len(#exp_Date#) gt 0>
 							 AND upper(exp_Date) like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#ucase(exp_Date)#%'>
 						</cfif>
-						<cfif len(#permit_Num#) gt 0>
-							 AND permit_Num = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#permit_Num#'>
+						<cfif len(#permit_id#) GT 0>
+							AND permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#"> 
+						</cfif>
+						<cfif len(#permit_num#) GT 0>
+							<cfif left(permit_num,1) IS "=">
+								AND permit_num = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(permit_num,len(permit_num)-1)#"> 
+							<cfelseif permit_num IS "NULL">
+								AND permit_num IS NULL
+							<cfelseif permit_num IS "NOT NULL">
+								AND permit_num IS NOT NULL
+							<cfelse>
+								AND permit_Num like <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='%#permit_Num#%'>
+							</cfif>
 						</cfif>
 						<cfif len(#specific_type#) gt 0>
 							 AND specific_type = <cfqueryparam cfsqltype='CF_SQL_VARCHAR' value='#specific_type#'>

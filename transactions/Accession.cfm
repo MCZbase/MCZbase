@@ -392,7 +392,7 @@ limitations under the License.
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Accession" >
-					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post">
+					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">>
 						<input type="hidden" name="method" value="saveAccn"><!--- used in normal ajax save, which uses the form fields to post to transactions/component/functions.cfc --->
 						<input id="action" type="hidden" name="action" value="edit"><!--- reused by delete accession, not used in normal save --->
 						<input type="hidden" name="transaction_id" value="#accessionDetails.transaction_id#">
@@ -591,8 +591,8 @@ limitations under the License.
 				</script>
 				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" tabindex="0">
 					<div class="col-12 pt-3 pb-1">
-						<input type="button" value="Add Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-							onClick="window.open('/SpecimenSearch.cfm?Action=dispCollObj&transaction_id=#transaction_id#');">
+						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
+							onClick="window.open('/SpecimenSearch.cfm');">
 						<input type="button" value="Review Items" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenResults.cfm?accn_trans_id=#transaction_id#');">
 						<input type="button" value="Refresh Item Count" class="btn btn-xs btn-info mb-2 mb-sm-0 mr-2"
