@@ -603,15 +603,7 @@
 //			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
 //		}
 //	}
-	function toggleLocDetail(onOff) {
-		if (onOff==0) {
-			$("#locDetail").hide();
-			$("#locDetailCtl").attr('onCLick','toggleLocDetail(1)').html('Show More Options');
-		} else {
-			$("#locDetail").show();
-			$("#locDetailCtl").attr('onCLick','toggleLocDetail(0)').html('Show Fewer Options');
-		}
-	}
+
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
@@ -767,12 +759,22 @@
                 <tr>
 			</table>
 			</div>
+			<script>
+				function toggleLocDetail(onOff) {
+		if (onOff==0) {
+			$("#locDetail").hide();
+			$("#locDetailCtl").attr('onClick','toggleLocDetail(1)').html('Show More Options');
+		} else {
+			$("#locDetail").show();
+			$("#locDetailCtl").attr('onClick','toggleLocDetail(0)').html('Show Fewer Options');
+		}
+				} </script>
 		<span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
 			<div id="locDetail" class="noShow">
-			<div class="cellDiv" id="mediaToggle">
+			<div >
 				Media:
 				<label for="media_uri">Media URI</label>
-			<input type="text" name="media_uri" id="media_uri" size="90" class="border rounded py-1"><!---span class="infoLink" id="uploadMedia">Upload</span--->
+			<input type="text" name="media_uri" id="media_uri" size="90" class="border rounded py-1">
 				<label for="preview_uri">Preview URI</label>
 				<input type="text" name="preview_uri" id="preview_uri" size="90" class="border rounded py-1">
 				<label for="mime_type">MIME Type</label>
