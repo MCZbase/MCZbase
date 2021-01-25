@@ -542,7 +542,7 @@
 									id="minimum_elevation" class="border rounded p-1"
 									value="#minimum_elevation#" size="10">
 							</td>
-							<td> <span class="small"> To </span> </td>
+							<td> <label class="smaller align-middle "> To &nbsp;&nbsp;</label> </td>
 							<td style="width:115px;">
 								<label for="maximum_elevation" class="mb-0">
 								
@@ -585,7 +585,7 @@
 									value="#min_depth#" size="10">
 							</td>
 							
-							<td> To </td>
+							<td> <label class="smaller align-middle "> To &nbsp;&nbsp;</label> </td>
 							<td style="width: 115px;">
 								<label for="max_depth" class="mb-0">
 									
@@ -594,7 +594,7 @@
 								</label>
 								<input type="text" name="max_depth" class="border rounded p-1"
 									id="max_depth"
-									value="#max_depth#" size="10">&nbsp;&nbsp;
+									value="#max_depth#" size="10">
 							</td>
 							<td>
 								<label for="depth_units" class="mb-0">
