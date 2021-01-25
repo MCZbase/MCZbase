@@ -606,7 +606,7 @@ limitations under the License.
 				<section role="search" aria-labelledby="guid_list_label" class="container my-2">
 					<h2 class="h3">Add Cataloged Items to this Accession</h2>
 						<div class="row border rounded mb-2 pb-2" >
-							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12" onSubmit="return noenter();">
+							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
 							<input type="hidden" id="transaction_id" name="transaction_id" value="#transaction_id#" >
 							<input type="hidden" id="method" name="method" value="addCollObjectsAccn" >
 							<div class="form-row mx-0 my-2">
@@ -633,6 +633,16 @@ limitations under the License.
 											}
 										});
 									};
+									$(document).ready( function() {
+										$('##addCollObjectsAccn').addEventListener('onsubmit', 
+											function(event){
+												event.preventDefault();
+												if ($('##guid_list').val().length > 0)  {
+													addCollectionObjects();
+												}
+											}
+										);
+									});
 								</script>
 								<div class="col-12 col-md-2">
 									<div id="addResultDiv">&nbsp;</div>
@@ -647,7 +657,7 @@ limitations under the License.
 						</div>
 					</section>
 				<section class="row mx-0">
-					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
+					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" tabindex="0">
 							<script>
 								// callback for ajax methods to reload permits from dialog
