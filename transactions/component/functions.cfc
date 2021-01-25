@@ -3426,7 +3426,6 @@ limitations under the License.
 						where trans_agent_role_allowed.transaction_type = 'Accn'
 						order by cttrans_agent_role.trans_agent_role
 					</cfquery>
-					<!--- TODO: Complete implementation of this block (check for print required roles, set okToPrint/Message) --->
 					<!--- TODO: Change implementation of this block to use lookup against trans_agent_role_allowed.required_to_print instead of hard coded roles  --->
 					<cfquery name="receivedFrom" dbtype="query">
 						select count(distinct(agent_id)) c from transAgents where trans_agent_role='received from'
@@ -4280,7 +4279,14 @@ limitations under the License.
 				<input type="hidden" name="include_temporary" value="#includeTemporary#" class="keeponclear">
 
 				<cfif includeTemporary EQ "true">
-					<h2>TODO: Implement temporary address creation.</h2>
+					<script>
+						function addTempAddrCallback() { 
+							$('##findAddressSearchForm').submit();			
+						}
+					</script>
+					<button type="button" class="btn btn-xs btn-secondary" 
+						onclick="alert('temporary address creation not yet implemented'); // addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id',#transaction_id#,addTempAddrCallback) " 
+						value="Create Temporary Address">Create Temporary Address</button>
 				</cfif>
 
 				<div class="row col-12">
