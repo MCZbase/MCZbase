@@ -766,7 +766,7 @@
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
 			<cfif #toggleMedia# is 1>
-			<div class="cellDiv" id="media" style="display:none;">
+			<div class="cellDiv" id="media">
 				Media:
 				<label for="media_uri">Media URI</label>
 			<input type="text" name="media_uri" id="media_uri" size="90"><!---span class="infoLink" id="uploadMedia">Upload</span--->
