@@ -542,7 +542,7 @@
 									id="minimum_elevation" class="border rounded p-1"
 									value="#minimum_elevation#" size="10">
 							</td>
-							<td> To </td>
+							<td> <span class="small"> To </span> </td>
 							<td style="width:115px;">
 								<label for="maximum_elevation" class="mb-0">
 								
