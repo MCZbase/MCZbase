@@ -540,8 +540,9 @@
 								</label>
 								<input type="text" name="minimum_elevation"
 									id="minimum_elevation" class="border rounded p-1"
-									value="#minimum_elevation#" size="10">&nbsp;TO&nbsp;
+									value="#minimum_elevation#" size="10">
 							</td>
+							<td> To </td>
 							<td style="width:115px;">
 								<label for="maximum_elevation" class="mb-0">
 								
@@ -550,7 +551,7 @@
 								</label>
 								<input type="text" name="maximum_elevation" class="border rounded p-1"
  									id="maximum_elevation"
-									value="#maximum_elevation#" size="10">&nbsp;&nbsp;
+									value="#maximum_elevation#" size="10">
 							</td>
 							<td style="width:50px;">
 								<label for="orig_elev_units" class="mb-0">
@@ -581,8 +582,10 @@
 								</label>
 								<input type="text" name="min_depth" class="border rounded p-1"
 									id="min_depth"
-									value="#min_depth#" size="10">&nbsp;TO&nbsp;
+									value="#min_depth#" size="10">
 							</td>
+							
+							<td> To </td>
 							<td style="width: 115px;">
 								<label for="max_depth" class="mb-0">
 									
