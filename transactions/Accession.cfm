@@ -648,7 +648,7 @@ limitations under the License.
 					</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-3 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="permitSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" tabindex="0">
 							<script>
 								// callback for ajax methods to reload permits from dialog
 								function reloadTransPermits() { 
@@ -774,15 +774,15 @@ limitations under the License.
 								<div id="countriesOfOriginDiv" tabindex="0"></div>
 							</div>
 						</section>
-						<section title="Loans of material in this accession" name="loansSection" class="row mx-0" tabindex="0">
-							<div class="col-12 border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
-								<h2 class="h3 pl-2">Loans of material in this accession</h2>
+						<section title="Loans of material in this accession" name="loansSection" class="row mx-0 mt-2" tabindex="0">
+							<div class="col-12 border bg-light float-left pl-3 px-3 pb-3 h-100 w-100 rounded">
+								<h2 class="h3">Loans of material in this accession</h2>
 								<div id="accnLoansDiv"></div>
 							</div>
 						</section>	
-						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0" tabindex="0">
-							<div class="col-12 border bg-light float-left pl-2 pb-0 h-100 w-100 rounded">
-								<h2 class="h3 pl-2">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
+						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2" tabindex="0">
+							<div class="col-12 border bg-light float-left pl-3 px-3 pb-3 mb-2 h-100 w-100 rounded">
+								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 								<div id="accnLimitationsDiv"></div>
 							</div>
 						</section>	
