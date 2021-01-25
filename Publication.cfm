@@ -599,10 +599,10 @@
 	function toggleMedia(onOff) {
 		if (onOff==0) {
 			$("#media").hide();
-			$("#mediaToggle").attr('onCLick','toggleMedia(1)').html('Show More Options');
+			$("#mediaToggle").attr('onCLick','toggleMedia(1)').html('Hide Media');
 		} else {
 			$("#media").show();
-			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Fewer Options');
+			$("#mediaToggle").attr('onCLick','mediaToggle(0)').html('Show Media');
 		}
 	}
 
@@ -765,7 +765,7 @@
 			</table>
 			</div>
 			<span class="likeLink mediaToggle" id="mediaToggle" onclick="toggleMedia()">[ Add Media ]</span>
-			<cfif #showMedia# is 1>
+			<cfif #toggleMedia# is 1>
 			<div class="cellDiv" id="media" style="display:none;">
 				Media:
 				<label for="media_uri">Media URI</label>
