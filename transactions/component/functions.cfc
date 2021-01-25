@@ -1293,7 +1293,7 @@ limitations under the License.
 					<div #divclass# >
 						<form id='pp_#permit_id#_#transaction_id#_#i#' >
 							Document Number #matchPermit.permit_Num# (#matchPermit.permit_Type#:#matchPermit.specific_type#) 
-							issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# ">
+							issued to #matchPermit.IssuedToAgent# by #matchPermit.IssuedByAgent# on #dateformat(matchPermit.issued_Date,'yyyy-mm-dd')# 
 							<cfif len(#matchPermit.renewed_Date#) gt 0>
 								 (renewed #dateformat(matchPermit.renewed_Date,'yyyy-mm-dd')#)
 							</cfif>
