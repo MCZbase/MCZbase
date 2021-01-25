@@ -762,11 +762,11 @@
 			<script>
 				function toggleLocDetail(onOff) {
 		if (onOff==0) {
-			$("#locDetail").hide();
-			$("#locDetailCtl").attr('onClick','toggleLocDetail(1)').html('Show More Options');
+			$("##locDetail").hide();
+			$("##locDetailCtl").attr('onClick','toggleLocDetail(1)').html('Show More Options');
 		} else {
-			$("#locDetail").show();
-			$("#locDetailCtl").attr('onClick','toggleLocDetail(0)').html('Show Fewer Options');
+			$("##locDetail").show();
+			$("##locDetailCtl").attr('onClick','toggleLocDetail(0)').html('Show Fewer Options');
 		}
 				} </script>
 			<output>
