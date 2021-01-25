@@ -246,9 +246,8 @@
 						</table>
 						<div id="locDetail" class="noShow">
 							<table class="table">
-								<tbody>
 								<tr>
-									<td colspan="1"><label for="collnOper" class="mb-0">Collection</label>
+									<td><label for="collnOper" class="mb-0">Collection</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
 												<select name="collnOper" id="collnOper" size="1" class="form-control form-control-sm">
