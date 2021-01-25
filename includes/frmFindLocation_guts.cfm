@@ -158,6 +158,7 @@
 									<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
 									<span class="infolink" onclick="var e=document.getElementById('higher_geog');e.value='='+e.value;"> Add = for exact match</label>
 								</span></td>
+							<td>&nbsp;</td><td> &nbsp;</td>
 						</tr>
 					</table>
 					<div id="geogDetail" class="noShow">
