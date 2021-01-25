@@ -416,8 +416,8 @@
 					<div style="width: 60em;postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
-					<h1 class="h2 wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
-							<span class="smaller">
+					<h1 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
+							<br><span class="small">
 						<cfif #whatSpecs.recordcount# is 0>
 							<font color="##FF0000">This Locality (#locDet.locality_id#)
 							contains no specimens. Please delete it if you don't have plans for it!</font>
@@ -464,7 +464,7 @@
 
 			<tr>
 				<td>
-                    <h3 class="h4 mb-1">Higher Geography</h4>
+                    <h2 class="mb-1">Higher Geography</h2>
 	            	<input type="text"
 						name="higher_geog"
 						id="higher_geog"
@@ -503,7 +503,7 @@
 			<br><br>
             <table style="margin-top: 3em;">
 			<tr>
-				<td><h3 class="h4 mb-1">Locality</h4></td>
+				<td><h2 class="mb-1">Locality</h2></td>
 			</tr>
             <tr>
             	<td>
@@ -544,7 +544,7 @@
 									value="#minimum_elevation#" size="10">&nbsp;TO&nbsp;
 							</td>
 							<td style="width:115px;">
-								<label for="maximum_elevation">
+								<label for="maximum_elevation" class="mb-0">
 								
 										Max. Elev.
 								
@@ -553,7 +553,7 @@
  									id="maximum_elevation"
 									value="#maximum_elevation#" size="10">&nbsp;&nbsp;
 							</td>
-							<td>
+							<td style="width:50px;">
 								<label for="orig_elev_units" class="mb-0">
 							
 										Elev. Unit
@@ -716,7 +716,7 @@
         <table>
 			<tr>
 				<td>
-					<h3 class="mb-2">Coordinates for this locality:</h3>
+					<h2 class="mb-2">Coordinates for this locality:</h2>
 				</td>
 
 			</tr>
