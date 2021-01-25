@@ -602,7 +602,7 @@
 										Depth Unit
 									
 								</label>
-								<select name="depth_units" size="1" id="depth_units">
+								<select name="depth_units" size="1" id="depth_units" style="min-width: 75px;">
 									<option value=""></option>
 				                    <cfloop query="ctDepthUnit">
 				                      <option <cfif #ctDepthUnit.depth_units# is "#locdet.depth_units#"> selected </cfif>value="#ctDepthUnit.depth_units#">#ctDepthUnit.depth_units#</option>
