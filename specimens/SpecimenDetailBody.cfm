@@ -810,8 +810,8 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="float-left d-block" style="width: 70px;"></a> 
-							<span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
+							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="float-left d-block" style="width: 70px;"></a><br/> 
+							<span>#media_type# (#mime_type#) <br/> <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
 					</cfloop>
 				</cfif>
 							
