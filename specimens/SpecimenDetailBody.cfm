@@ -790,7 +790,7 @@ limitations under the License.
 							</cfif>
 						</cfif>
 						#CITATION_REMARKS# 
-											<cfif publicationMedia.recordcount gt 0>
+				<cfif publicationMedia.recordcount gt 0>
 					<cfloop query="publicationMedia">
 				
 							<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -810,8 +810,8 @@ limitations under the License.
 							<cfif desc.recordcount is 1>
 								<cfset alt=desc.label_value>
 							</cfif>
-					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="theThumbSmall"></a> 
+							<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> 
+							<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="float-left d-block" style="width: 70px;"></a> 
 							<span>#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </li>
 					</cfloop>
 				</cfif>
