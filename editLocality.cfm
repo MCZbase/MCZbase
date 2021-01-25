@@ -408,12 +408,12 @@
     <cfquery name="ctSovereignNation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" cachedwithin="#createtimespan(0,0,60,0)#">
 	    select sovereign_nation from ctsovereign_nation order by sovereign_nation
     </cfquery>
-    <div style="width: 60em;margin: 0 auto;padding: 1em 0 3em 0";>
+    <div style="margin: 0 auto;padding: 1em 0 5em 0";>
   	<table>
   		<tr>
 			<td>
 				<div style="position: relative;">
-					<div style="width: 60em;postion: relative;">
+					<div style="postion: relative;">
 					<ul class="headercol1" style="padding-left:0;margin-left:0;float: left;text-align: left;margin-bottom: 1em;">
 						<li>
 					<h1 class="wikilink">Edit Locality 	<img src="/images/info_i_2.gif" onClick="getMCZDocs('Edit_Locality')" class="likeLink" alt="[ help ]">
