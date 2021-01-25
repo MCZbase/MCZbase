@@ -362,7 +362,7 @@ Some Totally Random String Data .....
 			<input type="hidden" name="institution_acronym" value="#institution_acronym#" id="institution_acronym">
 			<input type="hidden" name="collection_object_id" value="#collection_object_id#"  id="collection_object_id"/>
 			<input type="hidden" name="loaded" value="waiting approval"  id="loaded"/>
-            <table width="100%" id="theTable" style="display:show;height: auto; ">
+            <table width="100%" id="theTable" style="display:show;height: auto; margin-bottom: 70px;">
                 <!--- whole page table --->
 				<tr>
 					<td colspan="2" style="border-bottom: 1px solid black; " align="center">
