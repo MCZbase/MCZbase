@@ -1,6 +1,8 @@
 <!----------------------------------------------------------------------------------------------------------------->
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
-   <cfargument name="create_from_address_id" type="string" required="yes">
+   <cfargument name="agent_id" type="string" required="no">
+   <cfargument name="transaction_id" type="string" required="no">
+   <cfargument name="create_from_address_id" type="string" required="no">
    <cfargument name="address_type" type="string" required="no">
    <cfset result="">
    <cfif not isdefined("address_type") or len(#address_type#) gt 0>
