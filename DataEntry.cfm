@@ -1497,7 +1497,7 @@ Some Totally Random String Data .....
 				<table class="fs" style="position: relative;"><tr>
 
 
-				<th>  <img src="/images/info.gif" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]" style="position: absolute; left:3px;top: 3px;"><span class="f11a">Part Name</span> </th>
+				<th>  <img src="/images/info.gif" onClick="getMCZDocs('Parts - Data Entry')" class="likeLink" alt="[ help ]" style="position: absolute; left:3px;top: 3px;"><span class="f11a pl-3">Part Name</span> </th>
 						<th><span class="f11a">Preserve Method</span></th>
 						<th><span class="f11a">Condition</span></th>
 						<th><span class="f11a">Disposition</span></th>
