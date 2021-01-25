@@ -577,24 +577,6 @@
 				return true;
         	}
 
-//		function toggleMedia() {
-//			if($('#media').css('display')=='none') {
-//				$('#mediaToggle').html('[ Hide Media ]');
-//				$('#media').show();
-//				$('#media_uri').addClass('reqdClr');
-//				$('#mime_type').addClass('reqdClr');
-//				$('#media_type').addClass('reqdClr');
-//				$('#media_desc').addClass('reqdClr');
-//			} else {
-//				$('#mediaToggle').html('[ Add Media ]');
-//				$('#media').hide();
-//				$('#media_uri').val('').removeClass('reqdClr');
-//				$('#mime_type').val('').removeClass('reqdClr');
-//				$('#media_type').val('').removeClass('reqdClr');
-//				$('#media_desc').val('').removeClass('reqdClr');
-//			}
-//		}
-
 		function getPubMeta(idtype){
 			$("#doilookup").html('<image src="/images/indicator.gif">');
 			$("#pmidlookup").html('<image src="/images/indicator.gif">');
