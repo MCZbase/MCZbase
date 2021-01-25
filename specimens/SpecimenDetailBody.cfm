@@ -525,7 +525,7 @@ limitations under the License.
 					<!---for DRS from library--->
 				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-3 pl-0 pr-1'>">
 				<cfset aForImHref = media_uri>
-				<cfset aForDetHref = "/media/#media_id#">
+				<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
 			</cfif>
 			#one_thumb# 
 			<a href="#aForImHref#" target="_blank">
