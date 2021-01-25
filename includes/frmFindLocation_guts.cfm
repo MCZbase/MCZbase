@@ -152,7 +152,7 @@
 		</tr>
 		<tr>
 			<td><div class="locGroup"> <span id="geogDetailCtl" class="infoLink" onclick="toggleGeogDetail(1)";>Show More Options</span>
-					<table>
+					<table class="table">
 						<tr>
 							<td colspan="2"><label for="higher_geog">Higher Geog
 									<input type="text" name="higher_geog" id="higher_geog" class="form-control form-control-sm w-100">
@@ -236,7 +236,7 @@
 				</div>
 				<cfif #showLocality# is 1>
 					<div class="locGroup"> <span id="locDetailCtl" class="infoLink" onclick="toggleLocDetail(1)";>Show More Options</span>
-						<table>
+						<table class="table">
 							<tr>
 								<td colspan="2"><label for="spec_locality">Specific Locality
 										<input type="text" name="spec_locality" id="spec_locality" class="form-control form-control-sm">
@@ -571,7 +571,7 @@
 							</tr>
 						</table>
 						<div id="eventDetail" class="noShow">
-						<table>
+						<table class="table">
 								<tr>
 									<td><label for="verbatim_date">Verbatim Date</label>
 										<input type="text" name="verbatim_date" id="verbatim_date" class="form-control form-control-sm"></td>
