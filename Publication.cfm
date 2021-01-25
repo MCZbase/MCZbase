@@ -756,7 +756,7 @@
 			</div>
 			
 	<!---		<span class="likeLink mediaToggle" id="mediaToggle">[ Add Media ]</span>--->
-			<h3>Add Media if Availble</h3>
+			<h4>Add Media To Publication if Available</h4>
 			<div class="cellDiv" id="media">
 				Media:
 				<label for="media_uri">Media URI</label>
