@@ -617,7 +617,7 @@
 						Locality Remarks
 					</label>
 					<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded py-1"
-						value="#stripQuotes(locality_remarks)#"  style="width:71em;">
+						value="#stripQuotes(locality_remarks)#"  style="width:71rem;">
 				</td>
               </tr>
 			<tr>
@@ -628,7 +628,7 @@
 									</a>
 					</label>
 					<input type="text" name="NoGeorefBecause" class="border rounded py-1"
-						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:71em;">
+						id="NoGeorefBecause" value="#NoGeorefBecause#"  style="width:71rem;">
 					<cfif getLL.recordcount gt 0 AND len(#NoGeorefBecause#) gt 0>
 						<div class="alert alert-danger">
 							NoGeorefBecause should be NULL for localities with georeferences.
