@@ -1308,7 +1308,7 @@ You do not have permission to create Higher Geographies
                 </cfloop>
 		   </select>
            <label for="spec_locality">Specific Locality</label>
-           <input type="text" name="spec_locality" id="spec_locality"
+           <input type="text" name="spec_locality" id="spec_locality" class="border rounded py-1"
 				<cfif isdefined("spec_locality")>
 					value= "#spec_locality#"
 				</cfif>
@@ -1333,7 +1333,7 @@ You do not have permission to create Higher Geographies
                 </cfloop>
 			</select>
 			<label for="locality_remarks" class="mb-0">Locality Remarks</label>
-			<input type="text" name="locality_remarks" id="locality_remarks">
+			<input type="text" name="locality_remarks" id="locality_remarks" class="border rounded py-1">
 			<cfif isdefined("locality_id") and len(locality_id) gt 0>
 				<input type="hidden" name="locality_id" value="locality_id" />
 				<label for="" class="mb-0">Include coordinates from <a href="/editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>?</label>
