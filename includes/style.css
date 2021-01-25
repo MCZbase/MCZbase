@@ -1547,10 +1547,10 @@ a.info:hover {
 a.info span {
 	display: none
 }
-h2 {
+/*h2 {
 	font-size: 1.6em;
 	font-weight: bold;
-}
+}*/
 table.sortable a.sortheader {
 	background-color: #eee;
 	color: #666666;
@@ -3041,10 +3041,10 @@ h1 {
 	font-size: 2em;
 	font-weight: bold;
 }
-h2 {
+/*h2 {
 	font-size: 1.5em;
 	font-weight: bold;
-}
+}*/
 h2.wikilink {
 	width: 70%;
 	margin-bottom: .15em;
