@@ -1667,7 +1667,7 @@ ul.sf-menu li li li.sfHover ul {
 }
 .sf-menu a {
 /*	border-top:		1px solid #CFDEFF;*/
-	padding: 		.45em 1.25em;
+	padding: 		.45rem 1.2rem;
 	text-decoration:none;
 }
 .sf-menu a, .sf-menu a:visited  { /* visited pseudo selector so IE6 applies text colour*/
@@ -4807,15 +4807,17 @@ div.ipad {display:none;}
 }
 @media only screen and (max-width: 940px) {
 .sf-menu li {
-	width: 9.6em;
+	width: auto;
     font-size: 12px;
 	z-index: 1;
-    padding: 3px 3px 2px 3px;
-
+    padding: 3px 4px 2px 3px;
 }
 .sf-menu a.sf-with-ul {padding-right: 2px;}
-}
 
+.sf-sub-indicator {
+	display:none;
+}
+}
 @media only screen and (max-width: 800px) {
 #listloans dt {
 	width: 200px;
