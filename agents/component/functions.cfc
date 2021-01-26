@@ -49,7 +49,7 @@ limitations under the License.
 					<ul><li>Provided address type is unknown.</li></ul>
 				<cfelse>
 					<cfset agent_name ="">
-					<cfif isdefined(agent_id) AND len(agent_id) GT 0 >
+					<cfif isdefined("agent_id") AND len(agent_id) GT 0 >
 						<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select agent_name 
 							from agent a left join agent_name on a.preferred_agent_name_id = agent_name.agent_name_id
@@ -67,7 +67,7 @@ limitations under the License.
 							<input type='hidden' name='method' value='addNewAddress'>
 							<input type='hidden' name='returnformat' value='json'>
 							<input type='hidden' name='queryformat' value='column'>
-							<cfif not isdefined('agent_id')><cfset agent_id = ""></cfif>
+							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
 							<input type='hidden' name='agent_id' value='#agent_id#'>
 							<input type='hidden' name='addr_type' value='#address_type#'>
 							<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
