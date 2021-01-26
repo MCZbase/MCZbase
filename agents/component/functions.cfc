@@ -67,11 +67,10 @@ limitations under the License.
 					<div>
 						<div id='newAddressStatus'></div>
 						<form name='newAddress' id='newAddressForm'>
+							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
 							<input type='hidden' name='method' value='addNewAddress'>
 							<input type='hidden' name='returnformat' value='json'>
 							<input type='hidden' name='queryformat' value='column'>
-							<cfif not isdefined("agent_id")><cfset agent_id = ""></cfif>
-							<input type='hidden' name='agent_id' value='#agent_id#'>
 							<input type='hidden' name='addr_type' value='#address_type#'>
 							<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
 							<div class='form-row'>
@@ -83,7 +82,7 @@ limitations under the License.
 										<strong>Address For:</strong> #agent_name#
 									<cfelse>
 										<span>
-											<label for="addr_agent_name">Address For:</label>
+											<label for="addr_agent_name" class="data-entry-label">Address For:</label>
 											<span id="addr_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										</span>
 										<div class="input-group">
@@ -101,54 +100,54 @@ limitations under the License.
 							</div>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
-									<label for='institution'>Institution</label>
-									<input type='text' name='institution' id='institution'size='50' >
+									<label for='institution' class="data-entry-label">Institution</label>
+									<input type='text' name='institution' id='institution'class="form-control data-entry-input". >
 								</div>
 								<div class='col-12 col-md-6'>
-									<label for='department'>Department</label>
-									<input type='text' name='department' id='department' size='50' >
+									<label for='department' class="data-entry-label">Department</label>
+									<input type='text' name='department' id='department' class="form-control data-entry-input". >
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12'>
-									<label for='street_addr1'>Street Address 1</label>
-									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr'>
+									<label for='street_addr1' class="data-entry-label">Street Address 1</label>
+									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr form-control data-entry-input'>
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12'>
 									<label for='street_addr2'>Street Address 2</label>
-									<input type='text' name='street_addr2' id='street_addr2'>
+									<input type='text' name='street_addr2' id='street_addr2' class="form-control data-entry-input">
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
-									<label for='city'>City</label>
-									<input type='text' name='city' id='city' class='reqdClr'>
+									<label for='city' class="data-entry-label">City</label>
+									<input type='text' name='city' id='city' class='reqdClr form-control data-entry-input'>
 								</div>
 								<div class='col-12 col-md-6'>
-									<label for='state'>State</label>
-									<input type='text' name='state' id='state' class='reqdClr'>
-								</div>
-							</div>
-							<div class='form-row'>
-								<div class='col-12 col-md-6'>
-									<label for='zip'>Zip</label>
-									<input type='text' name='zip' id='zip' class='reqdClr'>
-								</div>
-								<div class='col-12 col-md-6'>
-									<label for='country_cde'>Country</label>
-									<input type='text' name='country_cde' id='country_cde' class='reqdClr'>
+									<label for='state' class="data-entry-label">State</label>
+									<input type='text' name='state' id='state' class='reqdClr form-control data-entry-input'>
 								</div>
 							</div>
 							<div class='form-row'>
 								<div class='col-12 col-md-6'>
-									<label for='mail_stop'>Mail Stop</label>
-									<input type='text' name='mail_stop' id='mail_stop'>
+									<label for='zip' class="data-entry-label">Zip</label>
+									<input type='text' name='zip' id='zip' class='reqdClr form-control data-entry-input'>
 								</div>
 								<div class='col-12 col-md-6'>
-									<label for='addr_remarks'>Address Remark</label>
-									<input type='text' name='addr_remarks' id='addr_remarks' size='50'>
+									<label for='country_cde' class="data-entry-label">Country</label>
+									<input type='text' name='country_cde' id='country_cde' class='reqdClr form-control data-entry-input'>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<label for='mail_stop' class="data-entry-label">Mail Stop</label>
+									<input type='text' name='mail_stop' id='mail_stop'class="form-control data-entry-input">
+								</div>
+								<div class='col-12 col-md-6'>
+									<label for='addr_remarks' class="data-entry-label">Address Remark</label>
+									<input type='text' name='addr_remarks' id='addr_remarks' class="form-control data-entry-input">
 								</div>
 							</div>
 							<input type='submit' class='insBtn' value='Create Address' >
