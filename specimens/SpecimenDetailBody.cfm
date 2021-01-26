@@ -792,10 +792,7 @@ limitations under the License.
 						</cfif>
 						#CITATION_REMARKS# </li>
 				</cfloop>
-	
-			</ul>
-				</div>
-				<cfif publicationMedia.recordcount gt 0>
+					<cfif publicationMedia.recordcount gt 0>
 					<div class="row">
 						<cfloop query="publicationMedia">
 				
@@ -822,6 +819,9 @@ limitations under the License.
 					</cfloop>
 					</div>
 				</cfif>
+			</ul>
+				</div>
+
 			</div>
 		</div>
 	</cfif>
