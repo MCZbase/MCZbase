@@ -938,13 +938,16 @@ a.external:hover:visited:after {
 .headerCollectionText {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 24px;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 a:hover.headerCollectionText {
 	text-decoration: none;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .headerCollectionTextSmall {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 19px;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .observations_included {
 	margin-left: 2em;
@@ -1413,11 +1416,11 @@ ul.lisc li {
 h1.headerCollectionText {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 20px;
-	color: #660000;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 span.headerInstitutionText {
 	font-family: Arial, Helvetica, sans-serif;
-	color: #000066;
+	/* WARNING: headerInstitutionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 	font-weight: bold;
 	margin-top: 5px;
 	display: block;
@@ -1425,11 +1428,12 @@ span.headerInstitutionText {
 }
 a:hover.headerCollectionText {
 	text-decoration: none;
-	color: #cc0000;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .headerCollectionTextSmall {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 19px;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .sf-menu {
 	width: 100%;	
