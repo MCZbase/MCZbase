@@ -27,8 +27,7 @@ limitations under the License.
 	<cfargument name="create_from_address_id" type="string" required="no"><!--- if given, use this address's agent for this address --->
 	<cfargument name="address_type" type="string" required="no"><!--- use temporary to create a temporary address, otherwise shipping or mailing --->
 
-
-	><cfthread name="createAddressThread">
+	<cfthread name="createAddressThread">
 		<cfoutput>
 			<cftry>
 
