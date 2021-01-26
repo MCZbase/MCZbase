@@ -162,7 +162,7 @@ limitations under the License.
 		<ul class="navbar col-11 col-sm-7 col-md-7 col-lg-8 p-0 m-0" style="background-color: #header_color#; ">
 			<li class="nav-item mcz2"> <a href="https://www.mcz.harvard.edu/" target="_blank" rel="noreferrer" style="color: #collection_link_color#;" >Museum of Comparative Zoology</a> </li>
 			<!---  WARNING: Application and Session.collection_link_text contain a </span> tag and must currently be preceeded by a <span> tag, see Application.cfc --->
-			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" ><span style='font-size: 1.2rem;'>#session.collection_link_text#</a> </li> <!--- close span is in collection_collection_link_text --->
+			<li class="nav-item mczbase my-1 py-0"> <a href="/" target="_blank" style="color: #collection_link_color#" ><span style='font-size: 1.1rem;'>#session.collection_link_text#</a> </li> <!--- close span is in collection_collection_link_text --->
 		</ul>
 		<ul class="navbar col-12 col-sm-5 col-md-5 col-lg-4 p-0 m-0 d-flex justify-content-end">
 			<li class="nav-item d-flex align-content-end"> <a href="https://mcz.harvard.edu" aria-label="link to MCZ website"> <img class="mcz_logo_krono" src="/shared/images/mcz_logo_white_left.png" width="160" alt="mcz kronosaurus logo with link to website"></a> </li>
