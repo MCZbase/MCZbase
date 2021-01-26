@@ -769,7 +769,7 @@ limitations under the License.
 				<div class="row">
 					<ul class="list-group px-0 float-left">
 				<cfloop query="citations">
-					<li class="list-group-item float-left w-50"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+					<li class="list-group-item float-left" style="width: 30%;float:left;margin:0 auto;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>
 							Page
@@ -794,9 +794,8 @@ limitations under the License.
 				</cfloop>
 	
 			</ul>
-				</div>
+				
 				<cfif publicationMedia.recordcount gt 0>
-					<div class="row">
 						<cfloop query="publicationMedia">
 				
 							<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -817,7 +816,7 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-							<div style="width: 120px;margin:0 auto;float:left;">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mr-2 mb-2" width="70" height="100"></a> 
+							<div style="width: 30%;float:left;margin:0 auto;">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mr-2 mb-2" width="70" height="100"></a> 
 						<span class="d-block small mx-1">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
 					</cfloop>
 					</div>
