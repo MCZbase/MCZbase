@@ -817,7 +817,7 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-							<div style="width: 120px;" class="m-1 float-left d-inline">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-2" width="70" height="100"></a> 
+							<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-2" width="70" height="100"></a> 
 						<span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
 					</cfloop>
 					</div>
