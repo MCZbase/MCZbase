@@ -74,15 +74,14 @@ td#SDCellLeft {
 	font-size: 1em;
 }
 .headerCollectionText {
-        font-family: Arial, Helvetica, sans-serif;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1.266rem;
-        color: #a51c30;
-	color: #ff0000;
+	/* WARNING: headerCollectionText MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .headerCollectionTextSmall {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 1rem;
-	color: #ff0000;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1rem;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .specResultPartCell {
 	font-size: small;

@@ -145,6 +145,7 @@ nav button {
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .form-login {
 	position:absolute;
@@ -263,6 +264,7 @@ body {
 }
 .headerCollectionTextSmall {
 	font-size: smaller;
+	/* WARNING: headerCollectionTextSmall MUST NOT set the color, this is set in a server specific variable from Application.cfc */
 }
 .color-green {
 	color: #006100;
