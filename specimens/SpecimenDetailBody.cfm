@@ -1387,7 +1387,7 @@ limitations under the License.
   	
        <div class="card-body px-3">
           <!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>--->
-		   <img src="/specimens/images/map.png" width="100%" class="h-50" alt="map placeholder"/>
+		   <img src="/specimens/images/map.png" height="300" class="w-100" alt="map placeholder"/>
 		
 		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
