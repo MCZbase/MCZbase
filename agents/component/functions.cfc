@@ -19,7 +19,12 @@ limitations under the License.
 <cfcomponent>
 <cf_rolecheck>
 
-<!--- given various information create a new address 
+<!--- Given various information create dialog to create a new address, by default a temporary address.
+ @param agent_id if given, the agent for whom this is an address
+ @param shipment_id if given, the shipment for which this address is to be used for
+ @param create_from_address_id, if given, used to lookup the agent_id for whom this is an address for
+ @param address_type shipping, mailing, or temporary, defaults to temporary if not provided.
+ @return html to populate a dialog
 --->
 <cffunction name="addAddressHtml" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="agent_id" type="string" required="no"><!--- if given, the agent for whom this is an address, if not, select --->
@@ -85,7 +90,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="addr_agent_name" id="agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
+											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
 										</div>
 										<input type="hidden" name="agent_id" id="addr_agent_id"  >
 										<script>
@@ -107,11 +112,13 @@ limitations under the License.
 							<div class='form-row'>
 								<div class='col-12'>
 									<label for='street_addr1'>Street Address 1</label>
-									<input type='text' name='street_addr1' id='street_addr1' size='50' class='reqdClr'>
+									<input type='text' name='street_addr1' id='street_addr1' class='reqdClr'>
 								</div>
+							</div>
+							<div class='form-row'>
 								<div class='col-12'>
 									<label for='street_addr2'>Street Address 2</label>
-									<input type='text' name='street_addr2' id='street_addr2' size='50'>
+									<input type='text' name='street_addr2' id='street_addr2'>
 								</div>
 							</div>
 							<div class='form-row'>
@@ -148,7 +155,7 @@ limitations under the License.
 							<script>
 								$('##newAddressForm').submit( function (e) { 
 									$.ajax({
-										url: '/component/functions.cfc',
+										url: '/agents/component/functions.cfc',
 										data : $('##newAddressForm').serialize(),
 										success: function (result) {
 											if (result.DATA.STATUS[0]=='success') { 
@@ -179,6 +186,75 @@ limitations under the License.
 	</cfthread>
 	<cfthread action="join" name="createAddressThread" />
 	<cfreturn createAddressThread.output>
+</cffunction>
+
+<!--- given address parameters, create a new address record for a given agent --->
+<cffunction name="addNewAddress" access="remote" returntype="query">
+	<cftransaction>
+    <cftry>
+        <cfquery name="prefName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select agent_name from preferred_agent_name 
+            where agent_id= <cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
+        </cfquery>
+        <cfquery name="addrNextId" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+            select sq_addr_id.nextval as id from dual
+        </cfquery>
+        <cfset pk = addrNextId.id>
+        <cfquery name="addr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+            INSERT INTO addr (
+                                ADDR_ID
+                                ,STREET_ADDR1
+                                ,STREET_ADDR2
+                                ,institution
+                                ,department
+                                ,CITY
+                                ,state
+                                ,ZIP
+                                ,COUNTRY_CDE
+                                ,MAIL_STOP
+                                ,agent_id
+                                ,addr_type
+                                ,valid_addr_fg
+                                ,addr_remarks
+                        ) VALUES (
+                                 <cfqueryparam value='#pk#' cfsqltype='CF_SQL_DECIMAL'>
+                                ,<cfqueryparam value='#STREET_ADDR1#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#STREET_ADDR2#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#institution#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#department#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#CITY#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#state#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#ZIP#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#COUNTRY_CDE#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#MAIL_STOP#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#agent_id#' cfsqltype='CF_SQL_DECIMAL'>
+                                ,<cfqueryparam value='#addr_type#' cfsqltype='CF_SQL_VARCHAR'>
+                                ,<cfqueryparam value='#valid_addr_fg#' cfsqltype='CF_SQL_DECIMAL'>
+                                ,<cfqueryparam value='#addr_remarks#' cfsqltype='CF_SQL_VARCHAR'>
+                        )
+        </cfquery>
+        <cfquery name="newAddr" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="addrResult"> 
+            select formatted_addr from addr 
+            where addr_id = <cfqueryparam value='#pk#' cfsqltype="CF_SQL_DECIMAL">
+        </cfquery>
+		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "success", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "#pk#", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "#newAddr.formatted_addr#", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "", 1)>
+     <cfcatch>
+        <cftransaction action="rollback"/>
+		<cfset q=queryNew("STATUS,ADDRESS_ID,ADDRESS,MESSAGE")>
+		<cfset t = queryaddrow(q,1)>
+		<cfset t = QuerySetCell(q, "STATUS", "error", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS_ID", "", 1)>
+		<cfset t = QuerySetCell(q, "ADDRESS", "", 1)>
+		<cfset t = QuerySetCell(q, "MESSAGE", "Error: #cfcatch.message# #cfcatch.detail#", 1)>
+     </cfcatch>
+     </cftry>
+	</cftransaction>
+     <cfreturn q>
 </cffunction>
 
 </cfcomponent>
