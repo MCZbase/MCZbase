@@ -169,7 +169,6 @@ limitations under the License.
     <input type='hidden' name='new_address' id='new_address' value=''>
 </form>
 
-       </cfloop>
        </ul>
    </cfif>  <!--- known address type provided --->
 
