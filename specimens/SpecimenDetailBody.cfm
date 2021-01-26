@@ -766,8 +766,8 @@ limitations under the License.
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
-				<div class="row">
-					<ul class="list-group px-0 float-left"><span>Citations</span>
+				<div class="row mx-0">
+					<ul class="list-group float-left">
 				<cfloop query="citations">
 					<li class="list-group-item float-left" style="width: 225px;float:left;display:inline;margin:0 5px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
