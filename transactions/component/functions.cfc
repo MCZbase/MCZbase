@@ -4295,9 +4295,9 @@ limitations under the License.
 							function updateOfShipmentAgentID() { 
 								updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link');
 								if ($('##shipment_agent_id').val().length > 0 ) { 
-									$('##addTempAddressButton').prop('disabled', false);
+									$('##addTempAddressButton').show();
 								} else { 
-									$('##addTempAddressButton').prop('disabled', true);
+									$('##addTempAddressButton').hide();
 								}
 							}
 						</script>
@@ -4325,7 +4325,8 @@ limitations under the License.
 							</script>
 							<button type="button" class="btn btn-xs btn-secondary" id="addTempAddressButton"
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
-								aria-label="Create a temporary address" disabled
+								aria-label="Create a temporary address" 
+								style="display: none;"
 								value="Create Temporary Address">Create Temporary Address</button>
 							<div id="tempAddressDialog"></div>
 							
