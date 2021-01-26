@@ -173,6 +173,8 @@ limitations under the License.
    </cfif>  <!--- known address type provided --->
 
 			<cfcatch>
+				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
+				<div>#cfcatch.detail#</div>
 			</cfcatch>
 			</cftry>
 		</cfoutput>
