@@ -1693,7 +1693,7 @@ ul.sf-menu li li li.sfHover ul {
 	color:red;
 }
 .sf-menu a.sf-with-ul {
-	padding-right: 	1.75em;
+	padding-right: 	1.18em;
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
