@@ -35,7 +35,7 @@ limitations under the License.
 				<cfif not isdefined("address_type") or len(#address_type#) gt 0>
 					<cfset address_type = "temporary">
 				</cfif>
-				<cfif idefined("create_from_address_id") AND (not isdefined("agent_id") AND len(agent_id) GT 0) >
+				<cfif isdefined("create_from_address_id") AND (not isdefined("agent_id") AND len(agent_id) GT 0) >
 					<!--- look up agent id from address --->
 					<cfquery name="qAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						select agent_id from addr where addr_id = <cfqueryparam value="#create_from_address_id#" CFSQLTYPE="CF_SQL_VARCHAR">
