@@ -4317,6 +4317,7 @@ limitations under the License.
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address"
 								value="Create Temporary Address">Create Temporary Address</button>
+							<div id="tempAddressDialog"></div>
 						</cfif>
 					</div>
 				</div>
