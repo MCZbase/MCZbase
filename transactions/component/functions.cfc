@@ -4291,18 +4291,22 @@ limitations under the License.
 							</div>
 							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
 						</div>
-						<script>
-							function updateOfShipmentAgentID() { 
-								if ($('##shipment_agent_id').val().length > 0 ) { 
-									$('##addTempAddressButton').show();
-								} else { 
-									$('##addTempAddressButton').hide();
+						<cfif includeTemporary EQ "true">
+							<script>
+								function updateOfShipmentAgentID() { 
+									if ($('##shipment_agent_id').val().length > 0 ) { 
+										$('##addTempAddressButton').show();
+										$('##addTempAddressLabel').hide();
+									} else { 
+										$('##addTempAddressButton').hide();
+										$('##addTempAddressLabel').show();
+									}
 								}
-							}
-							$('##shipment_agent_view_link').bind('DOMSubtreeModified', function(){
-								updateOfShipmentAgentID();
-							});
-						</script>
+								$('##shipment_agent_view_link').bind('DOMSubtreeModified', function(){
+									updateOfShipmentAgentID();
+								});
+							</script>
+						</cfif>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
 							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
 						<script>
@@ -4325,6 +4329,7 @@ limitations under the License.
 									$('##findAddressSearchForm').submit();			
 								}
 							</script>
+							<span id="addTempAddressLabel">Select an agent to create a temporary address.</span>
 							<button type="button" class="btn btn-xs btn-secondary" id="addTempAddressButton"
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address" 
