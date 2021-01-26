@@ -80,7 +80,7 @@ limitations under the License.
 								<div class='col-12 col-md-6'>
 									<cfif len(agent_name) GT 0 >
 										<strong>Address For:</strong> #agent_name#
-										<input type="hidden" name="agent_id" id="addr_agent_id" >
+										<input type="hidden" name="agent_id" id="addr_agent_id" value="#agent_id#" >
 									<cfelse>
 										<span>
 											<label for="addr_agent_name" class="data-entry-label">Address For:</label>
