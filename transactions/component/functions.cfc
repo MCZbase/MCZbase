@@ -4293,16 +4293,18 @@ limitations under the License.
 						</div>
 						<script>
 							function updateOfShipmentAgentID() { 
-								updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link');
 								if ($('##shipment_agent_id').val().length > 0 ) { 
 									$('##addTempAddressButton').show();
 								} else { 
 									$('##addTempAddressButton').hide();
 								}
 							}
+							$('##shipment_agent_view_ling').bind('DOMSubtreeModified', function(){
+								updateOfShipmentAgentID();
+							});
 						</script>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
-							onchange=" updateOfShipmentAgentID(); ">
+							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
 						<script>
 							$(document).ready(function() {
 								$(makeRichTransAgentPicker('shipment_agent_name','shipment_agent_id','shipment_agent_icon','shipment_agent_view_link',null)); 
