@@ -769,7 +769,7 @@ limitations under the License.
 				<div class="row mx-0">
 					<ul class="list-group float-left">
 				<cfloop query="citations">
-					<li class="list-group-item float-left" style="width: 225px;float:left;display:inline;margin:0 5px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+					<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
 						<cfif len(occurs_page_number) gt 0>
 							Page
@@ -817,7 +817,7 @@ limitations under the License.
 								<cfset alt=desc.label_value>
 							</cfif>
 					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-							<div style="width: 120px;float:left;display:inline;margin:0 5px;">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-2" width="70" height="100"></a> 
+							<div style="width: 120px;" class="m-1 float-left d-inline">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-2" width="70" height="100"></a> 
 						<span class="d-block small mx-1">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
 					</cfloop>
 					</div>
