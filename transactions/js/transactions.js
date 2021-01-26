@@ -1969,48 +1969,51 @@ function openAddSpecificTypeDialog() {
 	console.log('dialog open');
 };
 
-/** given a div with an id tempAddressDialog, and a transaction_id, create a new
- * temporarry address, using and populating agentid and agent name controls. */
+/** given a div with an id tempAddressDialog, and a transaction_id, create dialog to create a new
+ * temporary address, using and populating agentid and agent name controls. */
 function addTemporaryAddressForAgent(agentIdControl,agentControl,transaction_id,callback) { 
-   var agent_id = $("#"+agentIdControl).val();
+	var agent_id = $("#"+agentIdControl).val();
 
-   jQuery.ajax({
-          url: "/agents/component/functions.cfc",
-          type : "post",
-          dataType : "json",
-          data : {
-            method : "addAddressHtml",
-            agent_id : agent_id,
-            transaction_id : transaction_id
-         },
-        success: function (result) {
-           $("#tempAddressDialog").html(result);
-           $("#tempAddressDialog").dialog(
-              { autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
-                  width: 593, 	
-                  buttons: {
-                     "Close": function() {
-                         $("#tempAddressDialog").dialog( "close" );
-                     }
-                  },
-                  beforeClose: function(event,ui) { 
-                     var addr = $('#new_address').val();
-                     if ($.trim(addr) != '') { 
-                        $("#"+targetAddressIdControl).val($('#new_address_id').val());
-                        $("#"+targetAddressControl).val(addr);
-                     }
-							if (jQuery.type(callback)==='function') {
-								callback();
-							}
-                  },
-                  close: function(event,ui) { 
-                     $("#tempAddressDialog").dialog('destroy'); 
-                     $("#tempAddressDialog").html(""); 
-                  }  
-              });
-           $("#tempAddressDialog").dialog('open');
-        },
-        dataType: "html"
-       }
-   )
+	jQuery.ajax({
+		url: "/agents/component/functions.cfc",
+		type : "get",
+		dataType : "json",
+		data : {
+			method : "addAddressHtml",
+			agent_id : agent_id,
+			transaction_id : transaction_id
+		},
+		success: function (result) {
+			$("#tempAddressDialog").html(result);
+			$("#tempAddressDialog").dialog(
+				{ autoOpen: false, modal: true, stack: true, title: 'Add Temporary Address',
+					width: 593, 	
+					buttons: {
+						"Close": function() {
+							$("#tempAddressDialog").dialog( "close" );
+						}
+					},
+					beforeClose: function(event,ui) { 
+						var addr = $('#new_address').val();
+						if ($.trim(addr) != '') { 
+							$("#"+targetAddressIdControl).val($('#new_address_id').val());
+							$("#"+targetAddressControl).val(addr);
+						}
+						if (jQuery.type(callback)==='function') {
+							callback();
+						}
+					},
+					close: function(event,ui) { 
+						$("#tempAddressDialog").dialog('destroy'); 
+						$("#tempAddressDialog").html(""); 
+					}
+				});
+				$("#tempAddressDialog").dialog('open');
+			},
+			error: function (jqXHR, textStatus, error) {
+				handleFail(jqXHR,textStatus,error,"obtaining dispositions of items in accession");
+			},
+			dataType: "html"
+		}
+	)
 };

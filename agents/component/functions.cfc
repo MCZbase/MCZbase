@@ -89,7 +89,7 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
+											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required style="z-index: 120;" >
 										</div>
 										<input type="hidden" name="agent_id" id="addr_agent_id"  >
 										<script>
