@@ -4301,7 +4301,7 @@ limitations under the License.
 					</div>
 					<div class="col-12 col-md-4 mt-1">
 						<label for="formatted_address" class="data-entry-label">Address</label>
-						<input type="text" name="formatted_address" id="formatted_address" value="" class="form-control data-entry-input">
+						<input type="text" name="formatted_address" id="search_formatted_address" value="" class="form-control data-entry-input">
 					</div>
 					<div class="col-12 col-md-4 mt-0 mt-md-1">
 						<label for="searchButton" class="data-entry-label invisible">search for shipping addresses</label>
@@ -4314,7 +4314,7 @@ limitations under the License.
 								}
 							</script>
 							<button type="button" class="btn btn-xs btn-secondary" 
-								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','#transaction_id#',addTempAddrCallback); " 
+								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address"
 								value="Create Temporary Address">Create Temporary Address</button>
 							<div id="tempAddressDialog"></div>

@@ -1971,7 +1971,7 @@ function openAddSpecificTypeDialog() {
 
 /** given a div with an id tempAddressDialog, and a transaction_id, create dialog to create a new
  * temporary address, using and populating agentid and agent name controls. */
-function addTemporaryAddressForAgent(agentIdControl,agentControl,transaction_id,callback) { 
+function addTemporaryAddressForAgent(agentIdControl,agentControl,targetAddressControl,transaction_id,callback) { 
 	var agent_id = $("#"+agentIdControl).val();
 
 	jQuery.ajax({
@@ -1996,7 +1996,7 @@ function addTemporaryAddressForAgent(agentIdControl,agentControl,transaction_id,
 					beforeClose: function(event,ui) { 
 						var addr = $('#new_address').val();
 						if ($.trim(addr) != '') { 
-							$("#"+targetAddressIdControl).val($('#new_address_id').val());
+							// $("#"+targetAddressIdControl).val($('#new_address_id').val());
 							$("#"+targetAddressControl).val(addr);
 						}
 						if (jQuery.type(callback)==='function') {
