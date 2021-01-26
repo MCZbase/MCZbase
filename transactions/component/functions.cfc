@@ -4291,8 +4291,18 @@ limitations under the License.
 							</div>
 							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
 						</div>
+						<script>
+							function updateOfShipmentAgentID() { 
+								updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link');
+								if ($('##shipment_agent_id').val().length > 0 ) { 
+									$('##addTempAddressButton').prop('disabled', false);
+								} else { 
+									$('##addTempAddressButton').prop('disabled', true);
+								}
+							}
+						</script>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
-							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
+							onchange=" updateOfShipmentAgentID(); ">
 						<script>
 							$(document).ready(function() {
 								$(makeRichTransAgentPicker('shipment_agent_name','shipment_agent_id','shipment_agent_icon','shipment_agent_view_link',null)); 
@@ -4313,11 +4323,12 @@ limitations under the License.
 									$('##findAddressSearchForm').submit();			
 								}
 							</script>
-							<button type="button" class="btn btn-xs btn-secondary" 
+							<button type="button" class="btn btn-xs btn-secondary" id="addTempAddressButton"
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
-								aria-label="Create a temporary address"
+								aria-label="Create a temporary address" disabled
 								value="Create Temporary Address">Create Temporary Address</button>
 							<div id="tempAddressDialog"></div>
+							
 						</cfif>
 					</div>
 				</div>
