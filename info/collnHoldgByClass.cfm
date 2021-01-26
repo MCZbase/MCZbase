@@ -40,5 +40,8 @@
 			<td><a href="/SpecimenResults.cfm?collection_id=#collection_id#&phylclass=#phylclass#">#c#</a></td>
 		</tr>
 	</cfloop>
+</table>
+	</div>
+	</div>
 </cfoutput>
 <cfinclude template = "/includes/_footer.cfm">
