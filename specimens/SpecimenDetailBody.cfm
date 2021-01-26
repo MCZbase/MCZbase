@@ -766,7 +766,8 @@ limitations under the License.
 				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 			</div>
 			<div class="card-body float-left">
-			<ul class="list-group px-0 float-left">
+				<div class="row">
+					<ul class="list-group px-0 float-left">
 				<cfloop query="citations">
 					<li class="list-group-item float-left w-50"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 								target="_mainFrame"> #formatted_publication#</a>,
@@ -789,35 +790,38 @@ limitations under the License.
 								&nbsp;sp. nov.
 							</cfif>
 						</cfif>
-						#CITATION_REMARKS# 
-						<cfif publicationMedia.recordcount gt 0>
-							<cfloop query="publicationMedia">
-
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
-									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											select
-													media_label,
-													label_value
-											from
-													media_labels
-											where
-													media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-								</cfquery>
-									<cfquery name="desc" dbtype="query">
-									select label_value from labels where media_label='description'
-								</cfquery>
-									<cfset alt="Media Preview Image">
-									<cfif desc.recordcount is 1>
-										<cfset alt=desc.label_value>
-									</cfif>
-							<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-									<div style="width: 120px;margin:0 auto;float:left;">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mr-2 mb-2" width="70" height="100"></a> 
-								<span class="d-block small mx-1">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
-							</cfloop>	
-						</cfif>
-					</li>
+						#CITATION_REMARKS# </li>
 				</cfloop>
+	
 			</ul>
+				</div>
+				<cfif publicationMedia.recordcount gt 0>
+					<div class="row">
+						<cfloop query="publicationMedia">
+				
+							<cfset puri=getMediaPreview(preview_uri,media_type)>
+							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+											media_label,
+											label_value
+									from
+											media_labels
+									where
+											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+							<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+							<cfset alt="Media Preview Image">
+							<cfif desc.recordcount is 1>
+								<cfset alt=desc.label_value>
+							</cfif>
+					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
+							<div style="width: 120px;margin:0 auto;float:left;">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mr-2 mb-2" width="70" height="100"></a> 
+						<span class="d-block small mx-1">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
+					</cfloop>
+					</div>
+				</cfif>
 			</div>
 		</div>
 	</cfif>
