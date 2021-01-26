@@ -75,12 +75,14 @@ td#SDCellLeft {
 }
 .headerCollectionText {
         font-family: Arial, Helvetica, sans-serif;
-	font-size: 24px;
+	font-size: 1.266rem;
         color: #a51c30;
+	color: #ff0000;
 }
 .headerCollectionTextSmall {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 19px;
+        font-size: 1rem;
+	color: #ff0000;
 }
 .specResultPartCell {
 	font-size: small;
@@ -3982,12 +3984,13 @@ ul.pubLinks {
 	max-height: 56px;
 }
 .headerText h1 {
-	font-size: 150%;
+	font-size: 100%;
 	color: #A51C30;
+	color: #ff0000;
 	margin-bottom: 0;
 }
-.headerText h1 a {color: #a51c30;}
-.headerText h1 a:hover {color: #a51c30;}
+.headerText h1 a {color: #a51c30;color: #ff0000;}
+.headerText h1 a:hover {color: #a51c30; color: #ff0000;}
 .headerText h2 {
 	color: #F4EFEF;
 	margin-top: 0;
@@ -4770,7 +4773,7 @@ table.pubtable td { border-bottom: 1px solid gray;padding: 2px 1px;border-right:
 	margin: 0 auto;
 }
 .headerText h1 {
-	font-size: 100%;
+	font-size: 1.266rem;
 }
 .headerText h2 {
 	font-size: 90%;
