@@ -154,11 +154,7 @@
         </cfloop>
       </select>
       </div>
-       <div style="float:left;width: 150px;">
-      <label for="tag">Require TAG?</label>
-      <input type="checkbox" id="tag" name="tag" value="1">
-      </div>
-	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
+     	<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_media")>
           <div style="float:left;width: 150px;">
            <span>
                <label for "unlinked">Limit to Media not yet linked to any record.</label>
