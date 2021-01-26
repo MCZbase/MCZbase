@@ -61,7 +61,7 @@ limitations under the License.
 							and rownum < 2
 						</cfquery>
 						<cfif query.recordcount gt 0>
-							<cfset agentname = query.agent_name>
+							<cfset agent_name = query.agent_name>
 						</cfif>
 					</cfif>
 					<div>
@@ -80,6 +80,7 @@ limitations under the License.
 								<div class='col-12 col-md-6'>
 									<cfif len(agent_name) GT 0 >
 										<strong>Address For:</strong> #agent_name#
+										<input type="hidden" name="agent_id" id="addr_agent_id" >
 									<cfelse>
 										<span>
 											<label for="addr_agent_name" class="data-entry-label">Address For:</label>
@@ -89,9 +90,9 @@ limitations under the License.
 											<div class="input-group-prepend">
 												<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 											</div>
-											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required style="z-index: 120;" >
+											<input name="agent_name" id="addr_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required style="z-index: 120; position: relative;" >
 										</div>
-										<input type="hidden" name="agent_id" id="addr_agent_id"  >
+										<input type="hidden" name="agent_id" id="addr_agent_id" >
 										<script>
 											$(makeRichTransAgentPicker('addr_agent_name', 'addr_agent_id','addr_agent_icon','addr_agent_view',null))
 										</script> 
