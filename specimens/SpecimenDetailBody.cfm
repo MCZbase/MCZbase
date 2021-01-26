@@ -796,7 +796,7 @@ limitations under the License.
 			</ul>
 				
 				<cfif publicationMedia.recordcount gt 0>
-					<span>Cited Publications</span>
+				
 						<cfloop query="publicationMedia">
 				
 							<cfset puri=getMediaPreview(preview_uri,media_type)>
