@@ -59,7 +59,7 @@
 					<img src="#Application.header_image#" alt="MCZ Kronosaurus Logo">
 				</a>
 				<!---  WARNING: Styles set on these elements must not set the color, this is set in a server specific variable from Application.cfc --->
-				<h1 style="color:#Application.collectionlinkcolor#;"><span>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
+				<h1 style="color:#Application.collectionlinkcolor#;"><span style='font-size: 1.2rem;'>#Application.collection_link_text#</h1>  <!--- close span is in collection_collection_link_text --->
 				<h2 style="color:#Application.institutionlinkcolor#;"><a href="https://mcz.harvard.edu/" target="_blank"><span style="color:#Application.institutionlinkcolor#" class="headerInstitutionText">#session.institution_link_text#</span></a></h2>
 			</div><!---end headerText--->
 		</div><!---end image_headerWrap--->
