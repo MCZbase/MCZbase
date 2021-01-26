@@ -4299,7 +4299,7 @@ limitations under the License.
 									$('##addTempAddressButton').hide();
 								}
 							}
-							$('##shipment_agent_view_ling').bind('DOMSubtreeModified', function(){
+							$('##shipment_agent_view_link').bind('DOMSubtreeModified', function(){
 								updateOfShipmentAgentID();
 							});
 						</script>
