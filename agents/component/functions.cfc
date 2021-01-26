@@ -30,7 +30,6 @@ limitations under the License.
 	<cfthread name="createAddressThread">
 		<cfoutput>
 			<cftry>
-
 				<cfif not isdefined("address_type") or len(#address_type#) gt 0>
 					<cfset address_type = "temporary">
 				</cfif>
@@ -60,7 +59,7 @@ limitations under the License.
 							<cfset agentname = query.agent_name>
 						</cfif>
 					</cfif>
-					<ul>
+					<div>
 						<div id='newAddressStatus'></div>
 						<form name='newAddress' id='newAddressForm'>
 							<input type='hidden' name='method' value='addNewAddress'>
@@ -70,108 +69,108 @@ limitations under the License.
 							<input type='hidden' name='agent_id' value='#agent_id#'>
 							<input type='hidden' name='addr_type' value='#address_type#'>
 							<input type='hidden' name='valid_addr_fg' id='valid_addr_fg' value='0'>
-    <table>
-     <tr>
-      <td>
-       <strong>Address Type:</strong> #ctAddrType.addr_type#
-      </td>
-      <td>
-		<cfif len(agent_name) GT 0 >
-			<strong>Address For:</strong> #agent_name#
-		<cfelse>
-			TODO: Agent Picker
-		</cfif>
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='institution'>Institution</label>
-       <input type='text' name='institution' id='institution'size='50' >
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='department'>Department</label>
-       <input type='text' name='department' id='department' size='50' >
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='street_addr1'>Street Address 1</label>
-       <input type='text' name='street_addr1' id='street_addr1' size='50' class='reqdClr'>
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='street_addr2'>Street Address 2</label>
-       <input type='text' name='street_addr2' id='street_addr2' size='50'>
-      </td>
-     </tr>
-     <tr>
-      <td>
-       <label for='city'>City</label>
-       <input type='text' name='city' id='city' class='reqdClr'>
-      </td>
-      <td>
-       <label for='state'>State</label>
-       <input type='text' name='state' id='state' class='reqdClr'>
-      </td>
-     </tr>
-     <tr>
-      <td>
-       <label for='zip'>Zip</label>
-       <input type='text' name='zip' id='zip' class='reqdClr'>
-      </td>
-      <td>
-       <label for='country_cde'>Country</label>
-       <input type='text' name='country_cde' id='country_cde' class='reqdClr'>
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='mail_stop'>Mail Stop</label>
-       <input type='text' name='mail_stop' id='mail_stop'>
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <label for='addr_remarks'>Address Remark</label>
-       <input type='text' name='addr_remarks' id='addr_remarks' size='50'>
-      </td>
-     </tr>
-     <tr>
-      <td colspan='2'>
-       <input type='submit' class='insBtn' value='Create Address' >
-       <script>
-         $('##newAddressForm').submit( function (e) { 
-             $.ajax({
-                url: '/component/functions.cfc',
-                data : $('##newAddressForm').serialize(),
-                success: function (result) {
-                     if (result.DATA.STATUS[0]=='success') { 
-                        $('##newAddressStatus').html('New Address Added');
-                        $('##new_address_id').val(result.DATA.ADDRESS_ID[0]);
-                        $('##new_address').val(result.DATA.ADDRESS[0]);
-                        $('##tempAddressDialog').dialog('close');
-                     } else { 
-                        $('##newAddressStatus').html(result.DATA.MESSAGE[0]);
-                     }
-                },
-        	dataType: 'json'
-              });
-              e.preventDefault();
-         });
-      </script>
-      </td>
-     </tr>
-    </table>
-    <input type='hidden' name='new_address_id' id='new_address_id' value=''>
-    <input type='hidden' name='new_address' id='new_address' value=''>
-</form>
-
-       </ul>
-   </cfif>  <!--- known address type provided --->
-
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+		 							<strong>Address Type:</strong> #ctAddrType.addr_type#
+								</div>
+								<div class='col-12 col-md-6'>
+									<cfif len(agent_name) GT 0 >
+										<strong>Address For:</strong> #agent_name#
+									<cfelse>
+										<span>
+											<label for="addr_agent_name">Address For:</label>
+											<span id="addr_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+										</span>
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text smaller bg-lightgreen" id="addr_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+											</div>
+											<input name="addr_agent_name" id="agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
+										</div>
+										<input type="hidden" name="agent_id" id="addr_agent_id"  >
+										<script>
+											$(makeRichTransAgentPicker('addr_agent_name', 'addr_agent_id','addr_agent_icon','addr_agent_view',null))
+										</script> 
+									</cfif>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<label for='institution'>Institution</label>
+									<input type='text' name='institution' id='institution'size='50' >
+								</div>
+								<div class='col-12 col-md-6'>
+									<label for='department'>Department</label>
+									<input type='text' name='department' id='department' size='50' >
+									</cfif>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12'>
+									<label for='street_addr1'>Street Address 1</label>
+									<input type='text' name='street_addr1' id='street_addr1' size='50' class='reqdClr'>
+								</div>
+								<div class='col-12'>
+									<label for='street_addr2'>Street Address 2</label>
+									<input type='text' name='street_addr2' id='street_addr2' size='50'>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<label for='city'>City</label>
+									<input type='text' name='city' id='city' class='reqdClr'>
+								</div>
+								<div class='col-12 col-md-6'>
+									<label for='state'>State</label>
+									<input type='text' name='state' id='state' class='reqdClr'>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<label for='zip'>Zip</label>
+									<input type='text' name='zip' id='zip' class='reqdClr'>
+								</div>
+								<div class='col-12 col-md-6'>
+									<label for='country_cde'>Country</label>
+									<input type='text' name='country_cde' id='country_cde' class='reqdClr'>
+								</div>
+							</div>
+							<div class='form-row'>
+								<div class='col-12 col-md-6'>
+									<label for='mail_stop'>Mail Stop</label>
+									<input type='text' name='mail_stop' id='mail_stop'>
+								</div>
+								<div class='col-12 col-md-6'>
+									<label for='addr_remarks'>Address Remark</label>
+									<input type='text' name='addr_remarks' id='addr_remarks' size='50'>
+								</div>
+							</div>
+							<input type='submit' class='insBtn' value='Create Address' >
+							<script>
+								$('##newAddressForm').submit( function (e) { 
+									$.ajax({
+										url: '/component/functions.cfc',
+										data : $('##newAddressForm').serialize(),
+										success: function (result) {
+											if (result.DATA.STATUS[0]=='success') { 
+												$('##newAddressStatus').html('New Address Added');
+												$('##new_address_id').val(result.DATA.ADDRESS_ID[0]);
+												$('##new_address').val(result.DATA.ADDRESS[0]);
+												$('##tempAddressDialog').dialog('close');
+											} else { 
+												$('##newAddressStatus').html(result.DATA.MESSAGE[0]);
+											}
+										},
+										dataType: 'json'
+									});
+									e.preventDefault();
+								});
+							</script>
+							<input type='hidden' name='new_address_id' id='new_address_id' value=''>
+							<input type='hidden' name='new_address' id='new_address' value=''>
+						</form>
+					</div>
+				</cfif> <!--- known address type provided --->
 			<cfcatch>
 				<h2>Error: #cfcatch.type# #cfcatch.message#</h2> 
 				<div>#cfcatch.detail#</div>
