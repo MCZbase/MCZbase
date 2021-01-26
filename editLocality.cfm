@@ -40,6 +40,37 @@
 	    $.each($("input[id^='geo_att_determined_date']"), function() {
 			$("##" + this.id).datepicker({dateFormat: "yy-mm-dd",showOn:"both",buttonImage:"images/cal_icon.png",buttonImageOnly: true});
 	    });
+	    $("input[id='wktFile'").change(function(){
+	    	console.log($("##ERROR_POLYGON1").val().length);
+	    	if ($("##ERROR_POLYGON1").val().length > 1)
+	    		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
+	    		else {r=true;}
+	    	if (r==true){
+				    var url = $(this).val();
+				    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+				    if ($(this).prop('files') && $(this).prop('files')[0]&& (ext == "wkt"))
+				     {
+				        var reader = new FileReader();
+				        reader.onload = function (e) {
+				        	var myRE = new RegExp(/POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
+				           if (myRE.test(e.target.result) == true){
+				           $("##ERROR_POLYGON1").val(e.target.result);
+				           	alert("Polygon loaded. This will not be saved to the database until you Save Changes");}
+				           else
+				           {alert("This file does not contain a valid WKT polygon.");
+				           	$(this).val('');return false;}
+				        }
+				       reader.readAsText($(this).prop('files')[0]);
+
+				    }
+				    else
+				    {
+				      $(this).val('');return false;
+				    }
+	    		}
+	    		else
+	    		{$(this).val('');return false;}
+		  });
 	    if (window.addEventListener) {
 		window.addEventListener("message", getGeolocate, false);
 	    } else {
@@ -47,6 +78,7 @@
 	    }
 		mapsYo();
 	});
+
 	function geolocate() {
                 var guri="#Application.protocol#://www.geo-locate.org/web/WebGeoreflight.aspx?georef=run";
                 guri+="&state=" + $("##state_prov").val();
@@ -1039,7 +1071,7 @@
 						 onmouseout="this.className='delBtn'" onClick="latLong#i#.Action.value='deleteLatLong';confirmDelete('latLong#i#');">
 				</td>
 				<cfif #accepted_lat_long_fg# is 1>
-				<td colspan="2">
+				<td colspan="1">
 				<input type="button" value="Copy Polygon from LocID:" class="savBtn"
   						 onmouseover="this.className='savBtn btnhov'"
 						 onmouseout="this.className='savBtn'"
@@ -1056,6 +1088,14 @@
 						 		}
 						 	else {submit()};">
 				<input type="text" name="copyPolyFrom" value="" size="10">
+				</td>
+				<td colspan="1">
+				<label for="wktFile">Load Polygon from WKT file</label>
+				<input type="file"
+						id="wktFile"
+						name="wktFile"
+						accept=".wkt"
+						>
 				</td>
 				</cfif>
               </tr>
@@ -1519,7 +1559,7 @@
         media.mime_type,
         media.media_type,
         media.preview_uri,
-		 mczbase.get_media_descriptor(media.media_id) as media_descriptor 
+		 mczbase.get_media_descriptor(media.media_id) as media_descriptor
      from
          media,
          media_relations,
@@ -1578,7 +1618,7 @@
 							where
 								media_id=#media_id#
 						</cfquery>
-						
+
 						<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
@@ -2315,6 +2355,9 @@
 		<cfif len(#LONG_SEC#) EQ 0>
 			<cfset long_sec="null">
 		</cfif>
+		<cfif len(#LONG_SEC#) EQ 0>
+			<cfset long_sec="null">
+		</cfif>
 		<cfif #ORIG_LAT_LONG_UNITS# is "deg. min. sec.">
 			<cfset sql = "#sql#
 				,LAT_DEG = #LAT_DEG#
@@ -2399,8 +2442,14 @@
 <cfquery name="upLatLong" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	#preservesinglequotes(sql)#
 </cfquery>
-</cftransaction>
+
 <!---/cftransaction--->
+<cfif isdefined("wktFile") and len(wktFile) GT 0>
+	<cfquery name="addPoly" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		update lat_long set error_polygon =  <cfqueryparam cfsqltype="cf_sql_clob" value="#errorPoly#"> where lat_long_id = #lat_long_id#
+	</cfquery>
+</cfif>
+</cftransaction>
 <cfquery name="getAcc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select lat_long_id from lat_long where locality_id=#locality_id#
 	and accepted_lat_long_fg = 1
