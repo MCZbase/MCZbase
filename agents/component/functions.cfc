@@ -102,7 +102,6 @@ limitations under the License.
 								<div class='col-12 col-md-6'>
 									<label for='department'>Department</label>
 									<input type='text' name='department' id='department' size='50' >
-									</cfif>
 								</div>
 							</div>
 							<div class='form-row'>
