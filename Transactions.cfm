@@ -948,9 +948,10 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(cttrans_agent_role.trans_agent_role) 
+									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -1376,9 +1377,10 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(cttrans_agent_role.trans_agent_role) 
+									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccesson'
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -1801,9 +1803,10 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(cttrans_agent_role.trans_agent_role) 
+									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Borrow'
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
