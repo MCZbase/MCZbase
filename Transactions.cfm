@@ -447,7 +447,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "">
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "">
-								<cfset borrowaccnTabShow = "">
+								<cfset borrowTabShow = "">
 							</cfcase>
 							<cfcase value="findAccessions">
 								<cfset allTabActive = "">
@@ -459,7 +459,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "">
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "">
-								<cfset borrowaccnTabShow = "">
+								<cfset borrowTabShow = "">
 							</cfcase>
 							<cfcase value="findDeaccessions">
 								<cfset allTabActive = "">
@@ -471,7 +471,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "active">
 								<cfset deaccnTabShow = "show">
 								<cfset borrowTabActive = "">
-								<cfset borrowaccnTabShow = "">
+								<cfset borrowTabShow = "">
 							</cfcase>
 							<cfcase value="findBorrows">
 								<cfset allTabActive = "">
@@ -483,7 +483,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "">
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "active">
-								<cfset borrowaccnTabShow = "show">
+								<cfset borrowTabShow = "show">
 							</cfcase>
 							<cfdefaultcase>
 								<cfset allTabActive = "active">
@@ -495,7 +495,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "">
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "">
-								<cfset borrowaccnTabShow = "">
+								<cfset borrowTabShow = "">
 							</cfdefaultcase>
 						</cfswitch>
 						<!--- Tab header div --->
