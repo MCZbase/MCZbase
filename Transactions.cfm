@@ -1458,7 +1458,7 @@ limitations under the License.
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctDeaccType.deacc_type#" #selected#>#ctAccnType.deacc_type#</option>
+													<option value="#ctDeaccType.deacc_type#" #selected#>#ctDeaccType.deacc_type#</option>
 												</cfloop>
 												<cfloop query="ctDeaccType">
 													<cfif pdeacc_type eq '!' & ctDeaccType.deacc_type>
@@ -1466,7 +1466,7 @@ limitations under the License.
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="!#ctDeaccType.deacc_type#" #selected#>not #ctAccnType.deacc_type#</option>
+													<option value="!#ctDeaccType.deacc_type#" #selected#>not #ctDeaccType.deacc_type#</option>
 												</cfloop>
 											</select>
 										</div>
