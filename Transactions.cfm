@@ -943,7 +943,7 @@ limitations under the License.
 							<!--- Accession search tab panel --->
 							<div class="tab-pane fade #accnTabShow# #accnTabActive# py-3 mx-2 mx-sm-3" id="accnTab" role="tabpanel" aria-labelledby="accns-tab">
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
-								<!--- Search for just loans ---->
+								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
@@ -953,7 +953,6 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
 									order by cttrans_agent_role.trans_agent_role
-									select distinct(trans_agent_role) 
 								</cfquery>
 								<script>
 									jQuery(document).ready(function() {
