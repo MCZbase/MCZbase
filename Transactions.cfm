@@ -188,6 +188,12 @@ limitations under the License.
 	<cfif not isdefined("accn_status")>
 		<cfset accn_status="">
 	</cfif>
+	<cfif not isdefined("deacc_type")>
+		<cfset deacc_type="">
+	</cfif>
+	<cfif not isdefined("deacc_status")>
+		<cfset deacc_status="">
+	</cfif>
 	<cfif not isdefined("accn_type")>
 		<cfset accn_type="">
 	</cfif>
@@ -608,10 +614,12 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(cttrans_agent_role.trans_agent_role) 
+									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Loan'
+									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
 								<script>
@@ -702,7 +710,7 @@ limitations under the License.
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
+													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 															<cfset selected="selected">
 															<cfelse>
@@ -719,7 +727,7 @@ limitations under the License.
 											<div class="input-group">
 												<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
+													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 															<cfset selected="selected">
 															<cfelse>
@@ -736,7 +744,7 @@ limitations under the License.
 											<div class="input-group">
 												<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
 													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
+													<cfloop query="cttrans_agent_role_loan">
 														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 															<cfset selected="selected">
 															<cfelse>
@@ -940,6 +948,7 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane loan search---> 
+
 							<!--- Accession search tab panel --->
 							<div class="tab-pane fade #accnTabShow# #accnTabActive# py-3 mx-2 mx-sm-3" id="accnTab" role="tabpanel" aria-labelledby="accns-tab">
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
@@ -1439,49 +1448,49 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-12 col-md-3">
-											<cfset pdeacc_type = accn_type>
+											<cfset pdeacc_type = deacc_type>
 											<label for="deacc_type" class="data-entry-label mb-0">Type</label>
-											<select name="deacc_type" id="accn_type" class="data-entry-select">
+											<select name="deacc_type" id="deacc_type" class="data-entry-select">
 												<option value=""></option>
 												<cfloop query="ctDeaccType">
-													<cfif pdeacc_type eq ctDeaccType.accn_type>
+													<cfif pdeacc_type eq ctDeaccType.deacc_type>
 														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctDeaccType.deacc_type#" #selected#>#ctAccnType.accn_type#</option>
+													<option value="#ctDeaccType.deacc_type#" #selected#>#ctAccnType.deacc_type#</option>
 												</cfloop>
 												<cfloop query="ctDeaccType">
-													<cfif pdeacc_type eq '!' & ctDeaccType.accn_type>
+													<cfif pdeacc_type eq '!' & ctDeaccType.deacc_type>
 														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="!#ctDeaccType.deacc_type#" #selected#>not #ctAccnType.accn_type#</option>
+													<option value="!#ctDeaccType.deacc_type#" #selected#>not #ctAccnType.deacc_type#</option>
 												</cfloop>
 											</select>
 										</div>
 										<div class="col-12 col-md-3">
-											<cfset pdeacc_status = accn_status>
+											<cfset pdeacc_status = deacc_status>
 											<label for="deacc_status" class="data-entry-label mb-0">Status</label>
-											<select name="deacc_status" id="accn_status" class="data-entry-select" >
+											<select name="deacc_status" id="deacc_status" class="data-entry-select" >
 												<option value=""></option>
 												<cfloop query="ctDeaccStatus">
-													<cfif pdeacc_status eq ctDeaccStatus.accn_status>
+													<cfif pdeacc_status eq ctDeaccStatus.deacc_status>
 														<cfset selected="selected">
 													<cfelse>
 														<cfset selected="">
 													</cfif>
-													<option value="#ctDeaccStatus.deacc_status#" #selected#>#ctDeaccStatus.accn_status#</option>
+													<option value="#ctDeaccStatus.deacc_status#" #selected#>#ctDeaccStatus.deacc_status#</option>
 												</cfloop>
 												<cfif ctDeaccStatus.recordcount GT 2>
 													<cfloop query="ctDeaccStatus">
-														<cfif pdeacc_status eq '!' & ctDeaccStatus.accn_status>
+														<cfif pdeacc_status eq '!' & ctDeaccStatus.deacc_status>
 															<cfset selected="selected">
 														<cfelse>
 															<cfset selected="">
 														</cfif>
-														<option value="!#ctDeaccStatus.deacc_status#" #selected#>not #ctDeaccStatus.accn_status#</option>
+														<option value="!#ctDeaccStatus.deacc_status#" #selected#>not #ctDeaccStatus.deacc_status#</option>
 													</cfloop>
 												</cfif>
 											</select>
