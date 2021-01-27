@@ -185,14 +185,41 @@ limitations under the License.
 	<cfif not isdefined("status")>
 		<cfset status="">
 	</cfif>
-	<cfif not isdefined("accn_status")>
-		<cfset accn_status="">
-	</cfif>
 	<cfif not isdefined("deacc_type")>
 		<cfset deacc_type="">
 	</cfif>
 	<cfif not isdefined("deacc_status")>
 		<cfset deacc_status="">
+	</cfif>
+	<cfif not isdefined("method")>
+		<cfset method="">
+	</cfif>
+	<cfif not isdefined("value")>
+		<cfset value="">
+	</cfif>
+	<cfif not isdefined("deacc_reason")>
+		<cfset deacc_reason="">
+	</cfif>
+	<cfif not isdefined("borrow_status")>
+		<cfset borrow_status="">
+	</cfif>
+	<cfif not isdefined("no_of_specimens")>
+		<cfset no_of_specimens="">
+	</cfif>
+	<cfif not isdefined("borrow_catalog_number")>
+		<cfset borrow_catalog_number="">
+	</cfif>
+	<cfif not isdefined("borrow_sci_name")>
+		<cfset borrow_sci_name="">
+	</cfif>
+	<cfif not isdefined("lenders_instructions")>
+		<cfset lenders_instructions="">
+	</cfif>
+	<cfif not isdefined("borrow_description")>
+		<cfset borrow_description="">
+	</cfif>
+	<cfif not isdefined("accn_status")>
+		<cfset accn_status="">
 	</cfif>
 	<cfif not isdefined("accn_type")>
 		<cfset accn_type="">
@@ -1586,7 +1613,7 @@ limitations under the License.
 												</div>
 												<div class="col-md-12 px-0">
 													<label for="deacc_reason" class="data-entry-label mb-0 pb-0">Reason for Deaccession</label>
-													<input type="text" name="deacc_reason" class="data-entry-input" value="#trans_remarks#" id="deacc_reason">
+													<input type="text" name="deacc_reason" class="data-entry-input" value="#deacc_reason#" id="deacc_reason">
 												</div>
 												<div class="col-md-12 px-0">
 													<label for="deacc_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
@@ -2035,7 +2062,7 @@ limitations under the License.
 													<input type="text" name="lenders_instructions" class="data-entry-input" value="#lenders_instructions#" id="lenders_instructions">
 												</div>
 												<div class="col-md-12 px-0">
-													<label for="borrow_description" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
+													<label for="borrow_description" class="data-entry-label mb-0 pb-0">Borrow Description</label>
 													<input type="text" name="borrow_description" class="data-entry-input" value="#borrow_description#" id="borrow_description">
 												</div>
 												<div class="col-md-12 px-0">
