@@ -606,7 +606,7 @@ limitations under the License.
 													<button type='button' 
 														class='btn btn-xs btn-warning' 
 														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
-														value='Remove Permit'>Remove</button>
+														value='Remove Permit'>Remove Permit</button>
 													<cfif theResult.recordcount GT 1>
 													<!--- add the option to copy/move the permit if there is more than one shipment --->
 														<button type='button' 
