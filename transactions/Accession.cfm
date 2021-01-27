@@ -198,21 +198,21 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
 								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 form-control data-entry-input">
+								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="received_date" class="data-entry-label">Date Received</label>
 								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 form-control data-entry-input">
+									class="reqdClr w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
 								<label for="date_entered" class="data-entry-label">Date Entered</label>
 								<input type="text" name="date_entered" id="date_entered"
 									disabled="true"
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 form-control data-entry-input">
+									class="w-100 data-entry-input">
 							</div>
 						</div>
 						<div class="form-row mb-2">
