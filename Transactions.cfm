@@ -3002,17 +3002,17 @@ $(document).ready(function() {
 			updaterow: function (rowid, rowdata, commit) {
 				commit(true);
 			},
-			root: 'accnRecord',
+			root: 'deaccessionRecord',
 			id: 'transaction_id',
-			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
+			url: '/transactions/component/search.cfc?' + $('##deaccnSearchForm').serialize(),
 			timeout: 30000, // units not specified, miliseconds? 
 			loadError: function(jqXHR, textStatus, error) { 
 				$("##overlay").hide();
-				handleFail(jqXHR,textStatus,error,"running accession search");
+				handleFail(jqXHR,textStatus,error,"running deaccession search");
 			},
 			async: true
 		};
-		var accnDataAdapter = new $.jqx.dataAdapter(accnSearch);
+		var accnDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
