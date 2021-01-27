@@ -658,7 +658,7 @@ limitations under the License.
 					</section>
 				<section class="row mx-0">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" tabindex="0">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3">
 							<script>
 								// callback for ajax methods to reload permits from dialog
 								function reloadTransPermits() { 
@@ -685,7 +685,7 @@ limitations under the License.
 								</div>
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
-						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" tabindex="0">
+						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2">
 							<div class="col-12">
 								<h2 class="h3">
 									Media documenting this Accession
