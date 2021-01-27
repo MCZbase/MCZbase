@@ -92,7 +92,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-3">
-								<label for="collection_id">Collection</label>
+								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select" required >
 									<option value=""></option>
 									<cfloop query="ctcollection">
@@ -105,7 +105,7 @@ limitations under the License.
 								<input type="text" name="accn_number" class="reqdClr data-entry-input" id="accn_number" required pattern="#ACCNNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="status">Status</label>
+								<label for="status" class="data-entry-label">Status</label>
 								<select name="accn_status" id="status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctAccnStatus">
 											<cfif #ctAccnStatus.accn_status# is "in process">
@@ -118,7 +118,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="accn_type">Accession Type</label>
+								<label for="accn_type" class="data-entry-label">Accession Type</label>
 								<select name="accn_type" id="accn_type" class="reqdClr data-entry-select" required >
 									<option value=""></option>
 									<cfloop query="ctAccnType">
@@ -130,14 +130,14 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="received_agent">Received From:</label>
+									<label for="received_agent" class="data-entry-label">Received From:</label>
 									<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="received_agent_name" id="received_agent_name" class="reqdClr form-control data-entry-input" required >
+									<input name="received_agent_name" id="received_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
 								</div>
 								<input type="hidden" name="received_agent_id" id="received_agent_id"  >
 								<script>
@@ -146,14 +146,14 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="rec_agent_name">Received By:</label>
+									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input  name="rec_agent_name" id="rec_agent_name" class="form-control data-entry-input" >
+									<input  name="rec_agent_name" id="rec_agent_name" class="form-control form-control-sm data-entry-input" >
 								</div>
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 								<script>
@@ -164,14 +164,14 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="form-control data-entry-input">
+									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="form-control form-control-sm data-entry-input">
 								</div>
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
 								<script>
@@ -180,14 +180,14 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
+									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
 									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control data-entry-input" >
+									<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control form-control-sm data-entry-input" >
 								</div>
 								<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
 								<script>
@@ -197,27 +197,27 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-								<label for="estimated_count">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 form-control data-entry-input">
+								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
+								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="received_date">Date Received</label>
+								<label for="received_date" class="data-entry-label">Date Received</label>
 								<input type="text" name="received_date" id="received_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="reqdClr w-100 form-control data-entry-input">
+									class="reqdClr w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="date_entered">Date Entered</label>
+								<label for="date_entered" class="data-entry-label">Date Entered</label>
 								<input type="text" name="date_entered" id="date_entered"
 									disabled="true"
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 form-control data-entry-input">
+									class="w-100 data-entry-input">
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
-								<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr form-control form-control-sm w-100 autogrow" 
@@ -226,7 +226,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
-								<label for="trans_remarks">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
@@ -234,15 +234,15 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-                        <label for="radio1">To be MCZ cataloged</label>
+                        <label for="radio1" class="data-entry-label">To be MCZ cataloged</label>
                         <input type="radio" name="for_use_by" value="" checked="checked" id="radio1">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio2">For use by HMNH Exhibits</label>
+                        <label for="radio2" class="data-entry-label">For use by HMNH Exhibits</label>
                         <input type="radio" name="for_use_by" value="116195" id="radio2">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio3">For use by HMNH Education</label>
+                        <label for="radio3" class="data-entry-label">For use by HMNH Education</label>
                         <input type="radio" name="for_use_by" value="91906" id="radio3">
 							</div>
 						</div>
