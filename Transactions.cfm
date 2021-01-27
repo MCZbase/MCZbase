@@ -2966,6 +2966,18 @@ $(document).ready(function() {
 
 	});
 
+	/* Supporting cell renderers for Accession Search *****************************/
+	var catitemsDeaccCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var result = "";
+		var transaction_id = rowData['transaction_id'];
+		if (value > 0) {
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><a href="/a_deaccItemReview.cfm?transaction_id='+transaction_id+'" target="_blank">'+value+'</a></span>';
+		} else { 
+			result = '<span class="#cellRenderClasses#" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; ">'+value+'</span>';
+		}
+		return result;
+	};
 	/* Setup jqxgrid for Deccession Search ******************************************/
 	$('##deaccnSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
@@ -3064,7 +3076,7 @@ $(document).ready(function() {
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
-				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsDeaccCellRenderer},
 				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
 				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: false, width: 100},
 				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: false, width: 90},
