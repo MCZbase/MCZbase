@@ -2106,7 +2106,6 @@ limitations under the License.
 												<input type="text" name="to_loan_date" id="lenders_to_loan_date" value="#to_loan_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
-										</div>
 									</div>
 
 									<div class="form-row mx-0 mt-2">
