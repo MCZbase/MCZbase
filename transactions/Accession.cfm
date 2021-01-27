@@ -86,7 +86,7 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
-			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
+			<div class="row border rounded bg-light mt-2 mb-4 py-2">
 				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
 					<div id="nextNumDiv">
 						<h3 id="nextNumberSectionLabel">Next Available Accession Number:</h3>
