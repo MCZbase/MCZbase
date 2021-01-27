@@ -251,11 +251,11 @@ limitations under the License.
                         <input type="radio" name="for_use_by" value="" checked="checked" id="radio1" class="mt-2">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio2" class="data-entry-label w-auto mt-0" style="max-width: 80%;">For use by HMNH Exhibits</label>
+                        <label for="radio2" class="data-entry-label w-auto mt-0" style="max-width: 75%;">For use by HMNH Exhibits</label>
                         <input type="radio" name="for_use_by" value="116195" id="radio2" class="mt-2">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio3" class="data-entry-label w-auto mt-0" style="max-width: 80%;">For use by HMNH Education</label>
+                        <label for="radio3" class="data-entry-label w-auto mt-0" style="max-width: 75%;">For use by HMNH Education</label>
                         <input type="radio" name="for_use_by" value="91906" id="radio3" class="mt-2">
 							</div>
 						</div>
