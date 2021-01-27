@@ -483,7 +483,7 @@ limitations under the License.
 				<cfloop query="query">
 					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<li class='mb-2'>
-						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove</a>
+						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a class='btn btn-xs btn-warning' onClick='  confirmDialog("Remove this media from this transaction?", "Confirm Unlink Media", function() { removeMediaFromTrans(#media_id#,#transaction_id#,"#relWord# #transaction_type#"); } ); '>Remove Media</a>
 					</li>
 				</cfloop>
 				</ul>
