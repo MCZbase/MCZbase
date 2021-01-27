@@ -1342,8 +1342,8 @@ limitations under the License.
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="permit_type" type="string" required="no">
 	<cfargument name="permit_specific_type" type="string" required="no">
-	<cfargument name="rec_date" type="string" required="no">
-	<cfargument name="to_rec_date" type="string" required="no">
+	<cfargument name="closed_date" type="string" required="no">
+	<cfargument name="to_closed_date" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
 	<cfargument name="trans_agent_role_1" type="string" required="no">
@@ -1440,14 +1440,12 @@ limitations under the License.
 				collection.collection_cde,
 				project_name,
 				project.project_id pid,
-				estimated_count,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
-				MCZBASE.count_catitems_for_accn(trans.transaction_id) item_count,
+				MCZBASE.count_catitems_for_deacc(trans.transaction_id) item_count,
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
-				concattransagent(trans.transaction_id,'received from') rec_from_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
-				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
+				concattransagent(trans.transaction_id,'recipient_institution') recipient_institution_agent,
 				concattransagent(trans.transaction_id,'received by') rec_agent,
 				concattransagent(trans.transaction_id,'in-house contact') inHouse_agent,
 				concattransagent(trans.transaction_id,'additional in-house contact') addInhouse_agent,
@@ -1485,11 +1483,12 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
-					left join shipment on accn.transaction_id = shipment.transaction_id
+					left join shipment on deaccession.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
-					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
+					left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
+					left join cataloged_item on deacc_item.collection_object_id_id=cataloged_item.collection_object_id
 					left join specimen_part on cataloged_item.collection_object_id = specimen_part.derived_from_cat_item
 					left join coll_object on specimen_part.collection_object_id = coll_object.collection_object_id
 				</cfif>
@@ -1505,22 +1504,22 @@ limitations under the License.
 				</cfif>
 			WHERE 
 				deaccession.transaction_id is not null
-				<cfif isDefined("accn_number") and len(accn_number) gt 0>
-					<cfif left(accn_number,1) is "=">
-						AND accn_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(accn_number,len(accn_number)-1)#">
+				<cfif isDefined("deacc_number") and len(deacc_number) gt 0>
+					<cfif left(deacc_number,1) is "=">
+						AND deacc_number = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(deacc_number,len(deacc_number)-1)#">
 					<cfelse>
-						<cfif find(',',accn_number) GT 0>
-							AND accn_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_number#" list="yes"> )
+						<cfif find(',',deacc_number) GT 0>
+							AND deacc_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_number#" list="yes"> )
 						<cfelse>
-							AND accn_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#accn_number#%">
+							AND deacc_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#deacc_number#%">
 						</cfif>
 					</cfif>
 				</cfif>
-				<cfif isDefined("accn_status") and len(accn_status) gt 0>
-					<cfif left(accn_status,1) is "!">
-						AND accn_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_status,len(accn_status)-1))#"> 
+				<cfif isDefined("deacc_status") and len(deacc_status) gt 0>
+					<cfif left(deacc_status,1) is "!">
+						AND deacc_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_status,len(deacc_status)-1))#"> 
 					<cfelse>
-						AND accn_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_status#">
+						AND deacc_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_status#">
 					</cfif>
 				</cfif>
 				<cfif isDefined("collection_id") and collection_id gt 0>
@@ -1555,10 +1554,10 @@ limitations under the License.
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
-				<cfif isdefined("rec_date") and len(rec_date) gt 0>
-					AND accn.received_date between 
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(rec_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_rec_date, "yyyy-mm-dd")#'>)
+				<cfif isdefined("closed_date") and len(rec_date) gt 0>
+					AND deaccession.closed_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
@@ -1567,11 +1566,29 @@ limitations under the License.
 				<cfif isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					AND specimen_part.collection_object_id IN ( <cfqueryparam list="yes" cfsqltype="CF_SQL_VARCHAR" value="#collection_object_id#" > )
 				</cfif>
-				<cfif  isdefined("accn_type") and len(#accn_type#) gt 0>
-					<cfif left(accn_type,1) is "!">
-						AND accn_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(accn_type,len(accn_type)-1))#"> 
+				<cfif  isdefined("deacc_type") and len(#deacc_type#) gt 0>
+					<cfif left(deacc_type,1) is "!">
+						AND deacc_type <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(deacc_type,len(deacc_type)-1))#"> 
 					<cfelse>
-						AND accn_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#accn_type#">
+						AND deacc_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">
+					</cfif>
+				</cfif>
+				<cfif isdefined("method") and len(#method#) gt 0>
+					<cfif method EQ 'NULL'>
+						AND upper(deaccession.method) is NULL
+					<cfelseif method EQ 'NOT NULL'>
+						AND upper(deaccession.method) is NOT NULL
+					<cfelse>
+						AND upper(deaccession.method) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(method)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("value") and len(#value#) gt 0>
+					<cfif value EQ 'NULL'>
+						AND upper(deaccession.value) is NULL
+					<cfelseif value EQ 'NOT NULL'>
+						AND upper(deaccession.value) is NOT NULL
+					<cfelse>
+						AND upper(deaccession.value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(value)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("trans_remarks") AND len(#trans_remarks#) gt 0>

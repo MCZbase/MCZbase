@@ -1679,8 +1679,13 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="method">Method of Transfer</label>
-											<input type="text" name="method" class="data-entry-input" value="#method#" id="method">
+											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="deacc_closed_date">Closed Date</label>
+												<input name="closed_date" id="deacc_closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for date closed">
+												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+												<label class="data-entry-label sr-only" for="deacc_to_closed_date">end of search range for date closed</label>		
+												<input type="text" name="to_closed_date" id="deacc_to_closed_date" value="#to_closed_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+											</div>
 										</div>
 										<div class="col-md-4">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="value">Value</label>
@@ -1701,6 +1706,10 @@ limitations under the License.
 												<div class="col-md-12 px-0">
 													<label for="deacc_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="deacc_trans_remarks">
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label mb-0 pb-0" for="method">Method of Transfer</label>
+													<input type="text" name="method" class="data-entry-input" value="#method#" id="method">
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
@@ -2946,10 +2955,157 @@ $(document).ready(function() {
 	});
 
 	/* Setup jqxgrid for Deccession Search ******************************************/
-	// TODO: implement handler for deaccession search 
 	$('##deaccnSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
-		alert('Not yet implemented');
+
+		$("##overlay").show();
+
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+		$('##resultCount').html('');
+		$('##resultLink').html('');
+
+		var deaccessionSearch =
+		{
+			datatype: "json",
+			datafields:
+			[
+				{ name: 'transaction_id', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'deacc_remarks', type: 'string' },
+				{ name: 'deacc_number', type: 'string' },
+				{ name: 'deacc_type', type: 'string' },
+				{ name: 'closed_date', type: 'string' },
+				{ name: 'closed_by', type: 'string' },
+				{ name: 'deaacc_status', type: 'string' },
+				{ name: 'deaacc_reason', type: 'string' },
+				{ name: 'method', type: 'string' },
+				{ name: 'value', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'collection', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'auth_agent', type: 'string' },
+				{ name: 'ent_agent', type: 'string' },
+				{ name: 'recipient_institution_agent', type: 'string' },
+				{ name: 'rec_agent', type: 'string' },
+				{ name: 'inHouse_agent', type: 'string' },
+				{ name: 'addInhouse_agent', type: 'string' },
+				{ name: 'outside_agent', type: 'string' },
+				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'permits', type: 'int' },
+				{ name: 'item_count', type: 'int' },
+				{ name: 'shipment_count', type: 'string' },
+				{ name: 'project_name', type: 'string' },
+				{ name: 'pid', type: 'string' },
+				{ name: 'id_link', type: 'string' }
+			],
+			updaterow: function (rowid, rowdata, commit) {
+				commit(true);
+			},
+			root: 'accnRecord',
+			id: 'transaction_id',
+			url: '/transactions/component/search.cfc?' + $('##accnSearchForm').serialize(),
+			timeout: 30000, // units not specified, miliseconds? 
+			loadError: function(jqXHR, textStatus, error) { 
+				$("##overlay").hide();
+				handleFail(jqXHR,textStatus,error,"running accession search");
+			},
+			async: true
+		};
+		var accnDataAdapter = new $.jqx.dataAdapter(accnSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
+
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
+		$("##searchResultsGrid").jqxGrid({
+			width: '100%',
+			autoheight: 'true',
+			source: accnDataAdapter,
+			filterable: true,
+			sortable: true,
+			pageable: true,
+			editable: false,
+			pagesize: '50',
+			pagesizeoptions: ['50','100'],
+			showaggregates: true,
+			columnsresize: true,
+			autoshowfiltericon: true,
+			autoshowcolumnsmenubutton: false,
+			autoshowloadelement: false, // overlay acts as load element for form+results
+			columnsreorder: true,
+			groupable: true,
+			selectionmode: 'singlerow',
+			altrows: true,
+			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
+			columns: [
+				{text: 'Deacc Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
+				{text: 'Deaccession', datafield: 'id_link', width: 100}, // datafield name referenced in createDeaccRowDetaisDialog
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
+				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
+				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
+				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: false, width: 100},
+				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: false, width: 90},
+				{text: 'Deaccession Reason', datafield: 'deac_reason', hideable: true, hidden: true, width: 150},
+				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: true, width: 90},
+				{text: 'Value', datafield: 'value', hideable: true, hidden: true, width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
+				{text: 'Date Closed', datafield: 'closed_date', width: 100, hideable: true, hidden: false },
+				{text: 'Closed By', datafield: 'closed_by', width: 100, hideable: true, hidden: true },
+				{text: 'Recipient Institution', datafield: 'recipient_institution_agent', width: 100, hidable: true, hidden: false },
+				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: true },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Entered By', datafield: 'ent_agent', width: 100},
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'Deaccession Remarks', datafield: 'deac_remarks', hideable: true, hidden: true},
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 1
+			},
+			initrowdetails: initRowDetails
+		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findDeaccessions&execute=true&' + $('##deaccnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','accn');
+
+// TODO: Find number of objects in results, display link to those through specimen search: 
+// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
+
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			// Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
 	});
 
 	/* Setup jqxgrid for borrow Search ******************************************/
