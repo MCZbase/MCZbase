@@ -286,6 +286,9 @@ limitations under the License.
 	<cfif not isdefined("lenders_trans_num_cde")>
 		<cfset lenders_trans_num_cde="">
 	</cfif>
+	<cfif not isdefined("due_date")>
+		<cfset due_date="">
+	</cfif>
 	<cfif not isdefined("borrow_description")>
 		<cfset borrow_description="">
 	</cfif>
