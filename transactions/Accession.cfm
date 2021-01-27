@@ -268,7 +268,7 @@ limitations under the License.
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
-								<input type="button" value="Create Accession" class="btn btn-xs btn-primary"
+								<input type="button" value="Create Accession" class="btn mt-2 btn-xs btn-primary"
 									onClick="if (checkFormValidity($('##newAccession')[0])) { submit();  } ">
 							</div>
 						</div>
