@@ -3178,9 +3178,6 @@ function gridLoaded(gridId, searchType) {
 	if (rowcount == 1) {
 		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
 	} else { 
-	if (rowcount == 1) {
-		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
-	} else { 
 		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + 's' + items);
 	}
 	// set maximum page size
