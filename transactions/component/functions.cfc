@@ -4290,6 +4290,7 @@ limitations under the License.
 								<span class="input-group-text smaller bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
 							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
+							<span id="addTempAddressLabel" class="d-block">Enter a valid agent name for option to create a temporary address.</span>
 						</div>
 						<cfif includeTemporary EQ "true">
 							<script>
@@ -4329,7 +4330,7 @@ limitations under the License.
 									$('##findAddressSearchForm').submit();			
 								}
 							</script>
-							<span id="addTempAddressLabel">Select an agent to create a temporary address.</span>
+							
 							<button type="button" class="btn btn-xs ml-1 btn-secondary" id="addTempAddressButton"
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address" 
