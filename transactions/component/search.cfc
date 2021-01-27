@@ -1328,7 +1328,7 @@ limitations under the License.
 
 <!---   Function getDeccessions  --->
 <!--- TODO: Refactor --->
-<cffunction name="getDeccessions" access="remote" returntype="any" returnformat="json">
+<cffunction name="getDeaccessions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="deacc_number" type="string" required="no">
 	<cfargument name="deacc_type" type="string" required="no">
 	<cfargument name="deacc_status" type="string" required="no">
