@@ -89,13 +89,13 @@ limitations under the License.
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available accession number"> 
 					<div id="nextNumDiv">
-						<h2 class="h4" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: </h2>
+						<h2 class="h4" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: &nbsp; &nbsp;</h2>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
 						</cfquery>
-						<nav class="nav flex-column align-items-start">
+						<div class="float-left">
 							<cfloop query="gnn">
-								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 mb-3 px-2 w-100 text-left" onclick="$('##accn_number').val(#gnn.next_accn_num#);">#gnn.next_accn_num#</button>
+								<button type="button" style="min-width:200px;" class="btn btn-xs btn-outline-primary pt-1 mt-1 mb-3 px-2 w-auto text-left" onclick="$('##accn_number').val(#gnn.next_accn_num#);">#gnn.next_accn_num#</button>
 							</cfloop>
 						</nav>
 					</div>
