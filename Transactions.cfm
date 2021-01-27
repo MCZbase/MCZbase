@@ -292,6 +292,12 @@ limitations under the License.
 	<cfif not isdefined("to_due_date")>
 		<cfset to_due_date="">
 	</cfif>
+	<cfif not isdefined("loan_date")>
+		<cfset loan_date="">
+	</cfif>
+	<cfif not isdefined("to_loan_date")>
+		<cfset to_loan_date="">
+	</cfif>
 	<cfif not isdefined("borrow_description")>
 		<cfset borrow_description="">
 	</cfif>
