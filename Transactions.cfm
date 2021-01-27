@@ -953,6 +953,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
+									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
 								<script>
@@ -1382,6 +1383,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccesson'
+									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
 								<script>
@@ -1808,6 +1810,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Borrow'
+									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
 								<script>
