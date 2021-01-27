@@ -87,9 +87,9 @@ limitations under the License.
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 py-2">
-				<aside class="col-12 col-sm-4 col-md-3" aria-labeledby="nextNumberSectionLabel"> 
+				<aside class="col-12 col-sm-4 col-md-3"> 
 					<div id="nextNumDiv">
-						<h3 id="nextNumberSectionLabel">Next Available Accession Number:</h3>
+						<h2 class="h3" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: </h2>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
 						</cfquery>
@@ -100,7 +100,7 @@ limitations under the License.
 						</nav>
 					</div>
 				</aside><!--- next number aside --->
-				<section class="col-12 col-sm-8 col-md-9 border bg-white pt-3" id="newAccnFormSection" aria-labeledby="newAccnFormSectionLabel">
+				<section class="col-12 col-sm-8 col-md-9 border bg-white pt-3" id="newAccnFormSection" aria-label="Form to create new accession">
 					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
