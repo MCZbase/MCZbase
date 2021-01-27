@@ -259,8 +259,8 @@ limitations under the License.
 	<cfif not isdefined("deacc_status")>
 		<cfset deacc_status="">
 	</cfif>
-	<cfif not isdefined("method")>
-		<cfset method="">
+	<cfif not isdefined("deacc_method")>
+		<cfset deacc_method="">
 	</cfif>
 	<cfif not isdefined("value")>
 		<cfset value="">
@@ -1708,8 +1708,8 @@ limitations under the License.
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="deacc_trans_remarks">
 												</div>
 												<div class="col-md-12 px-0">
-													<label class="data-entry-label mb-0 pb-0" for="method">Method of Transfer</label>
-													<input type="text" name="method" class="data-entry-input" value="#method#" id="method">
+													<label class="data-entry-label mb-0 pb-0" for="deacc_method">Method of Transfer</label>
+													<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">

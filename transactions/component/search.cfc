@@ -1327,7 +1327,6 @@ limitations under the License.
 </cffunction>
 
 <!---   Function getDeccessions  --->
-<!--- TODO: Refactor --->
 <cffunction name="getDeaccessions" access="remote" returntype="any" returnformat="json">
 	<cfargument name="deacc_number" type="string" required="no">
 	<cfargument name="deacc_type" type="string" required="no">
@@ -1367,7 +1366,7 @@ limitations under the License.
 	<cfargument name="permit_contact_id" type="string" required="no">
 	<cfargument name="permit_remarks" type="string" required="no">
 	<cfargument name="value" type="string" required="no">
-	<cfargument name="method" type="string" required="no">
+	<cfargument name="deacc_method" type="string" required="no">
 
 	<!--- If provided with sppecimen guids, look up part collection object ids for lookup --->
 	<cfif not isdefined("collection_object_id") ><cfset collection_object_id = ""></cfif>
@@ -1573,13 +1572,13 @@ limitations under the License.
 						AND deacc_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#deacc_type#">
 					</cfif>
 				</cfif>
-				<cfif isdefined("method") and len(#method#) gt 0>
-					<cfif method EQ 'NULL'>
+				<cfif isdefined("deacc_method") and len(#deacc_method#) gt 0>
+					<cfif deacc_method EQ 'NULL'>
 						AND upper(deaccession.method) is NULL
-					<cfelseif method EQ 'NOT NULL'>
+					<cfelseif deacc_method EQ 'NOT NULL'>
 						AND upper(deaccession.method) is NOT NULL
 					<cfelse>
-						AND upper(deaccession.method) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(method)#%">
+						AND upper(deaccession.method) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(deacc_method)#%">
 					</cfif>
 				</cfif>
 				<cfif isdefined("value") and len(#value#) gt 0>
