@@ -386,13 +386,13 @@ limitations under the License.
 		</cftry>
 		<!--- Note cftry-cfcatch block embeded below within the container div to avoid breaking page layout on failure. --->
 		
-		<main class="container py-3" id="content">
+		<main class="container py-3" id="content" title="Edit Accession Form Content">
 			<cftry>
 				<h1 class="h2 pb-0 ml-3">Edit Accession
 					<strong>#accessionDetails.collection# #accessionDetails.accn_number#</strong> 
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Accession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
-				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Accession" >
+				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Accession Details" >
 					<form class="col-12" name="editAccnForm" id="editAccnForm" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="method" value="saveAccn"><!--- used in normal ajax save, which uses the form fields to post to transactions/component/functions.cfc --->
 						<input id="action" type="hidden" name="action" value="edit"><!--- reused by delete accession, not used in normal save --->
@@ -590,7 +590,7 @@ limitations under the License.
 						updateItemSections();
 					});
 				</script>
-				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession" tabindex="0">
+				<section name="accnItemsSection" class="row border rounded mx-0 my-2" title="Collection Objects in this Accession">
 					<div class="col-12 pt-3 pb-1">
 						<input type="button" value="Add Items (Search &amp; Manage)" class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
 							onClick="window.open('/SpecimenSearch.cfm');">
@@ -604,7 +604,7 @@ limitations under the License.
 						<div id="accnItemDispositionsDiv" tabindex="0"></div>
 					</div>
 				</section>
-				<section role="search" aria-labelledby="guid_list_label" class="container my-3">
+				<section role="search" aria-labelledby="guid_list_label" class="container my-3" title="Add collection objects to this accession">
 					<h2 class="h3">Add Cataloged Items to this Accession</h2>
 						<div class="row border rounded mb-2 pb-2" >
 							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
@@ -657,9 +657,9 @@ limitations under the License.
 						</form>
 						</div>
 					</section>
-				<section class="row mx-0">
+				<section class="row mx-0" name="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
-						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3">
+						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
 							<script>
 								// callback for ajax methods to reload permits from dialog
 								function reloadTransPermits() { 
@@ -674,7 +674,7 @@ limitations under the License.
 									updateAccnLimitations('#transaction_id#','accnLimitationsDiv');
 								});
 							</script>
-								<h3 class="h3">Permissions and Rights documents (e.g. Permits):</h3>
+								<h2 class="h3">Permissions and Rights documents (e.g. Permits):</h2>
 								<p>List here all permissions and rights related documents associated with this accession including the deed of gift, collecting permits, CITES Permits, material transfer agreements, access benefit sharing agreements and other compliance or permit-like documents.  Permits (but not deeds of gift and some other document types) listed here are linked to all subsequent shipments of material from this accession.  <strong>If you aren't sure of whether a permit or permit-like document should be listed with a particular shipment for the accession or here under the accession, list it at least here.</strong>
 								</p>
 								<div id="transactionFormPermits" class="col-12 px-0 pb-1">Loading permits...</div>
@@ -686,7 +686,7 @@ limitations under the License.
 								</div>
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
 						</section>
-						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2">
+						<section name="mediaSection" class="row mx-0 border rounded bg-light my-2" title="Subsection: Media">
 							<div class="col-12">
 								<h2 class="h3">
 									Media documenting this Accession
@@ -734,7 +734,7 @@ limitations under the License.
 								</script>
 							</div> 
 						</section>
-						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" tabindex="0">
+						<section name="shipmentSection" class="row mx-0 border bg-light rounded my-2" title="Subsection: Shipments">
 							<div class="col-12 pb-3">
 								<h2 class="h3">Shipment Information</h2>
 								<script>
@@ -780,24 +780,24 @@ limitations under the License.
 							</div>
 						</section>
 						<cfinclude template="/transactions/shipmentDialog.cfm">
-						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2">
-							<div class="col-12 pb-3" tabindex="0">
-								<div id="countriesOfOriginDiv" tabindex="0"></div>
+						<section name="countriesOfOriginSection" class="row mx-0 border bg-light rounded mt-2" title="Subsection: Country of Origin">
+							<div class="col-12 pb-3">
+								<div id="countriesOfOriginDiv"></div>
 							</div>
 						</section>
-						<section title="Loans of material in this accession" name="loansSection" class="row mx-0 mt-2" tabindex="0">
+						<section title="Loans of material in this accession" name="loansSection" class="row mx-0 mt-2" title="Subsection: Loan of Accession Material">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Loans of material in this accession</h2>
 								<div id="accnLoansDiv"></div>
 							</div>
 						</section>	
-						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2" tabindex="0">
+						<section title="Summary of Restrictions and Agreed Benefits" name="limitationsSection" class="row mx-0 mt-2">
 							<div class="col-12 border bg-light float-left px-3 pb-3 h-100 w-100 rounded">
 								<h2 class="h3">Summary of Restrictions and Agreed Benefits from Permissions &amp; Rights Documents</h2>
 								<div id="accnLimitationsDiv"></div>
 							</div>
 						</section>	
-						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2" tabindex="0">
+						<section title="Projects" class="row mx-0 border rounded bg-light mt-2 mb-0 pb-2">
 							<div class="col-12 pb-0 px-0">
 								<h2 class="h3 px-3">
 									Projects associated with this accession
