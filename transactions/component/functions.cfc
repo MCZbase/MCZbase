@@ -604,7 +604,7 @@ limitations under the License.
 											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
 														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
 													<button type='button' 
-														class='btn btn-xs btn-warning' 
+														class='btn btn-xs btn-warning ml-1' 
 														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
 														value='Remove Permit'>Remove Permit</button>
 													<cfif theResult.recordcount GT 1>
