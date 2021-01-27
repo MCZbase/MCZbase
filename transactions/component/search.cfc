@@ -1693,7 +1693,7 @@ limitations under the License.
 						AND estimated_count = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#estimated_count#"> 
 					</cfif>
 				</cfif>
-			ORDER BY accn_number
+			ORDER BY deacc_number
 		</cfquery>
 		<!---
 			 replaced with leading = 
@@ -1734,9 +1734,9 @@ limitations under the License.
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
 			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-				<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+				<cfset row["id_link"] = "<a href='/Deaccession.cfm?action=editDeacc&transaction_id=#search.transaction_id#' target='_blank'>#search.deacc_number#</a>">
 			<cfelse>
-				<cfset row["id_link"] = "<a href='/editAccn.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
+				<cfset row["id_link"] = "<a href='/Deaccession.cfm?Action=editDeacc&transaction_id=#search.transaction_id#' target='_blank'>#search.deacc_number#</a>">
 			</cfif>
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
