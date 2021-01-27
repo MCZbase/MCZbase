@@ -4392,7 +4392,7 @@ limitations under the License.
 						var lines = (rowdata.formatted_addr.match(/\\n/g) || []).length;
 						if (lines==0) { lines = 2; }
 						var pvalue = rowdata.formatted_addr.replaceAll('\\n','<br>');
-						var result = "<div style='height: " + lines + "rem;' class='p-1' >" + pvalue + "</div>";
+						var result = "<div style='height: " + lines + "rem;' class='p-1 mb-1' >" + pvalue + "</div>";
 						return result;
 					};
 
@@ -4841,7 +4841,7 @@ autorowheight: "true",
 				<div class="container">
 					<div class="row">
 						<div class="alert alert-danger" role="alert">
-							<img src="/shared/images/Process-stop.png" alt="[ error ]" style="float:left; width: 50px;margin-right: 1em;">
+							<img src="/shared/images/Process-stop.png" alt="[ error ]" width="50" class="float-left mr-3">
 							<h2>Internal Server Error.</h2>
 							<p>#message#</p>
 							<p><a href="/info/bugs.cfm">“Feedback/Report Errors”</a></p>
