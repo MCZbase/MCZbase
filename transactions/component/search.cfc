@@ -1402,16 +1402,16 @@ limitations under the License.
 			<cfset to_trans_date = "#to_trans_date#-12-31">
 		</cfif>
 	</cfif>
-	<cfif isdefined("rec_date") and len(#rec_date#) gt 0>
-		<cfif not isdefined("to_rec_date") or len(to_rec_date) is 0>
-			<cfset to_rec_date=rec_date>
+	<cfif isdefined("closed_date") and len(#closed_date#) gt 0>
+		<cfif not isdefined("to_closed_date") or len(to_closed_date) is 0>
+			<cfset to_closed_date=closed_date>
 		</cfif>
 		<!--- support search on just a year or pair of years --->
-		<cfif len(#rec_date#) EQ 4>
-			<cfset rec_date = "#rec_date#-01-01">
+		<cfif len(#closed_date#) EQ 4>
+			<cfset closed_date = "#closed_date#-01-01">
 		</cfif>
-		<cfif len(#to_rec_date#) EQ 4>
-			<cfset to_rec_date = "#to_rec_date#-12-31">
+		<cfif len(#to_closed_date#) EQ 4>
+			<cfset to_closed_date = "#to_closed_date#-12-31">
 		</cfif>
 	</cfif>
 
@@ -1553,7 +1553,7 @@ limitations under the License.
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(trans_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_trans_date, "yyyy-mm-dd")#'>)
 				</cfif>
-				<cfif isdefined("closed_date") and len(rec_date) gt 0>
+				<cfif isdefined("closed_date") and len(closed_date) gt 0>
 					AND deaccession.closed_date between 
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(closed_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_closed_date, "yyyy-mm-dd")#'>)
