@@ -4290,8 +4290,7 @@ limitations under the License.
 								<span class="input-group-text smaller bg-light" id="shipment_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 							</div>
 							<input type="text" name="shipment_agent_name" id="shipment_agent_name" class="form-control form-control-sm data-entry-input" value="">
-							<span id="addTempAddressLabel" class="d-block">Enter a valid agent name for option to create a temporary address.</span>
-						</div>
+						
 						<cfif includeTemporary EQ "true">
 							<script>
 								function updateOfShipmentAgentID() { 
@@ -4308,6 +4307,8 @@ limitations under the License.
 								});
 							</script>
 						</cfif>
+						<span id="addTempAddressLabel" class="d-block">Enter a valid agent name for option to create a temporary address button.</span>
+							</div>
 						<input type="hidden" name="shipment_agent_id" id="shipment_agent_id" value=""
 							onchange=" updateAgentLink($('##shipment_agent_id').val(),'shipment_agent_view_link'); ">
 						<script>
