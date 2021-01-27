@@ -246,6 +246,11 @@ BELOW: Small Form button (bootstrap override)
 .btn-outline-primary {
 	background-color: white;
 }
+.btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show>.btn-outline-primary.dropdown-toggle {
+    color: #343a40;
+    background-color: rgba(0, 123, 255, .25);
+    border-color: hsl(0, 2%, 47%);
+}
 .btn-info {
 	color: #fff;
 	background-color: #17a2b8;
