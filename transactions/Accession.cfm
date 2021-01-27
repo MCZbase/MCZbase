@@ -247,15 +247,15 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-                        <label for="radio1" class="data-entry-label w-auto mt-0">To be MCZ cataloged</label>
+                        <label for="radio1" class="data-entry-label w-auto mt-0" style="max-width: 80%;">To be MCZ cataloged</label>
                         <input type="radio" name="for_use_by" value="" checked="checked" id="radio1" class="mt-2">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio2" class="data-entry-label w-auto mt-0">For use by HMNH Exhibits</label>
+                        <label for="radio2" class="data-entry-label w-auto mt-0" style="max-width: 80%;">For use by HMNH Exhibits</label>
                         <input type="radio" name="for_use_by" value="116195" id="radio2" class="mt-2">
 							</div>
 							<div class="col-12 col-md-4">
-                        <label for="radio3" class="data-entry-label w-auto mt-0">For use by HMNH Education</label>
+                        <label for="radio3" class="data-entry-label w-auto mt-0" style="max-width: 80%;">For use by HMNH Education</label>
                         <input type="radio" name="for_use_by" value="91906" id="radio3" class="mt-2">
 							</div>
 						</div>
