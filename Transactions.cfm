@@ -289,6 +289,9 @@ limitations under the License.
 	<cfif not isdefined("due_date")>
 		<cfset due_date="">
 	</cfif>
+	<cfif not isdefined("to_due_date")>
+		<cfset to_due_date="">
+	</cfif>
 	<cfif not isdefined("borrow_description")>
 		<cfset borrow_description="">
 	</cfif>
