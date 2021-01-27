@@ -163,6 +163,74 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
+<cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'deaccession'
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'deaccession'
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
+<cfquery name="ctpermit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'borrow'
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'borrow'
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select * from collection order by collection
 </cfquery>
