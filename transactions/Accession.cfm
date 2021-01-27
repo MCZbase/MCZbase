@@ -87,6 +87,19 @@ limitations under the License.
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
+				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
+					<div id="nextNumDiv">
+						<h3 id="nextNumberSectionLabel">Next Available Accession Number:</h3>
+						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
+						</cfquery>
+						<nav class="nav flex-column align-items-start">
+							<cfloop query="gnn">
+								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="$('##accn_number').val(#gnn.next_accn_num#);">#gnn.next_accn_num#</button>
+							</cfloop>
+						</nav>
+					</div>
+				</aside><!--- next number aside --->
 				<section class="col-12 col-sm-8 border bg-white pt-3" id="newAccnFormSection" aria-labeledby="newAccnFormSectionLabel">
 					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
@@ -262,19 +275,7 @@ limitations under the License.
 					</form>
 				</section>
 				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
-					<div id="nextNumDiv">
-						<h3 id="nextNumberSectionLabel">Next Available Accession Number:</h3>
-						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select max(to_number(accn_number)) + 1 as next_accn_num from accn 
-						</cfquery>
-						<nav class="nav flex-column align-items-start">
-							<cfloop query="gnn">
-								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="$('##accn_number').val(#gnn.next_accn_num#);">#gnn.next_accn_num#</button>
-							</cfloop>
-						</nav>
-					</div>
-				</aside><!--- next number aside --->
+				
 			</div>
 		</main>
 	</cfoutput>
