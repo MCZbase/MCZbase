@@ -4390,7 +4390,7 @@ limitations under the License.
 					};
 					var addrcellrenderer = function (index, datafield, value, defaultvalue, column, rowdata) { 
 						var lines = (rowdata.formatted_addr.match(/\\n/g) || []).length;
-						if (lines==0) { lines = 2(1.2); }
+						if (lines==0) { lines = 2; }
 						var pvalue = rowdata.formatted_addr.replaceAll('\\n','<br>');
 						var result = "<div style='height: " + lines + "rem;' class='p-1' >" + pvalue + "</div>";
 						return result;
