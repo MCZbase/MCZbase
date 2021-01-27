@@ -86,8 +86,8 @@ limitations under the License.
 	<cfoutput>
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newAccnFormSectionLabel" >Create New Accession <i class="fas fa-info-circle" onClick="getMCZDocs('Accession)" aria-label="help link"></i></h1>
-			<div class="row border rounded bg-light mt-2 mb-4 pr-2 pl-2 py-2 pl-md-0">
-				<aside class="col-12 col-sm-4 col-md-3"> 
+			<div class="row border rounded bg-light mt-2 mb-4 p-2">
+				<section class="col-12" title="next available accession number"> 
 					<div id="nextNumDiv">
 						<h2 class="h4" id="nextNumberSectionLabel">Next Available Accession Number <span class="sr-only">to be used in accession number field</span>: </h2>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -99,8 +99,8 @@ limitations under the License.
 							</cfloop>
 						</nav>
 					</div>
-				</aside><!--- next number aside --->
-				<section class="col-12 col-sm-8 col-md-9 border bg-white pt-3" id="newAccnFormSection" aria-label="Form to create new accession">
+				</section><!--- next number section --->
+				<section class="col-12 border bg-white pt-3" id="newAccnFormSection" aria-label="Form to create new accession">
 					<form name="newAccession" id="newAccession" class="" action="/transactions/Accession.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeAccn">
 						<div class="form-row mb-2">
