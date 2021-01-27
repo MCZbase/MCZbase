@@ -20,6 +20,18 @@
 			<cfset execute="accn">
 		</cfif>
 	</cfcase>
+	<cfcase value="findDeaccessions">
+		<cfset pageTitle = "Search Deaccessions">
+		<cfif isdefined("execute")>
+			<cfset execute="deaccession">
+		</cfif>
+	</cfcase>
+	<cfcase value="findBorrows">
+		<cfset pageTitle = "Search borrows">
+		<cfif isdefined("execute")>
+			<cfset execute="borrow">
+		</cfif>
+	</cfcase>
 	<cfdefaultcase>
 		<cfset pageTitle = "Search Transactions">
 		<cfif isdefined("execute")>
@@ -1487,11 +1499,11 @@ limitations under the License.
 
 							<!--- Deaccession search tab panel --->
 							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
-							<div class="tab-pane fade #deaccnTabShow# #accnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
+							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
 								<h2 class="h3">Not yet Implemented</h3>
 							</div>
 							<cfelse>
-							<div class="tab-pane fade #deaccnTabShow# #accnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
+							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -3087,7 +3099,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").on("bindingcomplete", function(event) {
 			// add a link out to this search, serializing the form as http get parameters
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findDeaccessions&execute=true&' + $('##deaccnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
-			gridLoaded('searchResultsGrid','accn');
+			gridLoaded('searchResultsGrid','deacc');
 
 // TODO: Find number of objects in results, display link to those through specimen search: 
 // TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
@@ -3155,6 +3167,17 @@ function gridLoaded(gridId, searchType) {
 			items = ' ' + item_summary['sum'] + ' cataloged_items';
 		}
 	}
+	if (searchType == 'deacc') { 
+		item_summary = $('##' + gridId).jqxGrid('getcolumnaggregateddata', 'item_count', ['sum','count','min','max','avg','stdev']);
+      if (item_summary['sum']==1){ 
+			items = ' ' + item_summary['sum'] + ' cataloged_item';
+		} else {
+			items = ' ' + item_summary['sum'] + ' cataloged_items';
+		}
+	}
+	if (rowcount == 1) {
+		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
+	} else { 
 	if (rowcount == 1) {
 		$('##resultCount').html('Found ' + rowcount + ' ' + searchType + items);
 	} else { 
