@@ -603,7 +603,7 @@ limitations under the License.
 						<div id="accnItemDispositionsDiv" tabindex="0"></div>
 					</div>
 				</section>
-				<section role="search" aria-labelledby="guid_list_label" class="container my-2">
+				<section role="search" aria-labelledby="guid_list_label" class="container my-3">
 					<h2 class="h3">Add Cataloged Items to this Accession</h2>
 						<div class="row border rounded mb-2 pb-2" >
 							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
@@ -648,7 +648,7 @@ limitations under the License.
 									<div id="addResultDiv">&nbsp;</div>
 									<input type="button" id="addbutton"
 											value="Add" title="Add" aria-label="Add"
-											class="btn btn-xs btn-secondary"
+											class="btn mt-0 mt-md-3 mt-lg-1 btn-xs btn-secondary"
 											onClick=" addCollectionObjects(); " 
 											>
 								</div>

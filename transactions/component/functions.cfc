@@ -1424,10 +1424,10 @@ limitations under the License.
 								#mediaLink# #permit_type# #permit_Num#
 								| Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
 								<input type='button' 
-									class='btn btn-xs btn-secondary pr-1' 
+									class='btn btn-xs btn-secondary mr-1' 
 									onClick=' window.open("/transactions/Permit.cfm?action=edit&permit_id=#permit_id#")' 
 									target='_blank' value='Edit'>
-								<input type='button' class='btn btn-xs btn-warning pr-1' 
+								<input type='button' class='btn btn-xs btn-warning mr-1' 
 									onClick='confirmDialog("Remove this permit from this Transaction (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromTransaction(#permit_id#,#transaction_id#); } ); ' 
 									value='Remove Permit'>
 							</li>
@@ -4330,7 +4330,7 @@ limitations under the License.
 								}
 							</script>
 							<span id="addTempAddressLabel">Select an agent to create a temporary address.</span>
-							<button type="button" class="btn btn-xs btn-secondary" id="addTempAddressButton"
+							<button type="button" class="btn btn-xs ml-1 btn-secondary" id="addTempAddressButton"
 								onclick="addTemporaryAddressForAgent('shipment_agent_id','shipment_agent_id','search_formatted_address','#transaction_id#',addTempAddrCallback); " 
 								aria-label="Create a temporary address" 
 								style="display: none;"
@@ -4390,7 +4390,7 @@ limitations under the License.
 						var lines = (rowdata.formatted_addr.match(/\\n/g) || []).length;
 						if (lines==0) { lines = 2; }
 						var pvalue = rowdata.formatted_addr.replaceAll('\\n','<br>');
-						var result = "<div style='height: " + lines + "rem; '>" + pvalue + "</div>";
+						var result = "<div style='height: " + lines + "rem; ' class="p-1">" + pvalue + "</div>";
 						return result;
 					};
 
