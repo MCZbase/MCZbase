@@ -138,7 +138,7 @@ limitations under the License.
 							where collection not like '% Observations'
 							order by collection 
 						</cfquery>
-						<div class="flex-row float-left mb-3">
+						<div class="flex-row float-left mb-1">
 						<cfloop query="loanableCollections">
 							<cftry>
 								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
@@ -166,7 +166,7 @@ limitations under the License.
 							</cfcatch>
 							</cftry>
 							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mt-2 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 							<cfelse>
 								<span style="font-size:x-small"> No data available for #collection#. </span>
 							</cfif>
