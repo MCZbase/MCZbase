@@ -736,10 +736,9 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
+									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'loan') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
-										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Loan'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
@@ -1080,10 +1079,9 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_accn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
+									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'accn') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
-										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
@@ -1511,10 +1509,9 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_deacc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
+									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'deaccession') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
-										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccn'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
@@ -1950,10 +1947,9 @@ limitations under the License.
 									select coll_obj_disposition from ctcoll_obj_disp
 								</cfquery>
 								<cfquery name="cttrans_agent_role_borrow" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select count(trans_agent.trans_agent_id) cnt, cttrans_agent_role.trans_agent_role
+									select MCZBASE.count_transagent_for_role(cttrans_agent_role.trans_agent_role,'borrow') cnt, cttrans_agent_role.trans_agent_role
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
-										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Borrow'
 										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
