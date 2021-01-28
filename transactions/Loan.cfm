@@ -324,11 +324,11 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2" id="insurance_section">
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-4">
 								<label for="insurance_value" class="data-entry-label">Insurance value</label>
 								<input type="text" name="insurance_value" id="insurance_value" value="" class="data-entry-input">
 							</div>
-							<div class="col-12 col-md-5">
+							<div class="col-12 col-md-6">
 								<label for="insurance_maintained_by" class="data-entry-label">Insurance Maintained By</label>
 								<input type="text" name="insurance_maintained_by" id="insurance_maintained_by" value="" class="data-entry-input">
 							</div>
