@@ -974,7 +974,7 @@ limitations under the License.
 															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
 															<script>
 																function handleLoanPermitPickAction(event) {
-																	openfindpermitdialog('loan)permit_num','loan_permit_id','loanpermitpickerdialog');
+																	openfindpermitdialog('loan_permit_num','loan_permit_id','loanpermitpickerdialog');
 																}
 															</script>
 															<div id="loanpermitpickerdialog"></div>
