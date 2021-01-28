@@ -405,7 +405,7 @@ limitations under the License.
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
 				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
-					left join shipment on deaccession.transaction_id = shipment.transaction_id
+					left join shipment on loan.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
@@ -1092,7 +1092,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
-					left join shipment on deaccession.transaction_id = shipment.transaction_id
+					left join shipment on accn.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
