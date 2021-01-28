@@ -741,6 +741,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Loan'
+										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -1084,6 +1085,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Accn'
+										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -1514,6 +1516,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Deaccn'
+										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -1950,6 +1953,7 @@ limitations under the License.
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
 									where trans_agent_role_allowed.transaction_type = 'Borrow'
+										or cttrans_agent_role.trans_agent_role = 'entered by'
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
