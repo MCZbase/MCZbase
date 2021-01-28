@@ -190,7 +190,31 @@ limitations under the License.
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
-						
+							<div class="col-12 col-sm-6 col-xl-3">
+								<label for="loan_type" class="data-entry-label">Loan Type</label>
+								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
+									<cfloop query="ctLoanType">
+										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
+									</cfloop>
+								</select>
+							</div>
+							<div class="col-12 col-sm-6 col-xl-3">
+								<label for="loan_status" class="data-entry-label">Loan Status</label>
+								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
+									<cfloop query="ctLoanStatus">
+										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
+											<cfif #ctLoanStatus.loan_status# is "open">
+												<cfset selected = "selected='selected'">
+											<cfelse>
+												<cfset selected="">
+											</cfif>
+											<option value="#ctLoanStatus.loan_status#" #selected# >#ctLoanStatus.loan_status#</option>
+										</cfif>
+									</cfloop>
+								</select>
+							</div>
+						</div>
+						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
@@ -256,6 +280,8 @@ limitations under the License.
 									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
 								</script> 
 							</div>
+						</div>
+						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
@@ -288,38 +314,11 @@ limitations under the License.
 									$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
 								</script> 
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
-								<label for="loan_type" class="data-entry-label">Loan Type</label>
-								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
-									<cfloop query="ctLoanType">
-										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
-									</cfloop>
-								</select>
-							</div>
-							<div class="col-12 col-md-6">
-								<label for="loan_status" class="data-entry-label">Loan Status</label>
-								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
-									<cfloop query="ctLoanStatus">
-										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
-											<cfif #ctLoanStatus.loan_status# is "open">
-												<cfset selected = "selected='selected'">
-											<cfelse>
-												<cfset selected="">
-											</cfif>
-											<option value="#ctLoanStatus.loan_status#" #selected# >#ctLoanStatus.loan_status#</option>
-										</cfif>
-									</cfloop>
-								</select>
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input">
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="return_due_date" class="data-entry-label">Return Due Date</label>
 								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input" >
 							</div>
