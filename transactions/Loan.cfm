@@ -138,7 +138,7 @@ limitations under the License.
 							where collection not like '% Observations'
 							order by collection 
 						</cfquery>
-						<div class="flex-row float-left">
+						<div class="flex-row float-left mb-2">
 						<cfloop query="loanableCollections">
 							<cftry>
 								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
