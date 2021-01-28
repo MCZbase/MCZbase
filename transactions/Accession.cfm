@@ -443,7 +443,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="accn_status" class="data-entry-label">Accn Status</label>
+								<label for="accn_status" class="data-entry-label">Accession Status</label>
 								<span>
 									<select name="accn_status" id="accn_status" class="reqdClr data-entry-select" required >
 										<cfloop query="ctAccnStatus">
