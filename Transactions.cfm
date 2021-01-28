@@ -1579,11 +1579,6 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
-							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
-								<h2 class="h3">Not yet Implemented</h3>
-							</div>
-							<cfelse>
 							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2013,7 +2008,6 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane deaccession search---> 
-							</cfif><!--- end if master delete for deployment --->
 
 							<!--- Borrow search tab panel --->
 							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
