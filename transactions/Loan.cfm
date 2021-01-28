@@ -258,7 +258,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
 									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -274,7 +274,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6"> 
+							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
 									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
