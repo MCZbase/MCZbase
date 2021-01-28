@@ -256,8 +256,6 @@ limitations under the License.
 									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
 								</script> 
 							</div>
-						</div>
-						<div class="form-row mb-2">
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
