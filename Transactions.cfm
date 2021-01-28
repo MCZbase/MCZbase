@@ -1089,7 +1089,7 @@ limitations under the License.
 								</cfquery>
 								<script>
 									jQuery(document).ready(function() {
-										jQuery("##part_name").autocomplete({
+										jQuery("##accn_part_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
 													url: "/specimens/component/functions.cfc",
@@ -1102,7 +1102,7 @@ limitations under the License.
 												})
 											},
 											select: function (event, result) {
-												$('##part_name').val(result.item.id);
+												$('##accn_part_name').val(result.item.id);
 											},
 											minLength: 1
 										});
@@ -1519,7 +1519,7 @@ limitations under the License.
 								</cfquery>
 								<script>
 									jQuery(document).ready(function() {
-										jQuery("##part_name").autocomplete({
+										jQuery("##deacc_part_name").autocomplete({
 											source: function (request, response) { 
 												$.ajax({
 													url: "/specimens/component/functions.cfc",
@@ -1532,7 +1532,7 @@ limitations under the License.
 												})
 											},
 											select: function (event, result) {
-												$('##part_name').val(result.item.id);
+												$('##deacc_part_name').val(result.item.id);
 											},
 											minLength: 1
 										});
@@ -1955,27 +1955,6 @@ limitations under the License.
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
-								<script>
-									jQuery(document).ready(function() {
-										jQuery("##part_name").autocomplete({
-											source: function (request, response) { 
-												$.ajax({
-													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
-													dataType: 'json',
-													success : function (data) { response(data); },
-													error : function (jqXHR, textStatus, error) {
-														handleFail(jqXHR,textStatus,error,"loading part names");
-													}
-												})
-											},
-											select: function (event, result) {
-												$('##part_name').val(result.item.id);
-											},
-											minLength: 1
-										});
-									});
-								</script>
 								<cfif not isdefined("borrow_number")>
 									<cfset borrow_number="">
 								</cfif>
