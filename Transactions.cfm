@@ -1828,25 +1828,25 @@ limitations under the License.
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
-													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+													<label for="de_permit_num" id="de_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
 													<div class="input-group">
-														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
 															function handleAPermitPickAction(event) {
-																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
+																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
 															}
 														</script>
-														<div id="a_permitpickerdialog"></div>
+														<div id="de_permitpickerdialog"></div>
 													</div>
 													<script>
 														$(document).ready(function() {
-															$(makePermitPicker('a_permit_num','a_permit_id'));
-															$('##a_permit_num').blur( function () {
+															$(makePermitPicker('de_permit_num','de_permit_id'));
+															$('##de_permit_num').blur( function () {
 																// prevent an invisible permit_id from being included in the search.
-																if ($('##a_permit_num').val().trim() == "") { 
-																	$('##a_permit_id').val("");
+																if ($('##de_permit_num').val().trim() == "") { 
+																	$('##de_permit_id').val("");
 																}
 															});
 														});
@@ -1854,27 +1854,27 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
-													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
-													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
-													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
+													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
+													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
+													<input type="hidden" name="issued_by_id" id="de_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
 												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
-													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
-													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
-													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
+													<label for="de_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
+													<input type="text" name="IssuedToAgent" id="de_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
+													<input type="hidden" name="issued_to_id" id="de_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
 												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
-													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
-													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
-													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
+													<label for="de_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
+													<input type="text" name="permit_contact_agent" id="de_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
+													<input type="hidden" name="permit_contact_id" id="de_permit_contact_agent_id" value="#permit_contact_id#" >
 												</div>
 												</div>
 											
 												<script>
 													$(document).ready(function() {
-														$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
-														$(makeConstrainedAgentPicker('a_issued_to_agent','a_issued_to_agent_id','permit_issued_to_agent'));
-														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
+														$(makeConstrainedAgentPicker('de_issued_by_agent','de_issued_by_agent_id','permit_issued_by_agent'));
+														$(makeConstrainedAgentPicker('de_issued_to_agent','de_issued_to_agent_id','permit_issued_to_agent'));
+														$(makeConstrainedAgentPicker('de_permit_contact_agent','de_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
 												<div class="col-md-12">
@@ -2159,8 +2159,8 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
-													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
+													<label for="de_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="de_nature_of_material">
 												</div>
 												<div class="col-md-12 px-0">
 													<label for="lenders_instructions" class="data-entry-label mb-0 pb-0">Lender's Instructions</label>
@@ -2181,25 +2181,25 @@ limitations under the License.
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
-													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+													<label for="de_permit_num" id="de_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
 													<div class="input-group">
-														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
 															function handleAPermitPickAction(event) {
-																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
+																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
 															}
 														</script>
-														<div id="a_permitpickerdialog"></div>
+														<div id="de_permitpickerdialog"></div>
 													</div>
 													<script>
 														$(document).ready(function() {
-															$(makePermitPicker('a_permit_num','a_permit_id'));
-															$('##a_permit_num').blur( function () {
+															$(makePermitPicker('de_permit_num','de_permit_id'));
+															$('##de_permit_num').blur( function () {
 																// prevent an invisible permit_id from being included in the search.
-																if ($('##a_permit_num').val().trim() == "") { 
-																	$('##a_permit_id').val("");
+																if ($('##de_permit_num').val().trim() == "") { 
+																	$('##de_permit_id').val("");
 																}
 															});
 														});
@@ -2207,27 +2207,27 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
-													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
-													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
-													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
+													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
+													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
+													<input type="hidden" name="issued_by_id" id="de_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
 												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
-													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
-													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
-													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
+													<label for="de_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
+													<input type="text" name="IssuedToAgent" id="de_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
+													<input type="hidden" name="issued_to_id" id="de_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
 												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
-													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
-													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
-													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
+													<label for="de_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
+													<input type="text" name="permit_contact_agent" id="de_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
+													<input type="hidden" name="permit_contact_id" id="de_permit_contact_agent_id" value="#permit_contact_id#" >
 												</div>
 												</div>
 											
 												<script>
 													$(document).ready(function() {
-														$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
-														$(makeConstrainedAgentPicker('a_issued_to_agent','a_issued_to_agent_id','permit_issued_to_agent'));
-														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
+														$(makeConstrainedAgentPicker('de_issued_by_agent','de_issued_by_agent_id','permit_issued_by_agent'));
+														$(makeConstrainedAgentPicker('de_issued_to_agent','de_issued_to_agent_id','permit_issued_to_agent'));
+														$(makeConstrainedAgentPicker('de_permit_contact_agent','de_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
 												<div class="col-md-12">
