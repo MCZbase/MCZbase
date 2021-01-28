@@ -738,9 +738,9 @@ limitations under the License.
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
-												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickActionTr();" onclick="handleAPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAllPermitPickActionTr();" onclick="handleAllPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
 												<script>
-													function handleAPermitPickActionTr(event) {
+													function handleAllPermitPickActionTr(event) {
 														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
 													}
 												</script>
@@ -967,13 +967,13 @@ limitations under the License.
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
 												<div class="form-row mx-0">
 													<div class="col-12">
-														<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
+														<label for="permit_num" id="loan_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
 														<div class="input-group">
 															<input type="hidden" name="permit_id" id="loan_permit_id" value="#permit_id#">
 															<input type="text" name="permit_num" id="loan_permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
 															<script>
-																function handlePermitPickAction(event) {
+																function handleLoanPermitPickAction(event) {
 																	openfindpermitdialog('loan)permit_num','loan_permit_id','loanpermitpickerdialog');
 																}
 															</script>
@@ -1913,9 +1913,9 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
-															function handleAPermitPickAction(event) {
+															function handleDePermitPickAction(event) {
 																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
 															}
 														</script>
@@ -2245,9 +2245,9 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="bo_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="bo_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="bo_permit_picklist">Pick</span> </div>
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleBorrowPermitPickAction();" onclick="handleBorrowPermitPickAction();" aria-labelledby="bo_permit_picklist">Pick</span> </div>
 														<script>
-															function handleAPermitPickAction(event) {
+															function handleBorrowPermitPickAction(event) {
 																openfindpermitdialog('bo_permit_num','bo_permit_id','bo_permitpickerdialog');
 															}
 														</script>
