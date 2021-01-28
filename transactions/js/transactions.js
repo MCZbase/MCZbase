@@ -899,13 +899,13 @@ function addTransAgentToForm (id,name,role,formid,transaction_type) {
 			var d= '';
 			d+='<div class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom" id="new_trans_agent_div_'+i+'">';
 			d+='<div class="col-12 col-md-4">';
-			d+=' <label for="agent_id' + i + '" class="sr-only">Agent Name</label><div class="input-group">';
+			d+=' <label for="agent_id_' + i + '" class="sr-only">Agent Name</label><div class="input-group">';
 			d+='  <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+='   onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='  <input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
 			d+='  <div class="input-group"><div class="input-group-prepend">';
 			d+='   <span class="input-group-text smaller" id="agent_icon_'+i+'"><i class="fa fa-user" aria-hidden="true"></i></span> </div>';
-			d+='   <input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control data-entry-input data-height" aria-label="agent name' + i + '" size="30" value="' + name + '" >';
+			d+='   <input type="text" id="trans_agent_' + i + '" name="trans_agent_' + i + '" required class="goodPick form-control data-entry-input data-height" size="30" value="' + name + '" >';
 			d+='  </div>';
 			d+=' </div>';
 			d+='</div>';
