@@ -604,7 +604,7 @@ limitations under the License.
 						<div id="accnItemDispositionsDiv" tabindex="0"></div>
 					</div>
 				</section>
-				<section role="search" aria-labelledby="guid_list_label" class="container my-3" title="Add collection objects to this accession">
+				<section role="search" aria-labelledby="guid_list_label" class="container my-3" title="Search for collection objects to add to this accession">
 					<h2 class="h3">Add Cataloged Items to this Accession</h2>
 						<div class="row border rounded mb-2 pb-2" >
 							<form name="addCollObjectsAccn" id="addCollObjectsAccn" class="col-12">
@@ -614,7 +614,7 @@ limitations under the License.
 								<div class="col-12 col-md-10">
 									<label for="guid_list" id="guid_list_label" class="data-entry-label">Cataloged items to move into to this accession (comma separated list of GUIDs in the form MCZ:Dept:number)</label>
 									<input type="text" id="guid_list" name="guid_list" class="data-entry-input" 
-											value="" aria-labelledby="guid_list_label" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
+											value="" placeholder="MCZ:Dept:1111,MCZ:Dept:1112" >
 								</div>
 								<script>
 									function addCollectionObjects(){ 
@@ -648,7 +648,7 @@ limitations under the License.
 								<div class="col-12 col-md-2">
 									<div id="addResultDiv">&nbsp;</div>
 									<input type="button" id="addbutton"
-											value="Add" title="Add" aria-label="Add"
+											value="Add" aria-label="Add catalog items"
 											class="btn mt-0 mt-md-3 mt-lg-1 btn-xs btn-secondary"
 											onClick=" addCollectionObjects(); " 
 											>
@@ -657,7 +657,7 @@ limitations under the License.
 						</form>
 						</div>
 					</section>
-				<section class="row mx-0" name="Associated Shipments, Permits, Documents and Media">
+				<section class="row mx-0" arial-label="Associated Shipments, Permits, Documents and Media">
 					<div class="col-12 mt-2 mb-4 border rounded px-2 pb-2 bg-grayish">
 						<section name="permitSection" class="row mx-0 border rounded bg-light my-2 px-3 pb-3" title="Subsection: Permissions and Rights Documents">
 							<script>
