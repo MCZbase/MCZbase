@@ -1479,7 +1479,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
+																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1901,7 +1901,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctpermit_type_deaccn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# deaccessions)</option>
+																<option value="#ctpermit_type_deaccn.permit_type#" #selected# >#ctpermit_type_deaccn.permit_type# (#ctpermit_type_deaccn.ct# deaccessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1915,7 +1915,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_deaccn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# deaccessions)</option>
+																<option value="#ctspecific_permit_type_deaccn.specific_type#" #selected# >#ctspecific_permit_type_deaccn.specific_type# (#ctspecific_permit_type_deaccn.permit_type#) [#ctspecific_permit_type_deaccn.ct# deaccessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -2247,7 +2247,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_borrow.specific_type#" #selected# >#ctspecific_permit_type_borrow.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_borrow.ct# borrows)</option>
+																<option value="#ctspecific_permit_type_borrow.specific_type#" #selected# >#ctspecific_permit_type_borrow.specific_type# (#ctspecific_permit_type_borrow.permit_type#) [#ctspecific_permit_type_borrow.ct# borrows)</option>
 															</cfloop>
 														</select>
 													</div>
