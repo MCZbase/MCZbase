@@ -179,7 +179,7 @@ limitations under the License.
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="collection_id">Collection</label>
+								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -194,7 +194,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="auth_agent_name">In-House Authorized By</label>
+									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -210,7 +210,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="rec_agent_name">Received By:</label>
+									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -228,7 +228,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -244,7 +244,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6"> 
 								<span>
-									<label for="recipient_institution_agent_name">Recipient Institution:</label>
+									<label for="recipient_institution_agent_name" class="data-entry-label">Recipient Institution:</label>
 									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -262,7 +262,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
+									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
 									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -278,7 +278,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6"> 
 								<span>
-									<label for="foruseby_agent_name">For Use By:</label>
+									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -295,7 +295,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="loan_type">Loan Type</label>
+								<label for="loan_type" class="data-entry-label">Loan Type</label>
 								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
@@ -303,7 +303,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="loan_status">Loan Status</label>
+								<label for="loan_status" class="data-entry-label">Loan Status</label>
 								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctLoanStatus">
 										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
@@ -320,11 +320,11 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="initiating_date">Transaction Date</label>
+								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input">
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="return_due_date">Return Due Date</label>
+								<label for="return_due_date" class="data-entry-label">Return Due Date</label>
 								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input" >
 							</div>
 						</div>
@@ -375,7 +375,7 @@ limitations under the License.
 						</script>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr form-control form-control-sm w-100 autogrow" 
@@ -392,7 +392,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_instructions">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 									rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
@@ -400,7 +400,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="trans_remarks">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
