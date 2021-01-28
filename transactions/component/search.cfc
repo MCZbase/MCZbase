@@ -261,6 +261,8 @@ limitations under the License.
 	<cfargument name="collection_object_id" type="string" required="no">
 	<cfargument name="specimen_guid" type="string" required="no">
 	<cfargument name="parent_loan_number" type="string" required="no">
+	<cfargument name="insurance_value" type="string" required="no">
+	<cfargument name="insurance_maintained_by" type="string" required="no">
 	<!--- in original API, no longer supported --->
 	<!--- notClosed=1 use loan_status = 'not closed' --->
 	<!--- in original API, not yet supported --->
@@ -527,6 +529,24 @@ limitations under the License.
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					AND loan_relations.relation_type = 'Subloan'
 					AND parent_loan.loan_number like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#parent_loan_number#">
+				</cfif>
+				<cfif isdefined("insurance_value") AND len(#insurance_value#) gt 0>
+					<cfif insurance_value EQ 'NULL'>
+						AND loan.insurance_value is NULL
+					<cfelseif insurance_value EQ 'NOT NULL'>
+						AND loan.insurance_value is NOT NULL
+					<cfelse>
+						AND upper(loan.insurance_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_value)#%">
+					</cfif>
+				</cfif>
+				<cfif isdefined("insurance_maintained_by") AND len(#insurance_maintained_by#) gt 0>
+					<cfif insurance_maintained_by EQ 'NULL'>
+						AND loan.insurance_maintained_by is NULL
+					<cfelseif insurance_maintained_by EQ 'NOT NULL'>
+						AND loan.insurance_maintained_by is NOT NULL
+					<cfelse>
+						AND upper(loan.insurance_maintained_by) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(insurance_maintained_by)#%">
+					</cfif>
 				</cfif>
 			ORDER BY to_number(regexp_substr (loan.loan_number, '^[0-9]+', 1, 1)), to_number(regexp_substr (loan.loan_number, '[0-9]+', 1, 2)), loan.loan_number
 		</cfquery>

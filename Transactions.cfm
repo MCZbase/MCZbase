@@ -365,6 +365,12 @@ limitations under the License.
 	<cfif not isdefined("loan_type")>
 		<cfset loan_type="">
 	</cfif>
+	<cfif not isdefined("insurance_value")>
+		<cfset insurance_value="">
+	</cfif>
+	<cfif not isdefined("insurance_maintained_by")>
+		<cfset insurance_maintained_by="">
+	</cfif>
 	<cfif not isdefined("nature_of_material")>
 		<cfset nature_of_material="">
 	</cfif>
@@ -1124,6 +1130,14 @@ limitations under the License.
 												<div class="col-md-12">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+												</div>
+												<div class="col-md-6">
+													<label for="loan_insurance_value" class="data-entry-label mb-0 pb-0">Insurance Value <span class="small">(NULL,NOT NULL)</span> </label>
+													<input type="text" name="insurance_value" class="data-entry-input" value="#insurance_value#" id="loan_insurance_value">
+												</div>
+												<div class="col-md-6">
+													<label for="loan_insurance_maintained_by" class="data-entry-label mb-0 pb-0">Insurance Maintained By <span class="small">(NULL, NOT NULL)</span></label>
+													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
 											</div>
 											</div>
