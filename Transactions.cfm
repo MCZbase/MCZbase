@@ -1513,7 +1513,7 @@ limitations under the License.
 									from cttrans_agent_role  
 										left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 										left join trans_agent on cttrans_agent_role.trans_agent_role = trans_agent.trans_agent_role
-									where trans_agent_role_allowed.transaction_type = 'Deaccesson'
+									where trans_agent_role_allowed.transaction_type = 'Deaccn'
 									group by cttrans_agent_role.trans_agent_role
 									order by cttrans_agent_role.trans_agent_role
 								</cfquery>
@@ -2966,7 +2966,7 @@ $(document).ready(function() {
 
 	});
 
-	/* Supporting cell renderers for Accession Search *****************************/
+	/* Supporting cell renderers for Deaccession Search *****************************/
 	var catitemsDeaccCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
 		var result = "";
@@ -3001,8 +3001,8 @@ $(document).ready(function() {
 				{ name: 'deacc_type', type: 'string' },
 				{ name: 'closed_date', type: 'string' },
 				{ name: 'closed_by', type: 'string' },
-				{ name: 'deaacc_status', type: 'string' },
-				{ name: 'deaacc_reason', type: 'string' },
+				{ name: 'deacc_status', type: 'string' },
+				{ name: 'deacc_reason', type: 'string' },
 				{ name: 'method', type: 'string' },
 				{ name: 'value', type: 'string' },
 				{ name: 'nature_of_material', type: 'string' },
@@ -3072,12 +3072,11 @@ $(document).ready(function() {
 			},
 			columns: [
 				{text: 'Deacc Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
-				{text: 'Deaccession', datafield: 'id_link', width: 100}, // datafield name referenced in createDeaccRowDetaisDialog
+				{text: 'Deaccession', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
 				{text: 'Cat. Items', datafield: 'item_count', hideable: true, hidden: false, width: 90, cellsrenderer: catitemsDeaccCellRenderer},
-				{text: 'Est. Count', datafield: 'estimated_count', hideable: true, hidden: false, width: 90 },
 				{text: 'Type', datafield: 'deacc_type', hidable: true, hidden: false, width: 100},
 				{text: 'Status', datafield: 'deacc_status', hideable: true, hidden: false, width: 90},
 				{text: 'Deaccession Reason', datafield: 'deac_reason', hideable: true, hidden: true, width: 150},
