@@ -1481,9 +1481,10 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
 					left join shipment on deaccession.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					left join deacc_item on deaccession.transaction_id = deacc_item.transaction_id
@@ -1596,14 +1597,22 @@ limitations under the License.
 					AND ( 
 						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 						OR
-						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+						permit_from_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					)
 				</cfif>
-				<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
-					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
-					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+						OR
+						permit_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+					)
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
 					<cfif isdefined("part_name") AND len(part_name) gt 0>
@@ -1694,37 +1703,6 @@ limitations under the License.
 				</cfif>
 			ORDER BY deacc_number
 		</cfquery>
-		<!---
-			 replaced with leading = 
-			 <cfif isdefined("exactAccnNumMatch") and #exactAccnNumMatch# is 1>
-			 replaced with trans_date/to_trans_date
-			 AND TRANS_DATE #entDateOper# '#ucase(dateformat(stripQuotes(ent_date),"yyyy-mm-dd"))#">
-			 replaced with permit picker
-			 <cfif isdefined("permit_Num") and len(#permit_Num#) gt 0>
-				<cfset sql = "#sql# AND permit_Num = '#escapeQuotes(permit_Num)#'">
-			 </cfif>
-		
-	 		 not implemented	
-			 <cfif  isdefined("rec_agent") and len(#rec_agent#) gt 0>
-				<cfset frm = "#frm#,agent_name">
-				<cfset sql = "#sql# AND upper(agent_name.agent_name) like '%#escapeQuotes(ucase(rec_agent))#%'
-					AND trans.received_agent_id = agent_name.agent_id">
-			 </cfif>
-		    <cfif  isdefined("trans_agency") and len(#trans_agency#) gt 0>
-		  		<cfset sql = "#sql# AND upper(transAgent.agent_name) LIKE  '%#escapeQuotes(ucase(trans_agency))#%'">
-			 </cfif>
-			<cfif  isdefined("issued_date") and len(#issued_date#) gt 0>
-				<cfset sql = "#sql# AND upper(issued_date) like '%#stripQuotes(ucase(issued_date))#%'">
-			</cfif>
-			<cfif  isdefined("renewed_date") and len(#renewed_date#) gt 0>
-				<cfset sql = "#sql# AND upper(renewed_date) like '%#stripQuotes(ucase(renewed_date))#%'">
-			</cfif>
-			<cfif isdefined("exp_date") and  len(#exp_date#) gt 0>
-				<cfset sql = "#sql# AND upper(exp_date) like '%#stripQuotes(ucase(exp_date))#%'">
-			</cfif>
-
-	--->
-
 	<cfset rows = search_result.recordcount>
 		<cfset i = 1>
 		<cfloop query="search">
