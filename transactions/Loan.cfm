@@ -125,13 +125,13 @@ limitations under the License.
 <cfif  action is "newLoan">
 	<cfset title="New Loan">
 	<cfoutput>
-		<main class="container py-3" id="content">
+		<main class="container py-3" id="content" aria-labelledby="newLoanFormSectionLabel">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
 					<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
 				<section class="col-12" aria-labeledby="nextNumberSectionLabel"> 
 					<div id="nextNumDiv">
-						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
+						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel" title="Click on a collection button and the next available loan number in the database will be entered">Next Available Loan Number:</h2>
 						<!--- Find list of all non-observational collections --->
 						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_id, collection_cde, collection from collection 
@@ -174,11 +174,11 @@ limitations under the License.
 						</div>
 					</div>
 				</section><!--- next number section --->
-				<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
+				<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel" title="Form for creating a new loan">
 					<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
 									<cfloop query="ctcollection">
@@ -186,13 +186,12 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+						
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -208,7 +207,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -224,9 +223,8 @@ limitations under the License.
 									$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
 								</script> 
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+				
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -242,7 +240,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6"> 
+							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
 									<label for="recipient_institution_agent_name" class="data-entry-label">Recipient Institution:</label>
 									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -258,9 +256,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
 								</script> 
 							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
 									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -276,7 +272,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6"> 
+							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
 									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
