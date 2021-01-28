@@ -600,8 +600,8 @@ limitations under the License.
 							onClick=" updateItemSections(); ">
 					</div>
 					<div class="col-12 pt-2 pb-1">
-						<div id="accnItemCountDiv" tabindex="0"></div>
-						<div id="accnItemDispositionsDiv" tabindex="0"></div>
+						<div id="accnItemCountDiv"></div>
+						<div id="accnItemDispositionsDiv"></div>
 					</div>
 				</section>
 				<section role="search" aria-labelledby="guid_list_label" class="container my-3" title="Search for collection objects to add to this accession">

@@ -330,10 +330,10 @@ function updateAccnItemCount(transactionId,targetDiv) {
 		},
 		success: function (result) {
 			if (result.DATA.STATUS[0]==1) {
-				var message  = "There are " + result.DATA.PARTCOUNT[0];
+				var message  = "<p>There are " + result.DATA.PARTCOUNT[0];
 				message += " parts from " + result.DATA.CATITEMCOUNT[0];
 				message += " catalog numbers in " + result.DATA.COLLECTIONCOUNT[0];
-				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types cataloged in this accession."
+				message += " collections with " + result.DATA.PRESERVECOUNT[0] +  " preservation types cataloged in this accession.</p>"
 				$('#' + targetDiv).html(message);
 			}
 		}
