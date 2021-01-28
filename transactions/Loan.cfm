@@ -190,8 +190,7 @@ limitations under the License.
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
-						</div>
-						<div class="form-row mb-2">
+						
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
@@ -224,8 +223,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('rec_agent_name','rec_agent_id','rec_agent_icon','rec_agent_view',null));
 								</script> 
 							</div>
-						</div>
-						<div class="form-row mb-2">
+				
 							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
