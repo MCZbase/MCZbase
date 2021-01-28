@@ -1693,6 +1693,7 @@ limitations under the License.
 												<input type="text" name="to_trans_date" id="deacc_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
 										</div>
+										<!--- 
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="deacc_closed_date">Closed Date</label>
@@ -1701,6 +1702,11 @@ limitations under the License.
 												<label class="data-entry-label sr-only" for="deacc_to_closed_date">end of search range for date closed</label>		
 												<input type="text" name="to_closed_date" id="deacc_to_closed_date" value="#to_closed_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
 											</div>
+										</div>
+										--->
+										<div class="col-md-4">
+											<label class="data-entry-label mb-0 pb-0" for="deacc_method">Method of Transfer</label>
+											<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 										</div>
 										<div class="col-md-4">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="value">Value</label>
@@ -1721,10 +1727,6 @@ limitations under the License.
 												<div class="col-md-12 px-0">
 													<label for="deacc_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="deacc_trans_remarks">
-												</div>
-												<div class="col-md-12 px-0">
-													<label class="data-entry-label mb-0 pb-0" for="deacc_method">Method of Transfer</label>
-													<input type="text" name="deacc_method" class="data-entry-input" value="#deacc_method#" id="deacc_method">
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
