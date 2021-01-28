@@ -131,7 +131,7 @@ limitations under the License.
 					<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
 				<section class="col-12" aria-labeledby="nextNumberSectionLabel"> 
 					<div id="nextNumDiv">
-						<h2 class="h3 mx-2 mb-1" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
+						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
 						<!--- Find list of all non-observational collections --->
 						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_id, collection_cde, collection from collection 
