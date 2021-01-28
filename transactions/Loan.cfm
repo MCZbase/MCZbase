@@ -128,12 +128,58 @@ limitations under the License.
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
-				<section class="col-12 col-sm-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
+					<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
+				<section class="col-12" aria-labeledby="nextNumberSectionLabel"> 
+					<div id="nextNumDiv">
+						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
+						<!--- Find list of all non-observational collections --->
+						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id, collection_cde, collection from collection 
+							where collection not like '% Observations'
+							order by collection 
+						</cfquery>
+						<div class="flex-row float-left mb-1">
+						<cfloop query="loanableCollections">
+							<cftry>
+								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									from
+										loan,
+										trans,
+										collection
+									where
+										loan.transaction_id=trans.transaction_id 
+										AND trans.collection_id=collection.collection_id
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
+								</cfquery>
+							<cfcatch>
+								<hr>
+								#cfcatch.detail#<br>
+								#cfcatch.message# 
+								<!--- Put an error message into nextNumberQuery.nextNumber --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select 'check data' as nextNumber from dual
+								</cfquery>
+							</cfcatch>
+							</cftry>
+							<cfif len(nextNumberQuery.nextNumber) gt 0>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+							<cfelse>
+								<span style="font-size:x-small"> No data available for #collection#. </span>
+							</cfif>
+						</cfloop>
+						</div>
+					</div>
+				</section><!--- next number section --->
+				<section class="col-12 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
 					<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="collection_id">Collection</label>
+								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
 									<cfloop query="ctcollection">
 										<option value="#ctcollection.collection_id#">#ctcollection.collection#</option>
@@ -148,7 +194,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="auth_agent_name">In-House Authorized By</label>
+									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -164,7 +210,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="rec_agent_name">Received By:</label>
+									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
@@ -182,7 +228,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="in_house_contact_agent_name">In-House Contact:</label>
+									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -198,7 +244,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6"> 
 								<span>
-									<label for="recipient_institution_agent_name">Recipient Institution:</label>
+									<label for="recipient_institution_agent_name" class="data-entry-label">Recipient Institution:</label>
 									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -216,7 +262,7 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="additional_incontact_agent_name">Additional In-house Contact:</label>
+									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
 									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -232,7 +278,7 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6"> 
 								<span>
-									<label for="foruseby_agent_name">For Use By:</label>
+									<label for="foruseby_agent_name" class="data-entry-label">For Use By:</label>
 									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
@@ -249,7 +295,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="loan_type">Loan Type</label>
+								<label for="loan_type" class="data-entry-label">Loan Type</label>
 								<select name="loan_type" id="loan_type" class="reqdClr data-entry-select" required >
 									<cfloop query="ctLoanType">
 										<option value="#ctLoanType.loan_type#">#ctLoanType.loan_type#</option>
@@ -257,7 +303,7 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="loan_status">Loan Status</label>
+								<label for="loan_status" class="data-entry-label">Loan Status</label>
 								<select name="loan_status" id="loan_status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctLoanStatus">
 										<cfif isAllowedLoanStateChange('in process',ctLoanStatus.loan_status) >
@@ -274,11 +320,11 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
-								<label for="initiating_date">Transaction Date</label>
+								<label for="initiating_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="initiating_date" id="initiating_date" value="#dateformat(now(),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input">
 							</div>
 							<div class="col-12 col-md-6">
-								<label for="return_due_date">Return Due Date</label>
+								<label for="return_due_date" class="data-entry-label">Return Due Date</label>
 								<input type="text" name="return_due_date" id="return_due_date" value="#dateformat(dateadd("m",6,now()),"yyyy-mm-dd")#" class="w-100 form-control form-control-sm data-entry-input" >
 							</div>
 						</div>
@@ -329,7 +375,7 @@ limitations under the License.
 						</script>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="nature_of_material">Nature of Material (<span id="length_nature_of_material"></span>)</label>
+								<label for="nature_of_material" class="data-entry-label">Nature of Material (<span id="length_nature_of_material"></span>)</label>
 								<textarea name="nature_of_material" id="nature_of_material" rows="2" 
 									onkeyup="countCharsLeft('nature_of_material', 4000, 'length_nature_of_material');"
 									class="reqdClr form-control form-control-sm w-100 autogrow" 
@@ -338,7 +384,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_description">Description (<span id="length_loan_description"></span>)</label>
+								<label for="loan_description" class="data-entry-label">Description (<span id="length_loan_description"></span>)</label>
 								<textarea name="loan_description" id="loan_description"
 									onkeyup="countCharsLeft('loan_description', 4000, 'length_loan_description');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
@@ -346,7 +392,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="loan_instructions">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
+								<label for="loan_instructions" class="data-entry-label">Loan Instructions (<span id="length_loan_instructions"></span>)</label>
 								<textarea name="loan_instructions" id="loan_instructions" 
 									onkeyup="countCharsLeft('loan_instructions', 4000, 'length_loan_instructions');"
 									rows="2" class="form-control form-control-sm w-100 autogrow"></textarea>
@@ -354,7 +400,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 ">
-								<label for="trans_remarks">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
+								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
@@ -375,52 +421,7 @@ limitations under the License.
 						</div>
 					</form>
 				</section>
-				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
-					<div id="nextNumDiv">
-						<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
-						<!--- Find list of all non-observational collections --->
-						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_id, collection_cde, collection from collection 
-							where collection not like '% Observations'
-							order by collection 
-						</cfquery>
-						<nav class="nav flex-column align-items-start">
-						<cfloop query="loanableCollections">
-							<cftry>
-								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
-									from
-										loan,
-										trans,
-										collection
-									where
-										loan.transaction_id=trans.transaction_id 
-										AND trans.collection_id=collection.collection_id
-										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
-								</cfquery>
-							<cfcatch>
-								<hr>
-								#cfcatch.detail#<br>
-								#cfcatch.message# 
-								<!--- Put an error message into nextNumberQuery.nextNumber --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select 'check data' as nextNumber from dual
-								</cfquery>
-							</cfcatch>
-							</cftry>
-							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
-							<cfelse>
-								<span style="font-size:x-small"> No data available for #collection#. </span>
-							</cfif>
-						</cfloop>
-						</nav>
-					</div>
-				</aside><!--- next number aside --->
+			
 			</div>
 		</main>
 	</cfoutput>
