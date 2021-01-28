@@ -175,6 +175,40 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
+<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'loan'
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'loan'
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
    select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
    from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
@@ -925,17 +959,50 @@ limitations under the License.
 									<div class="form-row mx-0">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
-												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
-													<script>
-														function handlePermitPickAction(event) {
-															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
-														}
-													</script>
-													<div id="permitpickerdialog"></div>
+												<div class="form-row mx-0">
+													<div class="col-12">
+														<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
+														<div class="input-group">
+															<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+															<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
+															<script>
+																function handlePermitPickAction(event) {
+																	openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
+																}
+															</script>
+															<div id="permitpickerdialog"></div>
+														</div>
+														<div class="coll-12 col-md-6">
+															<cfset ppermit_type = permit_type>
+															<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+															<select name="permit_type" class="data-entry-select" id="loan_permit_type">
+																<option value=""></option>
+																<cfloop query="ctpermit_type_loan">
+																	<cfif ppermit_type eq ctpermit_type_loan.permit_type>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#ctpermit_type_loan.permit_type#" #selected# >#ctpermit_type_loan.permit_type# (#ctpermit_type_loan.ct# loanessions)</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="coll-12 col-md-6">
+															<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+															<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
+																<option value=""></option>
+																<cfloop query="ctspecific_permit_type_loan">
+																	<cfif permit_specific_type eq ctspecific_permit_type_loan.specific_type>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#ctspecific_permit_type_loan.specific_type#" #selected# >#ctspecific_permit_type_loan.specific_type# (#ctspecific_permit_type_loan.permit_type#) [#ctspecific_permit_type_loan.ct# loanessions)</option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
