@@ -178,7 +178,7 @@ limitations under the License.
 					<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="collection_id" class="data-entry-label">Collection</label>
 								<select name="collection_id" size="1" id="collection_id" class="reqdClr data-entry-select">
 									<cfloop query="ctcollection">
@@ -186,13 +186,13 @@ limitations under the License.
 									</cfloop>
 								</select>
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<label for="loan_number" class="data-entry-label">Loan Number (yyyy-n-Coll)</label>
 								<input type="text" name="loan_number" class="reqdClr data-entry-input" id="loan_number" required pattern="#LOANNUMBERPATTERN#">
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="auth_agent_name" class="data-entry-label">In-House Authorized By</label>
 									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -208,7 +208,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
 							</div>
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="rec_agent_name" class="data-entry-label">Received By:</label>
 									<span id="rec_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -226,7 +226,7 @@ limitations under the License.
 							</div>
 						</div>
 						<div class="form-row mb-2">
-							<div class="col-12 col-md-6">
+							<div class="col-12 col-sm-6 col-xl-3">
 								<span>
 									<label for="in_house_contact_agent_name" class="data-entry-label">In-House Contact:</label>
 									<span id="in_house_contact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
@@ -242,7 +242,7 @@ limitations under the License.
 									$(makeRichTransAgentPicker('in_house_contact_agent_name','in_house_contact_agent_id','in_house_contact_agent_icon','in_house_contact_agent_view',null));
 								</script> 
 							</div>
-							<div class="col-12 col-md-6"> 
+							<div class="col-12 col-sm-6 col-xl-3"> 
 								<span>
 									<label for="recipient_institution_agent_name" class="data-entry-label">Recipient Institution:</label>
 									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
