@@ -973,35 +973,35 @@ limitations under the License.
 															</script>
 															<div id="permitpickerdialog"></div>
 														</div>
-														<div class="coll-12 col-md-6">
-															<cfset ppermit_type = permit_type>
-															<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
-															<select name="permit_type" class="data-entry-select" id="loan_permit_type">
-																<option value=""></option>
-																<cfloop query="ctpermit_type_loan">
-																	<cfif ppermit_type eq ctpermit_type_loan.permit_type>
-																		<cfset selected="selected">
-																	<cfelse>
-																		<cfset selected="">
-																	</cfif>
-																	<option value="#ctpermit_type_loan.permit_type#" #selected# >#ctpermit_type_loan.permit_type# (#ctpermit_type_loan.ct# loanessions)</option>
-																</cfloop>
-															</select>
-														</div>
-														<div class="coll-12 col-md-6">
-															<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
-															<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
-																<option value=""></option>
-																<cfloop query="ctspecific_permit_type_loan">
-																	<cfif permit_specific_type eq ctspecific_permit_type_loan.specific_type>
-																		<cfset selected="selected">
-																	<cfelse>
-																		<cfset selected="">
-																	</cfif>
-																	<option value="#ctspecific_permit_type_loan.specific_type#" #selected# >#ctspecific_permit_type_loan.specific_type# (#ctspecific_permit_type_loan.permit_type#) [#ctspecific_permit_type_loan.ct# loanessions)</option>
-																</cfloop>
-															</select>
-														</div>
+													</div>
+													<div class="coll-12 col-md-6">
+														<cfset ppermit_type = permit_type>
+														<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+														<select name="permit_type" class="data-entry-select" id="loan_permit_type">
+															<option value=""></option>
+															<cfloop query="ctpermit_type_loan">
+																<cfif ppermit_type eq ctpermit_type_loan.permit_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctpermit_type_loan.permit_type#" #selected# >#ctpermit_type_loan.permit_type# (#ctpermit_type_loan.ct# loanessions)</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="coll-12 col-md-6">
+														<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+														<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
+															<option value=""></option>
+															<cfloop query="ctspecific_permit_type_loan">
+																<cfif permit_specific_type eq ctspecific_permit_type_loan.specific_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctspecific_permit_type_loan.specific_type#" #selected# >#ctspecific_permit_type_loan.specific_type# (#ctspecific_permit_type_loan.permit_type#) [#ctspecific_permit_type_loan.ct# loanessions)</option>
+															</cfloop>
+														</select>
 													</div>
 												</div>
 											</div>
