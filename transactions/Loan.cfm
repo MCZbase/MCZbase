@@ -129,16 +129,16 @@ limitations under the License.
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
 					<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				<section class="col-12 px-1" aria-labeledby="nextNumberSectionLabel"> 
+				<section class="col-12" aria-labeledby="nextNumberSectionLabel"> 
 					<div id="nextNumDiv">
-						<h2 class="h3 mx-2" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
+						<h2 class="h3 mx-2 mb-1" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
 						<!--- Find list of all non-observational collections --->
 						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 							select collection_id, collection_cde, collection from collection 
 							where collection not like '% Observations'
 							order by collection 
 						</cfquery>
-						<div class="flex-row float-left mb-2">
+						<div class="flex-row float-left mb-3">
 						<cfloop query="loanableCollections">
 							<cftry>
 								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
