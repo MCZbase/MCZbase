@@ -239,6 +239,8 @@ limitations under the License.
 	<cfargument name="trans_remarks" type="string" required="no">
 	<cfargument name="nature_of_material" type="string" required="no">
 	<cfargument name="collection_id" type="numeric" required="no">
+	<cfargument name="permit_type" type="string" required="no">
+	<cfargument name="permit_specific_type" type="string" required="no">
 	<cfargument name="permit_num" type="string" required="no">
 	<cfargument name="permit_id" type="string" required="no">
 	<cfargument name="return_due_date" type="string" required="no">
@@ -402,9 +404,10 @@ limitations under the License.
 					left join coll_object on loan_item.collection_object_id=coll_object.collection_object_id
 					left join specimen_part on coll_object.collection_object_id = specimen_part.collection_object_id 
 				</cfif>
-				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
-					left join shipment on loan.transaction_id = shipment.transaction_id
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
+					left join shipment on deaccession.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif isdefined("parent_loan_number") AND len(parent_loan_number) gt 0 >
 					left join loan_relations on loan.transaction_id = loan_relations.related_transaction_id
@@ -423,6 +426,20 @@ limitations under the License.
 						permit.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 						OR
 						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
+				</cfif>
+				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR
+						permit_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 					)
 				</cfif>
 				<cfif isdefined("loan_type") AND len(#loan_type#) gt 0>
@@ -1074,9 +1091,10 @@ limitations under the License.
 						left join preferred_agent_name trans_agent_name_3 on trans_agent_3.agent_id = trans_agent_name_3.agent_id
 					</cfif>
 				</cfif>
-				<cfif isdefined("permit_id") AND len(#permit_id#) gt 0>
-					left join shipment on accn.transaction_id = shipment.transaction_id
+				<cfif (isdefined("permit_id") AND len(#permit_id#) gt 0) OR (isdefined("permit_type") AND len(#permit_type#) GT 0) OR (isdefined("permit_specific_type") AND len(#permit_specific_type#) GT 0) >
+					left join shipment on deaccession.transaction_id = shipment.transaction_id
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
+					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0) or isdefined("collection_object_id") AND len(#collection_object_id#) gt 0 >
 					left join cataloged_item on accn.transaction_id=cataloged_item.accn_id
@@ -1174,11 +1192,19 @@ limitations under the License.
 						permit_shipment.permit_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#permit_id#">
 					)
 				</cfif>
-				<cfif  isdefined("permit_Type") and len(#permit_Type#) gt 0>
-					AND permit_Type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+				<cfif  isdefined("permit_type") and len(#permit_type#) gt 0>
+					AND ( 
+						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						OR
+						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+					)
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
-					AND permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					AND ( 
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+						OR
+						permit_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
+					)
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
 					<cfif isdefined("part_name") AND len(part_name) gt 0>
@@ -1609,9 +1635,9 @@ limitations under the License.
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
 					AND ( 
-						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+						permit.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 						OR
-						permit_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#specific_type#">
+						permit_shipment.specific_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_specific_type#">
 					)
 				</cfif>
 				<cfif (isdefined("part_name") AND len(part_name) gt 0) or (isdefined("coll_obj_disposition") AND len(coll_obj_disposition) gt 0)>
