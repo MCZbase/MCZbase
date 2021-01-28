@@ -899,7 +899,7 @@ function addTransAgentToForm (id,name,role,formid,transaction_type) {
 			var d= '';
 			d+='<div class="row px-0 alert alert-warning my-0 py-1 border-top border-bottom" id="new_trans_agent_div_'+i+'">';
 			d+='<div class="col-12 col-md-4">';
-			d+=' <label for="agent_id_' + i + '" class="sr-only">Agent Name</label><div class="input-group">';
+			d+=' <div class="input-group">';
 			d+='  <input type="hidden" id="agent_id_' + i + '" name="agent_id_' + i + '" value="' + id + '" ';
 			d+='   onchange=" updateAgentLink($(\'#agent_id_' + i +'\').val(),\'agentViewLink_' + i + '\'); " >';
 			d+='  <input type="hidden" name="trans_agent_id_' + i + '" id="trans_agent_id_' + i + '" value="new">';
