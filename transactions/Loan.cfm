@@ -128,6 +128,52 @@ limitations under the License.
 		<main class="container py-3" id="content">
 			<h1 class="h2" id="newLoanFormSectionLabel" >Create New Loan <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Create_a_New_Loan')" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 px-2 pt-2 pb-4 pb-sm-2">
+					<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
+				<section class="col-12" aria-labeledby="nextNumberSectionLabel"> 
+					<div id="nextNumDiv">
+						<h2 class="h3" id="nextNumberSectionLabel">Next Available Loan Number:</h2>
+						<!--- Find list of all non-observational collections --->
+						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id, collection_cde, collection from collection 
+							where collection not like '% Observations'
+							order by collection 
+						</cfquery>
+						<div class="flex-row float-left">
+						<cfloop query="loanableCollections">
+							<cftry>
+								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									from
+										loan,
+										trans,
+										collection
+									where
+										loan.transaction_id=trans.transaction_id 
+										AND trans.collection_id=collection.collection_id
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
+								</cfquery>
+							<cfcatch>
+								<hr>
+								#cfcatch.detail#<br>
+								#cfcatch.message# 
+								<!--- Put an error message into nextNumberQuery.nextNumber --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select 'check data' as nextNumber from dual
+								</cfquery>
+							</cfcatch>
+							</cftry>
+							<cfif len(nextNumberQuery.nextNumber) gt 0>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mt-1 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+							<cfelse>
+								<span style="font-size:x-small"> No data available for #collection#. </span>
+							</cfif>
+						</cfloop>
+						</div>
+					</div>
+				</section><!--- next number section --->
 				<section class="col-12 col-sm-8 border bg-white pt-3" id="newLoanFormSection" aria-labeledby="newLoanFormSectionLabel">
 					<form name="newloan" id="newLoan" class="" action="/transactions/Loan.cfm" method="post" onSubmit="return noenter();">
 						<input type="hidden" name="action" value="makeLoan">
@@ -375,52 +421,7 @@ limitations under the License.
 						</div>
 					</form>
 				</section>
-				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				<aside class="col-12 col-sm-4" aria-labeledby="nextNumberSectionLabel"> 
-					<div id="nextNumDiv">
-						<h3 id="nextNumberSectionLabel">Next Available Loan Number:</h3>
-						<!--- Find list of all non-observational collections --->
-						<cfquery name="loanableCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select collection_id, collection_cde, collection from collection 
-							where collection not like '% Observations'
-							order by collection 
-						</cfquery>
-						<nav class="nav flex-column align-items-start">
-						<cfloop query="loanableCollections">
-							<cftry>
-								<!---- Loan numbers follow yyyy-n-CCDE format, obtain highest n for current year for each collection. --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-									'#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(loan_number,instr(loan_number,'-')+1,instr(loan_number,'-',1,2)-instr(loan_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
-									from
-										loan,
-										trans,
-										collection
-									where
-										loan.transaction_id=trans.transaction_id 
-										AND trans.collection_id=collection.collection_id
-										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
-										AND substr(loan_number, 1,4) ='#dateformat(now(),"yyyy")#'
-								</cfquery>
-							<cfcatch>
-								<hr>
-								#cfcatch.detail#<br>
-								#cfcatch.message# 
-								<!--- Put an error message into nextNumberQuery.nextNumber --->
-								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select 'check data' as nextNumber from dual
-								</cfquery>
-							</cfcatch>
-							</cftry>
-							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary pt-1 mt-1 px-2 w-100 text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
-							<cfelse>
-								<span style="font-size:x-small"> No data available for #collection#. </span>
-							</cfif>
-						</cfloop>
-						</nav>
-					</div>
-				</aside><!--- next number aside --->
+			
 			</div>
 		</main>
 	</cfoutput>
