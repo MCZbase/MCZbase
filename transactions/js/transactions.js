@@ -225,7 +225,7 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 		$('#'+idControl).val(agentId);
 		$('#'+iconControl).addClass('bg-lightgreen');
 		$('#'+iconControl).removeClass('bg-light');
-		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View</a>");
+		$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agentId + "' target='_blank'>View <span class='sr-only'>agent button</span></a>");
 		$('#'+viewControl).attr('aria-label', 'View details for this agent');
 		if ($('#'+nameControl).prop('required')) { 
 			$('#'+nameControl).toggleClass('reqdClr',false);
