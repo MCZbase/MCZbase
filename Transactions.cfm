@@ -1507,7 +1507,7 @@ limitations under the License.
 													</script>
 												</div>
 												<div class="form-row mx-0">
-												<div class="col-12 col-md-4 col-xl-4 px-3 px-md-2 pl-xl-3">
+												<div class="col-12 col-md-4 col-xl-4 px-3 pr-md-2 pl-md-3 pl-xl-3 pr-xl-2">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
 													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
@@ -1559,7 +1559,7 @@ limitations under the License.
 															</cfloop>
 														</select>
 													</div>
-													<div class="coll-12 col-md-6">
+													<div class="col-12 col-md-6">
 														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
 														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
 															<option value=""></option>
