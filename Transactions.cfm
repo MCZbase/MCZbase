@@ -973,7 +973,7 @@ limitations under the License.
 									</script>
 									<div class="form-row mx-0">
 										<div class="col-md-6">
-											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
+											<div class="border bg-light rounded pt-2 pb-3 py-md-3 px-md-4 mb-2 px-3">
 												<div class="form-row">
 													<div class="col-12">
 														<label for="permit_num" id="loan_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
