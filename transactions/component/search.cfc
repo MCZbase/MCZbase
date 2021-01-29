@@ -1787,8 +1787,8 @@ limitations under the License.
 	<cfargument name="to_due_date" type="string" required="no">
 	<cfargument name="lenders_loan_date" type="string" required="no">
 	<cfargument name="to_lenders_loan_date" type="string" required="no">
-	<cfargument name="ret_acknowledged_date" type="string" required="no">
-	<cfargument name="to_ret_acknowledged_date" type="string" required="no">
+	<cfargument name="return_acknowledged_date" type="string" required="no">
+	<cfargument name="to_return_acknowledged_date" type="string" required="no">
 
 
 	<!--- set start/end date range terms to same if only one is specified --->
@@ -1828,16 +1828,16 @@ limitations under the License.
 			<cfset to_due_date = "#to_due_date#-12-31">
 		</cfif>
 	</cfif>
-	<cfif isdefined("ret_acknowledged_date") and len(#ret_acknowledged_date#) gt 0>
-		<cfif not isdefined("to_ret_acknowledged_date") or len(to_ret_acknowledged_date) is 0>
-			<cfset to_ret_acknowledged_date=ret_acknowledged_date>
+	<cfif isdefined("return_acknowledged_date") and len(#return_acknowledged_date#) gt 0>
+		<cfif not isdefined("to_return_acknowledged_date") or len(to_return_acknowledged_date) is 0>
+			<cfset to_return_acknowledged_date=return_acknowledged_date>
 		</cfif>
 		<!--- support search on just a year or pair of years --->
-		<cfif len(#ret_acknowledged_date#) EQ 4>
-			<cfset ret_acknowledged_date = "#ret_acknowledged_date#-01-01">
+		<cfif len(#return_acknowledged_date#) EQ 4>
+			<cfset return_acknowledged_date = "#return_acknowledged_date#-01-01">
 		</cfif>
-		<cfif len(#to_ret_acknowledged_date#) EQ 4>
-			<cfset to_ret_acknowledged_date = "#to_ret_acknowledged_date#-12-31">
+		<cfif len(#to_return_acknowledged_date#) EQ 4>
+			<cfset to_return_acknowledged_date = "#to_return_acknowledged_date#-12-31">
 		</cfif>
 	</cfif>
 
@@ -1855,7 +1855,7 @@ limitations under the License.
 				ret_acknowledged_by,
 				to_char(due_date,'YYYY-MM-DD') as due_date,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
-				to_char(ret_acknowledged_date,'YYYY-MM-DD') as ret_acknowledged_date,
+				to_char(return_acknowledged_date,'YYYY-MM-DD') as return_acknowledged_date,
 				to_char(trans_date,'YYYY-MM-DD') as date_entered,
 				to_char(lenders_loan_date,'YYYY-MM-DD') as date_entered,
 				borrow_status,
@@ -1992,10 +1992,10 @@ limitations under the License.
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(lenders_loan_date, "yyyy-mm-dd")#'>) and
 						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_lenders_loan_date, "yyyy-mm-dd")#'>)
 				</cfif>
-				<cfif isdefined("ret_acknowledged_date") and len(ret_acknowledged_date) gt 0>
-					AND ret_acknowledged_date between 
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(ret_acknowledged_date, "yyyy-mm-dd")#'>) and
-						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_ret_acknowledged_date, "yyyy-mm-dd")#'>)
+				<cfif isdefined("return_acknowledged_date") and len(return_acknowledged_date) gt 0>
+					AND return_acknowledged_date between 
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(return_acknowledged_date, "yyyy-mm-dd")#'>) and
+						to_date(<cfqueryparam cfsqltype="CF_SQL_DATE" value='#dateformat(to_return_acknowledged_date, "yyyy-mm-dd")#'>)
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
