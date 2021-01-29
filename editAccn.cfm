@@ -852,7 +852,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 					<td colspan="4" align="center"  style="padding-top: 1em;">
 				 		<input type="submit" value="Find Accession" class="schBtn">&nbsp;
 						<input type="button" value="Create a new accession" class="insBtn"
-							onClick="document.location = 'newAccn.cfm';">	&nbsp;
+							onClick="document.location = '/transactions/Accession.cfm?action=new';">	&nbsp;
 						<input type="button" value="Clear Form" class="clrBtn" onClick="document.location='editAccn.cfm';">	&nbsp;
 						<input type="button" value="Add Specimens to an Accn" class="lnkBtn"
 						   onclick = "window.open('SpecimenSearch.cfm?Action=addAccn');">

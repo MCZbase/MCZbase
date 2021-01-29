@@ -107,7 +107,6 @@ Disallow: /MSBMammLabels.cfm
 Disallow: /multiAgent.cfm
 Disallow: /multiIdentification.cfm
 Disallow: /narrowLabels.cfm
-Disallow: /newAccn.cfm
 Disallow: /nothing.cfm
 Disallow: /part2container.cfm
 Disallow: /Permit.cfm
