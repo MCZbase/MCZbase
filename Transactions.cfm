@@ -3313,7 +3313,7 @@ $(document).ready(function() {
 				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
 				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
-				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false, cellsrenderer=trueYesCellRenderer },
+				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false, cellsrenderer: trueYesCellRenderer },
 				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
 				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
 				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
