@@ -569,8 +569,8 @@ limitations under the License.
 </cfif>		   
 	<!----------------------------- two right columns ---------------------------------->
 	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-lg-9 col-xl-9<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
-		<div class="card-columns"> 
-			<div class="col-6">
+		<div class="px-1"> 
+			<div class="col-6 float-left">
 		<!----------------------------- identifications ---------------------------------->
 		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
 		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
@@ -769,33 +769,31 @@ limitations under the License.
 			<div class="card-body float-left">
 				<div class="row mx-0">
 					<ul class="list-group float-left">
-				<cfloop query="citations">
-					<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-								target="_mainFrame"> #formatted_publication#</a>,
-						<cfif len(occurs_page_number) gt 0>
-							Page
-							<cfif len(citation_page_uri) gt 0>
-								<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-								<cfelse>
-								#occurs_page_number#,
+					<cfloop query="citations">
+						<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+									target="_mainFrame"> #formatted_publication#</a>,
+							<cfif len(occurs_page_number) gt 0>
+								Page
+								<cfif len(citation_page_uri) gt 0>
+									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+									<cfelse>
+									#occurs_page_number#,
+								</cfif>
 							</cfif>
-						</cfif>
-						#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-						<cfif find("(ms)", #type_status#) NEQ 0>
-							<!--- Type status with (ms) is used to mark to be published types,
-`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-									as appropriate to the name of the parent taxon of the new name --->
-							<cfif find(" ", #cited_name#) NEQ 0>
-								&nbsp;ssp. nov.
-								<cfelse>
-								&nbsp;sp. nov.
+							#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+							<cfif find("(ms)", #type_status#) NEQ 0>
+								<!--- Type status with (ms) is used to mark to be published types,
+	`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
+										as appropriate to the name of the parent taxon of the new name --->
+								<cfif find(" ", #cited_name#) NEQ 0>
+									&nbsp;ssp. nov.
+									<cfelse>
+									&nbsp;sp. nov.
+								</cfif>
 							</cfif>
-						</cfif>
-						#CITATION_REMARKS# </li>
-				</cfloop>
-	
-			</ul>
-				
+							#CITATION_REMARKS# </li>
+					</cfloop>
+					</ul>
 				<cfif publicationMedia.recordcount gt 0>
 				
 						<cfloop query="publicationMedia">
@@ -819,10 +817,12 @@ limitations under the License.
 							</cfif>
 					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 							<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> 
-						<span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span></div>
+							<span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span>
+							</div>
 					</cfloop>
 					</div>
 				</cfif>
+				</div>
 			</div>
 		</div>
 	</cfif>
@@ -1231,7 +1231,7 @@ limitations under the License.
 							
 
 							</div>
-						<div class="col-6">
+						<div class="col-6 float-left">
 <!------------------------------------ locality and collecting event-------------------------------------------> 
 
     <div class="card bg-light mb-2">
@@ -1554,11 +1554,11 @@ limitations under the License.
 	</cfif>
 			
 		</div><!--- end of two column section --->						
-		<div class="one-column">
+<!---		<div class="one-column">--->
 
 
 <!------------------------------------ parts ---------------------------------------------->
-<cfoutput>
+<!---<cfoutput>--->
 
 <!---<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 <cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1759,7 +1759,7 @@ limitations under the License.
 			</div>
 
 </cfif>	--->			
-</cfoutput>
+<!---</cfoutput>--->
 
 	</div>
 		<cfif oneOfUs is 1>
