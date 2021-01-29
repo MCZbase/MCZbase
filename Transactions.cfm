@@ -2041,7 +2041,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getBorrows" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
+										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="borrow_collection_id" class="data-entry-label">Collection Name</label>
@@ -2063,14 +2063,14 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="lenders_trans_num_cde">
 												Lender's Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
 											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset pborrow_status = borrow_status>
 											<label for="borrow_status" class="data-entry-label mb-0">Status</label>
 											<select name="borrow_status" id="borrow_status" class="data-entry-select" >
