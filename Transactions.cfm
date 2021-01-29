@@ -1937,7 +1937,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
