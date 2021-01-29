@@ -953,7 +953,7 @@ limitations under the License.
 					
 							<cfloop query="mPart">
 							
-								<tr <cfif mPart.recordcount gt 1>class="line-top"<cfelse></cfif>>
+								<tr <cfif mPart.recordcount gt 1>class="text-sucess"<cfelse></cfif>>
 									<td>#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
@@ -963,7 +963,7 @@ limitations under the License.
 									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
-								<tr class="small"><td colspan="6">
+								<tr class="small pl-3"><td colspan="5">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
 								</cfif>
@@ -1016,7 +1016,7 @@ limitations under the License.
 									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
 								<cfloop query="sPart">
-									<tr>
+									<tr class="pl-3">
 										<td class=""><span>#part_name# subsample</span></td>
 										<td class="">#part_condition#</td>
 										<td class="">#part_disposition#</td>
