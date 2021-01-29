@@ -980,7 +980,7 @@ limitations under the License.
 														<div class="input-group">
 															<input type="hidden" name="permit_id" id="loan_permit_id" value="#permit_id#">
 															<input type="text" name="permit_num" id="loan_permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-															<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit to add to add as a search parameter" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
+															<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit to add to add as a search parameter" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-label="loan permit picklist">Pick</span> </div>
 															<script>
 																function handleLoanPermitPickAction(event) {
 																	openfindpermitdialog('loan_permit_num','loan_permit_id','loanpermitpickerdialog');
