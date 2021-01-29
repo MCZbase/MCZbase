@@ -3188,10 +3188,165 @@ $(document).ready(function() {
 	});
 
 	/* Setup jqxgrid for borrow Search ******************************************/
-	// TODO: implement handler for borrow search 
 	$('##borrowSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
-		alert('Not yet implemented');
+		$("##overlay").show();
+
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+		$('##resultCount').html('');
+		$('##resultLink').html('');
+
+		var deaccessionSearch =
+		{
+			datatype: "json",
+			datafields:
+			[
+				{ name: 'transaction_id', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'borrow_number', type: 'string' },
+				{ name: 'lender_loan_type', type: 'string' },
+				{ name: 'due_date', type: 'string' },
+				{ name: 'received_date', type: 'string' },
+				{ name: 'return_acknowledged_date', type: 'string' },
+				{ name: 'lenders_loan_date', type: 'string' },
+				{ name: 'borrow_status', type: 'string' },
+				{ name: 'no_of_specimens', type: 'string' },
+				{ name: 'ret_acknowledged_by', type: 'string' },
+				{ name: 'description_of_borrow', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'collection', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'auth_agent', type: 'string' },
+				{ name: 'outside_auth_agent', type: 'string' },
+				{ name: 'ent_agent', type: 'string' },
+				{ name: 'borrowoverseenby_agent', type: 'string' },
+				{ name: 'foruse_agent', type: 'string' },
+				{ name: 'lending_institution_agent', type: 'string' },
+				{ name: 'rec_agent', type: 'string' },
+				{ name: 'recfrom_agent', type: 'string' },
+				{ name: 'inHouse_agent', type: 'string' },
+				{ name: 'addInhouse_agent', type: 'string' },
+				{ name: 'outside_agent', type: 'string' },
+				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'permits', type: 'int' },
+				{ name: 'item_count', type: 'int' },
+				{ name: 'shipment_count', type: 'string' },
+				{ name: 'project_name', type: 'string' },
+				{ name: 'pid', type: 'string' },
+				{ name: 'id_link', type: 'string' }a
+			],
+			updaterow: function (rowid, rowdata, commit) {
+				commit(true);
+			},
+			root: 'borrowRecord',
+			id: 'transaction_id',
+			url: '/transactions/component/search.cfc?' + $('##borrowSearchForm').serialize(),
+			timeout: 30000, // units not specified, miliseconds? 
+			loadError: function(jqXHR, textStatus, error) { 
+				$("##overlay").hide();
+				handleFail(jqXHR,textStatus,error,"running borrow search");
+			},
+			async: true
+		};
+		var accnDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
+
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
+		$("##searchResultsGrid").jqxGrid({
+			width: '100%',
+			autoheight: 'true',
+			source: accnDataAdapter,
+			filterable: true,
+			sortable: true,
+			pageable: true,
+			editable: false,
+			pagesize: '50',
+			pagesizeoptions: ['50','100'],
+			showaggregates: true,
+			columnsresize: true,
+			autoshowfiltericon: true,
+			autoshowcolumnsmenubutton: false,
+			autoshowloadelement: false, // overlay acts as load element for form+results
+			columnsreorder: true,
+			groupable: true,
+			selectionmode: 'singlerow',
+			altrows: true,
+			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
+			columns: [
+				{text: 'Borrow Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
+				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
+				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
+				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: false, width: 90 },
+				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: false, width: 100},
+				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: false, width: 90},
+				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: true, width: 90},
+				{text: 'Value', datafield: 'value', hideable: true, hidden: true, width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
+				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
+				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
+				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
+				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
+				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
+				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
+				{text: 'outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: false },
+				{text: 'Overseen By', datafield: 'borrowoverseenby_agent', width: 100, hidable: true, hidden: false },
+				{text: 'For Use By', datafield: 'foruse_agent', width: 100, hidable: true, hidden: false },
+				{text: 'Received From', datafield: 'recfrom_agent', width: 100, hidable: true, hidden: true },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
+				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
+				{text: 'Outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Entered By', datafield: 'ent_agent', width: 100},
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'Description', datafield: 'description_of_borrow', hideable: true, hidden: true},
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 1
+			},
+			initrowdetails: initRowDetails
+		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findBorrows&execute=true&' + $('##borrowSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','borrow');
+
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			// Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
 	});
 
 	// If requested in uri, execute search immediately.
