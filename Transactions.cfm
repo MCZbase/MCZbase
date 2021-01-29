@@ -2064,7 +2064,7 @@ limitations under the License.
 												Lender's Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
-											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde" placeholder="&gt;100">
+											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset pborrow_status = borrow_status>
