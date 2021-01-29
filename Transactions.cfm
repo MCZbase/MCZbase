@@ -2250,6 +2250,7 @@ limitations under the License.
 														<option value="" #bsel#></option>
 														<option value="1" #ysel#>Yes</option>
 														<option value="0" #nsel#>No</option>
+													</select>
 												</div>
 											</div>
 										</div>
