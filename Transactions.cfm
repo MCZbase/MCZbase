@@ -820,7 +820,7 @@ limitations under the License.
 								<form id="loanSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
