@@ -1965,7 +1965,7 @@ limitations under the License.
 				</cfif>
 				<cfif isDefined("borrow_status") and len(borrow_status) gt 0>
 					<cfif left(borrow_status,1) is "!">
-						AND borrow_status <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(borrow_status,len(borrow_status)-1))#"> 
+						AND upper(borrow_status) <> <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#ucase(right(borrow_status,len(borrow_status)-1))#"> 
 					<cfelse>
 						AND borrow_status like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_status#">
 					</cfif>
