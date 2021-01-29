@@ -1361,7 +1361,7 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+											<label class="data-entry-label px-2 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
 											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
 										</div>
 									</div>
@@ -1466,7 +1466,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-2">
+													<div class="col-md-12 px-0 pb-0 mt-2">
 														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -1910,7 +1910,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
+											<div class="border bg-light rounded px-0 pt-1 mb-0 pb-3">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="de_permit_num" id="de_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
