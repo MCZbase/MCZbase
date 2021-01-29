@@ -747,7 +747,7 @@ limitations under the License.
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
-												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAllPermitPickActionTr();" onclick="handleAllPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAllPermitPickActionTr();" onclick="handleAllPermitPickActionTr();">Pick</span> </div>
 												<script>
 													function handleAllPermitPickActionTr(event) {
 														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
