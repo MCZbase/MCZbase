@@ -552,7 +552,7 @@
 				TRANS_AGENT_ROLE
 		</cfquery>
 		<cfloop query="trans_agent_a">
-			<li>#TRANS_AGENT_ROLE# for Accession <a href="/editAccn.cfm?action=edit&transaction_id=#transaction_id#">#collection# #accn_number#</a></li>
+			<li>#TRANS_AGENT_ROLE# for Accession <a href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">#collection# #accn_number#</a></li>
 		</cfloop>
 		<cfquery name="loan_item" datasource="uam_god">
 			select 

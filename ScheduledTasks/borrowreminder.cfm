@@ -367,7 +367,7 @@
 				</p>
 				<p>
 					<cfloop query="data">
-						<a href="#Application.ServerRootUrl#/editAccn.cfm?Action=edit&transaction_id=#transaction_id#">
+						<a href="#Application.ServerRootUrl#/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#">
 							#collection# #accn_number#
 						</a>
 						<br>

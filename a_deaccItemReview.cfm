@@ -419,7 +419,7 @@ Review items in deaccession<b>
 			onchange="this.className='red';updateDeaccItemInstructions('#partID#')">#item_instructions#</textarea>
 		</td>
 		<td class="inside">
-			<a href="editAccn.cfm?Action=edit&transaction_id=#accn_id#">#accn_number#</a>
+			<a href="/transactions/Accession.cfm?action=edit&transaction_id=#accn_id#">#accn_number#</a>
 		</td>
 		<td class="inside">
 			#encumbrance# <cfif len(#agent_name#) gt 0> by #agent_name#</cfif>&nbsp;
