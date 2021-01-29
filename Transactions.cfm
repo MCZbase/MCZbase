@@ -769,7 +769,7 @@ limitations under the License.
 										</div>
 								</div>
 									<div class="form-row mt-3 mx-4">
-										<div class="col-12">
+										<div class="col-12 px-1">
 											<button class="btn-xs btn-primary px-3 mr-2" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset transaction search form to inital values">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
