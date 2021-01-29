@@ -249,9 +249,9 @@ limitations under the License.
 						}
 						// set maximum page size
 						if (rowcount > 100) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
 						} else if (rowcount > 50) { 
-						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount]});
+						   $('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
 						} else { 
 						   $('##' + gridId).jqxGrid({ pageable: false });
 						}
