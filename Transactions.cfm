@@ -509,7 +509,7 @@ limitations under the License.
 		<section class="container-fluid" role="search">
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
-					<h1 class="h3 smallcaps pl-1" tabindex="0">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
+					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 					<div class="tab-card-main mt-1 tab-card"> 
 						<!--- Set Active Tab --->
 						<cfswitch expression="#action#">
@@ -578,19 +578,19 @@ limitations under the License.
 						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
-									<a class="nav-link px-3 #allTabActive#" tabindex="0" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
+									<a class="nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="Search All Transactions" aria-selected="true" >All</a> 
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
-									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" tabindex="0" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
+									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="Search Loans tab" aria-selected="false" >Loans</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" tabindex="0" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
+									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="Search Accessions tab" aria-selected="false" >Accessions</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<a class="nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" tabindex="0" href="##deaccnTab" role="tab" aria-controls="Search Deaccessions tab" aria-selected="false" >Deaccessions</a> 	
+									<a class="nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" href="##deaccnTab" role="tab" aria-controls="Search Deaccessions tab" aria-selected="false" >Deaccessions</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<a class="nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" tabindex="0" href="##borrowsTab" role="tab" aria-controls="Search Borrows tab" aria-selected="false" >Borrows</a> 	
+									<a class="nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="Search Borrows tab" aria-selected="false" >Borrows</a> 	
 								</li>
 							</ul>
 						</div>
@@ -599,7 +599,7 @@ limitations under the License.
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
-								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 									<div class="form-row mb-2 mx-0">
@@ -779,7 +779,7 @@ limitations under the License.
 							</div>
 							<!--- Loan search tab panel --->
 							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
-								<h2 class="h3 card-title my-0" tabindex="0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
+								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -980,7 +980,7 @@ limitations under the License.
 														<div class="input-group">
 															<input type="hidden" name="permit_id" id="loan_permit_id" value="#permit_id#">
 															<input type="text" name="permit_num" id="loan_permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
+															<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit to add to add as a search parameter" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
 															<script>
 																function handleLoanPermitPickAction(event) {
 																	openfindpermitdialog('loan_permit_num','loan_permit_id','loanpermitpickerdialog');
@@ -1486,7 +1486,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0"  aria-label="pick a permit" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
 														<script>
 															function handleAPermitPickAction(event) {
 																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
@@ -1917,7 +1917,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon"  aria-label="pick a permit" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
 															function handleDePermitPickAction(event) {
 																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
@@ -2272,7 +2272,7 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="bo_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="bo_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleBorrowPermitPickAction();" onclick="handleBorrowPermitPickAction();" aria-labelledby="bo_permit_picklist">Pick</span> </div>
+														<div class="input-group-append"> <span role="button" class="data-entry-addon" tabindex="0" aria-label="pick a permit" onkeypress="handleBorrowPermitPickAction();" onclick="handleBorrowPermitPickAction();" aria-labelledby="bo_permit_picklist">Pick</span> </div>
 														<script>
 															function handleBorrowPermitPickAction(event) {
 																openfindpermitdialog('bo_permit_num','bo_permit_id','bo_permitpickerdialog');
@@ -2383,7 +2383,7 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
-						<h1 class="h4">Results: <span class="font-weight-normal text-success px-1" id="resultCount" tabindex="0"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
+						<h1 class="h4">Results: <span class="font-weight-normal text-success px-1" id="resultCount"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
