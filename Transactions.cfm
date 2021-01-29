@@ -602,7 +602,7 @@ limitations under the License.
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
-									<div class="form-row px-1 mb-2 mx-0">
+									<div class="form-row px-1 mb-2">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
@@ -641,8 +641,8 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
-										<div class="form-row px-1 mb-2 mx-0">
+									<div class="bg-light border rounded pt-3 pt-md-2 mx-1 my-3 my-md-2 px-1">
+										<div class="form-row px-1 mb-2">
 											<div class="col-12 col-md-4">
 												<div class="input-group">
 													<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
