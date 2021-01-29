@@ -768,7 +768,7 @@ limitations under the License.
 											</script>
 										</div>
 								</div>
-									<div class="form-row mb-2">
+									<div class="form-row mt-3 mx-4">
 										<div class="col-12">
 											<button class="btn-xs btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
@@ -1151,7 +1151,7 @@ limitations under the License.
 											</div>
 											</div>
 									</div>	
-									<div class="form-row my-2 mx-0">
+									<div class="form-row mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1577,7 +1577,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row my-2 mx-0">
+									<div class="form-row mt-2 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1897,7 +1897,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-2">
+													<div class="col-md-12 px-0 pb-1 mt-0">
 														<label for="deacc_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Deaccession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="deacc_specimen_guid" placeholder="MCZ:Coll:nnnnn"
@@ -2008,7 +2008,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row my-2 mx-0">
+									<div class="form-row mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="deaccnSearchButton" type="submit" aria-label="Search Deaccessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -2058,7 +2058,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="borrow_number" class="data-entry-label mb-0">MCZ Borrow Number</label>
+													<label for="borrow_number" class="data-entry-label mb-0"><span class="d-none d-xl-inline">MCZ</span> Borrow Number</label>
 													<input type="text" name="borrow_number" id="borrow_number" class="data-entry-select-input" value="#borrow_number#" placeholder="Byyyy-n-Coll">
 												</div>
 											</div>
@@ -2363,7 +2363,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row my-2 mx-0">
+									<div class="form-row mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="borrowSearchButton" type="submit" aria-label="Search Borrows">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
