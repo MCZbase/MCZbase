@@ -3290,7 +3290,6 @@ $(document).ready(function() {
 				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: false, width: 90 },
 				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: false, width: 100},
 				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: false, width: 90},
-				{text: 'Method of Transfer', datafield: 'method', hideable: true, hidden: true, width: 90},
 				{text: 'Value', datafield: 'value', hideable: true, hidden: true, width: 90},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
 				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
