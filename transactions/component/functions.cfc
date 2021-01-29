@@ -4912,7 +4912,7 @@ autorowheight: "true",
 		<cfset rows = 0>
 		<cfquery name="use" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="use_result">
 					select 'accession' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						(case when flat.began_date > '1700-01-01' then 
@@ -4931,7 +4931,7 @@ autorowheight: "true",
 							and permit_trans.permit_id = <cfqueryparam cfsqltype="cf_sql_decimal" value="#permit_id#">
 					union
 					select 'accession shipment' as ontype, accn_number as tnumber, accn_type as ttype, trans.transaction_type, trans.trans_date, collection.guid_prefix,
-						concat('/editAccn.cfm?Action=edit&transaction_id=',trans.transaction_id) as uri,
+						concat('/transactions/Accession.cfm?action=edit&transaction_id=',trans.transaction_id) as uri,
 						locality.sovereign_nation,
 						flat.country, flat.state_prov, flat.county, flat.island, flat.scientific_name, flat.guid,
 						(case when flat.began_date > '1700-01-01' then 
