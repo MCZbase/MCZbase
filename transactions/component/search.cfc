@@ -181,8 +181,8 @@ limitations under the License.
 				<!--- Links for integration on production --->
 				<cfswitch expression="#search.transaction_type#">
 					<!--- NOTE: Leading / is included below in id_link assembly --->
-					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
-					<cfcase value="accn"><cfset targetform = "editAccn.cfm?action=edit&"></cfcase>
+					<cfcase value="loan"><cfset targetform = "/transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "/transactions/Accession.cfm?action=edit&"></cfcase>
 					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
 					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
 				</cfswitch>
@@ -1353,11 +1353,7 @@ limitations under the License.
 			<cfloop list="#ArrayToList(search.getColumnNames())#" index="col" >
 				<cfset row["#lcase(col)#"] = "#search[col][currentRow]#">
 			</cfloop>
-			<cfif findNoCase('redesign',Session.gitBranch) GT 0>
-				<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
-			<cfelse>
-				<cfset row["id_link"] = "<a href='/editAccn.cfm?Action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
-			</cfif>
+			<cfset row["id_link"] = "<a href='/transactions/Accession.cfm?action=edit&transaction_id=#search.transaction_id#' target='_blank'>#search.accn_number#</a>">
 			<cfset data[i]  = row>
 			<cfset i = i + 1>
 		</cfloop>
@@ -1850,6 +1846,10 @@ limitations under the License.
 				trans.transaction_id,
 				borrow_number,
 				lender_loan_type,
+				lenders_trans_num_cde,
+				lenders_invoice_returned_fg,
+				decode(lenders_invoice_returned_fg,1,'Yes','No') as lenders_invoice_returned,
+				lenders_instructions,
 				nature_of_material,
 				no_of_specimens,
 				ret_acknowledged_by,

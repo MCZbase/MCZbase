@@ -1044,7 +1044,7 @@ limitations under the License.
 					<ul class="list-group list-group-flush pl-0">
 					<li class="list-group-item">Accession:
 						<cfif oneOfUs is 1>
-							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+							<a href="/transactions/Accession.cfm?action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
 							<cfelse>
 							#accession#
 						</cfif>

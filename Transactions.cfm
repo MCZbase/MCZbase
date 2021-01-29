@@ -2201,11 +2201,11 @@ limitations under the License.
 										</div>
 										<div class="col-md-3">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_catalog_number">Catalog Number</label>
-											<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number" placeholder="&gt;100">
+											<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number">
 										</div>
 										<div class="col-md-3">
 											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_sci_name">Scientific Name</label>
-											<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" placeholder="&gt;100">
+											<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" >
 										</div>
 									</div>
 
@@ -2477,7 +2477,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'accn_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/editAccn.cfm?Action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -2509,7 +2509,7 @@ limitations under the License.
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
 		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
-		content = content + "<a href='/editAccn.cfm?Action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
+		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
@@ -2517,7 +2517,7 @@ limitations under the License.
 	         autoOpen: true,
 	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 	         width: dialogWidth,
-	         title: 'Loan Details'
+	         title: 'Accession Details'
 	      }
 	   );
 	   // Workaround, expansion sits below row in zindex.
@@ -3098,7 +3098,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -3174,7 +3174,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
@@ -3203,6 +3203,9 @@ $(document).ready(function() {
 				{ name: 'trans_remarks', type: 'string' },
 				{ name: 'borrow_number', type: 'string' },
 				{ name: 'lender_loan_type', type: 'string' },
+				{ name: 'lenders_trans_num_cde', type: 'string' },
+				{ name: 'lenders_invoice_returned', type: 'string' },
+				{ name: 'lenders_instructions', type: 'string' },
 				{ name: 'due_date', type: 'string' },
 				{ name: 'received_date', type: 'string' },
 				{ name: 'return_acknowledged_date', type: 'string' },
@@ -3252,7 +3255,7 @@ $(document).ready(function() {
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -3288,12 +3291,14 @@ $(document).ready(function() {
 				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
 				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
 				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: false, width: 90 },
-				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: false, width: 100},
+				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: true, width: 100},
+				{text: 'Lender Loan Num.', datafield: 'lenders_trans_num_cde', hidable: true, hidden: false, width: 110},
 				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: false, width: 90},
 				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
 				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
 				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
+				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false },
 				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
 				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
 				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
@@ -3307,8 +3312,9 @@ $(document).ready(function() {
 				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
 				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
 				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
-				{text: 'Entered By', datafield: 'ent_agent', width: 100},
+				{text: 'Entered By', datafield: 'ent_agent', hideable: true, hidden: false, width: 100 },
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'Instructions', datafield: 'lenders_instructions', hideable: true, hidden: false, width: 120 },
 				{text: 'Description', datafield: 'description_of_borrow', hideable: true, hidden: true},
 				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
 				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
@@ -3333,7 +3339,7 @@ $(document).ready(function() {
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
