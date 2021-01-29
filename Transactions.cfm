@@ -2058,7 +2058,7 @@ limitations under the License.
 													</select>
 												</div>
 												<div class="col-6 px-0">
-													<label for="borrow_number" class="data-entry-label mb-0">MCZ Borrow Number</label>
+													<label for="borrow_number" class="data-entry-label mb-0"><span class="d-none d-xl-inline">MCZ</span> Borrow Number</label>
 													<input type="text" name="borrow_number" id="borrow_number" class="data-entry-select-input" value="#borrow_number#" placeholder="Byyyy-n-Coll">
 												</div>
 											</div>
