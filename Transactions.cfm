@@ -821,7 +821,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
+										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="loan_collection_id" class="data-entry-label">Collection Name</label>
@@ -843,7 +843,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset ploan_type = loan_type>
 											<label for="loan_type" class="data-entry-label mb-0">Type</label>
 											<select name="loan_type" id="loan_type" class="data-entry-select">
@@ -858,7 +858,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset ploan_status = loan_status>
 											<label for="loan_status" class="data-entry-label mb-0">Status</label>
 											<select name="loan_status" id="loan_status" class="data-entry-select" >
