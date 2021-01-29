@@ -348,7 +348,7 @@ limitations under the License.
 		<cfset borrow_description="">
 	</cfif>
 	<cfif not isdefined("lenders_invoice_returned")>
-		<cfset ="lenders_invoice_returned">
+		<cfset lenders_invoice_returned="">
 	</cfif>
 	<cfif not isdefined("accn_status")>
 		<cfset accn_status="">
