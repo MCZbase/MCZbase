@@ -933,8 +933,8 @@ limitations under the License.
 											<tbody>
 												<cfset i=1>
 												<cfloop query="mPart">
-													<tr <cfif mPart.recordcount gt 1>class="text-sucess"<cfelse></cfif>>
-														<td>#part_name#</td>
+													<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
+													<td><span class="font-weight-bold">#part_name#</span></td>
 														<td>#part_condition#</td>
 														<td>#part_disposition#</td>
 														<td>#lot_count#</td>
@@ -995,7 +995,7 @@ limitations under the License.
 								</cfquery>
 													<cfloop query="sPart">
 														<tr>
-															<td class="pl-2"><span class="font-weight-bold">#part_name# subsample</span></td>
+															<td><span class="text-dark">#part_name# <span class="font-italic">subsample</span></td>
 															<td class="">#part_condition#</td>
 															<td class="">#part_disposition#</td>
 															<td class="">#lot_count#</td>
