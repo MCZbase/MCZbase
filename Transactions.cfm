@@ -1380,7 +1380,7 @@ limitations under the License.
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
 												</div>
 											</div>
-											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
+											<div class="border bg-light rounded px-2 mb-2 py-3">
 												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
 													<div class="col-3 px-0">
 														<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
@@ -1479,7 +1479,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 py-2 mb-0">
+											<div class="border bg-light rounded px-0 px-sm-2 pt-1 pb-3 mb-0">
 												<h3 class="h5 px-3 my-xl-2">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
