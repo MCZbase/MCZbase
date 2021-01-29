@@ -2238,7 +2238,7 @@ limitations under the License.
 															<cfset bsel ="selected">
 															<cfset ysel ="">
 															<cfset nsel ="">
-														<cfif lenders_invoice_returned) EQ 1 >
+														<cfif lenders_invoice_returned EQ 1 >
 															<cfset bsel ="">
 															<cfset ysel ="selected">
 															<cfset nsel ="">
