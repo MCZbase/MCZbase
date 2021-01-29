@@ -952,7 +952,7 @@ limitations under the License.
 						<tbody>
 							<cfloop query="mPart">
 							
-								<tr <cfif mPart.recordcount gt 1>class="line-top"<cfelse></cfif>>
+								<tr <cfif mPart.recordcount gt 1>class="line-top text-danger"<cfelse></cfif>>
 									<td>#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
