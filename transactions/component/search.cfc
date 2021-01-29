@@ -1785,6 +1785,7 @@ limitations under the License.
 	<cfargument name="to_lenders_loan_date" type="string" required="no">
 	<cfargument name="return_acknowledged_date" type="string" required="no">
 	<cfargument name="to_return_acknowledged_date" type="string" required="no">
+	<cfargument name="lenders_invoice_returned" type="string" required="no">
 
 
 	<!--- set start/end date range terms to same if only one is specified --->
@@ -2003,6 +2004,9 @@ limitations under the License.
 				</cfif>
 				<cfif isdefined("nature_of_material") AND len(#nature_of_material#) gt 0>
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
+				</cfif>
+				<cfif isdefined("lenders_invoice_returned") AND len(#lenders_invoice_returned#) gt 0 >
+					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" > )
 				</cfif>
 				<cfif isdefined("catalog_number") AND len(#catalog_number#) gt 0 >
 					AND borrow_item.catalog_number = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#catalog_number#" > )
