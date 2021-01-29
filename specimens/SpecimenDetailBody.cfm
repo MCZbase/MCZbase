@@ -948,8 +948,9 @@ limitations under the License.
 								</cfif>
 							</tr>
 								</thead>
+									<tbody>
 							<cfset i=1>
-						<tbody>
+					
 							<cfloop query="mPart">
 							
 								<tr <cfif mPart.recordcount gt 1>class="line-top text-danger"<cfelse></cfif>>
