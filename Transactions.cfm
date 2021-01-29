@@ -937,7 +937,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row px-1 mx-0 mt-1 mb-md-2 my-xl-2">
+									<div class="form-row px-1 mt-1 mb-md-2 my-xl-2">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
