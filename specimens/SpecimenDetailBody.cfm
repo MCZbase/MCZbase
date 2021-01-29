@@ -937,6 +937,7 @@ limitations under the License.
 					<div class="card-body p-0">
 						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 							<table class="table d-lg-table border-bottom table-responsive mb-0">
+								<thead>
 							<tr class="bg-light">
 								<th><span>Part Name</span></th>
 								<th><span>Condition</span></th>
@@ -946,8 +947,9 @@ limitations under the License.
 									<th><span>Container</span></th>
 								</cfif>
 							</tr>
+								</thead>
 							<cfset i=1>
-						
+						<tbody>
 							<cfloop query="mPart">
 							
 								<tr <cfif mPart.recordcount gt 1>class="line-top"<cfelse></cfif>>
@@ -1026,7 +1028,7 @@ limitations under the License.
 								</cfloop>
 							
 							</cfloop>
-								
+									</tbody>	
 							</table>
 						</div>
 					</div>
