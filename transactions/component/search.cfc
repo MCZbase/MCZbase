@@ -1867,7 +1867,7 @@ limitations under the License.
 				project.project_id pid,
 				MCZBASE.get_permits_for_trans(trans.transaction_id) permits,
 				MCZBASE.count_shipments_for_trans(trans.transaction_id) shipment_count,
-				0 as item_count, -- TODO
+				(select count(*) from borrow_item where borrow_item.transaction_id = trans.transaction_id) as item_count, 
 				concattransagent(trans.transaction_id,'entered by') ent_agent,
 				concattransagent(trans.transaction_id,'in-house authorized by') auth_agent,
 				concattransagent(trans.transaction_id,'outside authorized by') outside_auth_agent,
