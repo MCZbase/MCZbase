@@ -1046,7 +1046,7 @@ $( document ).ready(loadShipments(#transaction_id#));
 				</a>
 				 to Project <strong>#sfproj.project_name#</strong>
 			<cfelse>
-				<a href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><strong>#collection# #accn_number#</strong></a>
+				<a href="/transactions.cfm/Accession.cfm?action=edit&transaction_id=#transaction_id#"><strong>#collection# #accn_number#</strong></a>
 				<span style="font-size:smaller">(#accn_status#)</span>
 			</cfif>
 			<div style="padding-left:2em;">
