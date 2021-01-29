@@ -1204,7 +1204,7 @@ limitations under the License.
 								<form id="accnSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -1341,7 +1341,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row px-1 mx-0">
+									<div class="form-row px-1">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
@@ -1366,7 +1366,7 @@ limitations under the License.
 										</div>
 									</div>
 
-									<div class="form-row px-1 mx-0 mt-2">
+									<div class="form-row px-1 mt-2">
 								
 										<div class="col-md-6">
 		
@@ -1629,7 +1629,7 @@ limitations under the License.
 								<form id="deaccnSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getDeaccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -1765,7 +1765,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row px-1 mx-0">
+									<div class="form-row px-1">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="deacc_trans_date">Deaccession Date</label>
@@ -1795,7 +1795,7 @@ limitations under the License.
 											<input type="text" name="value" class="data-entry-input" value="#value#" id="value">
 										</div>
 									</div>
-									<div class="form-row px-1 mx-0 mt-2">
+									<div class="form-row px-1 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
