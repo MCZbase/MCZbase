@@ -22,10 +22,10 @@
 						CATEGORY,
 						DISP_ORDER
 					) values (
-						'#cname#',
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#cname#">,
 						'ConcatAttributeValue(flatTableName.collection_object_id,''#attribute_type#'')',
 						'attribute',
-						#n#
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n#">
 					)
 				</cfquery>
 				<cfset n=n+1>
@@ -40,7 +40,9 @@
 		</cftry>
 	</cftransaction>
 	<cfquery name="d" datasource="uam_god">
-		select COLUMN_NAME from cf_spec_res_cols where category='attribute' and column_name != 'sex' order by DISP_ORDER	
+		select COLUMN_NAME from cf_spec_res_cols 
+		where category='attribute' and column_name != 'sex' 
+		order by DISP_ORDER	
 	</cfquery>
 	You aren't done here yet. JS variable "attributes" in function "success_getSpecResultsData" (in ajax.js)
 	must be updated to the following attribute list
