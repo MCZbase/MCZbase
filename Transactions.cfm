@@ -1205,7 +1205,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
+										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="accn_collection_id" class="data-entry-label">Collection Name</label>
@@ -1229,7 +1229,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset paccn_type = accn_type>
 											<label for="accn_type" class="data-entry-label mb-0">Type</label>
 											<select name="accn_type" id="accn_type" class="data-entry-select">
@@ -1252,7 +1252,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset paccn_status = accn_status>
 											<label for="accn_status" class="data-entry-label mb-0">Status</label>
 											<select name="accn_status" id="accn_status" class="data-entry-select" >
@@ -1630,7 +1630,7 @@ limitations under the License.
 									<input type="hidden" name="method" value="getDeaccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
 									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
+										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
 													<label for="deacc_collection_id" class="data-entry-label">Collection Name</label>
@@ -1654,7 +1654,7 @@ limitations under the License.
 												</div>
 											</div>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset pdeacc_type = deacc_type>
 											<label for="deacc_type" class="data-entry-label mb-0">Type</label>
 											<select name="deacc_type" id="deacc_type" class="data-entry-select">
@@ -1677,7 +1677,7 @@ limitations under the License.
 												</cfloop>
 											</select>
 										</div>
-										<div class="col-12 col-md-3">
+										<div class="col-12 col-md-4">
 											<cfset pdeacc_status = deacc_status>
 											<label for="deacc_status" class="data-entry-label mb-0">Status</label>
 											<select name="deacc_status" id="deacc_status" class="data-entry-select" >
