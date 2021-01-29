@@ -1773,6 +1773,7 @@ limitations under the License.
 
 <cffunction name="getBorrows" access="remote" returntype="any" returnformat="json">
 	<cfargument name="borrow_number" type="string" required="no">
+	<cfargument name="lenders_trans_num_cde" type="string" required="no">
 	<cfargument name="lender_loan_type" type="string" required="no">
 	<cfargument name="borrow_status" type="string" required="no">
 	<cfargument name="borrow_sci_name" type="string" required="no">
@@ -1948,6 +1949,17 @@ limitations under the License.
 							AND borrow_number in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#borrow_number#" list="yes"> )
 						<cfelse>
 							AND borrow_number LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#borrow_number#%">
+						</cfif>
+					</cfif>
+				</cfif>
+				<cfif isDefined("lenders_trans_num_cde") and len(lenders_trans_num_cde) gt 0>
+					<cfif left(lenders_trans_num_cde,1) is "=">
+						AND lenders_trans_num_cde = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(lenders_trans_num_cde,len(lenders_trans_num_cde)-1)#">
+					<cfelse>
+						<cfif find(',',lenders_trans_num_cde) GT 0>
+							AND lenders_trans_num_cde in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#lenders_trans_num_cde#" list="yes"> )
+						<cfelse>
+							AND lenders_trans_num_cde LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#lenders_trans_num_cde#%">
 						</cfif>
 					</cfif>
 				</cfif>
