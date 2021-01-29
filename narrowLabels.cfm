@@ -277,7 +277,7 @@ To you programmers, that means DON'T TOUCH THE MARGINS!!!--->
         <cfquery name="tCollNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                 select other_id_number from coll_obj_other_id_num where
                 other_id_type='collector number'
-                and collection_object_id=#collection_object_id#
+                and collection_object_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
         </cfquery>
         <cfset coordinates = "">
         <cfif len(#verbatimLatitude#) gt 0 AND len(#verbatimLongitude#) gt 0>
