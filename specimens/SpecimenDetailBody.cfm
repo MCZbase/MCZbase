@@ -953,7 +953,7 @@ limitations under the License.
 					
 							<cfloop query="mPart">
 							
-								<tr <cfif mPart.recordcount gt 1>class="line-top text-danger"<cfelse></cfif>>
+								<tr <cfif mPart.recordcount gt 1>class="line-top"<cfelse></cfif>>
 									<td>#part_name#</td>
 									<td>#part_condition#</td>
 									<td>#part_disposition#</td>
@@ -963,7 +963,7 @@ limitations under the License.
 									</cfif>
 								</tr>
 								<cfif len(part_remarks) gt 0>
-								<tr class=" small"><td colspan="6">
+								<tr class="small"><td colspan="6">
 									<span class="font-italic">Remarks:</span> #part_remarks#</td>
 								</tr>
 								</cfif>
@@ -990,7 +990,7 @@ limitations under the License.
 								</cfquery>
 								<cfif patt.recordcount gt 0>
 									<tr>
-										<td colspan="6">
+										<td colspan="5">
 											<cfloop query="patt">
 												<div class="small" style="line-height: .9rem;">
 													#attribute_type#=#attribute_value#
