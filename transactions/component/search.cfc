@@ -2006,7 +2006,7 @@ limitations under the License.
 					AND upper(nature_of_material) LIKE <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='%#ucase(nature_of_material)#%'>
 				</cfif>
 				<cfif isdefined("lenders_invoice_returned") AND len(#lenders_invoice_returned#) gt 0 >
-					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" > )
+					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" >
 				</cfif>
 				<cfif isdefined("catalog_number") AND len(#catalog_number#) gt 0 >
 					AND borrow_item.catalog_number = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#catalog_number#" > )
