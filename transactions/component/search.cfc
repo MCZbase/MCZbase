@@ -1828,16 +1828,16 @@ limitations under the License.
 			<cfset to_due_date = "#to_due_date#-12-31">
 		</cfif>
 	</cfif>
-	<cfif isdefined("ret_acknowledged_date_date") and len(#ret_acknowledged_date_date#) gt 0>
-		<cfif not isdefined("to_ret_acknowledged_date_date") or len(to_ret_acknowledged_date_date) is 0>
-			<cfset to_ret_acknowledged_date_date=ret_acknowledged_date_date>
+	<cfif isdefined("ret_acknowledged_date") and len(#ret_acknowledged_date#) gt 0>
+		<cfif not isdefined("to_ret_acknowledged_date") or len(to_ret_acknowledged_date) is 0>
+			<cfset to_ret_acknowledged_date=ret_acknowledged_date>
 		</cfif>
 		<!--- support search on just a year or pair of years --->
-		<cfif len(#ret_acknowledged_date_date#) EQ 4>
-			<cfset ret_acknowledged_date_date = "#ret_acknowledged_date_date#-01-01">
+		<cfif len(#ret_acknowledged_date#) EQ 4>
+			<cfset ret_acknowledged_date = "#ret_acknowledged_date#-01-01">
 		</cfif>
-		<cfif len(#to_ret_acknowledged_date_date#) EQ 4>
-			<cfset to_ret_acknowledged_date_date = "#to_ret_acknowledged_date_date#-12-31">
+		<cfif len(#to_ret_acknowledged_date#) EQ 4>
+			<cfset to_ret_acknowledged_date = "#to_ret_acknowledged_date#-12-31">
 		</cfif>
 	</cfif>
 
@@ -1855,16 +1855,12 @@ limitations under the License.
 				ret_acknowledged_by,
 				to_char(due_date,'YYYY-MM-DD') as due_date,
 				to_char(received_date,'YYYY-MM-DD') as received_date,
-				to_char(ret_acknowledged_date_date,'YYYY-MM-DD') as ret_acknowledged_date_date,
+				to_char(ret_acknowledged_date,'YYYY-MM-DD') as ret_acknowledged_date,
 				to_char(trans_date,'YYYY-MM-DD') as date_entered,
 				to_char(lenders_loan_date,'YYYY-MM-DD') as date_entered,
 				borrow_status,
-				borrow_reason,
-				borrow_description,
-				value,
-				method,
+				description_of_borrow,
 				trans_remarks,
-				borrow_remarks,
 				collection,
 				collection.collection_cde,
 				project_name,
