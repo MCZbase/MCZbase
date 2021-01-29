@@ -971,7 +971,7 @@ limitations under the License.
 											$(makePermitPicker('loan_permit_num','loan_permit_id'));
 										});
 									</script>
-									<div class="form-row px-1 mx-0">
+									<div class="form-row px-1">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 px-md-4 mb-2 px-3">
 												<div class="form-row">
