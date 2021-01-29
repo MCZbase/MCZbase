@@ -3234,7 +3234,7 @@ $(document).ready(function() {
 				{ name: 'shipment_count', type: 'string' },
 				{ name: 'project_name', type: 'string' },
 				{ name: 'pid', type: 'string' },
-				{ name: 'id_link', type: 'string' }a
+				{ name: 'id_link', type: 'string' }
 			],
 			updaterow: function (rowid, rowdata, commit) {
 				commit(true);
