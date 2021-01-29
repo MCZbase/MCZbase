@@ -1777,6 +1777,8 @@ limitations under the License.
 	<cfargument name="borrow_status" type="string" required="no">
 	<cfargument name="borrow_sci_name" type="string" required="no">
 	<cfargument name="borrow_catalog_number" type="string" required="no">
+	<cfargument name="borrow_spec_prep" type="string" required="no">
+	<cfargument name="borrow_type_status" type="string" required="no">
 	<cfargument name="trans_date" type="string" required="no">
 	<cfargument name="to_trans_date" type="string" required="no">
 	<cfargument name="received_date" type="string" required="no">
@@ -1919,7 +1921,11 @@ limitations under the License.
 					left join permit_shipment on shipment.shipment_id = permit_shipment.shipment_id
 					left join permit permit_from_shipment on  permit_shipment.permit_id = permit_from_shipment.permit_id
 				</cfif>
-				<cfif (isdefined("borrow_catalog_number") AND len(borrow_catalog_number) gt 0) or (isdefined("borrow_sci_name") AND len(borrow_sci_name) gt 0) >
+				<cfif (isdefined("borrow_catalog_number") AND len(borrow_catalog_number) gt 0) 
+						or (isdefined("borrow_sci_name") AND len(borrow_sci_name) gt 0) 
+						or (isdefined("borrow_spec_prep") AND len(borrow_spec_prep) gt 0) 
+						or (isdefined("borrow_type_status") AND len(borrow_type_status) gt 0) 
+				>
 					left join borrow_item on borrow.transaction_id = borrow_item.transaction_id
 				</cfif>
 				<cfif isdefined("IssuedByAgent") and len(#IssuedByAgent#) gt 0>
@@ -2011,19 +2017,25 @@ limitations under the License.
 					AND borrow.lenders_invoice_returned_fg = <cfqueryparam  cfsqltype="CF_SQL_DECIMAL" value="#lenders_invoice_returned#" >
 				</cfif>
 				<cfif isdefined("borrow_catalog_number") AND len(#borrow_catalog_number#) gt 0 >
-					AND borrow_item.catalog_number = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#borrow_catalog_number#" >
+					AND borrow_item.catalog_number like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_catalog_number#%" >
 				</cfif>
 				<cfif isdefined("borrow_sci_name") AND len(#borrow_sci_name#) gt 0 >
-					AND borrow_item.sci_name = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#borrow_sci_name#" >
+					AND borrow_item.sci_name like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_sci_name#%" >
 				</cfif>
 				<cfif isdefined("no_of_spec") AND len(#no_of_spec#) gt 0 >
 					AND borrow_item.no_of_spec = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#no_of_spec#" >
 				</cfif>
-				<cfif isdefined("spec_prep") AND len(#spec_prep#) gt 0 >
-					AND borrow_item.spec_prep = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#spec_prep#" >
+				<cfif isdefined("borrow_spec_prep") AND len(#borrow_spec_prep#) gt 0 >
+					AND borrow_item.spec_prep like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_spec_prep#%" >
 				</cfif>
-				<cfif isdefined("type_status") AND len(#type_status#) gt 0 >
-					AND borrow_item.type_status = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#type_status#" > 
+				<cfif isdefined("borrow_type_status") AND len(#borrow_type_status#) gt 0 >
+					<cfif borrow_type_status EQ 'NULL'>
+						AND borrow_item.type_status is NULL
+					<cfelseif borrow_type_status EQ 'NOT NULL'>
+						AND borrow_item.type_status is NOT NULL
+					<cfelse>
+						AND borrow_item.type_status like <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="%#borrow_type_status#%" > 
+					</cfif>
 				</cfif>
 				<cfif isdefined("country_of_origin") AND len(#country_of_origin#) gt 0 >
 					AND borrow_item.country_of_origin = <cfqueryparam  cfsqltype="CF_SQL_VARCHAR" value="#country_of_origin#" > 

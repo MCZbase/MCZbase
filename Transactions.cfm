@@ -326,6 +326,12 @@ limitations under the License.
 	<cfif not isdefined("borrow_sci_name")>
 		<cfset borrow_sci_name="">
 	</cfif>
+	<cfif not isdefined("borrow_spec_prep")>
+		<cfset borrow_spec_prep="">
+	</cfif>
+	<cfif not isdefined("borrow_type_status")>
+		<cfset borrow_type_status="">
+	</cfif>
 	<cfif not isdefined("lenders_instructions")>
 		<cfset lenders_instructions="">
 	</cfif>
@@ -2197,13 +2203,26 @@ limitations under the License.
 											<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
 											<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
 										</div>
-										<div class="col-md-3">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_catalog_number">Catalog Number</label>
-											<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number">
-										</div>
-										<div class="col-md-3">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_sci_name">Scientific Name</label>
-											<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" >
+										<div class="col-md-6">
+											<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Return Acknowledged By Lender</label>
+											<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
+												<cfif len(lenders_invoice_returned) EQ 0 >
+													<cfset bsel ="selected">
+													<cfset ysel ="">
+													<cfset nsel ="">
+												<cfelseif lenders_invoice_returned EQ 1 >
+													<cfset bsel ="">
+													<cfset ysel ="selected">
+													<cfset nsel ="">
+												<cfelse>
+													<cfset bsel ="">
+													<cfset ysel ="">
+													<cfset nsel ="selected">
+												</cfif>
+												<option value="" #bsel#></option>
+												<option value="1" #ysel#>Yes</option>
+												<option value="0" #nsel#>No</option>
+											</select>
 										</div>
 									</div>
 
@@ -2227,25 +2246,20 @@ limitations under the License.
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="borrow_trans_remarks">
 												</div>
 												<div class="col-md-12 px-0">
-													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Return Acknowledged By Lender</label>
-													<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
-														<cfif len(lenders_invoice_returned) EQ 0 >
-															<cfset bsel ="selected">
-															<cfset ysel ="">
-															<cfset nsel ="">
-														<cfelseif lenders_invoice_returned EQ 1 >
-															<cfset bsel ="">
-															<cfset ysel ="selected">
-															<cfset nsel ="">
-														<cfelse>
-															<cfset bsel ="">
-															<cfset ysel ="">
-															<cfset nsel ="selected">
-														</cfif>
-														<option value="" #bsel#></option>
-														<option value="1" #ysel#>Yes</option>
-														<option value="0" #nsel#>No</option>
-													</select>
+													<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_catalog_number">Catalog Number</label>
+													<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number">
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_sci_name">Scientific Name</label>
+													<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" >
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_spec_prep">Specimen Preparation</label>
+													<input type="text" name="borrow_spec_prep" class="data-entry-input" value="#borrow_spec_prep#" id="borrowspec_prep">
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_type_status">Type Status <span class="small">(NOT NULL)</span></label>
+													<input type="text" name="borrow_type_status" class="data-entry-input" value="#borrow_type_status#" id="borrow_type_status" >
 												</div>
 											</div>
 										</div>
