@@ -175,6 +175,40 @@ limitations under the License.
 	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
 	order by ctspecific_permit_type.specific_type
 </cfquery>
+<cfquery name="ctpermit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
+   from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctpermit_type.permit_type = permit.permit_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'loan'
+   group by ctpermit_type.permit_type
+   order by ctpermit_type.permit_type
+</cfquery>
+<cfquery name="ctspecific_permit_type_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+   select count(distinct trans.transaction_id) as ct, ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+   from ctspecific_permit_type, permit, permit_trans, permit_shipment, shipment, trans
+   where 
+ 	  ctspecific_permit_type.specific_type = permit.specific_type (+)
+   	and permit.permit_id = permit_trans.permit_id (+)
+	   and permit.permit_id = permit_shipment.permit_id (+)
+   	and permit_shipment.shipment_id = shipment.shipment_id (+)
+	   and (
+   	   shipment.transaction_id = trans.transaction_id
+      	or
+	      permit_trans.transaction_id = trans.transaction_id
+   	)
+		and trans.transaction_type = 'loan'
+	group by ctspecific_permit_type.permit_type, ctspecific_permit_type.specific_type
+	order by ctspecific_permit_type.specific_type
+</cfquery>
 <cfquery name="ctpermit_type_deaccn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
    select count(distinct trans.transaction_id) as ct, ctpermit_type.permit_type
    from ctpermit_type, permit, permit_trans, permit_shipment, shipment, trans
@@ -292,6 +326,12 @@ limitations under the License.
 	<cfif not isdefined("borrow_sci_name")>
 		<cfset borrow_sci_name="">
 	</cfif>
+	<cfif not isdefined("borrow_spec_prep")>
+		<cfset borrow_spec_prep="">
+	</cfif>
+	<cfif not isdefined("borrow_type_status")>
+		<cfset borrow_type_status="">
+	</cfif>
 	<cfif not isdefined("lenders_instructions")>
 		<cfset lenders_instructions="">
 	</cfif>
@@ -313,6 +353,9 @@ limitations under the License.
 	<cfif not isdefined("borrow_description")>
 		<cfset borrow_description="">
 	</cfif>
+	<cfif not isdefined("lenders_invoice_returned")>
+		<cfset lenders_invoice_returned="">
+	</cfif>
 	<cfif not isdefined("accn_status")>
 		<cfset accn_status="">
 	</cfif>
@@ -330,6 +373,12 @@ limitations under the License.
 	</cfif>
 	<cfif not isdefined("loan_type")>
 		<cfset loan_type="">
+	</cfif>
+	<cfif not isdefined("insurance_value")>
+		<cfset insurance_value="">
+	</cfif>
+	<cfif not isdefined("insurance_maintained_by")>
+		<cfset insurance_maintained_by="">
 	</cfif>
 	<cfif not isdefined("nature_of_material")>
 		<cfset nature_of_material="">
@@ -698,9 +747,9 @@ limitations under the License.
 											<div class="input-group">
 												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
 												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
-												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickActionTr();" onclick="handleAPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAllPermitPickActionTr();" onclick="handleAllPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
 												<script>
-													function handleAPermitPickActionTr(event) {
+													function handleAllPermitPickActionTr(event) {
 														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
 													}
 												</script>
@@ -919,23 +968,56 @@ limitations under the License.
 									</div>
 									<script>
 										$(document).ready(function() {
-											$(makePermitPicker('permit_num','permit_id'));
+											$(makePermitPicker('loan_permit_num','loan_permit_id'));
 										});
 									</script>
 									<div class="form-row mx-0">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
-												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
-													<script>
-														function handlePermitPickAction(event) {
-															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
-														}
-													</script>
-													<div id="permitpickerdialog"></div>
+												<div class="form-row mx-0">
+													<div class="col-12">
+														<label for="permit_num" id="loan_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
+														<div class="input-group">
+															<input type="hidden" name="permit_id" id="loan_permit_id" value="#permit_id#">
+															<input type="text" name="permit_num" id="loan_permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleLoanPermitPickAction();" onclick="handleLoanPermitPickAction();" aria-labelledby="loan_permit_picklist">Pick</span> </div>
+															<script>
+																function handleLoanPermitPickAction(event) {
+																	openfindpermitdialog('loan_permit_num','loan_permit_id','loanpermitpickerdialog');
+																}
+															</script>
+															<div id="loanpermitpickerdialog"></div>
+														</div>
+													</div>
+													<div class="coll-12 col-md-6">
+														<cfset ppermit_type = permit_type>
+														<label for="loan_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+														<select name="permit_type" class="data-entry-select" id="loan_permit_type">
+															<option value=""></option>
+															<cfloop query="ctpermit_type_loan">
+																<cfif ppermit_type eq ctpermit_type_loan.permit_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctpermit_type_loan.permit_type#" #selected# >#ctpermit_type_loan.permit_type# (#ctpermit_type_loan.ct# loans)</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="coll-12 col-md-6">
+														<label for="loan_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+														<select name="permit_specific_type" class="data-entry-select" id="loan_permit_specific_type">
+															<option value=""></option>
+															<cfloop query="ctspecific_permit_type_loan">
+																<cfif permit_specific_type eq ctspecific_permit_type_loan.specific_type>
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#ctspecific_permit_type_loan.specific_type#" #selected# >#ctspecific_permit_type_loan.specific_type# (#ctspecific_permit_type_loan.permit_type#) [#ctspecific_permit_type_loan.ct# loans)</option>
+															</cfloop>
+														</select>
+													</div>
 												</div>
 											</div>
 											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
@@ -1037,7 +1119,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
+											<div class="form-row border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
@@ -1057,6 +1139,14 @@ limitations under the License.
 												<div class="col-md-12">
 													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
 													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+												</div>
+												<div class="col-md-6">
+													<label for="loan_insurance_value" class="data-entry-label mb-0 pb-0">Insurance Value <span class="small">(NULL,NOT NULL)</span> </label>
+													<input type="text" name="insurance_value" class="data-entry-input" value="#insurance_value#" id="loan_insurance_value">
+												</div>
+												<div class="col-md-6">
+													<label for="loan_insurance_maintained_by" class="data-entry-label mb-0 pb-0">Insurance Maintained By <span class="small">(NULL, NOT NULL)</span></label>
+													<input type="text" name="insurance_maintained_by" class="data-entry-input" maintained_by="#insurance_maintained_by#" id="loan_insurance_maintained_by">
 												</div>
 											</div>
 											</div>
@@ -1479,7 +1569,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
+																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1498,11 +1588,6 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
-							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
-								<h2 class="h3">Not yet Implemented</h3>
-							</div>
-							<cfelse>
 							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-2 mx-sm-3" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1832,9 +1917,9 @@ limitations under the License.
 													<div class="input-group">
 														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
 														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleDePermitPickAction();" onclick="handleDePermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
 														<script>
-															function handleAPermitPickAction(event) {
+															function handleDePermitPickAction(event) {
 																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
 															}
 														</script>
@@ -1901,7 +1986,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctpermit_type_deaccn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# deaccessions)</option>
+																<option value="#ctpermit_type_deaccn.permit_type#" #selected# >#ctpermit_type_deaccn.permit_type# (#ctpermit_type_deaccn.ct# deaccessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1915,7 +2000,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_deaccn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# deaccessions)</option>
+																<option value="#ctspecific_permit_type_deaccn.specific_type#" #selected# >#ctspecific_permit_type_deaccn.specific_type# (#ctspecific_permit_type_deaccn.permit_type#) [#ctspecific_permit_type_deaccn.ct# deaccessions)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1932,14 +2017,8 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane deaccession search---> 
-							</cfif><!--- end if master delete for deployment --->
 
 							<!--- Borrow search tab panel --->
-							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
-							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-2 mx-sm-3" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab">
-								<h2 class="h3">Not yet Implemented</h3>
-							</div>
-							<cfelse>
 							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-2 mx-sm-3" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab">
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
@@ -1989,7 +2068,7 @@ limitations under the License.
 												Lender's Loan Number
 												<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##lenders_trans_num_cde').val('='+$('##lenders_trans_num_cde').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
 											</label>
-											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde" placeholder="&gt;100">
+											<input type="text" name="lenders_trans_num_cde" class="data-entry-input" value="#lenders_trans_num_cde#" id="lenders_trans_num_cde">
 										</div>
 										<div class="col-12 col-md-3">
 											<cfset pborrow_status = borrow_status>
@@ -2124,13 +2203,26 @@ limitations under the License.
 											<label class="data-entry-label px-3 mx-1 mb-0" for="no_of_specimens">Total No. of Specimens</label>
 											<input type="text" name="no_of_specimens" class="data-entry-input" value="#no_of_specimens#" id="no_of_specimens" placeholder="&gt;100">
 										</div>
-										<div class="col-md-3">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_catalog_number">Catalog Number</label>
-											<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number" placeholder="&gt;100">
-										</div>
-										<div class="col-md-3">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="borrow_sci_name">Scientific Name</label>
-											<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" placeholder="&gt;100">
+										<div class="col-md-6">
+											<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Return Acknowledged By Lender</label>
+											<select name="lenders_invoice_returned" class="data-entry-select" value="#lenders_invoice_returned#" id="lenders_invoice_returned">
+												<cfif len(lenders_invoice_returned) EQ 0 >
+													<cfset bsel ="selected">
+													<cfset ysel ="">
+													<cfset nsel ="">
+												<cfelseif lenders_invoice_returned EQ 1 >
+													<cfset bsel ="">
+													<cfset ysel ="selected">
+													<cfset nsel ="">
+												<cfelse>
+													<cfset bsel ="">
+													<cfset ysel ="">
+													<cfset nsel ="selected">
+												</cfif>
+												<option value="" #bsel#></option>
+												<option value="1" #ysel#>Yes</option>
+												<option value="0" #nsel#>No</option>
+											</select>
 										</div>
 									</div>
 
@@ -2138,8 +2230,8 @@ limitations under the License.
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
-													<label for="de_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="de_nature_of_material">
+													<label for="bo_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
+													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="bo_nature_of_material">
 												</div>
 												<div class="col-md-12 px-0">
 													<label for="lenders_instructions" class="data-entry-label mb-0 pb-0">Lender's Instructions</label>
@@ -2153,6 +2245,22 @@ limitations under the License.
 													<label for="borrow_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
 													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="borrow_trans_remarks">
 												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label" for="borrow_catalog_number">Catalog Number</label>
+													<input type="text" name="borrow_catalog_number" class="data-entry-input" value="#borrow_catalog_number#" id="borrow_catalog_number">
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label" for="borrow_sci_name">Scientific Name</label>
+													<input type="text" name="borrow_sci_name" class="data-entry-input" value="#borrow_sci_name#" id="borrow_sci_name" >
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label" for="borrow_spec_prep">Specimen Preparation</label>
+													<input type="text" name="borrow_spec_prep" class="data-entry-input" value="#borrow_spec_prep#" id="borrowspec_prep">
+												</div>
+												<div class="col-md-12 px-0">
+													<label class="data-entry-label" for="borrow_type_status">Type Status <span class="small">(NOT NULL)</span></label>
+													<input type="text" name="borrow_type_status" class="data-entry-input" value="#borrow_type_status#" id="borrow_type_status" >
+												</div>
 											</div>
 										</div>
 
@@ -2160,25 +2268,25 @@ limitations under the License.
 											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
 												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
-													<label for="de_permit_num" id="de_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+													<label for="bo_permit_num" id="bo_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
 													<div class="input-group">
-														<input type="hidden" name="permit_id" id="de_permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="de_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="de_permit_picklist">Pick</span> </div>
+														<input type="hidden" name="permit_id" id="bo_permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="bo_permit_num" class="data-entry-addon-input" value="#permit_num#">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handleBorrowPermitPickAction();" onclick="handleBorrowPermitPickAction();" aria-labelledby="bo_permit_picklist">Pick</span> </div>
 														<script>
-															function handleAPermitPickAction(event) {
-																openfindpermitdialog('de_permit_num','de_permit_id','de_permitpickerdialog');
+															function handleBorrowPermitPickAction(event) {
+																openfindpermitdialog('bo_permit_num','bo_permit_id','bo_permitpickerdialog');
 															}
 														</script>
-														<div id="de_permitpickerdialog"></div>
+														<div id="bo_permitpickerdialog"></div>
 													</div>
 													<script>
 														$(document).ready(function() {
-															$(makePermitPicker('de_permit_num','de_permit_id'));
-															$('##de_permit_num').blur( function () {
+															$(makePermitPicker('bo_permit_num','bo_permit_id'));
+															$('##bo_permit_num').blur( function () {
 																// prevent an invisible permit_id from being included in the search.
-																if ($('##de_permit_num').val().trim() == "") { 
-																	$('##de_permit_id').val("");
+																if ($('##bo_permit_num').val().trim() == "") { 
+																	$('##bo_permit_id').val("");
 																}
 															});
 														});
@@ -2186,27 +2294,27 @@ limitations under the License.
 												</div>
 												<div class="form-row mx-0">
 												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
-													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
-													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
-													<input type="hidden" name="issued_by_id" id="de_issued_by_agent_id" value="#issued_by_id#" >
+													<label for="bo_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
+													<input type="text" name="IssuedByAgent" id="bo_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
+													<input type="hidden" name="issued_by_id" id="bo_issued_by_agent_id" value="#issued_by_id#" >
 												</div>
 												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
-													<label for="de_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
-													<input type="text" name="IssuedToAgent" id="de_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
-													<input type="hidden" name="issued_to_id" id="de_issued_to_agent_id" value="#issued_to_id#" >
+													<label for="bo_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
+													<input type="text" name="IssuedToAgent" id="bo_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
+													<input type="hidden" name="issued_to_id" id="bo_issued_to_agent_id" value="#issued_to_id#" >
 												</div>
 												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
-													<label for="de_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
-													<input type="text" name="permit_contact_agent" id="de_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
-													<input type="hidden" name="permit_contact_id" id="de_permit_contact_agent_id" value="#permit_contact_id#" >
+													<label for="bo_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
+													<input type="text" name="permit_contact_agent" id="bo_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
+													<input type="hidden" name="permit_contact_id" id="bo_permit_contact_agent_id" value="#permit_contact_id#" >
 												</div>
 												</div>
 											
 												<script>
 													$(document).ready(function() {
-														$(makeConstrainedAgentPicker('de_issued_by_agent','de_issued_by_agent_id','permit_issued_by_agent'));
-														$(makeConstrainedAgentPicker('de_issued_to_agent','de_issued_to_agent_id','permit_issued_to_agent'));
-														$(makeConstrainedAgentPicker('de_permit_contact_agent','de_permit_contact_agent_id','permit_contact_agent'));
+														$(makeConstrainedAgentPicker('bo_issued_by_agent','bo_issued_by_agent_id','permit_issued_by_agent'));
+														$(makeConstrainedAgentPicker('bo_issued_to_agent','bo_issued_to_agent_id','permit_issued_to_agent'));
+														$(makeConstrainedAgentPicker('bo_permit_contact_agent','bo_permit_contact_agent_id','permit_contact_agent'));
 													});
 												</script>
 												<div class="col-md-12">
@@ -2247,7 +2355,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="#ctspecific_permit_type_borrow.specific_type#" #selected# >#ctspecific_permit_type_borrow.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_borrow.ct# borrows)</option>
+																<option value="#ctspecific_permit_type_borrow.specific_type#" #selected# >#ctspecific_permit_type_borrow.specific_type# (#ctspecific_permit_type_borrow.permit_type#) [#ctspecific_permit_type_borrow.ct# borrows)</option>
 															</cfloop>
 														</select>
 													</div>
@@ -2264,7 +2372,6 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane borrow search---> 
-							</cfif><!--- end if master delete for deployment --->
 						</div>
 						<!--- End tab-content div ---> 
 					</div>
@@ -2402,7 +2509,7 @@ limitations under the License.
 	      var datafield = columns[i].datafield;
 			if (datafield == 'accn_number') { 
 				if (transaction_id) {
-	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/editAccn.cfm?Action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
+	      		content = content + "<li><strong>" + text + ":</strong> <a class='btn btn-link btn-xs' href='/transactions/Accession.cfm?action=edit&transaction_id="+transaction_id+"' target='_blank'>" + datarecord[datafield] +  "</a></li>";
 				} else { 
 	      		content = content + "<li><strong>" + text + ":</strong> " + datarecord[datafield] +  "</li>";
 				}
@@ -2434,7 +2541,7 @@ limitations under the License.
 		content = content + "<a href='/SpecimenResults.cfm?accn_trans_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Specimen List</a>";
 		content = content + "<a href='/findContainer.cfm?autosubmit=true&transaction_id="+transaction_id+"' class='btn btn-secondary btn-xs' target='_blank'>Storage Locations</a>";
 		content = content + "<a href='/bnhmMaps/bnhmMapData.cfm?accn_number="+accn_number+"' class='btn btn-secondary btn-xs' target='_blank'>Berkeley Mapper</a>";
-		content = content + "<a href='/editAccn.cfm?Action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
+		content = content + "<a href='/transactions/Accession.cfm?action=edit&transaction_id=" + transaction_id +"' class='btn btn-secondary btn-xs' target='_blank'>Edit Accession</a>";
 	   content = content + "</div>";
 	   $("##" + rowDetailsTargetId + rowIndex).html(content);
 	   $("##"+ gridId +"RowDetailsDialog" + rowIndex ).dialog(
@@ -2442,7 +2549,7 @@ limitations under the License.
 	         autoOpen: true,
 	         buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); $("##" + gridId).jqxGrid('hiderowdetails',rowIndex); } } ],
 	         width: dialogWidth,
-	         title: 'Loan Details'
+	         title: 'Accession Details'
 	      }
 	   );
 	   // Workaround, expansion sits below row in zindex.
@@ -2533,8 +2640,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '50',
-			pagesizeoptions: ['50','100'],
+			pagesize: 50,
+			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -2716,8 +2823,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '50',
-			pagesizeoptions: ['50','100'],
+			pagesize: 50,
+			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -2873,8 +2980,8 @@ $(document).ready(function() {
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '50',
-			pagesizeoptions: ['50','100'],
+			pagesize: 50,
+			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -3017,13 +3124,13 @@ $(document).ready(function() {
 			},
 			async: true
 		};
-		var accnDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
+		var deaccDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
 			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
 
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
 			// Workaround, expansion sits below row in zindex.
 			var maxZIndex = getMaxZIndex();
 			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
@@ -3031,13 +3138,13 @@ $(document).ready(function() {
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
-			source: accnDataAdapter,
+			source: deaccDataAdapter,
 			filterable: true,
 			sortable: true,
 			pageable: true,
 			editable: false,
-			pagesize: '50',
-			pagesizeoptions: ['50','100'],
+			pagesize: 50,
+			pagesizeoptions: ['5','50','100'],
 			showaggregates: true,
 			columnsresize: true,
 			autoshowfiltericon: true,
@@ -3093,16 +3200,13 @@ $(document).ready(function() {
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findDeaccessions&execute=true&' + $('##deaccnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','deacc');
 
-// TODO: Find number of objects in results, display link to those through specimen search: 
-// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
-
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
 			var args = event.args;
 			var rowIndex = args.rowindex;
 			var datarecord = args.owner.source.records[rowIndex];
-			createAccnRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
 		});
 		$('##searchResultsGrid').on('rowcollapse', function (event) {
 			// remove the dialog holding the row details
@@ -3112,11 +3216,203 @@ $(document).ready(function() {
 		});
 	});
 
+	/* Supporting cell renderers for Borrow Search *****************************/
+	var trueYesCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var v = String(value);
+		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }  
+		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }  
+		if (v.toUpperCase().trim()=='YES') { 
+			color = 'text-success'; 
+			bg = '';
+		} else { 
+			color = 'text-danger font-weight-bold'; 
+			bg = ''; 
+		} 
+		return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+v+'</span></span>';
+	};
+	var returnAckCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var borrowstatus = rowData['borrow_status'];
+		var v = String(value);
+		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }  
+		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }  
+		if (v.toUpperCase().trim()=='YES') { 
+			color = 'text-success'; 
+			bg = '';
+		} else { 
+			if(borrowstatus.toUpperCase().trim()=='RETURNED') { 
+				color = 'text-danger font-weight-bold'; 
+			} else {
+				color = 'text-dark'; 
+			}
+			bg = ''; 
+		} 
+		return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+v+'</span></span>';
+	};
 	/* Setup jqxgrid for borrow Search ******************************************/
-	// TODO: implement handler for borrow search 
 	$('##borrowSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
-		alert('Not yet implemented');
+		$("##overlay").show();
+
+		$("##searchResultsGrid").replaceWith('<div id="searchResultsGrid" class="jqxGrid" style="z-index: 1;"></div>');
+		$('##resultCount').html('');
+		$('##resultLink').html('');
+
+		var borrowSearch =
+		{
+			datatype: "json",
+			datafields:
+			[
+				{ name: 'transaction_id', type: 'string' },
+				{ name: 'date_entered', type: 'string' },
+				{ name: 'trans_remarks', type: 'string' },
+				{ name: 'borrow_number', type: 'string' },
+				{ name: 'lender_loan_type', type: 'string' },
+				{ name: 'lenders_trans_num_cde', type: 'string' },
+				{ name: 'lenders_invoice_returned', type: 'string' },
+				{ name: 'lenders_instructions', type: 'string' },
+				{ name: 'due_date', type: 'string' },
+				{ name: 'received_date', type: 'string' },
+				{ name: 'return_acknowledged_date', type: 'string' },
+				{ name: 'lenders_loan_date', type: 'string' },
+				{ name: 'borrow_status', type: 'string' },
+				{ name: 'no_of_specimens', type: 'string' },
+				{ name: 'ret_acknowledged_by', type: 'string' },
+				{ name: 'description_of_borrow', type: 'string' },
+				{ name: 'nature_of_material', type: 'string' },
+				{ name: 'collection', type: 'string' },
+				{ name: 'collection_cde', type: 'string' },
+				{ name: 'auth_agent', type: 'string' },
+				{ name: 'outside_auth_agent', type: 'string' },
+				{ name: 'ent_agent', type: 'string' },
+				{ name: 'borrowoverseenby_agent', type: 'string' },
+				{ name: 'foruse_agent', type: 'string' },
+				{ name: 'lending_institution_agent', type: 'string' },
+				{ name: 'rec_agent', type: 'string' },
+				{ name: 'recfrom_agent', type: 'string' },
+				{ name: 'inHouse_agent', type: 'string' },
+				{ name: 'addInhouse_agent', type: 'string' },
+				{ name: 'outside_agent', type: 'string' },
+				{ name: 'addOutside_agent', type: 'string' },
+				{ name: 'permits', type: 'int' },
+				{ name: 'item_count', type: 'int' },
+				{ name: 'shipment_count', type: 'string' },
+				{ name: 'project_name', type: 'string' },
+				{ name: 'pid', type: 'string' },
+				{ name: 'id_link', type: 'string' }
+			],
+			updaterow: function (rowid, rowdata, commit) {
+				commit(true);
+			},
+			root: 'borrowRecord',
+			id: 'transaction_id',
+			url: '/transactions/component/search.cfc?' + $('##borrowSearchForm').serialize(),
+			timeout: 30000, // units not specified, miliseconds? 
+			loadError: function(jqXHR, textStatus, error) { 
+				$("##overlay").hide();
+				handleFail(jqXHR,textStatus,error,"running borrow search");
+			},
+			async: true
+		};
+		var borrowDataAdapter = new $.jqx.dataAdapter(borrowSearch);
+		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
+			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
+			var details = $($(parentElement).children()[0]);
+			details.html("<div tabindex='0' role='button' id='rowDetailsTarget" + index + "'></div>");
+
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,index);
+			// Workaround, expansion sits below row in zindex.
+			var maxZIndex = getMaxZIndex();
+			$(parentElement).css('z-index',maxZIndex - 1); // will sit just behind dialog
+		}
+		$("##searchResultsGrid").jqxGrid({
+			width: '100%',
+			autoheight: 'true',
+			source: borrowDataAdapter,
+			filterable: true,
+			sortable: true,
+			pageable: true,
+			editable: false,
+			pagesize: 50,
+			pagesizeoptions: ['5','50','100'],
+			showaggregates: true,
+			columnsresize: true,
+			autoshowfiltericon: true,
+			autoshowcolumnsmenubutton: false,
+			autoshowloadelement: false, // overlay acts as load element for form+results
+			columnsreorder: true,
+			groupable: true,
+			selectionmode: 'singlerow',
+			altrows: true,
+			showtoolbar: false,
+			ready: function () {
+				$("##searchResultsGrid").jqxGrid('selectrow', 0);
+			},
+			columns: [
+				{text: 'Borrow Number', datafield: 'borrow_number', width: 120, hideable: true, hidden: true },
+				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
+				{text: 'Coll.', datafield: 'collection_cde', width: 50},
+				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
+				{text: 'Shipments', datafield: 'shipment_count', hideable: true, hidden: true },
+				{text: 'Item Count', datafield: 'item_count', hideable: true, hidden: false, width: 90 },
+				{text: 'No. of Spec.', datafield: 'no_of_specimens', hideable: true, hidden: false, width: 90 },
+				{text: 'Lender Loan Type', datafield: 'lender_loan_type', hidable: true, hidden: true, width: 100},
+				{text: 'Lender Loan Num.', datafield: 'lenders_trans_num_cde', hidable: true, hidden: false, width: 110},
+				{text: 'Status', datafield: 'borrow_status', hideable: true, hidden: false, width: 90},
+				{text: 'Date Entered', datafield: 'date_entered', width: 100, hidable: true, hidden: true },
+				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
+				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
+				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
+				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false, cellsrenderer: returnAckCellRenderer },
+				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
+				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
+				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
+				{text: 'Outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
+				{text: 'Received By', datafield: 'rec_agent', width: 100, hidable: true, hidden: false },
+				{text: 'Overseen By', datafield: 'borrowoverseenby_agent', width: 100, hidable: true, hidden: false },
+				{text: 'For Use By', datafield: 'foruse_agent', width: 100, hidable: true, hidden: false },
+				{text: 'Received From', datafield: 'recfrom_agent', width: 100, hidable: true, hidden: true },
+				{text: 'Authorized By', datafield: 'auth_agent', hideable: true, hidden: true },
+				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
+				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
+				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
+				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
+				{text: 'Entered By', datafield: 'ent_agent', hideable: true, hidden: false, width: 100 },
+				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
+				{text: 'Instructions', datafield: 'lenders_instructions', hideable: true, hidden: false, width: 120 },
+				{text: 'Description', datafield: 'description_of_borrow', hideable: true, hidden: true},
+				{text: 'PandRDocs', datafield: 'permits', hideable: true, hidden: true }, // datafield name referenced in row details dialog
+				{text: 'Project', datafield: 'project_name', hideable: true, hidden: true, cellsrenderer: projectCellRenderer }, // datafield name referenced in row details dialog
+				{text: 'Transaction ID', datafield: 'transaction_id', hideable: true, hidden: true }, // datafield name referenced in createLoanRowDetailsDialog
+				{text: 'Nature of Material', datafield: 'nature_of_material', hideable: true, hidden: false }
+			],
+			rowdetails: true,
+			rowdetailstemplate: {
+				rowdetails: "<div style='margin: 10px;'>Row Details</div>",
+				rowdetailsheight: 1
+			},
+			initrowdetails: initRowDetails
+		});
+		$("##searchResultsGrid").on("bindingcomplete", function(event) {
+			// add a link out to this search, serializing the form as http get parameters
+			$('##resultLink').html('<a href="/Transactions.cfm?action=findBorrows&execute=true&' + $('##borrowSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
+			gridLoaded('searchResultsGrid','borrow');
+
+		});
+		$('##searchResultsGrid').on('rowexpand', function (event) {
+			// Create a content div, add it to the detail row, and make it into a dialog.
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			var datarecord = args.owner.source.records[rowIndex];
+			createRowDetailsDialog('searchResultsGrid','rowDetailsTarget',datarecord,rowIndex);
+		});
+		$('##searchResultsGrid').on('rowcollapse', function (event) {
+			// remove the dialog holding the row details
+			var args = event.args;
+			var rowIndex = args.rowindex;
+			$("##searchResultsGridRowDetailsDialog" + rowIndex ).dialog("destroy");
+		});
 	});
 
 	// If requested in uri, execute search immediately.
@@ -3174,9 +3470,9 @@ function gridLoaded(gridId, searchType) {
 	}
 	// set maximum page size
 	if (rowcount > 100) { 
-		$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+		$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount], pagesize: 50});
 	} else if (rowcount > 50) { 
-		$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+		$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount], pagesize: 50});
 	} else { 
 		$('##' + gridId).jqxGrid({ pageable: false });
 	}

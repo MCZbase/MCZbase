@@ -209,7 +209,7 @@ limitations under the License.
 									pageable: true,
 									editable: false,
 									pagesize: '50',
-									pagesizeoptions: ['50','100'],
+									pagesizeoptions: ['5','50','100'],
 									showaggregates: true,
 									columnsresize: true,
 									autoshowfiltericon: true,
@@ -217,7 +217,7 @@ limitations under the License.
 									autoshowloadelement: false,  // overlay acts as load element for form+results
 									columnsreorder: true,
 									groupable: true,
-									selectionmode: 'none',
+									selectionmode: 'singlerow',
 									altrows: true,
 									showtoolbar: false,
 									columns: [
@@ -277,9 +277,9 @@ limitations under the License.
 							}
 							// set maximum page size
 							if (rowcount > 100) { 
-								$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', '100', rowcount]});
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', '100', rowcount],pagesize: 50});
 							} else if (rowcount > 50) { 
-								$('##' + gridId).jqxGrid({ pagesizeoptions: ['50', rowcount]});
+								$('##' + gridId).jqxGrid({ pagesizeoptions: ['5','50', rowcount],pagesize:50});
 							} else { 
 								$('##' + gridId).jqxGrid({ pageable: false });
 							}

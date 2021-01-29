@@ -58,7 +58,7 @@
 				        <cfloop query="user_sql">
 					        <cfset oneLine = "">
 					        <cfloop list="#ac#" index="z">
-						        <cfset thisData = #evaluate(z)#>
+						        <cfset thisData = #replace(replace(evaluate(z),'"','""','All'),'\n','','All')#>
 								<cfif len(#oneLine#) is 0>
 									<cfset oneLine = '"#thisData#"'>
 								<cfelse>

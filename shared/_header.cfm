@@ -542,32 +542,19 @@ limitations under the License.
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>							
 										<a class="dropdown-item" href="/Transactions.cfm?action=findAll">All Transactions</a>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/editAccn.cfm">Accessions</a>
-										<cfelse>
-											<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
-										</cfif>			
+										<a class="dropdown-item" href="/Transactions.cfm?action=findAccessions">Accessions</a>
 										<a class="dropdown-item" href="/Transactions.cfm?action=findLoans">Loans</a> 
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Borrow.cfm">Borrow</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Borrow</a>
-										</cfif>	
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/Deaccession.cfm">Deaccession</a>
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Deaccession</a>
-										</cfif>	
+										<a class="dropdown-item" href="/Transactions.cfm?action=findBorrows">Borrows</a> 
+										<a class="dropdown-item" href="/Transactions.cfm?action=findDeaccessions">Deacessions</a> 
 										<a class="dropdown-item" href="/transactions/Permit.cfm">Permissions &amp; Rights</a> 
+										<a class="dropdown-item" href="/editAccn.cfm">Accessions (old)</a>
+										<a class="dropdown-item" href="/Borrow.cfm">Borrow (old)</a>
+										<a class="dropdown-item" href="/Deaccession.cfm">Deaccession (old)</a>
 									</div>
 									<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"data_entry")>
 									<div>
 										<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-										<cfif targetMenu EQ "production">
-											<a class="dropdown-item" href="/newAccn.cfm">Accession</a> 
-										<cfelse>
-											<a class="dropdown-item bg-warning" href="">Accession</a> 
-										</cfif>
+										<a class="dropdown-item" href="/transactions/Accession.cfm?action=new">Accession</a> 
 										<a class="dropdown-item" href="/transactions/Loan.cfm?action=newLoan">Loan</a> 
 										<cfif targetMenu EQ "production">
 											<a class="dropdown-item" href="/Borrow.cfm?action=new">Borrow</a> 

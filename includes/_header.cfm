@@ -225,15 +225,18 @@
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Search &amp; Edit</div>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm">All Transactions</a>
-									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findAccessions">Accession</a>
 									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findLoans">Loans</a>
-									<a class="dropdown-item" target="_top" href="/Borrow.cfm">Borrow</a>
-									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findBorrows.cfm">Borrow</a>
+									<a class="dropdown-item" target="_top" href="/Transactions.cfm?action=findDeaccessions">Deaccession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Permit.cfm">Permissions &amp; Rights</a>
+									<a class="dropdown-item" target="_top" href="/editAccn.cfm">Accession (old)</a>
+									<a class="dropdown-item" target="_top" href="/Borrow.cfm">Borrow (old)</a>
+									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=search">Deaccession (old)</a>
 								</div>
 								<div style="float:left; width: 49%;">
 									<div class="h5 dropdown-header px-4 text-danger">Create New Record</div>
-									<a class="dropdown-item" target="_top" href="/newAccn.cfm">Accession</a>
+									<a class="dropdown-item" target="_top" href="/transactions/Accession.cfm?action=new">Accession</a>
 									<a class="dropdown-item" target="_top" href="/transactions/Loan.cfm?Action=newLoan">Loan</a>
 									<a class="dropdown-item" target="_top" href="/Borrow.cfm?action=new">Borrow</a>
 									<a class="dropdown-item" target="_top" href="/Deaccession.cfm?Action=newDeacc">Deaccession</a>

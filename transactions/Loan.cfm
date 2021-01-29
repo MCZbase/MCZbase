@@ -1062,7 +1062,7 @@ limitations under the License.
 										<ul class="ml-1 pl-4 pr-2 list-style-disc">
 											<cfloop query="getAccessions">
 												<li class="accn2">
-													<a class="font-weight-bold" href="editAccn.cfm?Action=edit&transaction_id=#transaction_id#"><span>Accession ##</span>#accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													<a class="font-weight-bold" href="/transactions/Accession.cfm?action=edit&transaction_id=#transaction_id#"><span>Accession ##</span>#accn_number#</a>, <span>Type:</span> #accn_type#, <span>Received: </span>#dateformat(received_date,'yyyy-mm-dd')# <cfquery name="getAccnPermits" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select distinct permit_num, permit_type, specific_type, issued_date, permit_id, IssuedByAgent
 														from (
 															select permit_num, permit.permit_type as permit_type, permit.specific_type as specific_type, issued_date, permit.permit_id as permit_id,
