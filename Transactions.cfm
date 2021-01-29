@@ -3092,7 +3092,7 @@ $(document).ready(function() {
 			},
 			async: true
 		};
-		var accnDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
+		var deaccDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
@@ -3106,7 +3106,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
-			source: accnDataAdapter,
+			source: deaccDataAdapter,
 			filterable: true,
 			sortable: true,
 			pageable: true,
@@ -3168,9 +3168,6 @@ $(document).ready(function() {
 			$('##resultLink').html('<a href="/Transactions.cfm?action=findDeaccessions&execute=true&' + $('##deaccnSearchForm :input').filter(function(index,element){return $(element).val()!='';}).serialize() + '">Link to this search</a>');
 			gridLoaded('searchResultsGrid','deacc');
 
-// TODO: Find number of objects in results, display link to those through specimen search: 
-// TODO: e.g. "View 13769 items in these 5 Accessions" https://mczbase-test.rc.fas.harvard.edu/SpecimenResults.cfm?accn_trans_id=497052,497061,497072,497073,497177 invocation of accn_trans_id search on specimens in accession search results found on current editAccn.cfm search results list.
-
 		});
 		$('##searchResultsGrid').on('rowexpand', function (event) {
 			// Create a content div, add it to the detail row, and make it into a dialog.
@@ -3196,7 +3193,7 @@ $(document).ready(function() {
 		$('##resultCount').html('');
 		$('##resultLink').html('');
 
-		var deaccessionSearch =
+		var borrowSearch =
 		{
 			datatype: "json",
 			datafields:
@@ -3249,7 +3246,7 @@ $(document).ready(function() {
 			},
 			async: true
 		};
-		var accnDataAdapter = new $.jqx.dataAdapter(deaccessionSearch);
+		var borrowDataAdapter = new $.jqx.dataAdapter(borrowSearch);
 		var initRowDetails = function (index, parentElement, gridElement, datarecord) {
 			// could create a dialog here, but need to locate it later to hide/show it on row details opening/closing and not destroy it.
 			var details = $($(parentElement).children()[0]);
@@ -3263,7 +3260,7 @@ $(document).ready(function() {
 		$("##searchResultsGrid").jqxGrid({
 			width: '100%',
 			autoheight: 'true',
-			source: accnDataAdapter,
+			source: borrowDataAdapter,
 			filterable: true,
 			sortable: true,
 			pageable: true,
@@ -3284,7 +3281,7 @@ $(document).ready(function() {
 				$("##searchResultsGrid").jqxGrid('selectrow', 0);
 			},
 			columns: [
-				{text: 'Borrow Number', datafield: 'deacc_number', width: 120, hideable: true, hidden: true },
+				{text: 'Borrow Number', datafield: 'borrow_number', width: 120, hideable: true, hidden: true },
 				{text: 'Borrow', datafield: 'id_link', width: 120}, // datafield name referenced in createDeaccRowDetaisDialog
 				{text: 'Coll.', datafield: 'collection_cde', width: 50},
 				{text: 'Collection', datafield: 'collection', hideable: true, hidden: true },
