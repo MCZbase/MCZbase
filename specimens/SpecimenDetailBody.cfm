@@ -934,7 +934,7 @@ limitations under the License.
 												<cfset i=1>
 												<cfloop query="mPart">
 													<tr <cfif mPart.recordcount gt 1>class=""<cfelse></cfif>>
-													<td><span class="font-weight-bold">#part_name#</span></td>
+													<td><span class="">#part_name#</span></td>
 														<td>#part_condition#</td>
 														<td>#part_disposition#</td>
 														<td>#lot_count#</td>
@@ -971,7 +971,7 @@ limitations under the License.
 													<cfif patt.recordcount gt 0>
 														<tr>
 															<td colspan="5"><cfloop query="patt">
-																	<div class="small" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+																	<div class="small pl-2" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
 																		<cfif len(attribute_units) gt 0>
 																			#attribute_units#
 																		</cfif>
