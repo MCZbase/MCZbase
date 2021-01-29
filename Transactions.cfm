@@ -602,7 +602,7 @@ limitations under the License.
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
-									<div class="form-row mb-2 mx-0">
+									<div class="form-row px-1 mb-2 mx-0">
 										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
 											<label for="collection_id" class="data-entry-label">Collection Name</label>
 											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
@@ -642,7 +642,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
-										<div class="form-row mb-2 mx-0">
+										<div class="form-row px-1 mb-2 mx-0">
 											<div class="col-12 col-md-4">
 												<div class="input-group">
 													<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
@@ -703,7 +703,7 @@ limitations under the License.
 											});
 										</script> 
 									</div>
-									<div class="form-row mr-md-0">
+									<div class="form-row px-1 mr-md-0">
 										<div class="col-12 col-md-4 mb-2">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Transaction Date</label>
@@ -768,7 +768,7 @@ limitations under the License.
 											</script>
 										</div>
 								</div>
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row px-1 mt-3 mx-4">
 										<div class="col-12">
 											<button class="btn-xs btn-primary px-3 mr-2" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset transaction search form to inital values">Reset</button>
@@ -820,7 +820,7 @@ limitations under the License.
 								<form id="loanSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getLoans" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -876,7 +876,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded p-1 mx-1 my-2">
-										<div class="form-row mb-2 mx-0 my-2">
+										<div class="form-row px-1 mb-2 mx-0 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -937,7 +937,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0 mt-1 mb-md-2 my-xl-2">
+									<div class="form-row px-1 mx-0 mt-1 mb-md-2 my-xl-2">
 										<div class="col-12 col-md-4">
 											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
@@ -971,7 +971,7 @@ limitations under the License.
 											$(makePermitPicker('loan_permit_num','loan_permit_id'));
 										});
 									</script>
-									<div class="form-row mx-0">
+									<div class="form-row px-1 mx-0">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 py-md-3 px-md-4 mb-2 px-3">
 												<div class="form-row">
@@ -1119,7 +1119,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="form-row mx-0 border bg-light rounded px-2 px-sm-3 mb-0 py-3">
+											<div class="form-row px-1 mx-0 border bg-light rounded px-2 px-sm-3 mb-0 py-3">
 												<div class="col-md-12">
 													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
@@ -1151,7 +1151,7 @@ limitations under the License.
 											</div>
 											</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row px-1 mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1204,7 +1204,7 @@ limitations under the License.
 								<form id="accnSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -1280,7 +1280,7 @@ limitations under the License.
 										</div>
 									</div>
 									<div class="bg-light border rounded p-1 mx-1 my-2">
-										<div class="form-row mb-2 mx-0 my-2">
+										<div class="form-row px-1 mb-2 mx-0 my-2">
 										<div class="col-12 col-md-4">
 											<div class="input-group">
 												<select name="trans_agent_role_1" id="accn_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
@@ -1341,7 +1341,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row px-1 mx-0">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
@@ -1366,7 +1366,7 @@ limitations under the License.
 										</div>
 									</div>
 
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row px-1 mx-0 mt-2">
 								
 										<div class="col-md-6">
 		
@@ -1506,7 +1506,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row px-1 mx-0">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pr-md-1 pl-md-3 pl-xl-3 pr-xl-2">
 													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -1543,7 +1543,7 @@ limitations under the License.
 													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
 													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
 												</div>
-												<div class="form-row px-3">
+												<div class="form-row px-1 px-3">
 													<div class="coll-12 col-md-6">
 														<cfset ppermit_type = permit_type>
 														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
@@ -1577,7 +1577,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-2 mx-4">
+									<div class="form-row px-1 mt-2 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1629,7 +1629,7 @@ limitations under the License.
 								<form id="deaccnSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getDeaccessions" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -1765,7 +1765,7 @@ limitations under the License.
 									</script> 
 									</div>
 									</div>
-									<div class="form-row mx-0">
+									<div class="form-row px-1 mx-0">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="deacc_trans_date">Deaccession Date</label>
@@ -1795,7 +1795,7 @@ limitations under the License.
 											<input type="text" name="value" class="data-entry-input" value="#value#" id="value">
 										</div>
 									</div>
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row px-1 mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
@@ -1937,7 +1937,7 @@ limitations under the License.
 														});
 													</script>
 												</div>
-												<div class="form-row mx-0">
+												<div class="form-row px-1 mx-0">
 												<div class="col-12 col-md-4 col-xl-4 px-3 pl-md-3 pr-md-2">
 													<label for="de_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
 													<input type="text" name="IssuedByAgent" id="de_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
@@ -2008,7 +2008,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row px-1 mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="deaccnSearchButton" type="submit" aria-label="Search Deaccessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -2040,7 +2040,7 @@ limitations under the License.
 								<form id="borrowSearchForm" class="mt-2">
 									<input type="hidden" name="method" value="getBorrows" class="keeponclear">
 									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
+									<div class="form-row px-1 mb-2 mx-0 mb-xl-2">
 										<div class="col-12 col-md-4 mt-0">
 											<div class="input-group">
 												<div class="col-6 px-0">
@@ -2159,7 +2159,7 @@ limitations under the License.
 									</div>
 									</div>
 
-									<div class="form-row mx-0">
+									<div class="form-row px-1 mx-0">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_rec_date">Received Date</label>
@@ -2189,7 +2189,7 @@ limitations under the License.
 										</div>
 									</div>
 
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row px-1 mx-0 mt-2">
 										<div class="col-md-4">
 											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
 												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="borrow_trans_date">Date Entered</label>
@@ -2226,7 +2226,7 @@ limitations under the License.
 										</div>
 									</div>
 
-									<div class="form-row mx-0 mt-2">
+									<div class="form-row px-1 mx-0 mt-2">
 										<div class="col-md-6">
 											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
@@ -2363,7 +2363,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-2 mx-4">
+									<div class="form-row px-1 mt-2 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2 mr-2" id="borrowSearchButton" type="submit" aria-label="Search Borrows">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
