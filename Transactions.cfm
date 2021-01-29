@@ -1370,7 +1370,7 @@ limitations under the License.
 								
 										<div class="col-md-6">
 		
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
+											<div class="border bg-light rounded py-3 mb-2 px-3 px-md-4">
 												<div class="col-md-12 px-0">
 													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
 													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
@@ -1479,7 +1479,7 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-4">
+											<div class="border bg-light rounded px-0 px-sm-2 py-2 mb-0">
 												<h3 class="h5 px-3 my-xl-2">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
