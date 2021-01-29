@@ -420,7 +420,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 <cfif mediaS2.recordcount gt 1>
-		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-2 px-0 float-left">
+		<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-3 mb-2 float-left">
     		<div class="accordion" id="accordionE">
 		 <div class="card bg-light">
             <div class="card-header" id="headingTwo">
