@@ -2013,11 +2013,6 @@ limitations under the License.
 							</div><!---tab-pane deaccession search---> 
 
 							<!--- Borrow search tab panel --->
-							<cfif findNoCase('master',gitBranch) GT 0> <!--- delete for deployment --->
-							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-2 mx-sm-3" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab">
-								<h2 class="h3">Not yet Implemented</h3>
-							</div>
-							<cfelse>
 							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-2 mx-sm-3" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab">
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
@@ -2363,7 +2358,6 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane borrow search---> 
-							</cfif><!--- end if master delete for deployment --->
 						</div>
 						<!--- End tab-content div ---> 
 					</div>
