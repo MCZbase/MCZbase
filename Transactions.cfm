@@ -3194,8 +3194,8 @@ $(document).ready(function() {
 			color = 'text-success'; 
 			bg = '';
 		} else { 
-			color = 'text-white'; 
-			bg = 'bg-danger'; 
+			color = 'text-danger font-weight-bold'; 
+			bg = ''; 
 		} 
 		return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+v+'</span></span>';
 	};
