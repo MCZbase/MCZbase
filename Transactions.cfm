@@ -1389,8 +1389,8 @@ limitations under the License.
 										</div>
 
 										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
-												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
+											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-4">
+												<h3 class="h5 px-3 my-xl-2">Permissions &amp; Rights</h3>
 												<div class="col-md-12">
 													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
 													<div class="input-group">
