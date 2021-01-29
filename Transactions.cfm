@@ -3184,6 +3184,21 @@ $(document).ready(function() {
 		});
 	});
 
+	/* Supporting cell renderers for Deaccession Search *****************************/
+	var trueYesCellRenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+		var rowData = jQuery("##searchResultsGrid").jqxGrid('getrowdata',row);
+		var v = String(value);
+		if (v.toUpperCase().trim()=='TRUE') { v = 'Yes'; }  
+		if (v.toUpperCase().trim()=='FALSE') { v = 'No'; }  
+		if (v.toUpperCase().trim()=='YES') { 
+			color = 'text-success'; 
+			bg = '';
+		} else { 
+			color = 'text-white'; 
+			bg = 'bg-danger'; 
+		} 
+		return '<span class="#cellRenderClasses# '+bg+'" style="margin-top: 8px; float: ' + columnproperties.cellsalign + '; "><span class="'+color+'">'+v+'</span></span>';
+	};
 	/* Setup jqxgrid for borrow Search ******************************************/
 	$('##borrowSearchForm').bind('submit', function(evt){
 		evt.preventDefault();
@@ -3298,7 +3313,7 @@ $(document).ready(function() {
 				{text: 'Loan Date', datafield: 'lenders_loan_date', width: 100, hideable: true, hidden: false },
 				{text: 'Received Date', datafield: 'received_date', width: 100, hideable: true, hidden: true },
 				{text: 'Due Date', datafield: 'due_date', width: 100, hideable: true, hidden: false },
-				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false },
+				{text: 'Return Acknowedged', datafield: 'lenders_invoice_returned', width: 80, hideable: true, hidden: false, cellsrenderer=trueYesCellRenderer },
 				{text: 'Return Ack. Date', datafield: 'return_acknowledged_date', width: 100, hideable: true, hidden: false },
 				{text: 'Ret. Ack. By', datafield: 'ret_acknowleded_by', hideable: true, hidden: true, width: 150},
 				{text: 'Loaning Institution', datafield: 'lending_institution_agent', width: 150, hidable: true, hidden: false },
