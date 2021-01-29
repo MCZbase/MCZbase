@@ -3306,7 +3306,6 @@ $(document).ready(function() {
 				{text: 'Outside Authorized By', datafield: 'outside_auth_agent', hideable: true, hidden: true },
 				{text: 'In-house contact', datafield: 'inHouse_agent', hideable: true, hidden: true },
 				{text: 'Additional in-house contact', datafield: 'addInhouse_agent', hideable: true, hidden: true },
-				{text: 'Outside contact', datafield: 'outside_agent', hideable: true, hidden: true },
 				{text: 'Additional outside contact', datafield: 'addOutside_agent', hideable: true, hidden: true },
 				{text: 'Entered By', datafield: 'ent_agent', width: 100},
 				{text: 'Remarks', datafield: 'trans_remarks', hideable: true, hidden: true },
