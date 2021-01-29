@@ -20,9 +20,7 @@ limitations under the License.
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
-<style>
-	.card {font-size: 100%;}
-</style>
+
 <cfoutput>
 
 <cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>

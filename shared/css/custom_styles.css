@@ -457,10 +457,10 @@ BELOW: SPECIMEN DETAIL STYLES
 	position: absolute;
 	margin-left: -500px;
 }
-.card {
+/*.card {
 	background-color: transparent;
 	font-size: .90rem;
-}
+}*/
 .no-card {
 	border: none;
 	border-radius: 0;
