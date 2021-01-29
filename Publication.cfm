@@ -19,16 +19,19 @@
 		select publication_attribute from ctpublication_attribute order by publication_attribute
 	</cfquery>
 	<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication p where publication_id=#publication_id#
+		select * from publication p 
+		where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
 	<cfquery name="auth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication_author_name,agent_name where
-		publication_author_name.agent_name_id=agent_name.agent_name_id and
-		publication_id=#publication_id#
+		select * from publication_author_name,agent_name 
+		where
+			publication_author_name.agent_name_id=agent_name.agent_name_id and
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		order by author_position
 	</cfquery>
 	<cfquery name="atts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select * from publication_attributes where publication_id=#publication_id#
+		select * from publication_attributes 
+		where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
 	<cfquery name="ctmedia_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select media_type from ctmedia_type order by media_type
@@ -216,7 +219,7 @@
 		         media.media_id=media_relations.media_id and
 		         media.media_id=media_labels.media_id (+) and
 		         media_relations.media_relationship like '%publication' and
-		         media_relations.related_primary_key = #publication_id#
+		         media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfif media.recordcount gt 0>
 			Click Media Details to edit Media or remove the link to this Publication.
@@ -231,7 +234,7 @@
 						from
 							media_labels
 						where
-							media_id=#media_id#
+							media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 					</cfquery>
 					<cfquery name="desc" dbtype="query">
 						select label_value from labels where media_label='description'
@@ -292,19 +295,24 @@
 <cfif action is "deletePub">
 	<cftransaction>
 		<cfquery name="dformatted_publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from formatted_publication where publication_id=#publication_id#
+			delete from formatted_publication 
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfquery name="dpublication_author_name" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from publication_author_name where publication_id=#publication_id#
+			delete from publication_author_name 
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfquery name="dpublication_attributes" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from publication_attributes where publication_id=#publication_id#
+			delete from publication_attributes 
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfquery name="dpublication_url" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from publication_url where publication_id=#publication_id#
+			delete from publication_url 
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfquery name="dpublication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			delete from publication where publication_id=#publication_id#
+			delete from publication 
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 	</cftransaction>
 	it's gone.
@@ -325,13 +333,13 @@
 		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			update publication set
 				published_year=<cfif len(published_year) gt 0>#published_year#<cfelse>NULL</cfif>,
-				publication_type='#publication_type#',
-				publication_loc='#publication_loc#',
-				publication_title='#publication_title#',
+				publication_type=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
+				publication_loc=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
+				publication_title=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
 				publication_remarks=<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
-				is_peer_reviewed_fg=#is_peer_reviewed_fg#,
-        doi='#doi#'
-			where publication_id=#publication_id#
+				is_peer_reviewed_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">,
+				doi = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">
+			where publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 		</cfquery>
 		<cfif len(media_uri) gt 0>
 			<cfquery name="mid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -339,8 +347,14 @@
 			</cfquery>
 			<cfset media_id=mid.nv>
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media (media_id,media_uri,mime_type,media_type,preview_uri)
-	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#')
+				insert into media 
+					(media_id,media_uri,mime_type,media_type,preview_uri)
+	            values 
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">)
 			</cfquery>
 			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into media_relations (
@@ -348,9 +362,9 @@
 					media_relationship,
 					related_primary_key
 				) values (
-					#media_id#,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
 					'shows publication',
-					#publication_id#
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 				)
 			</cfquery>
 			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -358,7 +372,10 @@
 					media_id,
 					media_label,
 					label_value)
-				values (#media_id#,'description','#media_desc#')
+				values (
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					'description',
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
 			</cfquery>
 		</cfif>
 		<cfloop from="1" to="#numberAuthors#" index="n">
@@ -381,14 +398,17 @@
 			<cfif thisAgentNameId is -1 and thisRowId gt 0>
 				<!--- deleting --->
 				<cfquery name="delAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_author_name where
-					publication_id=#publication_id# and
-					publication_author_name_id=#thisRowId#
+					delete from publication_author_name 
+					where
+					publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+					and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
 				</cfquery>
 				<cfquery name="incAuth" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					update publication_author_name set author_position=author_position-1 where
-					publication_id=#publication_id# and
-					author_position>#thisAuthPosn#
+					update publication_author_name 
+					set author_position=author_position-1 
+					where
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and author_position > <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">
 				</cfquery>
 			<cfelseif thisAgentNameId gt 0 and thisRowId gt 0>
 				<!--- updating --->
@@ -396,11 +416,11 @@
 					update
 						publication_author_name
 					set
-						agent_name_id=#thisAgentNameId#,
-						author_role='#thisAuthorRole#'
+						agent_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
+						author_role = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
 					where
-						publication_id=#publication_id# and
-						publication_author_name_id=#thisRowId#
+						publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+						and publication_author_name_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisRowId#">
 				</cfquery>
 			<cfelseif thisAgentNameId gt 0 and len(thisRowId) is 0>
 				<!--- inserting --->
@@ -411,10 +431,10 @@
 						author_position,
 						author_role
 					) values (
-						#publication_id#,
-						#thisAgentNameId#,
-						#thisAuthPosn#,
-						'#thisAuthorRole#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAuthPosn#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
 					)
 				</cfquery>
 			</cfif>
@@ -433,16 +453,18 @@
 			</cfif>
 			<cfif thisAttVal is "deleted">
 				<cfquery name="delAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					delete from publication_attributes where publication_attribute_id=#thisAttId#
+					delete from publication_attributes 
+					where publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
 				</cfquery>
 			<cfelseif thisAttId gt 0>
 				<cfquery name="upAtt" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					update
 						publication_attributes
 					set
-						publication_attribute='#thisAttribute#',
-						pub_att_value='#thisAttVal#'
-					where publication_attribute_id=#thisAttId#
+						publication_attribute = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
+						pub_att_value = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
+					where 
+						publication_attribute_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAttId#">
 				</cfquery>
 			<cfelseif len(thisAttId) is 0 and len(thisAttVal) gt 0>
 				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -451,9 +473,9 @@
 						publication_attribute,
 						pub_att_value
 					) values (
-						#publication_id#,
-						'#thisAttribute#',
-						'#thisAttVal#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
 					)
 				</cfquery>
 			</cfif>
@@ -483,9 +505,9 @@
 					update
 						publication_url
 					set
-						link='#thisLink#',
-						description='#thisDesc#'
-					where publication_url_id=#thisId#
+						link = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
+						description = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
+					where publication_url_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisId#">
 				</cfquery>
 			<cfelseif len(thisId) is 0 and len(thisLink) gt 0>
 				<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -494,9 +516,9 @@
 						link,
 						description
 					) values (
-						#publication_id#,
-						'#thisLink#',
-						'#thisDesc#'
+						<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisLink#">,
+						<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisDesc#">
 					)
 				</cfquery>
 			</cfif>
@@ -513,22 +535,26 @@
 	</cfinvoke>
 
 	<cfquery name="sfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication set formatted_publication='#shortCitation#' where
-		publication_id=#publication_id# and
-		format_style='short'
+		update formatted_publication 
+		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shortCitation#">
+		where
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			and format_style = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="short">
 	</cfquery>
 	<cfquery name="lfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		update formatted_publication set formatted_publication='#longCitation#' where
-		publication_id=#publication_id# and
-		format_style='long'
+		update formatted_publication 
+		set formatted_publication = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
+		where
+			publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+			and format_style = 'long'
 	</cfquery>
 	<cflocation url="Publication.cfm?action=edit&publication_id=#publication_id#" addtoken="false">
 </cfoutput>
 </cfif>
 <!---------------------------------------------------------------------------------------------------------->
 <cfif action is "newPub">
-<cfset title = "Create New Publication">
-<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfset title = "Create New Publication">
+	<cfquery name="ctpublication_type" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		select publication_type from ctpublication_type order by publication_type
 	</cfquery>
 	<cfquery name="ctpublication_attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -788,7 +814,7 @@
 		<cfquery name="p" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select sq_publication_id.nextval p from dual
 		</cfquery>
-		<cfset pid=p.p>
+		<cfset pid=p.p>a
 		<cfquery name="pub" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into publication (
 				publication_id,
@@ -800,14 +826,18 @@
         doi,
 				is_peer_reviewed_fg
 			) values (
-				#pid#,
-				<cfif len(published_year) gt 0>#published_year#<cfelse>NULL</cfif>,
-				'#publication_type#',
-				'#publication_loc#',
-				'#publication_title#',
-				'#publication_remarks#',
-        '#doi#',
-				#is_peer_reviewed_fg#
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
+				<cfif len(published_year) gt 0>
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#published_year#">,
+				<cfelse>
+					NULL,
+				</cfif>
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_type#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_loc#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_title#">,
+				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#publication_remarks#">,
+        		<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#doi#">,
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#is_peer_reviewed_fg#">
 			)
 		</cfquery>
 		<cfloop from="1" to="#numberAuthors#" index="n">
@@ -820,10 +850,10 @@
 					author_position,
 					author_role
 				) values (
-					#pid#,
-					#thisAgentNameId#,
-					#n#,
-					'#thisAuthorRole#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#thisAgentNameId#">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#n#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAuthorRole#">
 				)
 			</cfquery>
 		</cfloop>
@@ -836,9 +866,9 @@
 					publication_attribute,
 					pub_att_value
 				) values (
-					#pid#,
-					'#thisAttribute#',
-					'#thisAttVal#'
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttribute#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#thisAttVal#">
 				)
 			</cfquery>
 		</cfloop>
@@ -848,8 +878,14 @@
 			</cfquery>
 			<cfset media_id=mid.nv>
 			<cfquery name="makeMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				insert into media (media_id,media_uri,mime_type,media_type,preview_uri)
-	            values (#media_id#,'#escapeQuotes(media_uri)#','#mime_type#','#media_type#','#preview_uri#')
+				insert into media 
+					(media_id,media_uri,mime_type,media_type,preview_uri)
+	            values 
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_uri#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#mime_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_type#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#preview_uri#">)
 			</cfquery>
 			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				insert into media_relations (
@@ -857,9 +893,9 @@
 					media_relationship,
 					related_primary_key
 				) values (
-					#media_id#,
-					'shows publication',
-					#pid#
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="shows publication">,
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">
 				)
 			</cfquery>
 			<cfquery name="makeRelation" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -867,7 +903,10 @@
 					media_id,
 					media_label,
 					label_value)
-				values (#media_id#,'description','#media_desc#')
+				values 
+					(<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="description">,
+					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#media_desc#">)
 			</cfquery>
 		</cfif>
 	</cftransaction>
@@ -885,9 +924,9 @@
 			format_style,
 			formatted_publication
 		) values (
-			#pid#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
 			'short',
-			'#shortCitation#'
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#shortCitation#">
 		)
 	</cfquery>
 	<cfquery name="lfp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -896,9 +935,9 @@
 			format_style,
 			formatted_publication
 		) values (
-			#pid#,
+			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#pid#">,
 			'long',
-			'#longCitation#'
+			<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#longCitation#">
 		)
 	</cfquery>
 	<cflocation url="Publication.cfm?action=edit&publication_id=#pid#" addtoken="false">
