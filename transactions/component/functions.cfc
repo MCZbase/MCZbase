@@ -201,7 +201,7 @@ limitations under the License.
 									<cfif len(accnLoans.closed_date) EQ 0 AND accnLoans.dueindays LT 0>
 										<cfset returndate = "<strong class='text-danger'>#dateformat(accnLoans.return_due_date,'yyyy-mm-dd')#</strong>">
 									<cfelse>
-										<cfset returndate = "#accn.Loans.return_due_date#" >
+										<cfset returndate = "#accnLoans.return_due_date#" >
 									</cfif>
 									<td><a href='/transactions/Loan.cfm?action=edit&transaction_id=#accnLoans.loan_id#'>#accnLoans.loan_number#</a></td>
 									<td>#accnLoans.loan_status#</td>
