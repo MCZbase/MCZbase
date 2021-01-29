@@ -772,7 +772,7 @@ limitations under the License.
 										<div class="col-12">
 											<button class="btn-xs btn-primary px-3 mr-2" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset transaction search form to inital values">Reset</button>
-											<button type="button" class="btn-xs btn-warning mr-2" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
+											<button type="button" class="btn-xs btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
 										</div>
 									</div>
 								</form>
@@ -2363,10 +2363,10 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-2 mx-4">
 										<div class="col-12 text-left">
-											<button class="btn-xs btn-primary px-2" id="borrowSearchButton" type="submit" aria-label="Search Borrows">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+											<button class="btn-xs btn-primary px-2 mr-2" id="borrowSearchButton" type="submit" aria-label="Search Borrows">Search<span class="fa fa-search pl-1"></span></button>
+											<button type="reset" class="btn-xs btn-warning mr-2" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
 											<button type="button" class="btn-xs btn-warning" aria-label="Start a new borrow search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findBorrows';" >New Search</button>
 										</div>
 									</div>
