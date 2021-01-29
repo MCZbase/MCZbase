@@ -622,13 +622,13 @@ limitations under the License.
 												<cfset number="">
 											</cfif>
 											<label for="number" class="data-entry-label">Number</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
+											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#" title="Example of transaction number formats are nnn, yyyy-n-Collection code, Byyyy-n-Collection code, Dyyyy-n-collection code">
 										</div>
 										<div class="col-12 col-md-6"> 
 											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
 											<cfset pstatus = status>
 											<label for="status" class="data-entry-label">Status</label>
-											<select name="status" id="status" class="data-entry-select">
+											<select name="status" id="status" class="data-entry-select" aria-label="loan status">
 												<option aria-labelledby="status" value=""></option>
 												<cfloop query="ctStatus">
 													<cfif pstatus eq ctStatus.status>
