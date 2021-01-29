@@ -1358,7 +1358,7 @@ limitations under the License.
 
 
 <!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2 mb-md-1">
+	<div class="card mb-2">
 		<div class="card-header float-left w-100">
 			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1397,7 +1397,7 @@ limitations under the License.
 			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
 	<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="card mb-2 mb-md-1">
+			<div class="card mb-2">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-0 float-left">Transactions</h3>
 					<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1528,7 +1528,7 @@ limitations under the License.
 <!------------------------------------ metadata ------------------------------------------->
 <cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 		<cfif oneOfUs is 1>
-			<div class="card mb-2 mb-md-1">
+			<div class="card mb-2">
 				<div class="card-header float-left w-100">
 					<h3 class="h4 my-0 float-left">Metadata</h4>
 				</div>
