@@ -96,7 +96,7 @@
 		cataloged_item.collection_object_id = identification.collection_object_id (+) AND
 		identification.accepted_id_fg = 1 AND
 		citation.publication_id = publication.publication_id AND
-		citation.publication_id = #publication_id#
+		citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	ORDER BY
 		occurs_page_number,citSciName,cat_num
 </cfquery>
@@ -409,8 +409,8 @@
 		cataloged_item.collection_object_id = identification.collection_object_id AND
 		identification.accepted_id_fg = 1 AND
 		citation.publication_id = publication.publication_id AND
-		citation.publication_id = #publication_id# AND
-		citation.collection_object_id = #collection_object_id#
+		citation.publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#"> AND
+		citation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 </cfquery>
 
 
@@ -496,7 +496,10 @@
 <cfif #Action# is "deleCitation">
 <cfoutput>
 	<cfquery name="deleCit" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	delete from citation where collection_object_id = #collection_object_id# and publication_id = #publication_id#
+	delete from citation 
+	where 
+		collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+		and publication_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
 	</cfquery>
 	<cflocation url="Citation.cfm?publication_id=#publication_id#">
 </cfoutput>

@@ -1515,9 +1515,6 @@ document.getElementById('saveme').submit();
 			<option value="MSBMammLabels.cfm?collection_object_id=#collObjIdList#">
 				MSB Mammals Labels
 			</option>
-			<option value="narrowLabels.cfm?collection_object_id=#collObjIdList#">
-				MVZ narrow Labels
-			</option>
 			<option value="wideLabels.cfm?collection_object_id=#collObjIdList#">
 				MVZ wide Labels
 			</option>
