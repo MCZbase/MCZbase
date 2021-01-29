@@ -1332,7 +1332,7 @@ limitations under the License.
 				</cfif>
 				<cfif len(one.verbatimcoordinates) gt 0>
 					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-7 px-0">#one.verbatimcoordinatesp#</li>
+					<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
 				</cfif>
 				<cfif len(one.collecting_method) gt 0>
 					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
@@ -1352,9 +1352,7 @@ limitations under the License.
 				</cfif>
 			</ul>
 		</div>
-	<!---
-				<p class="px-3"><a href="https://www.google.com/maps/@-8.550948,121,6z?hl=en-US" target="_blank" class="h5 box-shadow-0 d-block text-right my-1">Learn more</a></p>--->
-			
+
 	
  	</div>
 
