@@ -641,9 +641,9 @@ limitations under the License.
 											</select>
 										</div>
 									</div>
-									<div class="pt-3 pt-md-2 mx-0 mr-1 my-0 px-2">
+									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
 										<div class="form-row mb-2 mx-0">
-											<div class="bg-light border rounded col-12 col-md-4 mx-1 py-2">
+											<div class="col-12 col-md-4">
 												<div class="input-group">
 													<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
 														<option value="">agent role</option>
@@ -660,7 +660,7 @@ limitations under the License.
 													<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
 												</div>
 											</div>
-											<div class="bg-light border rounded col-12 col-md-4 mx-1 py-2">
+											<div class="col-12 col-md-4">
 												<div class="input-group">
 													<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
 														<option value="">agent role</option>
@@ -677,7 +677,7 @@ limitations under the License.
 													<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
 												</div>
 											</div>
-											<div class="bg-light border rounded col-12 col-md-4 mx-1 py-2">
+											<div class="col-12 col-md-4">
 												<div class="input-group">
 													<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
 														<option value="">agent role</option>
