@@ -482,7 +482,7 @@
 				<cfset i=1>
 				<cfloop query="getAccns">
 	 				<div #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#>	
-						<a href="editAccn.cfm?action=edit&transaction_id=#getAccns.transaction_id#">
+						<a href="/transactions/Accession.cfm?action=edit&transaction_id=#getAccns.transaction_id#">
 							<strong>#collection#  #accn_number#</strong>
 						</a>
 						<a href="/Project.cfm?Action=delTrans&transaction_id=#transaction_id#&project_id=#getDetails.project_id#">

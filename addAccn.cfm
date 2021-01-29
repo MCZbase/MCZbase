@@ -91,7 +91,7 @@
 					
 				</td>
                 <td>
-                 <a href="/editAccn.cfm" target="_blank">Lookup</a>
+                 <a href="/Transactions.cfm?action=findAccessions" target="_blank">Lookup</a>
                 </td>
 			</tr>
 		</table>	

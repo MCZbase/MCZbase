@@ -1233,7 +1233,7 @@ limitations under the License.
 			<cfif isdefined("headless") and headless EQ 'true'>
 				<cflocation url="Permit.cfm?Action=edit&headless=true&permit_id=#nextPermit.nextPermit#">
 			<cfelse>
-				<cflocation url="Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
+				<cflocation url="/transactions/Permit.cfm?Action=edit&permit_id=#nextPermit.nextPermit#">
 			</cfif>
 		</cfoutput>
 	</cfcase>
