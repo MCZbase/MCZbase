@@ -1151,7 +1151,7 @@ limitations under the License.
 											</div>
 											</div>
 									</div>	
-									<div class="form-row mt-2 mx-0">
+									<div class="form-row mt-3 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
@@ -1577,7 +1577,7 @@ limitations under the License.
 											</div>
 										</div>
 									</div>	
-									<div class="form-row mt-3 mx-4">
+									<div class="form-row mt-2 mx-4">
 										<div class="col-12 text-left">
 											<button class="btn-xs btn-primary px-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
 											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
