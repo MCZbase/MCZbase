@@ -1897,7 +1897,7 @@ limitations under the License.
 													</cfif>
 													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
 													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-2">
+													<div class="col-md-12 px-0 pb-1 mt-0">
 														<label for="deacc_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Deaccession</label>
 														<input type="text" name="specimen_guid" 
 															class="data-entry-input" value="#specimen_guid#" id="deacc_specimen_guid" placeholder="MCZ:Coll:nnnnn"
