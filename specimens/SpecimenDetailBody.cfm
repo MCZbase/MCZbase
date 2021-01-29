@@ -20,26 +20,24 @@ limitations under the License.
 <!---  TODO: Header hasn't been shown, handle approprately, probably with a redirect to SpecimenDetails.cfm --->
 <!---<cfif not isdefined("HEADER_DELIVERED")>
 </cfif>--->
-
 <cfoutput>
-
-<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
-	<div class="error"> Improper call. Aborting..... </div>
-	<cfabort>
-</cfif>
-<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
-	<cfset oneOfUs = 1>
-	<cfset isClicky = "likeLink">
-	<cfelse>
-	<cfset oneOfUs = 0>
-	<cfset isClicky = "">
-</cfif>
-<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
-   <!--- TODO: Fix this redirect, this is probably the header delivered block above.  ---->
-	<!---<cfheader statuscode="301" statustext="Moved permanently">
+	<cfif not isdefined("collection_object_id") or not isnumeric(collection_object_id)>
+		<div class="error"> Improper call. Aborting..... </div>
+		<cfabort>
+	</cfif>
+	<cfif isdefined("session.roles") and listfindnocase(session.roles,"coldfusion_user")>
+		<cfset oneOfUs = 1>
+		<cfset isClicky = "likeLink">
+		<cfelse>
+		<cfset oneOfUs = 0>
+		<cfset isClicky = "">
+	</cfif>
+	<cfif oneOfUs is 0 and cgi.CF_TEMPLATE_PATH contains "/specimens/SpecimenDetailBody.cfm">
+		<!--- TODO: Fix this redirect, this is probably the header delivered block above.  ----> 
+		<!---<cfheader statuscode="301" statustext="Moved permanently">
 	<cfheader name="Location" value="/Specimens.cfm?collection_object_id=#collection_object_id#">--->
-</cfif>
-</cfoutput>
+	</cfif>
+</cfoutput> 
 <script>
 	$(function() {
      $(".dialog").dialog({
@@ -76,7 +74,7 @@ limitations under the License.
       );
     }
    );
-</script>
+</script> 
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
@@ -268,14 +266,14 @@ limitations under the License.
 		cataloged_item.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
 <cfif one.concatenatedEncumbrances contains "mask record" and oneOfUs neq 1>
-	Record masked.
+	Record masked. 
 	<!---- TODO: This should return the correct HTTP response (403), not a 400 ---->
 	<cfheader statuscode="403" statustext="Forbidden: user does not have necessary permissions to access this resource">
 	<cfabort>
 </cfif>
 <section class="container-fluid">
 	<div class="form-row">
-<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
 		case when
@@ -293,7 +291,7 @@ limitations under the License.
 	ORDER BY
 		coll_order
 </cfquery>
-<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		collector.coll_order,
 		case when
@@ -311,7 +309,7 @@ limitations under the License.
 	ORDER BY
 		coll_order
 </cfquery>
-<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		attributes.attribute_type,
 		attributes.attribute_value,
@@ -327,7 +325,7 @@ limitations under the License.
 		attributes.determined_by_agent_id = attribute_determiner.agent_id and
 		attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 </cfquery>
-<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT 
 		distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
 	SELECT
@@ -365,7 +363,7 @@ limitations under the License.
 		 and ctrel.rel_type <> 'functional'
 	)
 </cfquery>
-<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	SELECT
 		citation.type_status,
 		citation.occurs_page_number,
@@ -388,17 +386,16 @@ limitations under the License.
 	order by
 		substr(formatted_publication, - 4)
 </cfquery>
-<cfoutput query="one">
-<cfif oneOfUs is 1>
-	<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
-	<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
-	<input type="hidden" name="suppressHeader" value="true">
-	<input type="hidden" name="action" value="nothing">
-	<input type="hidden" name="Srch" value="Part">
-	<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
-
-</cfif>
-	<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	<cfoutput query="one">
+		<cfif oneOfUs is 1>
+			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
+			<input type="hidden" name="collection_object_id" value="#one.collection_object_id#">
+			<input type="hidden" name="suppressHeader" value="true">
+			<input type="hidden" name="action" value="nothing">
+			<input type="hidden" name="Srch" value="Part">
+			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
+		</cfif>
+		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
     select distinct
         media.media_id,
         media.media_uri,
@@ -418,21 +415,20 @@ limitations under the License.
          AND MCZBASE.is_media_encumbered(media.media_id) < 1
 	order by media.media_type
 </cfquery>
-<cfif mediaS2.recordcount gt 1>
-		<div class="col-12 col-sm-12 col-md-3 px-1 col-lg-3 col-xl-2 mb-2 float-left">
-    		<div class="accordion" id="accordionE">
-		 <div class="card bg-light">
-            <div class="card-header" id="headingTwo">
-					<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3><button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
-            </div>
-            <div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
-                <div class="card-body">
-					<!------------------------------------ media ---------------------------------------------->
-<!---START Code from MEDIA SET code--->
-			<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
-			<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
-
-	<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfif mediaS2.recordcount gt 1>
+			<div class="col-12 col-sm-12 col-md-3 px-1 col-lg-3 col-xl-2 mb-2 float-left">
+				<div class="accordion" id="accordionE">
+					<div class="card bg-light">
+						<div class="card-header" id="headingTwo">
+							<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
+							<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
+						</div>
+						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
+							<div class="card-body">
+							<!------------------------------------ media ----------------------------------------------> 
+							<!---START Code from MEDIA SET code---> 
+							<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%"> <a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
+							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
             select distinct
                         media.media_id,
                         media.media_uri,
@@ -453,53 +449,53 @@ limitations under the License.
                         AND MCZBASE.is_media_encumbered(media.media_id) < 1
             order by media.media_type
 </cfquery>
-	
-<cfif media.recordcount gt 0>
-	<div class="detailCell">
-		<div class="mt-2"><p>Additional Media</p>
-			<cfquery name="wrlCount" dbtype="query">
+							<cfif media.recordcount gt 0>
+								<div class="detailCell">
+									<div class="mt-2">
+										<p>Additional Media</p>
+										<cfquery name="wrlCount" dbtype="query">
                                     select * from media where mime_type = 'model/vrml'
                         </cfquery>
-			<cfif wrlCount.recordcount gt 0>
-				<br>
-				<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
-			</cfif>
-			<cfquery name="pdfCount" dbtype="query">
+										<cfif wrlCount.recordcount gt 0>
+											<br>
+											<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
+										</cfif>
+										<cfquery name="pdfCount" dbtype="query">
                                     select * from media where mime_type = 'application/pdf'
                         </cfquery>
-			<cfif pdfCount.recordcount gt 0>
-				<br>
-				<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
-			</cfif>
-			<cfif oneOfUs is 1>
-				<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfif pdfCount.recordcount gt 0>
+											<br>
+											<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
+										</cfif>
+										<cfif oneOfUs is 1>
+											<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 						SELECT count(*) c
 						FROM
 						  ctattribute_type
 						where attribute_type='image confirmed' and
 						collection_cde='#one.collection_cde#'
                 </cfquery>
-			<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
-				<cfquery name="isConf"  dbtype="query">
+											<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
+											<cfquery name="isConf"  dbtype="query">
                           SELECT count(*) c
                           FROM
                           attribute
                           where attribute_type='image confirmed'
                  </cfquery>
-				<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-					<span class="infoLink"
+											<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
+												<span class="infoLink"
                      id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
-				</CFIF>
-			</cfif>
-		</div>
-		<div class="detailBlock">
-			<span class="detailData form-row col-12 mx-0 px-0"> 
-		<!---div class="thumbs"--->
-	
-		<cfloop query="media">
-			<cfset altText = media.media_descriptor>
-			<cfset puri=getMediaPreview(preview_uri,media_type)>
-			<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											</CFIF>
+										</cfif>
+									</div>
+									<div class="detailBlock">
+									<span class="detailData form-row col-12 mx-0 px-0"> 
+									<!---div class="thumbs"--->
+									
+									<cfloop query="media">
+										<cfset altText = media.media_descriptor>
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
+										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
                select
                   media_label,
                   label_value
@@ -508,37 +504,33 @@ limitations under the License.
                where
                	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
             </cfquery>
-			<cfquery name="desc" dbtype="query">
+										<cfquery name="desc" dbtype="query">
                 select label_value from labels where media_label='description'
             </cfquery>
-			<cfset description="Media Preview Image">
-			<cfif desc.recordcount is 1>
-				<cfset description=desc.label_value>
-			</cfif>
-			<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
-							<!---for media images -- remove absolute url after demo / test db issue?--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
-				<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
-				<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
-				<cfelse>
-					<!---for DRS from library--->
-				<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
-				<cfset aForImHref = media_uri>
-				<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
-			</cfif>
-			#one_thumb# 
-			<a href="#aForImHref#" target="_blank">
-				<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%">
-			</a>
-			<p class="small"> #media_type# (#mime_type#) <br>
-				<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-				<span class="">#description#</span> </p>
-			</div>
-		</cfloop>
-		<!--/div---> 
-		</span> 
-		</div>
-	<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<cfset description="Media Preview Image">
+										<cfif desc.recordcount is 1>
+											<cfset description=desc.label_value>
+										</cfif>
+										<cfif media_type eq "image" and media.media_relationship eq "shows cataloged_item" and mime_type NEQ "text/html">
+											<!---for media images -- remove absolute url after demo / test db issue?--->
+											<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+											<cfset aForImHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
+											<cfelse>
+											<!---for DRS from library--->
+											<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-4 pl-0 pr-1'>">
+											<cfset aForImHref = media_uri>
+											<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
+										</cfif>
+										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
+										<p class="small"> #media_type# (#mime_type#) <br>
+											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
+											<span class="">#description#</span> </p>
+										</div>
+									</cfloop>
+									<!--/div---> 
+									</span> </div>
+								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select p.barcode from
 				container c,
 				container p,
@@ -552,29 +544,24 @@ limitations under the License.
 				c.parent_container_id=p.container_id and
 				cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
 	</cfquery>
-
-	</div>
-</cfif>
-<cfif oneOfUs is 1>
-</cfif>
-		   
-			   
-			   
-                </div>
-            </div>
-        </div>
-		</div>
+								</div>
+							</cfif>
+							<cfif oneOfUs is 1>
+							</cfif>
+						</div>
+					</div>
 				</div>
-</cfif>		   
-	<!----------------------------- two right columns ---------------------------------->
-	<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
-		<div class="px-0"> 
-			<div class="col-12 col-md-6 px-1 float-left">
-		<!----------------------------- identifications ---------------------------------->
-		<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>--->
-		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
-			<!---insert identification query--->
-			<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			</div>
+			</div>
+		</cfif>
+		<!----------------------------- two right columns ---------------------------------->
+		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1> col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
+			<div class="col-12 col-md-6 px-1 float-left"> 
+				<!----------------------------- identifications ----------------------------------> 
+				<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>---> 
+				<script type='text/javascript' src='/specimens/component/functions.cfc'></script> 
+				<!---insert identification query--->
+				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
 					identification.scientific_name,
 					identification.collection_object_id,
@@ -596,20 +583,20 @@ limitations under the License.
 					identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 				ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 			</cfquery>
-	<div class="card mb-2">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-0 float-left">Identifications</h3> 
-  				<div class="dialog" title="Edit Identification (id: #identification_id#)">
-  					<div id="identificationNewForm">Stuff here...</div>
-  				</div>
-				  <script type="text/javascript">
+				<div class="card mb-2">
+					<div class="card-header float-left w-100">
+						<h3 class="h4 my-0 float-left">Identifications</h3>
+						<div class="dialog" title="Edit Identification (id: #identification_id#)">
+							<div id="identificationNewForm">Stuff here...</div>
+						</div>
+						<script type="text/javascript">
 					  $( document ).ready(loadIdentifications(#identification_id#));
 				  </script>
-			 <button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
-		</div>
-		<div class="card-body float-left">
-			<cfloop query="identification">
-				<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+					</div>
+					<div class="card-body float-left">
+						<cfloop query="identification">
+							<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT distinct
 						taxonomy.taxon_name_id,
 						display_name,
@@ -623,38 +610,37 @@ limitations under the License.
 						identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
 						AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
-				<cfif accepted_id_fg is 1>	
-					<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-						<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
-						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								<span class="font-italic h4 font-weight-normal d-inline-block"> 
-									<a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a> 
-								<cfif len(getTaxa.author_text) gt 0>
-									<span class="sm-caps">#getTaxa.author_text#</span> 
-								</cfif>
-								</span>
-							<cfelse>
-							<cfset link="">
-							<cfset i=1>
-							<cfset thisSciName="#scientific_name#">
-							<cfloop query="getTaxa">
-								<span class="font-italic h3 font-weight-normal d-inline-block"> 
-									<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
-									<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-										<cfset i=#i#+1><a href="##">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> 
-								</span>
-							</cfloop>
-						</cfif>
-						<cfif oneOfUs is 1 and stored_as_fg is 1>
-							<span class="bg-gray float-right rounded p-1">STORED AS</span>
-						</cfif>
-						<cfif not isdefined("metaDesc")>
-							<cfset metaDesc="">
-						</cfif>
-						<cfloop query="getTaxa">
-							<p class="h5 text-muted"> #full_taxon_name# </p>
-							<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-							<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							<cfif accepted_id_fg is 1>
+								<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
+									<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
+									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
+										<span class="font-italic h4 font-weight-normal d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
+										<cfif len(getTaxa.author_text) gt 0>
+											<span class="sm-caps">#getTaxa.author_text#</span>
+										</cfif>
+										</span>
+										<cfelse>
+										<cfset link="">
+										<cfset i=1>
+										<cfset thisSciName="#scientific_name#">
+										<cfloop query="getTaxa">
+											<span class="font-italic h3 font-weight-normal d-inline-block">
+											<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
+											<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
+											<cfset i=#i#+1>
+											<a href="##">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> </span>
+										</cfloop>
+									</cfif>
+									<cfif oneOfUs is 1 and stored_as_fg is 1>
+										<span class="bg-gray float-right rounded p-1">STORED AS</span>
+									</cfif>
+									<cfif not isdefined("metaDesc")>
+										<cfset metaDesc="">
+									</cfif>
+									<cfloop query="getTaxa">
+										<p class="h5 text-muted"> #full_taxon_name# </p>
+										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
 									common_name 
 								FROM 
@@ -665,54 +651,57 @@ limitations under the License.
 								GROUP BY 
 									common_name order by common_name
 							</cfquery>
-							<div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
-							<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-						</cfloop>
-						<cfif len(formatted_publication) gt 0>
-							sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
-						</cfif><div class="form-row mx-0">
-								<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#</span>
-							<cfif len(made_date) gt 0>
-								<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
-								</cfif></div></div>
-							<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
-						<cfif len(identification_remarks) gt 0>
-							<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
-						</cfif>
-					</ul>
-				<cfelse>
-				<ul class="list-group pt-2 pb-0 px-3 ml-2 text-dark border-left">
-						<h4 class="text-muted my-0">Former Identifications</h4>
-						<li class="px-0">
-						<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-							<p>
-							<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
-							<cfif len(getTaxa.author_text) gt 0>
-								<span class="color-black sm-caps">#getTaxa.author_text#</span>
-								</p>
-							</cfif>
-						<cfelse>
-							<cfset link="">
-							<cfset i=1>
-							<cfset thisSciName="#scientific_name#">
-							<cfloop query="getTaxa">
-								<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
-								<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
-								<cfset i=#i#+1>
-							</cfloop>
-							#thisSciName#
-						</cfif>
-					<cfif oneOfUs is 1 and stored_as_fg is 1>
-						<span style="float-right rounded p-1 bg-light">STORED AS</span>
-					</cfif>
-					<cfif not isdefined("metaDesc")>
-						<cfset metaDesc="">
-					</cfif>
-					<cfloop query="getTaxa">
-<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-						<p class="small text-muted"> #full_taxon_name# </p>
-						<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
-						<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										<div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
+									</cfloop>
+									<cfif len(formatted_publication) gt 0>
+										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
+									</cfif>
+									<div class="form-row mx-0">
+										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#</span>
+											<cfif len(made_date) gt 0>
+												<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
+											</cfif>
+										</div>
+									</div>
+									<div class="small mr-2"><span class="h5">Nature of ID:</span> #nature_of_id# </div>
+									<cfif len(identification_remarks) gt 0>
+										<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
+									</cfif>
+								</ul>
+								<cfelse>
+								<ul class="list-group pt-2 pb-0 px-3 ml-2 text-dark border-left">
+								<h4 class="text-muted my-0">Former Identifications</h4>
+								<li class="px-0">
+								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
+									<p>
+									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
+									<cfif len(getTaxa.author_text) gt 0>
+										<span class="color-black sm-caps">#getTaxa.author_text#</span>
+										</p>
+									</cfif>
+									<cfelse>
+									<cfset link="">
+									<cfset i=1>
+									<cfset thisSciName="#scientific_name#">
+									<cfloop query="getTaxa">
+										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
+										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
+										<cfset i=#i#+1>
+									</cfloop>
+									#thisSciName#
+								</cfif>
+								<cfif oneOfUs is 1 and stored_as_fg is 1>
+									<span style="float-right rounded p-1 bg-light">STORED AS</span>
+								</cfif>
+								<cfif not isdefined("metaDesc")>
+									<cfset metaDesc="">
+								</cfif>
+								<cfloop query="getTaxa">
+									<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
+									<p class="small text-muted"> #full_taxon_name# </p>
+									<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
+									<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 								SELECT 
 									common_name 
 								FROM 
@@ -723,27 +712,28 @@ limitations under the License.
 								GROUP BY 
 									common_name order by common_name
 						</cfquery>
-						<div style="font-size:.8em;color:gray;padding-left:1em;">#valuelist(cName.common_name,"; ")# </div>
-						<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
-					</cfloop>
-					<cfif len(formatted_publication) gt 0>
-						sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
-					</cfif>
-					<p style="font-size: .9em;">Determination: #agent_name#
-						<cfif len(made_date) gt 0>
-							on #dateformat(made_date,"yyyy-mm-dd")#
-						</cfif><span>- #nature_of_id#</span> </p>
-					<cfif len(identification_remarks) gt 0>
-						<p style="font-size: .9em;">Remarks: #identification_remarks#</p>
-					</cfif>
-				</cfif>
-						</li>
-					</ul>						
-			</cfloop>									
-		</div>											
-	</div>
-<!------------------------------------ citations ------------------------------------------>
-	<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									<div style="font-size:.8em;color:gray;padding-left:1em;">#valuelist(cName.common_name,"; ")# </div>
+									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
+								</cfloop>
+								<cfif len(formatted_publication) gt 0>
+									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
+								</cfif>
+								<p style="font-size: .9em;">Determination: #agent_name#
+									<cfif len(made_date) gt 0>
+										on #dateformat(made_date,"yyyy-mm-dd")#
+									</cfif>
+									<span>- #nature_of_id#</span> </p>
+								<cfif len(identification_remarks) gt 0>
+									<p style="font-size: .9em;">Remarks: #identification_remarks#</p>
+								</cfif>
+							</cfif>
+							</li>
+							</ul>
+						</cfloop>
+					</div>
+				</div>
+				<!------------------------------------ citations ------------------------------------------>
+				<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 		FROM
@@ -759,46 +749,44 @@ limitations under the License.
 			c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		ORDER by substr(formatted_publication, -4)
 	</cfquery>
-	<cfif len(citations.cited_name) gt 0>
-		<div class="card mb-2">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-0 float-left">Citations</h3>
-				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<div class="row mx-0">
-					<ul class="list-group float-left">
-					<cfloop query="citations">
-						<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+				<cfif len(citations.cited_name) gt 0>
+					<div class="card mb-2">
+						<div class="card-header float-left w-100">
+							<h3 class="h4 my-0 float-left">Citations</h3>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div class="card-body float-left">
+							<div class="row mx-0">
+							<ul class="list-group float-left">
+								<cfloop query="citations">
+									<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame"> #formatted_publication#</a>,
-							<cfif len(occurs_page_number) gt 0>
-								Page
-								<cfif len(citation_page_uri) gt 0>
-									<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-									<cfelse>
-									#occurs_page_number#,
-								</cfif>
-							</cfif>
-							#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-							<cfif find("(ms)", #type_status#) NEQ 0>
-								<!--- Type status with (ms) is used to mark to be published types,
+										<cfif len(occurs_page_number) gt 0>
+											Page
+											<cfif len(citation_page_uri) gt 0>
+												<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+												<cfelse>
+												#occurs_page_number#,
+											</cfif>
+										</cfif>
+										#type_status# of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+										<cfif find("(ms)", #type_status#) NEQ 0>
+											<!--- Type status with (ms) is used to mark to be published types,
 	`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
 										as appropriate to the name of the parent taxon of the new name --->
-								<cfif find(" ", #cited_name#) NEQ 0>
-									&nbsp;ssp. nov.
-									<cfelse>
-									&nbsp;sp. nov.
-								</cfif>
-							</cfif>
-							#CITATION_REMARKS# </li>
-					</cfloop>
-					</ul>
-				<cfif publicationMedia.recordcount gt 0>
-				
-						<cfloop query="publicationMedia">
-				
-							<cfset puri=getMediaPreview(preview_uri,media_type)>
-							<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											<cfif find(" ", #cited_name#) NEQ 0>
+												&nbsp;ssp. nov.
+												<cfelse>
+												&nbsp;sp. nov.
+											</cfif>
+										</cfif>
+										#CITATION_REMARKS# </li>
+								</cfloop>
+							</ul>
+							<cfif publicationMedia.recordcount gt 0>
+								<cfloop query="publicationMedia">
+									<cfset puri=getMediaPreview(preview_uri,media_type)>
+									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
 											label_value
@@ -807,31 +795,26 @@ limitations under the License.
 									where
 											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
 						</cfquery>
-							<cfquery name="desc" dbtype="query">
+									<cfquery name="desc" dbtype="query">
 							select label_value from labels where media_label='description'
 						</cfquery>
-							<cfset alt="Media Preview Image">
-							<cfif desc.recordcount is 1>
-								<cfset alt=desc.label_value>
+									<cfset alt="Media Preview Image">
+									<cfif desc.recordcount is 1>
+										<cfset alt=desc.label_value>
+									</cfif>
+									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
+									<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline"> <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> <span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </div>
+								</cfloop>
+								</div>
 							</cfif>
-					<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-							<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline">	<a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> 
-							<span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span>
-							</div>
-					</cfloop>
+						</div>
 					</div>
 				</cfif>
-				</div>
-			</div>
-
-	</cfif>
-
-	
-<!------------------------------------ parts ---------------------------------------------->
-<cfoutput>
-
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				
+				<!------------------------------------ parts ----------------------------------------------> 
+				<cfoutput>
+					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+						<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select
 		specimen_part.collection_object_id part_id,
 		Case
@@ -870,7 +853,7 @@ limitations under the License.
 		oc.parent_container_id=pc.container_id (+) and
 		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 </cfquery>
-<cfquery name="parts" dbtype="query">
+						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
                 label,
@@ -895,7 +878,7 @@ limitations under the License.
         order by
                 part_name
 </cfquery>
-<cfquery name="parts" dbtype="query">
+						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
                 label,
@@ -920,54 +903,51 @@ limitations under the License.
         order by
                 part_name
 </cfquery>
-<cfquery name="mPart" dbtype="query">
+						<cfquery name="mPart" dbtype="query">
 	select * from parts where sampled_from_obj_id is null order by part_name
 </cfquery>
-<cfset ctPart.ct=''>
-<cfquery name="ctPart" dbtype="query">
+						<cfset ctPart.ct=''>
+						<cfquery name="ctPart" dbtype="query">
 	select count(*) as ct from parts group by lot_count order by part_name
 	</cfquery>
-
-			<div class="accordion w-100" id="accordionForParts">
-			<div class="card mb-2">
-				<div class="card-header float-left w-100" id="headingPart">
-				<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts  </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
-				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-				</div>
-					<div class="card-body p-0">
-						<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-							<table class="table d-lg-table border-bottom table-responsive mb-0">
-								<thead>
-							<tr class="bg-light">
-								<th><span>Part Name</span></th>
-								<th><span>Condition</span></th>
-								<th><span>Disposition</span></th>
-								<th><span>##</span></th>
-								<cfif oneOfus is "1">
-									<th><span>Container</span></th>
-								</cfif>
-							</tr>
-								</thead>
-									<tbody>
-							<cfset i=1>
-					
-							<cfloop query="mPart">
-							
-								<tr <cfif mPart.recordcount gt 1>class="text-sucess"<cfelse></cfif>>
-									<td>#part_name#</td>
-									<td>#part_condition#</td>
-									<td>#part_disposition#</td>
-									<td>#lot_count#</td>
-									<cfif oneOfus is 1>
-										<td>#label#</td>
-									</cfif>
-								</tr>
-								<cfif len(part_remarks) gt 0>
-								<tr class="small pl-3"><td colspan="5">
-									<span class="font-italic">Remarks:</span> #part_remarks#</td>
-								</tr>
-								</cfif>
-								<cfquery name="patt" dbtype="query">
+						<div class="accordion w-100" id="accordionForParts">
+							<div class="card mb-2">
+								<div class="card-header float-left w-100" id="headingPart">
+									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
+									<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+								</div>
+								<div class="card-body p-0">
+									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
+										<table class="table d-lg-table border-bottom table-responsive mb-0">
+											<thead>
+												<tr class="bg-light">
+													<th><span>Part Name</span></th>
+													<th><span>Condition</span></th>
+													<th><span>Disposition</span></th>
+													<th><span>##</span></th>
+													<cfif oneOfus is "1">
+														<th><span>Container</span></th>
+													</cfif>
+												</tr>
+											</thead>
+											<tbody>
+												<cfset i=1>
+												<cfloop query="mPart">
+													<tr <cfif mPart.recordcount gt 1>class="text-sucess"<cfelse></cfif>>
+														<td>#part_name#</td>
+														<td>#part_condition#</td>
+														<td>#part_disposition#</td>
+														<td>#lot_count#</td>
+														<cfif oneOfus is 1>
+															<td>#label#</td>
+														</cfif>
+													</tr>
+													<cfif len(part_remarks) gt 0>
+														<tr class="small pl-3">
+															<td colspan="5"><span class="font-italic">Remarks:</span> #part_remarks#</td>
+														</tr>
+													</cfif>
+													<cfquery name="patt" dbtype="query">
 									select
 										attribute_type,
 										attribute_value,
@@ -988,58 +968,54 @@ limitations under the License.
 										attribute_remark,
 										agent_name
 								</cfquery>
-								<cfif patt.recordcount gt 0>
-									<tr>
-										<td colspan="5">
-											<cfloop query="patt">
-												<div class="small" style="line-height: .9rem;">
-													#attribute_type#=#attribute_value#
-													<cfif len(attribute_units) gt 0>
-													 #attribute_units#
+													<cfif patt.recordcount gt 0>
+														<tr>
+															<td colspan="5"><cfloop query="patt">
+																	<div class="small" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
+																		<cfif len(attribute_units) gt 0>
+																			#attribute_units#
+																		</cfif>
+																		<cfif len(determined_date) gt 0>
+																			determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
+																		</cfif>
+																		<cfif len(agent_name) gt 0>
+																			determined by=#agent_name#
+																		</cfif>
+																		<cfif len(attribute_remark) gt 0>
+																			remark=#attribute_remark#
+																		</cfif>
+																	</div>
+																</cfloop></td>
+														</tr>
 													</cfif>
-													<cfif len(determined_date) gt 0>
-													 	determined date=<strong>#dateformat(determined_date,"yyyy-mm-dd")#
-													</cfif>
-													<cfif len(agent_name) gt 0>
-													 	determined by=#agent_name#
-													</cfif>
-													<cfif len(attribute_remark) gt 0>
-													 	remark=#attribute_remark#
-													</cfif>
-												</div>
-											</cfloop>
-										</td>
-									</tr>		
-								</cfif><!---/cfloop--->
-								<cfquery name="sPart" dbtype="query">
+													<!---/cfloop--->
+													<cfquery name="sPart" dbtype="query">
 									select * from parts 
 									where sampled_from_obj_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
 								</cfquery>
-								<cfloop query="sPart">
-									<tr class="pl-3">
-										<td class=""><span>#part_name# subsample</span></td>
-										<td class="">#part_condition#</td>
-										<td class="">#part_disposition#</td>
-										<td class="">#lot_count#</td>
-										<cfif oneOfus is 1>
-											<td class="">#label#</td>
-										</cfif>
-										<td class="">#part_remarks#</td>
-									</tr>
-								</cfloop>
-							
-							</cfloop>
-									</tbody>	
-							</table>
+													<cfloop query="sPart">
+														<tr class="pl-3">
+															<td class=""><span>#part_name# subsample</span></td>
+															<td class="">#part_condition#</td>
+															<td class="">#part_disposition#</td>
+															<td class="">#lot_count#</td>
+															<cfif oneOfus is 1>
+																<td class="">#label#</td>
+															</cfif>
+															<td class="">#part_remarks#</td>
+														</tr>
+													</cfloop>
+												</cfloop>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-
-</cfif>				
-</cfoutput>
-<!------------------------------------ other identifiers ---------------------------------->
-	<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					</cfif>
+				</cfoutput> 
+				<!------------------------------------ other identifiers ---------------------------------->
+				<cfquery name="oid" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			case when <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and
 				concatencumbrances(coll_obj_other_id_num.collection_object_id) like '%mask original field number%' and
@@ -1063,198 +1039,190 @@ limitations under the License.
 			other_id_type,
 			display_value
 	</cfquery>
-	<cfif len(oid.other_id_type) gt 0>
-		<div class="card mb-2">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-0 float-left">Other IDs</h4>
-				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<ul class="list-group">
-					<cfloop query="oid">
-						<li class="list-group-item">#other_id_type#:
-							<cfif len(link) gt 0>
-								<a class="external" href="#link#" target="_blank">#display_value#</a>
-								<cfelse>
-								#display_value#
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
-			</div>
-		</div>
-	</cfif>
-		
-
-	<!------------------------------------ attributes ----------------------------------------->
-	<cfif len(attribute.attribute_type) gt 0>
-		<div class="card mb-2">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-0 float-left">Attributes</h3>
-				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<cfquery name="sex" dbtype="query">
+				<cfif len(oid.other_id_type) gt 0>
+					<div class="card mb-2">
+						<div class="card-header float-left w-100">
+							<h3 class="h4 my-0 float-left">
+							Other IDs
+							</h4>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div class="card-body float-left">
+							<ul class="list-group">
+								<cfloop query="oid">
+									<li class="list-group-item">#other_id_type#:
+										<cfif len(link) gt 0>
+											<a class="external" href="#link#" target="_blank">#display_value#</a>
+											<cfelse>
+											#display_value#
+										</cfif>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</cfif>
+				
+				<!------------------------------------ attributes ----------------------------------------->
+				<cfif len(attribute.attribute_type) gt 0>
+					<div class="card mb-2">
+						<div class="card-header float-left w-100">
+							<h3 class="h4 my-0 float-left">Attributes</h3>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div class="card-body float-left">
+							<cfquery name="sex" dbtype="query">
 					select * from attribute where attribute_type = 'sex'
 				</cfquery>
-				<ul class="list-group">
-					<cfloop query="sex">
-						<li class="list-group-item"> sex: #attribute_value#,
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination = "#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
-								</cfif>
-								#determination#
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								, Remark: #attribute_remark#
-							</cfif>
-						</li>
-					</cfloop>
-					<cfif one.collection_cde is "Mamm">
-						<cfquery name="total_length" dbtype="query">
+							<ul class="list-group">
+								<cfloop query="sex">
+									<li class="list-group-item"> sex: #attribute_value#,
+										<cfif len(attributeDeterminer) gt 0>
+											<cfset determination = "#attributeDeterminer#">
+											<cfif len(determined_date) gt 0>
+												<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+											</cfif>
+											<cfif len(determination_method) gt 0>
+												<cfset determination = '#determination#, #determination_method#'>
+											</cfif>
+											#determination#
+										</cfif>
+										<cfif len(attribute_remark) gt 0>
+											, Remark: #attribute_remark#
+										</cfif>
+									</li>
+								</cfloop>
+								<cfif one.collection_cde is "Mamm">
+									<cfquery name="total_length" dbtype="query">
 							select * from attribute where attribute_type = 'total length'
 						</cfquery>
-						<cfquery name="tail_length" dbtype="query">
+									<cfquery name="tail_length" dbtype="query">
 							select * from attribute where attribute_type = 'tail length'
 						</cfquery>
-						<cfquery name="hf" dbtype="query">
+									<cfquery name="hf" dbtype="query">
 							select * from attribute where attribute_type = 'hind foot with claw'
 						</cfquery>
-						<cfquery name="efn" dbtype="query">
+									<cfquery name="efn" dbtype="query">
 							select * from attribute where attribute_type = 'ear from notch'
 						</cfquery>
-						<cfquery name="weight" dbtype="query">
+									<cfquery name="weight" dbtype="query">
 							select * from attribute where attribute_type = 'weight'
 						</cfquery>
-						<cfif len(total_length.attribute_units) gt 0 OR
+									<cfif len(total_length.attribute_units) gt 0 OR
 							len(tail_length.attribute_units) gt 0 OR
 							len(hf.attribute_units) gt 0  OR
 							len(efn.attribute_units) gt 0  OR
 							len(weight.attribute_units) gt 0>
-							<!---semi-standard measurements --->
-							<p class="px-2 mb-0">Standard Measurements</p>
-							<table class="table table-striped mb-0 px-1 table-responsive">
-								<tr>
-									<td><font size="-1">total length</font></td>
-									<td><font size="-1">tail length</font></td>
-									<td><font size="-1">hind foot</font></td>
-									<td><font size="-1">efn</font></td>
-									<td><font size="-1">weight</font></td>
-								</tr>
-								<tr>
-									<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
-									<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
-									<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
-									<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
-									<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
-								</tr>
-							</table>
-							<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
-								<cfset determination = "#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
-								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
-								</cfif>
-								#determination#
-							</cfif>
-						</cfif>
-						<cfquery name="theRest" dbtype="query">
+										<!---semi-standard measurements --->
+										<p class="px-2 mb-0">Standard Measurements</p>
+										<table class="table table-striped mb-0 px-1 table-responsive">
+											<tr>
+												<td><font size="-1">total length</font></td>
+												<td><font size="-1">tail length</font></td>
+												<td><font size="-1">hind foot</font></td>
+												<td><font size="-1">efn</font></td>
+												<td><font size="-1">weight</font></td>
+											</tr>
+											<tr>
+												<td>#total_length.attribute_value# #total_length.attribute_units#&nbsp;</td>
+												<td>#tail_length.attribute_value# #tail_length.attribute_units#&nbsp;</td>
+												<td>#hf.attribute_value# #hf.attribute_units#&nbsp;</td>
+												<td>#efn.attribute_value# #efn.attribute_units#&nbsp;</td>
+												<td>#weight.attribute_value# #weight.attribute_units#&nbsp;</td>
+											</tr>
+										</table>
+										<cfif isdefined("attributeDeterminer") and len(#attributeDeterminer#) gt 0>
+											<cfset determination = "#attributeDeterminer#">
+											<cfif len(determined_date) gt 0>
+												<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+											</cfif>
+											<cfif len(determination_method) gt 0>
+												<cfset determination = '#determination#, #determination_method#'>
+											</cfif>
+											#determination#
+										</cfif>
+									</cfif>
+									<cfquery name="theRest" dbtype="query">
 							select * from attribute 
 							where attribute_type NOT IN (
 								'weight','sex','total length','tail length','hind foot with claw','ear from notch'
 							)
 						</cfquery>
-					<cfelse>
-						<!--- not Mamm --->
-						<cfquery name="theRest" dbtype="query">
+									<cfelse>
+									<!--- not Mamm --->
+									<cfquery name="theRest" dbtype="query">
 							select * from attribute where attribute_type NOT IN ('sex')
 						</cfquery>
-					</cfif>
-					<cfloop query="theRest">
-						<li class="list-group-item">#attribute_type#: #attribute_value#
-							<cfif len(attribute_units) gt 0>
-								, #attribute_units#
-							</cfif>
-							<cfif len(attributeDeterminer) gt 0>
-								<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
-								<cfif len(determined_date) gt 0>
-									<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
 								</cfif>
-								<cfif len(determination_method) gt 0>
-									<cfset determination = '#determination#, #determination_method#'>
+								<cfloop query="theRest">
+									<li class="list-group-item">#attribute_type#: #attribute_value#
+										<cfif len(attribute_units) gt 0>
+											, #attribute_units#
+										</cfif>
+										<cfif len(attributeDeterminer) gt 0>
+											<cfset determination = "&nbsp;&nbsp;#attributeDeterminer#">
+											<cfif len(determined_date) gt 0>
+												<cfset determination = '#determination#, #dateformat(determined_date,"yyyy-mm-dd")#'>
+											</cfif>
+											<cfif len(determination_method) gt 0>
+												<cfset determination = '#determination#, #determination_method#'>
+											</cfif>
+											#determination#
+										</cfif>
+										<cfif len(attribute_remark) gt 0>
+											, Remark: #attribute_remark#
+										</cfif>
+									</li>
+								</cfloop>
+							</ul>
+						</div>
+					</div>
+				</cfif>
+				
+				<!------------------------------------ relationships  ------------------------------------->
+				<cfif len(relns.biol_indiv_relationship) gt 0 >
+					<div class="card mb-2">
+						<div class="card-header float-left w-100">
+							<h3 class="h4 my-0 float-left">Relationship</h3>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div class="card-body float-left">
+							<ul class="list-group list-group-flush float-left">
+								<cfloop query="relns">
+									<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
+										<cfif len(relns.biol_indiv_relation_remarks) gt 0>
+											(Remark: #biol_indiv_relation_remarks#)
+										</cfif>
+									</li>
+								</cfloop>
+								<cfif len(relns.biol_indiv_relationship) gt 0>
+									<li class="pb-1"> <a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a> </li>
 								</cfif>
-								#determination#
-							</cfif>
-							<cfif len(attribute_remark) gt 0>
-								, Remark: #attribute_remark#
-							</cfif>
-						</li>
-					</cfloop>
-				</ul>
+							</ul>
+						</div>
+					</div>
+				</cfif>
 			</div>
-		</div>
-	</cfif>
-
-<!------------------------------------ relationships  ------------------------------------->
-	<cfif len(relns.biol_indiv_relationship) gt 0 >
-		<div class="card mb-2">
-			<div class="card-header float-left w-100">
-				<h3 class="h4 my-0 float-left">Relationship</h3>
-				<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			</div>
-			<div class="card-body float-left">
-				<ul class="list-group list-group-flush float-left">
+			<div class="col-12 col-md-6 px-1 float-left"> 
+				<!------------------------------------ locality and collecting event------------------------------------------->
 				
-					<cfloop query="relns">
-						<li class="list-group-item py-0">
-						#biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
-						<cfif len(relns.biol_indiv_relation_remarks) gt 0>
-							(Remark: #biol_indiv_relation_remarks#)
-						</cfif>
-						</li>
-					</cfloop>
-					<cfif len(relns.biol_indiv_relationship) gt 0>
-						<li class="pb-1">
-						<a href="/Specimens.cfm?collection_object_id=#valuelist(relns.related_coll_object_id)#" target="_top">(Specimens List)</a>
-						</li>
-					</cfif>
-				
-			</ul>
-			</div>
-		</div>
-	</cfif>
-							
-
-							</div>
-						<div class="col-12 col-md-6 px-1 float-left">
-<!------------------------------------ locality and collecting event-------------------------------------------> 
-
-    <div class="card bg-light mb-2">
-		<div class="card-header float-left w-100" id="headingOne">
-				<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
-					<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-            </div>
-  	
-       <div class="card-body px-3">
-          <!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>--->
-		   <img src="/specimens/images/map.png" height="300" class="w-100" alt="map placeholder"/>
-		
-		<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<div class="card bg-light mb-2">
+					<div class="card-header float-left w-100" id="headingOne">
+						<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
+						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					</div>
+					<div class="card-body px-3"> 
+						<!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>---> 
+						<img src="/specimens/images/map.png" height="300" class="w-100" alt="map placeholder"/>
+						<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="getGeo" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select higher_geog from geog_auth_rec where
 			geog_auth_rec_id= <cfqueryparam value="#getLoc.geog_auth_rec_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+						<cfquery name="localityMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT 
 						media_id 
 					FROM 
@@ -1263,122 +1231,124 @@ limitations under the License.
 						RELATED_PRIMARY_KEY= <cfqueryparam value="#one.locality_id#" cfsqltype="CF_SQL_DECIMAL"> and
 						MEDIA_RELATIONSHIP like '% locality'
 		</cfquery>
-		<cfif len(one.spec_locality) gt 0>
-		<cfif localityMedia.recordcount gt 0>
-			<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
-		</cfif>
-		</cfif>
-			<ul class="list-unstyled row px-3 py-1 mb-0">
-				<cfif len(one.continent_ocean) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
-					<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
-				</cfif>
-				<cfif len(one.sea) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
-					<li class="list-group-item col-7 px-0">#one.sea#</li>
-				</cfif>
-				<cfif len(one.country) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Country:</em></li>
-					<li class="list-group-item col-7 px-0">#one.country#</li>
-				</cfif>
-				<cfif len(one.state_prov) gt 0>
-					<li class="list-group-item col-5 px-0"><em>State:</em></li>
-					<li class="list-group-item col-7 px-0">#one.state_prov#</li>
-				</cfif>
-				<cfif len(one.feature) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
-					<li class="list-group-item col-7 px-0">#one.feature#</li>
-				</cfif>
-				<cfif len(one.county) gt 0>
-					<li class="list-group-item col-5 px-0"><em>County:</em></li>
-					<li class="list-group-item col-7 px-0">#one.county#</li>
-				</cfif>
-				<cfif len(one.island_group) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
-					<li class="list-group-item col-7 px-0">#one.island_group#</li>
-				</cfif>
-				<cfif len(one.island) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Island:</em></li>
-					<li class="list-group-item col-7 px-0">#one.island#</li>
-				</cfif>
-				<cfif len(one.quad) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
-					<li class="list-group-item col-7 px-0">#one.quad#</li>
-				</cfif>
-				<cfif len(one.spec_locality) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
-					<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
-				</cfif>
-					<cfif len(one.verbatim_locality) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
-					<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
-				</cfif>
-				<cfif len(one.collecting_source) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
-					<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
-				</cfif>
-				<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
-				<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
-					<li class="list-group-item col-5 px-0"><em>On Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.began_date#</li>
-				</cfif>
-				<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
-					<li class="list-group-item col-5 px-0"><em>Began Date - Ended Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
-				</cfif>
-				<cfif len(one.verbatim_date) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
-					<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
-				</cfif>
-				<cfif len(one.verbatimcoordinates) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
-					<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
-				</cfif>
-				<cfif len(one.collecting_method) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
-					<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
-				</cfif>
-				<cfif len(one.coll_event_remarks) gt 0>
-					<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
-					<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
-				</cfif>
-				<cfif len(one.habitat_desc) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
-				</cfif>
-				<cfif len(one.habitat) gt 0>
-					<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
-					<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
-				</cfif>
-			</ul>
-		</div>
-
-	
- 	</div>
-
-
-<!------------------------------------ Collectors and Preparators ----------------------------------->
-	<div class="card mb-2">
-		<div class="card-header float-left w-100">
-			<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-			<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-			
-		</div>
-		<div class="card-body float-left">
-			<ul class="list-unstyled form-row p-1 mb-0">
-			
-				<cfif colls.recordcount gt 0>
-					<li class="list-group-item"><em>Collector(s):&nbsp;</em><cfloop query="colls"> #colls.collectors#<span>,</span></cfloop></li>
-				</cfif>
-				<cfif preps.recordcount gt 0>
-					<li class="list-group-item"><em>Preparator(s):&nbsp;</em><cfloop query="colls"> #preps.preparators#<span>,</span></cfloop></li>
-				</cfif>
-			
-			</ul>
-		</div>
-	</div>		
-	<!------------------------------------- tranactions  ---------------------------------------->
-	<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
+						<cfif len(one.spec_locality) gt 0>
+							<cfif localityMedia.recordcount gt 0>
+								<a class="infoLink" target="_blank" href="/MediaSearch.cfm?action=search&media_id=#valuelist(localityMedia.media_id)#">Media</a>
+							</cfif>
+						</cfif>
+						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
+							<cfif len(one.continent_ocean) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
+								<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
+							</cfif>
+							<cfif len(one.sea) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Sea:</em></li>
+								<li class="list-group-item col-7 px-0">#one.sea#</li>
+							</cfif>
+							<cfif len(one.country) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Country:</em></li>
+								<li class="list-group-item col-7 px-0">#one.country#</li>
+							</cfif>
+							<cfif len(one.state_prov) gt 0>
+								<li class="list-group-item col-5 px-0"><em>State:</em></li>
+								<li class="list-group-item col-7 px-0">#one.state_prov#</li>
+							</cfif>
+							<cfif len(one.feature) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Feature:</em></li>
+								<li class="list-group-item col-7 px-0">#one.feature#</li>
+							</cfif>
+							<cfif len(one.county) gt 0>
+								<li class="list-group-item col-5 px-0"><em>County:</em></li>
+								<li class="list-group-item col-7 px-0">#one.county#</li>
+							</cfif>
+							<cfif len(one.island_group) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Island Group:</em></li>
+								<li class="list-group-item col-7 px-0">#one.island_group#</li>
+							</cfif>
+							<cfif len(one.island) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Island:</em></li>
+								<li class="list-group-item col-7 px-0">#one.island#</li>
+							</cfif>
+							<cfif len(one.quad) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
+								<li class="list-group-item col-7 px-0">#one.quad#</li>
+							</cfif>
+							<cfif len(one.spec_locality) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
+								<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
+							</cfif>
+							<cfif len(one.verbatim_locality) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Verbatim Locality:</em></li>
+								<li class="list-group-item col-7 px-0 ">#one.verbatim_locality#</li>
+							</cfif>
+							<cfif len(one.collecting_source) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Collecting Source:</em></li>
+								<li class="list-group-item col-7 px-0">#one.collecting_source#</li>
+							</cfif>
+							<!--- TODO: Display dwcEventDate not underlying began/end dates. --->
+							<cfif len(one.began_date) gt 0 AND one.began_date eq #one.ended_date#>
+								<li class="list-group-item col-5 px-0"><em>On Date:</em></li>
+								<li class="list-group-item col-7 px-0">#one.began_date#</li>
+							</cfif>
+							<cfif len(one.began_date) gt 0 AND one.began_date neq #one.ended_date#>
+								<li class="list-group-item col-5 px-0"><em>Began Date - Ended Date:</em></li>
+								<li class="list-group-item col-7 px-0">#one.began_date# - #one.ended_date#</li>
+							</cfif>
+							<cfif len(one.verbatim_date) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Verbatim Date:</em></li>
+								<li class="list-group-item col-7 px-0">#one.verbatim_date#</li>
+							</cfif>
+							<cfif len(one.verbatimcoordinates) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Verbatim Coordinates:</em></li>
+								<li class="list-group-item col-7 px-0">#one.verbatimcoordinates#</li>
+							</cfif>
+							<cfif len(one.collecting_method) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Collecting Method:</em></li>
+								<li class="list-group-item col-7 px-0">#one.collecting_method#</li>
+							</cfif>
+							<cfif len(one.coll_event_remarks) gt 0>
+								<li class="list-group-item col-5 px-0"><em>Collecting Event Remarks:</em></li>
+								<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
+							</cfif>
+							<cfif len(one.habitat_desc) gt 0>
+								<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
+								<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
+							</cfif>
+							<cfif len(one.habitat) gt 0>
+								<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
+								<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
+							</cfif>
+						</ul>
+					</div>
+				</div>
+				
+				<!------------------------------------ Collectors and Preparators ----------------------------------->
+				<div class="card mb-2">
+					<div class="card-header float-left w-100">
+						<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
+						<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+					</div>
+					<div class="card-body float-left">
+						<ul class="list-unstyled form-row p-1 mb-0">
+							<cfif colls.recordcount gt 0>
+								<li class="list-group-item"><em>Collector(s):&nbsp;</em>
+									<cfloop query="colls">
+										#colls.collectors#<span>,</span>
+									</cfloop>
+								</li>
+							</cfif>
+							<cfif preps.recordcount gt 0>
+								<li class="list-group-item"><em>Preparator(s):&nbsp;</em>
+									<cfloop query="colls">
+										#preps.preparators#<span>,</span>
+									</cfloop>
+								</li>
+							</cfif>
+						</ul>
+					</div>
+				</div>
+				<!------------------------------------- tranactions  ---------------------------------------->
+				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
 		SELECT 
 			media.media_id,
 			media.media_uri,
@@ -1396,32 +1366,32 @@ limitations under the License.
 			media_relations.media_relationship like '% accn' and
 			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 	</cfquery>
-	<cfif oneOfUs is 1 and vpdaccn is 1>
-			<div class="card mb-2">
-				<div class="card-header float-left w-100">
-					<h3 class="h4 my-0 float-left">Transactions</h3>
-					<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-				</div>
-				<div class="card-body float-left">
-					<ul class="list-group list-group-flush pl-0">
-					<li class="list-group-item">Accession:
-						<cfif oneOfUs is 1>
-							<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
-							<cfelse>
-							#accession#
-						</cfif>
-						<cfif accnMedia.recordcount gt 0>
-							<cfloop query="accnMedia">
-								<p> #media_type# (#mime_type#) <br>
-									<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
-									#descr# </p>
-							</cfloop>
-						</cfif>
-					</li>
-
-<!--------------------  Project / Usage ------------------------------------>
-
-		<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfif oneOfUs is 1 and vpdaccn is 1>
+					<div class="card mb-2">
+						<div class="card-header float-left w-100">
+							<h3 class="h4 my-0 float-left">Transactions</h3>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div class="card-body float-left">
+							<ul class="list-group list-group-flush pl-0">
+								<li class="list-group-item">Accession:
+									<cfif oneOfUs is 1>
+										<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
+										<cfelse>
+										#accession#
+									</cfif>
+									<cfif accnMedia.recordcount gt 0>
+										<cfloop query="accnMedia">
+											<p> #media_type# (#mime_type#) <br>
+												<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
+												#descr# </p>
+										</cfloop>
+									</cfif>
+								</li>
+								
+								<!--------------------  Project / Usage ------------------------------------>
+								
+								<cfquery name="isProj" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				project_name, project.project_id project_id 
 			FROM
@@ -1430,7 +1400,7 @@ limitations under the License.
 				project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 			GROUP BY project_name, project.project_id
 		</cfquery>
-		<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				project_name, project.project_id 
 			FROM 
@@ -1446,7 +1416,7 @@ limitations under the License.
 			GROUP BY 
 				project_name, project.project_id
 		</cfquery>
-		<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				loan_item.collection_object_id 
 			FROM 
@@ -1455,7 +1425,7 @@ limitations under the License.
 				loan_item.collection_object_id=specimen_part.collection_object_id AND
 				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct loan_number, loan_type, loan_status, loan.transaction_id 
 			FROM
@@ -1465,7 +1435,7 @@ limitations under the License.
 				loan_number is not null AND
 				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isDeaccessionedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				deacc_item.collection_object_id 
 			FROM
@@ -1473,7 +1443,7 @@ limitations under the License.
 			WHERE
 				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT 
 				distinct deacc_number, deacc_type, deaccession.transaction_id 
 			FROM
@@ -1483,89 +1453,84 @@ limitations under the License.
 				deacc_number is not null AND
 				specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 		</cfquery>
-		<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
+								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or
 			(oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or
 			(oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
-			<cfloop query="isProj">
-				<li class="list-group-item"> Contributed By Project:<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
-			</cfloop>
-			<cfloop query="isLoan">
-				<li class="list-group-item"> Used By Project: <a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
-			</cfloop>
-			<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
-				<li class="list-group-item">
-					<h5>Loan History:</h5>
-					<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+									<cfloop query="isProj">
+										<li class="list-group-item"> Contributed By Project:<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
+									</cfloop>
+									<cfloop query="isLoan">
+										<li class="list-group-item"> Used By Project: <a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
+									</cfloop>
+									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
+										<li class="list-group-item">
+											<h5>Loan History:</h5>
+											<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<cfloop query="loanList">
-							<ul>
-								<li>#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
-							</ul>
-						</cfloop>
-					</cfif>
-				</li>
-			</cfif>
-			<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
-				<li class="list-group-item">
-					<h6>Deaccessions: </h6>
-					<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<cfloop query="loanList">
+													<ul>
+														<li>#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+													</ul>
+												</cfloop>
+											</cfif>
+										</li>
+									</cfif>
+									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
+										<li class="list-group-item">
+											<h6>Deaccessions: </h6>
+											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
-					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
-						<cfloop query="deaccessionList">
-							<ul>
-								<li> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
+												<cfloop query="deaccessionList">
+													<ul>
+														<li> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+													</ul>
+												</cfloop>
+											</cfif>
+										</li>
+									</cfif>
+								</cfif>
 							</ul>
-						</cfloop>
+						</div>
+					</div>
+				</cfif>
+				<!------------------------------------ metadata ------------------------------------------->
+				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
+					<cfif oneOfUs is 1>
+						<div class="card mb-2">
+							<div class="card-header float-left w-100">
+								<h3 class="h4 my-0 float-left">
+								Metadata
+								</h4>
+							</div>
+							<div class="card-body float-left">
+								<ul  class="pl-0 pt-1">
+									<cfif len(#one.coll_object_remarks#) gt 0>
+										<li>Remarks: #one.coll_object_remarks# </li>
+									</cfif>
+									<li> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
+									<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
+										<li> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+									</cfif>
+									<cfif len(#one.flags#) is not 0>
+										<li> Missing (flags): #one.flags# </li>
+									</cfif>
+									<cfif len(#one.encumbranceDetail#) is not 0>
+										<li> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+									</cfif>
+								</ul>
+							</div>
+						</div>
 					</cfif>
-				</li>
-			</cfif>
-		</cfif>
-	</ul>
-				</div>
+				</cfif>
 			</div>
-	</cfif>
-<!------------------------------------ metadata ------------------------------------------->
-<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
-		<cfif oneOfUs is 1>
-			<div class="card mb-2">
-				<div class="card-header float-left w-100">
-					<h3 class="h4 my-0 float-left">Metadata</h4>
-				</div>
-				<div class="card-body float-left">
-					<ul  class="pl-0 pt-1">
-						<cfif len(#one.coll_object_remarks#) gt 0>
-							<li>Remarks: #one.coll_object_remarks# </li>
-						</cfif>
-						<li> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
-						<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
-							<li> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
-						</cfif>
-						<cfif len(#one.flags#) is not 0>
-							<li> Missing (flags): #one.flags# </li>
-						</cfif>
-						<cfif len(#one.encumbranceDetail#) is not 0>
-							<li> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
-						</cfif>
-					</ul>
-				</div>
-			</div>
-		</cfif>
-	</cfif>
+			<!--- end of two column section --->
 			
-		</div><!--- end of two column section --->						
-<!---		<div class="one-column">--->
-
-
-
-
-	</div>
-		<cfif oneOfUs is 1>
-			</form>
-		</cfif>
-
-	</div>
-
-</cfoutput>
+			<cfif oneOfUs is 1>
+				</form>
+			</cfif>
+		</div>
+	</cfoutput>
 	</div>
 </section>
