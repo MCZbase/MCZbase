@@ -3536,6 +3536,21 @@ function gridLoaded(gridId, searchType) {
 		</div>
 	</div>	
 	</div><!--- overlaycontainer --->
-	<script language="text/javascript" src="/shared/js/tabs.js"></script>												
+<script>
+//This adds keyboard function that pressing an arrow left or arrow right from the tabs toggle the tabs.
+$("li a[role='tab']").keydown(function(ev) {
+if ((ev.which ==39)||(ev.which ==37)) {
+ var selected= $(this).attr("aria-selected");
+ if (selected =="true"){
+   $("li a[aria-selected='false']").attr("aria-selected","true").focus() ;
+   $(this).attr("aria-selected","false");
+   var tabpanid= $("li[aria-selected='true']").attr("aria-controls");
+   var tabpan = $("#"+tabpanid);
+   $("div[role='tabpanel']").attr("aria-hidden","true");
+   tabpan.attr("aria-hidden","false");
+   }
+}
+});
+</script>
 </cfoutput>
 <cfinclude template="/shared/_footer.cfm">
