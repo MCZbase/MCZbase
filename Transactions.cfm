@@ -3697,7 +3697,7 @@ function gridLoaded(gridId, searchType) {
     tab.setAttribute('aria-selected', 'true');
 
     // Get the value of aria-controls (which is an ID)
-    var controls = tab.getAttribute('aria-controls');
+    var controls = tab.getAttribute('href');
 
     // Remove hidden attribute from tab panel to make it visible
     document.getElementById(controls).removeAttribute('hidden');
