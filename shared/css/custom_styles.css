@@ -1037,7 +1037,7 @@ table.inputTable tr {
 }
 .tab-card-header > .nav-tabs > li > button.active:focus,
 .tab-card-header > .nav-tabs > li > button.active {
-    border-top: 3px solid #495057;
+    border-top: 3px solid #ffffff;
 }
 .tab-card-header > .nav-tabs > li > button:focus, .tab-card-header > .nav-tabs > li > button:hover {
     border-top: 3px solid #007bff;
