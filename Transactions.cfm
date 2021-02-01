@@ -3684,41 +3684,41 @@ function gridLoaded(gridId, searchType) {
     };
   };
 
-  // Activates any given tab panel
-  function activateTab (tab, setFocus) {
-    setFocus = setFocus || true;
-    // Deactivate all other tabs
-    deactivateTabs();
-
-    // Remove tabindex attribute
-    tab.removeAttribute('tabindex');
-
-    // Set the tab as selected
-    tab.setAttribute('aria-selected', 'true');
-
-    // Get the value of aria-controls (which is an ID)
-    var controls = tab.getAttribute('aria-controls');
-
-    // Remove hidden attribute from tab panel to make it visible
-    document.getElementById(controls).removeAttribute('hidden');
-
-    // Set focus when required
-    if (setFocus) {
-      tab.focus();
-    };
-  };
-
-  // Deactivate all tabs and tab panels
-  function deactivateTabs () {
-    for (t = 0; t < tabs.length; t++) {
-      tabs[t].setAttribute('tabindex', '-1');
-      tabs[t].setAttribute('aria-selected', 'false');
-    };
-
-    for (##tabContentDiv = 0; div < panels.length; ##tabContentDiv++) {
-      panels[##tabContentDiv].setAttribute('hidden', 'hidden');
-    };
-  };
+//  // Activates any given tab panel
+//  function activateTab (tab, setFocus) {
+//    setFocus = setFocus || true;
+//    // Deactivate all other tabs
+//    deactivateTabs();
+//
+//    // Remove tabindex attribute
+//    tab.removeAttribute('tabindex');
+//
+//    // Set the tab as selected
+//    tab.setAttribute('aria-selected', 'true');
+//
+//    // Get the value of aria-controls (which is an ID)
+//    var controls = tab.getAttribute('aria-controls');
+//
+//    // Remove hidden attribute from tab panel to make it visible
+//    document.getElementById(controls).removeAttribute('hidden');
+//
+//    // Set focus when required
+//    if (setFocus) {
+//      tab.focus();
+//    };
+//  };
+//
+//  // Deactivate all tabs and tab panels
+//  function deactivateTabs () {
+//    for (t = 0; t < tabs.length; t++) {
+//      tabs[t].setAttribute('tabindex', '-1');
+//      tabs[t].setAttribute('aria-selected', 'false');
+//    };
+//
+//    for (div = 0; div < panels.length; div++) {
+//      panels[div].setAttribute('hidden', 'hidden');
+//    };
+//  };
 
   // Make a guess
   function focusFirstTab () {
@@ -3730,8 +3730,55 @@ function gridLoaded(gridId, searchType) {
     tabs[tabs.length - 1].focus();
   };
 
-
-
+//  // Detect if a tab is deletable
+//  function determineDeletable (event) {
+//    target = event.target;
+//
+//    if (target.getAttribute('data-deletable') !== null) {
+//      // Delete target tab
+//      deleteTab(event, target);
+//
+//      // Update arrays related to tabs widget
+//      generateArrays();
+//
+//      // Activate the closest tab to the one that was just deleted
+//      if (target.index - 1 < 0) {
+//        activateTab(tabs[0]);
+//      }
+//      else {
+//        activateTab(tabs[target.index - 1]);
+//      };
+//    };
+//  };
+//
+//  // Deletes a tab and its panel
+//  function deleteTab (event) {
+//    var target = event.target;
+//    var panel = document.getElementById(target.getAttribute('aria-controls'));
+//
+//    target.parentElement.removeChild(target);
+//    panel.parentElement.removeChild(panel);
+//  };
+//
+//  // Determine whether there should be a delay
+//  // when user navigates with the arrow keys
+//  function determineDelay () {
+//    var hasDelay = tablist.hasAttribute('data-delay');
+//    var delay = 0;
+//
+//    if (hasDelay) {
+//      var delayValue = tablist.getAttribute('data-delay');
+//      if (delayValue) {
+//        delay = delayValue;
+//      }
+//      else {
+//        // If no value is specified, default to 300ms
+//        delay = 300;
+//      };
+//    };
+//
+//    return delay;
+//  };
 }());
 	
 </script>
