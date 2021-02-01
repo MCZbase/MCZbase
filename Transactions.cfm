@@ -599,6 +599,7 @@ limitations under the License.
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div tabindex="0" class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab" aria-hidden="false">
+								<p>first test</p>
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -779,6 +780,7 @@ limitations under the License.
 							</div>
 							<!--- Loan search tab panel --->
 							<div tabindex="0" class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab" aria-hidden="true">
+								<p>another test</p>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1589,6 +1591,7 @@ limitations under the License.
 
 							<!--- Deaccession search tab panel --->
 							<div tabindex="0" class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
+								<p>Some test</p>
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -3715,8 +3718,8 @@ function gridLoaded(gridId, searchType) {
       tabs[t].setAttribute('aria-selected', 'false');
     }
 
-    for (var form = 0; form < panels.length; form++) {
-      panels[form].classList.add('is-hidden');
+    for (var p = 0; p < panels.length; p++) {
+      panels[p].classList.add('is-hidden');
     }
   }
 
