@@ -576,13 +576,13 @@ limitations under the License.
 						</cfswitch>
 						<!--- Tab header div --->
 						<div class="card-header tab-card-header pb-0">
-							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist" aria-label="transaction forms">
-								<button class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
+							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
+								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
 									<a class="nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</a> 
-								</button>
-								<button class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
+								</li>
+								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
 									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="loanTab" aria-selected="false" >Loans</a> 	
-								</button>
+								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
 									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="accnTab" aria-selected="false" >Accessions</a> 	
 								</li>
@@ -3536,7 +3536,6 @@ function gridLoaded(gridId, searchType) {
 		</div>
 	</div>	
 	</div><!--- overlaycontainer --->
-<script type="text/javascript" src="/shared/js/tabs.js"></script>
+	<script language="text/javascript" src="/shared/js/tabs.js"></script>												
 </cfoutput>
-														
 <cfinclude template="/shared/_footer.cfm">
