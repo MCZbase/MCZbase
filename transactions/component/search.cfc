@@ -181,8 +181,8 @@ limitations under the License.
 				<!--- Links for integration on production --->
 				<cfswitch expression="#search.transaction_type#">
 					<!--- NOTE: Leading / is included below in id_link assembly --->
-					<cfcase value="loan"><cfset targetform = "/transactions/Loan.cfm?action=editLoan&"></cfcase>
-					<cfcase value="accn"><cfset targetform = "/transactions/Accession.cfm?action=edit&"></cfcase>
+					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
 					<cfcase value="borrow"><cfset targetform = "Borrow.cfm?action=edit&"></cfcase>
 					<cfcase value="deaccession"><cfset targetform = "Deaccession.cfm?action=editDeacc&"></cfcase>
 				</cfswitch>
@@ -190,6 +190,7 @@ limitations under the License.
 				<!--- Links for redesign --->
 				<cfswitch expression="#search.transaction_type#">
 					<cfcase value="loan"><cfset targetform = "transactions/Loan.cfm?action=editLoan&"></cfcase>
+					<cfcase value="accn"><cfset targetform = "transactions/Accession.cfm?action=edit&"></cfcase>
 					<cfdefaultcase ><cfset targetform = "transaction.cfm?"></cfdefaultcase>
 				</cfswitch>
 			</cfif>
