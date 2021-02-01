@@ -3697,7 +3697,7 @@ function gridLoaded(gridId, searchType) {
     tab.setAttribute('aria-selected', 'true');
 
     // Get the value of aria-controls (which is an ID)
-    var controls = tab.getAttribute('href');
+    var controls = tab.getAttribute('aria-controls');
 
     // Remove hidden attribute from tab panel to make it visible
     document.getElementById(controls).removeAttribute('hidden');
@@ -3715,8 +3715,8 @@ function gridLoaded(gridId, searchType) {
       tabs[t].setAttribute('aria-selected', 'false');
     };
 
-    for (tabpanel = 0; tabpanel < panels.length; tabpanel++) {
-      panels[tabpanel].setAttribute('hidden', 'hidden');
+    for (tabpanel = 0; p < panels.length; p++) {
+      panels[p].setAttribute('hidden', 'hidden');
     };
   };
 
