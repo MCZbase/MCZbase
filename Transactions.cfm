@@ -3708,17 +3708,17 @@ function gridLoaded(gridId, searchType) {
     };
   };
 
-//  // Deactivate all tabs and tab panels
-//  function deactivateTabs () {
-//    for (t = 0; t < tabs.length; t++) {
-//      tabs[t].setAttribute('tabindex', '-1');
-//      tabs[t].setAttribute('aria-selected', 'false');
-//    };
-//
-//    for (div = 0; div < panels.length; div++) {
-//      panels[div].setAttribute('hidden', 'hidden');
-//    };
-//  };
+  // Deactivate all tabs and tab panels
+  function deactivateTabs () {
+    for (t = 0; t < tabs.length; t++) {
+      tabs[t].setAttribute('tabindex', '-1');
+      tabs[t].setAttribute('aria-selected', 'false');
+    };
+
+    for (div = 0; div < panels.length; div++) {
+      panels[div].setAttribute('hidden', 'hidden');
+    };
+  };
 
   // Make a guess
   function focusFirstTab () {
