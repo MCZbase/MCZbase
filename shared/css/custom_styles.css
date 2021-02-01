@@ -1609,8 +1609,8 @@ input#readMore_check_id {display:none;}
 	opacity: 0.99;
 	display:none;
 }
-
-.tab-card-header > .nav-tabs > li > a.active:focus {
+.tab-card-header > .nav-tabs > li > a.active:focus,
+.tab-card-header > .nav-tabs > li > a.active {
     border-top: 2px solid red;
 }
 .tab-card-header > .nav-tabs > li > a:focus {
