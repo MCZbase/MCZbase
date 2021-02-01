@@ -575,7 +575,7 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0">
+						<nav class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-12 col-md-1 col-xl-1 px-1" role="presentation"> 
 									<a class="nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</a> 
@@ -593,12 +593,12 @@ limitations under the License.
 									<a class="nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="borrowsTab" aria-selected="false" >Borrows</a> 	
 								</li>
 							</ul>
-						</div>
+						</nav>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
-							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
+							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab" aria-hidden="false">
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
