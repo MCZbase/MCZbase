@@ -1611,10 +1611,10 @@ input#readMore_check_id {display:none;}
 }
 .tab-card-header > .nav-tabs > li > a.active:focus,
 .tab-card-header > .nav-tabs > li > a.active {
-    border-top: 2px solid red;
+    border-top: 3px solid #ffdb6d;
 }
 .tab-card-header > .nav-tabs > li > a:focus {
-    border-top: 2px solid blue;
+    border-top: 3px solid #007bff;
 }
 
 
