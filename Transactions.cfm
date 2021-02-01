@@ -578,19 +578,19 @@ limitations under the License.
 						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
-									<button class="nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</button> 
+									<button class="w-100 nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</button> 
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
-									<button class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="loanTab" aria-selected="false" >Loans</button> 	
+									<button class="w-100 nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="loanTab" aria-selected="false" >Loans</button> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="accnTab" aria-selected="false" >Accessions</button> 	
+									<button class="w-100 nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="accnTab" aria-selected="false" >Accessions</button> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" href="##deaccnTab" role="tab" aria-controls="deaccnTab" aria-selected="false" >Deaccessions</button> 	
+									<button class="w-100 nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" href="##deaccnTab" role="tab" aria-controls="deaccnTab" aria-selected="false" >Deaccessions</button> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="borrowsTab" aria-selected="false" >Borrows</button> 	
+									<button class="w-100 nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="borrowsTab" aria-selected="false" >Borrows</button> 	
 								</li>
 							</ul>
 						</div>
