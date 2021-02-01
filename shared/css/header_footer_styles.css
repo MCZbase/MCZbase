@@ -50,7 +50,7 @@ nav.navbar {  /* makes the navbar text slightly smaller than default and give pa
 	width: 1.15rem;   /* responsive menu toggle styling -- makes it smaller since our navbar is smaller */
 	height: 1.15rem;
 }
-.nav-tabs .nav-link, .navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
+.navbar-nav .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
 	display: block;
 	padding: .25rem 1rem;
 	color: rgba(0,0,0,.7)!important;

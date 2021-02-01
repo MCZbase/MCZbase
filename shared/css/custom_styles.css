@@ -1021,6 +1021,11 @@ table.inputTable tr {
 	outline:0;
 	margin-bottom: -1px;
 }
+.nav-tabs .nav-link {  /* this displays the anchor <a> as a block instead of a line (allowing top/bottom styling, wrapping, etc.)--makes dropdown work */
+	display: block;
+	padding: .25rem 1rem;
+	color: rgba(0,0,0,.7)!important;
+}
 .tab-card-header > .nav-tabs > li > button:hover {
 	color: #3E657D;
 	outline:0;
