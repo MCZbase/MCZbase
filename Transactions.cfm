@@ -3715,8 +3715,8 @@ function gridLoaded(gridId, searchType) {
       tabs[t].setAttribute('aria-selected', 'false');
     }
 
-    for (var p = 0; p < panels.length; p++) {
-      panels[p].classList.add('is-hidden');
+    for (var form = 0; form < panels.length; form++) {
+      panels[form].classList.add('is-hidden');
     }
   }
 
@@ -3731,34 +3731,34 @@ function gridLoaded(gridId, searchType) {
   }
 
   // Detect if a tab is deletable
-  function determineDeletable(event) {
-    var target = event.target;
-
-    if (target.getAttribute('data-deletable') !== null) {
-      // Delete target tab
-      deleteTab(event, target);
-
-      // Update arrays related to tabs widget
-      generateArrays();
-
-      // Activate the closest tab to the one that was just deleted
-      if (target.index - 1 < 0) {
-        activateTab(tabs[0]);
-      } else {
-        activateTab(tabs[target.index - 1]);
-      }
-    }
-  }
+//  function determineDeletable(event) {
+//    var target = event.target;
+//
+//    if (target.getAttribute('data-deletable') !== null) {
+//      // Delete target tab
+//      deleteTab(event, target);
+//
+//      // Update arrays related to tabs widget
+//      generateArrays();
+//
+//      // Activate the closest tab to the one that was just deleted
+//      if (target.index - 1 < 0) {
+//        activateTab(tabs[0]);
+//      } else {
+//        activateTab(tabs[target.index - 1]);
+//      }
+//    }
+//  }
 
   // Deletes a tab and its panel
-  function deleteTab(event) {
-    var target = event.target;
-    var panel = document.getElementById(target.getAttribute('aria-controls'));
-
-    target.parentElement.removeChild(target);
-    panel.parentElement.removeChild(panel);
-  }
-})();
+//  function deleteTab(event) {
+//    var target = event.target;
+//    var panel = document.getElementById(target.getAttribute('aria-controls'));
+//
+//    target.parentElement.removeChild(target);
+//    panel.parentElement.removeChild(panel);
+//  }
+//})();
 
 	
 </script>
