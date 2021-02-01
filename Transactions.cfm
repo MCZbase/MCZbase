@@ -3715,8 +3715,8 @@ function gridLoaded(gridId, searchType) {
       tabs[t].setAttribute('aria-selected', 'false');
     };
 
-    for (p = 0; p < panels.length; p++) {
-      panels[p].setAttribute('hidden', 'hidden');
+    for (div = 0; div < panels.length; div++) {
+      panels[div].setAttribute('hidden', 'hidden');
     };
   };
 
