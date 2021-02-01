@@ -596,7 +596,7 @@ limitations under the License.
 						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
-						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
+						<div tabindex="0" class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div tabindex="0" class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab" >
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
