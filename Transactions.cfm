@@ -3773,7 +3773,7 @@ function gridLoaded(gridId, searchType) {
       }
       else {
         // If no value is specified, default to 300ms
-        delay = 300;
+        delay = 0;
       };
     };
 
