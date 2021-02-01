@@ -3731,34 +3731,34 @@ function gridLoaded(gridId, searchType) {
   };
 
   // Detect if a tab is deletable
-  function determineDeletable (event) {
-    target = event.target;
-
-    if (target.getAttribute('data-deletable') !== null) {
-      // Delete target tab
-      deleteTab(event, target);
-
-      // Update arrays related to tabs widget
-      generateArrays();
-
-      // Activate the closest tab to the one that was just deleted
-      if (target.index - 1 < 0) {
-        activateTab(tabs[0]);
-      }
-      else {
-        activateTab(tabs[target.index - 1]);
-      };
-    };
-  };
+//  function determineDeletable (event) {
+//    target = event.target;
+//
+//    if (target.getAttribute('data-deletable') !== null) {
+//      // Delete target tab
+//      deleteTab(event, target);
+//
+//      // Update arrays related to tabs widget
+//      generateArrays();
+//
+//      // Activate the closest tab to the one that was just deleted
+//      if (target.index - 1 < 0) {
+//        activateTab(tabs[0]);
+//      }
+//      else {
+//        activateTab(tabs[target.index - 1]);
+//      };
+//    };
+//  };
 
   // Deletes a tab and its panel
-  function deleteTab (event) {
-    var target = event.target;
-    var panel = document.getElementById(target.getAttribute('aria-controls'));
-
-    target.parentElement.removeChild(target);
-    panel.parentElement.removeChild(panel);
-  };
+//  function deleteTab (event) {
+//    var target = event.target;
+//    var panel = document.getElementById(target.getAttribute('aria-controls'));
+//
+//    target.parentElement.removeChild(target);
+//    panel.parentElement.removeChild(panel);
+//  };
 
   // Determine whether there should be a delay
   // when user navigates with the arrow keys
