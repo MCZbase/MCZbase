@@ -4318,7 +4318,8 @@ limitations under the License.
 								aria-label="Create a temporary address" 
 								style="display: none;"
 								value="Create Temporary Address">Create Temporary Address</button>
-							<span id="addTempAddressLabel" class="d-inline-flex">Select agent to add temporary address.</span>
+							<!--- note, make sure classes added to either of addTempAddressButton or addTempAddressLabel don't override display:none --->
+							<span id="addTempAddressLabel">Select agent to add temporary address.</span>
 							<div id="tempAddressDialog"></div>
 							<script>
 								function updateOfShipmentAgentID() { 
