@@ -1609,11 +1609,12 @@ input#readMore_check_id {display:none;}
 	opacity: 0.99;
 	display:none;
 }
+.tab-card-header > .nav-tabs > li > a { border-top: 3px solid #deebec;}
 .tab-card-header > .nav-tabs > li > a.active:focus,
 .tab-card-header > .nav-tabs > li > a.active {
     border-top: 3px solid #495057;
 }
-.tab-card-header > .nav-tabs > li > a:focus {
+.tab-card-header > .nav-tabs > li > a:focus, .tab-card-header > .nav-tabs > li > a:hover {
     border-top: 3px solid #007bff;
 }
 
