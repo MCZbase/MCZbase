@@ -3545,7 +3545,7 @@ if ((ev.which ==39)||(ev.which ==37)) {
    $("li a[aria-selected='false']").attr("aria-selected","true").focus() ;
    $(this).attr("aria-selected","false");
    var tabpanid= $("li[aria-selected='true']").attr("aria-controls");
-   var tabpan = $("#"+tabpanid);
+   var tabpan = $("##"+tabpanid);
    $("div[role='tabpanel']").attr("aria-hidden","true");
    tabpan.attr("aria-hidden","false");
    }
