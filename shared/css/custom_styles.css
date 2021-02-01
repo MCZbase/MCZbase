@@ -1015,7 +1015,7 @@ table.inputTable tr {
 	background-color: #ffffff; 
 	padding: .5rem 0;
 }
-.header > .nav-tabs > li > a.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+/*.header > .nav-tabs > li > a.active, .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
 	background-color: #f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline:0;
@@ -1047,7 +1047,7 @@ table.inputTable tr {
 	border: 4px solid #3e657d;
 	 border-top: none;
 	border-radius: 0 0 4px 4px;
-}
+}*/
 /*Start of W3C test*/
 .tabs {
   width: 20em;
