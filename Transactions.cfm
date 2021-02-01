@@ -803,7 +803,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div tabindex="0" class="tab-pane #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab" hidden="">
+							<div tabindex="0" class="tab-pane #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab" >
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1187,7 +1187,7 @@ limitations under the License.
 							</div><!---tab-pane loan search---> 
 
 							<!--- Accession search tab panel --->
-							<div tabindex="0" class="tab-pane #accnTabShow# #accnTabActive# py-3 mx-0" id="accnTab" role="tabpanel" aria-labelledby="accns-tab" hidden="">
+							<div tabindex="0" class="tab-pane #accnTabShow# #accnTabActive# py-3 mx-0" id="accnTab" role="tabpanel" aria-labelledby="accns-tab" >
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1613,7 +1613,7 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<div tabindex="0" class="tab-pane #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab" hidden="">
+							<div tabindex="0" class="tab-pane #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab" >
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2044,7 +2044,7 @@ limitations under the License.
 							</div><!---tab-pane deaccession search---> 
 
 							<!--- Borrow search tab panel --->
-							<div tabindex="0" class="tab-pane #borrowTabShow# #borrowTabActive# py-3 mx-0" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab" hidden="">
+							<div tabindex="0" class="tab-pane #borrowTabShow# #borrowTabActive# py-3 mx-0" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab" >
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
