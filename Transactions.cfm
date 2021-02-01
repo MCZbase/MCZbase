@@ -578,19 +578,19 @@ limitations under the License.
 						<div class="card-header tab-card-header pb-0">
 							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
 								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
-									<button class="w-100 nav-link px-3 #allTabActive#" type="button" id="all-tab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</button> 
+									<a class="nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" aria-selected="true" >All</a> 
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
-									<button class="w-100 nav-link px-3 #loanTabActive#" type="button" id="loans-tab" data-toggle="tab" role="tab" aria-controls="loanTab" aria-selected="false" >Loans</button> 	
+									<a class="nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="loanTab" aria-selected="false" >Loans</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #accnTabActive#" type="button" id="accns-tab" data-toggle="tab" role="tab" aria-controls="accnTab" aria-selected="false" >Accessions</button> 	
+									<a class="nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="accnTab" aria-selected="false" >Accessions</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #deaccnTabActive#" type="button" id="deaccns-tab" data-toggle="tab" role="tab" aria-controls="deaccnTab" aria-selected="false" >Deaccessions</button> 	
+									<a class="nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" href="##deaccnTab" role="tab" aria-controls="deaccnTab" aria-selected="false" >Deaccessions</a> 	
 								</li>
 								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #borrowTabActive#" type="button" id="borrows-tab" data-toggle="tab" role="tab" aria-controls="borrowsTab" aria-selected="false" >Borrows</button> 	
+									<a class="nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="borrowsTab" aria-selected="false" >Borrows</a> 	
 								</li>
 							</ul>
 						</div>
@@ -598,8 +598,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
-							<div tabindex="0" class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab" aria-hidden="false">
-								<p>first test</p>
+							<div class="tab-pane fade #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab">
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -779,8 +778,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div tabindex="0" class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab" aria-hidden="true">
-								<p>another test</p>
+							<div class="tab-pane fade #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab">
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1164,7 +1162,7 @@ limitations under the License.
 							</div><!---tab-pane loan search---> 
 
 							<!--- Accession search tab panel --->
-							<div tabindex="0" class="tab-pane fade #accnTabShow# #accnTabActive# py-3 mx-0" id="accnTab" role="tabpanel" aria-labelledby="accns-tab">
+							<div class="tab-pane fade #accnTabShow# #accnTabActive# py-3 mx-0" id="accnTab" role="tabpanel" aria-labelledby="accns-tab">
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1590,8 +1588,7 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<div tabindex="0" class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
-								<p>Some test</p>
+							<div class="tab-pane fade #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab">
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2022,7 +2019,7 @@ limitations under the License.
 							</div><!---tab-pane deaccession search---> 
 
 							<!--- Borrow search tab panel --->
-							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-0" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab" aria-hidden="true">
+							<div class="tab-pane fade #borrowTabShow# #borrowTabActive# py-3 mx-0" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab">
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3541,12 +3538,9 @@ function gridLoaded(gridId, searchType) {
 	</div><!--- overlaycontainer --->
 <script>
 /*
- *   This content is licensed according to the W3C Software License at
- *   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
- */
-
-'use strict';
-
+*   This content is licensed according to the W3C Software License at
+*   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
+*/
 (function () {
   var tablist = document.querySelectorAll('[role="tablist"]')[0];
   var tabs;
@@ -3554,10 +3548,10 @@ function gridLoaded(gridId, searchType) {
 
   generateArrays();
 
-  function generateArrays() {
+  function generateArrays () {
     tabs = document.querySelectorAll('[role="tab"]');
     panels = document.querySelectorAll('[role="tabpanel"]');
-  }
+  };
 
   // For easy reference
   var keys = {
@@ -3569,7 +3563,7 @@ function gridLoaded(gridId, searchType) {
     down: 40,
     delete: 46,
     enter: 13,
-    space: 32,
+    space: 32
   };
 
   // Add or subtract depending on key pressed
@@ -3577,31 +3571,31 @@ function gridLoaded(gridId, searchType) {
     37: -1,
     38: -1,
     39: 1,
-    40: 1,
+    40: 1
   };
 
   // Bind listeners
-  for (var i = 0; i < tabs.length; ++i) {
+  for (i = 0; i < tabs.length; ++i) {
     addListeners(i);
-  }
+  };
 
-  function addListeners(index) {
+  function addListeners (index) {
     tabs[index].addEventListener('click', clickEventListener);
     tabs[index].addEventListener('keydown', keydownEventListener);
     tabs[index].addEventListener('keyup', keyupEventListener);
 
     // Build an array with all tabs (<button>s) in it
     tabs[index].index = index;
-  }
+  };
 
   // When a tab is clicked, activateTab is fired to activate it
-  function clickEventListener(event) {
+  function clickEventListener (event) {
     var tab = event.target;
     activateTab(tab, false);
-  }
+  };
 
   // Handle keydown on tabs
-  function keydownEventListener(event) {
+  function keydownEventListener (event) {
     var key = event.keyCode;
 
     switch (key) {
@@ -3622,11 +3616,11 @@ function gridLoaded(gridId, searchType) {
       case keys.down:
         determineOrientation(event);
         break;
-    }
-  }
+    };
+  };
 
   // Handle keyup on tabs
-  function keyupEventListener(event) {
+  function keyupEventListener (event) {
     var key = event.keyCode;
 
     switch (key) {
@@ -3641,13 +3635,13 @@ function gridLoaded(gridId, searchType) {
       case keys.space:
         activateTab(event.target);
         break;
-    }
-  }
+    };
+  };
 
-  // When a tablist’s aria-orientation is set to vertical,
+  // When a tablistâ€™s aria-orientation is set to vertical,
   // only up and down arrow should function.
   // In all other cases only left and right arrow function.
-  function determineOrientation(event) {
+  function determineOrientation (event) {
     var key = event.keyCode;
     var vertical = tablist.getAttribute('aria-orientation') == 'vertical';
     var proceed = false;
@@ -3656,21 +3650,22 @@ function gridLoaded(gridId, searchType) {
       if (key === keys.up || key === keys.down) {
         event.preventDefault();
         proceed = true;
-      }
-    } else {
+      };
+    }
+    else {
       if (key === keys.left || key === keys.right) {
         proceed = true;
-      }
-    }
+      };
+    };
 
     if (proceed) {
       switchTabOnArrowPress(event);
-    }
-  }
+    };
+  };
 
   // Either focus the next, previous, first, or last tab
   // depending on key pressed
-  function switchTabOnArrowPress(event) {
+  function switchTabOnArrowPress (event) {
     var pressed = event.keyCode;
 
     if (direction[pressed]) {
@@ -3678,17 +3673,19 @@ function gridLoaded(gridId, searchType) {
       if (target.index !== undefined) {
         if (tabs[target.index + direction[pressed]]) {
           tabs[target.index + direction[pressed]].focus();
-        } else if (pressed === keys.left || pressed === keys.up) {
-          focusLastTab();
-        } else if (pressed === keys.right || pressed == keys.down) {
-          focusFirstTab();
         }
-      }
-    }
-  }
+        else if (pressed === keys.left || pressed === keys.up) {
+          focusLastTab();
+        }
+        else if (pressed === keys.right || pressed == keys.down) {
+          focusFirstTab();
+        };
+      };
+    };
+  };
 
   // Activates any given tab panel
-  function activateTab(tab, setFocus) {
+  function activateTab (tab, setFocus) {
     setFocus = setFocus || true;
     // Deactivate all other tabs
     deactivateTabs();
@@ -3702,67 +3699,87 @@ function gridLoaded(gridId, searchType) {
     // Get the value of aria-controls (which is an ID)
     var controls = tab.getAttribute('aria-controls');
 
-    // Remove is-hidden class from tab panel to make it visible
-    document.getElementById(controls).classList.remove('is-hidden');
+    // Remove hidden attribute from tab panel to make it visible
+    document.getElementById(controls).removeAttribute('hidden');
 
     // Set focus when required
     if (setFocus) {
       tab.focus();
-    }
-  }
+    };
+  };
 
   // Deactivate all tabs and tab panels
-  function deactivateTabs() {
-    for (var t = 0; t < tabs.length; t++) {
+  function deactivateTabs () {
+    for (t = 0; t < tabs.length; t++) {
       tabs[t].setAttribute('tabindex', '-1');
       tabs[t].setAttribute('aria-selected', 'false');
-    }
+    };
 
-    for (var p = 0; p < panels.length; p++) {
-      panels[p].classList.add('is-hidden');
-    }
-  }
+    for (p = 0; p < panels.length; p++) {
+      panels[p].setAttribute('hidden', 'hidden');
+    };
+  };
 
   // Make a guess
-  function focusFirstTab() {
+  function focusFirstTab () {
     tabs[0].focus();
-  }
+  };
 
   // Make a guess
-  function focusLastTab() {
+  function focusLastTab () {
     tabs[tabs.length - 1].focus();
-  }
+  };
 
   // Detect if a tab is deletable
-//  function determineDeletable(event) {
-//    var target = event.target;
-//
-//    if (target.getAttribute('data-deletable') !== null) {
-//      // Delete target tab
-//      deleteTab(event, target);
-//
-//      // Update arrays related to tabs widget
-//      generateArrays();
-//
-//      // Activate the closest tab to the one that was just deleted
-//      if (target.index - 1 < 0) {
-//        activateTab(tabs[0]);
-//      } else {
-//        activateTab(tabs[target.index - 1]);
-//      }
-//    }
-//  }
+  function determineDeletable (event) {
+    target = event.target;
+
+    if (target.getAttribute('data-deletable') !== null) {
+      // Delete target tab
+      deleteTab(event, target);
+
+      // Update arrays related to tabs widget
+      generateArrays();
+
+      // Activate the closest tab to the one that was just deleted
+      if (target.index - 1 < 0) {
+        activateTab(tabs[0]);
+      }
+      else {
+        activateTab(tabs[target.index - 1]);
+      };
+    };
+  };
 
   // Deletes a tab and its panel
-//  function deleteTab(event) {
-//    var target = event.target;
-//    var panel = document.getElementById(target.getAttribute('aria-controls'));
-//
-//    target.parentElement.removeChild(target);
-//    panel.parentElement.removeChild(panel);
-//  }
-//})();
+  function deleteTab (event) {
+    var target = event.target;
+    var panel = document.getElementById(target.getAttribute('aria-controls'));
 
+    target.parentElement.removeChild(target);
+    panel.parentElement.removeChild(panel);
+  };
+
+  // Determine whether there should be a delay
+  // when user navigates with the arrow keys
+  function determineDelay () {
+    var hasDelay = tablist.hasAttribute('data-delay');
+    var delay = 0;
+
+    if (hasDelay) {
+      var delayValue = tablist.getAttribute('data-delay');
+      if (delayValue) {
+        delay = delayValue;
+      }
+      else {
+        // If no value is specified, default to 300ms
+        delay = 300;
+      };
+    };
+
+    return delay;
+  };
+}());
 	
 </script>
 </cfoutput>
