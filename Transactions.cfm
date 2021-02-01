@@ -3716,7 +3716,7 @@ function gridLoaded(gridId, searchType) {
     };
 
     for (tabpanel = 0; div < panels.length; div++) {
-      panels[div].setAttribute('', 'hidden');
+      panels[div].setAttribute('hidden', 'hidden');
     };
   };
 
