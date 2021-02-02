@@ -1204,6 +1204,7 @@ limitations under the License.
 					</div>
 				</cfif>
 			</div>
+									<!--- start of column three --->
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!------------------------------------ locality and collecting event------------------------------------------->
 				
@@ -1213,9 +1214,9 @@ limitations under the License.
 						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 					</div>
 					<div class="card-body px-0"> 
-						<div class="col-5 pl-0 pr-3 float-right">
+						<div class="col-5 pl-0 pr-3 mb-2 float-right">
 						<!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>---> 
-						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-3" alt="map placeholder"/>
+						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white mt-2" alt="map placeholder"/>
 						<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -1392,12 +1393,36 @@ limitations under the License.
 										<cfelse>
 										#accession#
 									</cfif>
-									<cfif accnMedia.recordcount gt 0>
+								<!---	<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
 											<p> #media_type# (#mime_type#) <br>
 												<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
 												#descr# </p>
-										</cfloop>
+										</cfloop>--->
+							<cfif accnMedia.recordcount gt 0>
+								<cfloop query="accnMedia">
+									<cfset puri=getMediaPreview(preview_uri,media_type)>
+									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+											media_label,
+											label_value
+									from
+											media_labels
+									where
+											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+						</cfquery>
+									<cfquery name="desc" dbtype="query">
+							select label_value from labels where media_label='description'
+						</cfquery>
+									<cfset alt="Media Preview Image">
+									<cfif desc.recordcount is 1>
+										<cfset alt=desc.label_value>
+									</cfif>
+									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
+									<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline"> <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> <span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #descr# </span> </div>
+								</cfloop>
+								</div>
+							</cfif>
 									</cfif>
 								</li>
 								
@@ -1537,7 +1562,7 @@ limitations under the License.
 					</cfif>
 				</cfif>
 			</div>
-			<!--- end of two column section --->
+			<!--- end of column 3 --->
 			
 			<cfif oneOfUs is 1>
 				</form>
