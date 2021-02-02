@@ -1212,10 +1212,10 @@ limitations under the License.
 						<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
 						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 					</div>
-					<div class="card-body px-3"> 
-						<div class="col-6 px-0 float-right">
+					<div class="card-body px-0"> 
+						<div class="col-5 px-3 float-right">
 						<!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>---> 
-						<img src="/specimens/images/map.png" height="auto" class="w-100" alt="map placeholder"/>
+						<img src="/specimens/images/map.png" height="auto" class="w-100 p-1 bg-white my-2 mr-4" alt="map placeholder"/>
 						<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
