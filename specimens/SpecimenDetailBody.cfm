@@ -1393,36 +1393,12 @@ limitations under the License.
 										<cfelse>
 										#accession#
 									</cfif>
-								<!---	<cfif accnMedia.recordcount gt 0>
+									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
 											<p> #media_type# (#mime_type#) <br>
 												<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
 												#descr# </p>
-										</cfloop>--->
-							<cfif accnMedia.recordcount gt 0>
-								<cfloop query="accnMedia">
-									
-									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-											media_label,
-											label_value
-									from
-											media_labels
-									where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
-									<cfquery name="desc" dbtype="query">
-							select label_value from labels where media_label='description'
-						</cfquery>
-									<cfset alt="Media Preview Image">
-									<cfif desc.recordcount is 1>
-										<cfset alt=desc.label_value>
-									</cfif>
-									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
-									<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline"> <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> <span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #descr# </span> </div>
-								</cfloop>
-								</div>
-							</cfif>
+										</cfloop>
 									</cfif>
 								</li>
 								
