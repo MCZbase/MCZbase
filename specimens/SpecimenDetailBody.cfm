@@ -559,7 +559,10 @@ limitations under the License.
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!----------------------------- identifications ----------------------------------> 
 				<!---<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>---> 
-				<script type='text/javascript' src='/specimens/component/functions.cfc'></script> 
+<!---				<script type='text/javascript' src='/specimens/component/functions.cfc'></script> 
+				<script type="text/javascript">
+					  $( document ).ready(loadIdentifications(#identification_id#));
+				 </script>--->
 				<!---insert identification query--->
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				SELECT
@@ -589,9 +592,7 @@ limitations under the License.
 						<div class="dialog" title="Edit Identification (id: #identification_id#)">
 							<div id="identificationNewForm">Stuff here...</div>
 						</div>
-						<script type="text/javascript">
-					  $( document ).ready(loadIdentifications(#identification_id#));
-				  </script>
+				
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 					</div>
 					<div class="card-body float-left">
