@@ -996,7 +996,7 @@ limitations under the License.
 								</cfquery>
 													<cfloop query="sPart">
 														<tr>
-															<td><span class="d-block pl-2">#part_name# </span><span class="font-italic d-block">subsample</span></td>
+															<td><span class="d-block pl-2">#part_name# </span><span class="pl-2 font-italic d-block">subsample</span></td>
 															<td class="">#part_condition#</td>
 															<td class="">#part_disposition#</td>
 															<td class="">#lot_count#</td>
