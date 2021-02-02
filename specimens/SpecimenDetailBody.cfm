@@ -1397,7 +1397,7 @@ limitations under the License.
 										<cfloop query="accnMedia">
 											<p> #media_type# (#mime_type#) <br>
 												<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
-												#descr# </p>
+												#alt# </p>
 										</cfloop>
 									</cfif>
 								</li>
