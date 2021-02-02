@@ -1477,7 +1477,7 @@ limitations under the License.
 									</cfloop>
 									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
-											<h5>Loan History:</h5>
+											<h5 class="mb-1">Loan History:</h5>
 											<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
