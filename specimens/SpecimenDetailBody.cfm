@@ -1213,9 +1213,9 @@ limitations under the License.
 						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 					</div>
 					<div class="card-body px-3"> 
-						<div class="col-6 px-0">
+						<div class="col-6 px-0 float-right">
 						<!---          <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d8080317.756141501!2d121!3d-8.550948!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1600969815897!5m2!1sen!2sus" width="100%" height="auto" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>---> 
-						<img src="/specimens/images/map.png" height="auto" class="" alt="map placeholder"/>
+						<img src="/specimens/images/map.png" height="auto" class="w-100" alt="map placeholder"/>
 						<cfquery name="getLoc"	 datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select  spec_locality, geog_auth_rec_id from locality
 			where locality_id = <cfqueryparam value="#locality_id#" cfsqltype="CF_SQL_DECIMAL">
@@ -1239,8 +1239,8 @@ limitations under the License.
 							</cfif>
 						</cfif>
 							</div>
-							<div class="col-6 px-0">
-						<ul class="list-unstyled mx-0 px-3 py-1 mb-0">
+							<div class="col-6 px-0 float-left">
+						<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 							<cfif len(one.continent_ocean) gt 0>
 								<li class="list-group-item col-5 px-0"><em>Continent Ocean:</em></li>
 								<li class="list-group-item col-7 px-0">#one.continent_ocean#</li>
@@ -1278,9 +1278,11 @@ limitations under the License.
 								<li class="list-group-item col-5 px-0"><em>Quad:</em></li>
 								<li class="list-group-item col-7 px-0">#one.quad#</li>
 							</cfif>
+								</ul>
 							</div>
-							<div class="row">
-								<div class="col-12">
+				
+								<div class="col-12 float-left px-0">
+								<ul class="list-unstyled row mx-0 px-3 py-1 mb-0">
 							<cfif len(one.spec_locality) gt 0>
 								<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
 								<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
@@ -1328,7 +1330,7 @@ limitations under the License.
 							</cfif>
 						</ul>
 								</div>
-							</div>
+						
 					</div>
 				</div>
 				
