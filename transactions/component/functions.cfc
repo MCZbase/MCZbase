@@ -3057,7 +3057,7 @@ limitations under the License.
 					TRANSACTION_ID = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#transaction_id#'>
 					and transaction_type = 'loan'
 			</cfquery>
-			<cfif updateAccnCheck.ct NEQ 1>
+			<cfif updateLoanCheck.ct NEQ 1>
 				<cfthrow message = "Unable to update transaction. Provided transaction_id does not match a record in the trans table with a type of loan.">
 			</cfif>
 			<cfquery name="upTrans" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
