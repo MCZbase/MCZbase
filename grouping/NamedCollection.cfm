@@ -77,7 +77,7 @@ limitations under the License.
 									<form name="searchForm" id="searchForm">
 										<input type="hidden" name="method" value="getCollections" class="keeponclear">
 										<div class="form-row mb-2">
-											<div class="col-md-6">
+											<div class="col-md-5">
 												<label for="collection_name" class="data-entry-label" id="collection_name_label">Name for the group of cataloged items</label>
 												<input type="text" id="collection_name" name="collection_name" class="data-entry-input" value="#collection_name#" aria-labelledby="collection_name_label" >
 												<script>
@@ -86,9 +86,31 @@ limitations under the License.
 													});
 												</script>
 											</div>
-											<div class="col-md-6">
+											<div class="col-md-5">
 												<label for="description" class="data-entry-label" id="description_label">Description</label>
 												<input type="text" id="description" name="description" class="data-entry-input" value="#description#" aria-labelledby="description_label" >
+											</div>
+											<div class="col-md-2">
+												<label for="mask_fg" class="data-entry-label">Record Visibility</label>
+												<select name="mask_fg" value="mask_fg" class="data-entry-select">
+													<cfset masknullselect = 'selected="selected"'>
+													<cfset mask0select = "">
+													<cfset mask1select = "">
+													<cfif isDefined("mask_fg")>
+														<cfif mask_fg EQ 0>
+															<cfset masknullselect = "">
+															<cfset mask0select = 'selected="selected"'>
+															<cfset mask1select = "">
+														<cfelseif mask_fg EQ 1>
+															<cfset masknullselect = "">
+															<cfset mask0select = "">
+															<cfset mask1select = 'selected="selected"'>
+														</cfif>
+													</cfif>
+													<option value="" #masknullselect#></option>
+													<option value="0" #mask0select#>Public</option>
+													<option value="1" #mask1select#>Hidden</option>
+												</select>
 											</div>
 										</div>
 										<div class="form-row mb-2">
@@ -356,9 +378,17 @@ limitations under the License.
 							<form name="newUnderscoreCollection" id="newUnderscoreCollection" action="/grouping/NamedCollection.cfm" method="post" class="px-2">
 								<input type="hidden" id="action" name="action" value="saveNew" >
 								<div class="form-row mt-2 mb-2">
-									<div class="col-md-12">
+									<div class="col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" required aria-labelledby="collection_name_label" >
+									</div>
+									<div class="col-md-3">
+										<label for="mask_fg" class="data-entry-label">Record Visibility</label>
+										<select name="mask_fg" value="mask_fg" required class="data-entry-select reqdClr"> 
+											<option value="" selected="selected"></option>
+											<option value="0">Public</option>
+											<option value="1" selected="selected">Hidden</option>
+										</select>
 									</div>
 								</div>
 								<div class="form-row mb-2">
@@ -426,6 +456,9 @@ limitations under the License.
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,underscore_agent_id
 					</cfif>
+					<cfif isdefined("mask_fg")>
+						,mask_fg
+					</cfif>
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_name#">
 					<cfif isdefined("description")>
@@ -433,6 +466,9 @@ limitations under the License.
 					</cfif>
 					<cfif isdefined("underscore_agent_id") and len(underscore_agent_id) GT 0 >
 						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
+					</cfif>
+					<cfif isdefined("mask_fg")>
+						,<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 					</cfif>
 				)
 			</cfquery>
@@ -460,7 +496,8 @@ limitations under the License.
 						when underscore_agent_id is null then '[No Agent]'
 						else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
 						end
-					as agentname
+					as agentname,
+					mask_fg
 				from underscore_collection
 				where underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
 			</cfquery>
@@ -476,10 +513,22 @@ limitations under the License.
 								<input type="hidden" id="underscore_collection_id" name="underscore_collection_id" value="#underscore_collection_id#" >
 								<input type="hidden" id="method" name="method" value="saveUndColl" >
 								<div class="form-row mb-2">
-									<div class="col-12 col-md-12">
+									<div class="col-12 col-md-9">
 										<label for="collection_name" id="collection_name_label" class="data-entry-label">Name for the Group of cataloged items</label>
 										<input type="text" id="collection_name" name="collection_name" class="data-entry-input reqdClr" 
 												required value="#collection_name#" aria-labelledby="collection_name_label" >
+									</div>
+									<div class="col-md-3">
+										<label for="mask_fg" class="data_entry_label">Record Visibility</label>
+										<select name="mask_fg" value="mask_fg" required class="data-entry-select reqdClr">
+											<cfif #undColl.mask_fg# eq 1 >
+												<option value="0">Public</option>
+												<option value="1" selected="selected">Hidden</option>
+											<cfelse>
+												<option value="0" selected="selected">Public</option>
+												<option value="1">Hidden</option>
+											</cfif>
+										</select>
 									</div>
 								</div>
 								<div class="form-row mb-2">

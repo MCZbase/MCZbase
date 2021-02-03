@@ -25,6 +25,7 @@ limitations under the License.
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
+	<cfargument name="mask_fg" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -35,6 +36,7 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
+				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -56,6 +58,9 @@ limitations under the License.
 				<cfif isDefined("underscore_agent_id") and len(pattern) gt 0>
 					and underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 				</cfif>
+				<cfif isDefined("mask_fg") and len(pattern) gt 0>
+					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
+				</cfif>
 				<cfif isDefined("guid") and len(guid) gt 0>
 					<cfif find(',',guid) GT 0> 
 						and #session.flatTableName#.guid in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#guid#" list="yes">)
@@ -70,6 +75,7 @@ limitations under the License.
 				collection_name,
 				description,
 				underscore_agent_id, 
+				mask_fg,
 				case 
 					when underscore_agent_id is null then '[No Agent]'
 					else MCZBASE.get_agentnameoftype(underscore_agent_id, 'preferred')
@@ -121,7 +127,8 @@ Function getNamedCollectionAutocomplete.  Search for named collections by name w
 					else
 						description
 					end
-					as description_trim
+					as description_trim,
+				mask_fg
 			FROM 
 				underscore_collection
 			WHERE
