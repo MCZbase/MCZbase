@@ -1216,6 +1216,9 @@ form.keyword {
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
+#collapseParts .table th {
+	font-weight: 500;
+}
 /**********************************************************/
 /*Small Form fields--example: Data Entry page *************/
 /**********************************************************/
