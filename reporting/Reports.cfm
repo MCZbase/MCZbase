@@ -7,8 +7,8 @@
 			<div class="col-12">
 				<h1 class="h2">Reports</h1>
 				<ul>	
-					<li class="py-1"><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> &nbsp; listed by collection or timeframe; sort by oldest, newest; links to each locality georeferenced</li>
-					<li class="py-1"><a href="/info/collnHoldgByClass.cfm">Holdings by Class</a> &nbsp; lists collection alphabetically in the first column; lists class alphabetically in the second column; sum of parts with that name in MCZbase in the third column; count of part name used per collection with link to specimen results</li> 
+					<li class="py-1"><a href="/info/recentgeorefs.cfm">Recently Georeferenced Localities</a> &nbsp; Listed by collection or timeframe; sort by oldest, newest; links to each locality georeferenced</li>
+					<li class="py-1"><a href="/info/collnHoldgByClass.cfm">Holdings by Class</a> &nbsp; Report lists collection alphabetically in the first column; lists class alphabetically in the second column; sum of parts with that name in MCZbase in the third column; count of part name used per collection with link to specimen results</li> 
 					<li class="py-1"><a href="/info/noParts.cfm">Partless Specimen Records</a> &ndash; Find specimens with no parts per collection (or in all collections) </li>
 					<li class="py-1"><a href="/Reports/partusage.cfm">Part Usage</a> &ndash; Part name usage &ndash; Part in first column (e.g., brain, cast, whole animal); isTissue in the second column; sum of parts with that name in the third column; count of part name used per collection with link to specimen results. </li> 		
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
