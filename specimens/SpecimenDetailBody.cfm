@@ -945,7 +945,7 @@ limitations under the License.
 													</tr>
 													<cfif len(part_remarks) gt 0>
 														<tr class="small">
-															<td colspan="5"><span class="font-italic pl-3">Remarks:</span> #part_remarks#</td>
+															<td colspan="4"><span class="font-italic pl-3">Remarks:</span> #part_remarks#</td>
 														</tr>
 													</cfif>
 													<cfquery name="patt" dbtype="query">
@@ -971,7 +971,7 @@ limitations under the License.
 								</cfquery>
 													<cfif patt.recordcount gt 0>
 														<tr>
-															<td colspan="5"><cfloop query="patt">
+															<td colspan="4"><cfloop query="patt">
 																	<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
 																		<cfif len(attribute_units) gt 0>
 																			#attribute_units#
@@ -996,7 +996,7 @@ limitations under the License.
 								</cfquery>
 													<cfloop query="sPart">
 														<tr>
-															<td><span class="d-block pl-3">#part_name# </span><span class="pl-3 font-italic d-block">subsample</span></td>
+															<td><span class="d-inline-block pl-3">#part_name# </span><span class="pl-1 font-italic d-inline-block">subsample</span></td>
 															<td class="">#part_condition#</td>
 															<td class="">#part_disposition#</td>
 															<td class="">#lot_count#</td>
