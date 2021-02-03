@@ -13,7 +13,8 @@
 					<li class="py-1"><a href="/Reports/partusage.cfm">Part Usage</a> &ndash; Part name usage &ndash; Part in first column (e.g., brain, cast, whole animal); <em>isTissue</em> in the second column; sum of parts with that name in the third column; count of part name used per collection with link to specimen results</li> 		
 				 	<li class="py-1"><a href="/Taxa.cfm?execute=true&method=getTaxa&action=search&kingdom=NULL&phylum=NULL&phylclass=NULL&phylorder=NULL&family=NULL">Missing Higher Taxonomy</a> &ndash; No kingdom, phylumn, class, order, or family (using "Null" in a query on Taxa.cfm)</li>
 					<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin")>
-						<br/><br/>
+						<br/>
+						<h2 class="h3">Broken or Problematic Reports</h1>
 						<li><a href="/info/mia_in_genbank.cfm">Genbank Missing Data</a></li>
 						<li><a href="/info/slacker.cfm">Suspect Data</a></li>
 						<li><a href="/tools/findGap.cfm">Catalog Number Gaps</a></li>
