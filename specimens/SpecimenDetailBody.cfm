@@ -1478,13 +1478,13 @@ limitations under the License.
 									</cfloop>
 									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
-											<h5 class="mb-1">Loan History:</h5>
-											<a href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
+											<h5 class="mb-1 d-inline-block">Loan History:</h5>
+											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<cfloop query="loanList">
-													<ul>
-														<li>#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
+													<ul class="d-block">
+														<li class="d-block">#loanList.loan_number# (#loanList.loan_type# #loanList.loan_status#)</li>
 													</ul>
 												</cfloop>
 											</cfif>
@@ -1492,13 +1492,13 @@ limitations under the License.
 									</cfif>
 									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
-											<h5 class="mb-1">Deaccessions: </h5>
+											<h5 class="mb-1 d-inline-block">Deaccessions: </h5>
 											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
 												<cfloop query="deaccessionList">
-													<ul>
-														<li> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
+													<ul class="d-block">
+														<li class="d-block"> <a href="/Deaccession.cfm?action=editDeacc&transaction_id=#deaccessionList.transaction_id#">#deaccessionList.deacc_number# (#deaccessionList.deacc_type#)</a></li>
 													</ul>
 												</cfloop>
 											</cfif>
