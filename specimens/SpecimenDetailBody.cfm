@@ -1492,7 +1492,7 @@ limitations under the License.
 									</cfif>
 									<cfif isDeaccessionedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
-											<h6>Deaccessions: </h6>
+											<h5 class="mb-1">Deaccessions: </h5>
 											<a href="/Deaccession.cfm?action=listDeacc&collection_object_id=#valuelist(isDeaccessionedItem.collection_object_id)#"
 							target="_mainFrame">Deaccessions that include this cataloged item (#deaccessionList.recordcount#).</a> &nbsp;
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
