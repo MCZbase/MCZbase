@@ -416,7 +416,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 		<cfif mediaS2.recordcount gt 1>
-			<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-1 px-1 mb-2 float-left">
+			<div class="col-12 col-sm-12 col-md-2 col-lg-2 col-xl-1 pl-1 pr-0 mb-2 float-left">
 				<div class="accordion" id="accordionE">
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
@@ -518,12 +518,12 @@ limitations under the License.
 											<cfset aForDetHref = "/MediaSet.cfm?media_id=#media_id#" >
 											<cfelse>
 											<!---for DRS from library--->
-											<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-6 pl-0 pr-1'>">
+											<cfset one_thumb = "<div class='col-6 col-md-6 col-xl-6 px-0'>">
 											<cfset aForImHref = media_uri>
 											<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
-										<p class="small"> #media_type# (#mime_type#) <br>
+										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
 										</div>
