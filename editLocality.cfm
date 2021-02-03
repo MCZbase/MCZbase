@@ -548,6 +548,23 @@
             <table style="margin-top: 3em;">
 			<tr>
 				<td><h4 style="margin-bottom: .5em;">Locality</h4></td>
+			<tr>
+				<td>
+               <label for="curated_fg">Curated</label>
+					<cfif locDet.curated_fg EQ 1>
+						<select name="curated_fg" id="curated_fg">
+							<option selected="selected" value="1">Yes</option>
+							<option value="0">No</option>
+						</select>
+						<strong>This locality record has been curated.  Please do not edit.</strong>
+					<cfelse>
+						<select name="curated_fg" id="curated_fg">
+							<option value="1">Yes</option>
+							<option selected="selected" value="0">No</option>
+						</select>
+					</cfif>
+				</td>
+			</tr>
 			</tr>
             <tr>
             	<td>
