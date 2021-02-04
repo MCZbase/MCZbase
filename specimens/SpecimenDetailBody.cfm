@@ -671,7 +671,7 @@ limitations under the License.
 								
 								<cfelse>
 										<cfif getTaxa.recordcount gt 0>		
-										<span class="h4 pl-2 text-success">Former Identifications</span>
+										<span class="h4 pl-2 mt-1 text-success">Former Identifications</span>
 									</cfif>
 								<ul class="list-group pt-1 px-3 ml-2 text-dark rounded-0 border-left">
 								
