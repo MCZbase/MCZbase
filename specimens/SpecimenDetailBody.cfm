@@ -417,7 +417,13 @@ limitations under the License.
 </cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-				<div class="accordion" id="accordionE">
+				<script>
+function myScreenWidth() {
+  var sW = screen.width;
+  document.getElementById("demo").innerHTML = x;
+}
+</script><cfif sW gt 991>
+				<div class="accordion" id="accordionE"></cfif>
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
@@ -429,26 +435,26 @@ limitations under the License.
 							<!---START Code from MEDIA SET code---> 
 							<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%"> <a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-            select distinct
-                        media.media_id,
-                        media.media_uri,
-                        media.mime_type,
-                        media.media_type,
-                        media.preview_uri,
-                        media_relations.media_relationship,
-                        mczbase.get_media_descriptor(media.media_id) as media_descriptor
-            from
-                        media,
-                        media_relations,
-                        media_labels
-            where
-                        media.media_id=media_relations.media_id and
-                        media.media_id=media_labels.media_id (+) and
-                        media_relations.media_relationship like '%cataloged_item' and
-                        media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-                        AND MCZBASE.is_media_encumbered(media.media_id) < 1
-            order by media.media_type
-</cfquery>
+										select distinct
+													media.media_id,
+													media.media_uri,
+													media.mime_type,
+													media.media_type,
+													media.preview_uri,
+													media_relations.media_relationship,
+													mczbase.get_media_descriptor(media.media_id) as media_descriptor
+										from
+													media,
+													media_relations,
+													media_labels
+										where
+													media.media_id=media_relations.media_id and
+													media.media_id=media_labels.media_id (+) and
+													media_relations.media_relationship like '%cataloged_item' and
+													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+													AND MCZBASE.is_media_encumbered(media.media_id) < 1
+										order by media.media_type
+							</cfquery>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
@@ -461,30 +467,29 @@ limitations under the License.
 											<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
 										</cfif>
 										<cfquery name="pdfCount" dbtype="query">
-                                    select * from media where mime_type = 'application/pdf'
-                        </cfquery>
+													select * from media where mime_type = 'application/pdf'
+										</cfquery>
 										<cfif pdfCount.recordcount gt 0>
 											<br>
 											<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
 										</cfif>
 										<cfif oneOfUs is 1>
 											<cfquery name="hasConfirmedImageAttr"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-						SELECT count(*) c
-						FROM
-						  ctattribute_type
-						where attribute_type='image confirmed' and
-						collection_cde='#one.collection_cde#'
-                </cfquery>
+													SELECT count(*) c
+													FROM
+													  ctattribute_type
+													where attribute_type='image confirmed' and
+													collection_cde='#one.collection_cde#'
+											</cfquery>
 											<!---	<span class="detailEditCell" onclick="window.parent.loadEditApp('MediaSearch');">Edit</span>--->
 											<cfquery name="isConf"  dbtype="query">
-                          SELECT count(*) c
-                          FROM
-                          attribute
-                          where attribute_type='image confirmed'
-                 </cfquery>
+													  SELECT count(*) c
+													  FROM
+													  attribute
+													  where attribute_type='image confirmed'
+											 </cfquery>
 											<CFIF isConf.c is "" and hasConfirmedImageAttr.c gt 0>
-												<span class="infoLink"
-                     id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
+												<span class="infoLink" id="ala_image_confirm" onclick='windowOpener("/ALA_Imaging/confirmImage.cfm?collection_object_id=#collection_object_id#","alaWin","width=700,height=400, resizable,scrollbars,location,toolbar");'> Confirm Image IDs </span>
 											</CFIF>
 										</cfif>
 									</div>
@@ -496,17 +501,17 @@ limitations under the License.
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-               select
-                  media_label,
-                  label_value
-               from
-                  media_labels
-               where
-               	media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-            </cfquery>
+										   select
+											  media_label,
+											  label_value
+										   from
+											  media_labels
+										   where
+											media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+										</cfquery>
 										<cfquery name="desc" dbtype="query">
-                select label_value from labels where media_label='description'
-            </cfquery>
+											select label_value from labels where media_label='description'
+										</cfquery>
 										<cfset description="Media Preview Image">
 										<cfif desc.recordcount is 1>
 											<cfset description=desc.label_value>
@@ -531,19 +536,19 @@ limitations under the License.
 									<!--/div---> 
 									</span> </div>
 								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select p.barcode from
-				container c,
-				container p,
-				coll_obj_cont_hist,
-				specimen_part,
-				cataloged_item
-				where
-				cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
-				specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
-				coll_obj_cont_hist.container_id=c.container_id and
-				c.parent_container_id=p.container_id and
-				cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
-	</cfquery>
+											select p.barcode from
+											container c,
+											container p,
+											coll_obj_cont_hist,
+											specimen_part,
+											cataloged_item
+											where
+											cataloged_item.collection_object_id=specimen_part.derived_from_cat_item and
+											specimen_part.collection_object_id=coll_obj_cont_hist.collection_object_id and
+											coll_obj_cont_hist.container_id=c.container_id and
+											c.parent_container_id=p.container_id and
+											cataloged_item.collection_object_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#">
+								</cfquery>
 								</div>
 							</cfif>
 							<cfif oneOfUs is 1>
