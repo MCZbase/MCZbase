@@ -781,7 +781,7 @@ limitations under the License.
 												&nbsp;sp. nov.
 											</cfif>
 										</cfif>
-										#CITATION_REMARKS# 
+											<span class="small font-italic"> - #CITATION_REMARKS#</span>
 									</div>
 								</cfloop>
 							
