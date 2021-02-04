@@ -760,7 +760,7 @@ limitations under the License.
 							<div class="row mx-0">
 							   <cfset i = 1>
 								<cfloop query="citations">
-									<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+									<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame">#formatted_publication#</a>,
 										<cfif len(occurs_page_number) gt 0>
 											Page
@@ -784,13 +784,12 @@ limitations under the License.
 											<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 									</div>
 									<cfset i = i + 1>
-							
+									</cfloop>
 							
 							<cfif publicationMedia.recordcount gt 0>
 								<cfset i = 1>
-									#publication_id#
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>#preview_uri#
+									<cfset puri=getMediaPreview(preview_uri,media_type)>
 									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
@@ -812,15 +811,14 @@ limitations under the License.
 										<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
 										</a>
-										<span class="d-inline">#i#)</span> 
-										<span class="d-block small text-center" style="line-height:.9rem;">#media_type# (#mime_type#) 
+										<span class="d-block small text-center" style="line-height:.9rem;">#i#) #media_type# (#mime_type#) 
 										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
 									</div>
 											<cfset i = i + 1>
 								</cfloop>
 								
 							</cfif>
-											</cfloop>
+									
 							</div>
 						</div>
 					</div>
