@@ -59,7 +59,7 @@ limitations under the License.
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
 					( underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-					<cfif isDefined("underscore_agent_name") and agentname EQ "[no agent data]">
+					<cfif isDefined("underscore_agent_name") and underscore_agent_name EQ "[no agent data]">
 					   or underscore_agent_id IS NULL	
 					</cfif>
 					)

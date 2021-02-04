@@ -64,14 +64,14 @@ limitations under the License.
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
-			<cfif not isdefined("agentname")>
-				<cfset agentname="">
+			<cfif not isdefined("underscore_agent_name")>
+				<cfset underscore_agent_name="">
 			</cfif>
 			<cfif not isdefined("underscore_agent_id")>
 				<cfset underscore_agent_id="">
 			</cfif>
 			<cfif len(underscore_agent_id) EQ 0>
-				<cfset agentname="">
+				<cfset underscore_agent_name="">
 			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
@@ -135,7 +135,7 @@ limitations under the License.
 													<div class="input-group-prepend">
 														<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 													</div>
-													<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+													<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#underscore_agent_name#">
 													<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
 												</div>
 											</div>
