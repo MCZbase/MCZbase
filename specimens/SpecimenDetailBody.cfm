@@ -790,7 +790,7 @@ limitations under the License.
 								<cfset i = 1>
 									#publication_id#
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
+									<cfset puri=getMediaPreview(preview_uri,media_type)>#preview_uri#
 									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
