@@ -715,7 +715,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
-									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">#valuelist(cName.common_name,"; ")# </div>
+									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">#valuelist(cName.common_name,"; ")#1 </div>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif>
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
