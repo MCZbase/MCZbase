@@ -613,13 +613,13 @@ limitations under the License.
 							</cfquery>
 							<cfif accepted_id_fg is 1>
 								<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-									<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
+									<div class="d-inline-block mb-1 h4 text-success">Current Identification</div>
 									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-										<span class="font-italic h4 font-weight-normal d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
+										<div class="font-italic h4 mb-1 font-weight-normal d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
 										<cfif len(getTaxa.author_text) gt 0>
 											<span class="sm-caps">#getTaxa.author_text#</span>
 										</cfif>
-										</span>
+										</div>
 										<cfelse>
 										<cfset link="">
 										<cfset i=1>
@@ -639,7 +639,7 @@ limitations under the License.
 										<cfset metaDesc="">
 									</cfif>
 									<cfloop query="getTaxa">
-										<div class="h5 text-muted"> #full_taxon_name# </div>
+										<div class="h5 mb-1 text-muted"> #full_taxon_name# </div>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
@@ -652,7 +652,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 										</cfquery>
-										<cfif len(cName.common_name) gt 0><div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
+										<cfif len(cName.common_name) gt 0><div class="h5 mb-1 pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
 									<div class="form-row mx-0">
@@ -671,7 +671,7 @@ limitations under the License.
 								
 								<cfelse>
 										<cfif getTaxa.recordcount gt 0>		
-										<span class="h4 pl-2 font-weight-light text-dark">Former Identifications</span>
+										<span class="h4 pl-2 text-success">Former Identifications</span>
 									</cfif>
 								<ul class="list-group pt-1 px-3 ml-2 text-dark rounded-0 border-left">
 								
