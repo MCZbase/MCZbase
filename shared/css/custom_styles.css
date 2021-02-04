@@ -1649,12 +1649,7 @@ and also iPads specifically.
 	h1 {
 		margin-bottom: 0;
 	}
-	.MediaAccordionHide {
-		display:none;
-	}
-	.MediaAccordionShow {
-		display:block;
-	}
+
 }
 @media (min-width:1060px) and (max-width: 1459px) {
 	form#regForm.tab {
@@ -1859,6 +1854,14 @@ content: '⇡';
 	.font-dot-8 {
 		font-size: 0.8rem;
 		text-align: right;
+	}
+}
+@media(max-width:768px){
+		.MediaAccordionHide {
+		display:none;
+	}
+	.MediaAccordionShow {
+		display:block;
 	}
 }
 @media(max-width:576px) {
