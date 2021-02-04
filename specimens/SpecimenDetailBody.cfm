@@ -652,7 +652,7 @@ limitations under the License.
 								GROUP BY 
 									common_name order by common_name
 							</cfquery>
-										<div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+										<div class="h5 text-muted pl-3"><cfif len(cName.common_name) gt 0>Common Name(s): #valuelist(cName.common_name,"; ")#</cfif> </div>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
 									<cfif len(formatted_publication) gt 0>
@@ -703,16 +703,16 @@ limitations under the License.
 									<p class="small text-muted"> #full_taxon_name# </p>
 									<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 									<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT 
-									common_name 
-								FROM 
-									common_name
-								WHERE 
-									taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-									and common_name is not null
-								GROUP BY 
-									common_name order by common_name
-						</cfquery>
+											SELECT 
+												common_name 
+											FROM 
+												common_name
+											WHERE 
+												taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+												and common_name is not null
+											GROUP BY 
+												common_name order by common_name
+									</cfquery>
 									<div style="font-size:.8em;color:gray;padding-left:1em;"><cfif len(cName.common_name) gt 0>#valuelist(cName.common_name,"; ")#</cfif> </div>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 								</cfloop>
