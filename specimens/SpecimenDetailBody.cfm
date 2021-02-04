@@ -688,7 +688,7 @@ limitations under the License.
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
 									<cfloop query="getTaxa">
-										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
+										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#0</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
 									</cfloop>
