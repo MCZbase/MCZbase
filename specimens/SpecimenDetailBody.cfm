@@ -673,7 +673,7 @@ limitations under the License.
 										<cfif getTaxa.recordcount gt 0>		
 										<div class="h4 pl-2 mt-1 text-success">Former Identifications</div>
 									</cfif>
-								<ul class="list-group pt-1 px-3 ml-2 text-dark rounded-0 border-left">
+								<ul class="list-group pt-0 px-3 ml-2 text-dark rounded-0 border-left">
 								
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
