@@ -668,10 +668,11 @@ limitations under the License.
 									</cfif>
 											
 								</ul>
-									<cfif getTaxa.recordcount gt 0>		
+								
+								<cfelse>
+										<cfif getTaxa.recordcount gt 0>		
 										<span class="h4 pl-2 font-weight-light text-dark">Former Identifications</span>
 									</cfif>
-								<cfelse>
 								<ul class="list-group pt-1 px-3 ml-2 text-dark rounded-0 border-left">
 								
 								<li class="px-0">
