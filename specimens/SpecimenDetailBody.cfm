@@ -672,7 +672,7 @@ limitations under the License.
 										<span class="h4 pl-2 font-weight-light text-dark">Former Identifications</span>
 									</cfif>
 								<cfelse>
-								<ul class="list-group pt-1 px-3 ml-2 text-dark rounded-0 border-left">
+								<ul class="list-group pt-1 px-3 ml-2 mb-2 text-dark rounded-0 border-left">
 								
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
