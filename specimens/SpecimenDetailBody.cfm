@@ -639,7 +639,7 @@ limitations under the License.
 										<cfset metaDesc="">
 									</cfif>
 									<cfloop query="getTaxa">
-										<div class="h5 mb-1 text-muted"> #full_taxon_name# </div>
+										<div class="h5 mb-1 text-dark"> #full_taxon_name# </div>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
@@ -652,7 +652,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 										</cfquery>
-										<cfif len(cName.common_name) gt 0><div class="h5 mb-1 pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
+										<cfif len(cName.common_name) gt 0><div class="h5 mb-1 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
 									<div class="form-row mx-0">
