@@ -713,19 +713,19 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
-									<div style="font-size:.8em;color:gray;padding-left:1em;"><cfif len(cName.common_name) gt 0>#valuelist(cName.common_name,"; ")#</cfif> </div>
+									<div class="small text-muted pl-3"><cfif len(cName.common_name) gt 0>#valuelist(cName.common_name,"; ")#</cfif> </div>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
 									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
 								</cfif>
-								<p style="font-size: .9em;">Determination: #agent_name#
+								<p class="small">Determination: #agent_name#
 									<cfif len(made_date) gt 0>
 										on #dateformat(made_date,"yyyy-mm-dd")#
 									</cfif>
 									<span>- #nature_of_id#</span> </p>
 								<cfif len(identification_remarks) gt 0>
-									<p style="font-size: .9em;">Remarks: #identification_remarks#</p>
+									<p class="small">Remarks: #identification_remarks#</p>
 								</cfif>
 							</cfif>
 							</li>
