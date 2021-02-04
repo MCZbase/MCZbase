@@ -417,12 +417,7 @@ limitations under the License.
 </cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-				<script>
-function myScreenWidth() {
-  var sW = screen.width;
-  document.getElementById("demo").innerHTML = x;
-}
-</script><cfif sW gt 991>
+<cfif sW gt "991">
 				<div class="accordion" id="accordionE"></cfif>
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
@@ -556,7 +551,12 @@ function myScreenWidth() {
 						</div>
 					</div>
 				</div>
-											<cfif sW gt 991></div></cfif>
+											<cfif sW gt "991"></div></cfif>
+															<script>
+function myScreenWidth() {
+  var sW = screen.width;
+}
+</script>
 			</div>
 		</cfif>
 		<!----------------------------- two right columns ---------------------------------->
