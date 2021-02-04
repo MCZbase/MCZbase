@@ -727,7 +727,7 @@ limitations under the License.
 									</cfif>
 									<span class="d-block">Nature of ID: #nature_of_id#</span> 
 								<cfif len(identification_remarks) gt 0>
-									<span class="small d-block">Remarks: #identification_remarks#</span>
+									<span class="d-block">Remarks: #identification_remarks#</span>
 								</cfif>
 							</cfif>
 							</li>
