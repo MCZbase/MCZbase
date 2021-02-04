@@ -417,13 +417,19 @@ limitations under the License.
 </cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-				<div class="accordion" id="accordionE">
+				<cfclientsettings detectDevice=true />
+					<cfclient>
+						<cfif cfclient.properties.width lte 990><div class="accordion" id="accordionE"></cfif>
+					</cfclient>
+				</cfclientsetting>
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
 							<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
 						</div>
-						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
+							<cfclientsettings detectDevice=true />
+					<cfclient>
+						<cfif cfclient.properties.width lte 990><div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE"></cfif></cfclient></cfclientsetting>
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
@@ -548,10 +554,17 @@ limitations under the License.
 							</cfif>
 							<cfif oneOfUs is 1>
 							</cfif>
-						</div>
+						<cfclientsettings detectDevice=true />
+							<cfclient>
+								<cfif cfclient.properties.width lte 990></div></cfif>
+							</cfclient>
+						</cfclientsetting>
+						<cfclientsettings detectDevice=true />
+							<cfclient>
+								<cfif cfclient.properties.width lte 990></div></cfif>
+							</cfclient>
+						</cfclientsetting>
 					</div>
-				</div>
-			</div>
 			</div>
 		</cfif>
 		<!----------------------------- two right columns ---------------------------------->
