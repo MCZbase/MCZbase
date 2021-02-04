@@ -55,10 +55,10 @@ limitations under the License.
 				<cfif isDefined("description") and len(description) gt 0>
 					and description like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#description#%">
 				</cfif>
-				<cfif isDefined("underscore_agent_id") and len(pattern) gt 0>
+				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 				</cfif>
-				<cfif isDefined("mask_fg") and len(pattern) gt 0>
+				<cfif isDefined("mask_fg") and len(mask_fg) gt 0>
 					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 				</cfif>
 				<cfif isDefined("guid") and len(guid) gt 0>
