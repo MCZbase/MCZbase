@@ -114,10 +114,27 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-md-12">
+											<div class="col-12 col-md-8">
 												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
+											<div class="col-12 col-md-4">
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection
+													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
+												</label>
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text smaller bg-lightgreen" id="underscore_agent_name_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+													</div>
+													<input type="text" name="underscore_agent_name" id="underscore_agent_name" class="form-control rounded-right data-entry-input form-control-sm" aria-label="Agent Name" aria-describedby="underscore_agent_name_label" value="#agentname#">
+													<input type="hidden" name="underscore_agent_id" id="underscore_agent_id" value="#underscore_agent_id#">
+												</div>
+											</div>
+											<script>
+												$(document).ready(function() {
+													$(makeRichAgentPicker('underscore_agent_name', 'underscore_agent_id', 'underscore_agent_name_icon', 'underscore_agent_view', '#underscore_agent_id#'));
+												});
+											</script>
 										</div>
 										<div class="form-row my-2 mx-0">
 											<div class="col-12 px-0 pt-2">
