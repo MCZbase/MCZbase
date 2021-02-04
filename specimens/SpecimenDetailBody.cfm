@@ -556,7 +556,7 @@ function myScreenWidth() {
 						</div>
 					</div>
 				</div>
-			</div>
+											<cfif sW gt 991></div></cfif>
 			</div>
 		</cfif>
 		<!----------------------------- two right columns ---------------------------------->
