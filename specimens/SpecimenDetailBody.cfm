@@ -758,10 +758,10 @@ limitations under the License.
 						</div>
 						<div class="card-body float-left">
 							<div class="row mx-0">
-							
+							   <cfset i = 1>
 								<cfloop query="citations">
 									<div class="d-block py-1 px-2 w-100 float-left"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-									target="_mainFrame"> #formatted_publication#</a>,
+									target="_mainFrame">#i# #formatted_publication#</a>,
 										<cfif len(occurs_page_number) gt 0>
 											Page
 											<cfif len(citation_page_uri) gt 0>
@@ -783,9 +783,11 @@ limitations under the License.
 										</cfif>
 											<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 									</div>
+									<cfset i = i + 1>
 								</cfloop>
 							
 							<cfif publicationMedia.recordcount gt 0>
+								<cfset i = 1>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,media_type)>
 									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -806,10 +808,11 @@ limitations under the License.
 									</cfif>
 									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
-										<a href="#media_uri#" target="_blank">
+									#i#	<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
 										</a> <span class="d-block small text-center" style="line-height:.9rem;">#media_type# (#mime_type#) 
 										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </div>
+											<cfset i = i + 1>
 								</cfloop>
 								
 							</cfif>
