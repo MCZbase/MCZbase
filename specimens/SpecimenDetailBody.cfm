@@ -652,7 +652,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 										</cfquery>
-									<cfloop query="cName">
+											<cfloop query="cName">
 										<cfif len(cName.common_name) gt 0><div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
@@ -683,11 +683,11 @@ limitations under the License.
 									<cfset link="">
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
-								
+								<cfloop query="getTaxa">
 										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
-									
+									</cfloop>
 									#thisSciName#
 								</cfif>
 								<cfif oneOfUs is 1 and stored_as_fg is 1>
