@@ -784,7 +784,7 @@ limitations under the License.
 											<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 									</div>
 									<cfset i = i + 1>
-								</cfloop>
+							
 							
 							<cfif publicationMedia.recordcount gt 0>
 								<cfset i = 1>
@@ -819,6 +819,7 @@ limitations under the License.
 								</cfloop>
 								
 							</cfif>
+											</cfloop>
 							</div>
 						</div>
 					</div>
