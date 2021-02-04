@@ -720,7 +720,7 @@ limitations under the License.
 									<cfif len(made_date) gt 0>
 										on #dateformat(made_date,"yyyy-mm-dd")#
 									</cfif>
-									<span class="d-block">- #nature_of_id#</span> 
+									<span class="d-block">Nature of ID: #nature_of_id#</span> 
 								<cfif len(identification_remarks) gt 0>
 									<span class="small d-block">Remarks: #identification_remarks#</span>
 								</cfif>
