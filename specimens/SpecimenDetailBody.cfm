@@ -734,7 +734,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!------------------------------------ citations ------------------------------------------>
-				<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				<cfoutput><cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		SELECT
 			mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 		FROM
@@ -822,7 +822,7 @@ limitations under the License.
 							</div>
 						</div>
 					</div>
-				</cfif>
+									</cfif></cfoutput>
 				
 				<!------------------------------------ parts ----------------------------------------------> 
 				<cfoutput>
