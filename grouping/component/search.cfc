@@ -22,7 +22,7 @@ limitations under the License.
 <cffunction name="getCollections" access="remote" returntype="any" returnformat="json">
 	<cfargument name="collection_name" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
-	<cfargument name="agentname" type="string" required="no">
+	<cfargument name="underscore_agent_name" type="string" required="no">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_collection_id" type="string" required="no">
 	<cfargument name="guid" type="string" required="no">
@@ -59,7 +59,7 @@ limitations under the License.
 				<cfif isDefined("underscore_agent_id") and len(underscore_agent_id) gt 0>
 					and 
 					( underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
-					<cfif isDefined("agentname") and agentname EQ "[no agent data]">
+					<cfif isDefined("underscore_agent_name") and agentname EQ "[no agent data]">
 					   or underscore_agent_id IS NULL	
 					</cfif>
 					)
