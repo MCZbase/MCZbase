@@ -760,7 +760,7 @@ limitations under the License.
 							<div class="row mx-0">
 							   <cfset i = 1>
 								<cfloop query="citations">
-									<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i# </span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+									<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame">#formatted_publication#</a>,
 										<cfif len(occurs_page_number) gt 0>
 											Page
@@ -808,10 +808,13 @@ limitations under the License.
 									</cfif>
 									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
-										<span class="d-inline">#i#</span>	<a href="#media_uri#" target="_blank">
+										<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
-										</a> <span class="d-block small text-center" style="line-height:.9rem;">#media_type# (#mime_type#) 
-										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </div>
+										</a>
+										<span class="d-inline">#i#)</span> 
+										<span class="d-block small text-center" style="line-height:.9rem;">#media_type# (#mime_type#) 
+										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
+									</div>
 											<cfset i = i + 1>
 								</cfloop>
 								
