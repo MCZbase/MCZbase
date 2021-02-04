@@ -64,6 +64,15 @@ limitations under the License.
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
+			<cfif not isdefined("agentname")>
+				<cfset agentname="">
+			</cfif>
+			<cfif not isdefined("underscore_agent_id")>
+				<cfset underscore_agent_id="">
+			</cfif>
+			<cfif len(underscore_agent_id) EQ 0>
+				<cfset agentname="">
+			</cfif>
 			<!--- Search Form ---> 
 			<cfoutput>
 				<main id="content">
