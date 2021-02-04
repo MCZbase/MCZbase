@@ -639,7 +639,7 @@ limitations under the License.
 										<cfset metaDesc="">
 									</cfif>
 									<cfloop query="getTaxa">
-										<p class="h5 text-muted"> #full_taxon_name# </p>
+										<div class="h5 text-muted"> #full_taxon_name# </div>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
