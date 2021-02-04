@@ -1606,6 +1606,12 @@ input#readMore_check_id {display:none;}
 	opacity: 0.99;
 	display:none;
 }
+	.MediaAccordionHide {
+		display:none;
+	}
+	.MediaAccordionShow {
+		display:block;
+	}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
@@ -1642,6 +1648,12 @@ and also iPads specifically.
 	}
 	h1 {
 		margin-bottom: 0;
+	}
+	.MediaAccordionHide {
+		display:block;
+	}
+	.MediaAccordionShow {
+		display:none;
 	}
 }
 @media (min-width:1060px) and (max-width: 1459px) {
