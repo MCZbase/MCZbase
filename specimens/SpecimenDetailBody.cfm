@@ -655,9 +655,6 @@ limitations under the License.
 										<cfif len(cName.common_name) gt 0><div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
-						<!---			<cfif len(formatted_publication) gt 0>
-										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
-									</cfif>--->
 									<div class="form-row mx-0">
 										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
 											<cfif len(made_date) gt 0>
@@ -675,11 +672,11 @@ limitations under the License.
 								<h4 class="text-muted my-0">Former Identifications</h4>
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-									<p>
+								
 									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="color-black sm-caps">#getTaxa.author_text#</span>
-										</p>
+									
 									</cfif>
 									<cfelse>
 									<cfset link="">
