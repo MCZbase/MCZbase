@@ -417,8 +417,13 @@ limitations under the License.
 </cfquery>
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
-<cfif sW gt "991">
-				<div class="accordion" id="accordionE"></cfif>
+				<script>
+function myScreenWidth() {
+  var sW = screen.width;
+  document.getElementById("demo").innerHTML = x;
+}
+				</script><div id="demo"></div>
+				<div class="accordion" id="accordionE">
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
@@ -551,12 +556,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-											<cfif sW gt "991"></div></cfif>
-															<script>
-function myScreenWidth() {
-  var sW = screen.width;
-}
-</script>
+											<cfif sW gt 991></div></cfif>
 			</div>
 		</cfif>
 		<!----------------------------- two right columns ---------------------------------->
