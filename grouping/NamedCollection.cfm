@@ -387,7 +387,7 @@ limitations under the License.
 										<select name="mask_fg" value="mask_fg" required class="data-entry-select reqdClr"> 
 											<option value="" selected="selected"></option>
 											<option value="0">Public</option>
-											<option value="1" selected="selected">Hidden</option>
+											<option value="1">Hidden</option>
 										</select>
 									</div>
 								</div>
