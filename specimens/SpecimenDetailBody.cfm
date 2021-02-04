@@ -668,7 +668,9 @@ limitations under the License.
 									</cfif>
 											
 								</ul>
-									<cfif getTaxa.recordcount gte 1 and taxa_formula is 'a'>		<h3 class="text-muted">Former Identifications</h3></cfif>
+									<cfif getTaxa.recordcount gte 1 and taxa_formula is 'a'>		
+										<h3 class="text-muted">Former Identifications</h3>
+									</cfif>
 								<cfelse>
 								<ul class="list-group pt-2 pb-2 px-3 ml-2 text-dark border-left">
 								
