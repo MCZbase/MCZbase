@@ -758,9 +758,9 @@ limitations under the License.
 						</div>
 						<div class="card-body float-left">
 							<div class="row mx-0">
-							<ul class="list-group float-left">
+							
 								<cfloop query="citations">
-									<li class="list-group-item float-left d-inline mx-1" style="width: 255px;"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+									<span class="d-block"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame"> #formatted_publication#</a>,
 										<cfif len(occurs_page_number) gt 0>
 											Page
@@ -781,9 +781,10 @@ limitations under the License.
 												&nbsp;sp. nov.
 											</cfif>
 										</cfif>
-										#CITATION_REMARKS# </li>
+										#CITATION_REMARKS# 
+									</span>
 								</cfloop>
-							</ul>
+							
 							<cfif publicationMedia.recordcount gt 0>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,media_type)>
