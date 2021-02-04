@@ -598,19 +598,19 @@ limitations under the License.
 					<div class="card-body float-left">
 						<cfloop query="identification">
 							<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT distinct
-						taxonomy.taxon_name_id,
-						display_name,
-						scientific_name,
-						author_text,
-						full_taxon_name 
-					FROM 
-						identification_taxonomy,
-						taxonomy
-					WHERE 
-						identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
-						AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
-				</cfquery>
+								SELECT distinct
+									taxonomy.taxon_name_id,
+									display_name,
+									scientific_name,
+									author_text,
+									full_taxon_name 
+								FROM 
+									identification_taxonomy,
+									taxonomy
+								WHERE 
+									identification_taxonomy.taxon_name_id = taxonomy.taxon_name_id 
+									AND identification_id = <cfqueryparam value="#identification_id#" cfsqltype="CF_SQL_DECIMAL">
+							</cfquery>
 							<cfif accepted_id_fg is 1>
 								<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
 									<span class="d-inline-block mb-1 h4 text-success">Current Identification</span>
@@ -642,22 +642,22 @@ limitations under the License.
 										<p class="h5 text-muted"> #full_taxon_name# </p>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-								SELECT 
-									common_name 
-								FROM 
-									common_name
-								WHERE 
-									taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
-									and common_name is not null
-								GROUP BY 
-									common_name order by common_name
-							</cfquery>
+											SELECT 
+												common_name 
+											FROM 
+												common_name
+											WHERE 
+												taxon_name_id= <cfqueryparam value="#taxon_name_id#" cfsqltype="CF_SQL_DECIMAL"> 
+												and common_name is not null
+											GROUP BY 
+												common_name order by common_name
+										</cfquery>
 										<cfif len(cName.common_name) gt 0><div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
-									<cfif len(formatted_publication) gt 0>
+						<!---			<cfif len(formatted_publication) gt 0>
 										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
-									</cfif>
+									</cfif>--->
 									<div class="form-row mx-0">
 										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
 											<cfif len(made_date) gt 0>
@@ -713,7 +713,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
-									<div class="small text-muted pl-3"><cfif len(cName.common_name) gt 0>#valuelist(cName.common_name,"; ")#</cfif> </div>
+									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">#valuelist(cName.common_name,"; ")# </div></cfif>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
