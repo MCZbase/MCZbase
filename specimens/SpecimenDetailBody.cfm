@@ -659,7 +659,7 @@ limitations under the License.
 										sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
 									</cfif>
 									<div class="form-row mx-0">
-										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#</span>
+										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
 											<cfif len(made_date) gt 0>
 												<span class="h5">on Date:</span> #dateformat(made_date,"yyyy-mm-dd")#
 											</cfif>
@@ -806,8 +806,9 @@ limitations under the License.
 									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 									<div style="width: 120px;" class="mx-1 mt-2 float-left d-inline"> <a href="#media_uri#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="d-block mx-3 mb-1" width="70" height="100"></a> <span class="d-block small mx-1" style="line-height:.9rem;">#media_type# (#mime_type#) <a href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> </div>
 								</cfloop>
-								</div>
+								
 							</cfif>
+							</div>
 						</div>
 					</div>
 				</cfif>
@@ -1323,12 +1324,12 @@ limitations under the License.
 								<li class="list-group-item col-7 px-0">#one.coll_event_remarks#</li>
 							</cfif>
 							<cfif len(one.habitat_desc) gt 0>
-								<li class="list-group-item col-5 px-0 px-md-2"><em>Habitat Description:</em></li>
-								<li class="list-group-item col-7 px-0 px-md-2">#one.habitat_desc#</li>
+								<li class="list-group-item col-5 px-0"><em>Habitat Description:</em></li>
+								<li class="list-group-item col-7 px-0">#one.habitat_desc#</li>
 							</cfif>
 							<cfif len(one.habitat) gt 0>
-								<li class="list-group-item col-5 px-0 px-md-2"><em>Microhabitat:</em></li>
-								<li class="list-group-item col-7 px-0 px-md-2">#one.habitat#</li>
+								<li class="list-group-item col-5 px-0"><em>Microhabitat:</em></li>
+								<li class="list-group-item col-7 px-0">#one.habitat#</li>
 							</cfif>
 						</ul>
 								</div>
