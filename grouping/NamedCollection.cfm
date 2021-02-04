@@ -128,7 +128,7 @@ limitations under the License.
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
 											<div class="col-12 col-md-4">
-												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection (use [no agent dat] for no agent)
+												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
 													<h5 id="underscore_agent_view" class="d-inline">&nbsp;&nbsp;&nbsp;&nbsp;</h5> 
 												</label>
 												<div class="input-group">
