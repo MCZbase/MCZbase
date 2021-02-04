@@ -638,7 +638,7 @@ limitations under the License.
 									<cfif not isdefined("metaDesc")>
 										<cfset metaDesc="">
 									</cfif>
-									<cfloop query="getTaxa">
+									
 										<p class="h5 text-muted"> #full_taxon_name# </p>
 										<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 										<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -652,6 +652,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 										</cfquery>
+									<cfloop query="cName">
 										<cfif len(cName.common_name) gt 0><div class="h5 text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
 										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 									</cfloop>
@@ -682,11 +683,11 @@ limitations under the License.
 									<cfset link="">
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
-									<cfloop query="getTaxa">
+								
 										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
-									</cfloop>
+									
 									#thisSciName#
 								</cfif>
 								<cfif oneOfUs is 1 and stored_as_fg is 1>
@@ -695,7 +696,7 @@ limitations under the License.
 								<cfif not isdefined("metaDesc")>
 									<cfset metaDesc="">
 								</cfif>
-								<cfloop query="getTaxa">
+						
 									<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
 									<p class="small text-muted mb-0"> #full_taxon_name# </p>
 									<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
@@ -710,6 +711,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
+								<cfloop query="cName">
 									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">#valuelist(cName.common_name,"; ")# </div></cfif>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
 								</cfloop>
