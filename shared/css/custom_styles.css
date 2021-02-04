@@ -1856,7 +1856,7 @@ content: '⇡';
 		text-align: right;
 	}
 }
-@media(max-width:768px){
+@media(max-width:767px){
 		.MediaAccordionHide {
 		display:none;
 	}
