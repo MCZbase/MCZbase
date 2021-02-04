@@ -781,7 +781,7 @@ limitations under the License.
 												&nbsp;sp. nov.
 											</cfif>
 										</cfif>
-											<span class="small font-italic"> - #CITATION_REMARKS#</span>
+											<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 									</div>
 								</cfloop>
 							
