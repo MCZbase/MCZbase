@@ -421,7 +421,7 @@ limitations under the License.
 					<div class="card bg-light">
 						<div class="card-header" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed MediaAccordionShow btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
-							<h3 class="h4 my-0 float-left MediaAccordionHide btn-link">Media</h3>
+							<h3 class="h4 my-0 float-left MediaAccordionHide">Media</h3>
 							<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia(62896);">Edit</button>
 						</div>
 						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionE">
