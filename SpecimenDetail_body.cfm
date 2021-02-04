@@ -956,6 +956,11 @@ WHERE irel.related_coll_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" val
 						left join underscore_collection on underscore_relation.underscore_collection_id = underscore_collection.underscore_collection_id
 					where
 						underscore_relation.collection_object_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+						<cfif isdefined("session.roles") AND listcontainsnocase(session.roles,"manage_specimens")>
+							-- all groups
+						<cfelse>
+							and mask_fg = 0
+						</cfif>
 				</cfquery>
 				<cfif collectionsQuery.recordcount GT 0>
 					<div class="detailCell">
