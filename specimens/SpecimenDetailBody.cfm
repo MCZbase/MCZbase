@@ -760,7 +760,7 @@ limitations under the License.
 							<div class="row mx-0">
 							
 								<cfloop query="citations">
-									<span class="d-block py-1"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+									<div class="d-block py-1 px-2 w-100 float-left"> <a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame"> #formatted_publication#</a>,
 										<cfif len(occurs_page_number) gt 0>
 											Page
@@ -782,7 +782,7 @@ limitations under the License.
 											</cfif>
 										</cfif>
 										#CITATION_REMARKS# 
-									</span>
+									</div>
 								</cfloop>
 							
 							<cfif publicationMedia.recordcount gt 0>
