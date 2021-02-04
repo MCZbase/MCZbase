@@ -760,7 +760,7 @@ limitations under the License.
 							<div class="row mx-0">
 							
 								<cfloop query="citations">
-								<span class="detailData">
+								<span>
 								<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 									target="_mainFrame">
 										#formatted_publication#</a>,
@@ -784,7 +784,7 @@ limitations under the License.
 										&nbsp;sp. nov.
 									</cfif>
 								</cfif>
-								<div class="detailCellSmall">
+								<div>
 									<cfif len(#DOI#) GT 0>
 									doi: <a target="_blank" href='https://doi.org/#DOI#'>#DOI#</a><br>
 									</cfif>
@@ -797,7 +797,7 @@ limitations under the License.
 					
 							<cfif publicationMedia.recordcount gt 0>
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
+			<!---						<cfset puri=getMediaPreview(preview_uri,media_type)>--->
 									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
