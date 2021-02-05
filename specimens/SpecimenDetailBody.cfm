@@ -670,25 +670,24 @@ limitations under the License.
 								</ul>
 								
 								<cfelse>
+								<!---Start of former Identifications--->
 										<cfif getTaxa.recordcount gt 0>		
 										<div class="h4 pl-2 mt-1 text-success">Former Identifications</div>
-									</cfif>
+										</cfif><!---Add Title for former identifications--->
+									
 								<ul class="list-group pt-0 px-3 ml-2 text-dark rounded-0 border-left">
-								
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-								
-									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span>
+									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# 1st display name - former IDs</a></span><!---identification  for former names--->
 									<cfif len(getTaxa.author_text) gt 0>
-										<span class="color-black sm-caps">#getTaxa.author_text#</span>
-									
+										<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
 									</cfif>
 									<cfelse>
 									<cfset link="">
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
 									<cfloop query="getTaxa">
-										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
+										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name# 2nd display name - former IDs</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
 									</cfloop>
@@ -702,7 +701,7 @@ limitations under the License.
 								</cfif>
 								<cfloop query="getTaxa">
 									<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-									<p class="small text-muted mb-0"> #full_taxon_name# </p>
+									<p class="small text-muted mb-0"> #full_taxon_name# full taxon name for former id</p>
 									<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 									<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
@@ -715,19 +714,19 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
-									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div>
+									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# for former id</div>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif>
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
-									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a>
+									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# ?</a>
 								</cfif>
-								<span class="small">Determination: #agent_name#
+								<span class="small">Determination: #agent_name# - former id
 									<cfif len(made_date) gt 0>
 										on #dateformat(made_date,"yyyy-mm-dd")#
 									</cfif>
-									<span class="d-block">Nature of ID: #nature_of_id#</span> 
+									<span class="d-block">Nature of ID: #nature_of_id# - former id</span> 
 								<cfif len(identification_remarks) gt 0>
-									<span class="d-block">Remarks: #identification_remarks#</span>
+									<span class="d-block">Remarks: #identification_remarks# - former id</span>
 								</cfif>
 							</cfif>
 							</li>
