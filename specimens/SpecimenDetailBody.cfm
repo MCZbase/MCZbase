@@ -670,10 +670,10 @@ limitations under the License.
 									<cfif getTaxa.recordcount gt 0>		
 										<div class="h4 pl-2 mt-1 text-success">Former Identifications</div>
 									</cfif><!---Add Title for former identifications--->
-								<ul class="list-group pt-0 px-3 ml-2 text-dark rounded-0 border-left">
+								<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# 1st display name - former IDs</a></span><!---identification  for former names when there is no author--->
+									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name#</a></span><!---identification  for former names when there is no author--->
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
 									</cfif>
@@ -682,7 +682,7 @@ limitations under the License.
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
 									<cfloop query="getTaxa">
-										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name# 2nd display name - former IDs</a>'>
+										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
 									</cfloop>
@@ -709,7 +709,7 @@ limitations under the License.
 											GROUP BY 
 												common_name order by common_name
 									</cfquery>
-									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# for former id</div>
+									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")#</div>
 									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif><!---  common name for former id--->
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
