@@ -406,7 +406,7 @@ limitations under the License.
 							$(document).ready(function() { 
 								$("textarea.autogrow").keyup(autogrow);  
 								$('textarea.autogrow').keyup();
-							});
+						
 							function autogrow (event) {
    var tb = parseFloat($(this).css("borderTopWidth"));
    var bb = parseFloat($(this).css("borderBottomWidth"));
@@ -419,6 +419,7 @@ console.log("increased height:" + $(this)[0].height());
    }
    $(this).css('overflow-y','auto');
 };
+									});
 
 						</script>
 						<div class="form-row my-2">
