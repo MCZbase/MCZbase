@@ -1225,7 +1225,7 @@ limitations under the License.
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!------------------------------------ locality and collecting event------------------------------------------->
 				
-				<div class="card bg-light mb-2">
+				<div class="card mb-2">
 					<div class="card-header float-left w-100" id="headingOne">
 						<h3 class="h4 my-0 float-left"> <!---collapsed btn-link dropdown-toggle" role="button" data-toggle="collapse" data-target="##collapseOne"--->Location & Collecting Event </h3>
 						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
@@ -1300,7 +1300,7 @@ limitations under the License.
 							</div>
 				
 								<div class="col-12 float-left px-0">
-								<ul class="list-unstyled row mx-0 px-3 py-1 mb-0 border-top">
+								<ul class="list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
 							<cfif len(one.spec_locality) gt 0>
 								<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
 								<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
