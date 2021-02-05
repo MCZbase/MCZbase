@@ -1300,7 +1300,7 @@ limitations under the License.
 							</div>
 				
 								<div class="col-12 float-left px-0">
-								<ul class="list-unstyled bg-light row mx-0 px-3 py-1 mb-0 border-top">
+								<ul class="list-unstyled bg-light row mx-0 px-3 pt-1 pb-2 mb-0 border-top">
 							<cfif len(one.spec_locality) gt 0>
 								<li class="list-group-item col-5 px-0"><em>Specific Locality:</em></li>
 								<li class="list-group-item col-7 px-0 last">#one.spec_locality#</li>
