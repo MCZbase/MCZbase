@@ -592,7 +592,6 @@ limitations under the License.
 						<div class="dialog" title="Edit Identification (id: #identification_id#)">
 							<div id="identificationNewForm">Stuff here...</div>
 						</div>
-				
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 					</div>
 					<div class="card-body mb-2 float-left">
@@ -653,7 +652,7 @@ limitations under the License.
 												common_name order by common_name
 										</cfquery>
 										<cfif len(cName.common_name) gt 0><div class="h5 mb-1 text-muted font-weight-normal pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# </div></cfif>
-										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")>
+										<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")><!---  common name for current id--->
 									</cfloop>
 									<div class="form-row mx-0">
 										<div class="small mr-2"><span class="h5">Determiner:</span> #agent_name#
@@ -666,19 +665,15 @@ limitations under the License.
 									<cfif len(identification_remarks) gt 0>
 										<div class="small"><span class="h5">Remarks:</span> #identification_remarks#</div>
 									</cfif>
-											
-								</ul>
-								
-								<cfelse>
-								<!---Start of former Identifications--->
-										<cfif getTaxa.recordcount gt 0>		
+								</ul>	
+								<cfelse><!---Start of former Identifications--->
+									<cfif getTaxa.recordcount gt 0>		
 										<div class="h4 pl-2 mt-1 text-success">Former Identifications</div>
-										</cfif><!---Add Title for former identifications--->
-									
+									</cfif><!---Add Title for former identifications--->
 								<ul class="list-group pt-0 px-3 ml-2 text-dark rounded-0 border-left">
 								<li class="px-0">
 								<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# 1st display name - former IDs</a></span><!---identification  for former names--->
+									<span class="font-italic h4 font-weight-normal"><a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# 1st display name - former IDs</a></span><!---identification  for former names when there is no author--->
 									<cfif len(getTaxa.author_text) gt 0>
 										<span class="color-black sm-caps">#getTaxa.author_text#</span><!---author text for former names--->
 									</cfif>
@@ -691,7 +686,7 @@ limitations under the License.
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
 									</cfloop>
-									#thisSciName#
+									#thisSciName# <!---identification for former names when there is an author--it put the sci name with the author--->
 								</cfif>
 								<cfif oneOfUs is 1 and stored_as_fg is 1>
 									<span style="float-right rounded p-1 bg-light">STORED AS</span>
@@ -701,7 +696,7 @@ limitations under the License.
 								</cfif>
 								<cfloop query="getTaxa">
 									<!--- TODO: We loop through getTaxa results three times, and query for common names twice?????  Construction here needs review.  --->
-									<p class="small text-muted mb-0"> #full_taxon_name# full taxon name for former id</p>
+									<p class="small text-muted mb-0"> #full_taxon_name#</p><!--- full taxon name for former id--->
 									<cfset metaDesc=metaDesc & '; ' & full_taxon_name>
 									<cfquery name="cName" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT 
@@ -715,18 +710,18 @@ limitations under the License.
 												common_name order by common_name
 									</cfquery>
 									<cfif len(cName.common_name) gt 0><div class="small text-muted pl-3">Common Name(s): #valuelist(cName.common_name,"; ")# for former id</div>
-									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif>
+									<cfset metaDesc=metaDesc & '; ' & valuelist(cName.common_name,"; ")></cfif><!---  common name for former id--->
 								</cfloop>
 								<cfif len(formatted_publication) gt 0>
-									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# ?</a>
+									sensu <a href="/publication/#publication_id#" target="_mainFrame"> #formatted_publication# </a><!---  Don't think this is used--->
 								</cfif>
-								<span class="small">Determination: #agent_name# - former id
+								<span class="small">Determination: #agent_name#
 									<cfif len(made_date) gt 0>
 										on #dateformat(made_date,"yyyy-mm-dd")#
 									</cfif>
-									<span class="d-block">Nature of ID: #nature_of_id# - former id</span> 
+									<span class="d-block">Nature of ID: #nature_of_id#</span> 
 								<cfif len(identification_remarks) gt 0>
-									<span class="d-block">Remarks: #identification_remarks# - former id</span>
+									<span class="d-block">Remarks: #identification_remarks#</span>
 								</cfif>
 							</cfif>
 							</li>
