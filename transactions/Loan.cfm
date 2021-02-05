@@ -806,7 +806,6 @@ limitations under the License.
 								$('textarea.autogrow').keyup(autogrow);
 								// trigger keyup event to size textareas to existing text
 								$('textarea.autogrow').keyup();
-							console.log("increased height:" + $(this)[0].height());
 							});
 
 						</script> 
