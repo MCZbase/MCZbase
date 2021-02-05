@@ -806,21 +806,9 @@ limitations under the License.
 								$('textarea.autogrow').keyup(autogrow);
 								// trigger keyup event to size textareas to existing text
 								$('textarea.autogrow').keyup();
-								
+								$('textarea.autogrow').keyup(event);
 							});
-														function autogrow (event) {
-   var tb = parseFloat($(this).css("borderTopWidth"));
-   var bb = parseFloat($(this).css("borderBottomWidth"));
-   $(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash console.log("tb:" + tb); console.log("bb:" + bb); console.log("outerHeight:" + $(this).outerHeight()); console.log("scrollHeight:" + $(this)[0].scrollHeight()); console.log("height:" + $(this)[0].height());
-   if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )
-   {
-      // increase the height such that the text fits into the scroll bar height, taking borders into account.
-      $(this).height($(this)[0].scrollHeight+tb+bb);
-console.log("increased height:" + $(this)[0].height());
-   }
-   $(this).css('overflow-y','auto');
-};
-									});
+
 						</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
