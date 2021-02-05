@@ -832,44 +832,44 @@ limitations under the License.
 				<cfoutput>
 					<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
 						<cfquery name="rparts" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select
-		specimen_part.collection_object_id part_id,
-		Case
-			when #oneOfus#= 1
-			then pc.label
-			else null
-		End label,
-		nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
-		sampled_from_obj_id,
-		coll_object.COLL_OBJ_DISPOSITION part_disposition,
-		coll_object.CONDITION part_condition,
-		nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
-		coll_object_remarks part_remarks,
-		attribute_type,
-		attribute_value,
-		attribute_units,
-		determined_date,
-		attribute_remark,
-		agent_name
-	from
-		specimen_part,
-		coll_object,
-		coll_object_remark,
-		coll_obj_cont_hist,
-		container oc,
-		container pc,
-		specimen_part_attribute,
-		preferred_agent_name
-	where
-		specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
-		specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
-		specimen_part.collection_object_id=coll_object.collection_object_id and
-		coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
-		coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
-		coll_obj_cont_hist.container_id=oc.container_id and
-		oc.parent_container_id=pc.container_id (+) and
-		specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
-</cfquery>
+								select
+									specimen_part.collection_object_id part_id,
+									Case
+										when #oneOfus#= 1
+										then pc.label
+										else null
+									End label,
+									nvl2(preserve_method, part_name || ' (' || preserve_method || ')',part_name) part_name,
+									sampled_from_obj_id,
+									coll_object.COLL_OBJ_DISPOSITION part_disposition,
+									coll_object.CONDITION part_condition,
+									nvl2(lot_count_modifier, lot_count_modifier || lot_count, lot_count) lot_count,
+									coll_object_remarks part_remarks,
+									attribute_type,
+									attribute_value,
+									attribute_units,
+									determined_date,
+									attribute_remark,
+									agent_name
+								from
+									specimen_part,
+									coll_object,
+									coll_object_remark,
+									coll_obj_cont_hist,
+									container oc,
+									container pc,
+									specimen_part_attribute,
+									preferred_agent_name
+								where
+									specimen_part.collection_object_id=specimen_part_attribute.collection_object_id (+) and
+									specimen_part_attribute.determined_by_agent_id=preferred_agent_name.agent_id (+) and
+									specimen_part.collection_object_id=coll_object.collection_object_id and
+									coll_object.collection_object_id=coll_obj_cont_hist.collection_object_id and
+									coll_object.collection_object_id=coll_object_remark.collection_object_id (+) and
+									coll_obj_cont_hist.container_id=oc.container_id and
+									oc.parent_container_id=pc.container_id (+) and
+									specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
+							</cfquery>
 						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
@@ -921,12 +921,12 @@ limitations under the License.
                 part_name
 </cfquery>
 						<cfquery name="mPart" dbtype="query">
-	select * from parts where sampled_from_obj_id is null order by part_name
-</cfquery>
+							select * from parts where sampled_from_obj_id is null order by part_name
+						</cfquery>
 						<cfset ctPart.ct=''>
 						<cfquery name="ctPart" dbtype="query">
-	select count(*) as ct from parts group by lot_count order by part_name
-	</cfquery>
+						select count(*) as ct from parts group by lot_count order by part_name
+						</cfquery>
 						<div class="accordion w-100" id="accordionForParts">
 							<div class="card mb-2">
 								<div class="card-header float-left w-100" id="headingPart">
@@ -935,7 +935,7 @@ limitations under the License.
 								</div>
 								<div class="card-body p-0">
 									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
-										<table class="table d-lg-table border-bottom table-responsive mb-0">
+										<table class="table border-bottom mb-0">
 											<thead>
 												<tr class="bg-light">
 													<th><span>Part Name</span></th>
