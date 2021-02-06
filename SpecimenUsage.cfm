@@ -203,7 +203,7 @@
 						<cfelseif project_type is "loan_no_pub">
 							AND project.project_id in (
 								select project_id from project_trans,loan_item
-								where project_trans.transaction_id=loan_item.transaction_id) 
+								where project_trans.transaction_id=loan_item.transaction_id)
 							AND project.project_id not in (
 								select project_id from project_publication)
 						</cfif>
@@ -219,7 +219,7 @@
 					<cfif isdefined("year") AND isnumeric(#year#)>
 						<cfset go="yes">
 							AND (
-							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#year#"> between to_number(to_char(start_date,'YYYY')) AND to_number(to_char(end_date,'YYYY'))  
+							 <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#year#"> between to_number(to_char(start_date,'YYYY')) AND to_number(to_char(end_date,'YYYY'))
 							)
 					</cfif>
 					<cfif isdefined("publication_id") AND len(#publication_id#) gt 0>
@@ -260,7 +260,7 @@
 		<cfset i=1>
 		<cfset go="no">
 		<cfquery name="publication" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			SELECT 
+			SELECT
 				publication.publication_title,
 				publication.publication_id,
 				publication.publication_type,
@@ -270,8 +270,8 @@
 			FROM
 				publication
 				left join publication_author_name on publication.publication_id = publication_author_name.publication_id
-				left join project_publication on publication.publication_id = project_publication.publication_id 
-				left join agent_name pubAuth on publication_author_name.agent_name_id = pubAuth.agent_name_id 
+				left join project_publication on publication.publication_id = project_publication.publication_id
+				left join agent_name pubAuth on publication_author_name.agent_name_id = pubAuth.agent_name_id
 				left join agent_name searchAuth on pubAuth.agent_id = searchAuth.agent_id
 				left join formatted_publication on formatted_publication.publication_id = publication.publication_id
 				left join citation on publication.publication_id = citation.publication_id
@@ -288,7 +288,7 @@
 					left join taxonomy CitTaxa on CITED_NAME_CITATION.cited_taxon_name_id = CitTaxa.taxon_name_id
 				</cfif>
 				<cfif isdefined("journal") AND len(journal) gt 0>
-					left join publication_attributes jname on publication.publication_id=jname.publication_id 
+					left join publication_attributes jname on publication.publication_id=jname.publication_id
 				</cfif>
 		WHERE
 				publication.publication_id is not null
@@ -307,7 +307,7 @@
 		</cfif>
 		<cfif isdefined("collection_id") AND len(#collection_id#) gt 0>
 			<cfset go="yes">
-				AND publication.publication_id = citation.publication_id cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
+				AND cataloged_item.collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#">
 		</cfif>
 		<cfif isdefined("author") AND len(#author#) gt 0>
 			<cfset go="yes">
@@ -319,7 +319,7 @@
 		</cfif>
 		<cfif isdefined("journal") AND len(journal) gt 0>
 			<cfset go="yes">
-				AND (jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name') 
+				AND (jname.publication_attribute='journal name' or jname.publication_attribute = 'alternate journal name')
 				AND upper(jname.pub_att_value) like <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="%#ucase(escapeQuotes(journal))#%">
 		</cfif>
 		<cfif isdefined("onlyCitePubs") AND len(onlyCitePubs) gt 0>
