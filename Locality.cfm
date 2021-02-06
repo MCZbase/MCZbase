@@ -2293,7 +2293,8 @@ You deleted a collecting event.
 			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units,
-			collcountlocality
+			collcountlocality,
+			curated_fg
 		from localityResults
 		order by
 			higher_geog, spec_locality
@@ -2333,6 +2334,7 @@ You deleted a collecting event.
 			</td>
 			<td rowspan="2">
 				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+				<cfif curated_fg EQ 1>*</cfif>
 			</td>
 			<td style="min-width: 500px;">
 				<b>#spec_locality#</b>
