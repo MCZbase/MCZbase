@@ -1845,6 +1845,9 @@
 	<cfelse>
 		<cfset sql = "#sql#,NoGeorefBecause = null">
 	</cfif>
+	<cfif isdefined("curated_fg") AND len(#curated_fg#) gt 0>
+		<cfset sql = "#sql#,curated_fg = '#escapeQuotes(curated_fg)#'">
+	</cfif>
 	<cfset sql = "#sql# where locality_id = #locality_id#">
 	<cfquery name="edLoc" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 		#preservesinglequotes(sql)#
@@ -1902,7 +1905,8 @@
 					MIN_DEPTH,
 					MAX_DEPTH,
 					NOGEOREFBECAUSE,
-                    SOVEREIGN_NATION
+                			SOVEREIGN_NATION,
+					curated_fg
 				) VALUES (
 					#lid#,
 					#oldLoc.GEOG_AUTH_REC_ID#
@@ -1956,6 +1960,7 @@
 					<cfelse>
 						,'[unknown]'
 					</cfif>
+					,#oldLoc.curated_fg#
 				)
 			</cfquery>
 			<cfif isdefined("keepAcc") and keepAcc is 1>
