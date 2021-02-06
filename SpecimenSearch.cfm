@@ -1329,6 +1329,7 @@
          	select flags from ctflags
          </cfquery>
          <cfif listcontainsnocase(session.roles,"manage_specimens")>
+				<!--- NOTE: if widened beyond manage_specimens to public, include the mask_fg = 0 in the query. --->
 	         <cfquery name="namedCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
    	      	select underscore_collection_id, collection_name from underscore_collection 
 					order by collection_name

@@ -32,6 +32,7 @@ Update an existing arbitrary collection record (underscore_collection).
 	<cfargument name="collection_name" type="string" required="yes">
 	<cfargument name="description" type="string" required="no">
 	<cfargument name="underscore_agent_id" type="string" required="no">
+	<cfargument name="mask_fg" type="string" required="no">
 
 	<cfset data = ArrayNew(1)>
 	<cftry>
@@ -48,6 +49,9 @@ Update an existing arbitrary collection record (underscore_collection).
 					,underscore_agent_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_agent_id#">
 				<cfelse>
 					,underscore_agent_id = NULL
+				</cfif>
+				<cfif isdefined("mask_fg")>
+					,mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 				</cfif>
 			where 
 				underscore_collection_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#underscore_collection_id#">
