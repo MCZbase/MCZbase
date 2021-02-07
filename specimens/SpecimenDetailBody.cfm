@@ -416,9 +416,7 @@ limitations under the License.
 	order by media.media_type
 </cfquery>
 	
-		<cfquery name="mediaOutside" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select media.media_uri from media where media.media_uri like '%slide-atlas%'
-				<cfquery>
+
 		<cfif mediaS2.recordcount gt 1>
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
@@ -436,7 +434,9 @@ limitations under the License.
 		<i class="fa fa-picture-o" aria-hidden="true"></i>
 				<caption>No preview image available"</caption>
 		<cfelse>
-	
+			<cfquery name="mediaOutside" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				select media.media_uri from media where media.media_uri like '%slide-atlas%'
+				<cfquery>
 			<cfif mediaOutside.recordcount gt 0>
 				<img src="/images/noThumbKronosaurus.jpg" alt="no preview available" width="100%">
 			<cfelse>
