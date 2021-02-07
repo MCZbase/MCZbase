@@ -49,12 +49,12 @@ a.external:hover:visited:after {
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
 .imgsize:nth-child(even) {
-	width: 48%;
-	margin-right: 2%;
+	width: 32%;
+	margin:0;
 }
 .imgsize:nth-child(odd) {
-	width: 48.8%;
-	margin-left: 1.2%;
+	width: 32;
+	margin-left: 2%;
 }
 .imgsize:first-child {
 	width: 100%;
