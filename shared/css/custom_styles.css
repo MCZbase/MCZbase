@@ -48,6 +48,12 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
+.imgsize:first-child {
+	width: 100%;
+}
+.imgsize {
+	width: 50%;
+}
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
 /*********************************************/
