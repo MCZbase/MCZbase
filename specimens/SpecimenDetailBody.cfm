@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-		<cfif mediaS2.recordcount eq 1>
+		<cfif mediaS2.recordcount gt 0>
 <!---		<i class="fa fa-picture-o" aria-hidden="true"></i>
 				<caption>No preview image available"</caption>
 		<cfelse>
