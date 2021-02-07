@@ -52,7 +52,7 @@
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/images/noThumbnailImage.png">
+			<cfreturn "/images/noThumb.jpg">
 		<cfelseif mt is "audio">
 			<cfreturn "/images/audioNoThumb.png">
 		<cfelseif mt is "text">
@@ -60,7 +60,7 @@
 		<cfelseif mt is "multi-page document">
 			<cfreturn "/images/document_thumbnail.png">
 		<cfelse>
-			<cfreturn "/images/noThumbnailImage.png">
+			<cfreturn "/images/noThumbnail.jpg">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>

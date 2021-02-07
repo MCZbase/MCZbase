@@ -83,7 +83,7 @@ limitations under the License.
 		<cfelseif mt is "multi-page document">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbGray.jpg">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
