@@ -78,12 +78,8 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "text">
-			<cfreturn "/shared/images/documentNoThumb.png">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnailImage.png">
+				<cfreturn "/shared/images/noThumbnailDoc.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
