@@ -50,11 +50,11 @@ a.external:hover:visited:after {
 }
 .imgsize:nth-child(even) {
 	width: 48%;
-	margin-left: 2%;
+	margin-right: 2%;
 }
 .imgsize:nth-child(odd) {
 	width: 48.8%;
-	margin-right: 1.2%;
+	margin-left: 1.2%;
 }
 .imgsize:first-child {
 	width: 98.8%;
