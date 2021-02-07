@@ -2079,7 +2079,8 @@ You deleted a collecting event.
 					minimum_elevation,
 					maximum_elevation,
 					orig_elev_units,
-					collcountlocality
+					collcountlocality,
+					curated_fg
 				from localityResults
 				order by 
 					higher_geog, spec_locality, verbatim_locality
@@ -2101,7 +2102,7 @@ You deleted a collecting event.
 		<input type="hidden" name="collecting_event_id" value="#collecting_event_id#" />
 		<tr>
 			<td> <div class="smaller">#higher_geog#
-				(<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>)
+				(<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a><cfif curated_fg EQ 1>*</cfif>)
 				</div>
 			</td>
 			<td>
