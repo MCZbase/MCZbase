@@ -51,10 +51,19 @@ a.external:hover:visited:after {
 .imgsize:first-child {
 	width: 100%;
 	margin: .25rem;
+	padding: .25rem;
+	flex: 0 0 100%;
+	max-width: 100%;
+	position: relative;
 }
 .imgsize {
 	width: 50%;
-		margin: .25rem;
+	margin: .25rem;
+	padding: .25rem;
+	flex: 0 0 100%;
+	max-width: 100%;
+	position:relative;
+	
 }
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
