@@ -450,21 +450,6 @@ limitations under the License.
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
 							</cfquery>
-								<cfif media.recordcount gt 0>
-		<cfset result=result & "<ul>">
-		<cfloop query="query">
-			<cfset previewuri=getMediaImage(preview_uri,media_type) >
-				<cfif puri EQ "<i class="fa fa-picture-o" aria-hidden="true"></i>">
-				<cfset altText = "Red X in a red square, with text, no preview image available">
-			<cfelse>
-				<cfset altText = query.media_descriptor>
-			</cfif>
-			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#previewuri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
-		</cfloop>
-		<cfset result= result & "</ul>">
-	<cfelse>
-		<cfset result=result & "<ul><li>None</li></ul>">
-	</cfif>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
@@ -509,7 +494,7 @@ limitations under the License.
 									
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
-										<cfset previewuri=getMediaImage(preview_uri,media_type)>
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -537,7 +522,7 @@ limitations under the License.
 											<cfset aForImHref = media_uri>
 											<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
 										</cfif>
-										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaImage(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
+										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
