@@ -450,6 +450,21 @@ limitations under the License.
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
 							</cfquery>
+								<cfif media.recordcount gt 0>
+		<cfset result=result & "<ul>">
+		<cfloop query="query">
+			<cfset puri=getMediaPreview(preview_uri,media_type) >
+				<cfif puri EQ "<i class="fa fa-picture-o" aria-hidden="true"></i>">
+				<cfset altText = "Red X in a red square, with text, no preview image available">
+			<cfelse>
+				<cfset altText = query.media_descriptor>
+			</cfif>
+			<cfset result = result & "<li><a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  <a onClick='  confirmAction(""Remove this media from this transaction?"", ""Confirm Unlink Media"", function() { deleteMediaFromTrans(#media_id#,#transaction_id#,""#relWord# #transaction_type#""); } ); '>Remove</a> </li>" >
+		</cfloop>
+		<cfset result= result & "</ul>">
+	<cfelse>
+		<cfset result=result & "<ul><li>None</li></ul>">
+	</cfif>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
