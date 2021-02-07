@@ -440,7 +440,7 @@ limitations under the License.
 			<cfif mediaOutside.recordcount gt 0>
 				<img src="/images/noThumbKronosaurus.jpg" alt="no preview available" width="100%">
 			<cfelse>--->
-			<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">	
+			<!---<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">	--->
 		<!---		</cfif>--->
 		</cfif> 
 			
