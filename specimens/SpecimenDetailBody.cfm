@@ -504,7 +504,7 @@ limitations under the License.
 									<cfloop query="media">
 										<!---div class="thumbs"--->
 										<cfset altText = media.media_descriptor>
-											<cfset puri=getMediaPreview(preview_uri,media_type)>
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -822,7 +822,6 @@ limitations under the License.
 									<cfif desc.recordcount is 1>
 										<cfset alt=desc.label_value>
 									</cfif>
-										#puri#
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
 										<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
