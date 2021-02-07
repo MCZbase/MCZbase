@@ -454,7 +454,6 @@ limitations under the License.
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
 							</cfquery>
-										<cfset puri=getMediaPreview(preview_uri,media_type)>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
@@ -505,7 +504,7 @@ limitations under the License.
 									<cfloop query="media">
 										<!---div class="thumbs"--->
 										<cfset altText = media.media_descriptor>
-									
+											<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -823,6 +822,7 @@ limitations under the License.
 									<cfif desc.recordcount is 1>
 										<cfset alt=desc.label_value>
 									</cfif>
+										#puri#
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
 										<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
