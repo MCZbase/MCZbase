@@ -75,7 +75,7 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "fas fas-alt">
+			<cfreturn "far fa-alt">
 		<cfelseif mt is "audio">
 			<cfreturn "fas fa-audio">
 		<cfelseif mt is "text">
@@ -83,7 +83,7 @@ limitations under the License.
 		<cfelseif mt is "multi-page document">
 			<cfreturn "fas fa-user-check">
 		<cfelse>
-			<cfreturn "fas fa-alt">
+			<cfreturn "far fa-alt">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
