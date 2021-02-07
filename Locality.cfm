@@ -2102,7 +2102,7 @@ You deleted a collecting event.
 		<input type="hidden" name="collecting_event_id" value="#collecting_event_id#" />
 		<tr>
 			<td> <div class="smaller">#higher_geog#
-				(<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a><cfif curated_fg EQ 1>*</cfif>)
+				(<a href="Locality.cfm?Action=editGeog&geog_auth_rec_id=#geog_auth_rec_id#">#geog_auth_rec_id#</a>)
 				</div>
 			</td>
 			<td>
@@ -2119,7 +2119,7 @@ You deleted a collecting event.
 						<br>#nogeorefbecause#
 					</cfif>	
 					<cfif len(locality_remarks) gt 0> remarks: #locality_remarks#</cfif>
-					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>)
+					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a><cfif curated_fg EQ 1>*</cfif>)
 				</div>
 				<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>--->
 			</td>
