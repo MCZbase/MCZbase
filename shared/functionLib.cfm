@@ -75,15 +75,15 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "'fa fa-picture-o' aria-hidden='true'">
+			<cfreturn "fa fa-picture-o">
 		<cfelseif mt is "audio">
-			<cfreturn "'fa fa-file-audio-o' aria-hidden='true'">
+			<cfreturn "fa fa-file-audio-o">
 		<cfelseif mt is "text">
-			<cfreturn "'fa fa-file-pdf-o' aria-hidden='true'">
+			<cfreturn "fa fa-file-pdf-o">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "'fa fa-file-pdf-o' aria-hidden='true'">
+			<cfreturn "fa fa-file-pdf-o">
 		<cfelse>
-			<cfreturn "'fa fa-picture-o' aria-hidden='true'">
+			<cfreturn "fa fa-picture-o">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
