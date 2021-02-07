@@ -73,21 +73,8 @@ limitations under the License.
 			<cfset r=1>
 		</cfif>
 	</cfif>
-			#mt#
-	<cfif r is 0>
-		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumbnailImage.png">
-		<cfelseif mt is "audio">
-			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mt is "video">
-			<cfreturn "/shared/images/noThumbnailVideo.png">
-		<cfelseif mt is "text">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/shared/images/noThumbnailMultiDoc.png">
-		<cfelse>
-			<cfreturn "/shared/images/noThumbnailImage.png">
-		</cfif>
+	<cfif r is 0><cfif mt is "image"><cfreturn "/shared/images/noThumbnailImage.png"><cfelseif mt is "audio"><cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "video"><cfreturn "/shared/images/noThumbnailVideo.png"><cfelseif mt is "text"><cfreturn "/shared/images/noThumbnailDoc.png"><cfelseif mt is "multi-page document"><cfreturn "/shared/images/noThumbnailMultiDoc.png"><cfelse><cfreturn "/shared/images/noThumbnailImage.png"></cfif>
 	<cfelse>
 		<cfreturn puri>
 	</cfif>
