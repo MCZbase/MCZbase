@@ -495,8 +495,8 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-										<cfif len(mediaS2.media_uri) gt 0>
- 		<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2"><cfelse></cfif>
+										<cfif len(mediaS2.media_uri) contains "atlas">
+ 	<cfelse>	<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2"></cfif>
 	
 									<cfloop query="media">
 						
