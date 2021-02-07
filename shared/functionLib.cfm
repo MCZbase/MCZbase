@@ -65,10 +65,7 @@ limitations under the License.
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
 	<cfargument name="mt" required="false" type="string">
-			<cfquery name="mediaOutside" access="public" output="true">
-			select media_uri from media where media_uri like '%atlas%'
-			and media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
-		</cfquery>
+
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
@@ -76,8 +73,7 @@ limitations under the License.
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
 			<cfset r=1>
 	</cfif>
-	<cfif r is 0>
-		<cfif len(mediaOutside.media_uri)gt 0>Hello </cfif>
+	<cfif r is 0 or mediaOutside gt 0>
 		<cfif mt is "image">
 			<cfreturn "far fa-image">
 		<cfelseif mt is "audio">
