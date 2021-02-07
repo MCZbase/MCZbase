@@ -75,15 +75,15 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "<i class="fa fa-picture-o" aria-hidden="true"></i>">
 		<cfelseif mt is "audio">
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "<i class="fa fa-file-audio-o" aria-hidden="true"></i>">
 		<cfelseif mt is "text">
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "<i class="fa fa-file-pdf-o" aria-hidden="true"></i>">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "<i class="fa fa-file-pdf-o" aria-hidden="true"></i>">
 		<cfelse>
-			<cfreturn "/images/noThumbGray.jpg">
+			<cfreturn "<i class="fa fa-picture-o" aria-hidden="true"></i>">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
