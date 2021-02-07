@@ -75,15 +75,15 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "fas fa-image">
+			<cfreturn "far fa-image">
 		<cfelseif mt is "audio">
-			<cfreturn "fas fa-file-audio">
+			<cfreturn "far fa-file-audio">
 		<cfelseif mt is "text">
-			<cfreturn "fas fa-file-contract">
+			<cfreturn "far fa-file-contract">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "fas fa-file-alt">
+			<cfreturn "far fa-file-alt">
 		<cfelse>
-			<cfreturn "fas fa-file-contract">
+			<cfreturn "far fa-file-contract">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
