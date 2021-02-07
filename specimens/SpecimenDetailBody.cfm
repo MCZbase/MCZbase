@@ -503,11 +503,9 @@ limitations under the License.
 			<cfquery name="mediaOutside" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media.media_uri from media where media.media_uri like '%slide-atlas%'
 				<cfquery>
-			<cfif mediaOutside.recordcount gt 0>
-				<img src="/images/noThumbKronosaurus.jpg" alt="no preview available" width="100%">
-			<cfelse>
+		#mediaOutside.media_uri#
 				<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
-			</cfif>
+			
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
