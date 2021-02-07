@@ -469,10 +469,10 @@ limitations under the License.
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
-										<p>Additional Media</p>
+										
 										<cfquery name="wrlCount" dbtype="query">
-                                    select * from media where mime_type = 'model/vrml'
-                        </cfquery>
+                                    		select * from media where mime_type = 'model/vrml'
+                        				</cfquery>
 										<cfif wrlCount.recordcount gt 0>
 											<br>
 											<span class="innerDetailLabel">Note: CT scans with mime type "model/vrml" require an external plugin such as <a href="http://cic.nist.gov/vrml/cosmoplayer.html">Cosmo3d</a> or <a href="http://mediamachines.wordpress.com/flux-player-and-flux-studio/">Flux Player</a>. For Mac users, a standalone player such as <a href="http://meshlab.sourceforge.net/">MeshLab</a> will be required.</span>
@@ -507,7 +507,6 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-									
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -538,7 +537,8 @@ limitations under the License.
 											<cfset aForImHref = media_uri>
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
-										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
+										#one_thumb# <a href="#aForImHref#" target="_blank"> 
+												<cfif puri eq 1><img src="#getMediaPreview(media_uri,media_type)#" alt="#altText#" class="" width="100%"><cfelse><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"></cfif> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
