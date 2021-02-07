@@ -496,7 +496,7 @@ limitations under the License.
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
 										
- 		<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
+ 		<img src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2">
 	
 									<cfloop query="media">
 						
