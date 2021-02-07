@@ -53,7 +53,7 @@ a.external:hover:visited:after {
 	margin:0;
 }
 .imgsize:nth-child(odd) {
-	width: 32;
+	width: 32%;
 	margin-left: 2%;
 }
 .imgsize:first-child {
