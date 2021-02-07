@@ -73,6 +73,7 @@ limitations under the License.
 			<cfset r=1>
 		</cfif>
 	</cfif>
+			#mt#
 	<cfif r is 0>
 		<cfif mt is "image">
 			<cfreturn "/shared/images/noThumbnailImage.png">
