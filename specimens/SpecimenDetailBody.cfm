@@ -1413,7 +1413,7 @@ limitations under the License.
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
 						<div class="card-body float-left">
-							<ul class="list-group list-group-flush pl-0">
+							<ul class="list-group col-12 list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-1 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
@@ -1422,7 +1422,8 @@ limitations under the License.
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
-											<div class="m-2 float-right d-inline col-6"> <cfset media_type ="">
+											<div class="m-2 float-right d-inline col-6"> 
+												<cfset mt = #media_type#>
 												<a href="/media/#media_id#" target="_blank">
 													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block" width="100" alt="media image not available">Media Details
 												</a>
