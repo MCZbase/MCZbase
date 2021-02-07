@@ -505,7 +505,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div class="detailBlock">
-									<span class="detailData form-row col-12 mx-0 px-0"> 
+									<span class="detailData form-row col-12"> 
 									<!---div class="thumbs"--->
 									
 									<cfloop query="media">
