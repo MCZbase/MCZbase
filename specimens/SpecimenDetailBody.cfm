@@ -1427,8 +1427,8 @@ limitations under the License.
 												<a href="/media/#media_id#" target="_blank">
 													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block" width="100" alt="media image not available">Media Details
 												</a>
-												<span class="d-block">#media_type# (#mime_type#)</span>
-												<span class="d-block">#descr#</span> 
+												<span class="small d-block">#media_type# (#mime_type#)</span>
+												<span class="small d-block">#descr#</span> 
 											</p>
 										</cfloop>
 									</cfif>
