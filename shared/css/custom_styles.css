@@ -49,19 +49,14 @@ a.external:hover:visited:after {
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
 .imgsize:nth-child(even) {
-	width: 32%;
-	margin:0;
+	width: 31%;
+	margin: 0 1%;
 }
 .imgsize:nth-child(odd) {
-	width: 32%;
-	margin-left: 2%;
-	margin-right: 2%;
+	width: 31%;
+	margin: 0 1%;
 }
-/*.imgsize:first-child {
-	width: 100%;
-	margin: 0;
-	display:none;
-}*/
+
 
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
