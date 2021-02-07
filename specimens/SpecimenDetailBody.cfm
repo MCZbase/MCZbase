@@ -507,7 +507,7 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-										<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
+										<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>

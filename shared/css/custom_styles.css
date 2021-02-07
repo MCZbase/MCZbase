@@ -60,6 +60,7 @@ a.external:hover:visited:after {
 .imgsize:first-child {
 	width: 100%;
 	margin: 0;
+	display:none;
 }
 
 /*********************************************/
