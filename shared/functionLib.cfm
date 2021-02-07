@@ -65,8 +65,7 @@ limitations under the License.
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
 	<cfargument name="mt" required="false" type="string">
-	<cfargument name="media_id" required="true" type="string">	
-		<cfquery name="mediaOutside" access="public" output="true">
+			<cfquery name="mediaOutside" access="public" output="true">
 			select media_uri from media where media_uri like '%atlas%'
 			and media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
@@ -76,8 +75,6 @@ limitations under the License.
 		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
 			<cfset r=1>
-				<cfif 
-		</cfif>
 	</cfif>
 	<cfif r is 0>
 		<cfif len(mediaOutside.media_uri)gt 0>Hello </cfif>
