@@ -79,7 +79,8 @@ limitations under the License.
 				<cfif 
 		</cfif>
 	</cfif>
-	<cfif r is 0 || mediaOutside.media_uri gt 0>
+	<cfif r is 0>
+		<cfif len(mediaOutside.media_uri)gt 0>Hello </cfif>
 		<cfif mt is "image">
 			<cfreturn "far fa-image">
 		<cfelseif mt is "audio">
