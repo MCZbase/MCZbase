@@ -57,8 +57,8 @@ a.external:hover:visited:after {
 	margin-left: 1.2%;
 }
 .imgsize:first-child {
-	width: 98.8%;
-	margin: 0 1.2%;
+	width: 100%;
+	margin: 0;
 }
 
 /*********************************************/
