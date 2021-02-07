@@ -1415,7 +1415,7 @@ limitations under the License.
 						</div>
 						<div class="card-body float-left">
 							<ul class="list-group list-group-flush pl-0">
-								<li class="list-group-item">Accession:
+								<li class="list-group-item"><h5 class="mb-1 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
 										<cfelse>
