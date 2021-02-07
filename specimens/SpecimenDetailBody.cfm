@@ -538,7 +538,7 @@ limitations under the License.
 											<cfset aForImHref = media_uri>
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
-										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
+										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
