@@ -430,7 +430,7 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-		<cfif mediaS2.recordcount eq 0 and mediaS2.preview_uri eq >
+		<cfif mediaS2.recordcount eq 0>
 		<i class="fa fa-picture-o" aria-hidden="true"></i>
 				<caption>No preview image available"</caption>
 		<cfelse>
@@ -794,7 +794,7 @@ limitations under the License.
 							<cfif publicationMedia.recordcount gt 0>
 								<cfset i = 1>
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview1(preview_uri,media_type)>
+									<cfset puri=getMediaPreview(preview_uri,media_type)>
 								<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
@@ -823,7 +823,7 @@ limitations under the License.
 									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
 										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview1(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
+											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
 										</a>
 										<span class="d-block small text-center" style="line-height:.9rem;">#i#) #media_type# (#mime_type#) 
 										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
