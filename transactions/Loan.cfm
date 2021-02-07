@@ -406,9 +406,7 @@ limitations under the License.
 							$(document).ready(function() { 
 								$("textarea.autogrow").keyup(autogrow);  
 								$('textarea.autogrow').keyup();
-						
-
-
+							});
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
@@ -807,7 +805,6 @@ limitations under the License.
 								// trigger keyup event to size textareas to existing text
 								$('textarea.autogrow').keyup();
 							});
-
 						</script> 
 						<div class="form-row mb-1">
 							<div class="form-group col-12">
