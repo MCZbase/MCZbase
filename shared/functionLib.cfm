@@ -71,28 +71,20 @@ limitations under the License.
 		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200><cfset r=1></cfif>
 	</cfif>
-	<cfif r is 0>	
-		<cfoutput>
-			<cfset mt = 0>
-			<cfif mt is "audio">
-				/shared/images/noThumbnailAudio.png
-			<cfelseif mt is "text"> 
-				/shared/images/noThumbnailDoc.png
-			<cfelse>
-				/shared/images/noThumbnailImage.png
-			</cfif>
-		</cfoutput>
-		
-		
-<!---		<cfif mt is "image">
+	<cfif r is 0>
+		<cfif mt is "image">
 			<cfreturn "/shared/images/noThumbnailImage.png">
-				<cfelseif mt is "audio"><cfreturn "/shared/images/noThumbnailAudio.png">
-				<cfelseif mt is "video"><cfreturn "/shared/images/noThumbnailVideo.png">
-				<cfelseif mt is "text"><cfreturn "/shared/images/noThumbnailDoc.png">
-				<cfelseif mt is "multi-page document"><cfreturn "/shared/images/noThumbnailMultiDoc.png">
+		<cfelseif mt is "audio">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "video">
+			<cfreturn "/shared/images/noThumbnailVideo.png">
+		<cfelseif mt is "text">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif mt is "multi-page document">
+			<cfreturn "/shared/images/noThumbnailMultiDoc.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
-		</cfif>--->
+		</cfif>
 	<cfelse>
 		<cfreturn puri>
 	</cfif>
