@@ -1380,7 +1380,7 @@ limitations under the License.
 							<cfif preps.recordcount gt 0>
 								<li class="list-group-item"><em>Preparator(s):&nbsp;</em>
 									<cfloop query="preps">
-										#preps.preferred_agent_name#<span>,</span>
+										#preps.preparators#<span>,</span>
 									</cfloop>
 								</li>
 							</cfif>
