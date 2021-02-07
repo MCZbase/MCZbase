@@ -507,6 +507,7 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
+										<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
@@ -538,7 +539,7 @@ limitations under the License.
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> 
-												<cfif puri eq 1><img src="#getMediaPreview(media_uri,media_type)#" alt="#altText#" class="" width="100%"><cfelse><img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"></cfif> </a>
+									<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
