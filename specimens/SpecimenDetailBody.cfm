@@ -796,7 +796,7 @@ limitations under the License.
 							<cfif publicationMedia.recordcount gt 0>
 								<cfset i = 1>
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
+						
 								<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
@@ -1390,23 +1390,23 @@ limitations under the License.
 				</div>
 				<!------------------------------------- tranactions  ---------------------------------------->
 				<cfquery name="accnMedia" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" >
-		SELECT 
-			media.media_id,
-			media.media_uri,
-			media.mime_type,
-			media.media_type,
-			media.preview_uri,
-			label_value descr 
-		FROM 
-			media,
-			media_relations,
-			(select media_id,label_value from media_labels where media_label='description') media_labels 
-		WHERE 
-			media.media_id=media_relations.media_id and
-			media.media_id=media_labels.media_id (+) and
-			media_relations.media_relationship like '% accn' and
-			media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
-	</cfquery>
+					SELECT 
+						media.media_id,
+						media.media_uri,
+						media.mime_type,
+						media.media_type,
+						media.preview_uri,
+						label_value descr 
+					FROM 
+						media,
+						media_relations,
+						(select media_id,label_value from media_labels where media_label='description') media_labels 
+					WHERE 
+						media.media_id=media_relations.media_id and
+						media.media_id=media_labels.media_id (+) and
+						media_relations.media_relationship like '% accn' and
+						media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
+				</cfquery>
 				<cfif oneOfUs is 1 and vpdaccn is 1>
 					<div class="card mb-2">
 						<div class="card-header float-left w-100">
@@ -1425,9 +1425,10 @@ limitations under the License.
 										<cfloop query="accnMedia">
 											<cfset puri=getMediaPreview(preview_uri,media_type)>
 											<div> #media_type# (#mime_type#) <br>
-												<a href="/media/#media_id#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100"><br>
-													Media Details</a> <br>
-												#descr# </div>
+												<a href="/media/#media_id#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100"/><br/>
+													Media Details</a> <br/>
+												#descr# 
+											</div>
 										</cfloop>
 									</cfif>
 								</li>
