@@ -430,10 +430,11 @@ limitations under the License.
 							<div class="card-body">
 							<!------------------------------------ media ----------------------------------------------> 
 							<!---START Code from MEDIA SET code---> 
-		<cfif mediaS2.recordcount eq 0>
-		<img src="/images/noThumb.jpg" class="sr-only">
+		<cfif mediaS2.recordcount eq 0 and mediaS2.preview_uri eq '<img src="https://images.slide-atlas.org/#item/5915d88fdd98b578723a09bc" alt="image" width="100%">'>
+		<i class="fa fa-picture-o" aria-hidden="true"></i>
+				<caption>No preview image available"</caption>
 		<cfelse>
-		<caption>No preview image available"</caption>
+	
 			<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%">	
 		</cfif> 
 								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
