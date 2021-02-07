@@ -274,118 +274,118 @@ limitations under the License.
 <section class="container-fluid">
 	<div class="form-row">
 	<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		collector.coll_order,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
-		else
-			preferred_agent_name.agent_name
-		end collectors
-	FROM
-		collector,
-		preferred_agent_name
-	WHERE
-		collector.collector_role='c' and
-		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	ORDER BY
-		coll_order
-</cfquery>
+		SELECT
+			collector.coll_order,
+			case when
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask collector%' then 'Anonymous'
+			else
+				preferred_agent_name.agent_name
+			end collectors
+		FROM
+			collector,
+			preferred_agent_name
+		WHERE
+			collector.collector_role='c' and
+			collector.agent_id=preferred_agent_name.agent_id and
+			collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		ORDER BY
+			coll_order
+	</cfquery>
 	<cfquery name="preps" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		collector.coll_order,
-		case when
-			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
-		else
-			preferred_agent_name.agent_name
-		end preparators
-	FROM
-		collector,
-		preferred_agent_name
-	WHERE
-		collector.collector_role='p' and
-		collector.agent_id=preferred_agent_name.agent_id and
-		collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	ORDER BY
-		coll_order
-</cfquery>
+		SELECT
+			collector.coll_order,
+			case when
+				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#oneOfUs#"> != 1 and concatencumbrances(collector.collection_object_id) like '%mask preparator%' then 'Anonymous'
+			else
+				preferred_agent_name.agent_name
+			end preparators
+		FROM
+			collector,
+			preferred_agent_name
+		WHERE
+			collector.collector_role='p' and
+			collector.agent_id=preferred_agent_name.agent_id and
+			collector.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		ORDER BY
+			coll_order
+	</cfquery>
 	<cfquery name="attribute" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		attributes.attribute_type,
-		attributes.attribute_value,
-		attributes.attribute_units,
-		attributes.attribute_remark,
-		attributes.determination_method,
-		attributes.determined_date,
-		attribute_determiner.agent_name attributeDeterminer
-	FROM
-		attributes,
-		preferred_agent_name attribute_determiner
-	WHERE
-		attributes.determined_by_agent_id = attribute_determiner.agent_id and
-		attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-</cfquery>
+			SELECT
+				attributes.attribute_type,
+				attributes.attribute_value,
+				attributes.attribute_units,
+				attributes.attribute_remark,
+				attributes.determination_method,
+				attributes.determined_date,
+				attribute_determiner.agent_name attributeDeterminer
+			FROM
+				attributes,
+				preferred_agent_name attribute_determiner
+			WHERE
+				attributes.determined_by_agent_id = attribute_determiner.agent_id and
+				attributes.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+		</cfquery>
 	<cfquery name="relns" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT 
-		distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
-	SELECT
-		 rel.biol_indiv_relationship as biol_indiv_relationship,
-		 collection as related_collection,
-		 rel.related_coll_object_id as related_coll_object_id,
-		 rcat.cat_num as related_cat_num,
-		rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-	FROM
-		 biol_indiv_relations rel
-		 left join cataloged_item rcat
-			 on rel.related_coll_object_id = rcat.collection_object_id
-		 left join collection
-			 on collection.collection_id = rcat.collection_id
-		 left join ctbiol_relations ctrel
-		  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-	WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
-		  and ctrel.rel_type <> 'functional'
-	UNION
-	SELECT
-		 ctrel.inverse_relation as biol_indiv_relationship,
-		 collection as related_collection,
-		 irel.collection_object_id as related_coll_object_id,
-		 rcat.cat_num as related_cat_num,
-		irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
-	FROM
-		 biol_indiv_relations irel
-		 left join ctbiol_relations ctrel
-		  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
-		 left join cataloged_item rcat
-		  on irel.collection_object_id = rcat.collection_object_id
-		 left join collection
-		 on collection.collection_id = rcat.collection_id
-	WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-		 and ctrel.rel_type <> 'functional'
-	)
-</cfquery>
+			SELECT 
+				distinct biol_indiv_relationship, related_collection, related_coll_object_id, related_cat_num, biol_indiv_relation_remarks FROM (
+			SELECT
+				 rel.biol_indiv_relationship as biol_indiv_relationship,
+				 collection as related_collection,
+				 rel.related_coll_object_id as related_coll_object_id,
+				 rcat.cat_num as related_cat_num,
+				rel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+			FROM
+				 biol_indiv_relations rel
+				 left join cataloged_item rcat
+					 on rel.related_coll_object_id = rcat.collection_object_id
+				 left join collection
+					 on collection.collection_id = rcat.collection_id
+				 left join ctbiol_relations ctrel
+				  on rel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+			WHERE rel.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL"> 
+				  and ctrel.rel_type <> 'functional'
+			UNION
+			SELECT
+				 ctrel.inverse_relation as biol_indiv_relationship,
+				 collection as related_collection,
+				 irel.collection_object_id as related_coll_object_id,
+				 rcat.cat_num as related_cat_num,
+				irel.biol_indiv_relation_remarks as biol_indiv_relation_remarks
+			FROM
+				 biol_indiv_relations irel
+				 left join ctbiol_relations ctrel
+				  on irel.biol_indiv_relationship = ctrel.biol_indiv_relationship
+				 left join cataloged_item rcat
+				  on irel.collection_object_id = rcat.collection_object_id
+				 left join collection
+				 on collection.collection_id = rcat.collection_id
+			WHERE irel.related_coll_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+				 and ctrel.rel_type <> 'functional'
+			)
+		</cfquery>
 	<cfquery name="citations" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	SELECT
-		citation.type_status,
-		citation.occurs_page_number,
-		citation.citation_page_uri,
-		citation.CITATION_REMARKS,
-		cited_taxa.scientific_name as cited_name,
-		cited_taxa.taxon_name_id as cited_name_id,
-		formatted_publication.formatted_publication,
-		formatted_publication.publication_id,
-		cited_taxa.taxon_status as cited_name_status
-	from
-		citation,
-		taxonomy cited_taxa,
-		formatted_publication
-	where
-		citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
-		citation.publication_id = formatted_publication.publication_id AND
-		format_style='short' and
-		citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-	order by
-		substr(formatted_publication, - 4)
-</cfquery>
+			SELECT
+				citation.type_status,
+				citation.occurs_page_number,
+				citation.citation_page_uri,
+				citation.CITATION_REMARKS,
+				cited_taxa.scientific_name as cited_name,
+				cited_taxa.taxon_name_id as cited_name_id,
+				formatted_publication.formatted_publication,
+				formatted_publication.publication_id,
+				cited_taxa.taxon_status as cited_name_status
+			from
+				citation,
+				taxonomy cited_taxa,
+				formatted_publication
+			where
+				citation.cited_taxon_name_id = cited_taxa.taxon_name_id  AND
+				citation.publication_id = formatted_publication.publication_id AND
+				format_style='short' and
+				citation.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			order by
+				substr(formatted_publication, - 4)
+		</cfquery>
 	<cfoutput query="one">
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -396,25 +396,25 @@ limitations under the License.
 			<input type="hidden" name="collecting_event_id" value="#one.collecting_event_id#">
 		</cfif>
 		<cfquery name="mediaS2" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-    select distinct
-        media.media_id,
-        media.media_uri,
-        media.mime_type,
-        media.media_type,
-        media.preview_uri,
-		media_relations.media_relationship
-     from
-         media,
-         media_relations,
-         media_labels
-     where
-         media.media_id=media_relations.media_id and
-         media.media_id=media_labels.media_id (+) and
-         media_relations.media_relationship like '%cataloged_item' and
-         media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
-         AND MCZBASE.is_media_encumbered(media.media_id) < 1
-	order by media.media_type
-</cfquery>
+				select distinct
+					media.media_id,
+					media.media_uri,
+					media.mime_type,
+					media.media_type,
+					media.preview_uri,
+					media_relations.media_relationship
+				 from
+					 media,
+					 media_relations,
+					 media_labels
+				 where
+					 media.media_id=media_relations.media_id and
+					 media.media_id=media_labels.media_id (+) and
+					 media_relations.media_relationship like '%cataloged_item' and
+					 media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
+					 AND MCZBASE.is_media_encumbered(media.media_id) < 1
+				order by media.media_type
+			</cfquery>
 	
 
 		<cfif mediaS2.recordcount gt 1>
@@ -454,6 +454,7 @@ limitations under the License.
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
 							</cfquery>
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
 									<div class="mt-2">
@@ -504,7 +505,7 @@ limitations under the License.
 									<cfloop query="media">
 										<!---div class="thumbs"--->
 										<cfset altText = media.media_descriptor>
-											<cfset puri=getMediaPreview(preview_uri,media_type)>
+									
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -797,32 +798,31 @@ limitations under the License.
 								<cfset i = 1>
 								<cfloop query="publicationMedia">
 									<cfset puri=getMediaPreview(preview_uri,media_type)>
-								<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-											media_label,
-											label_value
-									from
-											media_labels
-									where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
+									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												select
+														media_label,
+														label_value
+												from
+														media_labels
+												where
+														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+									</cfquery>
 									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select
-											media_label,
-											label_value
-									from
-											media_labels
-									where
-											media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-						</cfquery>
+												select
+														media_label,
+														label_value
+												from
+														media_labels
+												where
+														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+									</cfquery>
 									<cfquery name="desc" dbtype="query">
-							select label_value from labels where media_label='description'
-						</cfquery>
+										select label_value from labels where media_label='description'
+									</cfquery>
 									<cfset alt="Media Preview Image">
 									<cfif desc.recordcount is 1>
 										<cfset alt=desc.label_value>
 									</cfif>
-									<!---		<img src="http://www.archive.org/download/proceedingsofnew04newe/page/n22_w392" width="70" height="100" class="float-left mr-2 mb-2"> --->
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
 										<a href="#media_uri#" target="_blank">
 											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
