@@ -75,7 +75,7 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumbnail.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "video">
@@ -85,7 +85,7 @@ limitations under the License.
 		<cfelseif mt is "multi-page document">
 			<cfreturn "/shared/images/noThumbnailMultiDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnail.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
