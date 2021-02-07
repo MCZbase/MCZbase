@@ -75,7 +75,7 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "far fa-image">
+			<cfreturn "/shared/images/noThumbnail.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "video">
