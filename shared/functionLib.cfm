@@ -89,6 +89,34 @@ limitations under the License.
 		<cfreturn puri>
 	</cfif>
 </cffunction>
+
+<cffunction name="getMediaPreview2" access="public" output="true">
+	<cfargument name="puris" required="true" type="string">
+	<cfargument name="mt" required="false" type="string">
+	<cfset r=0>
+	<cfif len(puri) gt 0>
+		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
+		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
+		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+			<cfset r=1>
+		</cfif>
+	</cfif>
+	<cfif r is 0>
+		<cfif mt is "image">
+			<cfreturn "<i class='fa fa-picture-o' aria-hidden='true'></i>">
+		<cfelseif mt is "audio">
+			<cfreturn "<i class='fa fa-file-audio-o' aria-hidden='true'></i>">
+		<cfelseif mt is "text">
+			<cfreturn "<i class='fa fa-file-pdf-o' aria-hidden='true'></i>">
+		<cfelseif mt is "multi-page document">
+			<cfreturn "<i class='fa fa-file-pdf-o' aria-hidden='true'></i>">
+		<cfelse>
+			<cfreturn "<i class='fa fa-picture-o' aria-hidden='true'></i>">
+		</cfif>
+	<cfelse>
+		<cfreturn puris>
+	</cfif>
+</cffunction>
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
