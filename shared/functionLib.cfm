@@ -83,7 +83,7 @@ limitations under the License.
 		<cfelseif mt is "multi-page document">
 			<cfreturn "fa fa-file-pdf-o">
 		<cfelse>
-			<cfreturn "fa fa-picture-o">
+			<cfreturn "far fa-file-alt">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
