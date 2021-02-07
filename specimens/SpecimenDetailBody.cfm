@@ -421,7 +421,7 @@ limitations under the License.
 			<div class="col-12 col-sm-12 col-md-3 col-lg-3 col-xl-2 px-1 mb-2 float-left">
 				<div class="accordion" id="accordionE">
 					<div class="card bg-light">
-						<div class="card-header" id="headingTwo">
+						<div class="card-header mb-0" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed MediaAccordionShow btn-link"><a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Media</a></h3>
 							<h3 class="h4 my-0 float-left MediaAccordionHide">Media</h3>
 							<button type="button" class="btn btn-xs small float-right" onclick="$('.dialog').dialog('open'); loadMedia();">Edit</button>
@@ -444,7 +444,7 @@ limitations under the License.
 		<!---		</cfif>--->
 		</cfif> 
 			
-								<a href="/media/#mediaS2.media_id#" class="pt-2 btn-link">Media Record</a>
+								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
 													media.media_id,
