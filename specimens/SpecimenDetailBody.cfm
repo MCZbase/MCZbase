@@ -444,7 +444,7 @@ limitations under the License.
 		<!---		</cfif>--->
 		</cfif> 
 			
-								<a href="/media/#mediaS2.media_id#" class="btn-link">Media Record</a>
+								<a href="/media/#mediaS2.media_id#" class="pt-2 btn-link">Media Record</a>
 							<cfquery name="media" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										select distinct
 													media.media_id,
@@ -505,7 +505,7 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
-									<span class="form-row py-2 col-12 px-0 mx-0"> 
+									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
 										<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
 									<cfloop query="media">
