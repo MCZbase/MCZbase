@@ -1706,7 +1706,7 @@
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
 			<cfset puri=getMediaPreview(preview_uri,media_type) >
-			<cfif puri EQ "/images/noThumb.jpg">
+				<cfif puri EQ "<i class="fa fa-picture-o" aria-hidden="true"></i>">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
 				<cfset altText = query.media_descriptor>
