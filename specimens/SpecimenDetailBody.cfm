@@ -453,7 +453,7 @@ limitations under the License.
 								<cfif media.recordcount gt 0>
 		<cfset result=result & "<ul>">
 		<cfloop query="query">
-			<cfset puri=getMediaPreview(preview_uri,media_type) >
+			<cfset puri=getMediaImage(preview_uri,media_type) >
 				<cfif puri EQ "<i class="fa fa-picture-o" aria-hidden="true"></i>">
 				<cfset altText = "Red X in a red square, with text, no preview image available">
 			<cfelse>
@@ -509,7 +509,7 @@ limitations under the License.
 									
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
-										<cfset puri=getMediaPreview(preview_uri,media_type)>
+										<cfset puri=getMediaImage(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -537,7 +537,7 @@ limitations under the License.
 											<cfset aForImHref = media_uri>
 											<cfset aForDetHref = "https://mczbase-dev.rc.fas.harvard.edu/media/#media_id#">
 										</cfif>
-										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
+										#one_thumb# <a href="#aForImHref#" target="_blank"> <img src="#getMediaImage(preview_uri,media_type)#" alt="#altText#" class="theThumb" width="100%"> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
