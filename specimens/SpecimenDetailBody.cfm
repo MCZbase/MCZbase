@@ -1422,7 +1422,7 @@ limitations under the License.
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
-											<div>
+											<div>#media_type#
 												<a href="/media/#media_id#" target="_blank">
 													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block" width="100" alt="media image not available">Media Details
 												</a>
