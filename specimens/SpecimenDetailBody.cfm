@@ -1377,13 +1377,31 @@ limitations under the License.
 									</cfloop>
 								</li>
 							</cfif>
-							<cfif preps.recordcount gt 0>
+											<cfloop query="preps">
+						<cfset preparatorLink ="">
+						<cfset preparatorLinkEnd ="">
+						<cfif len(preparator_id) GT 0>
+							<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_agents")>
+								<cfset preparatorLink = "<a href='/agents.cfm?agent_id=#preparator_id#' target='_blank'>" >
+							<cfelse>
+								<cfset preparatorLink = "<a href='/agents/Agent.cfm?agent_id=#preparator_id#' target='_blank'>" >
+							</cfif>
+							<cfset preparatorLinkEnd ="</a>">
+						</cfif>
+						<div class="detailBlock">
+							<span class="detailData">
+								<span class="innerDetailLabel"></span>
+								#preparatorLink##preparators##preparatorLinkEnd#
+							</span>
+						</div>
+					</cfloop>
+							<!---<cfif preps.recordcount gt 0>
 								<li class="list-group-item"><em>Preparator(s):&nbsp;</em>
 									<cfloop query="colls">
 										#preps.preferred_agent_name#<span>,</span>
 									</cfloop>
 								</li>
-							</cfif>
+							</cfif>--->
 						</ul>
 					</div>
 				</div>
