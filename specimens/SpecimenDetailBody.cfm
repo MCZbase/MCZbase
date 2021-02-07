@@ -495,9 +495,13 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-										
+										<cfquery name="mediaExt" access="public" output="true" returntype="boolean">
+											select media_id from media where media.media_uri like '%atlas%'
+											and media.media_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
+										</cfquery>	
+											<cfif len(mediaExt.media_id) gt 0>Hello<cfelse>
  		<img src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2">
-	
+												</cfelse>	
 									<cfloop query="media">
 						
 		
