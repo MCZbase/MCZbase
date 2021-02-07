@@ -501,7 +501,7 @@ limitations under the License.
 										</cfquery>	
 											<cfif len(mediaExt.media_id) gt 0>Hello<cfelse>
  		<img src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2">
-												</cfelse>	
+												</cfif>	
 									<cfloop query="media">
 						
 		
