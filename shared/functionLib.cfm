@@ -77,13 +77,15 @@ limitations under the License.
 		<cfif mt is "image">
 			<cfreturn "far fa-image">
 		<cfelseif mt is "audio">
-			<cfreturn "/lib/fontawesome-free-5.5.0-web/solid/weight.svg">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "video">
+			<cfreturn "/shared/images/noThumbnailVideo.png">
 		<cfelseif mt is "text">
-			<cfreturn "/lib/fontawesome-free-5.5.0-web/solid/weight.svg">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/lib/fontawesome-free-5.5.0-web/solid/weight.svg">
+			<cfreturn "/shared/images/noThumbnailMultiDoc.png">
 		<cfelse>
-			<cfreturn "/lib/fontawesome-free-5.5.0-web/solid/weight.svg">
+			<cfreturn "/shared/images/noThumbnail.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
