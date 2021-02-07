@@ -882,30 +882,30 @@ limitations under the License.
 									specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 							</cfquery>
 						<cfquery name="parts" dbtype="query">
-        select  
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        from
-                rparts
-        group by
-			
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        order by
-                part_name
-</cfquery>
+								select  
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								from
+										rparts
+								group by
+
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								order by
+										part_name
+						</cfquery>
 						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
@@ -1423,9 +1423,11 @@ limitations under the License.
 									</cfif>
 									<cfif accnMedia.recordcount gt 0>
 										<cfloop query="accnMedia">
-											<p> #media_type# (#mime_type#) <br>
-												<a href="/media/#media_id#" target="_blank">Media Details</a> <br>
-												#descr# </p>
+											<cfset puri=getMediaPreview(preview_uri,media_type)>
+											<div> #media_type# (#mime_type#) <br>
+												<a href="/media/#media_id#" target="_blank"><img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100"><br>
+													Media Details</a> <br>
+												#descr# </div>
 										</cfloop>
 									</cfif>
 								</li>
