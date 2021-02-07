@@ -75,7 +75,7 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "fas fa-alt">
+			<cfreturn "fas fas-alt">
 		<cfelseif mt is "audio">
 			<cfreturn "fas fa-audio">
 		<cfelseif mt is "text">
