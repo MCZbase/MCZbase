@@ -495,13 +495,8 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-						
- 		<img src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2">
-										
+ 									<img src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2">					
 									<cfloop query="media">
-						
-		
-			
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -532,7 +527,8 @@ limitations under the License.
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> 
-												<i class="#getMediaPreview(preview_uri,media_type)# fa-4x"></i> </a>
+												<cfif len(preview_uri)gt 0><i class="#getMediaPreview(preview_uri,media_type)#"></i><cfelse>
+											<img class="w-100" src="#media.media_uri#" alt="#media.media_descriptor#" width="100%" class="mb-2"> </cfif> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>

@@ -89,7 +89,6 @@ limitations under the License.
 		<cfreturn puri>
 	</cfif>
 </cffunction>
-			
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
