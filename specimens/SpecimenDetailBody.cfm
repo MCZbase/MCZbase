@@ -495,19 +495,17 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="thumbs"--->
-												<cfif mediaS2.recordcount gt 0>
- <i class="fa fa-picture-o" aria-hidden="true"></i>
-				<caption>No preview image available"</caption>
-		<cfelse>
+										
+ 
 			<cfquery name="mediaOutside" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				select media.media_uri from media where media.media_uri like '%slide-atlas%'
 				<cfquery>
 			<cfif mediaOutside.recordcount gt 0>
 				<img src="/images/noThumbKronosaurus.jpg" alt="no preview available" width="100%">
 			<cfelse>
-		<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
-		</cfif>
-		</cfif> 
+				<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" width="100%" class="mb-2">
+			</cfif>
+	
 									<cfloop query="media">
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
