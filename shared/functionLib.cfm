@@ -67,6 +67,7 @@ limitations under the License.
 	<cfargument name="mt" required="false" type="string">
 		<cfquery name="mediaOutside" name="getMediaPreview" access="public" output="true">
 			select mediaOutside.media_uri from media where mediaOutside.media_uri like '%atlas%'
+			and media_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#media_id#">
 		</cfquery>
 	<cfset r=0>
 	<cfif len(puri) gt 0>
