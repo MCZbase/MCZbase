@@ -503,7 +503,9 @@ limitations under the License.
 		
 			
 										<cfset altText = media.media_descriptor>
-											<cfset puri="<i class='getMediaPreview(preview_uri,media_type) fa-4x>'></i>"
+										
+											<cfset puri=getMediaPreview(preview_uri,media_type)>
+									
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
