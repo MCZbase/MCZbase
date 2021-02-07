@@ -64,26 +64,26 @@ limitations under the License.
 <!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
-	<cfargument name="mt" required="true" type="string">
+	<cfargument name="mt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
 		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
-		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200><cfset r=1></cfif>
+		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+			<cfset r=1>
+		</cfif>
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
-			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mt is "video">
-			<cfreturn "/shared/images/noThumbnailVideo.png">
-		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif mt is "text">
+			<cfreturn "/shared/images/documentNoThumb.png">
 		<cfelseif mt is "multi-page document">
-			<cfreturn "/shared/images/noThumbnailMultiDoc.png">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnailImage.png">
+			<cfreturn "/shared/images/noThumbGray.jpg">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
