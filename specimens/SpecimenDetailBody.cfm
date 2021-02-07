@@ -801,7 +801,7 @@ limitations under the License.
 							<cfif publicationMedia.recordcount gt 0>
 								<cfset i = 1>
 								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
+								<!---	<cfset puri=getMediaPreview(preview_uri,media_type)>--->
 								<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select
 											media_label,
