@@ -1445,7 +1445,7 @@ limitations under the License.
 										project_trans.transaction_id = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 									GROUP BY project_name, project.project_id
 								</cfquery>
-														<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										project_name, project.project_id 
 									FROM 
@@ -1461,7 +1461,7 @@ limitations under the License.
 									GROUP BY 
 										project_name, project.project_id
 								</cfquery>
-														<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="isLoanedItem" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										loan_item.collection_object_id 
 									FROM 
@@ -1470,7 +1470,7 @@ limitations under the License.
 										loan_item.collection_object_id=specimen_part.collection_object_id AND
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-														<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="loanList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										distinct loan_number, loan_type, loan_status, loan.transaction_id 
 									FROM
@@ -1488,7 +1488,7 @@ limitations under the License.
 									WHERE
 										specimen_part.derived_from_cat_item = <cfqueryparam value="#one.collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 								</cfquery>
-														<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+								<cfquery name="deaccessionList" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									SELECT 
 										distinct deacc_number, deacc_type, deaccession.transaction_id 
 									FROM
