@@ -52,8 +52,13 @@ a.external:hover:visited:after {
 	width: 100%;
 	margin-left: .25rem;
 }
-.imgsize {
+.imgsize:nth-child(even) {
+	width: 48%;
+	margin-left: 2%;
+}
+.imgsize:nth-child(odd) {
 	width: 49%;
+	margin-left: 1.2%;
 }
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
