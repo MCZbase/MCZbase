@@ -49,11 +49,11 @@ a.external:hover:visited:after {
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
 .thumbnails.imgsize:nth-child(even) {
-	width: 31%;
+	width: 30%;
 	margin: 0 1%;
 }
 .thumbnails .imgsize:nth-child(odd) {
-	width: 31%;
+	width: 30%;
 	margin: 0 1%;
 }
 .featured .imgsize {
