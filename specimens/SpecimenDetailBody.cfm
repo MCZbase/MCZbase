@@ -503,7 +503,7 @@ limitations under the License.
 								<cfif puri is 1>
 									<cfset replacement = "#mediaS2.media_uri#">
 									<div class="col-12">
-										<cfset imageR = Replace(puri,replacement)>
+										<cfset imageR = Replace(#puri#,replacement)>
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="#imageR#" alt="test" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
