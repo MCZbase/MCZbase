@@ -80,7 +80,7 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text" || #media_type# is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "text" and #media_uri# contains "atlas">	
+		<cfelseif mt is "text" && #media_uri# contains "atlas">	
 			<cfreturn "/shared/images/noThumbnail_slide.png">
 		<cfelseif mt is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
