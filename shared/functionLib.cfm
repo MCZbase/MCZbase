@@ -74,12 +74,12 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
+		<cfif  #media_type# is "image">
 			<cfreturn "/shared/images/noThumbnailImage.png">
-		<cfelseif mt is "audio">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif #media_type# is "audio">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelse>
-				<cfreturn "/shared/images/noThumbnailDoc.png">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
