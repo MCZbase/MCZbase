@@ -62,13 +62,13 @@ limitations under the License.
 	</cfscript>
 </cffunction>
 <!------------------------------------------------------------------------------------->
-<cffunction name="getMediaPreview" access="public" output="true">
+<!---<cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
 	<cfargument name="mt" required="true" type="string">
 	<cfset r=0>
-	<cfif len(puri) gt 0>
+	<cfif len(puri) gt 0>--->
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
+<!---		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
 			<cfset r=1>
 		</cfif>
@@ -88,7 +88,7 @@ limitations under the License.
 	<cfelse>
 		<cfreturn puri>
 	</cfif>
-</cffunction>
+</cffunction>--->
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
