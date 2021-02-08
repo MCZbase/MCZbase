@@ -53,13 +53,13 @@
 	</cfif>
 	<cfif r is 0>
 		<cfif  mt is "image">
-			<cfreturn "/shared/images/noThumbnailImage.png">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnailImage.png">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
