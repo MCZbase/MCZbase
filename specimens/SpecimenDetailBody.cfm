@@ -505,9 +505,9 @@ limitations under the License.
 										</cfif>
 									<cfloop query="media">
 										<!---div class="thumbs"--->
-										<cfset mt=media.media_type>
+										<cfset mta=media.media_type>
 										<cfset altText = media.media_descriptor>
-										<cfset puri=getMediaPreview(preview_uri,media_type)>
+										<cfset puria=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -536,7 +536,7 @@ limitations under the License.
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> 
-									<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
+									<img src="#getMediaPreview1(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
 										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
