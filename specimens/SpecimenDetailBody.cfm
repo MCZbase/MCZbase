@@ -501,13 +501,17 @@ limitations under the License.
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 								<cfif puri is 1>
+									<cfset replacement = "#mediaS2.media_uri#">
+									<div class="col-12">
+										<cfset imageR = Replace(#getMediaPreview(preview_uri,media_type)#,replacement)>
 										<cfif #mediaS2.media_uri# contains 'atlas'>
-											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
+											<img src="#imageR#" alt="test" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
 										
  										<cfelse>	
-											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
+											<img src="#imageR#" alt="test2" class="w-100 border mb-2">
 										</cfif>
+										</div>
 								<cfelse>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
