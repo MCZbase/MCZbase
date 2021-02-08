@@ -60,7 +60,7 @@ a.external:hover:visited:after {
 	width: 100%;
 	margin: 0 1%;
 }
-
+table {font-size: 0.875rem;}
 
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
