@@ -499,7 +499,7 @@ limitations under the License.
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
-											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
+											
  										<cfelse>	
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
