@@ -57,9 +57,12 @@
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
+			<cfif muri contains "atlas">
+				<cfreturn "/shared/images/noThumbnail_slide.png">
+			</cfif>
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnail_slide.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
