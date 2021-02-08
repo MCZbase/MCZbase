@@ -41,7 +41,7 @@
 </cffunction>
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
-	<cfargument name="mt" required="false" type="string">
+	<cfargument name="media_uri" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
@@ -55,7 +55,7 @@
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif #media_type# is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif puri contains "atlas">
+		<cfelseif #media_uri# contains "atlas">
 			<cfreturn "/shared/images/noThumbnail_slide.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailDoc.png">
