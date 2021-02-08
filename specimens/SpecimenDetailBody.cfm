@@ -493,20 +493,21 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
+											<cfloop query="media">
+										<!---div class="thumbs"--->
+										<cfset altText = media.media_descriptor>
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
-											
+										
  										<cfelse>	
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
-									<cfloop query="media">
-										<!---div class="thumbs"--->
-										<cfset altText = media.media_descriptor>
-										<cfset puri=getMediaPreview(preview_uri,media_type)>
+								
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
