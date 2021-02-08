@@ -80,6 +80,8 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif puri contains "atlas">	
+			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
