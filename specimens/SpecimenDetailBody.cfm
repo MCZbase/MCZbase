@@ -1396,7 +1396,7 @@ limitations under the License.
 					SELECT 
 						media.media_id,
 						media.media_uri,
-						media.mime_type,
+						media.mime_type as mt,
 						media.media_type,
 						media.preview_uri,
 						label_value descr 
