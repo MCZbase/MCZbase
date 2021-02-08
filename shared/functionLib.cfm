@@ -81,7 +81,7 @@ limitations under the License.
 		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mt is "text" and puri contains "atlas">	
-			<cfreturn "/shared/images/noThumbnailAudio.png">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
