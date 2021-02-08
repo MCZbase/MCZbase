@@ -55,10 +55,10 @@
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif #media_type# is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif #media_uri# contains "atlas">
-			<cfreturn "/shared/images/noThumbnail_slide.png">
-		<cfelse>
+		<cfelseif #media_type# contains "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelse>
+			<cfreturn "/shared/images/noThumbnail_slide.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
