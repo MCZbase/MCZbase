@@ -48,12 +48,16 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
-.imgsize:nth-child(even) {
+.thumbnails.imgsize:nth-child(even) {
 	width: 31%;
 	margin: 0 1%;
 }
-.imgsize:nth-child(odd) {
+.thumbnails .imgsize:nth-child(odd) {
 	width: 31%;
+	margin: 0 1%;
+}
+.featured .imgsize {
+	width: 100%;
 	margin: 0 1%;
 }
 

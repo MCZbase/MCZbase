@@ -497,22 +497,23 @@ limitations under the License.
 										<!---div class="thumbs"--->
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
-									<span class="form-row col-12 px-0 mx-0"> 
+									<div class="form-row  w-100"> 
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 								<cfif puri is 1>
 									<cfset replacement = "#mediaS2.media_uri#">
-									<div class="col-12">
-										<cfset imageR = Replace('',replacement)>
+									<div class="col-12 featured">
+									<div class="imgsize">
 										<cfif #mediaS2.media_uri# contains 'atlas'>
-											<img src="#imageR#" alt="test" class="w-100 border mb-2">	
+											<img src="#mediaS2.media_uri#" alt="test" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
 										
  										<cfelse>	
-											<img src="#imageR#" alt="test2" class="w-100 border mb-2">
+											<img src="#mediaS2.media_uri#" alt="test2" class="w-100 border mb-2">
 										</cfif>
-										</div>
+											</div></div>
 								<cfelse>
+									<div class="thumbnails px-0">
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -549,7 +550,7 @@ limitations under the License.
 								</cfif>
 						</cfloop>
 									<!--/div---> 
-									</span> </div>
+									</div> </div>
 								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select p.barcode from
 											container c,
