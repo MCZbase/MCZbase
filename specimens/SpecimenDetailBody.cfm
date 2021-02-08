@@ -826,7 +826,7 @@ limitations under the License.
 									</cfif>
 									<div style="width: 115px;" class="m-2 float-left d-inline"> 
 										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border" width="70" height="100">
+											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-4 border w-100" width="100%">
 										</a>
 										<span class="d-block small text-center" style="line-height:.9rem;">#i#) #media_type# (#mime_type#) 
 										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
