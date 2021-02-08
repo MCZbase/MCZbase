@@ -90,6 +90,35 @@ limitations under the License.
 	</cfif>
 </cffunction>
 <!------------------------------------------------------------------------------------->
+		
+<cffunction name="getMediaPreview2" access="public" output="true">
+	<cfargument name="puris" required="true" type="string">
+	<cfargument name="mts" required="true" type="string">
+	<cfset r=0>
+	<cfif len(puri) gt 0>
+		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
+		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
+		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
+			<cfset r=1>
+		</cfif>
+	</cfif>
+	<cfif r is 0>
+		<cfif mt is "image">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif mt is "audio">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif mt is "text">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif mt is "text" and puri contains "atlas">	
+			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelse>
+			<cfreturn "/shared/images/noThumbnailImage.png">
+		</cfif>
+	<cfelse>
+		<cfreturn puri>
+	</cfif>
+</cffunction>
+<!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">
     <cfset nono="chr,char,update,insert,delete,drop,create,execute,exec,begin,declare,all_tables,session,cast(,sys,ascii,utl_,ctxsys,all_users">
