@@ -54,11 +54,11 @@ a.external:hover:visited:after {
 }
  .imgsize:nth-child(odd) {
 	width: 31%;
-	margin: 0 1%;
+	margin: 0 .9%;
 }
 .featured .imgsize {
 	width: 100%;
-	margin: 0 1%;
+	margin: 0 .9%;
 }
 
 
