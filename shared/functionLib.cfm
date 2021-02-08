@@ -74,16 +74,18 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumbnailImage.jpg">
+		<cfif  mt is "image">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mt is "audio">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
-			<cfreturn "/shared/images/documentNoThumb.png">
-		<cfelseif mt is "multi-page document">
+			<cfif #muri# contains "atlas">
+				<cfreturn "/shared/images/noThumbnail_slide.png">
+			<cfelse>
 			<cfreturn "/shared/images/noThumbnailDoc.png">
+				</cfif>
 		<cfelse>
-			<cfreturn "/shared/images/noThumbGray.jpg">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
