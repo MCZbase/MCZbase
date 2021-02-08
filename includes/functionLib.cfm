@@ -58,7 +58,7 @@
 		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnailGray.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
