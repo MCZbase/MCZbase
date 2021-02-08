@@ -497,7 +497,7 @@ limitations under the License.
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.media_uri# contains 'atlas'>
-											<img src="/shared/images/noThumb_slide.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
+											<img src="/shared/images/noFeature_slide.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.media_uri# contains 'nrs'>
 										
  										<cfelse>	
