@@ -48,17 +48,17 @@ a.external:hover:visited:after {
 	text-decoration: none !important;
 	content: "\a0" url(/shared/images/linkOutHover.gif);
 }
-.imgsize:nth-child(odd) {
+.imgsize:nth-child(3n+1) {
 	width: 31.5%;
 	margin: 0 2%;
 }
- .imgsize:nth-child(even) {
+ .imgsize:nth-child(3n+2) {
 	width: 31.5%;
 	margin: 0;
 }
-.featured .imgsize {
-	width: 100%;
-	margin: 0 1%;
+ .imgsize:nth-child(3n+3) {
+	width: 31.5%;
+	margin: 0;
 }
 table {font-size: 0.875rem;}
 table td .small {font-size: 90%}
