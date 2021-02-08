@@ -50,7 +50,7 @@ a.external:hover:visited:after {
 }
 .imgsize:nth-child(3n+1) {
 	width: 31.5%;
-	margin: 0 2%;
+	margin: 0;
 }
  .imgsize:nth-child(3n+2) {
 	width: 31.5%;
@@ -58,7 +58,7 @@ a.external:hover:visited:after {
 }
  .imgsize:nth-child(3n+3) {
 	width: 31.5%;
-	margin: 0;
+	margin: 0 2%;
 }
 table {font-size: 0.875rem;}
 table td .small {font-size: 90%}
