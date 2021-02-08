@@ -1426,6 +1426,7 @@ limitations under the License.
 										<cfloop query="accnMedia">
 											<div class="m-2 float-left d-inline"> 
 												<cfset mt = #media_type#>
+													<cfset muri = #media_uri#>
 												<a href="/media/#media_id#" target="_blank">
 													<img src="#getMediaPreview('preview_uri','media_type')#" class="d-block" width="100" alt="media image not available">Media Details
 												</a>
