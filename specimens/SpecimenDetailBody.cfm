@@ -455,7 +455,7 @@ limitations under the License.
 										order by media.media_type
 							</cfquery>
 							<cfif media.recordcount gt 0>
-								<div>
+								<div class="detailCell">
 									<div class="mt-2">
 										
 										<cfquery name="wrlCount" dbtype="query">
@@ -492,29 +492,21 @@ limitations under the License.
 											</CFIF>
 										</cfif>
 									</div>
-									
+									<div>
+									<span class="form-row col-12 px-0 mx-0"> 
+									<!---div class="feature image using media_uri"--->
+												<!--- to-do: Create checkbox for featured media on create media page--->
+										<cfif #mediaS2.media_uri# contains 'atlas'>
+											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
+										<cfelseif #mediaS2.media_uri# contains 'nrs'>
+										
+ 										<cfelse>	
+											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
+										</cfif>
 									<cfloop query="media">
 										<!---div class="thumbs"--->
 										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
-							<div class="form-row  w-100"> 
-									<!---div class="feature image using media_uri"--->
-												<!--- to-do: Create checkbox for featured media on create media page--->
-								<cfif puri is 1>
-									<cfset replacement = "#mediaS2.media_uri#">
-									<div class="col-12 featured">
-										<div class="imgsize">
-										<cfif #mediaS2.media_uri# contains 'atlas'>
-											<img src="#mediaS2.media_uri#" alt="test" class="w-100 border mb-2">	
-										<cfelseif #mediaS2.media_uri# contains 'nrs'>
-										
- 										<cfelse>	
-											<img src="#mediaS2.media_uri#" alt="test2" class="w-100 border mb-2">
-										</cfif>
-										</div>
-									</div>
-								<cfelse>
-									<div class="thumbnails px-0">
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
@@ -543,16 +535,15 @@ limitations under the License.
 											<cfset aForDetHref = "/media/#media_id#">
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> 
-										<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
-										<div class="smaller"> #media_type# (#mime_type#) <br>
+									<img src="#getMediaPreview(preview_uri,media_type)#" alt="#altText#" class="" width="100%"> </a>
+										<p class="smaller"> #media_type# (#mime_type#) <br>
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
-											<span class="">#description#</span> </div>
-									</div>
-								</cfif>
-							</div> 
-						</cfloop>
+											<span class="">#description#</span> </p>
+										</div>
+									</cfloop>
 									<!--/div---> 
-									<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									</span> </div>
+								<cfquery name="barcode"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											select p.barcode from
 											container c,
 											container p,
