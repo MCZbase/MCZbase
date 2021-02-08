@@ -498,8 +498,6 @@ limitations under the License.
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="/shared/images/noFeature_slide.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
-										
-										
  										<cfelse>	
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
