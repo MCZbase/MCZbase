@@ -56,7 +56,7 @@
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif muri contains "text">
+		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnail_slide.png">
