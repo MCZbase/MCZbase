@@ -51,16 +51,14 @@
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
-			<cfreturn "/images/noThumb.jpg">
-		<cfelseif mt is "audio">
-			<cfreturn "/images/audioNoThumb.png">
-		<cfelseif mt is "text">
-			<cfreturn "/images/documentNoThumb.png">
-		<cfelseif mt is "multi-page document">
-			<cfreturn "/images/document_thumbnail.png">
+		<cfif  #media_type# is "image">
+			<cfreturn "/shared/images/noThumbnailImage.png">
+		<cfelseif #media_type# is "audio">
+			<cfreturn "/shared/images/noThumbnailAudio.png">
+		<cfelseif puri contains "atlas">
+			<cfreturn "/shared/images/noThumbnail_slide.png">
 		<cfelse>
-			<cfreturn "/images/noThumbnail.jpg">
+			<cfreturn "/shared/images/noThumbnailDoc.png">
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
