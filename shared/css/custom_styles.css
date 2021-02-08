@@ -61,6 +61,7 @@ a.external:hover:visited:after {
 	margin: 0 1%;
 }
 table {font-size: 0.875rem;}
+table td .small {font-size: 90%}
 
 /*********************************************/
 /* BELOW  Misc. Additions to Bootstrap Styles*/
