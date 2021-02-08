@@ -53,15 +53,11 @@
 	</cfif>
 	<cfif r is 0>
 		<cfif  mt is "image">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
-			<cfif #muri# contains "atlas">
-				<cfreturn "/shared/images/noThumbnail_slide.png">
-			<cfelse>
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-				</cfif>
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
