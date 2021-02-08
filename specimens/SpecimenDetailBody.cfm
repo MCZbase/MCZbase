@@ -507,7 +507,7 @@ limitations under the License.
 										<!---div class="thumbs"--->
 										<cfset mta=media.media_type>
 										<cfset altText = media.media_descriptor>
-										<cfset puria=getMediaPreview(preview_uri,media_type)>
+										<cfset puria=getMediaPreview1(preview_uri,media_type)>
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
