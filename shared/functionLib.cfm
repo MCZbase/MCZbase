@@ -115,7 +115,7 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
 	<cfelse>
-		<cfreturn puri>
+		<cfreturn puris>
 	</cfif>
 </cffunction>
 <!------------------------------------------------------------------------------------->
