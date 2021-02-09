@@ -111,8 +111,8 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "text" and puri contains "atlas">	
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+		<cfelseif mt is "text" || #mime_type# contains "html">
+			<cfreturn "/shared/images/noThumb_text-html.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
 		</cfif>
