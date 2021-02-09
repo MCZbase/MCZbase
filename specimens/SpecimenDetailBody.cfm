@@ -1081,7 +1081,7 @@ limitations under the License.
 							</h4>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body float-left">
+						<div class="card-body mb-2 float-left">
 							<ul class="list-group">
 								<cfloop query="oid">
 									<li class="list-group-item">#other_id_type#:
