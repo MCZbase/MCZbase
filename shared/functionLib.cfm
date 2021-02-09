@@ -69,27 +69,27 @@ limitations under the License.
        return isValid("regex", x, d);
 	}
 </cfscript>
-<cffunction name="jsescape">
+<cffunction name="jsescape2">
 	<cfargument name="in" required="yes">
 	<cfset out=replace(in,"'","`","all")>
 	<cfset out=replace(out,'"','``',"all")>
 	<cfreturn out>
 </cffunction>
-<cffunction name="niceURL" returntype="Any">
+<cffunction name="niceURL2" returntype="Any">
 	<cfargument name="h" type="string" required="yes">
 	<cfscript>
 		var g=trim(h);
-		r=trim(rereplace(g,'<[^>]*>','',"all"));
+		g=trim(rereplace(g,'<[^>]*>','',"all"));
 		g=rereplace(g,'[^A-Za-z ]','',"all");
 		g=rereplace(g,' ','-',"all");
 		g=lcase(g);
-		if (len(g) gt 150) {r=left(g,150);}
+		if (len(g) gt 150) {g=left(g,150);}
 		if (right(g,1) is "-") {g=left(g,len(g)-1);}
 		r=rereplace(g,'-+','-','all');
 		return g;
 	</cfscript>
 </cffunction>
-<cffunction name="SubsetEncodeForURL" returntype="Any">
+<cffunction name="SubsetEncodeForURL2" returntype="Any">
 	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
 	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
 	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
@@ -98,9 +98,9 @@ limitations under the License.
 	      var g=trim(h);
 	      g = Replace(Replace(g,'[','%5B'),']','%5D');
 	      g = Replace(Replace(g,'(','%28'),')','%29');
-	      g = Replace(r,'!','%21');
-	      g = Replace(r,',','%2C');
-	      g = Replace(r,' ','%20');
+	      g = Replace(g,'!','%21');
+	      g = Replace(g,',','%2C');
+	      g = Replace(g,' ','%20');
 	      return g;
 	</cfscript>
 </cffunction>
