@@ -103,13 +103,13 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
+		<cfif mts is "image">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "audio">
+		<cfelseif mts is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mt is "text">
+		<cfelseif mts is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "text" || #mime_type# contains "html">
+		<cfelseif mts is "text" || #mime_type# contains "html">
 			<cfreturn "/shared/images/noThumb_text-html.png">
 		<cfelse>
 			<cfreturn "/shared/images/noThumbnailImage.png">
