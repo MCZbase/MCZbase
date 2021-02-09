@@ -1374,8 +1374,8 @@ limitations under the License.
 						<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 						<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 					</div>
-					<div class="card-body float-left">
-						<ul class="list-unstyled form-row p-1 mb-0">
+					<div class="card-body mb-2 float-left">
+						<ul class="list-unstyled list-group form-row p-1 mb-0">
 							<cfif colls.recordcount gt 0>
 								<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
 									<cfloop query="colls">
@@ -1553,8 +1553,8 @@ limitations under the License.
 								Metadata
 								</h4>
 							</div>
-							<div class="card-body float-left">
-								<ul  class="pl-0 pt-1">
+							<div class="card-body mb-2 float-left">
+								<ul class="list-group pl-0 pt-1">
 									<cfif len(#one.coll_object_remarks#) gt 0>
 										<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
 									</cfif>
