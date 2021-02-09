@@ -81,7 +81,7 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text" and mmt is "application/pdf">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "image" and mmt is "text/html">
+		<cfelseif mt is "image" and altTxt contains "slide">
 			<cfreturn "/shared/images/noThumb_text-html.png">
 		<cfelseif mt is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
