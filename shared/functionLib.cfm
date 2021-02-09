@@ -64,7 +64,8 @@ limitations under the License.
 <!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
-	<cfargument name="mt" required="true" type="string">
+	<cfargument name="mt" required="false" type="string">
+	<cfargument name="mmt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
@@ -78,9 +79,9 @@ limitations under the License.
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mt is "text" || #mime_type# contains "pdf">
+		<cfelseif mt is "text" and mmt contains "pdf">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif #media_type# is "image" and #mime_type# contains "html">
+		<cfelseif mt is "image" and mmt contains "html">
 			<cfreturn "/shared/images/noThumb_text-html.png">
 		<cfelseif mt is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
