@@ -767,7 +767,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left">Citations</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body float-left">
+						<div class="card-body mb-2 float-left">
 							<div class="row mx-0">
 							   <cfset i = 1>
 								<cfloop query="citations">
@@ -949,7 +949,7 @@ limitations under the License.
 									<h3 class="h4 my-0 float-left"><a class="btn-link" role="button" data-toggle="collapse" data-target="##collapseParts"> Parts </a> <span class="text-success small ml-4">(count: #ctPart.ct# parts)</span></h3>
 									<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 								</div>
-								<div class="card-body p-0">
+								<div class="card-body mb-2 p-0">
 									<div id="collapseParts" class="collapse show" aria-labelledby="headingPart" data-parent="##accordionForParts">
 										<table class="table border-bottom mb-0">
 											<thead>
@@ -1220,7 +1220,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left">Relationship</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body float-left">
+						<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush float-left">
 								<cfloop query="relns">
 									<li class="list-group-item py-0"> #biol_indiv_relationship# <a href="/SpecimenDetail.cfm?collection_object_id=#related_coll_object_id#" target="_top"> #related_collection# #related_cat_num# </a>
@@ -1418,7 +1418,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left">Transactions</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body float-left">
+						<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-1 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
@@ -1553,7 +1553,7 @@ limitations under the License.
 								Metadata
 								</h4>
 							</div>
-							<div class="card-body float-left">
+							<div class="card-body mb-2 float-left">
 								<ul  class="pl-0 pt-1">
 									<cfif len(#one.coll_object_remarks#) gt 0>
 										<li>Remarks: #one.coll_object_remarks# </li>
