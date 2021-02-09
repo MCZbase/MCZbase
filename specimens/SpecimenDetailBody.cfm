@@ -634,7 +634,7 @@ limitations under the License.
 							</cfquery>
 							<cfif accepted_id_fg is 1>
 								<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
-									<div class="d-inline-block mb-1 h4 text-success">Current Identification</div>
+									<div class="d-inline-block mb-2 h4 text-success">Current Identification</div>
 									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 										<div class="font-italic h4 mb-1 font-weight-bold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
 										<cfif len(getTaxa.author_text) gt 0>
