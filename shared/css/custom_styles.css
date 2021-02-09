@@ -917,7 +917,7 @@ div#users-contain table td, div#users-contain table th {
 ul.list-unstyled li.list-group-item {
 	margin-bottom: 0;
 	border-bottom: 1px solid #ccc;
-	font-weight:500;
+	font-weight:450;
 }
 ul.list-unstyled li.list-group-item:last-child {
 	margin-bottom: 0;
