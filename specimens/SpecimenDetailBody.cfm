@@ -636,7 +636,7 @@ limitations under the License.
 								<ul class="list-group border-green rounded p-2 h4 font-weight-normal">
 									<div class="d-inline-block mb-1 h4 text-success">Current Identification</div>
 									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
-										<div class="font-italic h4 mb-1 font-weight-normal d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
+										<div class="font-italic h4 mb-1 font-weight-bold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
 										<cfif len(getTaxa.author_text) gt 0>
 											<span class="sm-caps">#getTaxa.author_text#</span>
 										</cfif>
@@ -646,11 +646,11 @@ limitations under the License.
 										<cfset i=1>
 										<cfset thisSciName="#scientific_name#">
 										<cfloop query="getTaxa">
-											<span class="font-italic h3 font-weight-normal d-inline-block">
+											<span class="font-italic h3 font-weight-bold d-inline-block">
 											<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
 											<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 											<cfset i=#i#+1>
-											<a href="##" class="font-weight-bold">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> </span>
+											<a href="##">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> </span>
 										</cfloop>
 									</cfif>
 									<cfif oneOfUs is 1 and stored_as_fg is 1>
@@ -704,7 +704,7 @@ limitations under the License.
 									<cfset i=1>
 									<cfset thisSciName="#scientific_name#">
 									<cfloop query="getTaxa">
-										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank" class="font-weight-bold">#display_name#</a>'>
+										<cfset thisLink='<a href="/name/#scientific_name#" target="_blank">#display_name#</a>'>
 										<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 										<cfset i=#i#+1>
 									</cfloop>
