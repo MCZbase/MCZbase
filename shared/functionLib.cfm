@@ -83,8 +83,8 @@ limitations under the License.
 		g=rereplace(g,'[^A-Za-z ]','',"all");
 		g=rereplace(g,' ','-',"all");
 		g=lcase(g);
-		if (len(g) gt 150) {r=left(r,150);}
-		if (right(g,1) is "-") {g=left(r,len(g)-1);}
+		if (len(g) gt 150) {r=left(g,150);}
+		if (right(g,1) is "-") {g=left(g,len(g)-1);}
 		r=rereplace(g,'-+','-','all');
 		return g;
 	</cfscript>
