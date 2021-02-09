@@ -63,47 +63,7 @@ limitations under the License.
 </cffunction>
 	
 	
-	<cfscript>
-	function isYear(x){
-       var d = "^[1-9][0-9]{3}$";
-       return isValid("regex", x, d);
-	}
-</cfscript>
-<cffunction name="jsescape2">
-	<cfargument name="in" required="yes">
-	<cfset out=replace(in,"'","`","all")>
-	<cfset out=replace(out,'"','``',"all")>
-	<cfreturn out>
-</cffunction>
-<cffunction name="niceURL2" returntype="Any">
-	<cfargument name="h" type="string" required="yes">
-	<cfscript>
-		var g=trim(h);
-		g=trim(rereplace(g,'<[^>]*>','',"all"));
-		g=rereplace(g,'[^A-Za-z ]','',"all");
-		g=rereplace(g,' ','-',"all");
-		g=lcase(g);
-		if (len(g) gt 150) {g=left(g,150);}
-		if (right(g,1) is "-") {g=left(g,len(g)-1);}
-		r=rereplace(g,'-+','-','all');
-		return g;
-	</cfscript>
-</cffunction>
-<cffunction name="SubsetEncodeForURL2" returntype="Any">
-	<!--- URL escape a small subset of characters that may be found in filenames (used for preview_uri) --->
-	<!--- We don't want to escape the full set of reserved URI characters, as  media.preview_uri --->
-	<!--- contains both filename paths and URIs. The characters :/&.=?, are all used in valid URIs there.  --->
-	<cfargument name="h" type="string" required="yes">
-	<cfscript>
-	      var g=trim(h);
-	      g = Replace(Replace(g,'[','%5B'),']','%5D');
-	      g = Replace(Replace(g,'(','%28'),')','%29');
-	      g = Replace(g,'!','%21');
-	      g = Replace(g,',','%2C');
-	      g = Replace(g,' ','%20');
-	      return g;
-	</cfscript>
-</cffunction>
+
 <!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
@@ -132,35 +92,7 @@ limitations under the License.
 		<cfreturn puri>
 	</cfif>
 </cffunction>
-<!------------------------------------------------------------------------------------->
-		
-<cffunction name="getMediaPreview2" access="public" output="true">
-	<cfargument name="puris" required="true" type="string">
-	<cfargument name="mts" required="true" type="string">
-	<cfset g=0>
-	<cfif len(puris) gt 0>
-		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puris)#" timeout="4">
-		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-			<cfset g=1>
-		</cfif>
-	</cfif>
-	<cfif g is 0>
-		<cfif mts is "image">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mts is "audio">
-			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mts is "text">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mts is "text" || #mime_type# contains "html">
-			<cfreturn "/shared/images/noThumb_text-html.png">
-		<cfelse>
-			<cfreturn "/shared/images/noThumbnailImage.png">
-		</cfif>
-	<cfelse>
-		<cfreturn puris>
-	</cfif>
-</cffunction>
+
 <!------------------------------------------------------------------------------------->
 <cffunction name="checkSql" access="public" output="true" returntype="boolean">
     <cfargument name="sql" required="true" type="string">

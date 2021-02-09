@@ -496,14 +496,15 @@ limitations under the License.
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
 											<cfloop query="mediaS2" startRow = "1" endRow = "1" group = "media_uri" groupCaseSensitive="false">
-											<cfset puris=getMediaPreview2(media_uri,media_type)>
-												<cfset mts=mediaS2.media_type>	
+											
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.mime_type# is 'model/vrml'>
 											<img src="/shared/images/3dmodel_feature.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
+											<cfelseif #mediaS2.media_uri# contains "nrs"> 
+												<img src="/shared/images/noFeatureText.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										<cfelse>
-											<img src="#getMediaPreview2(preview_uri,media_type)#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
+											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
 											</cfloop>
 									<cfloop query="media">
