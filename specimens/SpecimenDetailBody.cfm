@@ -498,15 +498,15 @@ limitations under the License.
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
 										<cfelseif #mediaS2.mime_type# is 'application/pdf' and #mediaS2.media_type# is '3D model'>
-											<a href="#mediaS2.media_uri#" target="_blank">
+											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
 											<img src="#mediaS2.preview_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 											</a>
  										<cfelseif #mediaS2.media_uri# contains 'morphosource'>
-											<a href="#mediaS2.media_uri#" target="_blank">
+											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
 											<img src="/shared/images/3dmodel_feature.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 											</a>
 										<cfelse>
-											<a href="#mediaS2.media_uri#" target="_blank">
+											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 											</a>
 										</cfif>
