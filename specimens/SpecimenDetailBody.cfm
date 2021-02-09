@@ -1556,17 +1556,17 @@ limitations under the License.
 							<div class="card-body float-left">
 								<ul  class="pl-0 pt-1">
 									<cfif len(#one.coll_object_remarks#) gt 0>
-										<li>Remarks: #one.coll_object_remarks# </li>
+										<li class="list-group-item">Remarks: #one.coll_object_remarks# </li>
 									</cfif>
-									<li> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
+									<li class="list-group-item"> Entered By: #one.EnteredBy# on #dateformat(one.coll_object_entered_date,"yyyy-mm-dd")# </li>
 									<cfif #one.EditedBy# is not "unknown" OR len(#one.last_edit_date#) is not 0>
-										<li> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
+										<li class="list-group-item"> Last Edited By: #one.EditedBy# on #dateformat(one.last_edit_date,"yyyy-mm-dd")# </li>
 									</cfif>
 									<cfif len(#one.flags#) is not 0>
-										<li> Missing (flags): #one.flags# </li>
+										<li class="list-group-item"> Missing (flags): #one.flags# </li>
 									</cfif>
 									<cfif len(#one.encumbranceDetail#) is not 0>
-										<li> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
+										<li class="list-group-item"> Encumbrances: #replace(one.encumbranceDetail,";","<br>","all")# </li>
 									</cfif>
 								</ul>
 							</div>
