@@ -83,7 +83,7 @@ limitations under the License.
 		<cfelseif mt is "3D model" || #media_type# is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
-			<cfreturn "/shared/images/noThumbnail_slide.png">
+			<cfreturn "/shared/images/noThumbnailImage.png"><!---nothing was working for mime type--->
 		</cfif>
 	<cfelse>
 		<cfreturn puri>
