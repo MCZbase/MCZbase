@@ -76,13 +76,13 @@ limitations under the License.
 	</cfif>
 	<cfif r is 0>
 		<cfif mt is "image">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+			<cfreturn "/shared/images/noThumbnailImage.png">
 		<cfelseif mt is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
-		<cfelseif mt is "text" and puri contains "slide">
+		<cfelseif mt is "text">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
-		<cfelseif mt is "image" and altText contains "slide">
-			<cfreturn "/shared/images/noThumb_text-html.png">
+<!---		<cfelseif mt is "image">
+			<cfreturn "/shared/images/noThumb_text-html.png">--->
 		<cfelseif mt is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
