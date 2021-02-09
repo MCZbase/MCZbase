@@ -1420,7 +1420,7 @@ limitations under the License.
 						</div>
 						<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush pl-0">
-								<li class="list-group-item"><h5 class="mb-1 d-inline-block">Accession:</h5>
+								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
 										<a href="/editAccn.cfm?Action=edit&transaction_id=#one.accn_id#" target="_blank">#accession#</a>
 										<cfelse>
@@ -1506,14 +1506,16 @@ limitations under the License.
 								</cfquery>
 								<cfif isProj.recordcount gt 0 OR isLoan.recordcount gt 0 or (oneOfUs is 1 and isLoanedItem.collection_object_id gt 0) or (oneOfUs is 1 and isDeaccessionedItem.collection_object_id gt 0)>
 									<cfloop query="isProj">
-										<li class="list-group-item"> Contributed By Project:<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
+										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Contributed By Project:</h5>
+											<a href="/ProjectDetail.cfm?src=proj&project_id=#isProj.project_id#">#isProj.project_name#</a> </li>
 									</cfloop>
 									<cfloop query="isLoan">
-										<li class="list-group-item"> Used By Project: <a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
+										<li class="list-group-item"><h5 class="mb-0 d-inline-block">Used By Project:</h5> 
+											<a href="/ProjectDetail.cfm?src=proj&project_id=#isLoan.project_id#" target="_mainFrame">#isLoan.project_name#</a> </li>
 									</cfloop>
 									<cfif isLoanedItem.collection_object_id gt 0 and oneOfUs is 1>
 										<li class="list-group-item">
-											<h5 class="mb-1 d-inline-block">Loan History:</h5>
+											<h5 class="mb-0 d-inline-block">Loan History:</h5>
 											<a class="d-inline-block" href="/Loan.cfm?action=listLoans&collection_object_id=#valuelist(isLoanedItem.collection_object_id)#"
 							target="_mainFrame">Loans that include this cataloged item (#loanList.recordcount#).</a>
 											<cfif isdefined("session.roles") and listcontainsnocase(session.roles,"manage_transactions")>
