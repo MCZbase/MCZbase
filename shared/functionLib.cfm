@@ -95,9 +95,9 @@ limitations under the License.
 	<cfargument name="puris" required="true" type="string">
 	<cfargument name="mts" required="true" type="string">
 	<cfset r=0>
-	<cfif len(puri) gt 0>
+	<cfif len(puris) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
-		<cfhttp method="head" url="#SubsetEncodeForURL(puri)#" timeout="4">
+		<cfhttp method="head" url="#SubsetEncodeForURL(puris)#" timeout="4">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
 			<cfset r=1>
 		</cfif>
