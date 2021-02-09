@@ -453,6 +453,7 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
+																									   
 							</cfquery>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
@@ -494,7 +495,7 @@ limitations under the License.
 									</div>
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
-											<cfloop query="mediaS2">
+											<cfloop query="mediaS2" startRow = "1" endRow = "1" group = "media_uri" groupCaseSensitive="false">
 											<cfset puris=getMediaPreview2(preview_uri,media_type)>
 												<cfset mts=mediaS2.media_type>	
 									<!---div class="feature image using media_uri"--->
