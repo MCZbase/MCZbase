@@ -494,6 +494,7 @@ limitations under the License.
 									</div>
 									<div>
 									<span class="form-row col-12 px-0 mx-0"> 
+											<cfloop query="mediaS2">
 											<cfset puris=getMediaPreview2(preview_uri,media_type)>
 												<cfset mts=mediaS2.media_type>	
 									<!---div class="feature image using media_uri"--->
@@ -503,6 +504,7 @@ limitations under the License.
 										<cfelse>
 											<img src="#getMediaPreview2(preview_uri,media_type)#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
+											</cfloop>
 									<cfloop query="media">
 										<!---div class="thumbs"--->
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
