@@ -1227,7 +1227,7 @@ form.keyword {
     height: calc(1.15em + .5rem + 2px);
 }
 #collapseParts .table td, #collapseParts.table th {
-    padding: .25rem 1rem;
+    padding: .35rem 1rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
