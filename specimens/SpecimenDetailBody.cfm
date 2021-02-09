@@ -788,7 +788,7 @@ limitations under the License.
 												#occurs_page_number#,
 											</cfif>
 										</cfif>
-											<b>#type_status#</b> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+											<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
 										<cfif find("(ms)", #type_status#) NEQ 0>
 											<!--- Type status with (ms) is used to mark to be published types,
 	`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
