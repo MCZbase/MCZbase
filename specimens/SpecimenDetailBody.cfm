@@ -1104,7 +1104,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left">Attributes</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body float-left">
+						<div class="card-body float-left mb-2">
 							<cfquery name="sex" dbtype="query">
 					select * from attribute where attribute_type = 'sex'
 				</cfquery>
