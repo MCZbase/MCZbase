@@ -79,7 +79,7 @@ limitations under the License.
 		<cfelseif mt is "audio" || #media_type# is "audio">
 			<cfreturn "/shared/images/noThumbnailAudio.png">
 		<cfelseif mt is "text" || #media_type# is "text">
-			<cfreturn "/shared/images/noThumbnailDoc.png">
+			<cfreturn "/shared/images/noThumbText.png">
 		<cfelseif mt is "3D model" || #media_type# is "3D model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
