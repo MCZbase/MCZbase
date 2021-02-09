@@ -498,6 +498,8 @@ limitations under the License.
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.media_uri# contains 'atlas'>
 											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
+										<cfelseif #mediaS2.mime_type# is 'model/vrml'>	
+											<img src="#mediaS2.media_preview#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
  										<cfelseif #mediaS2.media_uri# contains 'morphosource'>	
 											<img src="/shared/images/3dmodel_feature.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										<cfelse>
