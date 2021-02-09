@@ -453,7 +453,6 @@ limitations under the License.
 													media_relations.related_primary_key = <cfqueryparam value=#collection_object_id# CFSQLType="CF_SQL_DECIMAL" >
 													AND MCZBASE.is_media_encumbered(media.media_id) < 1
 										order by media.media_type
-																									   
 							</cfquery>
 							<cfif media.recordcount gt 0>
 								<div class="detailCell">
@@ -494,21 +493,22 @@ limitations under the License.
 										</cfif>
 									</div>
 									<div>
-									<span class="form-row col-12 px-0 mx-0"> 											
-									<!---div class="feature image using media_uri --not working properly"--->
+									<span class="form-row col-12 px-0 mx-0"> 
+									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS2.mime_type# is 'model/vrml'>
+										<cfif #mediaS2.media_uri# contains 'atlas'>
+											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
+ 										<cfelseif #mediaS2.media_uri# contains 'morphosource'>	
 											<img src="/shared/images/3dmodel_feature.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
-											<cfelseif #mediaS2.media_uri# contains "nrs"> 
-												<img src="/shared/images/noFeatureText.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										<cfelse>
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 										</cfif>
-										
 									<cfloop query="media">
 										<!---div class="thumbs"--->
+										<cfset mt=media.media_type>
+											<cfset mmt=media.mime_type>
+										<cfset altText = media.media_descriptor>
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
-										<cfset mt=media.media_type>									
 										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 										   select
 											  media_label,
