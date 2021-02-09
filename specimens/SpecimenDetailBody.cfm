@@ -1553,7 +1553,7 @@ limitations under the License.
 								Metadata
 								</h4>
 							</div>
-							<div class="card-body mb-2 float-left">
+							<div class="card-body float-left">
 								<ul  class="pl-0 pt-1">
 									<cfif len(#one.coll_object_remarks#) gt 0>
 										<li>Remarks: #one.coll_object_remarks# </li>
