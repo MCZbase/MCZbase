@@ -469,7 +469,6 @@ limitations under the License.
 													select * from media where mime_type = 'application/pdf'
 										</cfquery>
 										<cfif pdfCount.recordcount gt 0>
-											<br>
 											<span class="innerDetailLabel">For best results, open PDF files in the most recent version of Adobe Reader.</span>
 										</cfif>
 										<cfif oneOfUs is 1>
