@@ -94,15 +94,15 @@ limitations under the License.
 <cffunction name="getMediaPreview2" access="public" output="true">
 	<cfargument name="puris" required="true" type="string">
 	<cfargument name="mts" required="true" type="string">
-	<cfset r=0>
+<!---	<cfset r=0>--->
 	<cfif len(puris) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
 		<cfhttp method="head" url="#SubsetEncodeForURL(puris)#" timeout="4">
 		<cfif isdefined("cfhttp.responseheader.status_code") and cfhttp.responseheader.status_code is 200>
-			<cfset r=1>
+		<!---	<cfset r=1>--->
 		</cfif>
 	</cfif>
-	<cfif r is 0>
+<!---	<cfif r is 0>--->
 		<cfif mts is "image">
 			<cfreturn "/shared/images/noThumbnailDoc.png">
 		<cfelseif mts is "audio">
