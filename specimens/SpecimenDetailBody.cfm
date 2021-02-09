@@ -638,7 +638,7 @@ limitations under the License.
 									<cfif getTaxa.recordcount is 1 and taxa_formula is 'a'>
 										<div class="font-italic h3 mb-1 font-weight-bold d-inline-block"> <a href="/name/#getTaxa.scientific_name#" target="_blank">#getTaxa.display_name# </a>
 										<cfif len(getTaxa.author_text) gt 0>
-											<span class="sm-caps">#getTaxa.author_text#</span>
+											<span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span>
 										</cfif>
 										</div>
 										<cfelse>
@@ -650,7 +650,7 @@ limitations under the License.
 											<cfset thisLink='<a href="/name/#scientific_name#" class="d-inline" target="_blank">#display_name#</a>'>
 											<cfset thisSciName=#replace(thisSciName,scientific_name,thisLink)#>
 											<cfset i=#i#+1>
-											<a href="##">#thisSciName#</a> <span class="sm-caps">#getTaxa.author_text#</span> </span>
+											<a href="##">#thisSciName#</a> <span class="sm-caps font-weight-lessbold">#getTaxa.author_text#</span> </span>
 										</cfloop>
 									</cfif>
 									<cfif oneOfUs is 1 and stored_as_fg is 1>
