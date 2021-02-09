@@ -1374,7 +1374,7 @@ limitations under the License.
 						<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
 						<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 					</div>
-					<div class="card-body mb-2 float-left">
+					<div class="card-body mb-1 float-left">
 						<ul class="list-unstyled list-group form-row p-1 mb-0">
 							<cfif colls.recordcount gt 0>
 								<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
