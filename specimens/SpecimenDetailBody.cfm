@@ -1278,7 +1278,7 @@ limitations under the License.
 					<div class="card mb-2 bg-light">
 						<div class="card-header mb-2" id="heading6">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Attributes</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
 						<button type="button" id="edit-locality" class="btn btn-xs small float-right" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
@@ -1408,28 +1408,34 @@ limitations under the License.
 				</div>
 				
 				<!------------------------------------ Collectors and Preparators ----------------------------------->
-				<div class="card mb-2">
-					<div class="card-header float-left w-100">
-						<h3 class="h4 my-0 float-left">Collectors and Preparators</h3>
-						<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-					</div>
-					<div class="card-body mb-1 float-left">
-						<ul class="list-unstyled list-group form-row p-1 mb-0">
-							<cfif colls.recordcount gt 0>
-								<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
-									<cfloop query="colls">
-										#colls.collectors#<span>,</span>
-									</cfloop>
-								</li>
-							</cfif>
-							<cfif preps.recordcount gt 0>
-								<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
-									<cfloop query="preps">
-										#preps.preparators#<span>,</span>
-									</cfloop>
-								</li>
-							</cfif>
-						</ul>
+				<div class="accordion" id="accordionH">
+					<div class="card mb-2 bg-light">
+						<div class="card-header mb-2" id="heading7">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
+							</h3>
+							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
+						</div>
+						<div id="collapseCol" class="collapse show" aria-labelledby="heading7" data-parent="##accordionH">
+							<div class="card-body mb-1 float-left">
+							<ul class="list-unstyled list-group form-row p-1 mb-0">
+								<cfif colls.recordcount gt 0>
+									<li class="list-group-item"><h5 class="my-0">Collector(s):&nbsp;</h5>
+										<cfloop query="colls">
+											#colls.collectors#<span>,</span>
+										</cfloop>
+									</li>
+								</cfif>
+								<cfif preps.recordcount gt 0>
+									<li class="list-group-item"><h5 class="my-0">Preparator(s):&nbsp;</h5>
+										<cfloop query="preps">
+											#preps.preparators#<span>,</span>
+										</cfloop>
+									</li>
+								</cfif>
+							</ul>
+						</div>
+						</div>
 					</div>
 				</div>
 				<!------------------------------------- tranactions  ---------------------------------------->
