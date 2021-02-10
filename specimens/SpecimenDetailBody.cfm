@@ -779,8 +779,6 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-								   <cfset i = 1>
-
 									<cfif publicationMedia.recordcount gt 0>
 										<cfloop query="publicationMedia">
 											<cfset puri=getMediaPreview(preview_uri,media_type)>	
@@ -814,18 +812,17 @@ limitations under the License.
 											<cfif desc.recordcount is 1>
 												<cfset alt=desc.label_value>
 											</cfif>
-											<div style="width: 60px;" class="m-2 float-left d-inline"> 
+											<div class="m-2 float-left d-inline col-12 px-0"> 
 												<cfset mt = #media_type#>
 												<cfset muri = #media_uri#>
 												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
+													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded" style="width: 60px;">
 												</a>
 												<span class="d-block small text-center" style="line-height:.9rem;">
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
 												</span> 
-																						<cfloop query="citations">
-										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-										target="_mainFrame">#formatted_publication#</a>,
+												<cfloop query="citations">
+													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
 												<cfif len(citation_page_uri) gt 0>
@@ -846,14 +843,12 @@ limitations under the License.
 												</cfif>
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-										</div>
-										<cfset i = i + 1>
-									</cfloop>
+												</cfloop>
 											</div>
 										</cfloop>
 									</cfif>
 								</div>
-							</div>
+								</div>
 							</div>
 						</div>
 					</div>
