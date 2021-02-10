@@ -904,30 +904,30 @@ limitations under the License.
 									specimen_part.derived_from_cat_item = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#one.collection_object_id#">
 							</cfquery>
 						<cfquery name="parts" dbtype="query">
-        select  
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        from
-                rparts
-        group by
-			
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        order by
-                part_name
-</cfquery>
+								select  
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								from
+										rparts
+								group by
+
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								order by
+										part_name
+						</cfquery>
 						<cfquery name="parts" dbtype="query">
         select  
                 part_id,
@@ -1047,13 +1047,13 @@ limitations under the License.
 													<cfloop query="sPart">
 														<tr>
 															<td><span class="d-inline-block pl-3">#part_name# <span class="font-italic">subsample</span></span></td>
-															<td class="">#part_condition#</td>
-															<td class="">#part_disposition#</td>
-															<td class="">#lot_count#</td>
-															<cfif oneOfus is 1>
-																<td class="">#label#</td>
-															</cfif>
-															<td class="">#part_remarks#</td>
+															<td>#part_condition#</td>
+															<td>#part_disposition#</td>
+															<td>#lot_count#</td>
+															
+															<td><cfif oneOfus is 1>#label#</cfif></td>
+													
+															<td>#part_remarks#</td>
 														</tr>
 													</cfloop>
 												</cfloop>
