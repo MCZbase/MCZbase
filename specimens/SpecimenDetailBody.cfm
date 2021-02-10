@@ -768,7 +768,7 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
+								
 									<cfloop query="citations">
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
