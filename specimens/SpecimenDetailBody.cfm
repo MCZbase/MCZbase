@@ -618,7 +618,7 @@ limitations under the License.
 				</cfquery>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-0" id="headingTwo">
+						<div class="card-header mb-0" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
@@ -627,7 +627,7 @@ limitations under the License.
 							</div>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
-						<div id="collapseID" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionB">
+						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
 								<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -770,13 +770,13 @@ limitations under the License.
 				<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
 						<div class="card mb-2 bg-light">
-							<div class="card-header mb-2" id="headingTwo">
+							<div class="card-header mb-2" id="heading2">
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
 								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</div>
-							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
+							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
 								   <cfset i = 1>
@@ -888,13 +888,13 @@ limitations under the License.
 				<cfif len(oid.other_id_type) gt 0>
 				<div class="accordion" id="accordionD">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-2" id="headingTwo">
+						<div class="card-header mb-2" id="heading3">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
 							</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div id="collapseOID" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionD">
+						<div id="collapseOID" class="collapse show" aria-labelledby="heading3" data-parent="##accordionD">
 						<div class="card-body mb-2 float-left">
 							<ul class="list-group">
 								<cfloop query="oid">
@@ -1126,11 +1126,18 @@ limitations under the License.
 				
 				<!------------------------------------ attributes ----------------------------------------->
 				<cfif len(attribute.attribute_type) gt 0>
+					<div class="accordion" id="accordionE">
+					<div class="card mb-2 bg-light">
+						<div class="card-header mb-2" id="heading5">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Other IDs</a>
+							</h3>
 					<div class="card mb-2">
 						<div class="card-header float-left w-100">
 							<h3 class="h4 my-0 float-left">Attributes</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
+					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionD">
 						<div class="card-body float-left mb-2">
 							<cfquery name="sex" dbtype="query">
 					select * from attribute where attribute_type = 'sex'
