@@ -847,7 +847,9 @@ limitations under the License.
 												</cfif>
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
+													<span class="d-block w-100">#alt#</span>
 												</div>
+											
 												</cfloop>
 												</div>
 											</div>
