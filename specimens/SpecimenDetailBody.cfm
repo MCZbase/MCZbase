@@ -989,7 +989,6 @@ limitations under the License.
 														<td>#part_disposition#</td>
 														<td>#lot_count#</td>
 														<td><cfif oneOfus is 1>#label#</cfif></td>
-														<td></td>
 													</tr>
 													<cfif len(part_remarks) gt 0>
 														<tr class="small">
@@ -997,29 +996,29 @@ limitations under the License.
 														</tr>
 													</cfif>
 													<cfquery name="patt" dbtype="query">
-									select
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										attribute_remark,
-										agent_name
-									from
-										rparts
-									where
-										attribute_type is not null and
-										part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
-									group by
-										attribute_type,
-										attribute_value,
-										attribute_units,
-										determined_date,
-										attribute_remark,
-										agent_name
-								</cfquery>
+														select
+															attribute_type,
+															attribute_value,
+															attribute_units,
+															determined_date,
+															attribute_remark,
+															agent_name
+														from
+															rparts
+														where
+															attribute_type is not null and
+															part_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#part_id#">
+														group by
+															attribute_type,
+															attribute_value,
+															attribute_units,
+															determined_date,
+															attribute_remark,
+															agent_name
+													</cfquery>
 													<cfif patt.recordcount gt 0>
 														<tr>
-															<td colspan="6">
+															<td colspan="5">
 																<cfloop query="patt">
 																	<div class="small pl-3" style="line-height: .9rem;"> #attribute_type#=#attribute_value#
 																		<cfif len(attribute_units) gt 0>
@@ -1035,7 +1034,8 @@ limitations under the License.
 																			remark=#attribute_remark#
 																		</cfif>
 																	</div>
-																</cfloop></td>
+																</cfloop>
+															</td>
 														</tr>
 													</cfif>
 													<!---/cfloop--->
@@ -1052,8 +1052,13 @@ limitations under the License.
 															
 															<td><cfif oneOfus is 1>#label#</cfif></td>
 													
-															<td>#part_remarks#</td>
+														
 														</tr>
+														<cfif len(part_remarks) gt 0>
+														<tr class="small">
+															<td colspan="5"><span class="pl-3 d-block"><span class="font-italic">Remarks:</span> #part_remarks#</span></td>
+														</tr>
+													</cfif>
 													</cfloop>
 												</cfloop>
 											</tbody>
