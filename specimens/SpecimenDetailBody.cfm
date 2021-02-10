@@ -824,6 +824,7 @@ limitations under the License.
 												</span>
 												</div>
 												<div class="col-11 px-3 float-left d-inline-block">
+													<div class="">#alt#</div>
 												<cfloop query="citations">
 													<div class="d-block my-2">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
@@ -847,7 +848,7 @@ limitations under the License.
 												</cfif>
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-													<span class="d-block w-100">#desc.label_value#</span>
+													
 												</div>
 											
 												</cfloop>
