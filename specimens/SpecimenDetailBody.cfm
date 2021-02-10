@@ -842,8 +842,12 @@ limitations under the License.
 							
 											
 									</cfloop>
-											<cfset puri=getMediaPreview(preview_uri,media_type)>
-			<cfset alt="Media Preview Image">
+
+									</cfloop>
+
+								<cfif publicationMedia.recordcount gt 0>
+								<cfset puri=getMediaPreview(preview_uri,media_type)>
+									<cfset alt="Media Preview Image">
 										<cfif desc.recordcount is 1>
 											<cfset alt=desc.label_value>
 										</cfif>
@@ -857,10 +861,6 @@ limitations under the License.
 												<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
 											</span> 
 										</div>
-									</cfloop>
-
-								<cfif publicationMedia.recordcount gt 0>
-								
 								</cfif>
 								</div>
 							</div>
