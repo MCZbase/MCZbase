@@ -1053,7 +1053,7 @@ limitations under the License.
 															
 															<td><cfif oneOfus is 1>#label#</cfif></td>
 													
-															<td>#part_remarks#</td>
+															<td>#part_remarks#remark</td>
 														</tr>
 													</cfloop>
 												</cfloop>
