@@ -815,12 +815,15 @@ limitations under the License.
 											<div class="m-2 float-left d-inline col-12 px-0"> 
 												<cfset mt = #media_type#>
 												<cfset muri = #media_uri#>
+												<div class="col-2 px-0 float-left d-inline">
 												<a href="#media_uri#" target="_blank">
 													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded" style="width: 60px;">
 												</a>
 												<span class="d-block small text-center" style="line-height:.9rem;">
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
-												</span> 
+												</span>
+												</div>
+												<div class="col-10 px-0 float-left d-inline">
 												<cfloop query="citations">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
@@ -844,6 +847,7 @@ limitations under the License.
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 												</cfloop>
+												</div>
 											</div>
 										</cfloop>
 									</cfif>
