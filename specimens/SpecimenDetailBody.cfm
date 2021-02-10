@@ -812,7 +812,7 @@ limitations under the License.
 											<cfif desc.recordcount is 1>
 												<cfset alt=desc.label_value>
 											</cfif>
-											<div class="m-2 float-left d-inline col-12 px-0"> 
+											<div class="m-2 float-left d-inline col-1 px-0"> 
 												<cfset mt = #media_type#>
 												<cfset muri = #media_uri#>
 												<div class="col-2 px-0 float-left d-inline">
@@ -823,7 +823,7 @@ limitations under the License.
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
 												</span>
 												</div>
-												<div class="col-10 px-0 float-left d-inline">
+												<div class="col-11 px-0 float-left d-inline">
 												<cfloop query="citations">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
