@@ -810,9 +810,9 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-												<cfset i = 1>
+												
 									<cfloop query="publicationMedia">
-										<cfset puri=getMediaPreview(preview_uri,media_type)>
+										
 										<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
 															media_label,
@@ -839,7 +839,11 @@ limitations under the License.
 											where 
 												media_label='description'
 										</cfquery>
-										<cfset alt="Media Preview Image">
+							
+											
+									</cfloop>
+											<cfset puri=getMediaPreview(preview_uri,media_type)>
+			<cfset alt="Media Preview Image">
 										<cfif desc.recordcount is 1>
 											<cfset alt=desc.label_value>
 										</cfif>
@@ -853,9 +857,6 @@ limitations under the License.
 												<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
 											</span> 
 										</div>
-											<cfset i = i + 1>
-									</cfloop>
-
 									</cfloop>
 
 								<cfif publicationMedia.recordcount gt 0>
