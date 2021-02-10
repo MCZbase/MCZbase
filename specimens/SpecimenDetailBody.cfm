@@ -779,7 +779,7 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-									<cfif publicationMedia.recordcount is 1>
+									<cfif publicationMedia.recordcount gt 0>
 										<cfloop query="publicationMedia">
 											<cfset puri=getMediaPreview(preview_uri,media_type)>	
 											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -825,7 +825,7 @@ limitations under the License.
 												</div>
 												<div class="col-11 px-3 float-left d-inline-block">
 													<div class="">#alt#</div>
-													
+											<cfif citations.recordcount is 1>		
 												<cfloop query="citations">
 													<div class="d-block mb-5">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
@@ -850,7 +850,7 @@ limitations under the License.
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>		
 												</div>
-												</cfloop>
+												</cfloop></cfif>
 												
 												</div>
 											</div>
