@@ -1410,7 +1410,7 @@ limitations under the License.
 				<!------------------------------------ Collectors and Preparators ----------------------------------->
 				<div class="accordion" id="accordionH">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-2" id="heading7">
+						<div class="card-header mb-0" id="heading7">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
 							</h3>
