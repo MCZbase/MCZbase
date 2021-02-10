@@ -618,7 +618,7 @@ limitations under the License.
 				</cfquery>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-2" id="headingTwo">
+						<div class="card-header mb-0" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
