@@ -609,14 +609,14 @@ limitations under the License.
 					<div class="card bg-light">
 						<div class="card-header mb-2" id="headingTwo">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseIt">Identifications</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationNewForm">Stuff here...</div>
 							</div>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
-						<div id="collapseIt" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionB">
+						<div id="collapseID" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
 							<cfloop query="identification">
 								<cfquery name="getTaxa" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -795,7 +795,7 @@ limitations under the License.
 										<cfif find("(ms)", #type_status#) NEQ 0>
 											<!--- Type status with (ms) is used to mark to be published types,
 	`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-										as appropriate to the name of the parent taxon of the new name --->
+											as appropriate to the name of the parent taxon of the new name --->
 											<cfif find(" ", #cited_name#) NEQ 0>
 												&nbsp;ssp. nov.
 												<cfelse>
