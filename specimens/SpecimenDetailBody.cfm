@@ -1126,7 +1126,7 @@ limitations under the License.
 				
 				<!------------------------------------ attributes ----------------------------------------->
 				<cfif len(attribute.attribute_type) gt 0>
-					<div class="accordion" id="accordionE">
+					<div class="accordion" id="accordionF">
 					<div class="card mb-2 bg-light">
 						<div class="card-header mb-2" id="heading5">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
@@ -1134,7 +1134,7 @@ limitations under the License.
 							</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionD">
+					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionF">
 						<div class="card-body float-left mb-2">
 							<cfquery name="sex" dbtype="query">
 					select * from attribute where attribute_type = 'sex'
@@ -1242,7 +1242,8 @@ limitations under the License.
 							</ul>
 						</div>
 					</div>
-											</div>
+					</div>
+				</div>
 				</cfif>
 				
 				<!------------------------------------ relationships  ------------------------------------->
