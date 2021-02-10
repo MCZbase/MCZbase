@@ -1276,7 +1276,7 @@ limitations under the License.
 				
 				<div class="accordion" id="accordionG">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-0" id="heading6" style="margin-bottom: 100px;">
+						<div class="card-header" id="heading6" style="margin-bottom: 200px;">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
 							</h3>
