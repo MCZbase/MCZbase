@@ -815,7 +815,7 @@ limitations under the License.
 											<div class="m-2 float-left d-inline col-12 px-0"> 
 												<cfset mt = #media_type#>
 												<cfset muri = #media_uri#>
-												<div class="px-0 float-left d-inline" style="width: 6%">
+												<div class="px-0 float-left d-inline" style="width: 4%">
 												<a href="#media_uri#" target="_blank" title="link to media">
 													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded" style="width: 39px;margin-top:-.5rem">
 												</a>
