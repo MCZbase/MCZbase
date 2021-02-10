@@ -844,7 +844,7 @@ limitations under the License.
 											<div style="width: 60px;" class="m-2 float-left d-inline"> 
 												<cfset mt = #media_type#>
 												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
+													<img src="/shared/images/noThumb.jpg" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
 												</a>
 												<span class="d-block small text-center" style="line-height:.9rem;">
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
