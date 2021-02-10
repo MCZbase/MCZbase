@@ -768,6 +768,7 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
+									<cfset puri=getMediaPreview(preview_uri,media_type)>
 									<cfloop query="citations">
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
@@ -809,7 +810,7 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfif publicationMedia.recordcount gt 0>
-											<cfset puri=getMediaPreview(preview_uri,media_type)>
+											
 											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
 																media_label,
@@ -842,7 +843,6 @@ limitations under the License.
 											</cfif>
 											<div style="width: 60px;" class="m-2 float-left d-inline"> 
 												<cfset mt = #media_type#>
-												<cfset muri = #media_uri#>
 												<a href="#media_uri#" target="_blank">
 													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
 												</a>
