@@ -780,7 +780,7 @@ limitations under the License.
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
 									<cfif publicationMedia.recordcount gt 0>
-										<cfloop query="publicationMedia">
+										<cfloop query="publicationMedia" group="publicatonMedia.media_uri">
 											<cfset puri=getMediaPreview(preview_uri,media_type)>	
 											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
