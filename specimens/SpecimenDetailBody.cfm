@@ -1275,7 +1275,7 @@ limitations under the License.
 				<!------------------------------------ locality and collecting event------------------------------------------->
 				
 				<div class="accordion" id="accordionG">
-					<div class="card mb-2 bg-light"  style="margin-bottom: 200px;">
+					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading6">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseLoc">Location and Collecting Event</a>
@@ -1458,12 +1458,16 @@ limitations under the License.
 						media_relations.related_primary_key = <cfqueryparam value="#one.accn_id#" cfsqltype="CF_SQL_DECIMAL">
 				</cfquery>
 				<cfif oneOfUs is 1 and vpdaccn is 1>
-					<div class="card mb-2">
-						<div class="card-header float-left w-100">
-							<h3 class="h4 my-0 float-left">Transactions</h3>
+				<div class="accordion" id="accordionI">
+					<div class="card mb-2 bg-light">
+						<div class="card-header mb-0" id="heading8">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseTR">Transactions</a>
+							</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
-						<div class="card-body mb-2 float-left">
+						<div id="collapseTR" class="collapse show" aria-labelledby="heading8" data-parent="##accordionI">
+							<div class="card-body mb-2 float-left">
 							<ul class="list-group list-group-flush pl-0">
 								<li class="list-group-item"><h5 class="mb-0 d-inline-block">Accession:</h5>
 									<cfif oneOfUs is 1>
@@ -1589,7 +1593,9 @@ limitations under the License.
 								</cfif>
 							</ul>
 						</div>
+						</div>
 					</div>
+				</div>
 				</cfif>
 				<!------------------------------------ metadata ------------------------------------------->
 				<cfif oneofus is 1 or not Findnocase("mask parts", one.encumbranceDetail)>
