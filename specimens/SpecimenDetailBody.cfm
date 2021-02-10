@@ -386,22 +386,7 @@ limitations under the License.
 			order by
 				substr(formatted_publication, - 4)
 		</cfquery>
-		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-					FROM
-						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-					WHERE
-						mr.media_id = ml.media_id and
-						mr.media_id = m.media_id and
-						ml.media_label = 'description' and
-						MEDIA_RELATIONSHIP like '% publication' and
-						RELATED_PRIMARY_KEY = c.publication_id and
-						c.publication_id = fp.publication_id and
-						fp.format_style='short' and
-						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER by substr(formatted_publication, -4)
-				</cfquery>
+
 	<cfoutput query="one">
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -778,9 +763,63 @@ limitations under the License.
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
+									<cfloop query="shippermit">
+										<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+											select media.media_id, media_uri, preview_uri, media_type,
+												mczbase.get_media_descriptor(media.media_id) as media_descriptor
+											from media_relations left join media on media_relations.media_id = media.media_id
+											where media_relations.media_relationship = 'shows permit' 
+												and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#shippermit.permit_id#>
+										</cfquery>
+										<cfset mediaLink = "&##8855;"><!--- show (x) character if there are no permit media --->
+										<cfloop query="mediaQuery">
+											<cfset puri=getMediaPreview(preview_uri,media_type) >
+											<cfif puri EQ "/images/noThumb.jpg">
+												<!--- linked media, but no preview image --->
+												<cfset altText = "Red X in a red square, with text, no preview image available">
+											<cfelse>
+												<!--- linked media with preview image --->
+												<cfset altText = mediaQuery.media_descriptor>
+											</cfif>
+											<cfset mediaLink = "<a href='#media_uri#' target='_blank' rel='noopener noreferrer' ><img src='#puri#' height='20' alt='#altText#'></a>" >
+										</cfloop>
+											<li class="my-1">#mediaLink# #permit_type# #permit_Num# | Issued: #dateformat(issued_Date,'yyyy-mm-dd')# | By: #IssuedByAgent#
+														<button type='button' class='btn btn-xs btn-secondary' onClick=' window.open("/transactions/Permit.cfm?Action=edit&permit_id=#permit_id#")' target='_blank' value='Edit'>Edit</button>
+													<button type='button' 
+														class='btn btn-xs btn-warning' 
+														onClick='confirmDialog("Remove this permit from this shipment (#permit_type# #permit_Num#)?", "Confirm Remove Permit", function() { deletePermitFromShipment(#theResult.shipment_id#,#permit_id#,#transaction_id#); reloadShipments(#transaction_id#); } ); '
+														value='Remove Permit'>Remove</button>
+													<cfif theResult.recordcount GT 1>
+													<!--- add the option to copy/move the permit if there is more than one shipment --->
+														<button type='button' 
+															onClick=' openMovePermitDialog(#transaction_id#,#theResult.shipment_id#,#permit_id#,"movePermitDlg_#theResult.shipment_id##permit_id#");' 
+															class='btn btn-xs btn-warning' value='Move'>Move</button>
+														<span id='movePermitDlg_#theResult.shipment_id##permit_id#'></span>
+													</cfif>
+											</li>
+									</cfloop>
+									
+									
 								<div class="row mx-0">
-									<cfif publicationMedia.recordcount gt 0>
-										<cfloop query="publicationMedia">
+									<cfif citations.recordcount gt 0>
+										<cfloop query="citations">
+											<cfloop query="publicationMedia">
+											<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+												SELECT
+													mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+												FROM
+													media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+												WHERE
+													mr.media_id = ml.media_id and
+													mr.media_id = m.media_id and
+													ml.media_label = 'description' and
+													MEDIA_RELATIONSHIP like '% publication' and
+													RELATED_PRIMARY_KEY = c.publication_id and
+													c.publication_id = fp.publication_id and
+													fp.format_style='short' and
+													c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+												ORDER by substr(formatted_publication, -4)
+											</cfquery>
 											<cfset puri=getMediaPreview(preview_uri,media_type)>	
 											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 														select
@@ -814,7 +853,6 @@ limitations under the License.
 											</cfif>
 											<div class="m-2 float-left d-inline col-12 px-0"> 
 												<cfset mt = #media_type#>
-												<cfset muri = #media_uri#>
 												<div class="px-0 float-left d-inline" style="width: 6%">
 												<a href="#media_uri#" target="_blank" title="link to media">
 													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded" style="width: 39px;margin-top:-.5rem">
@@ -823,11 +861,10 @@ limitations under the License.
 													<a class="d-block" href="/media/#media_id#" title="link to media details (metadata)" target="_blank">Media<br>Record</a>
 												</span>
 												</div>
-												<div class="col-11 px-3 float-left d-inline-block">
+											</cfloop>
+													<div class="col-11 px-3 float-left d-inline-block">
 													<div class="">#alt#</div>
-											<cfif citations.recordcount is 1>		
-												<cfloop query="citations">
-													<div class="d-block mb-5">
+											<div class="d-block mb-5">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
@@ -850,7 +887,8 @@ limitations under the License.
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>		
 												</div>
-												</cfloop></cfif>
+											
+											</cfif>
 												
 												</div>
 											</div>
