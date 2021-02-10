@@ -819,7 +819,9 @@ limitations under the License.
 												<a href="#media_uri#" target="_blank">
 													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded" style="width: 30px;">
 												</a>
-										
+													<span class="d-block smaller text-center" style="line-height:.9rem;">
+													<a class="d-block" href="/media/#media_id#" target="_blank">Record</a>
+												</span>
 												</div>
 												<div class="col-11 px-3 float-left d-inline-block">
 													<div class="">#alt#</div>
@@ -849,9 +851,7 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>		
 												</div>
 												</cfloop>
-															<span class="d-block small text-center" style="line-height:.9rem;">
-													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
-												</span>
+												
 												</div>
 											</div>
 										</cfloop>
