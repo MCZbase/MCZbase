@@ -823,9 +823,9 @@ limitations under the License.
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
 												</span>
 												</div>
-												<div class="col-11 p-3 float-left d-inline-block">
+												<div class="col-11 px-3 float-left d-inline-block">
 												<cfloop query="citations">
-													<div class="d-block">
+													<div class="d-block my-2">
 													<a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#" target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
