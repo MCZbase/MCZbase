@@ -770,7 +770,7 @@ limitations under the License.
 				<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
 						<div class="card mb-2 bg-light">
-							<div class="card-header mb-2" id="heading2">
+							<div class="card-header" id="heading2">
 								<h3 class="h4 my-0 float-left collapsed btn-link">
 									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
 								</h3>
