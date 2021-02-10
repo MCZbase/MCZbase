@@ -975,9 +975,11 @@ limitations under the License.
 													<th><span>Condition</span></th>
 													<th><span>Disposition</span></th>
 													<th><span>##</span></th>
-													<cfif oneOfus is "1">
-														<th><span>Container</span></th>
+													<th><cfif oneOfus is "1">
+														<span>Container</span>
 													</cfif>
+													</th>
+													
 												</tr>
 											</thead>
 											<tbody>
