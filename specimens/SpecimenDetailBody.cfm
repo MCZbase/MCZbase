@@ -618,7 +618,7 @@ limitations under the License.
 				</cfquery>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-0" id="heading1">
+						<div class="card-header" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
@@ -888,7 +888,7 @@ limitations under the License.
 				<cfif len(oid.other_id_type) gt 0>
 				<div class="accordion" id="accordionD">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-2" id="heading3">
+						<div class="card-header" id="heading3">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
 							</h3>
@@ -1128,7 +1128,7 @@ limitations under the License.
 				<cfif len(attribute.attribute_type) gt 0>
 					<div class="accordion" id="accordionF">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-2" id="heading5">
+						<div class="card-header" id="heading5">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Attributes</a>
 							</h3>
@@ -1410,7 +1410,7 @@ limitations under the License.
 				<!------------------------------------ Collectors and Preparators ----------------------------------->
 				<div class="accordion" id="accordionH">
 					<div class="card mb-2 bg-light">
-						<div class="card-header mb-0" id="heading7">
+						<div class="card-header" id="heading7">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCol">Collectors and Preparators</a>
 							</h3>
