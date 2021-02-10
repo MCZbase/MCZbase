@@ -386,6 +386,23 @@ limitations under the License.
 			order by
 				substr(formatted_publication, - 4)
 		</cfquery>
+		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+			FROM
+				media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+			WHERE
+				mr.media_id = ml.media_id and
+				mr.media_id = m.media_id and
+				ml.media_label = 'description' and
+				MEDIA_RELATIONSHIP like '% publication' and
+				RELATED_PRIMARY_KEY = c.publication_id and
+				c.publication_id = fp.publication_id and
+				fp.format_style='short' and
+			and citations.formatted_publication = publicationMedia.formatted_publication
+			and c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			ORDER by substr(formatted_publication, -4)
+		</cfquery>
 	<cfoutput query="one">
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -755,22 +772,7 @@ limitations under the License.
 					</div>
 				</div>
 				<!------------------------------------ citations ------------------------------------------>
-				<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					SELECT
-						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-					FROM
-						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-					WHERE
-						mr.media_id = ml.media_id and
-						mr.media_id = m.media_id and
-						ml.media_label = 'description' and
-						MEDIA_RELATIONSHIP like '% publication' and
-						RELATED_PRIMARY_KEY = c.publication_id and
-						c.publication_id = fp.publication_id and
-						fp.format_style='short' and
-						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-					ORDER by substr(formatted_publication, -4)
-				</cfquery>
+	
 				<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
 						<div class="card bg-light">
@@ -809,8 +811,8 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-											
-									
+												<cfset i = 1>
+									<cfloop query="publicationMedia">
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -853,7 +855,7 @@ limitations under the License.
 											</span> 
 										</div>
 											<cfset i = i + 1>
-									
+									</cfloop>
 
 									</cfloop>
 
