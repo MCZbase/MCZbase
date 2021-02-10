@@ -773,88 +773,89 @@ limitations under the License.
 				</cfquery>
 				<cfif len(citations.cited_name) gt 0>
 					<div class="accordion" id="accordionC">
-					<div class="card bg-light">
-						<div class="card-header mb-2" id="headingTwo">
-							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
-							</h3>
-							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
-						</div>
-						<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
-							<div class="card-body mb-2 float-left">
-							<div class="row mx-0">
-							   <cfset i = 1>
-								<cfloop query="citations">
-									<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-									target="_mainFrame">#formatted_publication#</a>,
-										<cfif len(occurs_page_number) gt 0>
-											Page
-											<cfif len(citation_page_uri) gt 0>
-												<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-												<cfelse>
-												#occurs_page_number#,
-											</cfif>
-										</cfif>
-											<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-										<cfif find("(ms)", #type_status#) NEQ 0>
-											<!--- Type status with (ms) is used to mark to be published types,
-	`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-											as appropriate to the name of the parent taxon of the new name --->
-											<cfif find(" ", #cited_name#) NEQ 0>
-												&nbsp;ssp. nov.
-												<cfelse>
-												&nbsp;sp. nov.
-											</cfif>
-										</cfif>
-											<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-									</div>
-									<cfset i = i + 1>
-								</cfloop>
-							
-							<cfif publicationMedia.recordcount gt 0>
-								<cfset i = 1>
-								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>
-									<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select
-														media_label,
-														label_value
-												from
-														media_labels
-												where
-														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
-									<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-												select
-														media_label,
-														label_value
-												from
-														media_labels
-												where
-														media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-									</cfquery>
-									<cfquery name="desc" dbtype="query">
-										select label_value from labels where media_label='description'
-									</cfquery>
-									<cfset alt="Media Preview Image">
-									<cfif desc.recordcount is 1>
-										<cfset alt=desc.label_value>
-									</cfif>
-									<div style="width: 115px;" class="m-2 float-left d-inline"> 
-										<cfset mt = #media_type#>
-										<cfset muri = #media_uri#>
-										<a href="#media_uri#" target="_blank">
-											<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
-										</a>
-										<span class="d-block small text-center" style="line-height:.9rem;">#i#) #media_type# (#mime_type#) 
-										<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
-									</div>
-											<cfset i = i + 1>
-								</cfloop>
-								
-							</cfif>
+						<div class="card bg-light">
+							<div class="card-header mb-2" id="headingTwo">
+								<h3 class="h4 my-0 float-left collapsed btn-link">
+									<a href="##" role="button" data-toggle="collapse" data-target="##collapseCit">Citations</a>
+								</h3>
+								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</div>
-						</div>
+							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
+								<div class="card-body mb-2 float-left">
+								<div class="row mx-0">
+								   <cfset i = 1>
+									<cfloop query="citations">
+										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+										target="_mainFrame">#formatted_publication#</a>,
+											<cfif len(occurs_page_number) gt 0>
+												Page
+												<cfif len(citation_page_uri) gt 0>
+													<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+													<cfelse>
+													#occurs_page_number#,
+												</cfif>
+											</cfif>
+												<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+											<cfif find("(ms)", #type_status#) NEQ 0>
+												<!--- Type status with (ms) is used to mark to be published types,
+		`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
+												as appropriate to the name of the parent taxon of the new name --->
+												<cfif find(" ", #cited_name#) NEQ 0>
+													&nbsp;ssp. nov.
+													<cfelse>
+													&nbsp;sp. nov.
+												</cfif>
+											</cfif>
+												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
+										</div>
+										<cfset i = i + 1>
+									</cfloop>
+
+								<cfif publicationMedia.recordcount gt 0>
+									<cfset i = 1>
+									<cfloop query="publicationMedia">
+										<cfset puri=getMediaPreview(preview_uri,media_type)>
+										<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+															media_label,
+															label_value
+													from
+															media_labels
+													where
+															media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+										</cfquery>
+										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+													select
+															media_label,
+															label_value
+													from
+															media_labels
+													where
+															media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+										</cfquery>
+										<cfquery name="desc" dbtype="query">
+											select label_value from labels where media_label='description'
+										</cfquery>
+										<cfset alt="Media Preview Image">
+										<cfif desc.recordcount is 1>
+											<cfset alt=desc.label_value>
+										</cfif>
+										<div style="width: 115px;" class="m-2 float-left d-inline"> 
+											<cfset mt = #media_type#>
+											<cfset muri = #media_uri#>
+											<a href="#media_uri#" target="_blank">
+												<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
+											</a>
+											<span class="d-block small text-center" style="line-height:.9rem;">#i#) #media_type# (#mime_type#) 
+											<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a> #alt# </span> 
+										</div>
+												<cfset i = i + 1>
+									</cfloop>
+
+								</cfif>
+								</div>
+							</div>
+							</div>
 						</div>
 					</div>
 				</cfif>
