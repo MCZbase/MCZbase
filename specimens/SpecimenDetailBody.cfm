@@ -1130,11 +1130,8 @@ limitations under the License.
 					<div class="card mb-2 bg-light">
 						<div class="card-header mb-2" id="heading5">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
-								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Other IDs</a>
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseAtt">Attributes</a>
 							</h3>
-					<div class="card mb-2">
-						<div class="card-header float-left w-100">
-							<h3 class="h4 my-0 float-left">Attributes</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
 					<div id="collapseAtt" class="collapse show" aria-labelledby="heading5" data-parent="##accordionD">
@@ -1245,6 +1242,7 @@ limitations under the License.
 							</ul>
 						</div>
 					</div>
+											</div>
 				</cfif>
 				
 				<!------------------------------------ relationships  ------------------------------------->
@@ -1616,6 +1614,7 @@ limitations under the License.
 				</form>
 			</cfif>
 		</div>
+					</div>
 	</cfoutput>
 	</div>
 </section>
