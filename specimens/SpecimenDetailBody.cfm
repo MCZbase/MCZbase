@@ -768,8 +768,6 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-								
-									<cfloop query="citations">
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -786,6 +784,8 @@ limitations under the License.
 												c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											ORDER by substr(formatted_publication, -4)
 										</cfquery>
+									<cfloop query="citations">
+
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
