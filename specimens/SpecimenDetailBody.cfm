@@ -886,13 +886,15 @@ limitations under the License.
 						display_value
 				</cfquery>
 				<cfif len(oid.other_id_type) gt 0>
-					<div class="card mb-2">
-						<div class="card-header float-left w-100">
-							<h3 class="h4 my-0 float-left">
-							Other IDs
-							</h4>
+				<div class="accordion" id="accordionD">
+					<div class="card mb-2 bg-light">
+						<div class="card-header mb-2" id="headingTwo">
+							<h3 class="h4 my-0 float-left collapsed btn-link">
+								<a href="##" role="button" data-toggle="collapse" data-target="##collapseOID">Other IDs</a>
+							</h3>
 							<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 						</div>
+						<div id="collapseOID" class="collapse show" aria-labelledby="headingTwo" data-parent="##accordionD">
 						<div class="card-body mb-2 float-left">
 							<ul class="list-group">
 								<cfloop query="oid">
@@ -906,6 +908,8 @@ limitations under the License.
 								</cfloop>
 							</ul>
 						</div>
+						</div>
+					</div>
 					</div>
 				</cfif>
 				<!------------------------------------ parts ----------------------------------------------> 
