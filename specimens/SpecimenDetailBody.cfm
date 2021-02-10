@@ -809,8 +809,8 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-												<cfset i = 1>
-									<cfloop query="publicationMedia">
+											
+									
 										<cfset puri=getMediaPreview(preview_uri,media_type)>
 										<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 													select
@@ -853,7 +853,7 @@ limitations under the License.
 											</span> 
 										</div>
 											<cfset i = i + 1>
-									</cfloop>
+									
 
 									</cfloop>
 
