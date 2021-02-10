@@ -814,51 +814,51 @@ limitations under the License.
 	
 
 									</cfloop>
-														<cfif publicationMedia.recordcount gt 0>
-								<cfloop query="publicationMedia">
-									<cfset puri=getMediaPreview(preview_uri,media_type)>	
-										<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select
-															media_label,
-															label_value
-													from
-															media_labels
-													where
-															media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-										</cfquery>
-										<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-													select
-															media_label,
-															label_value
-													from
-															media_labels
-													where
-															media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-										</cfquery>
-										<cfquery name="desc" dbtype="query">
-											select 
-												label_value 
-											from 
-												labels 
-											where 
-												media_label='description'
-										</cfquery>
-									<cfset alt="Media Preview Image">
-										<cfif desc.recordcount is 1>
-											<cfset alt=desc.label_value>
-										</cfif>
-										<div style="width: 60px;" class="m-2 float-left d-inline"> 
-											<cfset mt = #media_type#>
-											<cfset muri = #media_uri#>
-											<a href="#media_uri#" target="_blank">
-												<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
-											</a>
-											<span class="d-block small text-center" style="line-height:.9rem;">
-												<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
-											</span> 
-										</div>
-									</cfloop>
-								</cfif>
+									<cfif publicationMedia.recordcount gt 0>
+										<cfloop query="publicationMedia">
+											<cfset puri=getMediaPreview(preview_uri,media_type)>	
+											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select
+																media_label,
+																label_value
+														from
+																media_labels
+														where
+																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select
+																media_label,
+																label_value
+														from
+																media_labels
+														where
+																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="desc" dbtype="query">
+												select 
+													label_value 
+												from 
+													labels 
+												where 
+													media_label='description'
+											</cfquery>
+											<cfset alt="Media Preview Image">
+											<cfif desc.recordcount is 1>
+												<cfset alt=desc.label_value>
+											</cfif>
+											<div style="width: 60px;" class="m-2 float-left d-inline"> 
+												<cfset mt = #media_type#>
+												<cfset muri = #media_uri#>
+												<a href="#media_uri#" target="_blank">
+													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0 border rounded w-100" width="100%">
+												</a>
+												<span class="d-block small text-center" style="line-height:.9rem;">
+													<a class="d-block" href="/media/#media_id#" target="_blank">Media Details</a>
+												</span> 
+											</div>
+										</cfloop>
+									</cfif>
 								</div>
 							</div>
 							</div>
