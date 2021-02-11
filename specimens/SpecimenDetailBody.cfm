@@ -806,7 +806,16 @@ limitations under the License.
 										</div>
 										<cfset i = i + 1>
 												
-	
+											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select
+																media_label,
+																label_value
+														from
+																media_labels
+														where
+																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+												<p>	#citationPub.media_label#</p>
 
 									</cfloop>
 							<!---		<cfif publicationMedia.recordcount gt 0>
