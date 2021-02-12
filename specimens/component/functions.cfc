@@ -180,8 +180,9 @@
 		  
 		  	
 <cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="publication_id" type="string" required="yes">
-	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="CitPub" type="string" required="yes">
+	<cfargument name="mid" type="string" required="yes">
+	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
 		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
@@ -195,11 +196,9 @@
 			from
 				media_relations left join media on media_relations.media_id = media.media_id
 			where
-				media_relationship like "% publication" 
-				and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#publication_id#">
+				media_relationship like <cfqueryparam value="% publication" cfsqltype="CF_SQL_VARCHAR">
+				and media_relations.related_primary_key = <cfqueryparam value="#publication_id#" CFSQLType="CF_SQL_DECIMAL">
 		</cfquery>
-			
-				
 		<cfoutput>
 								
 			<cfif query.recordcount gt 0>
