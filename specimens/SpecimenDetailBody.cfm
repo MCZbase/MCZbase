@@ -808,10 +808,13 @@ limitations under the License.
 								<!---		<cfset citpub = citations.publication_id>	
 										<cfset mid = citations.formatted_publication>--->
 								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-								<script>
+									<script>
 									// callback for ajax methods to reload from dialog
-								
-									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_uri"));
+									function reloadTransMedia() { 
+										loadCitPubFormMedia(#publication_id#,"media_id");
+										
+									};
+									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_id"));
 								</script>
 
 									</cfloop>
