@@ -46,7 +46,7 @@ limitations under the License.
 				as agentname
 			from underscore_collection
 				left join underscore_relation on underscore_collection.underscore_collection_id = underscore_relation.underscore_collection_id
-				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id" AND len(collection_id) GT 0))>
+				<cfif (isDefined("guid") and len(guid) gt 0) OR (isDefined("collection_id") AND len(collection_id) GT 0))>
 					left join #session.flatTableName# on underscore_relation.collection_object_id = #session.flatTableName#.collection_object_id
 				</cfif>
 			WHERE
@@ -69,7 +69,7 @@ limitations under the License.
 					and mask_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#mask_fg#">
 				</cfif>
 				<cfif isDefined("collection_id") and len(collection_id) gt 0>
-					and #session.flatTableName#.collection_id in (<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#collection_id#" list="yes">)
+					and #session.flatTableName#.collection_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_id#" list="yes">)
 				</cfif>
 				<cfif isDefined("guid") and len(guid) gt 0>
 					<cfif find(',',guid) GT 0> 
