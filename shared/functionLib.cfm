@@ -67,7 +67,7 @@ limitations under the License.
 <!------------------------------------------------------------------------------------->
 <cffunction name="getMediaPreview" access="public" output="true">
 	<cfargument name="puri" required="true" type="string">
-	<cfargument name="mime_type" required="false" type="string">
+	<cfargument name="mt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
 		<!--- Hack - media.preview_uri can contain filenames that aren't correctly URI encoded as well as valid IRIs --->
@@ -77,9 +77,9 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image/png" || #mime-type# is "image/jpeg">
+		<cfif mt is "image">
 			<cfreturn "/shared/images/48px-Gnome-image-x-generic.svg.png">
-		<cfelseif mt is "mpeg" || #media_type# is 'audio'>
+		<cfelseif mt is "audio" || #media_type# is "audio">
 			<cfreturn "/shared/images/48px-Gnome-audio-volume-medium.svg.png">
 		<cfelseif mt is "text" || #media_type# is "text">
 			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png">
