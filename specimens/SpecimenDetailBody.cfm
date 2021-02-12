@@ -386,7 +386,22 @@ limitations under the License.
 			order by
 				substr(formatted_publication, - 4)
 		</cfquery>
-		
+		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					SELECT
+						mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+					FROM
+						media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+					WHERE
+						mr.media_id = ml.media_id and
+						mr.media_id = m.media_id and
+						ml.media_label = 'description' and
+						MEDIA_RELATIONSHIP like '% publication' and
+						RELATED_PRIMARY_KEY = c.publication_id and
+						c.publication_id = fp.publication_id and
+						fp.format_style='short' and
+						c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+					ORDER by substr(formatted_publication, -4)
+				</cfquery>
 	<cfoutput query="one">
 		<cfif oneOfUs is 1>
 			<form name="editStuffLinks" method="post" action="/specimens/SpecimenDetail.cfm">
@@ -764,27 +779,9 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-				
-									<cfloop query="citations">
-										<div class="d-block py-1 px-2 w-100 float-left">
-											<cfloop query="publicationMedia">
-										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-											SELECT
-												fp.publication_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
-											FROM
-												media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
-											WHERE
-												mr.media_id = ml.media_id and
-												mr.media_id = m.media_id and
-												ml.media_label = 'description' and
-												MEDIA_RELATIONSHIP like '% publication' and
-												RELATED_PRIMARY_KEY = c.publication_id and
-												c.publication_id = fp.publication_id
-										</cfquery>
-											
-											<img src="#media_uri#"/>
-											</cfloop>
-											<span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+								   <cfset i = 1>
+									<cfloop query="citations" group="formatted_publication">
+										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
@@ -807,14 +804,56 @@ limitations under the License.
 											</cfif>
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
-									
-							<!---		<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-									<script>					
-									$( document ).ready(loadCitPubFormMedia(publication_id));
-									</script>--->
-									</cfloop>		
-							
+										<cfset i = i + 1>
+												
+	
 
+									</cfloop>
+									<cfif publicationMedia.recordcount gt 0>
+										<cfloop query="publicationMedia">
+											<cfset puri=getMediaPreview(preview_uri,media_type)>	
+											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select
+																media_label,
+																label_value
+														from
+																media_labels
+														where
+																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+														select
+																media_label,
+																label_value
+														from
+																media_labels
+														where
+																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
+											</cfquery>
+											<cfquery name="desc" dbtype="query">
+												select 
+													label_value 
+												from 
+													labels 
+												where 
+													media_label='description'
+											</cfquery>
+											<cfset alt="Media Preview Image">
+											<cfif desc.recordcount is 1>
+												<cfset alt=desc.label_value>
+											</cfif>
+											<div style="width: 5%" class="m-2 float-left d-inline"> 
+												<cfset mt = #media_type#>
+												<cfset muri = #media_uri#>
+												<a href="#media_uri#" target="_blank">
+													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0" style="width: 39px;">
+												</a>
+												<span class="d-block smaller text-center" style="line-height:.7rem;">
+													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
+												</span> 
+											</div>
+										</cfloop>
+									</cfif>
 								</div>
 							</div>
 							</div>
@@ -941,30 +980,30 @@ limitations under the License.
 										part_name
 						</cfquery>
 						<cfquery name="parts" dbtype="query">
-								select  
-										part_id,
-										label,
-										part_name,
-										sampled_from_obj_id,
-										part_disposition,
-										part_condition,
-										lot_count,
-										part_remarks
-								from
-										rparts
-								group by
-
-										part_id,
-										label,
-										part_name,
-										sampled_from_obj_id,
-										part_disposition,
-										part_condition,
-										lot_count,
-										part_remarks
-								order by
-										part_name
-						</cfquery>
+        select  
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        from
+                rparts
+        group by
+			
+                part_id,
+                label,
+                part_name,
+                sampled_from_obj_id,
+                part_disposition,
+                part_condition,
+                lot_count,
+                part_remarks
+        order by
+                part_name
+</cfquery>
 						<cfquery name="mPart" dbtype="query">
 							select * from parts where sampled_from_obj_id is null order by part_name
 						</cfquery>
