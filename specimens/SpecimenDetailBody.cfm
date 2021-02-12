@@ -768,8 +768,9 @@ limitations under the License.
 								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
-								<div class="card-body col-12 px-0 mb-2 float-left">
+								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
+									<div class="col-12 px-0">
 								   <cfset i = 1>
 									<cfloop query="citations" group="formatted_publication">
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
@@ -830,7 +831,7 @@ limitations under the License.
 											<cfif desc.recordcount is 1>
 												<cfset alt=desc.label_value>
 											</cfif>
-											<div class="col-1 m-2 float-left d-inline"> 
+											<div class="col-2 m-2 float-left d-inline"> 
 												<cfset mt = #mime_type#>
 												<cfset muri = #media_uri#>
 												<a href="#media_uri#" target="_blank">
@@ -840,10 +841,9 @@ limitations under the License.
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
 												</span> 
 											</div>
-										</cfloop>
-												
-												
+										</cfloop>		
 									</cfif>
+									</div>
 								</div>
 							</div>
 							</div>
