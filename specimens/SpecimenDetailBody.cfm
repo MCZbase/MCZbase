@@ -782,9 +782,8 @@ limitations under the License.
 												c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											ORDER by substr(formatted_publication, -4)
 										</cfquery>
-										<cfset media_id = media_id>
-										<cfset media_uri = media_uri>
-										<cfset publication_id = publication_id>
+										<cfset media_id = publicationMedia.media_id>
+										<cfset publication_id = publicationMedia.publication_id>
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
