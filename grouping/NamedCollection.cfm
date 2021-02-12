@@ -53,9 +53,12 @@ limitations under the License.
 <!---------------------------------------------------------------------------------->
 <cfswitch expression="#action#">
 	<cfcase value="search">
+		<cfquery name="colls" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="colls_result">
+			select collection_id, collection_cde, collection from collection
+		</cfquery>
 		<div id="overlaycontainer" style="position: relative;"> 
 			<!--- ensure fields have empty values present if not defined. --->
-			<cfif not isdefined("collection_name")>
+			<cfif not isdefined("collection_name")> <!--- the name of the underscore_collection/named group --->
 				<cfset collection_name="">
 			</cfif>
 			<cfif not isdefined("description")>
@@ -64,6 +67,10 @@ limitations under the License.
 			<cfif not isdefined("guid")>
 				<cfset guid="">
 			</cfif>
+			<cfif not isdefined("collection_id")> <!--- not the underscore_collection, the departmental collection --->
+				<cfset collection_id="">
+			</cfif>
+			<cfset pcollection_id = collection_id>
 			<cfif not isdefined("underscore_agent_name")>
 				<cfset underscore_agent_name="">
 			</cfif>
@@ -123,9 +130,23 @@ limitations under the License.
 											</div>
 										</div>
 										<div class="form-row mb-2">
-											<div class="col-12 col-md-8">
+											<div class="col-12 col-md-6">
 												<label for="guid" class="data-entry-label" id="guid_label">A cataloged item that is a member of the named group (NULL finds empty groups).</label>
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="coll" class="data-entry-label" id="coll_label">Collection for cataloged items in named group</label>
+												<select id="coll" name="collection_id" class="data-entry-select" aria-labelledby="coll_label" >
+													<!--- NOTE: current UI support is for just one collection, though backing method can take list of collection_id values --->
+													<cfloop query="colls">
+														<cfif pcollection_id eq "#colls.collection_id#" >
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#colls.collection_id#" #selected# >#colls.collection#</option>
+													</cfloop>
+												</select>
 											</div>
 											<div class="col-12 col-md-4">
 												<label for="underscore_agent_name" id="underscore_agent_name_label" class="data-entry-label">Agent Associated with this Collection (use <i>[no agent data]</i> for no agent)
