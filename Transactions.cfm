@@ -1588,7 +1588,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="!#ctpermit_type_accn.permit_type#" #selected# >NOT #ctpermit_type_accn.permit_type#</option>
+																<option value="!#ctpermit_type_accn.permit_type#" #selected# >NO #ctpermit_type_accn.permit_type#</option>
 															</cfloop>
 														</select>
 													</div>
@@ -1610,7 +1610,7 @@ limitations under the License.
 																<cfelse>
 																	<cfset selected="">
 																</cfif>
-																<option value="!#ctspecific_permit_type_accn.specific_type#" #selected# >NOT #ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#)</option>
+																<option value="!#ctspecific_permit_type_accn.specific_type#" #selected# >NO #ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#)</option>
 															</cfloop>
 														</select>
 														</select>
