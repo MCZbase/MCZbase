@@ -183,7 +183,23 @@
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
-		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			SELECT
+				mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+			FROM
+				media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
+			WHERE
+				mr.media_id = ml.media_id and
+				mr.media_id = m.media_id and
+				ml.media_label = 'description' and
+				MEDIA_RELATIONSHIP like '% publication' and
+				RELATED_PRIMARY_KEY = c.publication_id and
+				c.publication_id = fp.publication_id and
+				fp.format_style='short' and
+				c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
+			ORDER by substr(formatted_publication, -4)
+		</cfquery>
+<!---		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select distinct
 				media.media_id as media_id,
 				preview_uri,
@@ -197,7 +213,9 @@
 			where
 				media_relationship like <cfqueryparam value="% publication" cfsqltype="CF_SQL_VARCHAR">
 				and media_relations.related_primary_key = <cfqueryparam value="#publication_id#" CFSQLType="CF_SQL_DECIMAL">
-		</cfquery>
+		</cfquery>--->
+			
+
 		<cfoutput>
 								
 			<cfif query.recordcount gt 0>
