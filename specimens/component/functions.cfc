@@ -181,9 +181,7 @@
 		  	
 <cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="#publication_id#" type="string" required="yes">
-	<cfargument name="#media_id#" type="string" required="yes">'
-	<cfargument name="#preview_uri#" type="string" required="yes">
-		<cfargument name="#media_type#" type="string" required="yes">
+	<cfargument name="#media_id#" type="string" required="yes">
 	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
 		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
