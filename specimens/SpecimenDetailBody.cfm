@@ -556,7 +556,7 @@ limitations under the License.
 										</cfif>
 										#one_thumb# <a href="#aForImHref#" target="_blank"> 
 									<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#altText#" class="" width="100%"> </a>
-										<p class="smaller"> #media_type# (#mime_type#) <br>
+										<p class="smaller">
 											<a href="#aForDetHref#" target="_blank">Media Details</a> <br>
 											<span class="">#description#</span> </p>
 										</div>
