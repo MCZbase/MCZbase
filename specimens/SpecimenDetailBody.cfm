@@ -764,7 +764,7 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-								<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+					<!---			<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 											FROM
@@ -779,13 +779,9 @@ limitations under the License.
 												fp.format_style='short' and
 												c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											ORDER by substr(formatted_publication, -4)
-										</cfquery>
+										</cfquery>--->
 									<cfloop query="citations">
-									
-					
-										
-											
-										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
@@ -809,14 +805,10 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 									
-								
-								<cfset media_id = publicationMedia.publication_id>
-								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-									<script>
-									// callback for ajax methods to reload from dialog
-						
+							<!---		<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+									<script>					
 									$( document ).ready(loadCitPubFormMedia(publication_id));
-								</script>
+									</script>--->
 									</cfloop>		
 							
 
