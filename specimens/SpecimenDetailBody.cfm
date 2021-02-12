@@ -508,7 +508,7 @@ limitations under the License.
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
 										<cfif #mediaS2.media_uri# contains 'specimen_images'>
-											<a href="/MediaSet.cfm?media_id=#media_id#" target="_blank" class="w-100">
+											<a href="<h3></h3>/MediaSet.cfm?media_id=#media_id##" target="_blank" class="w-100">
 											<img src="#mediaS2.media_uri#" class="w-100 mb-2">
 											</a>
 										<cfelse>
