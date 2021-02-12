@@ -779,37 +779,7 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-								   <cfset i = 1>
-									<cfloop query="citations" group="formatted_publication">
-										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
-										target="_mainFrame">#formatted_publication#</a>,
-											<cfif len(occurs_page_number) gt 0>
-												Page
-												<cfif len(citation_page_uri) gt 0>
-													<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
-													<cfelse>
-													#occurs_page_number#,
-												</cfif>
-											</cfif>
-												<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
-											<cfif find("(ms)", #type_status#) NEQ 0>
-												<!--- Type status with (ms) is used to mark to be published types,
-		`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
-												as appropriate to the name of the parent taxon of the new name --->
-												<cfif find(" ", #cited_name#) NEQ 0>
-													&nbsp;ssp. nov.
-													<cfelse>
-													&nbsp;sp. nov.
-												</cfif>
-											</cfif>
-												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
-										</div>
-										<cfset i = i + 1>
-												
-	
-
-									</cfloop>
-									<cfif publicationMedia.recordcount gt 0>
+															<cfif publicationMedia.recordcount gt 0>
 										<cfloop query="publicationMedia">
 											<cfset puri=getMediaPreview(preview_uri,media_type)>	
 											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -853,6 +823,39 @@ limitations under the License.
 												</span> 
 											</div>
 										</cfloop>
+								   <cfset i = 1>
+									<cfloop query="citations" group="formatted_publication">
+										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+										target="_mainFrame">#formatted_publication#</a>,
+											<cfif len(occurs_page_number) gt 0>
+												Page
+												<cfif len(citation_page_uri) gt 0>
+													<a href ="#citation_page_uri#" target="_blank">#occurs_page_number#</a>,
+													<cfelse>
+													#occurs_page_number#,
+												</cfif>
+											</cfif>
+												<span class="font-weight-lessbold">#type_status#</span> of <a href="/TaxonomyDetails.cfm?taxon_name_id=#cited_name_id#" target="_mainFrame"><i>#replace(cited_name," ","&nbsp;","all")#</i></a>
+											<cfif find("(ms)", #type_status#) NEQ 0>
+												<!--- Type status with (ms) is used to mark to be published types,
+		`										for which we aren't (yet) exposing the new name.  Append sp. nov or ssp. nov.
+												as appropriate to the name of the parent taxon of the new name --->
+												<cfif find(" ", #cited_name#) NEQ 0>
+													&nbsp;ssp. nov.
+													<cfelse>
+													&nbsp;sp. nov.
+												</cfif>
+											</cfif>
+												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
+										</div>
+										<cfset i = i + 1>
+												
+	
+
+									</cfloop>
+			
+												
+												
 									</cfif>
 								</div>
 							</div>
