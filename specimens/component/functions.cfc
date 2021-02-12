@@ -220,7 +220,7 @@
 						</cfloop>
 						<ul class='list-style-disc pl-4 pr-0'>
 							<li class="my-1">
-								#media_uri#  #publication_id#
+								#formatted_publication# 
 								
 							</li>
 						</ul>
