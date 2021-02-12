@@ -806,54 +806,15 @@ limitations under the License.
 										</div>
 										<cfset i = i + 1>
 												
-	
+								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+								<script>
+									// callback for ajax methods to reload from dialog
+								
+									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_uri"));
+								</script>
 
 									</cfloop>
-									<cfif publicationMedia.recordcount gt 0>
-										<cfloop query="publicationMedia">
-											<cfset puri=getMediaPreview(preview_uri,media_type)>	
-											<cfquery name="citationPub"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select
-																media_label,
-																label_value
-														from
-																media_labels
-														where
-																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfquery name="labels"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-														select
-																media_label,
-																label_value
-														from
-																media_labels
-														where
-																media_id = <cfqueryparam value="#media_id#" cfsqltype="CF_SQL_DECIMAL">
-											</cfquery>
-											<cfquery name="desc" dbtype="query">
-												select 
-													label_value 
-												from 
-													labels 
-												where 
-													media_label='description'
-											</cfquery>
-											<cfset alt="Media Preview Image">
-											<cfif desc.recordcount is 1>
-												<cfset alt=desc.label_value>
-											</cfif>
-											<div style="width: 5%" class="m-2 float-left d-inline"> 
-												<cfset mt = #media_type#>
-												<cfset muri = #media_uri#>
-												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0" style="width: 39px;">
-												</a>
-												<span class="d-block smaller text-center" style="line-height:.7rem;">
-													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
-												</span> 
-											</div>
-										</cfloop>
-									</cfif>
+
 								</div>
 							</div>
 							</div>
@@ -980,30 +941,30 @@ limitations under the License.
 										part_name
 						</cfquery>
 						<cfquery name="parts" dbtype="query">
-        select  
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        from
-                rparts
-        group by
-			
-                part_id,
-                label,
-                part_name,
-                sampled_from_obj_id,
-                part_disposition,
-                part_condition,
-                lot_count,
-                part_remarks
-        order by
-                part_name
-</cfquery>
+								select  
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								from
+										rparts
+								group by
+
+										part_id,
+										label,
+										part_name,
+										sampled_from_obj_id,
+										part_disposition,
+										part_condition,
+										lot_count,
+										part_remarks
+								order by
+										part_name
+						</cfquery>
 						<cfquery name="mPart" dbtype="query">
 							select * from parts where sampled_from_obj_id is null order by part_name
 						</cfquery>

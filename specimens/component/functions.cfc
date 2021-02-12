@@ -176,4 +176,46 @@
 	<cfreturn #serializeJSON(data)#>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+		  
+		  
+		  	
+<cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
+	<cfargument name="publication_id" type="string" required="yes">
+	<cfargument name="media_uri" type="string" required="yes">
+	<cfset relword="documents">
+	<cfthread name="getMediaForCitPub">
+		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			select distinct
+				media.media_id as media_id,
+				preview_uri,
+				media.media_uri,
+				media.mime_type,
+				media.media_type as media_type,
+				MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
+				nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
+			from
+				media_relations left join media on media_relations.media_id = media.media_id
+			where
+				media_relationship like "% publication" 
+				and media_relations.related_primary_key = <cfqueryparam value="#publication_id#" CFSQLType="CF_SQL_DECIMAL">
+		</cfquery>
+		<cfoutput>
+								
+			<cfif query.recordcount gt 0>
+				<ul class='pl-4 pr-0 list-style-disc mt-2'>
+				<cfloop query="query">
+					<cfset puri=getMediaPreview(preview_uri,media_type) >
+					<li class='mb-2'>
+						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  
+					</li>
+				</cfloop>
+				</ul>
+			<cfelse>
+			</cfif>
+		</cfoutput>
+	</cfthread>
+	<cfthread action="join" name="getMediaForCitPub" />
+	<cfreturn getMediaForCitPub.output>
+</cffunction>
+<!------------------------------------------------------------------------------------->
 </cfcomponent>
