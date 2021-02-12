@@ -4,7 +4,7 @@ function loadCitPubFormMedia(publication_id,media_id) {
 		data : {
 			method : "getMediaForCitPub",
 			publication_id: publication_id,
-			media_type: media_type
+			media_id: media_id
 		},
 		success: function (result) {
 			$("#CitPubFormMedia").html(result);
