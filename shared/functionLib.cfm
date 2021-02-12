@@ -79,7 +79,7 @@ limitations under the License.
 	<cfif r is 0>
 		<cfif mt is "image/png" || mt is "image/jpeg">
 			<cfreturn "/shared/images/48px-Gnome-image-x-generic.svg.png">
-		<cfelseif mt is "mpeg">
+		<cfelseif mt is "mpeg" || #mime_type# is 'audio'>
 			<cfreturn "/shared/images/48px-Gnome-audio-volume-medium.svg.png">
 		<cfelseif mt is "text" || #media_type# is "text">
 			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png">
