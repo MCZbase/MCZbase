@@ -767,6 +767,7 @@ limitations under the License.
 				
 									<cfloop query="citations">
 										<div class="d-block py-1 px-2 w-100 float-left">
+											<cfloop query="publicationMedia">
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												fp.publication_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -780,7 +781,9 @@ limitations under the License.
 												RELATED_PRIMARY_KEY = c.publication_id and
 												c.publication_id = fp.publication_id
 										</cfquery>
+											
 											<img src="#media_uri#"/>
+											</cfloop>
 											<span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
