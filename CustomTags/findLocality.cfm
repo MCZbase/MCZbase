@@ -70,6 +70,7 @@
 			spec_locality,
 			sovereign_nation,
 			locality_remarks,
+			locality.curated_fg,
 			began_date,
 			ended_date,
 			verbatim_date,

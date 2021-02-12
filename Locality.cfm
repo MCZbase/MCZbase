@@ -2079,7 +2079,8 @@ You deleted a collecting event.
 					minimum_elevation,
 					maximum_elevation,
 					orig_elev_units,
-					collcountlocality
+					collcountlocality,
+					curated_fg
 				from localityResults
 				order by 
 					higher_geog, spec_locality, verbatim_locality
@@ -2118,7 +2119,7 @@ You deleted a collecting event.
 						<br>#nogeorefbecause#
 					</cfif>	
 					<cfif len(locality_remarks) gt 0> remarks: #locality_remarks#</cfif>
-					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>)
+					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a><cfif curated_fg EQ 1>*</cfif>)
 				</div>
 				<!---&nbsp;<a href="/fix/DupLocs.cfm?action=killDups&locid=#locality_id#" target="_blank"><font size="-2"><i>kill dups</i></font></a>--->
 			</td>
@@ -2293,7 +2294,8 @@ You deleted a collecting event.
 			minimum_elevation,
 			maximum_elevation,
 			orig_elev_units,
-			collcountlocality
+			collcountlocality,
+			curated_fg
 		from localityResults
 		order by
 			higher_geog, spec_locality
@@ -2333,6 +2335,7 @@ You deleted a collecting event.
 			</td>
 			<td rowspan="2">
 				<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a>
+				<cfif curated_fg EQ 1>*</cfif>
 			</td>
 			<td style="min-width: 500px;">
 				<b>#spec_locality#</b>
