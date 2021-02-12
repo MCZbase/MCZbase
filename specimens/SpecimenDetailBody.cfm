@@ -843,10 +843,10 @@ limitations under the License.
 												<cfset alt=desc.label_value>
 											</cfif>
 											<div style="width: 6.5%" class="m-2 float-left d-inline"> 
-												<cfset mt = #media_type#>
+												<cfset mt = #mime_type#>
 												<cfset muri = #media_uri#>
 												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,media_type)#" alt="#alt#" class="mx-0" style="width: 39px;">
+													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-0" style="width: 39px;">
 												</a>
 												<span class="d-block smaller text-center" style="line-height:.7rem;">
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
