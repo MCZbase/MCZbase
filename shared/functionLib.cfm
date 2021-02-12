@@ -77,13 +77,13 @@ limitations under the License.
 		</cfif>
 	</cfif>
 	<cfif r is 0>
-		<cfif mt is "image">
+		<cfif mt contains "image">
 			<cfreturn "/shared/images/48px-Gnome-image-x-generic.svg.png">
-		<cfelseif mt is "audio/mpeg" >
+		<cfelseif mt contains "audio" >
 			<cfreturn "/shared/images/48px-Gnome-audio-volume-medium.svg.png">
-		<cfelseif mt is "text/html">
+		<cfelseif mt contains "text">
 			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png">
-		<cfelseif mt is "model/vrml">
+		<cfelseif mt contains "model">
 			<cfreturn "/shared/images/3dmodel.png">
 		<cfelse>
 			<cfreturn "/shared/images/48px-Gnome-text-x-generic.svg.png"><!---nothing was working for mime type--->
