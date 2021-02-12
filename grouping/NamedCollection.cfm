@@ -135,9 +135,10 @@ limitations under the License.
 												<input type="text" id="guid" name="guid" class="data-entry-input" value="#guid#" aria-labelledby="guid_label" placeholder="MCZ:Coll:nnnnn" >
 											</div>
 											<div class="col-12 col-md-2">
-												<label for="coll" class="data-entry-label" id="coll_label">Collection for cataloged items in named group</label>
+												<label for="coll" class="data-entry-label" id="coll_label">Collection holding cataloged items</label>
 												<select id="coll" name="collection_id" class="data-entry-select" aria-labelledby="coll_label" >
 													<!--- NOTE: current UI support is for just one collection, though backing method can take list of collection_id values --->
+													<option value=""></option>
 													<cfloop query="colls">
 														<cfif pcollection_id eq "#colls.collection_id#" >
 															<cfset selected="selected">
