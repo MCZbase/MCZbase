@@ -768,7 +768,7 @@ limitations under the License.
 								<button type="button" class="btn btn-xs float-right small" onClick="$('##dialog-form').dialog('open'); setupNewLocality(#locality_id#);">Edit</button>
 							</div>
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
-								<div class="card-body mb-2 float-left">
+								<div class="card-body col-12 px-0 mb-2 float-left">
 								<div class="row mx-0">
 								   <cfset i = 1>
 									<cfloop query="citations" group="formatted_publication">
@@ -796,9 +796,6 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-												
-	
-
 									</cfloop>
 									<cfif publicationMedia.recordcount gt 0>
 										<cfloop query="publicationMedia">
