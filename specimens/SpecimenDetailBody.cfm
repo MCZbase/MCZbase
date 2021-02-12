@@ -809,18 +809,18 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-								<cfloop query="publicationMedia">
-													<cfset media_id = publicationMedia.media_id>
+								
+													<cfset media_id = publicationMedia.publication_id>
 								<!---		<cfset citpub = citations.publication_id>	
 										<cfset mid = citations.formatted_publication>--->
 								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 									<script>
 									// callback for ajax methods to reload from dialog
 						
-									$( document ).ready(loadCitPubFormMedia(media_id));
+									$( document ).ready(loadCitPubFormMedia(publication_id));
 								</script>
 									</cfloop>		
-									</cfloop>
+							
 
 								</div>
 							</div>
