@@ -1,4 +1,4 @@
-function loadCitPubFormMedia(publication_id) {
+function loadCitPubForMedia(publication_id) {
 targetDiv="CitPubFormMedia";
 	console.log(" media in #"+ targetDiv);
 	jQuery.ajax({
