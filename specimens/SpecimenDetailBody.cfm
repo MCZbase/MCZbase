@@ -805,11 +805,10 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
-												
+										<cfset citpub = citation.publication_id>
+										<cfset mtype = 
 								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
-								<script>
-									// callback for ajax methods to reload from dialog
-								
+								<script>					
 									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_uri"));
 								</script>
 
