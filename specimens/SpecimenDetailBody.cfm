@@ -781,6 +781,10 @@ limitations under the License.
 								<div class="row mx-0">
 								   <cfset i = 1>
 									<cfloop query="citations" group="formatted_publication">
+										<cfset media_id = #media_id#>
+										<cfset preview_id = #preview_uri#>
+										<cfset media_uri = #media_uri#>
+										<cfset publication_id = #publication_id#>
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
