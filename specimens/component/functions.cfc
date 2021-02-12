@@ -204,7 +204,7 @@
 				<ul class='pl-4 pr-0 list-style-disc mt-2'>
 				<cfloop query="query">
 					<li class='mb-2'>
-						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  
+						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#preview_uri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  
 					</li>
 				</cfloop>
 				</ul>
