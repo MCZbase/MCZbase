@@ -766,6 +766,7 @@ limitations under the License.
 								<div class="row mx-0">
 								   <cfset i = 1>
 									<cfloop query="citations">
+										<cfloop query="publicationMedia">
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -783,6 +784,7 @@ limitations under the License.
 											ORDER by substr(formatted_publication, -4)
 										</cfquery>
 										<cfset media_id = publicationMedia.media_id>
+											</cfloop>
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
