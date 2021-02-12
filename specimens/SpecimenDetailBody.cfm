@@ -810,11 +810,8 @@ limitations under the License.
 								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 									<script>
 									// callback for ajax methods to reload from dialog
-									function reloadTransMedia() { 
-										loadCitPubFormMedia(#publication_id#,"media_id");
-										
-									};
-									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_id"));
+						
+									$( document ).ready(loadCitPubFormMedia(#publication_id#,"media_type"));
 								</script>
 
 									</cfloop>
