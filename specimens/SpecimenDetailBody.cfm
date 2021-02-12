@@ -835,7 +835,7 @@ limitations under the License.
 												<cfset mt = #mime_type#>
 												<cfset muri = #media_uri#>
 												<a href="#media_uri#" target="_blank">
-													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto" style="width: 39px;">
+													<img src="#getMediaPreview(preview_uri,mime_type)#" alt="#alt#" class="mx-auto">
 												</a>
 												<span class="d-block smaller text-center" style="line-height:.7rem;">
 													<a class="d-block" href="/media/#media_id#" target="_blank">Media Record</a>
