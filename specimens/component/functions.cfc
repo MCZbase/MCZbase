@@ -181,9 +181,8 @@
 		  	
 <cffunction name="getMediaFormPublication" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
-	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
-		<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+		<cfquery name="query"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			SELECT
 				mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 			FROM
@@ -199,36 +198,38 @@
 				c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 			ORDER by substr(formatted_publication, -4)
 		</cfquery>
-<!---		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select distinct
-				media.media_id as media_id,
-				preview_uri,
-				media.media_uri,
-				media.mime_type,
-				media.media_type as media_type,
-				MCZBASE.is_media_encumbered(media.media_id) as hideMedia,
-				nvl(MCZBASE.get_medialabel(media.media_id,'description'),'[No Description]') as label_value
-			from
-				media_relations left join media on media_relations.media_id = media.media_id
-			where
-				media_relationship like <cfqueryparam value="% publication" cfsqltype="CF_SQL_VARCHAR">
-				and media_relations.related_primary_key = <cfqueryparam value="#publication_id#" CFSQLType="CF_SQL_DECIMAL">
-		</cfquery>--->
-			
-
 		<cfoutput>
+		<div class='Media1'>
+				<span class="pb-2">
+					<cfloop query="query">
+						<cfquery name="mediaQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select media.media_id, media_uri, preview_uri, media_type, mczbase.get_media_descriptor(media.media_id) as media_descriptor
+							from media_relations left join media on media_relations.media_id = media.media_id
+							where media_relations.media_relationship = '%publication'
+								and media_relations.related_primary_key = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value=#publication_id#>
+						</cfquery>
+						<cfset mediaLink = "&##8855;">
+						<cfloop query="mediaQuery">
+							<cfset puri=getMediaPreview(preview_uri,media_type) >
+							<cfif puri EQ "/images/noThumb.jpg">
+								<cfset altText = "Red X in a red square, with text, no preview image available">
+							<cfelse>
+								<cfset altText = mediaQuery.media_descriptor>
+							</cfif>
+							<cfset mediaLink = "<a href='#media_uri#'target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15' alt='#altText#'></a>" >
+						</cfloop>
+						<ul class='list-style-disc pl-4 pr-0'>
+							<li class="my-1">
+								#media_uri#  #publication_id#
 								
-			<cfif query.recordcount gt 0>
-				<ul class='pl-4 pr-0 list-style-disc mt-2'>
-				<cfloop query="query">
-					<li class='mb-2'>
-						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#preview_uri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  
-					</li>
-				</cfloop>
-				</ul>
-			<cfelse>
-				<p>Hello</p>
-			</cfif>
+							</li>
+						</ul>
+					</cfloop>
+					<cfif query.recordcount eq 0>
+				 		None
+					</cfif>
+				</span>
+			</div> <!---  --->
 		</cfoutput>
 	</cfthread>
 	<cfthread action="join" name="getMediaForCitPub" />
