@@ -179,7 +179,7 @@
 		  
 		  
 		  	
-<cffunction name="getMediaForPublication" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getMediaFormPublication" returntype="string" access="remote" returnformat="plain">
 	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset relword="documents">
