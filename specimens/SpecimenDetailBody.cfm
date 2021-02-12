@@ -693,7 +693,7 @@ limitations under the License.
 									</ul>	
 									<cfelse><!---Start of former Identifications--->
 										<cfif getTaxa.recordcount gt 0>		
-											<div class="h4 pl-2 mt-1 text-success">Former Identifications</div>
+											<div class="h4 pl-4 mt-1 mb-0 text-success">Former Identifications</div>
 										</cfif><!---Add Title for former identifications--->
 									<ul class="list-group py-1 px-3 ml-2 text-dark bg-light">
 									<li class="px-0">
