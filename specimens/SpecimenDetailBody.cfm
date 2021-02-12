@@ -814,7 +814,7 @@ limitations under the License.
 									<script>
 									// callback for ajax methods to reload from dialog
 						
-									$( document ).ready(loadCitPubFormMedia(publication_id,formatted_publication));
+									$( document ).ready(loadCitPubFormMedia(publication_id,media_id));
 								</script>
 
 									</cfloop>
