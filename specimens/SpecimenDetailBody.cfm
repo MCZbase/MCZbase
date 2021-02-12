@@ -507,20 +507,12 @@ limitations under the License.
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS2.media_uri# contains 'atlas'>
-											<img src="/shared/images/noExternalImage.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">	
-										<cfelseif #mediaS2.mime_type# is 'application/pdf' and #mediaS2.media_type# is '3D model'>
-											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
-											<img src="#mediaS2.preview_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
-											</a>
- 										<cfelseif #mediaS2.media_uri# contains 'morphosource'>
-											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
-											<img src="/shared/images/3dmodel_feature.png" alt="#mediaS2.media_type#" class="w-100 border mb-2">
-											</a>
-										<cfelse>
+										<cfif #mediaS2.media_uri# is not null>
 											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 											</a>
+										<cfelse>
+									
 										</cfif>
 									<cfloop query="media">
 										<!---div class="thumbs"--->
