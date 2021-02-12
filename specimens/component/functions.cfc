@@ -209,6 +209,7 @@
 				</cfloop>
 				</ul>
 			<cfelse>
+				<p>Hello</p>
 			</cfif>
 		</cfoutput>
 	</cfthread>
