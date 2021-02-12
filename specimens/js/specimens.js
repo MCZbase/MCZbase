@@ -1,4 +1,4 @@
-function loadCitPubFormMedia(publication_id,media_id) {
+function loadCitPubFormMedia(publication_id) {
 targetDiv="CitPubFormMedia";
 	console.log(" media in #"+ targetDiv);
 	jQuery.ajax({
@@ -6,7 +6,6 @@ targetDiv="CitPubFormMedia";
 		data : {
 			method : "getMediaForCitPub",
 			publication_id: publication_id,
-			media_id: media_id
 		},
 		success: function (result) {
 			$("#CitPubFormMedia").html(result);
