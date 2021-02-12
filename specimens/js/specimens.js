@@ -1,5 +1,6 @@
 function loadCitPubFormMedia(publication_id,media_id) {
-
+targetDiv="CitPubFormMedia";
+	console.log(" media in #"+ targetDiv);
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {

@@ -807,7 +807,7 @@ limitations under the License.
 										<cfset i = i + 1>
 								<!---		<cfset citpub = citations.publication_id>	
 										<cfset mid = citations.formatted_publication>--->
-								<div id="loadCitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
+								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
 								<script>
 									// callback for ajax methods to reload from dialog
 								
