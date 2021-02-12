@@ -1582,6 +1582,14 @@ limitations under the License.
 																</cfif>
 																<option value="#ctpermit_type_accn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# accessions)</option>
 															</cfloop>
+															<cfloop query="ctpermit_type_accn">
+																<cfif ppermit_type eq "!#ctpermit_type_accn.permit_type#" >
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="!#ctpermit_type_accn.permit_type#" #selected# >NOT #ctpermit_type_accn.permit_type#</option>
+															</cfloop>
 														</select>
 													</div>
 													<div class="col-12 col-md-6">
@@ -1596,6 +1604,15 @@ limitations under the License.
 																</cfif>
 																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
 															</cfloop>
+															<cfloop query="ctspecific_permit_type_accn">
+																<cfif permit_specific_type eq "!#ctspecific_permit_type_accn.specific_type#">
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="!#ctspecific_permit_type_accn.specific_type#" #selected# >NOT #ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type_accn.permit_type#)</option>
+															</cfloop>
+														</select>
 														</select>
 													</div>
 												</div>
