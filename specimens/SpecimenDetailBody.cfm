@@ -507,7 +507,7 @@ limitations under the License.
 									<span class="form-row col-12 px-0 mx-0"> 
 									<!---div class="feature image using media_uri"--->
 												<!--- to-do: Create checkbox for featured media on create media page--->
-										<cfif #mediaS2.media_uri# is not null>
+										<cfif len(mediaS2.media_uri) gt 0>
 											<a href="#mediaS2.media_uri#" target="_blank" class="w-100">
 											<img src="#mediaS2.media_uri#" alt="#mediaS2.media_type#" class="w-100 border mb-2">
 											</a>
