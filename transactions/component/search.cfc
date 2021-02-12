@@ -1217,11 +1217,12 @@ limitations under the License.
 					<cfif left(permit_type,1) is "!">
 						AND has_permitoftype(trans.transaction_id,<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#right(permit_type,len(permit_type)-1)#">) = 0
 					<cfelse>
-					AND ( 
-						permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
-						OR
-						permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
-					)
+						AND ( 
+							permit.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+							OR
+							permit_from_shipment.permit_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#permit_type#">
+						)
+					</cfif>
 				</cfif>
 				<cfif  isdefined("permit_specific_type") and len(#permit_specific_type#) gt 0>
 					<cfif left(permit_specific_type,1) is "!">
