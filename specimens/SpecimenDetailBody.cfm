@@ -781,7 +781,7 @@ limitations under the License.
 								<div class="row mx-0">
 								   <cfset i = 1>
 									<cfloop query="citations">
-										<cfset media_id = publication.media_id>
+										<cfset media_id = publicationMedia.media_id>
 										<cfset preview_id = publicationMedia.preview_uri>
 										<cfset media_uri = publicationMedia.media_uri>
 										<cfset publication_id = publicationMedia.publication_id>
