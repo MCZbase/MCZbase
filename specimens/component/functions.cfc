@@ -180,7 +180,6 @@
 		  
 		  	
 <cffunction name="getMediaFormPublication" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="publication_id" type="string" required="yes">
 	<cfargument name="media_id" type="string" required="yes">
 	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
@@ -204,7 +203,6 @@
 			<cfif query.recordcount gt 0>
 				<ul class='pl-4 pr-0 list-style-disc mt-2'>
 				<cfloop query="query">
-					<cfset puri=getMediaPreview(preview_uri,media_type) >
 					<li class='mb-2'>
 						<a href='#media_uri#' target='_blank' rel='noopener noreferrer'><img src='#puri#' height='15'></a> #mime_type# #media_type# #label_value# <a href='/media/#media_id#' target='_blank'>Media Details</a>  
 					</li>
