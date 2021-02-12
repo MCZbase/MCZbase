@@ -764,9 +764,12 @@ limitations under the License.
 							<div id="collapseCit" class="collapse show" aria-labelledby="heading2" data-parent="##accordionC">
 								<div class="card-body mb-2 float-left">
 								<div class="row mx-0">
-					<!---			<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+				
+									<cfloop query="citations">
+										<div class="d-block py-1 px-2 w-100 float-left">
+										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
-												mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
+												fp.publication_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
 											FROM
 												media_relations mr, media_labels ml, media m, citation c, formatted_publication fp
 											WHERE
@@ -775,13 +778,10 @@ limitations under the License.
 												ml.media_label = 'description' and
 												MEDIA_RELATIONSHIP like '% publication' and
 												RELATED_PRIMARY_KEY = c.publication_id and
-												c.publication_id = fp.publication_id and
-												fp.format_style='short' and
-												c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
-											ORDER by substr(formatted_publication, -4)
-										</cfquery>--->
-									<cfloop query="citations">
-										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
+												c.publication_id = fp.publication_id
+										</cfquery>
+											<img src="#media_uri#"/>
+											<span class="d-inline"> </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
 												Page
