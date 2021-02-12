@@ -180,7 +180,7 @@
 		  
 		  	
 <cffunction name="getMediaFormPublication" returntype="string" access="remote" returnformat="plain">
-	<cfargument name="media_id" type="string" required="yes">
+	<cfargument name="publication_id" type="string" required="yes">
 	<cfset relword="documents">
 	<cfthread name="getMediaForCitPub">
 		<cfquery name="query" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
