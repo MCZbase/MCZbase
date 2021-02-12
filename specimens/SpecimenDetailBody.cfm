@@ -766,7 +766,7 @@ limitations under the License.
 								<div class="row mx-0">
 								   <cfset i = 1>
 									<cfloop query="citations">
-										<cfloop query="publicationMedia">
+									
 										<cfquery name="publicationMedia"  datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 											SELECT
 												mr.media_id, m.media_uri, m.preview_uri, ml.label_value descr, m.media_type, m.mime_type
@@ -783,8 +783,8 @@ limitations under the License.
 												c.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 											ORDER by substr(formatted_publication, -4)
 										</cfquery>
-										<cfset media_id = publicationMedia.media_id>
-											</cfloop>
+										
+											
 										<div class="d-block py-1 px-2 w-100 float-left"><span class="d-inline">#i#) </span><a href="/SpecimenUsage.cfm?action=search&publication_id=#publication_id#"
 										target="_mainFrame">#formatted_publication#</a>,
 											<cfif len(occurs_page_number) gt 0>
@@ -809,6 +809,8 @@ limitations under the License.
 												<span class="small font-italic"> <cfif len(citation_remarks) gt 0>-</cfif> #CITATION_REMARKS#</span>
 										</div>
 										<cfset i = i + 1>
+								<cfloop query="publicationMedia">
+													<cfset media_id = publicationMedia.media_id>
 								<!---		<cfset citpub = citations.publication_id>	
 										<cfset mid = citations.formatted_publication>--->
 								<div id="CitPubFormMedia" class="my-2"><img src='/shared/images/indicator.gif'> Loading Media....</div>
@@ -817,7 +819,7 @@ limitations under the License.
 						
 									$( document ).ready(loadCitPubFormMedia(media_id));
 								</script>
-
+									</cfloop>		
 									</cfloop>
 
 								</div>
