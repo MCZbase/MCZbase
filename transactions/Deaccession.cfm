@@ -18,6 +18,9 @@
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
 <cfset MAGIC_MCZ_CRYO = 11>
+<cfset MAGIC_TTYPE_OTHER = 'other'><!--- Special Transaction type other, which can only be set by a sysadmin --->
+<cfset MAGIC_DTYPE_TRANSFER = 'transfer'><!--- Deaccession type of Transfer --->
+<cfset MAGIC_DTYPE_INTERNALTRANSFER = 'transfer (internal)'><!--- Deaccession type of Transfer (internal) --->
 <cfset DEACCNUMBERPATTERN = '^D[12][0-9]{3}-[-0-9a-zA-Z]+-[A-Z][a-zA-Z]+$'>
 <!--
 transactions/Deaccession.cfm
@@ -51,10 +54,10 @@ limitations under the License.
 
 <!--- Deaccession controlled vocabularies --->
 <cfquery name="ctDeaccessionStatus" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select deaccession_status from ctdeaccession_status order by deaccession_status
+	select deacc_status from ctdeacc_status order by deacc_status
 </cfquery>
 <cfquery name="ctDeaccessionType" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select deaccession_type from ctdeaccession_type order by deaccession_type
+	select deacc_type from ctdeacc_type order by deacc_type
 </cfquery>
 <cfquery name="ctcollection" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select COLLECTION_CDE, INSTITUTION_ACRONYM, DESCR, COLLECTION, COLLECTION_ID, WEB_LINK,
@@ -63,6 +66,10 @@ limitations under the License.
 	from collection order by collection
 </cfquery>
 <!--- Obtain list of transaction agent roles relevant to deaccessions --->
+<cfquery name="queryNotApplicableAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+	select distinct agent_id from agent_name where agent_name = 'not applicable' and rownum < 2
+</cfquery>
+<cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
 	from cttrans_agent_role  
@@ -76,7 +83,10 @@ limitations under the License.
 	<script language="javascript" type="text/javascript">
 		// setup date pickers
 		jQuery(document).ready(function() {
-			$("##received_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##to_trans_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##initiating_date").datepicker({ dateFormat: 'yy-mm-dd'});
+			$("##shipped_date").datepicker({ dateFormat: 'yy-mm-dd'});
 		});
 	</script>
 </cfoutput>
@@ -119,23 +129,23 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
-								<select name="deaccession_status" id="status" class="reqdClr data-entry-select" required >
+								<select name="deacc_status" id="status" class="reqdClr data-entry-select" required >
 									<cfloop query="ctDeaccessionStatus">
-											<cfif #ctDeaccessionStatus.deaccession_status# is "in process">
+											<cfif #ctDeaccessionStatus.deacc_status# is "in process">
 												<cfset selected = "selected='selected'">
 											<cfelse>
 												<cfset selected="">
 											</cfif>
-											<option value="#ctDeaccessionStatus.deaccession_status#" #selected# >#ctDeaccessionStatus.deaccession_status#</option>
+											<option value="#ctDeaccessionStatus.deacc_status#" #selected# >#ctDeaccessionStatus.deacc_status#</option>
 									</cfloop>
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deaccession_type" class="data-entry-label">Deaccession Type</label>
-								<select name="deaccession_type" id="deaccession_type" class="reqdClr data-entry-select" required >
+								<label for="deacc_type" class="data-entry-label">Deaccession Type</label>
+								<select name="deacc_type" id="deacc_type" class="reqdClr data-entry-select" required >
 									<option value=""></option>
 									<cfloop query="ctDeaccessionType">
-											<option value="#ctDeaccessionType.deaccession_type#">#ctDeaccessionType.deaccession_type#</option>
+											<option value="#ctDeaccessionType.deacc_type#">#ctDeaccessionType.deacc_type#</option>
 									</cfloop>
 								</select>
 							</div>
@@ -143,18 +153,18 @@ limitations under the License.
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="received_agent" class="data-entry-label">Received From:</label>
-									<span id="received_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<label for="auth_agent" class="data-entry-label">In-house authorized by:</label>
+									<span id="auth_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="received_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller bg-lightgreen" id="auth_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="received_agent_name" id="received_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
+									<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
 								</div>
-								<input type="hidden" name="received_agent_id" id="received_agent_id"  >
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
 								<script>
-									$(makeRichTransAgentPicker('received_agent_name', 'received_agent_id','received_agent_icon','received_agent_view',null))
+									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
 							</div>
 							<div class="col-12 col-md-6">
@@ -214,8 +224,8 @@ limitations under the License.
 								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="received_date" class="data-entry-label">Date Received</label>
-								<input type="text" name="received_date" id="received_date" 
+								<label for="trans_date" class="data-entry-label">Date Received</label>
+								<input type="text" name="trans_date" id="trans_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input">
@@ -323,9 +333,9 @@ limitations under the License.
 					trans.transaction_type,
 					trans_date dateEntered,
 					deaccession_number,
-					deaccession_type,
-					deaccession_status,
-					received_date,
+					deacc_type,
+					deacc_status,
+					trans_date,
 					nature_of_material,
 					estimated_count,
 					trans_remarks,
@@ -423,14 +433,14 @@ limitations under the License.
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deaccession_type" class="data-entry-label">Deaccession Type</label>
-								<select name="deaccession_type" id="deaccession_type" class="reqdClr data-entry-select" required >
+								<label for="deacc_type" class="data-entry-label">Deaccession Type</label>
+								<select name="deacc_type" id="deacc_type" class="reqdClr data-entry-select" required >
 									<cfloop query="ctDeaccessionType">
-										<cfif ctDeaccessionType.deaccession_type NEQ "transfer" OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctDeaccessionType.deaccession_type is deaccessionDetails.deaccession_type> selected="selected" </cfif>
-												value="#ctDeaccessionType.deaccession_type#">#ctDeaccessionType.deaccession_type#</option>
-										<cfelseif deaccessionDetails.deaccession_type EQ "transfer" AND deaccessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
-											<option <cfif ctDeaccessionType.deaccession_type is deaccessionDetails.deaccession_type> selected="selected" </cfif> value="" ></option>
+										<cfif ctDeaccessionType.deacc_type NEQ "transfer" OR deaccessionDetails.collection_id EQ MAGIC_MCZ_COLLECTION >
+											<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif>
+												value="#ctDeaccessionType.deacc_type#">#ctDeaccessionType.deacc_type#</option>
+										<cfelseif deaccessionDetails.deacc_type EQ "transfer" AND deaccessionDetails.collection_id NEQ MAGIC_MCZ_COLLECTION >
+											<option <cfif ctDeaccessionType.deacc_type is deaccessionDetails.deacc_type> selected="selected" </cfif> value="" ></option>
 										</cfif>
 									</cfloop>
 								</select>
@@ -443,20 +453,20 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-1">
 							<div class="col-12 col-md-3">
-								<label for="deaccession_status" class="data-entry-label">Deaccession Status</label>
+								<label for="deacc_status" class="data-entry-label">Deaccession Status</label>
 								<span>
-									<select name="deaccession_status" id="deaccession_status" class="reqdClr data-entry-select" required >
+									<select name="deacc_status" id="deacc_status" class="reqdClr data-entry-select" required >
 										<cfloop query="ctDeaccessionStatus">
-											<option <cfif ctDeaccessionStatus.deaccession_status is deaccessionDetails.deaccession_status> selected="selected" </cfif>
-												value="#ctDeaccessionStatus.deaccession_status#">#ctDeaccessionStatus.deaccession_status#</option>
+											<option <cfif ctDeaccessionStatus.deacc_status is deaccessionDetails.deacc_status> selected="selected" </cfif>
+												value="#ctDeaccessionStatus.deacc_status#">#ctDeaccessionStatus.deacc_status#</option>
 										</cfloop>
 									</select>
 								</span>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="received_date" class="data-entry-label">Date Received</label>
-								<input type="text" name="received_date" id="received_date" required
-									value="#dateformat(accessionDetails.received_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
+								<label for="trans_date" class="data-entry-label">Date Received</label>
+								<input type="text" name="trans_date" id="trans_date" required
+									value="#dateformat(accessionDetails.trans_date,"yyyy-mm-dd")#" class="reqdClr data-entry-input" >
 							</div>
 							<div class="col-12 col-md-3">
 								<span class="data-entry-label">Date Entered</span>
@@ -894,19 +904,19 @@ limitations under the License.
 			( 
 				not isDefined("collection_id") OR 
 				not isDefined("deaccession_number") OR
-				not isDefined("deaccession_status") OR
-				not isDefined("received_date") OR
+				not isDefined("deacc_status") OR
+				not isDefined("trans_date") OR
 				not isDefined("nature_of_material")  OR
-				not isDefined("deaccession_type") OR
-				not isDefined("received_agent_id") 
+				not isDefined("deacc_type") OR
+				not isDefined("auth_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
 				len(deaccession_number) is 0 OR
-				len(deaccession_status) is 0 OR
-				len(received_date) is 0 OR
+				len(deacc_status) is 0 OR
+				len(trans_date) is 0 OR
 				len(nature_of_material) is 0 OR
-				len(deaccession_type) is 0 OR
-				len(received_agent_id) is 0
+				len(deacc_type) is 0 OR
+				len(auth_agent_id) is 0
 			)
 		>
 			<h1 class="h2">One or more required fields are missing.</h1>
@@ -955,10 +965,10 @@ limitations under the License.
 					)
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
-					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deaccession_type#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_type#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deaccession_number#'>
-					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(received_date,"yyyy-mm-dd")#'>
-					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deaccession_status#'>
+					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(trans_date,"yyyy-mm-dd")#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_status#'>
 					<cfif len(estimated_count) gt 0>
 						, <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#estimated_count#'>
 					<cfelse>
@@ -979,15 +989,15 @@ limitations under the License.
 						'for use by')
 				</cfquery>
 			</cfif>
-			<cfquery name="q_recFromAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+			<cfquery name="q_authAgent" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				INSERT INTO trans_agent (
 					transaction_id,
 					agent_id,
 					trans_agent_role
 				) values (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#new_transaction_id#">,
-					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#received_agent_id#">,
-					'received from')
+					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#auth_agent_id#">,
+					'in-house authorized by')
 			</cfquery>
 			<cfif isdefined("rec_agent_id") and len(rec_agent_id) gt 0>
 				<cfquery name="q_recievedby" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
