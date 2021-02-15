@@ -1,6 +1,133 @@
 <cfif not isdefined("action")>
 	<cfset action="findAll">
 </cfif>
+	<style>
+.tabpanel {
+  margin: 20px;
+  padding: 0;
+}
+.tablist {
+  margin: 0 0px;
+  padding: 0;
+  list-style: none;
+}
+.tab {
+  margin: .2em 2px 0 0;
+  padding: 5px 10px;
+  height: 2.3em;
+  font-weight: bold;
+  border: 1px solid red;
+  background:#dddddd;
+  border-top-left-radius:.5em;
+  border-top-right-radius:.5em;
+  float: left;
+  display: inline; /* IE float bug fix */
+}
+.panel {
+  clear: both;
+  display: block;
+  margin: 0 0 0 0;
+  padding: 10px;
+  width: 100%;
+  background:#f2f2f2;
+  border-bottom-left-radius:.5em;
+  border-bottom-right-radius:.5em;
+}
+
+ul.controlList {
+  list-style-type: none;
+}
+button {
+    background-color:lightblue;
+}
+button:focus {
+    background-color:lightcyan;
+}
+button[aria-selected='true'] {
+  color: black;
+  background-color: #fff;
+  border-bottom: 1px solid white;
+  border-top: 2px solid red;
+  cursor: pointer;
+}
+div[aria-hidden='true'] {
+   display: none;
+}
+div[aria-hidden='false'] {
+   display:block;
+}
+
+.focus {
+  margin-top: 0;
+  height: 1.2em;
+    border: 1px solid green;
+}
+.hidden {display:none;}
+</style>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const tabs = document.querySelectorAll('[role="tab"]');
+  const tabList = document.querySelector('[role="tablist"]');
+
+  // Add a click event handler to each tab
+  tabs.forEach(tab => {
+    tab.addEventListener("click", changeTabs);
+  });
+
+  // Enable arrow navigation between tabs in the tab list
+  let tabFocus = 0;
+
+  tabList.addEventListener("keydown", e => {
+    // Move right
+    if (e.keyCode === 39 || e.keyCode === 37) {
+      tabs[tabFocus].setAttribute("tabindex", -1);
+      if (e.keyCode === 39) {
+        tabFocus++;
+        // If we're at the end, go to the start
+        if (tabFocus >= tabs.length) {
+          tabFocus = 0;
+        }
+        // Move left
+      } else if (e.keyCode === 37) {
+        tabFocus--;
+        // If we're at the start, move to the end
+        if (tabFocus < 0) {
+          tabFocus = tabs.length - 1;
+        }
+      }
+
+      tabs[tabFocus].setAttribute("tabindex", 0);
+      tabs[tabFocus].focus();
+    }
+  });
+});
+
+function changeTabs(e) {
+  const target = e.target;
+  const parent = target.parentNode;
+  const grandparent = parent.parentNode;
+
+  // Remove all current selected tabs
+  parent
+    .querySelectorAll('[aria-selected="true"]')
+    .forEach(t => t.setAttribute("aria-selected", false));
+
+  // Set this tab as selected
+  target.setAttribute("aria-selected", true);
+
+  // Hide all tab panels
+  grandparent
+    .querySelectorAll('[role="tabpanel"]')
+    .forEach(p => p.setAttribute("hidden", true));
+
+  // Show the selected panel
+  grandparent.parentNode
+    .querySelector(`#${target.getAttribute("aria-controls")}`)
+    .removeAttribute("hidden");
+}
+ 
+</script>
+
 <cfswitch expression="#action#">
 	<!--- API note: action/method e.g. action=findLoans and method=getLoans seems duplicative, but
 			action is used to determine which tab to show in Transactions.cfm, and method is passed 
