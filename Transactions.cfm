@@ -52,14 +52,14 @@ ul.controlList {
 .tab-headers button[aria-selected='true'] {
   color: black;
   background-color: #f5f5f5;
-/*  border-bottom: 1px solid white;*/
   border-top: 2px solid white;
+  border-bottom: 1px solid #f5f5f5;
   cursor: pointer;
 }
 .tab-headers button[aria-selected='false'] {
   color: black;
   background-color: #f5f5f5;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid white;
   border-top: 2px solid blue;
   cursor: pointer;
 }
