@@ -2,84 +2,7 @@
 	<cfset action="findAll">
 </cfif>
 	<style>
-.tabpanel {
-  margin: 20px;
-  padding: 0;
-}
-.tablist {
-  margin: 0 0px;
-  padding: 0;
-  list-style: none;
-}
-.panel {
-  clear: both;
-  display: block;
-  margin: 0 0 0 0;
-  padding: 10px;
-  width: 100%;
-  background:#f2f2f2;
-  border-bottom-left-radius:.5em;
-  border-bottom-right-radius:.5em;
-}
-.tabs {
-background-color: #3e657d;
-padding: .5rem;	
-}
-.tab-content {
-    border-top: none;
-    border-radius: 0;
-    background-color: #f5f5f5;
-    margin-bottom: 0.2rem;
-}
 
-.tab-card-header {
-    background-color: #3E6F7D;
-    padding-top: .5rem;
-    border-radius: 4px 4px 0 0;
-}
-.tab-headers {
-	padding: 0 .5rem;	
-}
-.tab-headers button {
-    background-color:#f5f5f5;
-	padding: .25rem 1rem;
-	border-top-left-radius: .25rem;
-	border-top-right-radius: .25rem;
-}
-.tab-headers button:focus {
-    background-color:#f5f5f5;
-	border-bottom: 2px solid #f5f5f5;
-	outline: 0;
-}
-.tab-headers button[aria-selected='true'] {
-  color: black;
-  background-color: #f5f5f5;
-  border-top: 2px solid white;
-  border-bottom: 1px solid #f5f5f5;
-  cursor: pointer;
-}
-.tab-headers button[aria-selected='false'] {
-  color: black;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #3e657D;
-  border-top: 2px solid blue;
-  cursor: pointer;
-}
-.card-header {
-	padding: .25rem .75rem;
-}
-div[aria-hidden='true'] {
-   display: none;
-}
-div[aria-hidden='false'] {
-   display:block;
-}
-/*.focus {
-  margin-top: 0;
-  height: 1.2em;
-    border: 1px solid green;
-}*/
-.hidden {display:none;}
 </style>
 <script>
 window.addEventListener("DOMContentLoaded", () => {
@@ -500,9 +423,9 @@ limitations under the License.
 		
 						<div class="tabs card-header tab-card-header">
 							<div class="tab-headers" role="tablist" aria-label="search panel tabs">
-								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" class="px-3">All</button> 
-								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" class="px-3">Loans</button>
-								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" class="px-3">Accessions</button> 	
+								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" class="px-5">All</button> 
+								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" class="px-5">Loans</button>
+								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" class="px-5">Accessions</button> 	
 							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
