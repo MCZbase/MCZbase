@@ -1717,15 +1717,16 @@ input#readMore_check_id {
 	border-top-left-radius: .25rem;
 	border-top-right-radius: .25rem;
 }
-.tab-headers button:hover {
+.tab-headers button:focus {
 	border-top: 3px solid blue;
 	border-bottom: 1px solid #f5f5f5;
+	outline:0;
 }
-.tab-headers button:focus {
+/*.tab-headers button:focus {
 	background-color: #f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline: 0;
-}
+}*/
 .tab-headers button[aria-selected='true'] {
 	color: black;
 	background-color: #f5f5f5;
