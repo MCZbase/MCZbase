@@ -58,7 +58,7 @@ ul.controlList {
 .tab-headers button[aria-selected='false'] {
   color: black;
   background-color: #f5f5f5;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #3e657D;
   border-top: 2px solid blue;
   cursor: pointer;
 }
