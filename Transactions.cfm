@@ -47,7 +47,6 @@ ul.controlList {
     background-color:#f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline: 0;
-	margin-bottom: -1px;
 }
 .tab-headers button[aria-selected='true'] {
   color: black;
