@@ -33,8 +33,9 @@
     background-color: #f5f5f5;
     margin-bottom: 0.2rem;
 }
-.card-header {
+.card-header!important {
     padding: .25rem .5rem;
+	background-color:transparent;
 }
 .tab-card-header {
     background-color: #3E6F7D;
