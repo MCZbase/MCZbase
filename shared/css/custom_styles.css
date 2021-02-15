@@ -1718,7 +1718,7 @@ input#readMore_check_id {
 	border-top-right-radius: .25rem;
 }
 .tab-headers button {
-	border-top: 3px solid #deebec;
+	border-top: 3px solid blue;
 	border-bottom: 1px solid #f5f5f5;
 }
 .tab-headers button:focus {
@@ -1737,7 +1737,7 @@ input#readMore_check_id {
 	color: black;
 	background-color: #f5f5f5;
 	border-bottom: 1px solid #3e657D;
-	border-top: 3px solid blue;
+	border-top: 3px solid #deebec;
 	cursor: pointer;
 }
 .card-header {
