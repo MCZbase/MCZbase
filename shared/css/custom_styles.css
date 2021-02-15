@@ -1636,6 +1636,7 @@ input#readMore_check_id {display:none;}
 		display:none;
 	}
 /************tabs -- redone for accessibility  ***************/
+
 .tabpanel {
   margin: 20px;
   padding: 0;
@@ -1658,6 +1659,9 @@ input#readMore_check_id {display:none;}
 .tabs {
 background-color: #3e657d;
 padding: .75rem .5rem .5rem .5rem;	
+}
+.tabs button {
+	border-color: 0;
 }
 .tab-content {
     border-top: none;
