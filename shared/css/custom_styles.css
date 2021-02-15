@@ -497,9 +497,7 @@ BELOW: SPECIMEN DETAIL STYLES
 	list-style: none;
 }
 li.pid { padding-left:0;}
-.card-header {
-	padding: .25rem .75rem;
-}
+
 .no-card {
 	background-color: transparent;
 	border: 1px solid transparent;

@@ -67,9 +67,8 @@
   border-top: 2px solid blue;
   cursor: pointer;
 }
-		.card-header!important {
-    padding: .25rem .5rem;
-	background-color:transparent;
+.card-header {
+	padding: .25rem .75rem;
 }
 div[aria-hidden='true'] {
    display: none;
