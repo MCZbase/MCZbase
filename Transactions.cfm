@@ -21,13 +21,11 @@
   border-bottom-left-radius:.5em;
   border-bottom-right-radius:.5em;
 }
-		.tabs {
-			background-color: #3e657d;
-			padding: .5rem;
-		
-		}
+.tabs {
+background-color: #3e657d;
+padding: .5rem;	
+}
 .tab-content {
-	border: 0px solid #3e657d;
     border-top: none;
     border-radius: 0;
     background-color: #f5f5f5;
@@ -76,11 +74,11 @@ div[aria-hidden='true'] {
 div[aria-hidden='false'] {
    display:block;
 }
-.focus {
+/*.focus {
   margin-top: 0;
   height: 1.2em;
     border: 1px solid green;
-}
+}*/
 .hidden {display:none;}
 </style>
 <script>
