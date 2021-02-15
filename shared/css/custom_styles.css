@@ -1696,8 +1696,8 @@ padding: .75rem .5rem .5rem .5rem;
     margin: 0em;
     font: 400 .9rem Arial;
     padding: 1px 6px;
-    border-width: 2px;
-    border-style: outset;
+    border-width: 1px;
+    border-style: solid;
     border-color: #deebec;
     border-image: initial;
 }
