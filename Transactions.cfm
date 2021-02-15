@@ -324,7 +324,7 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1" tabindex="0">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-					<div class="tab-card-main mt-1 tab-card"> 
+				
 						<!--- Set Active Tab --->
 <!---						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
@@ -354,13 +354,12 @@ limitations under the License.
 						</cfswitch>--->
 						<!--- Tab header div --->
 		
-							<div class="tabs">
+						<div class="tabs">
 							<div role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" >All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" >Loans</button>
 								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" >Accessions</button> 	
 							</div>
-					
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
@@ -1311,9 +1310,8 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 						</div>
 						<!--- End tab-content div ---> 
-												</div>
+						</div>
 					</div>
-				</div>
 			</div>	
 		</section>													
 		<!--- Results table as a jqxGrid. --->
