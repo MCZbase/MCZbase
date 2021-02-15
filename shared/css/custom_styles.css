@@ -1721,7 +1721,7 @@ input#readMore_check_id {
 	border-top: 3px solid blue;
 	border-bottom: 1px solid #f5f5f5;
 	outline:0;
-	box-shadow: 0;
+	box-shadow: none;
 }
 /*.tab-headers button:focus {
 	background-color: #f5f5f5;
