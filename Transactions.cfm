@@ -490,950 +490,952 @@ limitations under the License.
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="py-3 mx-2 mx-sm-3" >
-								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
-								<form id="searchForm" class="mt-2">
-									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
-									<div class="form-row mb-2 mx-0">
-										<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
-											<label for="collection_id" class="data-entry-label">Collection Name</label>
-											<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
-												<option value="-1">any collection</option>
-												<cfloop query="ctcollection">
-													<cfif ctcollection.collection eq selectedCollection>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-6 col-md-3 pl-0 pr-1 ml-0">
-											<cfif not isdefined("number")>
-												<cfset number="">
-											</cfif>
-											<label for="number" class="data-entry-label">Number</label>
-											<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
-										</div>
-										<div class="col-12 col-md-6"> 
-											<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
-											<cfset pstatus = status>
-											<label for="status" class="data-entry-label">Status</label>
-											<select name="status" id="status" class="data-entry-select">
-												<option aria-labelledby="status" value=""></option>
-												<cfloop query="ctStatus">
-													<cfif pstatus eq ctStatus.status>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
-												</cfloop>
-											</select>
-										</div>
-									</div>
-									<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
+							<div class="tab-content">
+								<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="py-3 mx-2 mx-sm-3" >
+									<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+									<form id="searchForm" class="mt-2">
+										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 										<div class="form-row mb-2 mx-0">
+											<div class="col-6 col-md-3 pr-0 pl-1 mr-0">
+												<label for="collection_id" class="data-entry-label">Collection Name</label>
+												<select name="collection_id" size="1" class="data-entry-prepend-select pr-0" aria-label="collection">
+													<option value="-1">any collection</option>
+													<cfloop query="ctcollection">
+														<cfif ctcollection.collection eq selectedCollection>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctcollection.collection_id#" #selected#>#ctcollection.collection#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-6 col-md-3 pl-0 pr-1 ml-0">
+												<cfif not isdefined("number")>
+													<cfset number="">
+												</cfif>
+												<label for="number" class="data-entry-label">Number</label>
+												<input id="number" type="text" class="has-clear data-entry-select-input px-2" name="number" aria-label="add a transaction number" placeholder="nnn, yyyy-n-Coll, Byyyy-n-Coll, Dyyyy-n-Coll" value="#number#">
+											</div>
+											<div class="col-12 col-md-6"> 
+												<!--- store a local variable as status may be CGI.status or VARIABLES.status --->
+												<cfset pstatus = status>
+												<label for="status" class="data-entry-label">Status</label>
+												<select name="status" id="status" class="data-entry-select">
+													<option aria-labelledby="status" value=""></option>
+													<cfloop query="ctStatus">
+														<cfif pstatus eq ctStatus.status>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctStatus.status#" #selected# >#ctStatus.status#</option>
+													</cfloop>
+												</select>
+											</div>
+										</div>
+										<div class="bg-light border rounded pt-3 pt-md-2 mx-0 mr-1 my-3 my-md-2 px-2">
+											<div class="form-row mb-2 mx-0">
+												<div class="col-12 col-md-4">
+													<div class="input-group">
+														<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
+															<option value="">agent role</option>
+															<cfloop query="cttrans_agent_role">
+																<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+															</cfloop>
+														</select>
+														<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
+														<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="input-group">
+														<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
+															<option value="">agent role</option>
+															<cfloop query="cttrans_agent_role">
+																<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+															</cfloop>
+														</select>
+														<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
+														<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+													</div>
+												</div>
+												<div class="col-12 col-md-4">
+													<div class="input-group">
+														<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
+															<option value="">agent role</option>
+															<cfloop query="cttrans_agent_role">
+																<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
+																	<cfset selected="selected">
+																<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+															</cfloop>
+														</select>
+														<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
+														<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+													</div>
+												</div>
+											</div>
+											<script>
+												$(document).ready(function() {
+													$(makeConstrainedAgentPicker('all_agent_1','all_agent_1_id','transaction_agent'));
+													$(makeConstrainedAgentPicker('all_agent_2','all_agent_2_id','transaction_agent'));
+													$(makeConstrainedAgentPicker('all_agent_3','all_agent_3_id','transaction_agent'));
+												});
+											</script> 
+										</div>
+										<div class="form-row mx-0">
+											<div class="col-12 col-md-4">
+												<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Transaction Date</label>
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for transaction date">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="to_trans_date">end of search range for transaction date</label>		
+													<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+												</div>
+											</div>
+											<div class="col-12 col-md-2">
+												<cfset ppermit_type = permit_type>
+												<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+												<select name="permit_type" class="data-entry-select" id="permit_type">
+													<option value=""></option>
+													<cfloop query="ctpermit_type_trans">
+														<cfif ppermit_type eq ctpermit_type_trans.permit_type>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctpermit_type_trans.permit_type#" #selected# >#ctpermit_type_trans.permit_type# (#ctpermit_type_trans.ct# transactions)</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-2">
+												<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+												<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
+													<option value=""></option>
+													<cfloop query="ctspecific_permit_type_trans">
+														<cfif permit_specific_type eq ctspecific_permit_type_trans.specific_type>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctspecific_permit_type_trans.specific_type#" #selected# >#ctspecific_permit_type_trans.specific_type# (#ctspecific_permit_type_trans.permit_type#) [#ctspecific_permit_type_trans.ct# transactions]</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-4">
+												<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+												<div class="input-group">
+													<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
+													<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
+													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickActionTr();" onclick="handleAPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
+													<script>
+														function handleAPermitPickActionTr(event) {
+															openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
+														}
+													</script>
+													<div id="tr_permitpickerdialog"></div>
+												</div>
+												<script>
+													$(document).ready(function() {
+														$(makePermitPicker('tr_permit_num','tr_permit_id'));
+														$('##tr_permit_num').blur( function () {
+															// prevent an invisible permit_id from being included in the search.
+															if ($('##tr_permit_num').val().trim() == "") { 
+															$('##tr_permit_id').val("");
+															}
+														});
+													});
+												</script>
+											</div>
+									</div>
+										<div class="form-row mb-2">
+											<div class="col-12">
+												<button class="btn-xs btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
+												<button type="button" class="btn-xs btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
+											</div>
+										</div>
+									</form>
+								</div>
+								<!--- Loan search tab panel --->
+								<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden class="py-3 mx-2 mx-sm-3">
+									<h2 class="h3 card-title my-0" tabindex="0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
+									<!--- Search for just loans ---->
+									<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select coll_obj_disposition from ctcoll_obj_disp
+									</cfquery>
+									<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select distinct(trans_agent_role) 
+										from cttrans_agent_role
+										where trans_agent_role != 'stewardship from agency' 
+											and trans_agent_role != 'received from' 
+											and trans_agent_role != 'borrow overseen by' 
+										order by trans_agent_role
+									</cfquery>
+									<script>
+										jQuery(document).ready(function() {
+											jQuery("##part_name").autocomplete({
+												source: function (request, response) { 
+													$.ajax({
+														url: "/specimens/component/functions.cfc",
+														data: { term: request.term, method: 'getPartName' },
+														dataType: 'json',
+														success : function (data) { response(data); },
+														error : function (jqXHR, textStatus, error) {
+															handleFail(jqXHR,textStatus,error,"loading part names");
+														}
+													})
+												},
+												select: function (event, result) {
+													$('##part_name').val(result.item.id);
+												},
+												minLength: 1
+											});
+										});
+									</script>
+									<cfif not isdefined("loan_number")>
+										<cfset loan_number="">
+									</cfif>
+									<form id="loanSearchForm" class="mt-2">
+										<input type="hidden" name="method" value="getLoans" class="keeponclear">
+										<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
+										<div class="form-row mb-2 mx-0 mb-xl-2">
+											<div class="col-12 col-md-6 mt-0">
+												<div class="input-group">
+													<div class="col-6 px-0">
+														<label for="loan_collection_id" class="data-entry-label">Collection Name</label>
+														<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
+															<option value="-1">any collection</option>
+															<cfloop query="ctcollection">
+																<cfif ctcollection.collection eq selectedCollection>
+																	<cfset selected="selected">
+																	<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#collection_id#" #selected#>#collection#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-6 px-0">
+														<label for="loan_number" class="data-entry-label mb-0">Number</label>
+														<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyyy-n-Coll">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-3">
+												<cfset ploan_type = loan_type>
+												<label for="loan_type" class="data-entry-label mb-0">Type</label>
+												<select name="loan_type" id="loan_type" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctLoanType">
+														<cfif ploan_type eq ctLoanType.loan_type>
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctLoanType.loan_type#" #selected#>#ctLoanType.loan_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
+												<cfset ploan_status = loan_status>
+												<label for="loan_status" class="data-entry-label mb-0">Status</label>
+												<select name="loan_status" id="loan_status" class="data-entry-select" >
+													<option value=""></option>
+													<cfloop query="ctLoanStatus">
+														<cfif ploan_status eq ctLoanStatus.loan_status>
+															<cfset selected="selected">
+															<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
+													</cfloop>
+													<option value="not closed">not closed</option>
+												</select>
+											</div>
+										</div>
+										<div class="bg-light border rounded p-1 mx-1 my-2">
+											<div class="form-row mb-2 mx-0 my-2">
 											<div class="col-12 col-md-4">
 												<div class="input-group">
-													<select name="trans_agent_role_1" id="all_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for first agent">
+													<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
 														<option value="">agent role</option>
 														<cfloop query="cttrans_agent_role">
 															<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
 																<cfset selected="selected">
-															<cfelse>
+																<cfelse>
 																<cfset selected="">
 															</cfif>
 															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 														</cfloop>
 													</select>
-													<input type="text" name="agent_1" id="all_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
-													<input type="hidden" name="agent_1_id" id="all_agent_1_id" value="#agent_1_id#" >
+													<input type="text" name="agent_1" id="loan_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
+													<input type="hidden" name="agent_1_id" id="loan_agent_1_id" value="#agent_1_id#" >
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="input-group">
-													<select name="trans_agent_role_2" id="all_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for second agent">
+													<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
 														<option value="">agent role</option>
 														<cfloop query="cttrans_agent_role">
 															<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
 																<cfset selected="selected">
-															<cfelse>
+																<cfelse>
 																<cfset selected="">
 															</cfif>
 															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 														</cfloop>
 													</select>
-													<input type="text" name="agent_2" id="all_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
-													<input type="hidden" name="agent_2_id" id="all_agent_2_id" value="#agent_2_id#" >
+													<input type="text" name="agent_2" id="loan_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
+													<input type="hidden" name="agent_2_id" id="loan_agent_2_id" value="#agent_2_id#" >
 												</div>
 											</div>
 											<div class="col-12 col-md-4">
 												<div class="input-group">
-													<select name="trans_agent_role_3" id="all_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend" aria-label="agent role for third agent">
+													<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
 														<option value="">agent role</option>
 														<cfloop query="cttrans_agent_role">
 															<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
 																<cfset selected="selected">
-															<cfelse>
+																<cfelse>
 																<cfset selected="">
 															</cfif>
 															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
 														</cfloop>
 													</select>
-													<input type="text" name="agent_3" id="all_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
-													<input type="hidden" name="agent_3_id" id="all_agent_3_id" value="#agent_3_id#" >
+													<input type="text" name="agent_3" id="loan_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
+													<input type="hidden" name="agent_3_id" id="loan_agent_3_id" value="#agent_3_id#" >
+												</div>
+											</div>
+											<script>
+										$(document).ready(function() {
+											$(makeConstrainedAgentPicker('loan_agent_1','loan_agent_1_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('loan_agent_2','loan_agent_2_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('loan_agent_3','loan_agent_3_id','transaction_agent'));
+										});
+										</script> 
+										</div>
+										</div>
+										<div class="form-row mx-0 mt-1 mb-md-2 my-xl-2">
+											<div class="col-12 col-md-4">
+												<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
+													<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
+													<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="return_due_date">Due Date</label>
+													<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="to">end of range for due date</label>
+													<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
+													<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
+													<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
 												</div>
 											</div>
 										</div>
 										<script>
 											$(document).ready(function() {
-												$(makeConstrainedAgentPicker('all_agent_1','all_agent_1_id','transaction_agent'));
-												$(makeConstrainedAgentPicker('all_agent_2','all_agent_2_id','transaction_agent'));
-												$(makeConstrainedAgentPicker('all_agent_3','all_agent_3_id','transaction_agent'));
+												$(makePermitPicker('permit_num','permit_id'));
 											});
-										</script> 
-									</div>
-									<div class="form-row mx-0">
-										<div class="col-12 col-md-4">
-											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Transaction Date</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for transaction date">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for transaction date</label>		
-												<input type="text" name="to_trans_date" id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
-											</div>
-										</div>
-										<div class="col-12 col-md-2">
-											<cfset ppermit_type = permit_type>
-											<label for="permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
-											<select name="permit_type" class="data-entry-select" id="permit_type">
-												<option value=""></option>
-												<cfloop query="ctpermit_type_trans">
-													<cfif ppermit_type eq ctpermit_type_trans.permit_type>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctpermit_type_trans.permit_type#" #selected# >#ctpermit_type_trans.permit_type# (#ctpermit_type_trans.ct# transactions)</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-2">
-											<label for="permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
-											<select name="permit_specific_type" class="data-entry-select" id="permit_specific_type">
-												<option value=""></option>
-												<cfloop query="ctspecific_permit_type_trans">
-													<cfif permit_specific_type eq ctspecific_permit_type_trans.specific_type>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctspecific_permit_type_trans.specific_type#" #selected# >#ctspecific_permit_type_trans.specific_type# (#ctspecific_permit_type_trans.permit_type#) [#ctspecific_permit_type_trans.ct# transactions]</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-4">
-											<label for="tr_permit_num" id="tr_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
-											<div class="input-group">
-												<input type="hidden" name="permit_id" id="tr_permit_id" value="#permit_id#">
-												<input type="text" name="permit_num" id="tr_permit_num" class="data-entry-addon-input" value="#encodeForHTML(permit_num)#">
-												<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickActionTr();" onclick="handleAPermitPickActionTr();" aria-labelledby="tr_permit_picklist">Pick</span> </div>
-												<script>
-													function handleAPermitPickActionTr(event) {
-														openfindpermitdialog('tr_permit_num','tr_permit_id','tr_permitpickerdialog');
-													}
-												</script>
-												<div id="tr_permitpickerdialog"></div>
-											</div>
-											<script>
-												$(document).ready(function() {
-													$(makePermitPicker('tr_permit_num','tr_permit_id'));
-													$('##tr_permit_num').blur( function () {
-														// prevent an invisible permit_id from being included in the search.
-														if ($('##tr_permit_num').val().trim() == "") { 
-														$('##tr_permit_id').val("");
-														}
-													});
-												});
-											</script>
-										</div>
-								</div>
-									<div class="form-row mb-2">
-										<div class="col-12">
-											<button class="btn-xs btn-primary px-3" id="searchButton" type="submit" aria-label="Search all transactions">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning" aria-label="Reset transaction search form to inital values">Reset</button>
-											<button type="button" class="btn-xs btn-warning" aria-label="Start a new transaction search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAll';" >New Search</button>
-										</div>
-									</div>
-								</form>
-							</div>
-							<!--- Loan search tab panel --->
-							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden class="py-3 mx-2 mx-sm-3">
-								<h2 class="h3 card-title my-0" tabindex="0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
-								<!--- Search for just loans ---->
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select coll_obj_disposition from ctcoll_obj_disp
-								</cfquery>
-								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(trans_agent_role) 
-									from cttrans_agent_role
-									where trans_agent_role != 'stewardship from agency' 
-										and trans_agent_role != 'received from' 
-										and trans_agent_role != 'borrow overseen by' 
-									order by trans_agent_role
-								</cfquery>
-								<script>
-									jQuery(document).ready(function() {
-										jQuery("##part_name").autocomplete({
-											source: function (request, response) { 
-												$.ajax({
-													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
-													dataType: 'json',
-													success : function (data) { response(data); },
-													error : function (jqXHR, textStatus, error) {
-														handleFail(jqXHR,textStatus,error,"loading part names");
-													}
-												})
-											},
-											select: function (event, result) {
-												$('##part_name').val(result.item.id);
-											},
-											minLength: 1
-										});
-									});
-								</script>
-								<cfif not isdefined("loan_number")>
-									<cfset loan_number="">
-								</cfif>
-								<form id="loanSearchForm" class="mt-2">
-									<input type="hidden" name="method" value="getLoans" class="keeponclear">
-									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
-											<div class="input-group">
-												<div class="col-6 px-0">
-													<label for="loan_collection_id" class="data-entry-label">Collection Name</label>
-													<select name="collection_id" size="1" class="data-entry-prepend-select" id="loan_collection_id">
-														<option value="-1">any collection</option>
-														<cfloop query="ctcollection">
-															<cfif ctcollection.collection eq selectedCollection>
-																<cfset selected="selected">
-																<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#collection_id#" #selected#>#collection#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-6 px-0">
-													<label for="loan_number" class="data-entry-label mb-0">Number</label>
-													<input type="text" name="loan_number" id="loan_number" class="data-entry-select-input" value="#loan_number#" placeholder="yyyy-n-Coll">
-												</div>
-											</div>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset ploan_type = loan_type>
-											<label for="loan_type" class="data-entry-label mb-0">Type</label>
-											<select name="loan_type" id="loan_type" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctLoanType">
-													<cfif ploan_type eq ctLoanType.loan_type>
-														<cfset selected="selected">
-														<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctLoanType.loan_type#" #selected#>#ctLoanType.loan_type#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset ploan_status = loan_status>
-											<label for="loan_status" class="data-entry-label mb-0">Status</label>
-											<select name="loan_status" id="loan_status" class="data-entry-select" >
-												<option value=""></option>
-												<cfloop query="ctLoanStatus">
-													<cfif ploan_status eq ctLoanStatus.loan_status>
-														<cfset selected="selected">
-														<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctLoanStatus.loan_status#" #selected#>#ctLoanStatus.loan_status#</option>
-												</cfloop>
-												<option value="not closed">not closed</option>
-											</select>
-										</div>
-									</div>
-									<div class="bg-light border rounded p-1 mx-1 my-2">
-										<div class="form-row mb-2 mx-0 my-2">
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_1" id="loan_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_1" id="loan_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
-												<input type="hidden" name="agent_1_id" id="loan_agent_1_id" value="#agent_1_id#" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_2" id="loan_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_2" id="loan_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
-												<input type="hidden" name="agent_2_id" id="loan_agent_2_id" value="#agent_2_id#" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_3" id="loan_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_3" id="loan_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
-												<input type="hidden" name="agent_3_id" id="loan_agent_3_id" value="#agent_3_id#" >
-											</div>
-										</div>
-										<script>
-									$(document).ready(function() {
-										$(makeConstrainedAgentPicker('loan_agent_1','loan_agent_1_id','transaction_agent'));
-										$(makeConstrainedAgentPicker('loan_agent_2','loan_agent_2_id','transaction_agent'));
-										$(makeConstrainedAgentPicker('loan_agent_3','loan_agent_3_id','transaction_agent'));
-									});
-									</script> 
-									</div>
-									</div>
-									<div class="form-row mx-0 mt-1 mb-md-2 my-xl-2">
-										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="trans_date">Loan Date</label>
-												<input name="trans_date" id="trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for loan date">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_trans_date">end of search range for loan date</label>
-												<input type='text' name='to_trans_date' id="to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="date form-row bg-light border pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="return_due_date">Due Date</label>
-												<input name="return_due_date" id="return_due_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#return_due_date#" aria-label="start of range for due date">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to">end of range for due date</label>
-												<input type='text' name='to_return_due_date' id="to_return_due_date" value="#to_return_due_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4" aria-label="due date search range to">
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="date form-row border bg-light pb-2 px-xl-1 mb-2 mb-md-0 pt-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="closed_date">Close Date</label>
-												<input name="closed_date" id="closed_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#closed_date#" aria-label="start of range for closed date">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="to_closed_date">end of range for closed date </label>
-												<input type='text' name='to_closed_date' id="to_closed_date" value="#to_closed_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
-											</div>
-										</div>
-									</div>
-									<script>
-										$(document).ready(function() {
-											$(makePermitPicker('permit_num','permit_id'));
-										});
-									</script>
-									<div class="form-row mx-0">
-										<div class="col-md-6">
-											<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
-												<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
-												<div class="input-group">
-													<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
-													<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
-													<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
-													<script>
-														function handlePermitPickAction(event) {
-															openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
-														}
-													</script>
-													<div id="permitpickerdialog"></div>
-												</div>
-											</div>
-											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
-													<div class="col-3 px-0">
-														<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
-														<cfif part_name_oper IS "is">
-															<cfset isselect = "selected">
-															<cfset containsselect = "">
-															<cfelse>
-															<cfset isselect = "">
-															<cfset containsselect = "selected">
-														</cfif>
-														<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
-															<option value="is" #isselect#>is</option>
-															<option value="contains" #containsselect#>contains</option>
-														</select>
-													</div>
-													<div class="col-9 px-0">
-														<label for="part_name" class="data-entry-label mb-0">Part Name</label>
-														<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
-													</div>
-												</div>
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
-													<div class="col-3 px-0">
-														<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
-														<cfif part_disp_oper IS "is">
-															<cfset isselect = "selected">
-															<cfset notselect = "">
-															<cfelse>
-															<cfset isselect = "">
-															<cfset notselect = "selected">
-														</cfif>
-														<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
-															<option value="is" #isselect#>is</option>
-															<option value="isnot" #notselect#>is not</option>
-														</select>
-													</div>
-													<div class="col-9 px-0">
-														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-														<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-														<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
-														<script>
-															function setDispositionValues() {
-																$('##coll_obj_disposition').jqxComboBox('clearSelection');
-																<cfloop query="ctCollObjDisp">
-																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-																		$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
-																	</cfif>
-																</cfloop>
-															};
-															$(document).ready(function () {
-																var dispositionsource = [
-																	""
-																	<cfloop query="ctCollObjDisp">
-																		,"#ctCollObjDisp.coll_obj_disposition#"
-																	</cfloop>
-																];
-																$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px' });
-																setDispositionValues();
-															});
-														</script> 
-													</div>
-												</div>
-												<div class="form-row mx-0 mb-0 px-2 px-sm-3">
-													<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
-													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
-													<!--- used in call from specimen details to find loans from parts. --->
-													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
-															select distinct guid 
-															from #session.flatTableName# flat 
-																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-															where 
-																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-														</cfquery>
-														<cfloop query="guidLookup">
-															<cfif not listContains(specimen_guid,guidLookup.guid)>
-																<cfif len(specimen_guid) EQ 0>
-																	<cfset specimen_guid = guidLookup.guid>
-																<cfelse>
-																	<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
-																</cfif>
-															</cfif>
-														</cfloop>
-													</cfif>
-													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
-													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 mt-1 mb-2">
-														<label for="specimen_guid" class="data-entry-label mb- pb-0">Cataloged Item in Loan</label>
-														<input type="text" name="specimen_guid" 
-															class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
-															onchange="$('##collection_object_id').val('');">
-													</div>
-													<script>
-													</script>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
-												<div class="col-md-12">
-													<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
-												</div>
-												<div class="col-md-12">
-													<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
-													<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
-												</div>
-												<div class="col-md-12">
-													<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
-													<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
-												</div>
-												<div class="col-md-12">
-													<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
-													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
-												</div>
-												<div class="col-md-12">
-													<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
-													<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
-												</div>
-											</div>
-											</div>
-									</div>	
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 text-left">
-											<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
-											<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
-										</div>
-									</div>
-								</form>
-							</div><!---tab-pane loan search---> 
-							<!--- Accession search tab panel --->
-							<div class="py-3 mx-2 mx-sm-3" id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden>
-								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
-								<!--- Search for just loans ---->
-								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select coll_obj_disposition from ctcoll_obj_disp
-								</cfquery>
-								<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-									select distinct(trans_agent_role) 
-									from cttrans_agent_role
-									where trans_agent_role != 'stewardship from agency' 
-										and trans_agent_role != 'received from' 
-										and trans_agent_role != 'borrow overseen by' 
-									order by trans_agent_role
-								</cfquery>
-								<script>
-									jQuery(document).ready(function() {
-										jQuery("##part_name").autocomplete({
-											source: function (request, response) { 
-												$.ajax({
-													url: "/specimens/component/functions.cfc",
-													data: { term: request.term, method: 'getPartName' },
-													dataType: 'json',
-													success : function (data) { response(data); },
-													error : function (jqXHR, textStatus, error) {
-														handleFail(jqXHR,textStatus,error,"loading part names");
-													}
-												})
-											},
-											select: function (event, result) {
-												$('##part_name').val(result.item.id);
-											},
-											minLength: 1
-										});
-									});
-								</script>
-								<cfif not isdefined("accn_number")>
-									<cfset accn_number="">
-								</cfif>
-								<form id="accnSearchForm" class="mt-2">
-									<input type="hidden" name="method" value="getAccessions" class="keeponclear">
-									<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
-									<div class="form-row mb-2 mx-0 mb-xl-2">
-										<div class="col-12 col-md-6 mt-0">
-											<div class="input-group">
-												<div class="col-6 px-0">
-													<label for="accn_collection_id" class="data-entry-label">Collection Name</label>
-													<select name="collection_id" size="1" class="data-entry-prepend-select" id="accn_collection_id">
-														<option value="-1">any collection</option>
-														<cfloop query="ctcollection">
-															<cfif ctcollection.collection eq selectedCollection>
-																<cfset selected="selected">
-																<cfelse>
-																<cfset selected="">
-															</cfif>
-															<option value="#collection_id#" #selected#>#collection#</option>
-														</cfloop>
-													</select>
-												</div>
-												<div class="col-6 px-0">
-													<label for="accn_number" class="data-entry-label mb-0">Number 
-														<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
-</label>
-													<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
-												</div>
-											</div>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset paccn_type = accn_type>
-											<label for="accn_type" class="data-entry-label mb-0">Type</label>
-											<select name="accn_type" id="accn_type" class="data-entry-select">
-												<option value=""></option>
-												<cfloop query="ctAccnType">
-													<cfif paccn_type eq ctAccnType.accn_type>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctAccnType.accn_type#" #selected#>#ctAccnType.accn_type#</option>
-												</cfloop>
-												<cfloop query="ctAccnType">
-													<cfif paccn_type eq '!' & ctAccnType.accn_type>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="!#ctAccnType.accn_type#" #selected#>not #ctAccnType.accn_type#</option>
-												</cfloop>
-											</select>
-										</div>
-										<div class="col-12 col-md-3">
-											<cfset paccn_status = accn_status>
-											<label for="accn_status" class="data-entry-label mb-0">Status</label>
-											<select name="accn_status" id="accn_status" class="data-entry-select" >
-												<option value=""></option>
-												<cfloop query="ctAccnStatus">
-													<cfif paccn_status eq ctAccnStatus.accn_status>
-														<cfset selected="selected">
-													<cfelse>
-														<cfset selected="">
-													</cfif>
-													<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
-												</cfloop>
-												<cfif ctAccnStatus.recordcount GT 2>
-													<!--- not needed unless we add more than two allowed accession status values --->
-													<cfloop query="ctAccnStatus">
-														<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
-															<cfset selected="selected">
-														<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
-													</cfloop>
-												</cfif>
-											</select>
-										</div>
-									</div>
-									<div class="bg-light border rounded p-1 mx-1 my-2">
-										<div class="form-row mb-2 mx-0 my-2">
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_1" id="accn_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_1" id="accn_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
-												<input type="hidden" name="agent_1_id" id="accn_agent_1_id" value="#agent_1_id#" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_2" id="accn_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_2" id="accn_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
-												<input type="hidden" name="agent_2_id" id="accn_agent_2_id" value="#agent_2_id#" >
-											</div>
-										</div>
-										<div class="col-12 col-md-4">
-											<div class="input-group">
-												<select name="trans_agent_role_3" id="accn_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
-													<option value="">agent role</option>
-													<cfloop query="cttrans_agent_role">
-														<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
-															<cfset selected="selected">
-															<cfelse>
-															<cfset selected="">
-														</cfif>
-														<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
-													</cfloop>
-												</select>
-												<input type="text" name="agent_3" id="accn_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
-												<input type="hidden" name="agent_3_id" id="accn_agent_3_id" value="#agent_3_id#" >
-											</div>
-										</div>
-										<script>
-									$(document).ready(function() {
-										$(makeConstrainedAgentPicker('accn_agent_1','accn_agent_1_id','transaction_agent'));
-										$(makeConstrainedAgentPicker('accn_agent_2','accn_agent_2_id','transaction_agent'));
-										$(makeConstrainedAgentPicker('accn_agent_3','accn_agent_3_id','transaction_agent'));
-									});
-									</script> 
-									</div>
-									</div>
-									<div class="form-row mx-0">
-										<div class="col-md-4">
-											<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
-												<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
-												<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
-												<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
-												<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#rec_date#" aria-label="start of range for date received">
-												<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
-												<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
-												<input type="text" name="to_rec_date" id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
-											</div>
-										</div>
-										<div class="col-md-4">
-											<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
-											<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
-										</div>
-									</div>
-
-									<div class="form-row mx-0 mt-2">
-								
-										<div class="col-md-6">
-		
-											<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
-												<div class="col-md-12 px-0">
-													<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
-													<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
-												</div>
-												<div class="col-md-12 px-0">
-													<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
-													<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
-												</div>
-											</div>
-											<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
-													<div class="col-3 px-0">
-														<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
-														<cfif part_name_oper IS "is">
-															<cfset isselect = "selected">
-															<cfset containsselect = "">
-															<cfelse>
-															<cfset isselect = "">
-															<cfset containsselect = "selected">
-														</cfif>
-														<select id="accn_part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
-															<option value="is" #isselect#>is</option>
-															<option value="contains" #containsselect#>contains</option>
-														</select>
-													</div>
-													<div class="col-9 px-0">
-														<label for="accn_part_name" class="data-entry-label mb-0">Part Name</label>
-														<input type="text" id="accn_part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
-													</div>
-												</div>
-												<div class="form-row mx-0 px-2 px-sm-3">
-													<div class="col-3 px-0">
-														<label for="accn_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
-														<cfif part_disp_oper IS "is">
-															<cfset isselect = "selected">
-															<cfset notselect = "">
-															<cfelse>
-															<cfset isselect = "">
-															<cfset notselect = "selected">
-														</cfif>
-														<select id="accn_part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
-															<option value="is" #isselect#>is</option>
-															<option value="isnot" #notselect#>is not</option>
-														</select>
-													</div>
-													<div class="col-9 px-0">
-														<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
-														<label for="accn_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
-														<div name="coll_obj_disposition" id="accn_coll_obj_disposition" class="w-100"></div>
-														<script>
-															function setAccnDispositionValues() {
-																$('##coll_obj_disposition').jqxComboBox('clearSelection');
-																<cfloop query="ctCollObjDisp">
-																	<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
-																		$("##accn_coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
-																	</cfif>
-																</cfloop>
-															};
-															$(document).ready(function () {
-																var dispositionsource = [
-																	""
-																	<cfloop query="ctCollObjDisp">
-																		,"#ctCollObjDisp.coll_obj_disposition#"
-																	</cfloop>
-																];
-																$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px'  });
-																setAccnDispositionValues();
-															});
-														</script> 
-													</div>
-												</div>
-												<div class="form-row mx-0 mb-1 px-2 px-sm-3">
-													<input type="hidden" id="accn_collection_object_id" name="collection_object_id" value="#collection_object_id#">
-													<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
-													<!--- used in call from specimen details to find loans from parts. --->
-													<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
-														<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
-															select distinct guid 
-															from #session.flatTableName# flat 
-																left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
-															where 
-																specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
-														</cfquery>
-														<cfloop query="guidLookup">
-															<cfif not listContains(specimen_guid,guidLookup.guid)>
-																<cfif len(specimen_guid) EQ 0>
-																	<cfset specimen_guid = guidLookup.guid>
-																<cfelse>
-																	<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
-																</cfif>
-															</cfif>
-														</cfloop>
-													</cfif>
-													<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
-													<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
-													<div class="col-md-12 px-0 pb-1 mt-2">
-														<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
-														<input type="text" name="specimen_guid" 
-															class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
-															onchange="$('##collection_object_id').val('');">
-													</div>
-													<script>
-													</script>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-md-6">
-											<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
-												<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
-												<div class="col-md-12">
-													<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+										</script>
+										<div class="form-row mx-0">
+											<div class="col-md-6">
+												<div class="border bg-light rounded pt-2 pb-3 py-md-3 pl-md-4 pr-md-2 mb-2 px-3">
+													<label for="permit_num" id="permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Permit Number</label>
 													<div class="input-group">
-														<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
-														<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
-														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+														<input type="hidden" name="permit_id" id="permit_id" value="#permit_id#">
+														<input type="text" name="permit_num" id="permit_num" class="data-entry-addon-input" aria-described-by="permitNumberLabel" value="#permit_num#" aria-label="add permit number">
+														<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon" tabindex="0" onkeypress="handlePermitPickAction();" onclick="handlePermitPickAction();" aria-labelledby="permit_picklist">Pick</span> </div>
 														<script>
-															function handleAPermitPickAction(event) {
-																openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
+															function handlePermitPickAction(event) {
+																openfindpermitdialog('permit_num','permit_id','permitpickerdialog');
 															}
 														</script>
-														<div id="a_permitpickerdialog"></div>
+														<div id="permitpickerdialog"></div>
 													</div>
-													<script>
-														$(document).ready(function() {
-															$(makePermitPicker('a_permit_num','a_permit_id'));
-															$('##a_permit_num').blur( function () {
-																// prevent an invisible permit_id from being included in the search.
-																if ($('##a_permit_num').val().trim() == "") { 
-																	$('##a_permit_id').val("");
-																}
-															});
-														});
-													</script>
 												</div>
-												<div class="form-row mx-0">
-												<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
-													<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
-													<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
-													<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
-												</div>
-												<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
-													<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
-													<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
-													<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
-												</div>
-												<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
-													<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
-													<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
-													<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
-												</div>
-												</div>
-											
-												<script>
-													$(document).ready(function() {
-														$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
-														$(makeConstrainedAgentPicker('a_issued_to_agent','a_issued_to_agent_id','permit_issued_to_agent'));
-														$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
-													});
-												</script>
-												<div class="col-md-12">
-													<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
-													<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
-												</div>
-												<div class="col-md-12">
-													<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
-													<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
-												</div>
-												<div class="col-md-12">
-													<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
-													<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
-												</div>
-												<div class="form-row mx-0">
-													<div class="coll-12 col-md-6">
-														<cfset ppermit_type = permit_type>
-														<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
-														<select name="permit_type" class="data-entry-select" id="accn_permit_type">
-															<option value=""></option>
-															<cfloop query="ctpermit_type_accn">
-																<cfif ppermit_type eq ctpermit_type_accn.permit_type>
-																	<cfset selected="selected">
+												<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
+													<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+														<div class="col-3 px-0">
+															<label for="part_name_oper" class="data-entry-label mb-0">Part</label>
+															<cfif part_name_oper IS "is">
+																<cfset isselect = "selected">
+																<cfset containsselect = "">
 																<cfelse>
-																	<cfset selected="">
-																</cfif>
-																<option value="#ctpermit_type_accn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# accessions)</option>
-															</cfloop>
-														</select>
+																<cfset isselect = "">
+																<cfset containsselect = "selected">
+															</cfif>
+															<select id="part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+																<option value="is" #isselect#>is</option>
+																<option value="contains" #containsselect#>contains</option>
+															</select>
+														</div>
+														<div class="col-9 px-0">
+															<label for="part_name" class="data-entry-label mb-0">Part Name</label>
+															<input type="text" id="part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
+														</div>
 													</div>
-													<div class="coll-12 col-md-6">
-														<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
-														<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
-															<option value=""></option>
-															<cfloop query="ctspecific_permit_type_accn">
-																<cfif permit_specific_type eq ctspecific_permit_type_accn.specific_type>
-																	<cfset selected="selected">
+													<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+														<div class="col-3 px-0">
+															<label for="part_disp_oper" class="data-entry-label mb-0">Disp.</label>
+															<cfif part_disp_oper IS "is">
+																<cfset isselect = "selected">
+																<cfset notselect = "">
 																<cfelse>
-																	<cfset selected="">
+																<cfset isselect = "">
+																<cfset notselect = "selected">
+															</cfif>
+															<select id="part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+																<option value="is" #isselect#>is</option>
+																<option value="isnot" #notselect#>is not</option>
+															</select>
+														</div>
+														<div class="col-9 px-0">
+															<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+															<label for="coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+															<div name="coll_obj_disposition" id="coll_obj_disposition" class="w-100"></div>
+															<script>
+																function setDispositionValues() {
+																	$('##coll_obj_disposition').jqxComboBox('clearSelection');
+																	<cfloop query="ctCollObjDisp">
+																		<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+																			$("##coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																		</cfif>
+																	</cfloop>
+																};
+																$(document).ready(function () {
+																	var dispositionsource = [
+																		""
+																		<cfloop query="ctCollObjDisp">
+																			,"#ctCollObjDisp.coll_obj_disposition#"
+																		</cfloop>
+																	];
+																	$("##coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px' });
+																	setDispositionValues();
+																});
+															</script> 
+														</div>
+													</div>
+													<div class="form-row mx-0 mb-0 px-2 px-sm-3">
+														<input type="hidden" id="collection_object_id" name="collection_object_id" value="#collection_object_id#">
+														<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
+														<!--- used in call from specimen details to find loans from parts. --->
+														<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+															<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+																select distinct guid 
+																from #session.flatTableName# flat 
+																	left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+																where 
+																	specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+															</cfquery>
+															<cfloop query="guidLookup">
+																<cfif not listContains(specimen_guid,guidLookup.guid)>
+																	<cfif len(specimen_guid) EQ 0>
+																		<cfset specimen_guid = guidLookup.guid>
+																	<cfelse>
+																		<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
+																	</cfif>
 																</cfif>
-																<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
 															</cfloop>
-														</select>
+														</cfif>
+														<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
+														<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
+														<div class="col-md-12 px-0 mt-1 mb-2">
+															<label for="specimen_guid" class="data-entry-label mb- pb-0">Cataloged Item in Loan</label>
+															<input type="text" name="specimen_guid" 
+																class="data-entry-input" value="#specimen_guid#" id="specimen_guid" placeholder="MCZ:Coll:nnnnn"
+																onchange="$('##collection_object_id').val('');">
+														</div>
+														<script>
+														</script>
 													</div>
 												</div>
 											</div>
+
+											<div class="col-md-6">
+												<div class="border bg-light rounded px-0 px-sm-2 pt-2 mb-0 pb-3">
+													<div class="col-md-12">
+														<label for="nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
+														<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="nature_of_material">
+													</div>
+													<div class="col-md-12">
+														<label for="loan_description" class="data-entry-label mb-0 pb-0">Description </label>
+														<input type="text" name="loan_description" class="data-entry-input" value="#loan_description#" id="loan_description">
+													</div>
+													<div class="col-md-12">
+														<label for="loan_instructions" class="data-entry-label mb-0 pb-0">Instructions</label>
+														<input type="text" name="loan_instructions" class="data-entry-input" value="#loan_instructions#" id="loan_instructions">
+													</div>
+													<div class="col-md-12">
+														<label for="loan_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks </label>
+														<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="loan_trans_remarks">
+													</div>
+													<div class="col-md-12">
+														<label for="parent_loan_number" class="data-entry-label mb-0 pb-0">Master Exhibition Loan Number <span class="small">(find exhibition-subloans)</span> </label>
+														<input type="text" name="parent_loan_number" class="data-entry-input" value="#parent_loan_number#" id="parent_loan_number" placeholder="yyyy-n-MCZ" >
+													</div>
+												</div>
+												</div>
+										</div>	
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 text-left">
+												<button class="btn-xs btn-primary px-2" id="loanSearchButton" type="submit" aria-label="Search loans">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+												<button type="button" class="btn-xs btn-warning" aria-label="Start a new loan search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findLoans';" >New Search</button>
+											</div>
 										</div>
-									</div>	
-									<div class="form-row my-2 mx-0">
-										<div class="col-12 text-left">
-											<button class="btn-xs btn-primary px-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
-											<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
-											<button type="button" class="btn-xs btn-warning" aria-label="Start a new accession search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAccessions';" >New Search</button>
+									</form>
+								</div><!---tab-pane loan search---> 
+								<!--- Accession search tab panel --->
+								<div class="py-3 mx-2 mx-sm-3" id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden>
+									<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
+									<!--- Search for just loans ---->
+									<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select coll_obj_disposition from ctcoll_obj_disp
+									</cfquery>
+									<cfquery name="cttrans_agent_role_loan" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+										select distinct(trans_agent_role) 
+										from cttrans_agent_role
+										where trans_agent_role != 'stewardship from agency' 
+											and trans_agent_role != 'received from' 
+											and trans_agent_role != 'borrow overseen by' 
+										order by trans_agent_role
+									</cfquery>
+									<script>
+										jQuery(document).ready(function() {
+											jQuery("##part_name").autocomplete({
+												source: function (request, response) { 
+													$.ajax({
+														url: "/specimens/component/functions.cfc",
+														data: { term: request.term, method: 'getPartName' },
+														dataType: 'json',
+														success : function (data) { response(data); },
+														error : function (jqXHR, textStatus, error) {
+															handleFail(jqXHR,textStatus,error,"loading part names");
+														}
+													})
+												},
+												select: function (event, result) {
+													$('##part_name').val(result.item.id);
+												},
+												minLength: 1
+											});
+										});
+									</script>
+									<cfif not isdefined("accn_number")>
+										<cfset accn_number="">
+									</cfif>
+									<form id="accnSearchForm" class="mt-2">
+										<input type="hidden" name="method" value="getAccessions" class="keeponclear">
+										<input type="hidden" name="project_id" <cfif isdefined('project_id') AND project_id gt 0> value="#project_id#" </cfif>>
+										<div class="form-row mb-2 mx-0 mb-xl-2">
+											<div class="col-12 col-md-6 mt-0">
+												<div class="input-group">
+													<div class="col-6 px-0">
+														<label for="accn_collection_id" class="data-entry-label">Collection Name</label>
+														<select name="collection_id" size="1" class="data-entry-prepend-select" id="accn_collection_id">
+															<option value="-1">any collection</option>
+															<cfloop query="ctcollection">
+																<cfif ctcollection.collection eq selectedCollection>
+																	<cfset selected="selected">
+																	<cfelse>
+																	<cfset selected="">
+																</cfif>
+																<option value="#collection_id#" #selected#>#collection#</option>
+															</cfloop>
+														</select>
+													</div>
+													<div class="col-6 px-0">
+														<label for="accn_number" class="data-entry-label mb-0">Number 
+															<a href="##" tabindex="-1" aria-hidden="true" class="btn-link" onclick="$('##accn_number').val('='+$('##accn_number').val());" > (=) <span class="sr-only">prefix with equals sign for exact match search</span></a>
+	</label>
+														<input type="text" name="accn_number" id="accn_number" class="data-entry-select-input" value="#accn_number#" placeholder="99999999">
+													</div>
+												</div>
+											</div>
+											<div class="col-12 col-md-3">
+												<cfset paccn_type = accn_type>
+												<label for="accn_type" class="data-entry-label mb-0">Type</label>
+												<select name="accn_type" id="accn_type" class="data-entry-select">
+													<option value=""></option>
+													<cfloop query="ctAccnType">
+														<cfif paccn_type eq ctAccnType.accn_type>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctAccnType.accn_type#" #selected#>#ctAccnType.accn_type#</option>
+													</cfloop>
+													<cfloop query="ctAccnType">
+														<cfif paccn_type eq '!' & ctAccnType.accn_type>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="!#ctAccnType.accn_type#" #selected#>not #ctAccnType.accn_type#</option>
+													</cfloop>
+												</select>
+											</div>
+											<div class="col-12 col-md-3">
+												<cfset paccn_status = accn_status>
+												<label for="accn_status" class="data-entry-label mb-0">Status</label>
+												<select name="accn_status" id="accn_status" class="data-entry-select" >
+													<option value=""></option>
+													<cfloop query="ctAccnStatus">
+														<cfif paccn_status eq ctAccnStatus.accn_status>
+															<cfset selected="selected">
+														<cfelse>
+															<cfset selected="">
+														</cfif>
+														<option value="#ctAccnStatus.accn_status#" #selected#>#ctAccnStatus.accn_status#</option>
+													</cfloop>
+													<cfif ctAccnStatus.recordcount GT 2>
+														<!--- not needed unless we add more than two allowed accession status values --->
+														<cfloop query="ctAccnStatus">
+															<cfif paccn_status eq '!' & ctAccnStatus.accn_status>
+																<cfset selected="selected">
+															<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="!#ctAccnStatus.accn_status#" #selected#>not #ctAccnStatus.accn_status#</option>
+														</cfloop>
+													</cfif>
+												</select>
+											</div>
 										</div>
-									</div>
-								</form>
-							</div><!---tab-pane accession search---> 
+										<div class="bg-light border rounded p-1 mx-1 my-2">
+											<div class="form-row mb-2 mx-0 my-2">
+											<div class="col-12 col-md-4">
+												<div class="input-group">
+													<select name="trans_agent_role_1" id="accn_trans_agent_role_1" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_1) gt 0 and trans_agent_role_1 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_1" id="accn_agent_1" class="data-entry-select-input col-md-6" value="#agent_1#" placeholder="agent name" >
+													<input type="hidden" name="agent_1_id" id="accn_agent_1_id" value="#agent_1_id#" >
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="input-group">
+													<select name="trans_agent_role_2" id="accn_trans_agent_role_2" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_2) gt 0 and trans_agent_role_2 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_2" id="accn_agent_2" class="data-entry-select-input col-md-6" value="#agent_2#" placeholder="agent name">
+													<input type="hidden" name="agent_2_id" id="accn_agent_2_id" value="#agent_2_id#" >
+												</div>
+											</div>
+											<div class="col-12 col-md-4">
+												<div class="input-group">
+													<select name="trans_agent_role_3" id="accn_trans_agent_role_3" class="data-entry-prepend-select col-md-6 input-group-prepend">
+														<option value="">agent role</option>
+														<cfloop query="cttrans_agent_role">
+															<cfif len(trans_agent_role_3) gt 0 and trans_agent_role_3 EQ trans_agent_role >
+																<cfset selected="selected">
+																<cfelse>
+																<cfset selected="">
+															</cfif>
+															<option value="#trans_agent_role#" #selected#>#trans_agent_role# (#cnt#):</option>
+														</cfloop>
+													</select>
+													<input type="text" name="agent_3" id="accn_agent_3" class="data-entry-select-input col-md-6" value="#agent_3#" placeholder="agent name">
+													<input type="hidden" name="agent_3_id" id="accn_agent_3_id" value="#agent_3_id#" >
+												</div>
+											</div>
+											<script>
+										$(document).ready(function() {
+											$(makeConstrainedAgentPicker('accn_agent_1','accn_agent_1_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('accn_agent_2','accn_agent_2_id','transaction_agent'));
+											$(makeConstrainedAgentPicker('accn_agent_3','accn_agent_3_id','transaction_agent'));
+										});
+										</script> 
+										</div>
+										</div>
+										<div class="form-row mx-0">
+											<div class="col-md-4">
+												<div class="date row bg-light border pb-2 mb-2 mb-md-0 pt-1 px-0 px-md-1 px-xl-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_trans_date">Date Entered</label>
+													<input name="trans_date" id="accn_trans_date" type="text" class="datetimeinput data-entry-input col-4 col-xl-5" placeholder="start yyyy-mm-dd or yyyy" value="#trans_date#" aria-label="start of range for date entered">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="accn_to_trans_date">end of search range for date entered</label>		
+													<input type="text" name="to_trans_date" id="accn_to_trans_date" value="#to_trans_date#" class="datetimeinput col-4 col-xl-4 data-entry-input" placeholder="end yyyy-mm-dd or yyyy">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="date row bg-light border pb-2 pt-1 px-0 px-xl-1 mx-0 rounded justify-content-center">
+													<label class="data-entry-label px-4 px-md-4 mx-1 mb-0" for="accn_rec_date">Date Received</label>
+													<input name="rec_date" id="accn_rec_date" type="text" placeholder="start yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-5" value="#rec_date#" aria-label="start of range for date received">
+													<div class="col-1 col-xl-1 text-center px-0"><small> to</small></div>
+													<label class="data-entry-label sr-only" for="accn_to_rec_date">end of range for date received</label>
+													<input type="text" name="to_rec_date" id="accn_to_rec_date" value="#to_rec_date#" placeholder="end yyyy-mm-dd or yyyy" class="datetimeinput data-entry-input col-4 col-xl-4">
+												</div>
+											</div>
+											<div class="col-md-4">
+												<label class="data-entry-label px-3 mx-1 mb-0" for="estimated_count">Estimated Count <span class="small">(accepts: 10, &lt;10, &gt;10, NULL, NOT NULL)</span></label>
+												<input type="text" name="estimated_count" class="data-entry-input" value="#estimated_count#" id="estimated_count" placeholder="&gt;100">
+											</div>
+										</div>
+
+										<div class="form-row mx-0 mt-2">
+
+											<div class="col-md-6">
+
+												<div class="border bg-light rounded pt-2 pb-3 mb-2 px-3 px-md-4">
+													<div class="col-md-12 px-0">
+														<label for="a_nature_of_material" class="data-entry-label mb-0 pb-0">Nature of Material</label>
+														<input type="text" name="nature_of_material" class="data-entry-input" value="#nature_of_material#" id="a_nature_of_material">
+													</div>
+													<div class="col-md-12 px-0">
+														<label for="accn_trans_remarks" class="data-entry-label mb-0 pb-0">Internal Remarks</label>
+														<input type="text" name="trans_remarks" class="data-entry-input" value="#trans_remarks#" id="accn_trans_remarks">
+													</div>
+												</div>
+												<div class="border bg-light rounded px-2 mb-2 mb-md-0 py-3 py-lg-2">
+													<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+														<div class="col-3 px-0">
+															<label for="accn_part_name_oper" class="data-entry-label mb-0">Part</label>
+															<cfif part_name_oper IS "is">
+																<cfset isselect = "selected">
+																<cfset containsselect = "">
+																<cfelse>
+																<cfset isselect = "">
+																<cfset containsselect = "selected">
+															</cfif>
+															<select id="accn_part_name_oper" name="part_name_oper" class="data-entry-prepend-select input-group-prepend">
+																<option value="is" #isselect#>is</option>
+																<option value="contains" #containsselect#>contains</option>
+															</select>
+														</div>
+														<div class="col-9 px-0">
+															<label for="accn_part_name" class="data-entry-label mb-0">Part Name</label>
+															<input type="text" id="accn_part_name" name="part_name" class="px-0 data-entry-select-input ui-autocomplete-input" value="#part_name#" autocomplete="off">
+														</div>
+													</div>
+													<div class="form-row mx-0 px-2 px-sm-3">
+														<div class="col-3 px-0">
+															<label for="accn_part_disp_oper" class="data-entry-label mb-0">Disp.</label>
+															<cfif part_disp_oper IS "is">
+																<cfset isselect = "selected">
+																<cfset notselect = "">
+																<cfelse>
+																<cfset isselect = "">
+																<cfset notselect = "selected">
+															</cfif>
+															<select id="accn_part_disp_oper" name="part_disp_oper" class="data-entry-prepend-select input-group-prepend">
+																<option value="is" #isselect#>is</option>
+																<option value="isnot" #notselect#>is not</option>
+															</select>
+														</div>
+														<div class="col-9 px-0">
+															<cfset coll_obj_disposition_array = ListToArray(coll_obj_disposition)>
+															<label for="accn_coll_obj_disposition" class="data-entry-label mb-0">Part Disposition</label>
+															<div name="coll_obj_disposition" id="accn_coll_obj_disposition" class="w-100"></div>
+															<script>
+																function setAccnDispositionValues() {
+																	$('##coll_obj_disposition').jqxComboBox('clearSelection');
+																	<cfloop query="ctCollObjDisp">
+																		<cfif ArrayContains(coll_obj_disposition_array, ctCollObjDisp.coll_obj_disposition)>
+																			$("##accn_coll_obj_disposition").jqxComboBox("selectItem","#ctCollObjDisp.coll_obj_disposition#");
+																		</cfif>
+																	</cfloop>
+																};
+																$(document).ready(function () {
+																	var dispositionsource = [
+																		""
+																		<cfloop query="ctCollObjDisp">
+																			,"#ctCollObjDisp.coll_obj_disposition#"
+																		</cfloop>
+																	];
+																	$("##accn_coll_obj_disposition").jqxComboBox({ source: dispositionsource, multiSelect: true, height: '22px', width: '200px'  });
+																	setAccnDispositionValues();
+																});
+															</script> 
+														</div>
+													</div>
+													<div class="form-row mx-0 mb-1 px-2 px-sm-3">
+														<input type="hidden" id="accn_collection_object_id" name="collection_object_id" value="#collection_object_id#">
+														<!--- if we were given part collection object id values, look up the catalog numbers for them and display for the user --->
+														<!--- used in call from specimen details to find loans from parts. --->
+														<cfif isDefined("collection_object_id") AND len(collection_object_id) GT 0>
+															<cfquery name="guidLookup" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#" result="guidLookup">
+																select distinct guid 
+																from #session.flatTableName# flat 
+																	left join specimen_part on flat.collection_object_id = specimen_part.derived_from_cat_item
+																where 
+																	specimen_part.collection_object_id in (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collection_object_id#" list="yes">)
+															</cfquery>
+															<cfloop query="guidLookup">
+																<cfif not listContains(specimen_guid,guidLookup.guid)>
+																	<cfif len(specimen_guid) EQ 0>
+																		<cfset specimen_guid = guidLookup.guid>
+																	<cfelse>
+																		<cfset specimen_guid = specimen_guid & "," & guidSearch.guid>
+																	</cfif>
+																</cfif>
+															</cfloop>
+														</cfif>
+														<!--- display the provided guids, backing query will use both these and the hidden collection_object_id for the lookup. --->
+														<!--- if user changes the value of the guid list, clear the hidden collection object id field. --->
+														<div class="col-md-12 px-0 pb-1 mt-2">
+															<label for="accn_specimen_guid" class="data-entry-label mb-0 pb-0">Cataloged Item in Accession</label>
+															<input type="text" name="specimen_guid" 
+																class="data-entry-input" value="#specimen_guid#" id="accn_specimen_guid" placeholder="MCZ:Coll:nnnnn"
+																onchange="$('##collection_object_id').val('');">
+														</div>
+														<script>
+														</script>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div class="border bg-light rounded px-0 px-sm-2 pt-1 mb-0 pb-3">
+													<h3 class="h5 px-3 my-xl-3">Permissions &amp; Rights</h3>
+													<div class="col-md-12">
+														<label for="a_permit_num" id="a_permit_picklist" class="data-entry-label mb-0 pt-0 mt-0">Document/Permit Number:</label>
+														<div class="input-group">
+															<input type="hidden" name="permit_id" id="a_permit_id" value="#permit_id#">
+															<input type="text" name="permit_num" id="a_permit_num" class="data-entry-addon-input" value="#permit_num#">
+															<div class="input-group-append" aria-label="pick a permit"> <span role="button" class="data-entry-addon py-0" tabindex="0" onkeypress="handleAPermitPickAction();" onclick="handleAPermitPickAction();" aria-labelledby="a_permit_picklist">Pick</span> </div>
+															<script>
+																function handleAPermitPickAction(event) {
+																	openfindpermitdialog('a_permit_num','a_permit_id','a_permitpickerdialog');
+																}
+															</script>
+															<div id="a_permitpickerdialog"></div>
+														</div>
+														<script>
+															$(document).ready(function() {
+																$(makePermitPicker('a_permit_num','a_permit_id'));
+																$('##a_permit_num').blur( function () {
+																	// prevent an invisible permit_id from being included in the search.
+																	if ($('##a_permit_num').val().trim() == "") { 
+																		$('##a_permit_id').val("");
+																	}
+																});
+															});
+														</script>
+													</div>
+													<div class="form-row mx-0">
+													<div class="col-12 col-md-6 col-xl-4 px-3 pl-md-3 pr-md-2">
+														<label for="a_issued_by_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued By</label>
+														<input type="text" name="IssuedByAgent" id="a_issued_by_agent" class="data-entry-input" value="#IssuedByAgent#" placeholder="issued by agent name" >
+														<input type="hidden" name="issued_by_id" id="a_issued_by_agent_id" value="#issued_by_id#" >
+													</div>
+													<div class="col-12 col-md-6 col-xl-4 px-3 pr-md-3">
+														<label for="a_issued_to_agent" class="data-entry-label mb-0 pt-0 mt-0">Issued To</label>
+														<input type="text" name="IssuedToAgent" id="a_issued_to_agent" class="data-entry-input" value="#IssuedToAgent#" placeholder="issued to agent name" >
+														<input type="hidden" name="issued_to_id" id="a_issued_to_agent_id" value="#issued_to_id#" >
+													</div>
+													<div class="col-12 col-md-8 col-xl-4 ml-0 ml-xl-0 px-3 pl-xl-2 pr-xl-3">
+														<label for="a_permit_contact_agent" class="data-entry-label mb-0 pt-0 mt-0">Contact Agent</label>
+														<input type="text" name="permit_contact_agent" id="a_permit_contact_agent" class="data-entry-input" value="#permit_contact_agent#" placeholder="contact agent name" >
+														<input type="hidden" name="permit_contact_id" id="a_permit_contact_agent_id" value="#permit_contact_id#" >
+													</div>
+													</div>
+
+													<script>
+														$(document).ready(function() {
+															$(makeConstrainedAgentPicker('a_issued_by_agent','a_issued_by_agent_id','permit_issued_by_agent'));
+															$(makeConstrainedAgentPicker('a_issued_to_agent','a_issued_to_agent_id','permit_issued_to_agent'));
+															$(makeConstrainedAgentPicker('a_permit_contact_agent','a_permit_contact_agent_id','permit_contact_agent'));
+														});
+													</script>
+													<div class="col-md-12">
+														<label for="accn_restriction_summary" class="data-entry-label mb-0 pb-0">Restrictions <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+														<input type="text" name="restriction_summary" class="data-entry-input" value="#restriction_summary#" id="accn_restriction_summary">
+													</div>
+													<div class="col-md-12">
+														<label for="accn_benefits_summary" class="data-entry-label mb-0 pb-0">Benefits <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+														<input type="text" name="benefits_summary" class="data-entry-input" value="#benefits_summary#" id="accn_benefits_summary">
+													</div>
+													<div class="col-md-12">
+														<label for="accn_benefits_provided" class="data-entry-label mb-0 pb-0">Benefits Provided <span class="small">(accepts substring, NULL, NOT NULL)</span></label>
+														<input type="text" name="benefits_provided" class="data-entry-input" value="#benefits_provided#" id="accn_benefits_provided">
+													</div>
+													<div class="form-row mx-0">
+														<div class="coll-12 col-md-6">
+															<cfset ppermit_type = permit_type>
+															<label for="accn_permit_type" class="data-entry-label mb-0 pb-0">Has Document of Type</label>
+															<select name="permit_type" class="data-entry-select" id="accn_permit_type">
+																<option value=""></option>
+																<cfloop query="ctpermit_type_accn">
+																	<cfif ppermit_type eq ctpermit_type_accn.permit_type>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#ctpermit_type_accn.permit_type#" #selected# >#ctpermit_type_accn.permit_type# (#ctpermit_type_accn.ct# accessions)</option>
+																</cfloop>
+															</select>
+														</div>
+														<div class="coll-12 col-md-6">
+															<label for="accn_permit_specific_type" class="data-entry-label mb-0 pb-0">Specific Type</label>
+															<select name="permit_specific_type" class="data-entry-select" id="accn_permit_specific_type">
+																<option value=""></option>
+																<cfloop query="ctspecific_permit_type_accn">
+																	<cfif permit_specific_type eq ctspecific_permit_type_accn.specific_type>
+																		<cfset selected="selected">
+																	<cfelse>
+																		<cfset selected="">
+																	</cfif>
+																	<option value="#ctspecific_permit_type_accn.specific_type#" #selected# >#ctspecific_permit_type_accn.specific_type# (#ctspecific_permit_type.permit_type#) [#ctspecific_permit_type_accn.ct# accessions)</option>
+																</cfloop>
+															</select>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>	
+										<div class="form-row my-2 mx-0">
+											<div class="col-12 text-left">
+												<button class="btn-xs btn-primary px-2" id="accnSearchButton" type="submit" aria-label="Search Accessions">Search<span class="fa fa-search pl-1"></span></button>
+												<button type="reset" class="btn-xs btn-warning" aria-label="Reset search form to inital values" onclick="setDispositionValues();">Reset</button>
+												<button type="button" class="btn-xs btn-warning" aria-label="Start a new accession search with a clear form" onclick="window.location.href='#Application.serverRootUrl#/Transactions.cfm?action=findAccessions';" >New Search</button>
+											</div>
+										</div>
+									</form>
+								</div><!---tab-pane accession search---> 
+							</div>
 						</div>
 						<!--- End tab-content div ---> 
 					
