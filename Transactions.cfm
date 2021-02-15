@@ -481,7 +481,7 @@ limitations under the License.
 						</cfswitch>--->
 						<!--- Tab header div --->
 		
-						<div class="tabs">
+						<div class="tabs card-header tab-card-header">
 							<div role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" >All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" >Loans</button>
