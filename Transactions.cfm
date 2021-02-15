@@ -33,9 +33,8 @@
   border-bottom-left-radius:.5em;
   border-bottom-right-radius:.5em;
 }
-
-ul.controlList {
-  list-style-type: none;
+.tab-headers {
+	padding: 0 .75rem;	
 }
 .tab-headers button {
     background-color:#f5f5f5;
