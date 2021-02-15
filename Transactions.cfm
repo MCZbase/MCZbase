@@ -33,10 +33,7 @@
     background-color: #f5f5f5;
     margin-bottom: 0.2rem;
 }
-.card-header!important {
-    padding: .25rem .5rem;
-	background-color:transparent;
-}
+
 .tab-card-header {
     background-color: #3E6F7D;
     padding-top: .5rem;
@@ -69,6 +66,10 @@
   border-bottom: 1px solid #3e657D;
   border-top: 2px solid blue;
   cursor: pointer;
+}
+		.card-header!important {
+    padding: .25rem .5rem;
+	background-color:transparent;
 }
 div[aria-hidden='true'] {
    display: none;
