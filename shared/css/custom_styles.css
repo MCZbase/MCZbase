@@ -1635,7 +1635,7 @@ input#readMore_check_id {display:none;}
 	.MediaAccordionShow {
 		display:none;
 	}
-
+/************tabs -- redone for accessibility  ***************/
 .tabpanel {
   margin: 20px;
   padding: 0;
@@ -1657,7 +1657,7 @@ input#readMore_check_id {display:none;}
 }
 .tabs {
 background-color: #3e657d;
-padding: .5rem;	
+padding: .75rem .5rem .5rem .5rem;	
 }
 .tab-content {
     border-top: none;
