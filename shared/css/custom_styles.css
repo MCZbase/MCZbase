@@ -1684,7 +1684,7 @@ input#readMore_check_id {
 	border-radius: 4px 4px 0 0;
 }
 .tab-headers {
-	padding: 0 .5rem;
+	padding: 0 1rem;
 }
 .tab-headers button {
 /*	appearance: auto;
