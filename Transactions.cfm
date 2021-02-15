@@ -11,18 +11,6 @@
   padding: 0;
   list-style: none;
 }
-/*.tab {
-  margin: .2em 2px 0 0;
-  padding: 5px 10px;
-  height: 2.3em;
-  font-weight: bold;
-  border: 1px solid red;
-  background:#dddddd;
-  border-top-left-radius:.5em;
-  border-top-right-radius:.5em;
-  float: left;
-  display: inline; 
-}*/
 .panel {
   clear: both;
   display: block;
@@ -43,7 +31,7 @@
 .card-header {
     padding: .25rem .5rem;
 }
-.tab-card-header {
+.tab-card-headers {
     background-color: #3E6F7D;
     padding-top: .5rem;
     border-radius: 4px 4px 0 0;
@@ -506,7 +494,7 @@ limitations under the License.
 						</cfswitch>--->
 						<!--- Tab header div --->
 		
-						<div class="tabs card-header tab-card-header">
+						<div class="tabs card-header tab-card-headers">
 							<div class="tab-headers" role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" class="px-3">All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" class="px-3">Loans</button>
