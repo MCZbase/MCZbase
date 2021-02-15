@@ -38,16 +38,29 @@ ul.controlList {
   list-style-type: none;
 }
 button {
-    background-color:lightblue;
+    background-color:#f5f5f5;
+	padding: .25rem 1rem;
+	border-top-left-radius: .25rem;
+	border-top-right-radius: .25rem;
 }
 button:focus {
-    background-color:lightcyan;
+    background-color:#f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
+	outline: 0;
+	margin-bottom: -1px;
 }
 button[aria-selected='true'] {
   color: black;
   background-color: #fff;
   border-bottom: 1px solid white;
-  border-top: 2px solid red;
+  border-top: 2px solid white;
+  cursor: pointer;
+}
+button[aria-selected='false'] {
+  color: black;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #f5f5f5;
+  border-top: 2px solid blue;
   cursor: pointer;
 }
 div[aria-hidden='true'] {
