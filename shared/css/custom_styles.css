@@ -1677,7 +1677,6 @@ padding: .75rem .5rem .5rem .5rem;
 	padding: 0 .5rem;	
 }
 .tab-headers button {
-	border-color: 0;
 	 appearance: auto;
     -webkit-writing-mode: horizontal-tb !important;
     text-rendering: auto;
