@@ -1033,6 +1033,12 @@ table.inputTable tr {
 	outline:0;
 	margin-bottom: -1px;
 }
+.nav-tabs .nav-item.show .nav-links, .nav-tabs .nav-links.active {
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #f5f5f5;
+	outline:0;
+	 margin-bottom: -1px;
+}
 .tab-card-header > .nav-tabs > button {
 	color: #3E657D;
 	outline:0;
