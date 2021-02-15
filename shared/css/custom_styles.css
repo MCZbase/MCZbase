@@ -1687,7 +1687,7 @@ input#readMore_check_id {
 	padding: 0 .5rem;
 }
 .tab-headers button {
-	appearance: auto;
+/*	appearance: auto;
 	-webkit-writing-mode: horizontal-tb !important;
 	text-rendering: auto;
 	color: -internal-light-dark(black, white);
@@ -1702,7 +1702,7 @@ input#readMore_check_id {
 	cursor: default;
 	background-color: #f5f5f5;
 	box-sizing: border-box;
-	margin: 0em;
+	margin: 0em;*/
 	font: 400 .9rem Arial;
 	padding: 1px 6px;
 	border-width: 0;
@@ -1717,7 +1717,7 @@ input#readMore_check_id {
 	border-top-left-radius: .25rem;
 	border-top-right-radius: .25rem;
 }
-.tab-headers button {
+.tab-headers button:hover {
 	border-top: 3px solid blue;
 	border-bottom: 1px solid #f5f5f5;
 }
