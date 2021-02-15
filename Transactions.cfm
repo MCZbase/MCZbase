@@ -482,7 +482,7 @@ limitations under the License.
 						<!--- Tab header div --->
 		
 						<div class="tabs card-header tab-card-header">
-							<div role="tablist" aria-label="search panel tabs">
+							<div class="nav nav-tabs card-header-tabs" role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" >All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" >Loans</button>
 								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" >Accessions</button> 	

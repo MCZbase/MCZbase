@@ -1005,11 +1005,11 @@ table.inputTable tr {
 	margin: 0;
 	background-color: #3E6F7D;
 }
-.tab-card-header > .nav-tabs > li {
+.tab-card-header > .nav-tabs > button {
 	margin-right: 2px;
 	background-color: #3E6F7D;
 }
-.tab-card-header > .nav-tabs > li > a {
+.tab-card-header > .nav-tabs > button {
 	border: 0;
 	margin-right: 0;
 	color: #3e6f7d!important;
@@ -1033,11 +1033,11 @@ table.inputTable tr {
 	outline:0;
 	margin-bottom: -1px;
 }
-.tab-card-header > .nav-tabs > li > a:hover {
+.tab-card-header > .nav-tabs > button {
 	color: #3E657D;
 	outline:0;
 }
-.tab-card-header > .nav-tabs > li > a:focus {
+.tab-card-header > .nav-tabs > button {
 	color: #3E657D;
 	background-color: #f5f5f5;
 	outline: 0;
