@@ -1708,12 +1708,14 @@ div[aria-hidden='true'] {
 div[aria-hidden='false'] {
    display:block;
 }
-/*.focus {
+.focus {
   margin-top: 0;
   height: 1.2em;
-    border: 1px solid green;
-}*/
+    border: 1px solid #deebec;
+}
 .hidden {display:none;}
+
+/************end tabs -- redone for accessibility  ***************/
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
