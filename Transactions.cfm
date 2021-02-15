@@ -490,7 +490,7 @@ limitations under the License.
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 							<!--- All Transactions search tab panel --->
-							<div class="py-3 mx-2 mx-sm-3" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="py-3 mx-2 mx-sm-3" >
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -670,7 +670,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div class="py-3 mx-2 mx-sm-3" id="panel-2" role="tabpanel" aria-labelledby="tab-2">
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden class="py-3 mx-2 mx-sm-3">
 								<h2 class="h3 card-title my-0" tabindex="0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1011,7 +1011,7 @@ limitations under the License.
 								</form>
 							</div><!---tab-pane loan search---> 
 							<!--- Accession search tab panel --->
-							<div class="py-3 mx-2 mx-sm-3" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
+							<div class="py-3 mx-2 mx-sm-3" id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden>
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
