@@ -992,11 +992,11 @@ table.inputTable tr {
 	background-color: #f5f5f5;
 	border-radius: 4px 4px 0 0;
 }
-.tab-card-header {
+/*.tab-card-header {
 	background-color: #3E6F7D;
 	padding-top: 11px;
 	border-radius: 4px 4px 0 0;
-}
+}*/
 .card-title:first-child {
 	padding-left: .5em;
 }
