@@ -11,7 +11,7 @@
   padding: 0;
   list-style: none;
 }
-.tab {
+/*.tab {
   margin: .2em 2px 0 0;
   padding: 5px 10px;
   height: 2.3em;
@@ -21,8 +21,8 @@
   border-top-left-radius:.5em;
   border-top-right-radius:.5em;
   float: left;
-  display: inline; /* IE float bug fix */
-}
+  display: inline; 
+}*/
 .panel {
   clear: both;
   display: block;
@@ -51,7 +51,7 @@ ul.controlList {
 }
 .tab-headers button[aria-selected='true'] {
   color: black;
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-bottom: 1px solid white;
   border-top: 2px solid white;
   cursor: pointer;
