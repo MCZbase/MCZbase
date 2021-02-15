@@ -1438,7 +1438,7 @@ limitations under the License.
 						<!--- End tab-content div ---> 
 					
 				</div>
-			</div>s	
+			</div>
 		</section>													
 		<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
