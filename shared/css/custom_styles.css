@@ -1728,11 +1728,6 @@ div[aria-hidden='true'] {
 div[aria-hidden='false'] {
 	display: block;
 }
-/*.focus {
-	margin-top: 0;
-	height: 1.2em;
-	border: 1px solid #deebec;
-}*/
 .hidden {
 	display: none;
 }
