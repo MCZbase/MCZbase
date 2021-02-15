@@ -21,13 +21,18 @@
   border-bottom-left-radius:.5em;
   border-bottom-right-radius:.5em;
 }
+		.tabs {
+			background-color: #3e657d;
+			padding: .5rem;
+		
+		}
 .tab-content {
 	border: 0px solid #3e657d;
     border-top: none;
     border-radius: 0;
     background-color: #f5f5f5;
     margin-bottom: 0.2rem;
-		}
+}
 .card-header {
     padding: .25rem .5rem;
 }
