@@ -33,8 +33,20 @@
   border-bottom-left-radius:.5em;
   border-bottom-right-radius:.5em;
 }
+.tab-content {
+	border: 0px solid #3e657d;
+    border-top: none;
+    border-radius: 0;
+    background-color: #f5f5f5;
+    margin-bottom: 0.2rem;
+		}
+.tab-card-header {
+    background-color: #3E6F7D;
+    padding-top: .5rem;
+    border-radius: 4px 4px 0 0;
+}
 .tab-headers {
-	padding: 0 .75rem;	
+	padding: 0 .5rem;	
 }
 .tab-headers button {
     background-color:#f5f5f5;
