@@ -353,13 +353,14 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>--->
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0">
+		
+							<div class="tabs">
 							<div role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" >All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" >Loans</button>
 								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" >Accessions</button> 	
 							</div>
-						</div>
+					
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
@@ -1310,6 +1311,7 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 						</div>
 						<!--- End tab-content div ---> 
+												</div>
 					</div>
 				</div>
 			</div>	
