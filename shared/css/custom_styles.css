@@ -1631,67 +1631,7 @@ input#readMore_check_id {display:none;}
 		display:none;
 	}
 
-.tabpanel {
-  margin: 20px;
-  padding: 0;
-}
-.tablist {
-  margin: 0 0px;
-  padding: 0;
-  list-style: none;
-}
-.tab {
-  margin: .2em 2px 0 0;
-  padding: 5px 10px;
-  height: 2.3em;
-  font-weight: bold;
-  border: 1px solid red;
-  background:#dddddd;
-  border-top-left-radius:.5em;
-  border-top-right-radius:.5em;
-  float: left;
-  display: inline; /* IE float bug fix */
-}
-.panel {
-  clear: both;
-  display: block;
-  margin: 0 0 0 0;
-  padding: 10px;
-  width: 100%;
-  background:#f2f2f2;
-  border-bottom-left-radius:.5em;
-  border-bottom-right-radius:.5em;
-}
 
-ul.controlList {
-  list-style-type: none;
-}
-button {
-    background-color:lightblue;
-}
-button:focus {
-    background-color:lightcyan;
-}
-button[aria-selected='true'] {
-  color: black;
-  background-color: #fff;
-  border-bottom: 1px solid white;
-  border-top: 2px solid red;
-  cursor: pointer;
-}
-div[aria-hidden='true'] {
-   display: none;
-}
-div[aria-hidden='false'] {
-   display:block;
-}
-
-.focus {
-  margin-top: 0;
-  height: 1.2em;
-    border: 1px solid green;
-}
-.hidden {display:none;}
 /****************end all screen styles*********************/
 /**********************************************************/
 /*********************************/
