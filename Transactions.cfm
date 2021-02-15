@@ -37,26 +37,26 @@
 ul.controlList {
   list-style-type: none;
 }
-button {
+.tabs button {
     background-color:#f5f5f5;
 	padding: .25rem 1rem;
 	border-top-left-radius: .25rem;
 	border-top-right-radius: .25rem;
 }
-button:focus {
+.tabs button:focus {
     background-color:#f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline: 0;
 	margin-bottom: -1px;
 }
-button[aria-selected='true'] {
+.tabs button[aria-selected='true'] {
   color: black;
   background-color: #fff;
   border-bottom: 1px solid white;
   border-top: 2px solid white;
   cursor: pointer;
 }
-button[aria-selected='false'] {
+.tabs button[aria-selected='false'] {
   color: black;
   background-color: #f5f5f5;
   border-bottom: 1px solid #f5f5f5;
@@ -69,7 +69,6 @@ div[aria-hidden='true'] {
 div[aria-hidden='false'] {
    display:block;
 }
-
 .focus {
   margin-top: 0;
   height: 1.2em;
@@ -505,7 +504,7 @@ limitations under the License.
 							<!--- All Transactions search tab panel --->
 							<div class="tab-content">
 								<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="py-3 mx-2 mx-sm-3" >
-									<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
+									<h2 class="h3 card-title my-0" aria-activedescendant="all-tab">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 									<form id="searchForm" class="mt-2">
 										<input type="hidden" name="method" value="getTransactions" class="keeponclear">
 										<div class="form-row mb-2 mx-0">
