@@ -37,26 +37,26 @@
 ul.controlList {
   list-style-type: none;
 }
-.tabs button {
+.tab-headers button {
     background-color:#f5f5f5;
 	padding: .25rem 1rem;
 	border-top-left-radius: .25rem;
 	border-top-right-radius: .25rem;
 }
-.tabs button:focus {
+.tab-headers button:focus {
     background-color:#f5f5f5;
 	border-bottom: 2px solid #f5f5f5;
 	outline: 0;
 	margin-bottom: -1px;
 }
-.tabs button[aria-selected='true'] {
+.tab-headers button[aria-selected='true'] {
   color: black;
   background-color: #fff;
   border-bottom: 1px solid white;
   border-top: 2px solid white;
   cursor: pointer;
 }
-.tabs button[aria-selected='false'] {
+.tab-headers button[aria-selected='false'] {
   color: black;
   background-color: #f5f5f5;
   border-bottom: 1px solid #f5f5f5;
@@ -494,7 +494,7 @@ limitations under the License.
 						<!--- Tab header div --->
 		
 						<div class="tabs card-header tab-card-header">
-							<div class="" role="tablist" aria-label="search panel tabs">
+							<div class="tab-headers" role="tablist" aria-label="search panel tabs">
 								<button id="tab-1" tabindex="0" role="tab" aria-controls="panel-1" aria-selected="true" class="px-3 mr-2">All</button> 
 								<button id="tab-2" tabindex="-1" role="tab" aria-controls="panel-2" aria-selected="false" class="px-3 mr-2">Loans</button>
 								<button id="tab-3" tabindex="-1" role="tab" aria-controls="panel-3" aria-selected="false" class="px-3 mr-2">Accessions</button> 	
