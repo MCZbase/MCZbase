@@ -489,7 +489,6 @@ limitations under the License.
 							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
-						<div class="tab-content pb-0 px-2" id="tabContentDiv"> 
 							<!--- All Transactions search tab panel --->
 							<div class="py-3 mx-2 mx-sm-3" id="panel-1" role="tabpanel" aria-labelledby="tab-1">
 								<h2 class="h3 card-title my-0" aria-activedescendant="all-tab" tabindex="0">Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
@@ -1437,9 +1436,9 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 						</div>
 						<!--- End tab-content div ---> 
-						</div>
-					</div>
-			</div>	
+					
+				</div>
+			</div>s	
 		</section>													
 		<!--- Results table as a jqxGrid. --->
 		<section class="container-fluid">
