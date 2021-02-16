@@ -1689,7 +1689,7 @@ input#readMore_check_id {display:none;}
 	border-bottom: 1px solid #3e657D;
 	border-top: 3px solid #deebec;
 	cursor: pointer;
-		border-right: 1px solid #deebec;
+	border-right: 1px solid #deebec;
     border-left: 1px solid #deebec;
 }
 .card-header {

@@ -665,11 +665,11 @@ function changeTabs(e) {
 						<!--- Tab header div --->
 					<div class="tabs card-header tab-card-header pb-0">
 						<div class="tab-headers" role="tablist" aria-label="search panel tabs">
-								<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1">All</button> 
-								<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2">Loans</button> 	
-								<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3">Accessions</button> 	
-								<button class="px-5" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4">Deaccessions</button> 	
-								<button class="px-5" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5">Borrows</button> 	
+								<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" aria-selected="true">All</button> 
+								<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2" aria-selected="false">Loans</button> 	
+								<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" aria-selected="false">Accessions</button> 	
+								<button class="px-5" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" aria-selected="false">Deaccessions</button> 	
+								<button class="px-5" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" aria-selected="false">Borrows</button> 	
 							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
