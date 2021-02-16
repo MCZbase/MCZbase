@@ -929,13 +929,12 @@ function changeTabs(e) {
   // Hide all tab panels
   grandparent
     .querySelectorAll('[role="tabpanel"]')
-    .forEach(p => p.setAttribute("aria-hidden", true));
+    .forEach(p => p.setAttribute("show", true));
 
   // Show the selected panel
   grandparent.parentNode
     .querySelector(`#${target.getAttribute("aria-controls")}`)
-    .removeAttribute("aria-hidden");
-	 target.setAttribute("aria-selected", true);
+    .removeAttribute("show");
 }
  
 
