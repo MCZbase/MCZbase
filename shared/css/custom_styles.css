@@ -1708,6 +1708,7 @@ div[aria-hidden='false'] {
 .hidden {
 	display: none;
 }
+.show.hidden {display:block!important}
 /************end tabs -- redone for accessibility  ***************/
 
 
