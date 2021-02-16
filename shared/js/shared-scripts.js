@@ -921,7 +921,7 @@ function changeTabs(e) {
   // Remove all current selected tabs
   parent
     .querySelectorAll('[aria-selected="true"]')
-    .forEach(t => t.setAttribute("aria-selected", false));
+    .forEach(t => t.setAttribute("aria-hidden", true));
 
   // Set this tab as selected
   target.setAttribute("aria-selected", true);
