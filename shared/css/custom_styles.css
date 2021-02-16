@@ -1701,18 +1701,17 @@ button[tabindex="-1"]:focus {
 .card-header {
 	padding: .75rem 0rem 0rem 0rem;
 }
-.tab-content[aria-hidden='true'] {
+.tab-content div[aria-hidden='true'] {
 	display: none;
 	outline:0;
 }
-.tab-content[aria-hidden='false'] {
+.tab-content div[aria-hidden='false'] {
 	display: block;
 }
 .hidden {
 	display: none;
 }
-.tab-content div.hide{display:none!important}
-.tab-content div.show {display:block!important}
+
 /************end tabs -- redone for accessibility  ***************/
 
 
