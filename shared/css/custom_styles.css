@@ -1682,6 +1682,8 @@ input#readMore_check_id {display:none;}
 	cursor: pointer;
 	border-right: 1px solid white;
     border-left: 1px solid white;
+	box-shadow: none;
+    outline: 0;
 }
 .tab-headers button[aria-selected='false'] {
 	color: black;
