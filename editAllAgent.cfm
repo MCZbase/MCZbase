@@ -465,7 +465,7 @@ function opendialogrank(page,id,title,agentId) {
  								<input type="text" name="death_date" id="death_date" value="#death_date#" size="10">
  							</td>
 						        <td colspan="2">
-                                                            <label for="editedPerson">Edited</label>
+                                                            <label for="editedPerson">Vetted</label>
 				                            <select name="editedPerson" size="1">
 					                       <option value=1 <cfif #edited# EQ 1>selected</cfif>>yes *</option>
 					                       <option value=0 <cfif #edited# EQ 0 or #edited# EQ "">selected</cfif>>no</option>
