@@ -510,120 +510,20 @@ limitations under the License.
 			<div class="row">
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
-					<div class="tab-card-main mt-1 tab-card"> 
-						<!--- Set Active Tab --->
-						<cfswitch expression="#action#">
-							<cfcase value="findLoans">
-								<cfset allTabActive = "">
-								<cfset loanTabActive = "active">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "show">
-								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
-								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
-								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""true"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
-							</cfcase>
-							<cfcase value="findAccessions">
-								<cfset allTabActive = "">
-								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
-								<cfset accnTabActive = "active">
-								<cfset accnTabShow = "show">
-								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
-								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""true"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
-							</cfcase>
-							<cfcase value="findDeaccessions">
-								<cfset allTabActive = "">
-								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
-								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
-								<cfset deaccnTabActive = "active">
-								<cfset deaccnTabShow = "show">
-								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""true"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
-							</cfcase>
-							<cfcase value="findBorrows">
-								<cfset allTabActive = "">
-								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
-								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
-								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
-								<cfset borrowTabActive = "active">
-								<cfset borrowTabShow = "show">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""true"" ">
-							</cfcase>
-							<cfdefaultcase>
-								<cfset allTabActive = "active">
-								<cfset loanTabActive = "">
-								<cfset allTabShow = "show">
-								<cfset loanTabShow = "">
-								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
-								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
-								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
-								<cfset allTabAria = "aria-selected=""true"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
-							</cfdefaultcase>
-						</cfswitch>
 						<!--- Tab header div --->
-						<div class="card-header tab-card-header pb-0">
-							<ul class="nav nav-tabs card-header-tabs" id="tabHeaders" role="tablist">
-								<li class="nav-item col-12 col-md-1 col-xl-1 px-1"> 
-									<button class="w-100 nav-link px-3 #allTabActive#" id="all-tab" data-toggle="tab" href="##transactionsTab" role="tab" aria-controls="transactionsTab" #allTabAria# >All</button> 
-								</li>
-								<li class="nav-item col-12 col-md-2 col-xl-1 px-1"> 
-									<button class="w-100 nav-link px-3 #loanTabActive#" id="loans-tab" data-toggle="tab" href="##loanTab" role="tab" aria-controls="loanTab" #loanTabAria# >Loans</button> 	
-								</li>
-								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #accnTabActive#" id="accns-tab" data-toggle="tab" href="##accnTab" role="tab" aria-controls="accnTab" #accnTabAria# >Accessions</button> 	
-								</li>
-								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #deaccnTabActive#" id="deaccns-tab" data-toggle="tab" href="##deaccnTab" role="tab" aria-controls="deaccnTab" #deaccnTabAria# >Deaccessions</button> 	
-								</li>
-								<li class="nav-item col-12 col-md-2 col-xl-2 px-1"> 
-									<button class="w-100 nav-link px-3 #borrowTabActive#" id="borrows-tab" data-toggle="tab" href="##borrowsTab" role="tab" aria-controls="borrowsTab" #borrowTabAria# >Borrows</button> 	
-								</li>
-							</ul>
-						</div>
+					<div class="tabs card-header tab-card-header pb-0">
+						<div class="tab-headers" role="tablist" aria-label="search panel tabs">
+								<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" aria-selected="true">All</button> 
+								<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2" aria-selected="false">Loans</button> 	
+								<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" aria-selected="false">Accessions</button> 	
+								<button class="px-5" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" aria-selected="false">Deaccessions</button> 	
+								<button class="px-5" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" aria-selected="false">Borrows</button> 	
+							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
-						<div tabindex="0" class="tab-content pb-0 px-2" id="tabContentDiv"> 
+						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div tabindex="0" class="tab-pane #allTabShow# #allTabActive# py-3 mx-0" id="transactionsTab" role="tabpanel" aria-labelledby="all-tab" >
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="py-3 mx-0">
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -803,7 +703,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div tabindex="0" class="tab-pane #loanTabShow# #loanTabActive# py-3 mx-0" id="loanTab" role="tabpanel" aria-labelledby="loans-tab" >
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="py-3 mx-0" tabindex="0" hidden>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1187,7 +1087,7 @@ limitations under the License.
 							</div><!---tab-pane loan search---> 
 
 							<!--- Accession search tab panel --->
-							<div tabindex="0" class="tab-pane #accnTabShow# #accnTabActive# py-3 mx-0" id="accnTab" role="tabpanel" aria-labelledby="accns-tab" >
+							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="py-3 mx-0" tabindex="0" hidden>
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1630,7 +1530,7 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<div tabindex="0" class="tab-pane #deaccnTabShow# #deaccnTabActive# py-3 mx-0" id="deaccnTab" role="tabpanel" aria-labelledby="deaccns-tab" >
+							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="py-3 mx-0" tabindex="0" hidden>
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2061,7 +1961,7 @@ limitations under the License.
 							</div><!---tab-pane deaccession search---> 
 
 							<!--- Borrow search tab panel --->
-							<div tabindex="0" class="tab-pane #borrowTabShow# #borrowTabActive# py-3 mx-0" id="borrowsTab" role="tabpanel" aria-labelledby="borrows-tab" >
+							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="py-3 mx-0" tabindex="0" hidden>
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -2424,8 +2324,8 @@ limitations under the License.
 		<section class="container-fluid">
 			<div class="row">
 				<div class="col-12 mb-5">
-					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
-						<h1 class="h4">Results: <span class="font-weight-normal text-success px-1" id="resultCount"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
+					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border" tabindex="0">
+						<h1 class="h4 m-2 pt-1" tabindex="0">Results: <span class="font-weight-normal text-success px-1" id="resultCount" tabindex="0"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
