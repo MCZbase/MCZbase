@@ -203,39 +203,70 @@ limitations under the License.
 							</div>
 							<div class="col-12 col-md-6">
 								<span>
-									<label for="additional_incontact_agent_name" class="data-entry-label">Additional In-house Contact:</label>
-									<span id="additional_incontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+									<label for="additional_outcontact_agent_name" class="data-entry-label">Additional Outside Contact:</label>
+									<span id="additional_outcontact_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
 								</span>
 								<div class="input-group">
 									<div class="input-group-prepend">
-										<span class="input-group-text smaller bg-lightgreen" id="additional_incontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+										<span class="input-group-text smaller bg-lightgreen" id="additional_outcontact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="additional_incontact_agent_name" id="additional_incontact_agent_name" class="form-control form-control-sm data-entry-input" >
+									<input type="text" name="additional_outcontact_agent_name" id="additional_outcontact_agent_name" class="form-control form-control-sm data-entry-input" >
 								</div>
-								<input type="hidden" name="additional_incontact_agent_id" id="additional_incontact_agent_id" >
+								<input type="hidden" name="additional_outcontact_agent_id" id="additional_outcontact_agent_id" >
 								<script>
-									$(makeRichTransAgentPicker('additional_incontact_agent_name','additional_incontact_agent_id','additional_incontact_agent_icon','additional_incontact_agent_view',null));
+									$(makeRichTransAgentPicker('additional_outcontact_agent_name','additional_outcontact_agent_id','additional_outcontact_agent_icon','additional_outcontact_agent_view',null));
+								</script> 
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="recipient_institution_agent_name" class="data-entry-label">Recipent Institution</label>
+									<span id="recipient_institution_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="recipient_institution_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="recipient_institution_agent_name" id="recipient_institution_agent_name" required class="form-control form-control-sm data-entry-input reqdClr">
+								</div>
+								<input type="hidden" name="recipient_institution_agent_id" id="recipient_institution_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('recipient_institution_agent_name','recipient_institution_agent_id','recipient_institution_agent_icon','recipient_institution_agent_view',null));
+								</script> 
+							</div>
+							<div class="col-12 col-md-6">
+								<span>
+									<label for="foruseby_agent_name" class="data-entry-label">Additional Outside Contact:</label>
+									<span id="foruseby_agent_view">&nbsp;&nbsp;&nbsp;&nbsp;</span> 
+								</span>
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<span class="input-group-text smaller bg-lightgreen" id="foruseby_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
+									</div>
+									<input type="text" name="foruseby_agent_name" id="foruseby_agent_name" class="form-control form-control-sm data-entry-input" >
+								</div>
+								<input type="hidden" name="foruseby_agent_id" id="foruseby_agent_id" >
+								<script>
+									$(makeRichTransAgentPicker('foruseby_agent_name','foruseby_agent_id','foruseby_agent_icon','foruseby_agent_view',null));
 								</script> 
 							</div>
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-4">
-								<label for="estimated_count" class="data-entry-label">Estimated Count</label>
-								<input type="text" name="estimated_count" id="estimated_count" value="" class="w-100 data-entry-input">
-							</div>
-							<div class="col-12 col-md-4">
-								<label for="trans_date" class="data-entry-label">Date Received</label>
+								<label for="trans_date" class="data-entry-label">Transaction Date</label>
 								<input type="text" name="trans_date" id="trans_date" 
 									required
 									value="#dateformat(now(),"yyyy-mm-dd")#" 
 									class="reqdClr w-100 data-entry-input">
 							</div>
 							<div class="col-12 col-md-4">
-								<label for="date_entered" class="data-entry-label">Date Entered</label>
-								<input type="text" name="date_entered" id="date_entered"
-									disabled="true"
-									value="#dateformat(now(),"yyyy-mm-dd")#" 
-									class="w-100 data-entry-input">
+								<label for="method" class="data-entry-label">Method of Transfer</label>
+								<input type="text" name="method" id="method" class="w-100 data-entry-input">
+							</div>
+							<div class="col-12 col-md-4">
+								<label for="value" class="data-entry-label">Value of Specimen(s)</label>
+								<input type="text" name="value" id="value" class="w-100 data-entry-input">
 							</div>
 						</div>
 						<div class="form-row mb-2">
@@ -249,24 +280,19 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
+								<label for="deacc_reason" class="data-entry-label">Nature of Material (<span id="length_deacc_reason"></span>)</label>
+								<textarea name="deacc_reason" id="deacc_reason" rows="2" 
+									onkeyup="countCharsLeft('deacc_reason', 4000, 'length_deacc_reason');"
+									class="reqdClr form-control form-control-sm w-100 autogrow" 
+									required ></textarea>
+							</div>
+						</div>
+						<div class="form-row mb-2">
+							<div class="col-12 col-md-12">
 								<label for="trans_remarks" class="data-entry-label">Internal Remarks (<span id="length_trans_remarks"></span>)</label>
 								<textarea name="trans_remarks" id="trans_remarks" 
 									onkeyup="countCharsLeft('trans_remarks', 4000, 'length_trans_remarks');"
 									class="form-control form-control-sm w-100 autogrow" rows="2"></textarea>
-							</div>
-						</div>
-						<div class="form-row mb-2">
-							<div class="col-12 col-md-4">
-                        <label for="radio1" class="data-entry-label w-auto mt-0" style="max-width: 80%;">To be MCZ cataloged</label>
-                        <input type="radio" name="for_use_by" value="" checked="checked" id="radio1" class="mt-2">
-							</div>
-							<div class="col-12 col-md-4">
-                        <label for="radio2" class="data-entry-label w-auto mt-0" style="max-width: 75%;">For use by HMNH Exhibits</label>
-                        <input type="radio" name="for_use_by" value="116195" id="radio2" class="mt-2">
-							</div>
-							<div class="col-12 col-md-4">
-                        <label for="radio3" class="data-entry-label w-auto mt-0" style="max-width: 79%;">For use by HMNH Education</label>
-                        <input type="radio" name="for_use_by" value="91906" id="radio3" class="mt-2">
 							</div>
 						</div>
 						<script>
@@ -284,8 +310,6 @@ limitations under the License.
 						</div>
 					</form>
 				</section>
-				<!--- Begin next available number list in an aside, ml-sm-4 to provide offset from column above holding the form. --->
-				
 			</div>
 		</main>
 	</cfoutput>
