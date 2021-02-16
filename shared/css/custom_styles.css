@@ -1688,9 +1688,9 @@ input#readMore_check_id {display:none;}
     outline: 0;
 }
 .tab-headers button[aria-selected='true']:focus {
-		border-right: 1px solid #96ECED;
-	border-left: 1px solid #96EcED;
-	border-top: 3px solid #96Eced;
+		border-right: 1px solid rgb(38 143 255 / 50%);
+	border-left: 1px solid rgb(38 143 255 / 50%);
+	border-top: 3px solid rgb(38 143 255 / 50%);
 }
 .tab-headers button[aria-selected='false'] {
 	color: black;
