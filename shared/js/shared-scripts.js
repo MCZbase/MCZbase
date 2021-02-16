@@ -920,16 +920,15 @@ function changeTabs(e) {
 
   // Remove all current selected tabs
   parent
-   .querySelectorAll('[aria-selected="true"]')
+    .querySelectorAll('[aria-selected="true"]')
     .forEach(t => t.setAttribute("aria-selected", false));
 
   // Set this tab as selected
   target.setAttribute("aria-selected", true);
-	
 
   // Hide all tab panels
   grandparent
-    .querySelectorAll('[role="tabpanel"]')
+    .querySelectorAll('[aria-selected="false"]')
     .forEach(p => p.setAttribute("hidden", true));
 
   // Show the selected panel
