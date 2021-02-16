@@ -934,7 +934,7 @@ function changeTabs(e) {
   // Show the selected panel
   grandparent.parentNode
     .querySelector(`#${target.getAttribute("aria-controls")}`)
-    .removeAttribute("aria-selected",hidden);
+    .removeAttribute("aria-selected",false);
 }
  
 
