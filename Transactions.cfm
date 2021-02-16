@@ -2477,7 +2477,7 @@ function changeTabs(e) {
 			<div class="row">
 				<div class="col-12 mb-5">
 					<div class="row mt-1 mb-0 mx-0 px-2 pb-0 jqx-widget-header border">
-						<h1 class="h4">Results: <span class="font-weight-normal text-success px-1" id="resultCount"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
+						<h1 class="h4 m-2 pt-1" tabindex="0">Results: <span class="font-weight-normal text-success px-1" id="resultCount"></span></h1> <span id="resultLink" class="d-inline-block px-1 mt-2 pt-1"></span>
 						<div id="columnPickDialog">
 							<div id="columnPick" class="px-1"></div>
 						</div>
