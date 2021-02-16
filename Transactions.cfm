@@ -58,7 +58,7 @@ limitations under the License.
 
 -->
 <cfinclude template = "/shared/_header.cfm">
-<script>
+<script><!--- For accessibility of tabs --->
 window.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll('[role="tab"]');
   const tabList = document.querySelector('[role="tablist"]');
