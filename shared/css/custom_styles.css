@@ -1649,7 +1649,7 @@ input#readMore_check_id {display:none;}
 	border-radius: 0;
 	background-color: #f5f5f5;
 	margin-bottom: 0;
-	padding: 0 1rem;
+	padding: 1rem;
 }
 .tab-card-header {
 	background-color: #3E6F7D;
