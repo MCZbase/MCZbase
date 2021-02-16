@@ -882,7 +882,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Add a click event handler to each tab
   tabs.forEach(tab => {
-    tab.addEventListener("click",getElementsByClassName("show"));
+    tab.addEventListener("keydown",getElementsByClassName("show"));
   });
 
   // Enable arrow navigation between tabs in the tab list
