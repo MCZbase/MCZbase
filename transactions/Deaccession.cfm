@@ -357,7 +357,7 @@ limitations under the License.
 						$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
 						$("##recipient_institution_agent_id").trigger('change');
 						forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-						forcedAgentPick('recipient_institutionagent_id',#NOTAPPLICABLEAGENTID#,'recipient_institutionagent_view','recipient_institutionagent_icon','recipient_institutionagent_name');
+						forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
 
 						// Handle special cases of deaccession types transfer and other 
 						// transfer is not allowed as a type for a new accesison by default (but see below on selection of MCZ collection).
@@ -392,7 +392,7 @@ limitations under the License.
 								$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
 								$("##recipient_institution_agent_id").trigger('change');
 								forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
-								forcedAgentPick('recipient_institutionagent_id',#NOTAPPLICABLEAGENTID#,'recipient_institutionagent_view','recipient_institutionagent_icon','recipient_institutionagent_name');
+								forcedAgentPick('recipient_institution_agent_id',#NOTAPPLICABLEAGENTID#,'recipient_institution_agent_view','recipient_institution_agent_icon','recipient_institution_agent_name');
 							} else {
 								if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
 									$("##rec_agent_name").val('');
