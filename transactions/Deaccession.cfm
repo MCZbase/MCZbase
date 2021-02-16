@@ -364,7 +364,7 @@ limitations under the License.
 							// only admin_transaction role can create new accessions of type internal transfer.
 							$("##deacc_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
 						</cfif>
-						<cfif ImAGod is not "yes">
+						<cfif NOT (isdefined("session.roles") and listcontainsnocase(session.roles,"global_admin"))>
 							// other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new deaccesison (must be set by sysadmin).
 							$("##deacc_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
 						</cfif>
