@@ -41,7 +41,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 -->
-<cfif not isdefined('action') OR  action is "nothing">
+<cfif not isdefined('action') OR action is "nothing">
 	<!--- redirect to deaccession search page --->
 	<cflocation url="/Transactions.cfm?action=findDeaccessions" addtoken="false">
 </cfif>
@@ -72,8 +72,8 @@ limitations under the License.
 <cfset NOTAPPLICABLEAGENTID = queryNotApplicableAgent.agent_id >
 <cfquery name="cttrans_agent_role" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select distinct(cttrans_agent_role.trans_agent_role) 
-	from cttrans_agent_role  
-	left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
+	from cttrans_agent_role
+		left join trans_agent_role_allowed on cttrans_agent_role.trans_agent_role = trans_agent_role_allowed.trans_agent_role
 	where 
 		trans_agent_role_allowed.transaction_type = 'Deaccession'
 	order by cttrans_agent_role.trans_agent_role
@@ -98,6 +98,13 @@ limitations under the License.
 			<h1 class="h2" id="newDeaccessionFormSectionLabel" >Create New Deaccession <i class="fas fa-info-circle" onClick="getMCZDocs('Deaccession)" aria-label="help link"></i></h1>
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available deaccession number"> 
+					<script>
+						function setDeaccNum(cid,deaccNum) {
+							$("##deacc_number").val(deaccNum);
+							$("##collection_id").val(cid);
+							$("##collection_id").change();
+						}
+					</script>
 					<div id="nextNumDiv">
 						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel" title="Click on a collection button and the next available deaccession number in the database for that collection will be entered">Next Available Deaccession Number:</h2>
 						<!--- Find list of all collections --->
@@ -133,7 +140,7 @@ limitations under the License.
 							</cfcatch>
 							</cftry>
 							<cfif len(nextNumberQuery.nextNumber) gt 0>
-								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setDeaccNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
 							<cfelse>
 								<span style="font-size:x-small"> No data available for #collection#. </span>
 							</cfif>
@@ -193,7 +200,7 @@ limitations under the License.
 									</div>
 									<input name="auth_agent_name" id="auth_agent_name" class="reqdClr form-control form-control-sm data-entry-input" required >
 								</div>
-								<input type="hidden" name="auth_agent_id" id="auth_agent_id"  >
+								<input type="hidden" name="auth_agent_id" id="auth_agent_id" >
 								<script>
 									$(makeRichTransAgentPicker('auth_agent_name', 'auth_agent_id','auth_agent_icon','auth_agent_view',null))
 								</script> 
@@ -207,7 +214,7 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input  name="rec_agent_name" id="rec_agent_name" class="form-control form-control-sm data-entry-input" >
+									<input name="rec_agent_name" id="rec_agent_name" class="form-control form-control-sm data-entry-input" >
 								</div>
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 								<script>
@@ -329,17 +336,73 @@ limitations under the License.
 						<script>
 							// Make all textareas with autogrow class be bound to the autogrow function on key up
 							$(document).ready(function() { 
-								$("textarea.autogrow").keyup(autogrow);  
+								$("textarea.autogrow").keyup(autogrow);
 								$('textarea.autogrow').keyup();
 							});
 						</script>
 						<div class="form-row my-2">
 							<div class="form-group col-12">
 								<input type="button" value="Create Deaccession" class="btn mt-2 btn-xs btn-primary"
-									onClick="if (checkFormValidity($('##newDeaccession')[0])) { submit();  } ">
+									onClick="if (checkFormValidity($('##newDeaccession')[0])) { submit(); } ">
 							</div>
 						</div>
 					</form>
+					<!--- Set initial state for new deaccession --->
+					<script>
+						$('##deacc_type').val('discarded').prop('selected', true);
+						$("##rec_agent_name").val('not applicable');
+						$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
+						$("##rec_agent_id").trigger('change');
+						$("##recipient_institution_agent_name").val('not applicable');
+						$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
+						$("##recipient_institution_agent_id").trigger('change');
+
+						// Handle special cases of deaccession types transfer and other 
+						// transfer is not allowed as a type for a new accesison by default (but see below on selection of MCZ collection).
+						$("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
+						<cfif isdefined("session.roles") and not listfindnocase(session.roles,"admin_transactions")>
+							// only admin_transaction role can create new accessions of type internal transfer.
+							$("##deacc_type option[value='#MAGIC_DTYPE_INTERNALTRANSFER#']").each(function() { $(this).remove(); } );
+						</cfif>
+						<cfif ImAGod is not "yes">
+							// other (MAGIC_TTYPE_OTHER) is not allowed as a type for a new deaccesison (must be set by sysadmin).
+							$("##deacc_type option[value='#MAGIC_TTYPE_OTHER#']").each(function() { $(this).remove(); } );
+						</cfif>
+					</script>
+					<!--- handlers for various change events --->
+					<script>
+						// on page load, bind a function to collection_id to change the list of deaccession
+						// based on the selected collection
+						$("##collection_id").change( function () {
+							if ( $("##collection_id option:selected").text() == "MCZ Collections" ) {
+								// only MCZ collections (the non-specimen collection) is allowed to make transfers.
+								$("##deacc_type").append($("<option></option>").attr("value",'#MAGIC_DTYPE_TRANSFER#').text('#MAGIC_DTYPE_TRANSFER#'));
+							} else {
+								$("##deacc_type option[value='#MAGIC_DTYPE_TRANSFER#']").each(function() { $(this).remove(); } );
+							}
+						});
+						$("##deacc_type").change( function () {
+							if ( $("##deacc_type option:selected").text() == "discarded" ) {
+								$("##rec_agent_name").val('not applicable');
+								$("##rec_agent_id").val('#NOTAPPLICABLEAGENTID#');
+								$("##rec_agent_id").trigger('change');
+								$("##recipient_institution_agent_name").val('not applicable');
+								$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
+								$("##recipient_institution_agent_id").trigger('change');
+							} else {
+								if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
+									$("##rec_agent_name").val('');
+									$("##rec_agent_id").val('');
+									$("##rec_agent_id").trigger('change');
+								}
+								if ($("##recipient_institution_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
+									$("##recipient_institution_agent_name").val('');
+									$("##recipient_institution_agent_id").val('');
+									$("##recipient_institution_agent_id").trigger('change');
+								}
+							}
+						});
+					</script>
 				</section>
 			</div>
 		</main>
