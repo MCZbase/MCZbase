@@ -600,8 +600,8 @@ limitations under the License.
 							</cfdefaultcase>
 						</cfswitch>--->
 						<!--- Tab header div --->
-						<div class="tabs card-header tab-card-header pb-0">
-							<div class="tab-headers" role="tablist" aria-label="search panel tabs">
+					<div class="tabs card-header tab-card-header pb-0">
+						<div class="tab-headers" role="tablist" aria-label="search panel tabs">
 								<button class="px-5" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1">All</button> 
 								<button class="px-5" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2">Loans</button> 	
 								<button class="px-5" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3">Accessions</button> 	
