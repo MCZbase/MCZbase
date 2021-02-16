@@ -318,7 +318,7 @@ limitations under the License.
 						</div>
 						<div class="form-row mb-2">
 							<div class="col-12 col-md-12">
-								<label for="deacc_reason" class="data-entry-label">Nature of Material (<span id="length_deacc_reason"></span>)</label>
+								<label for="deacc_reason" class="data-entry-label">Reason for Deaccession (<span id="length_deacc_reason"></span>)</label>
 								<textarea name="deacc_reason" id="deacc_reason" rows="2" 
 									onkeyup="countCharsLeft('deacc_reason', 4000, 'length_deacc_reason');"
 									class="reqdClr form-control form-control-sm w-100 autogrow" 
