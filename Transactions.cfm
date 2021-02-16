@@ -516,14 +516,14 @@ limitations under the License.
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "active">
-								<cfset allTabShow = "">
+								<cfset allTabShow = "hidden">
 								<cfset loanTabShow = "show">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hidden">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hidden">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""true"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -533,14 +533,14 @@ limitations under the License.
 							<cfcase value="findAccessions">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hidden">
+								<cfset loanTabShow = "hidden">
 								<cfset accnTabActive = "active">
 								<cfset accnTabShow = "show">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hidden">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""true"" ">
@@ -550,14 +550,14 @@ limitations under the License.
 							<cfcase value="findDeaccessions">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hidden">
+								<cfset loanTabShow = "hidden">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hidden">
 								<cfset deaccnTabActive = "active">
 								<cfset deaccnTabShow = "show">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hidden">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -567,12 +567,12 @@ limitations under the License.
 							<cfcase value="findBorrows">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hidden">
+								<cfset loanTabShow = "hidden">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hidden">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "active">
 								<cfset borrowTabShow = "show">
 								<cfset allTabAria = "aria-selected=""false"" ">
@@ -585,13 +585,13 @@ limitations under the License.
 								<cfset allTabActive = "active">
 								<cfset loanTabActive = "">
 								<cfset allTabShow = "show">
-								<cfset loanTabShow = "">
+								<cfset loanTabShow = "hidden">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hidden">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hidden">
 								<cfset allTabAria = "aria-selected=""true"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -601,7 +601,7 @@ limitations under the License.
 						</cfswitch>
 						<div class="tab-headers" role="tablist" aria-label="search panel tabs">
 								<button class="px-5 #allTabActive#" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
+								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2" #loanTabAria#>Loans</button> 	
 								<button class="px-5 #accnTabActive#" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
 								<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
 								<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
