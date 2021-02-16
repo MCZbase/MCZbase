@@ -516,14 +516,14 @@ limitations under the License.
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "active">
-								<cfset allTabShow = "">
+								<cfset allTabShow = "hide">
 								<cfset loanTabShow = "show">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hide">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hide">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hide">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""true"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -533,14 +533,14 @@ limitations under the License.
 							<cfcase value="findAccessions">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hide">
+								<cfset loanTabShow = "hide">
 								<cfset accnTabActive = "active">
 								<cfset accnTabShow = "show">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hide">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hide">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""true"" ">
@@ -550,14 +550,14 @@ limitations under the License.
 							<cfcase value="findDeaccessions">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hide">
+								<cfset loanTabShow = "hide">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hide">
 								<cfset deaccnTabActive = "active">
 								<cfset deaccnTabShow = "show">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hide">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -567,12 +567,12 @@ limitations under the License.
 							<cfcase value="findBorrows">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "">
-								<cfset loanTabShow = "">
+								<cfset allTabShow = "hide">
+								<cfset loanTabShow = "hide">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hide">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hide">
 								<cfset borrowTabActive = "active">
 								<cfset borrowTabShow = "show">
 								<cfset allTabAria = "aria-selected=""false"" ">
@@ -585,13 +585,13 @@ limitations under the License.
 								<cfset allTabActive = "active">
 								<cfset loanTabActive = "">
 								<cfset allTabShow = "show">
-								<cfset loanTabShow = "">
+								<cfset loanTabShow = "hide">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow = "">
+								<cfset accnTabShow = "hide">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow = "">
+								<cfset deaccnTabShow = "hide">
 								<cfset borrowTabActive = "">
-								<cfset borrowTabShow = "">
+								<cfset borrowTabShow = "hide">
 								<cfset allTabAria = "aria-selected=""true"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">

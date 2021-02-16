@@ -1699,16 +1699,16 @@ button[tabindex="-1"]:focus {
 .card-header {
 	padding: .75rem 0rem 0rem 0rem;
 }
-div[aria-hidden='true'] {
+.tab-content[aria-hidden='true'] {
 	display: none;
 }
-div[aria-hidden='false'] {
+.tab-content[aria-hidden='false'] {
 	display: block;
 }
 .hidden {
 	display: none;
 }
-.tab-content.blockit {display:none!important}
+.tab-content.hide{display:none!important}
 .tab-content.show {display:block!important}
 /************end tabs -- redone for accessibility  ***************/
 

@@ -928,7 +928,7 @@ function changeTabs(e) {
 
   // Hide all tab panels
   grandparent
-    .querySelectorAll('[aria-selected="false"]')
+    .querySelectorAll('.tab-content[aria-selected="false"]')
     .forEach(p => p.setAttribute("hidden", true));
 
   // Show the selected panel
