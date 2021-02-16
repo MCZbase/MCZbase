@@ -1692,6 +1692,10 @@ input#readMore_check_id {display:none;}
 	border-right: 1px solid #deebec;
     border-left: 1px solid #deebec;
 }
+button[tabindex="-1"]:focus {
+    outline: 0!important;
+    box-shadow: none;
+}
 .card-header {
 	padding: .75rem 0rem 0rem 0rem;
 }
