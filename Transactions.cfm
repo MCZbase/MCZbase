@@ -599,7 +599,7 @@ limitations under the License.
 								<cfset borrowTabAria = "aria-selected=""false"" ">
 							</cfdefaultcase>
 						</cfswitch>
-						<div class="tab-headers" role="tablist" aria-label="search panel tabs">
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
 								<button class="px-5 #allTabActive#" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" #allTabAria#>All</button> 
 								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
 								<button class="px-5 #accnTabActive#" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
