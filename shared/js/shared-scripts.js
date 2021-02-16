@@ -919,9 +919,9 @@ function changeTabs(e) {
   const grandparent = parent.parentNode;
 
   // Remove all current selected tabs
-  parent
-    .querySelectorAll('[aria-selected="true"]')
-    .forEach(t => t.setAttribute("aria-selected", false));
+ // parent
+   // .querySelectorAll('[aria-selected="true"]')
+   // .forEach(t => t.setAttribute("aria-selected", false));
 
   // Set this tab as selected
   target.setAttribute("aria-selected", true);
