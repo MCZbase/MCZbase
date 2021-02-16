@@ -214,7 +214,7 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="rec_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input name="rec_agent_name" id="rec_agent_name" class="form-control form-control-sm data-entry-input" >
+									<input name="rec_agent_name" id="rec_agent_name" required class="form-control form-control-sm data-entry-input reqdClr" >
 								</div>
 								<input type="hidden" name="rec_agent_id" id="rec_agent_id" >
 								<script>
@@ -232,7 +232,7 @@ limitations under the License.
 									<div class="input-group-prepend">
 										<span class="input-group-text smaller bg-lightgreen" id="in_house_contact_agent_icon"><i class="fa fa-user" aria-hidden="true"></i></span> 
 									</div>
-									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" class="form-control form-control-sm data-entry-input">
+									<input type="text" name="in_house_contact_agent_name" id="in_house_contact_agent_name" required class="reqdClr form-control form-control-sm data-entry-input">
 								</div>
 								<input type="hidden" name="in_house_contact_agent_id" id="in_house_contact_agent_id" >
 								<script>
@@ -356,6 +356,8 @@ limitations under the License.
 						$("##recipient_institution_agent_name").val('not applicable');
 						$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
 						$("##recipient_institution_agent_id").trigger('change');
+						forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
+						forcedAgentPick('recipient_institutionagent_id',#NOTAPPLICABLEAGENTID#,'recipient_institutionagent_view','recipient_institutionagent_icon','recipient_institutionagent_name');
 
 						// Handle special cases of deaccession types transfer and other 
 						// transfer is not allowed as a type for a new accesison by default (but see below on selection of MCZ collection).
@@ -389,6 +391,8 @@ limitations under the License.
 								$("##recipient_institution_agent_name").val('not applicable');
 								$("##recipient_institution_agent_id").val('#NOTAPPLICABLEAGENTID#');
 								$("##recipient_institution_agent_id").trigger('change');
+								forcedAgentPick('rec_agent_id',#NOTAPPLICABLEAGENTID#,'rec_agent_view','rec_agent_icon','rec_agent_name');
+								forcedAgentPick('recipient_institutionagent_id',#NOTAPPLICABLEAGENTID#,'recipient_institutionagent_view','recipient_institutionagent_icon','recipient_institutionagent_name');
 							} else {
 								if ($("##rec_agent_id").val()=='#NOTAPPLICABLEAGENTID#') {
 									$("##rec_agent_name").val('');

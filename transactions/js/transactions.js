@@ -310,6 +310,20 @@ function makeRichTransAgentPicker(nameControl, idControl, iconControl, viewContr
 	};
 };
 
+function forcedAgentPick(idControl,agent_id,viewControl,iconControl,nameControl){
+	$('#'+idControl).val(agent_id);
+	$('#'+viewControl).html(" <a href='/agents/Agent.cfm?agent_id=" + agent_id + "' target='_blank'>View</a>");
+	$('#'+viewControl).attr('aria-label', 'View details for this agent');
+	$('#'+iconControl).addClass('bg-lightgreen');
+	$('#'+iconControl).removeClass('bg-light');
+	if ($('#'+nameControl).prop('required')) { 
+		$('#'+nameControl).toggleClass('reqdClr',false);
+		$('#'+nameControl).toggleClass('goodPick',true);
+	}
+	// Check for a flag on this agent and update the view control accordingly
+	updateAgentLink($('#'+idControl).val(),viewControl);
+}
+
 /* Update the content of a div containing a count of the items in an an accession which have been cataloged.
  * @param transactionId the transaction_id of the Accession to lookup
  * @param targetDiv the id div for which to replace the contents (without a leading #).
