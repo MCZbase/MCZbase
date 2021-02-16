@@ -1,3 +1,4 @@
+:<cfset jquery11=true>
 <cfinclude template="includes/_header.cfm">
 <cf_customizeIFrame>
 <cfoutput>
@@ -10,37 +11,72 @@
 			buttonImage: "images/cal_icon.png",
 			buttonImageOnly: true });
             $(".ui-datepicker-trigger").css("margin-bottom","-7px");
+        $("input[id='wktFile'").change(function(){
+	    	if ($("##wktPolygon").val().length > 1)
+	    		{var r=confirm('This lat/long has an error polygon. Do you wish to overwrite?');}
+	    	else
+	    		{r=true;}
+
+	    	if (r==true){
+
+				    var url = $(this).val();
+				    var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+				    var file = $(this).prop('files')[0];
+				    console.log(file.filename);
+				    if ($(this).prop('files') && $(this).prop('files')[0]&& (ext == "wkt"))
+				     {
+				        var reader = new FileReader();
+				        reader.onload = function (e) {
+				        	var myRE = new RegExp(/(MULTI)?POLYGON\s*\(\s*(\(\s*(?<X>\-?\d+(:?\.\d+)?)\s+(?<Y>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<X>\s+\k<Y>\s*\))(\s*,\s*\(\s*(?<XH>\-?\d+(:?\.\d+)?)\s+(?<YH>\-?\d+(:?\.\d+)?)(?:\s*,\s*\-?\d+(:?\.\d+)?\s+\-?\d+(:?\.\d+)?)*\s*,\s*\k<XH>\s+\k<YH>\s*\))*\s*\)/);
+				           if (myRE.test(e.target.result) == true){
+				           $("##wktPolygon").val(e.target.result);
+				           	alert("Polygon loaded. This will not be saved to the database until you Save Changes");}
+				           else
+				           {alert("This file does not contain a valid WKT polygon.");
+				           	$(this).val('');return false;}
+				        }
+				       reader.readAsText($(this).prop('files')[0]);
+
+				    }
+				    else
+				    {
+				      $(this).val('');return false;
+				    }
+	    		}
+	    		else
+	    		{$(this).val('');return false;}
+		  });
 
 	});
 
-   /** getLowestGeography 
+   /** getLowestGeography
     * find the lowest ranking geographic entity name on a geography form,
 	 * note, does not include quad as one of the ranks
     * @return the value of the lowest rank filled in on the form.
     */
-   function getLowestGeography() { 
+   function getLowestGeography() {
       var result = "";
-      if ($('##island').val()!="") { 
+      if ($('##island').val()!="") {
          result = $('##island').val();
-      } else if ($('##island_group').val()!="") { 
+      } else if ($('##island_group').val()!="") {
          result = $('##island_group').val();
-      } else if ($('##feature').val()!="") { 
+      } else if ($('##feature').val()!="") {
          result = $('##feature').val();
-      } else if ($('##county').val()!="") { 
+      } else if ($('##county').val()!="") {
          result = $('##county').val();
-      } else if ($('##state_prov').val()!="") { 
+      } else if ($('##state_prov').val()!="") {
          result = $('##state_prov').val();
-      } else if ($('##country').val()!="") { 
+      } else if ($('##country').val()!="") {
          result = $('##country').val();
-      } else if ($('##water_feature').val()!="") { 
+      } else if ($('##water_feature').val()!="") {
          result = $('##water_feature').val();
-      } else if ($('##sea').val()!="") { 
+      } else if ($('##sea').val()!="") {
          result = $('##sea').val();
-      } else if ($('##ocean_subregion').val()!="") { 
+      } else if ($('##ocean_subregion').val()!="") {
          result = $('##ocean_subregion').val();
-      } else if ($('##ocean_region').val()!="") { 
+      } else if ($('##ocean_region').val()!="") {
          result = $('##ocean_region').val();
-      } else if ($('##continent_ocean').val()!="") { 
+      } else if ($('##continent_ocean').val()!="") {
          result = $('##continent_ocean').val();
       }
       return result;
@@ -125,11 +161,11 @@
 </cfquery>
 <cfquery name="ctguid_type_highergeography" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 	select guid_type, placeholder, pattern_regex, resolver_regex, resolver_replacement, search_uri
-   from ctguid_type 
+   from ctguid_type
    where applies_to like '%geog_auth_rec.highergeographyid%'
 </cfquery>
 <cfquery name="colEventNumSeries" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id, 
+	select coll_event_num_series_id, number_series, pattern, remarks, collector_agent_id,
 		CASE collector_agent_id WHEN null THEN '[No Agent]' ELSE mczbase.get_agentnameoftype(collector_agent_id) END as collector_agent
 	from coll_event_num_series
 	order by number_series, mczbase.get_agentnameoftype(collector_agent_id)
@@ -292,7 +328,7 @@
 			</tr>
 			<tr>
 				<td align="right">State:</td>
-				<td>		
+				<td>
 					<cfif isdefined("state_prov")><cfset val=state_prov><cfelse><cfset val=""></cfif>
 					<input type="text" name="state_prov" value = "#val#" id="state_prov" class="geoginput" >
 				</td>
@@ -374,12 +410,12 @@
 					<cfset placeholder = "">
 					<cfset regex = "">
 					<cfset replacement = "">
-					<cfset searchlink = "" >		
-					<cfset searchtext = "" >		
+					<cfset searchlink = "" >
+					<cfset searchtext = "" >
 					<cfset searchclass = "" >
 					<cfloop query="ctguid_type_highergeography">
 	 					<cfif ctguid_type_highergeography.recordcount EQ 1 >
-							<cfset searchtext = "Find GUID" >		
+							<cfset searchtext = "Find GUID" >
 							<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 						</cfif>
 					</cfloop>
@@ -404,25 +440,25 @@
 					<cfset link = highergeographyid>
 					<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#highergeographyid#</a>
 					<script>
-						$(document).ready(function () { 
+						$(document).ready(function () {
 							if ($('##highergeographyid').val().length > 0) {
 								$('##highergeographyid').hide();
 							}
-							$('##highergeographyid_search').click(function (evt) { 
+							$('##highergeographyid_search').click(function (evt) {
 								switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
 							});
-							$('##highergeographyid_guid_type').change(function () { 
+							$('##highergeographyid_guid_type').change(function () {
 								// On selecting a guid_type, remove an existing guid value.
 								$('##highergeographyid').val("");
 								$('##highergeographyid').show();
 								// On selecting a guid_type, change the pattern.
 								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 							});
-							$('##highergeographyid').blur( function () { 
+							$('##highergeographyid').blur( function () {
 								// On loss of focus for input, validate against the regex, update link
 								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 							});
-							$('.geoginput').change(function () { 
+							$('.geoginput').change(function () {
 								// On changing any geography input field name, update search.
 								getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 							});
@@ -480,12 +516,12 @@ You do not have permission to create Higher Geographies
    <div style="margin:0 auto; padding: 1em 1em 3em 1em;">
 	<h2 class="wikilink">Edit Higher Geography:</h2>
 		<cfquery name="geogDetails" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select * from geog_auth_rec 
+			select * from geog_auth_rec
 			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 
 		<cfquery name="localities" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select count(*) c from locality 
+			select count(*) c from locality
 			where geog_auth_rec_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 		<cfquery name="collecting_events" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -665,6 +701,20 @@ You do not have permission to create Higher Geographies
 					</td>
 				</tr>
 				<tr>
+					<td colspan="3">
+						<label for = "wktPolygon">Polygon<label>
+						<input type="text" name="wktPolygon" value="#WKT_POLYGON#" id = "wktPolygon" size="100" readonly>
+					</td>
+					<td colspan="1">
+						<label for="wktFile">Load Polygon from WKT file</label>
+						<input type="file"
+								id="wktFile"
+								name="wktFile"
+								accept=".wkt"
+								>
+					</td>
+				</tr>
+				<tr>
 	                <td colspan="2">
 						<label for="source_authority">
 							Authority
@@ -687,17 +737,17 @@ You do not have permission to create Higher Geographies
 						<cfset placeholder = "">
 						<cfset regex = "">
 						<cfset replacement = "">
-						<cfset searchlink = "" >		
-						<cfset searchtext = "" >		
+						<cfset searchlink = "" >
+						<cfset searchtext = "" >
 						<cfset searchclass = "" >
 						<cfloop query="ctguid_type_highergeography">
 		 					<cfif geogDetails.highergeographyid_guid_type is ctguid_type_highergeography.guid_type OR ctguid_type_highergeography.recordcount EQ 1 >
-								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.higher_geog >		
+								<cfset searchlink = ctguid_type_highergeography.search_uri & geogDetails.higher_geog >
 								<cfif len(geogDetails.highergeographyid) GT 0>
-									<cfset searchtext = "Edit" >		
+									<cfset searchtext = "Edit" >
 									<cfset searchclass = 'class="smallBtn editGuidButton"' >
 								<cfelse>
-									<cfset searchtext = "Find GUID" >		
+									<cfset searchtext = "Find GUID" >
 									<cfset searchclass = 'class="smallBtn findGuidButton external"' >
 								</cfif>
 							</cfif>
@@ -727,25 +777,25 @@ You do not have permission to create Higher Geographies
 						</cfif>
 						<a id="highergeographyid_link" href="#link#" target="_blank" class="hints">#geogDetails.highergeographyid#</a>
 						<script>
-							$(document).ready(function () { 
+							$(document).ready(function () {
 								if ($('##highergeographyid').val().length > 0) {
 									$('##highergeographyid').hide();
 								}
-								$('##highergeographyid_search').click(function (evt) { 
+								$('##highergeographyid_search').click(function (evt) {
 									switchGuidEditToFind('highergeographyid','highergeographyid_search','highergeographyid_link',evt);
 								});
-								$('##highergeographyid_guid_type').change(function () { 
+								$('##highergeographyid_guid_type').change(function () {
 									// On selecting a guid_type, remove an existing guid value.
 									$('##highergeographyid').val("");
 									$('##highergeographyid').show();
 									// On selecting a guid_type, change the pattern.
 									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 								});
-								$('##highergeographyid').blur( function () { 
+								$('##highergeographyid').blur( function () {
 									// On loss of focus for input, validate against the regex, update link
 									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 								});
-								$('.geoginput').change(function () { 
+								$('.geoginput').change(function () {
 									// On changing any geography inptu field name, update search.
 									getGuidTypeInfo($('##highergeographyid_guid_type').val(), 'highergeographyid', 'highergeographyid_link','highergeographyid_search',getLowestGeography());
 								});
@@ -825,11 +875,11 @@ You do not have permission to create Higher Geographies
 		where collecting_event.collecting_event_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
     </cfquery>
 	<cfquery name="colEventNumbers" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		SELECT number_series, 
+		SELECT number_series,
 			MCZBASE.get_agentnameoftype(collector_agent_id) as collector_agent,
 			coll_event_number,
 			coll_event_number_id
-		FROM 
+		FROM
 			coll_event_number
 			left join coll_event_num_series on coll_event_number.coll_event_num_series_id = coll_event_num_series.coll_event_num_series_id
 		WHERE
@@ -1002,7 +1052,7 @@ You do not have permission to create Higher Geographies
 			<h3>Collector/Field Numbers (identifying collecting events)</h3>
 			<!--- Current --->
 			<script>
-				function deleteCollEventNumber(id) { 
+				function deleteCollEventNumber(id) {
 					$('##collEventNumber_' + id ).append('Deleting...');
 					$.ajax({
 						url : "/localities/component/functions.cfc",
@@ -1199,7 +1249,7 @@ You do not have permission to create Higher Geographies
 		<table>
 			<tr>
 				<td style="padding-right: 1.5em;">
-					
+
 						<label for="began_date">Began Date</label>
 				      	<input type="text" name="began_date" id="began_date"
 						  	<cfif isdefined("began_date")>
@@ -1208,14 +1258,14 @@ You do not have permission to create Higher Geographies
 						>
 			       </td>
 				<td>
-				
+
 				        <label for="ended_date">Ended Date</label>
 				        <input type="text" name="ended_date" id="ended_date"
 							<cfif isdefined("ended_date")>
 								value="#ended_date#"
 							</cfif>
 						>
-					
+
 				</td>
 			</tr>
 		</table>
@@ -1275,7 +1325,7 @@ You do not have permission to create Higher Geographies
 <cfif action is "newLocality">
 	<cfif isdefined('geog_auth_rec_id')>
 		<cfquery name="getHG" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-			select higher_geog from geog_auth_rec 
+			select higher_geog from geog_auth_rec
 			where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 		</cfquery>
 	</cfif>
@@ -1351,7 +1401,7 @@ You do not have permission to create Higher Geographies
 <cfif action is "deleteGeog">
 <cfoutput>
 	<cfquery name="isLocality" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		select geog_auth_rec_id from locality 
+		select geog_auth_rec_id from locality
 		where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 <cfif len(#isLocality.geog_auth_rec_id#) gt 0>
@@ -1360,7 +1410,7 @@ You do not have permission to create Higher Geographies
 	<cfabort>
 <cfelseif len(#isLocality.geog_auth_rec_id#) is 0>
 	<cfquery name="deleGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from geog_auth_rec 
+		delete from geog_auth_rec
 		where geog_auth_rec_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#geog_auth_rec_id#">
 	</cfquery>
 </cfif>
@@ -1372,7 +1422,7 @@ You do not have permission to create Higher Geographies
 <cfif action is "deleteCollEvent">
 <cfoutput>
 	<cfquery name="isSpec" datasource="uam_god">
-		select collection_object_id from cataloged_item 
+		select collection_object_id from cataloged_item
 		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 <cfif len(#isSpec.collection_object_id#) gt 0>
@@ -1382,7 +1432,7 @@ You do not have permission to create Higher Geographies
 	<cfabort>
 <cfelseif len(#isSpec.collection_object_id#) is 0>
 	<cfquery name="deleCollEv" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		delete from collecting_event 
+		delete from collecting_event
 		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
 </cfif>
@@ -1395,7 +1445,7 @@ You deleted a collecting event.
 <cfif action is "changeLocality">
 <cfoutput>
 	<cfquery name="upColl" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE collecting_event 
+		UPDATE collecting_event
 		SET locality_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 		where collecting_event_id= <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#">
 	</cfquery>
@@ -1485,7 +1535,7 @@ You deleted a collecting event.
 	<cfif isdefined("coll_event_number_series") and isdefined("coll_event_number") and len(trim(coll_event_number_series)) GT 0 and len(trim(coll_event_number)) GT 0 >
 		<cfquery name="addCollEvNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			insert into coll_event_number
-			(coll_event_number, coll_event_num_series_id, collecting_event_id) 
+			(coll_event_number, coll_event_num_series_id, collecting_event_id)
 			values (
 				<cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#coll_event_number#">,
 				<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#coll_event_number_series#">,
@@ -1507,8 +1557,8 @@ You deleted a collecting event.
 <cfif action is "saveGeogEdits">
 	<cfoutput>
 	<cfquery name="edGe" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		UPDATE geog_auth_rec 
-		SET 
+		UPDATE geog_auth_rec
+		SET
 		source_authority = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#source_authority#">
 		,valid_catalog_term_fg = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#valid_catalog_term_fg#">
 	<cfif len(#continent_ocean#) gt 0>
@@ -1577,6 +1627,11 @@ You deleted a collecting event.
 	<cfelse>
 		,sea = null
 	</cfif>
+	<cfif len(#wktpolygon#) gt 0>
+		,wkt_polygon = <cfqueryparam cfsqltype="CF_SQL_CLOB" value="#wktpolygon#">
+	<cfelse>
+		,wkt_polygon = null
+	</cfif>
 	<cfif len(#highergeographyid_guid_type#) gt 0>
 		,highergeographyid_guid_type = <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value="#highergeographyid_guid_type#">
 	<cfelse>
@@ -1600,7 +1655,7 @@ You deleted a collecting event.
 		select sq_geog_auth_rec_id.nextval nextid from dual
 	</cfquery>
 	<cfquery name="newGeog" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-		INSERT INTO geog_auth_rec 
+		INSERT INTO geog_auth_rec
 		(
 			geog_auth_rec_id
 			<cfif len(#continent_ocean#) gt 0>
@@ -1648,7 +1703,7 @@ You deleted a collecting event.
 			,valid_catalog_term_fg
 			,source_authority
 		)
-		VALUES 
+		VALUES
 		(
 			<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#nextGEO.nextid#">
 				<cfif len(#continent_ocean#) gt 0>
@@ -1867,7 +1922,7 @@ You deleted a collecting event.
 			</cfquery>
 			<cfif #cloneCoords# is "yes">
 				<cfquery name="cloneCoordinates" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-					select * from lat_long 
+					select * from lat_long
 					where locality_id = <cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#locality_id#">
 				</cfquery>
 				<cfloop query="cloneCoordinates">
@@ -2036,7 +2091,7 @@ You deleted a collecting event.
 						)
 					</cfquery>
 				</cfloop>
-			</cfif><!---  end cloneCoordinates  ---> 
+			</cfif><!---  end cloneCoordinates  --->
 		</cftransaction>
 		<cflocation addtoken="no" url="editLocality.cfm?locality_id=#nextLoc.nextLoc#">
 	</cfoutput>
@@ -2082,7 +2137,7 @@ You deleted a collecting event.
 					collcountlocality,
 					curated_fg
 				from localityResults
-				order by 
+				order by
 					higher_geog, spec_locality, verbatim_locality
 			</cfquery>
 
@@ -2117,7 +2172,7 @@ You deleted a collecting event.
 						<br>#LatitudeString#/#LongitudeString#
 					<cfelse>
 						<br>#nogeorefbecause#
-					</cfif>	
+					</cfif>
 					<cfif len(locality_remarks) gt 0> remarks: #locality_remarks#</cfif>
 					(<a href="editLocality.cfm?locality_id=#locality_id#">#locality_id#</a><cfif curated_fg EQ 1>*</cfif>)
 				</div>
@@ -2163,7 +2218,7 @@ You deleted a collecting event.
 		SELECT count(cat_num) as numOfSpecs,
 			collection.collection_cde,
 			collection.institution_acronym
-		FROM cataloged_item,collection 
+		FROM cataloged_item,collection
 		WHERE
 			cataloged_item.collection_id = collection.collection_id AND
 			collecting_event_id IN (<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#collecting_event_id#" list="yes">)
@@ -2206,7 +2261,7 @@ You deleted a collecting event.
   </cfif>
 
   <cfquery name="cd" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-  	select * 
+  	select *
 	from collecting_event
 	inner join locality on (collecting_event.locality_id = locality.locality_id)
 	inner join geog_auth_rec on (locality.geog_auth_rec_id = geog_auth_rec.geog_auth_rec_id)
