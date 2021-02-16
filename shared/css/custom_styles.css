@@ -1683,6 +1683,8 @@ input#readMore_check_id {display:none;}
 	border-right: 1px solid white;
     border-left: 1px solid white;
 	box-shadow: none;
+	border-right: 1px solid #96ECED;
+	border-left: 1px solid #96EcED;
     outline: 0;
 }
 .tab-headers button[aria-selected='false'] {
