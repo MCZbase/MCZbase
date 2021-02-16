@@ -629,7 +629,7 @@ limitations under the License.
 												$('##addResultDiv').html("Added " + data[0].added);
 											},
 											error: function(jqXHR,textStatus,error){
-												handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+												handleFail(jqXHR,textStatus,error,"adding item to accession");
 												$('##addResultDiv').html("Error.");
 											}
 										});
