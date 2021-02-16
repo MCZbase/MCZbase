@@ -1705,9 +1705,13 @@ div[aria-hidden='true'] {
 div[aria-hidden='false'] {
 	display: block;
 }
-.hidden {
-	display: none;
+div.tab-content[role='tabpanel'] {
+	display:none;
 }
+div.tab-content[role='tabpanel'].show{
+	display:block;
+}
+
 /************end tabs -- redone for accessibility  ***************/
 
 
