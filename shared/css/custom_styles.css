@@ -1711,8 +1711,8 @@ button[tabindex="-1"]:focus {
 .hidden {
 	display: none;
 }
-.tab-content.hide{display:none!important}
-.tab-content.show {display:block!important}
+.tab-content div.hide{display:none!important}
+.tab-content div.show {display:block!important}
 /************end tabs -- redone for accessibility  ***************/
 
 
