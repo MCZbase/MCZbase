@@ -935,6 +935,7 @@ function changeTabs(e) {
   grandparent.parentNode
     .querySelector(`#${target.getAttribute("aria-controls")}`)
     .removeAttribute("aria-hidden");
+	 target.setAttribute("aria-selected", true);
 }
  
 
