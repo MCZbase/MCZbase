@@ -99,14 +99,45 @@ limitations under the License.
 			<div class="row border rounded bg-light mt-2 mb-4 p-2">
 				<section class="col-12" title="next available deaccession number"> 
 					<div id="nextNumDiv">
-						<h2 class="h4 float-left" id="nextNumberSectionLabel">Next Available Deaccession Number <span class="sr-only">to be used in deaccession number field</span>: &nbsp; &nbsp;</h2>
-						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select max(to_number(deacc_number)) + 1 as next_deaccession_num from deaccession 
+						<h2 class="h4 mx-2 mb-1" id="nextNumberSectionLabel" title="Click on a collection button and the next available deaccession number in the database for that collection will be entered">Next Available Deaccession Number:</h2>
+						<!--- Find list of all collections --->
+						<cfquery name="allCollections" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+							select collection_id, collection_cde, collection from collection 
+							order by collection 
 						</cfquery>
-						<div class="float-left">
-							<cfloop query="gnn">
-								<button type="button" style="min-width:200px;" class="btn btn-xs btn-outline-primary pt-1 mt-1 mb-3 px-2 w-auto text-left" onclick="$('##deacc_number').val(#gnn.next_deaccession_num#);">#gnn.next_deaccession_num#</button>
-							</cfloop>
+						<div class="flex-row float-left mb-1">
+						<cfloop query="allCollections">
+							<cftry>
+								<!---- Deaccession numbers follow Dyyyy-n-CCDE format, obtain highest n for current year for each collection. --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select
+									'D#dateformat(now(),"yyyy")#-' || nvl( max(to_number(substr(deacc_number,instr(deacc_number,'-')+1,instr(deacc_number,'-',1,2)-instr(deacc_number,'-')-1) + 1)) , 1) || '-#collection_cde#' as nextNumber
+									from
+										deaccession,
+										trans,
+										collection
+									where
+										loan.transaction_id=trans.transaction_id 
+										AND trans.collection_id=collection.collection_id
+										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
+										AND substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'
+								</cfquery>
+							<cfcatch>
+								<hr>
+								#cfcatch.detail#<br>
+								#cfcatch.message# 
+								<!--- Put an error message into nextNumberQuery.nextNumber --->
+								<cfquery name="nextNumberQuery" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
+									select 'check data' as nextNumber from dual
+								</cfquery>
+							</cfcatch>
+							</cftry>
+							<cfif len(nextNumberQuery.nextNumber) gt 0>
+								<button type="button" class="btn btn-xs btn-outline-primary float-left mx-1 pt-1 mb-2 px-2 w-auto text-left" onclick="setLoanNum('#collection_id#','#nextNumberQuery.nextNumber#')">#collection# #nextNumberQuery.nextNumber#</button>
+							<cfelse>
+								<span style="font-size:x-small"> No data available for #collection#. </span>
+							</cfif>
+						</cfloop>
 						</div>
 					</div>
 				</section><!--- next number section --->
