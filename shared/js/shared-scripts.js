@@ -921,7 +921,7 @@ function changeTabs(e) {
   // Remove all current selected tabs
   parent
     .querySelectorAll('[aria-selected="true"]')
-    .forEach(t => t.setAttribute("aria-hidden", true));
+    .forEach(t => t.setAttribute("aria-selected", false));
 
   // Set this tab as selected
   target.setAttribute("aria-selected", true);
@@ -929,12 +929,12 @@ function changeTabs(e) {
   // Hide all tab panels
   grandparent
     .querySelectorAll('[role="tabpanel"]')
-    .forEach(p => p.setAttribute("aria-hidden", true));
+    .forEach(p => p.setAttribute("hidden", true));
 
   // Show the selected panel
   grandparent.parentNode
     .querySelector(`#${target.getAttribute("aria-controls")}`)
-    .removeAttribute("aria-hidden");
+    .removeAttribute("hidden");
 }
  
 
