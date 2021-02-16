@@ -553,7 +553,7 @@
                <label for="curated_fg">Vetted</label>
 					<cfif locDet.curated_fg EQ 1>
 						<select name="curated_fg" id="curated_fg">
-							<option selected="selected" value="1">Yes</option>
+							<option selected="selected" value="1">Yes*</option>
 							<option value="0">No</option>
 						</select>
 						<strong>This locality record has been vetted.  Please do not edit (or delete).</strong>
