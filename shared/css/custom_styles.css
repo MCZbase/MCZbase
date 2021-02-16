@@ -1690,7 +1690,7 @@ input#readMore_check_id {display:none;}
 .tab-headers button[aria-selected='true']:focus {
 		border-right: 1px solid #96ECED;
 	border-left: 1px solid #96EcED;
-	border-top: 1px solid #96Eced;
+	border-top: 3px solid #96Eced;
 }
 .tab-headers button[aria-selected='false'] {
 	color: black;
