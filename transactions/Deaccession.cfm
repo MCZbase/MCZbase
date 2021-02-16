@@ -7,13 +7,13 @@
 	<cfif isdefined("transaction_id") >
 		<cfquery name="deaccessionNumber" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 			select
-				deaccession_number
+				deacc_number
 			from
 				deaccession
 			where
 				deaccession.transaction_id=<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value="#transaction_id#">
 		</cfquery>
-		<cfset pageTitle = "Edit Deaccession #deaccessionNumber.deaccession_number#">
+		<cfset pageTitle = "Edit Deaccession #deaccessionNumber.deacc_number#">
 	</cfif>
 </cfif>
 <cfset MAGIC_MCZ_COLLECTION = 12>
@@ -101,11 +101,11 @@ limitations under the License.
 					<div id="nextNumDiv">
 						<h2 class="h4 float-left" id="nextNumberSectionLabel">Next Available Deaccession Number <span class="sr-only">to be used in deaccession number field</span>: &nbsp; &nbsp;</h2>
 						<cfquery name="gnn" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-							select max(to_number(deaccession_number)) + 1 as next_deaccession_num from deaccession 
+							select max(to_number(deacc_number)) + 1 as next_deaccession_num from deaccession 
 						</cfquery>
 						<div class="float-left">
 							<cfloop query="gnn">
-								<button type="button" style="min-width:200px;" class="btn btn-xs btn-outline-primary pt-1 mt-1 mb-3 px-2 w-auto text-left" onclick="$('##deaccession_number').val(#gnn.next_deaccession_num#);">#gnn.next_deaccession_num#</button>
+								<button type="button" style="min-width:200px;" class="btn btn-xs btn-outline-primary pt-1 mt-1 mb-3 px-2 w-auto text-left" onclick="$('##deacc_number').val(#gnn.next_deaccession_num#);">#gnn.next_deaccession_num#</button>
 							</cfloop>
 						</div>
 					</div>
@@ -124,8 +124,8 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deaccession_number" class="data-entry-label">Deaccession Number (Dyyyy-n-Coll)</label>
-								<input type="text" name="deaccession_number" class="reqdClr data-entry-input" id="deaccession_number" required pattern="#DEACCNUMBERPATTERN#">
+								<label for="deacc_number" class="data-entry-label">Deaccession Number (Dyyyy-n-Coll)</label>
+								<input type="text" name="deacc_number" class="reqdClr data-entry-input" id="deacc_number" required pattern="#DEACCNUMBERPATTERN#">
 							</div>
 							<div class="col-12 col-md-3">
 								<label for="status" class="data-entry-label">Status</label>
@@ -356,7 +356,7 @@ limitations under the License.
 					trans.transaction_id,
 					trans.transaction_type,
 					trans_date dateEntered,
-					deaccession_number,
+					deacc_number,
 					deacc_type,
 					deacc_status,
 					trans_date,
@@ -423,7 +423,7 @@ limitations under the License.
 		<main class="container py-3" id="content" title="Edit Deaccession Form Content">
 			<cftry>
 				<h1 class="h2 pb-0 ml-3">Edit Deaccession
-					<strong>#deaccessionDetails.collection# #deaccessionDetails.deaccession_number#</strong> 
+					<strong>#deaccessionDetails.collection# #deaccessionDetails.deacc_number#</strong> 
 					<i class="fas fa-info-circle" onClick="getMCZDocs('Deaccession_Field_Definitions')" aria-label="help link"></i>
 				</h1>
 				<section class="row mx-0 border rounded my-2 pt-2" title="Edit Deaccession Details" >
@@ -452,8 +452,8 @@ limitations under the License.
 								</select>
 							</div>
 							<div class="col-12 col-md-3">
-								<label for="deaccession_number" class="data-entry-label">Deaccession Number (nnnnnn)</label>
-								<input type="text" name="deaccession_number" id="deaccession_number" value="#encodeForHTML(accessionDetails.deaccession_number)#" class="reqdClr data-entry-input" 
+								<label for="deacc_number" class="data-entry-label">Deaccession Number (nnnnnn)</label>
+								<input type="text" name="deacc_number" id="deacc_number" value="#encodeForHTML(accessionDetails.deacc_number)#" class="reqdClr data-entry-input" 
 									required pattern="#DEACCNUMBERPATTERN#" >
 							</div>
 							<div class="col-12 col-md-3">
@@ -715,7 +715,7 @@ limitations under the License.
 								<div id='addPermit_#transaction_id#' class="col-12 px-0">
 									<input type='button' 
 										class="btn btn-xs btn-secondary mb-2 mb-sm-0 mr-2"
-										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Deaccession: #deaccessionDetails.collection# #deaccessionDetails.deaccession_number#',reloadTransPermits);" 
+										onClick="openlinkpermitdialog('addPermitDlg_#transaction_id#','#transaction_id#','Deaccession: #deaccessionDetails.collection# #deaccessionDetails.deacc_number#',reloadTransPermits);" 
 										value='Add Permit to this Deaccession'>
 								</div>
 								<div id='addPermitDlg_#transaction_id#' class="my-2"></div>
@@ -746,10 +746,10 @@ limitations under the License.
 								</cfquery>
 								<span>
 									<cfset relation="documents deaccession">
-									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccessionDetails.deaccession_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
+									<input type='button' onClick="opencreatemediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccessionDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Create Media' class='btn btn-xs btn-secondary' >
 									&nbsp; 
 									<span id='addMedia_#transaction_id#'>
-										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccessionDetails.deaccession_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
+										<input type='button' onClick="openlinkmediadialog('newMediaDlg_#transaction_id#','Deaccession: #deaccessionDetails.deacc_number#','#transaction_id#','#relation#',reloadTransMedia);" value='Link Media' class='btn btn-xs btn-secondary' >
 									&nbsp; 
 									</span> 
 								</span>
@@ -876,10 +876,10 @@ limitations under the License.
 	<cftry>
 		<cftransaction>
 			<cfquery name="getDeaccessionNum" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-				select deaccession_number from deaccession 
+				select deacc_number from deaccession 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
 			</cfquery>
-			<cfset deleteTarget = getDeaccessionNum.deaccession_number>
+			<cfset deleteTarget = getDeaccessionNum.deacc_number>
 			<cfquery name="killDeaccession" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 				delete from deaccession 
 				where transaction_id = <cfqueryparam CFSQLType="CF_SQL_DECIMAL" value="#transaction_id#">
@@ -927,7 +927,7 @@ limitations under the License.
 		<cfif
 			( 
 				not isDefined("collection_id") OR 
-				not isDefined("deaccession_number") OR
+				not isDefined("deacc_number") OR
 				not isDefined("deacc_status") OR
 				not isDefined("trans_date") OR
 				not isDefined("nature_of_material")  OR
@@ -935,7 +935,7 @@ limitations under the License.
 				not isDefined("auth_agent_id") 
 			) OR (
 				len(collection_id) is 0 OR 
-				len(deaccession_number) is 0 OR
+				len(deacc_number) is 0 OR
 				len(deacc_status) is 0 OR
 				len(trans_date) is 0 OR
 				len(nature_of_material) is 0 OR
@@ -982,7 +982,7 @@ limitations under the License.
 				INSERT INTO deaccession (
 					TRANSACTION_ID,
 					ACCN_TYPE
-					,deaccession_number
+					,deacc_number
 					,RECEIVED_DATE,
 					ACCN_STATUS,
 					estimated_count
@@ -990,7 +990,7 @@ limitations under the License.
 				VALUES (
 					<cfqueryparam cfsqltype="CF_SQL_DECIMAL" value='#new_transaction_id#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_type#'>
-					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deaccession_number#'>
+					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_number#'>
 					, <cfqueryparam cfsqltype="CF_SQL_TIMESTAMP" value='#dateformat(trans_date,"yyyy-mm-dd")#'>
 					, <cfqueryparam cfsqltype="CF_SQL_VARCHAR" value='#deacc_status#'>
 					<cfif len(estimated_count) gt 0>
