@@ -517,7 +517,7 @@ limitations under the License.
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "active">
 								<cfset allTabShow = "">
-								<cfset loanTabShow = "hidden=""false""">
+								<cfset loanTabShow = "show">
 								<cfset accnTabActive = "">
 								<cfset accnTabShow = "">
 								<cfset deaccnTabActive = "">
@@ -536,9 +536,9 @@ limitations under the License.
 								<cfset allTabShow = "">
 								<cfset loanTabShow = "">
 								<cfset accnTabActive = "active">
-								<cfset accnTabShow = "hidden=""false""">
+								<cfset accnTabShow = "show">
 								<cfset deaccnTabActive = "">
-								<cfset deaccnTabShow ="">
+								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "">
 								<cfset allTabAria = "aria-selected=""false"" ">
@@ -550,12 +550,12 @@ limitations under the License.
 							<cfcase value="findDeaccessions">
 								<cfset allTabActive = "">
 								<cfset loanTabActive = "">
-								<cfset allTabShow =  "">
-								<cfset loanTabShow =  "">
+								<cfset allTabShow = "">
+								<cfset loanTabShow = "">
 								<cfset accnTabActive = "">
-								<cfset accnTabShow =  "">
+								<cfset accnTabShow = "">
 								<cfset deaccnTabActive = "active">
-								<cfset deaccnTabShow ="hidden=""false""">
+								<cfset deaccnTabShow = "show">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "">
 								<cfset allTabAria = "aria-selected=""false"" ">
@@ -574,7 +574,7 @@ limitations under the License.
 								<cfset deaccnTabActive = "">
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "active">
-								<cfset borrowTabShow = "hidden=""false""">
+								<cfset borrowTabShow = "show">
 								<cfset allTabAria = "aria-selected=""false"" ">
 								<cfset loanTabAria = "aria-selected=""false"" ">
 								<cfset accnTabAria = "aria-selected=""false"" ">
@@ -584,7 +584,7 @@ limitations under the License.
 							<cfdefaultcase>
 								<cfset allTabActive = "active">
 								<cfset loanTabActive = "">
-								<cfset allTabShow = "hidden=""false""">
+								<cfset allTabShow = "show">
 								<cfset loanTabShow = "">
 								<cfset accnTabActive = "">
 								<cfset accnTabShow = "">
@@ -610,7 +610,7 @@ limitations under the License.
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="py-3 mx-0  #allTabActive#" #allTabShow#>
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" class="py-3 mx-0 #allTabShow# #allTabActive#">
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -790,7 +790,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="py-3 mx-0  #loanTabActive#" tabindex="0" #loanTabShow#>
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="py-3 mx-0 #loanTabShow# #loanTabActive#" tabindex="0">
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1174,7 +1174,7 @@ limitations under the License.
 							</div><!---tab-pane loan search---> 
 
 							<!--- Accession search tab panel --->
-							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="py-3 mx-0  #accnTabActive#" tabindex="0" #accnTabShow#>
+							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="py-3 mx-0 #accnTabShow# #accnTabActive#" tabindex="0">
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1617,7 +1617,7 @@ limitations under the License.
 							</div><!---tab-pane accession search---> 
 
 							<!--- Deaccession search tab panel --->
-							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="py-3 mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
+							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="py-3 mx-0 #deaccnTabShow# #deaccnTabActive#" tabindex="0">
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2048,7 +2048,7 @@ limitations under the License.
 							</div><!---tab-pane deaccession search---> 
 
 							<!--- Borrow search tab panel --->
-							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="py-3 mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
+							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="py-3 mx-0 #borrowTabShow# #borrowTabActive#" tabindex="0">
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
