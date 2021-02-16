@@ -117,7 +117,7 @@ limitations under the License.
 										trans,
 										collection
 									where
-										loan.transaction_id=trans.transaction_id 
+										deaccession.transaction_id=trans.transaction_id 
 										AND trans.collection_id=collection.collection_id
 										AND collection.collection_id = <cfqueryparam value="#collection_id#" cfsqltype="CF_SQL_DECIMAL">
 										AND substr(deacc_number, 1,4) ='#dateformat(now(),"yyyy")#'
@@ -694,7 +694,7 @@ limitations under the License.
 												$('##addResultDiv').html("Added " + data[0].added);
 											},
 											error: function(jqXHR,textStatus,error){
-												handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+												handleFail(jqXHR,textStatus,error,"adding item to deaccession");
 												$('##addResultDiv').html("Error.");
 											}
 										});
