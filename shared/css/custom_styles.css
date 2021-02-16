@@ -1701,6 +1701,7 @@ button[tabindex="-1"]:focus {
 }
 .tab-content[aria-hidden='true'] {
 	display: none;
+	outline:0;
 }
 .tab-content[aria-hidden='false'] {
 	display: block;
