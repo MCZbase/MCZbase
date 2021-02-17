@@ -48,11 +48,12 @@ limitations under the License.
     	width: '900px',
     	minWidth: 900,
     	minHeight: 450,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
-        
-    	],
+		buttons: {
+			"Ok": function () { 
+								loadTransactionFormMedia(#transaction_id#,"loan"); 
+								$(this).dialog("close"); 
+							} 
+						},
         close: function() {
             $(this).dialog( "close" );
         },
@@ -586,8 +587,7 @@ limitations under the License.
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!----------------------------- identifications ----------------------------------> 
-	<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>
-		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
+
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						identification.scientific_name,
@@ -619,9 +619,7 @@ limitations under the License.
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationNewForm">Stuff here...</div>
 							</div>
-							  <script type="text/javascript">
-					  $( document ).ready(editIdentifications(#identification_id#));
-				  </script>
+			
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
