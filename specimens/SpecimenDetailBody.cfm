@@ -766,17 +766,7 @@ limitations under the License.
 					<option>#taxa_formula#</option>
 					
 			</select>
-			<div id="scientific_name">Taxon A:</div>
-		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50">
-			<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
-			<div id="user_identification">Identification:</div>
-		  	<input type="text" name="user_id" id="user_id" size="50">
-						<div id="id_by">ID By:</div>
-			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="40"
-				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
-			<div id="identification.made_date">ID Date:</div>
-			<input type="text" name="made_date" id="made_date">
+	
 	
 					</div>
 				</div>
