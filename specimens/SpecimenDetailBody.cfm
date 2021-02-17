@@ -39,42 +39,43 @@ limitations under the License.
 	</cfif>
 </cfoutput> 
 <script>
-	$(function() {
-     $(".dialog").dialog({
-		open: function(event,ui){},
-        Title: {style:"font-size: 1.3em;"},
-		bgiframe: true,
-        autoOpen: false,
-    	width: '900px',
-    	minWidth: 900,
-    	minHeight: 450,
-		buttons: {
-			"Ok": function () { 
-								loadTransactionFormMedia(#transaction_id#,"loan"); 
-								$(this).dialog("close"); 
-							} 
-						},
-        close: function() {
-            $(this).dialog( "close" );
-        },
-        modal: true
-       }
-      );
-     $('body')
-      .bind(
-       'click',
-       function(e){
-        if(
-         $('.dialog-ID').dialog('isOpen')
-         && !$(e.target).is('.ui-dialog, button')
-         && !$(e.target).closest('.ui-dialog').length
-        ){
-         $('.dialog').dialog('close');
-        }
-       }
-      );
-    }
-   );
+
+	//$(function() {
+//     $(".dialog").dialog({
+//		open: function(event,ui){},
+//        Title: {style:"font-size: 1.3em;"},
+//		bgiframe: true,
+//        autoOpen: false,
+//    	width: '900px',
+//    	minWidth: 900,
+//    	minHeight: 450,
+//		buttons: [
+//			
+//			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+//        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+//        
+//    	],
+//        close: function() {
+//            $(this).dialog( "close" );
+//        },
+//        modal: true
+//       }
+//      );
+//     $('body')
+//      .bind(
+//       'click',
+//       function(e){
+//        if(
+//         $('.dialog-ID').dialog('isOpen')
+//         && !$(e.target).is('.ui-dialog, button')
+//         && !$(e.target).closest('.ui-dialog').length
+//        ){
+//         $('.dialog').dialog('close');
+//        }
+//       }
+//      );
+//    }
+//   );
 </script> 
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -616,10 +617,34 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-							<div class="dialog" title="Edit Identification (id: #identification_id#)">
-								<div id="identificationNewForm">Stuff here...</div>
-							</div>
-			
+					
+<script>
+function opendialog(page,id,title) {
+	var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+	var adialog = $(id)
+	.html(content)
+	.dialog({
+	title: title,
+	autoOpen: false,
+	dialogClass: 'dialog_fixed,ui-widget-header',
+	modal: true,
+	height: 'auto',
+	width: 'auto',
+	minWidth: 360,
+	minHeight: 450,
+	draggable:true,
+	resizable:true,
+	buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
+	close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+	});
+	adialog.dialog('open');
+	};
+</script>
+<div class="dialog" title="Edit Identification (id: #identification_id#)">
+	<div id="identificationNewForm">Stuff here...</div>
+</div>
+	<cfinclude template="/specimens/identificationDialog.cfm">
+			<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
