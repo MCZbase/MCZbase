@@ -39,8 +39,41 @@ limitations under the License.
 	</cfif>
 </cfoutput> 
 <script>
-
-
+	$(function() {
+     $(".dialog").dialog({
+		open: function(event,ui){},
+        Title: {style:"font-size: 1.3em;"},
+		bgiframe: true,
+        autoOpen: false,
+    	width: '900px',
+    	minWidth: 900,
+    	minHeight: 450,
+		buttons: [
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        
+    	],
+        close: function() {
+            $(this).dialog( "close" );
+        },
+        modal: true
+       }
+      );
+     $('body')
+      .bind(
+       'click',
+       function(e){
+        if(
+         $('.dialog-ID').dialog('isOpen')
+         && !$(e.target).is('.ui-dialog, button')
+         && !$(e.target).closest('.ui-dialog').length
+        ){
+         $('.dialog').dialog('close');
+        }
+       }
+      );
+    }
+   );
 </script> 
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -576,49 +609,16 @@ limitations under the License.
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
-						<script>
-								$(function() {
-     $(".dialog").dialog({
-		open: function(event,ui){},
-        Title: {style:"font-size: 1.3em;"},
-		bgiframe: true,
-        autoOpen: false,
-    	width: '900px',
-    	minWidth: 900,
-    	minHeight: 450,
-		buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
-											close: function() { loadIdentifications(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
-        modal: true
-       }
-      );
-     $('body')
-      .bind(
-       'click',
-       function(e){
-        if(
-         $('.dialog-ID').dialog('isOpen')
-         && !$(e.target).is('.ui-dialog, button')
-         && !$(e.target).closest('.ui-dialog').length
-        ){
-         $('.dialog').dialog('close');
-        }
-       }
-      );
-    }
-   );
-					
-								</script>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading1">
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationNewForm">Stuff here...</div>
 							</div>
-
+			
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -759,8 +759,6 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-										
-		
 				<!------------------------------------ citations ------------------------------------------>
 	
 				<cfif len(citations.cited_name) gt 0>
