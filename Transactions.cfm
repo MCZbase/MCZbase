@@ -511,7 +511,7 @@ limitations under the License.
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<!--- Tab header div --->
-					<div class="tabs card-header tab-card-header pb-0">
+					<div class="tabs card-header tab-card-header pb-0 js-tabs" data-existing-hx="h2">
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
@@ -599,18 +599,30 @@ limitations under the License.
 								<cfset borrowTabAria = "aria-selected=""false"" ">
 							</cfdefaultcase>
 						</cfswitch>
-						<div class="tab-headers tabList"  data-existing-hx="h2" role="tablist" aria-label="search panel tabs">
-							<button class="px-5 #allTabActive#" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" #allTabAria#>All</button> 
-							<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
-							<button class="px-5 #accnTabActive#" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-							<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 
-							<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" #borrowTabAria# >Borrows</button>	
+						<div class="tab-headers tabList js-tablist" role="tablist" aria-label="search panel tabs">
+							<ul class="js-tablist">
+								<li class="js-tablist__item">
+									<a class="px-5 #allTabActive# js-tablist__link"  href="##tab-1" role="tab" tabindex="0" aria-controls="tab-1" data-selected="#allTabAria#">All</a>
+								</li>
+								<li class="js-tablist__item">
+									<a class="px-5 #loanTabActive#" href="##tab-2" role="tab" tabindex="-1" aria-controls="tab-2" data-selected="#loanTabAria#" >Loans</a> 
+								</li>
+								<li>
+									<a class="px-5 #accnTabActive#" href="##tab-3" role="tab" tabindex="-1" aria-controls="tab-3" data-selected="#accnTabAria#">Accessions</a>
+								</li>
+								<li>
+									<a class="px-5 #deaccnTabActive#" href="##tab-4" role="tab" tabindex="-1" aria-controls="tab-4" data-selected="#deaccnTabAria#">Deaccessions</a>
+								</li>
+								<li>
+									<a class="px-5 #borrowTabActive#" href="##tab-5" role="tab" tabindex="-1" aria-controls="tab-5" data-selected="#borrowTabAria#" >Borrows</a>
+								</li>
+							</ul>
 						</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
+							<div id="tab-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="js-tabcontent mx-0 #allTabActive#"  #allTabShow#>
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -790,7 +802,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
+							<div id="tab-2" role="tabpanel" aria-labelledby="tab-2" class="js-tabcontent mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1173,7 +1185,7 @@ limitations under the License.
 								</form>
 							</div><!---tab-pane loan search---> 
 							<!--- Accession search tab panel --->
-							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="mx-0 #accnTabActive#" tabindex="0" #accnTabShow#>
+							<div id="tab-3" role="tabpanel" aria-labelledby="tab-3" class="js-tabcontent mx-0 #accnTabActive#" tabindex="0" #accnTabShow#>
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1615,7 +1627,7 @@ limitations under the License.
 								</form>
 							</div><!---tab-pane accession search---> 
 							<!--- Deaccession search tab panel --->
-							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
+							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="js-tabcontent mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2045,7 +2057,7 @@ limitations under the License.
 								</form>
 							</div><!---tab-pane deaccession search---> 
 							<!--- Borrow search tab panel --->
-							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
+							<div id="tab-5" role="tabpanel" aria-labelledby="tab-5" class="js-tabcontent mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
