@@ -756,7 +756,10 @@ limitations under the License.
 										
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationForm">
-								#agent_name#
+											<label>Current Identification</label>
+									<input class="data-entry-input" value="#getTaxa.display_name#" type="text">
+									<label>Determiner</label>
+									<input class="data-entry-input" value="#agent_name#" type="text">
 								</div>
 							</div>
 							</cfloop>
