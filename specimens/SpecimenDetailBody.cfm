@@ -39,41 +39,7 @@ limitations under the License.
 	</cfif>
 </cfoutput> 
 <script>
-	$(function() {
-     $(".dialog").dialog({
-		open: function(event,ui){},
-        Title: {style:"font-size: 1.3em;"},
-		bgiframe: true,
-        autoOpen: false,
-    	width: 'auto',
-    	minWidth: 400,
-    	minHeight: 450,
-		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
-        
-    	],
-        close: function() {
-            $(this).dialog( "close" );
-        },
-        modal: true
-       }
-      );
-     $('body')
-      .bind(
-       'click',
-       function(e){
-        if(
-         $('.dialog-ID').dialog('isOpen')
-         && !$(e.target).is('.ui-dialog, button')
-         && !$(e.target).closest('.ui-dialog').length
-        ){
-         $('.dialog').dialog('close');
-        }
-       }
-      );
-    }
-   );
+
 </script> 
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -616,7 +582,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
-								<div id="identificationNewForm">Stuff here...</div>
+								<div id="identificationEditForm"></div>
 							</div>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
