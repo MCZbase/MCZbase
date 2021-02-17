@@ -614,7 +614,7 @@ limitations under the License.
 						<script>
 									function opendialog(page,id,title) {
 									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-									var adialog = $(id)
+									var dialog = $(id)
 										.html(content)
 										.dialog({
 											title: title,
@@ -630,7 +630,7 @@ limitations under the License.
 											buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
 											close: function() { loadIdentifications(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
 										});
-										adialog.dialog('open');
+										dialog.dialog('open');
 									};
 								</script>
 				<div class="accordion" id="accordionB">
