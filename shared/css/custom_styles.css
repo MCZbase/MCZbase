@@ -1706,7 +1706,7 @@ button[tabindex="-1"]:focus {
     box-shadow: none;
 }
 .card-header {
-	padding: .75rem 0rem 0rem 0rem;
+	padding: .9rem 0rem 0rem 0rem;
 }
 .tab-content div[aria-hidden='true'] {
 	display: none;
