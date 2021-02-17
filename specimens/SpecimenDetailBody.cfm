@@ -40,42 +40,7 @@ limitations under the License.
 </cfoutput> 
 <script>
 
-	//$(function() {
-//     $(".dialog").dialog({
-//		open: function(event,ui){},
-//        Title: {style:"font-size: 1.3em;"},
-//		bgiframe: true,
-//        autoOpen: false,
-//    	width: '900px',
-//    	minWidth: 900,
-//    	minHeight: 450,
-//		buttons: [
-//			
-//			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
-//        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
-//        
-//    	],
-//        close: function() {
-//            $(this).dialog( "close" );
-//        },
-//        modal: true
-//       }
-//      );
-//     $('body')
-//      .bind(
-//       'click',
-//       function(e){
-//        if(
-//         $('.dialog-ID').dialog('isOpen')
-//         && !$(e.target).is('.ui-dialog, button')
-//         && !$(e.target).closest('.ui-dialog').length
-//        ){
-//         $('.dialog').dialog('close');
-//        }
-//       }
-//      );
-//    }
-//   );
+
 </script> 
 <!--- TODO: Remove all creation of SQL statements as variables, replace all instances with cfquery statements using cfqueryparam parameters. --->
 <cfquery name="one" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -612,26 +577,36 @@ limitations under the License.
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
 						<script>
-									function opendialog(page,id,title) {
-									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-									var dialog = $(id)
-										.html(content)
-										.dialog({
-											title: title,
-											autoOpen: false,
-											dialogClass: 'dialog_fixed,ui-widget-header',
-											modal: true,
-											height: 'auto',
-											width: 'auto',
-											minWidth: 560,
-											minHeight: 450,
-											draggable:true,
-											resizable:true,
-											buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
+								$(function() {
+     $(".dialog").dialog({
+		open: function(event,ui){},
+        Title: {style:"font-size: 1.3em;"},
+		bgiframe: true,
+        autoOpen: false,
+    	width: '900px',
+    	minWidth: 900,
+    	minHeight: 450,
+		buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
 											close: function() { loadIdentifications(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
-										});
-										dialog.dialog('open');
-									};
+        modal: true
+       }
+      );
+     $('body')
+      .bind(
+       'click',
+       function(e){
+        if(
+         $('.dialog-ID').dialog('isOpen')
+         && !$(e.target).is('.ui-dialog, button')
+         && !$(e.target).closest('.ui-dialog').length
+        ){
+         $('.dialog').dialog('close');
+        }
+       }
+      );
+    }
+   );
+					
 								</script>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
