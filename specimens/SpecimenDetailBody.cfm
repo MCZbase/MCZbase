@@ -829,8 +829,7 @@ limitations under the License.
             	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">
              </div>
 </form>
-<h3 class="wikilink">Edit an Existing Determination
-<img src="/images/info.gif" border="0" onClick="getDocs('identification')" class="likeLink"></h3>
+<h3 class="wikilink">Edit an Existing Determination</h3>
 <cfset i = 1>
 <cfquery name="distIds" dbtype="query">
 	SELECT
@@ -874,9 +873,8 @@ limitations under the License.
     <input type="hidden" name="Action" value="saveEdits">
     <input type="hidden" name="collection_object_id" value="#collection_object_id#" >
 	<input type="hidden" name="number_of_ids" id="number_of_ids" value="#distIds.recordcount#">
-<table border style="border:collapse;" style="width: 80%;">
+
 <cfloop query="distIds">
-	<tr #iif(i MOD 2,DE("class='evenRow'"),DE("class='oddRow'"))#><td>
 	<cfquery name="identifiers" dbtype="query">
 		select
 			agent_name,
@@ -899,15 +897,9 @@ limitations under the License.
 	<input type="hidden" name="identification_id_#i#" id="identification_id_#i#" value="#identification_id#">
 	<input type="hidden" name="number_of_identifiers_#i#" id="number_of_identifiers_#i#"
 			value="#identifiers.recordcount#">
-	<table id="mainTable_#i#">
-    	<tr>
-        	<td><div align="right">Scientific Name:</div></td>
-            <td><b><i>#scientific_name#</i></b>
-			</td>
-        </tr>
-        <tr>
-        	<td><div align="right">Accepted?</div></td>
-			<td>
+<div align="right">Scientific Name:</div><b><i>#scientific_name#</i></b>
+		<div align="right">Accepted?</div>
+	
 				<cfif #accepted_id_fg# is 0>
 					<select name="accepted_id_fg_#i#"
 						id="accepted_id_fg_#i#" size="1"
@@ -927,17 +919,12 @@ limitations under the License.
 					<input name="accepted_id_fg_#i#" id="accepted_id_fg_#i#" type="hidden" value="1">
 					<b>Yes</b>
 				</cfif>
-			</td>
-       	</tr>
-        <tr>
-			<td colspan="2" align="right">
-				<table id="identifierTable_#i#" style="float:left;margin-left: 1.9em;">
-					<tbody id="identifierTableBody_#i#">
+	
 						<cfset idnum=1>
 						<cfloop query="identifiers">
-							<tr id="IdTr_#i#_#idnum#">
-								<td align="right">Identified By:</td>
-								<td align="right">
+							<div id="IdTr_#i#_#idnum#">
+								Identified By:
+							
 									<input type="text"
 										name="IdBy_#i#_#idnum#"
 										id="IdBy_#i#_#idnum#"
@@ -955,30 +942,19 @@ limitations under the License.
 										<img src="/images/del.gif" class="likeLink"
 											onclick="removeIdentifier('#i#','#idnum#')" />
 									</cfif>
-				 				</td>
-				 			</tr>
+							</div>
 							<cfset idnum=idnum+1>
 						</cfloop>
-					</tbody>
-				</table>
+			
                         <span class="infoLink" id="addIdentifier_#i#"
 					onclick="addIdentifier('#i#','#idnum#')" style="display: inline-block;padding-right: 1em;">Add Identifier</span>
-			</td>
-
-		</tr>
-		<tr>
-        	<td align="right">
+	
 				<div id="identification.made_date">ID Date:</div>
-			</td>
-            <td>
+			
 				<input type="text" value="#made_date#" name="made_date_#i#" id="made_date_#i#">
-           </td>
-		</tr>
-        <tr>
-	        <td align="right">
+         
 				<div id="nature_of_id">Nature of ID:</div>
-			</td>
-	        <td>
+			
 				<cfset thisID = #nature_of_id#>
 				<select name="nature_of_id_#i#" id="nature_of_id_#i#" size="1" class="reqdClr">
 	            	<cfloop query="ctnature">
@@ -986,13 +962,9 @@ limitations under the License.
 	                </cfloop>
 	           	</select>
 				<span class="infoLink" onClick="getCtDoc('ctnature_of_id',newID.nature_of_id.value)">Define</span>
-			</td>
-        </tr>
-        <tr>
-	        <td align="right">
+	
 				<div id="identification_publication">Sensu:</div>
-			</td>
-	        <td>
+		
 				<input type="hidden" name="publication_id_#i#" id="publication_id_#i#" value="#publication_id#">
 				<input type="text"
 					id="publication_#i#"
@@ -1000,50 +972,37 @@ limitations under the License.
 					onchange="getPublication(this.id,'publication_id_#i#',this.value,'editIdentification')" size="50">
 				<span class="infoLink" onclick="$('##publication_id_#i#').val('');$('##publication_#i#').val('');">Remove</span>
 
-			</td>
-        </tr>
-        <tr>
-          	<td><div align="right">Remarks:</div></td>
-         	 <td>
+			<div align="right">Remarks:</div>
 				<input type="text" name="identification_remarks_#i#" id="identification_remarks_#i#"
 					value="#stripQuotes(identification_remarks)#" size="50">
-			</td>
-        </tr>
+	
 		<cfif #accepted_id_fg# is 0>
-		<tr>
-			<td>
+	
 				<div align="right">Sort Order:</div>
-			</td>
-			<td>
+		
 				<select name="sort_order_#i#" id="sort_order_#i#" size="1">
 	                <option <cfif #sort_order# is ""> selected </cfif> value=""></option>
 	                <cfloop index="X" from="1" to="#sortCount#">
 	                	<option <cfif #sort_order# is #X#> selected </cfif> value="#X#">#X#</option>
 	                </cfloop>
 	           	</select>
-	        </td>
-	        <td>
+	     
 	           	Stored As: <input type="checkbox" class="check" name="storedas_#i#" id="storedas_#i#" value = "1" <cfif #stored_as_fg# EQ 1>checked</cfif> />
-			</td>
-        </tr>
+	
 		<cfelse>
 			<input type="hidden" name="sort_order_#i#" id="sort_order_#i#" value="">
 			<input type="hidden" name="storedas_#i#" id="storedas_#i#" value="0">
 		</cfif>
-	</table>
+
   <cfset i = #i#+1>
-</td></tr>
+
 </cfloop>
-<tr>
-	<td align="right">
+
 		<input type="submit" class="savBtn" id="editIdentification_submit" value="Save Changes" title="Save Changes">
-	</td>
-</tr>
-</table>
+
 
 </form>
-</div>
-</cfoutput>
+
 
 </cfif>
 								</div>
