@@ -620,7 +620,7 @@ limitations under the License.
 								<div id="identificationNewForm">Stuff here...</div>
 							</div>
 							  <script type="text/javascript">
-					  $( document ).ready(loadIdentifications(#identification_id#));
+					  $( document ).ready(editIdentifications(#identification_id#));
 				  </script>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
