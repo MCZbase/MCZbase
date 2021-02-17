@@ -17,18 +17,53 @@ targetDiv="CitPubFormMedia";
 	});
 }
 
+	$(function() {
+     $(".dialog").dialog({
+		open: function(event,ui){},
+        Title: {style:"font-size: 1.3em;"},
+		bgiframe: true,
+        autoOpen: false,
+    	width: 'auto',
+    	minWidth: 'auto',
+    	minHeight: 450,
+		buttons: [
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        
+    	],
+        close: function() {
+            $(this).dialog( "close" );
+        },
+        modal: true
+       }
+      );
+     $('body')
+      .bind(
+       'click',
+       function(e){
+        if(
+         $('.dialog-ID').dialog('isOpen')
+         && !$(e.target).is('.ui-dialog, button')
+         && !$(e.target).closest('.ui-dialog').length
+        ){
+         $('.dialog').dialog('close');
+        }
+       }
+      );
+    }
+   );
 /** function loadShipment load a shipment into an edit shipment form within a shipment dialog.
  *  @param shipmentId the shipment_id of the shipment to edit
  *  @param form the id without a leading # selector of the shipment form.
  */
-function loadShipment(shipmentId,form) {
-	$("#dialog-shipment").dialog( "option", "title", "Edit Shipment " + shipmentId );
+function loadIdentification(identfication_id,form) {
+	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identfication_id );
 	$("#shipmentFormPermits").html(""); 
 	$("#shipmentFormStatus").html(""); 
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getShipments",
-			shipmentidList : shipmentId,
+			shipmentidList : identfication_id,
 			returnformat : "json",
 			queryformat : 'column'
 		},
