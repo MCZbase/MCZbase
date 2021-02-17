@@ -602,19 +602,19 @@ limitations under the License.
 						<div class="tab-headers tabList js-tablist" role="tablist" aria-label="search panel tabs">
 							<ul class="js-tablist">
 								<li class="js-tablist__item">
-									<a class="px-5 #allTabActive# js-tablist__link"  href="##tab-1" role="tab" tabindex="0" aria-controls="tab-1" data-selected="#allTabAria#">All</a>
+									<a class="js-tablist__link px-5 #allTabActive# js-tablist__link"  href="##tab-1" role="tab" tabindex="0" aria-controls="tab-1" data-selected="#allTabAria#">All</a>
 								</li>
 								<li class="js-tablist__item">
-									<a class="px-5 #loanTabActive#" href="##tab-2" role="tab" tabindex="-1" aria-controls="tab-2" data-selected="#loanTabAria#" >Loans</a> 
+									<a class="js-tablist__link px-5 #loanTabActive#" href="##tab-2" role="tab" tabindex="-1" aria-controls="tab-2" data-selected="#loanTabAria#" >Loans</a> 
 								</li>
 								<li>
-									<a class="px-5 #accnTabActive#" href="##tab-3" role="tab" tabindex="-1" aria-controls="tab-3" data-selected="#accnTabAria#">Accessions</a>
+									<a class="js-tablist__link px-5 #accnTabActive#" href="##tab-3" role="tab" tabindex="-1" aria-controls="tab-3" data-selected="#accnTabAria#">Accessions</a>
 								</li>
 								<li>
-									<a class="px-5 #deaccnTabActive#" href="##tab-4" role="tab" tabindex="-1" aria-controls="tab-4" data-selected="#deaccnTabAria#">Deaccessions</a>
+									<a class="js-tablist__link px-5 #deaccnTabActive#" href="##tab-4" role="tab" tabindex="-1" aria-controls="tab-4" data-selected="#deaccnTabAria#">Deaccessions</a>
 								</li>
 								<li>
-									<a class="px-5 #borrowTabActive#" href="##tab-5" role="tab" tabindex="-1" aria-controls="tab-5" data-selected="#borrowTabAria#" >Borrows</a>
+									<a class="js-tablist__link px-5 #borrowTabActive#" href="##tab-5" role="tab" tabindex="-1" aria-controls="tab-5" data-selected="#borrowTabAria#" >Borrows</a>
 								</li>
 							</ul>
 						</div>
