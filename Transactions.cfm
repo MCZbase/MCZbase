@@ -524,11 +524,11 @@ limitations under the License.
 								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "hidden">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""true"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
+								<cfset allTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset loanTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset accnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset deaccnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset borrowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="findAccessions">
 								<cfset allTabActive = "">
@@ -541,11 +541,11 @@ limitations under the License.
 								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "hidden">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""true"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
+								<cfset allTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset loanTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset accnTabAria = "aria-selected=""true"" tabindex=""0""">
+								<cfset deaccnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset borrowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="findDeaccessions">
 								<cfset allTabActive = "">
@@ -558,11 +558,11 @@ limitations under the License.
 								<cfset deaccnTabShow = "">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "hidden">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""true"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
+								<cfset allTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset loanTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset accnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset deaccnTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset borrowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfcase>
 							<cfcase value="findBorrows">
 								<cfset allTabActive = "">
@@ -575,11 +575,11 @@ limitations under the License.
 								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "active">
 								<cfset borrowTabShow = "">
-								<cfset allTabAria = "aria-selected=""false"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""true"" ">
+								<cfset allTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset loanTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset accnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset deaccnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset borrowTabAria = "aria-selected=""true"" tabindex=""0"" ">
 							</cfcase>
 							<cfdefaultcase>
 								<cfset allTabActive = "active">
@@ -592,19 +592,19 @@ limitations under the License.
 								<cfset deaccnTabShow = "hidden">
 								<cfset borrowTabActive = "">
 								<cfset borrowTabShow = "hidden">
-								<cfset allTabAria = "aria-selected=""true"" ">
-								<cfset loanTabAria = "aria-selected=""false"" ">
-								<cfset accnTabAria = "aria-selected=""false"" ">
-								<cfset deaccnTabAria = "aria-selected=""false"" ">
-								<cfset borrowTabAria = "aria-selected=""false"" ">
+								<cfset allTabAria = "aria-selected=""true"" tabindex=""0"" ">
+								<cfset loanTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset accnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset deaccnTabAria = "aria-selected=""false"" tabindex=""-1"" ">
+								<cfset borrowTabAria = "aria-selected=""false"" tabindex=""-1"" ">
 							</cfdefaultcase>
 						</cfswitch>
 						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
-								<button class="px-5 #allTabActive#" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" #allTabAria#>All</button> 
-								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
-								<button class="px-5 #accnTabActive#" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
-								<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
-								<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
+								<button class="px-5 #allTabActive#" id="tab-1" role="tab" aria-controls="panel-1" #allTabAria#>All</button> 
+								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
+								<button class="px-5 #accnTabActive#" id="tab-3" role="tab"  aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+								<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
+								<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
 							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
