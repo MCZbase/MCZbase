@@ -45,7 +45,7 @@ limitations under the License.
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
         autoOpen: false,
-    	width: 'auto',
+    	width: '900px',
     	minWidth: 900,
     	minHeight: 450,
 		buttons: [
