@@ -760,16 +760,8 @@ limitations under the License.
 									<input class="data-entry-input" value="#getTaxa.scientific_name#" type="text">
 									<label>Determiner</label>
 									<input class="data-entry-input" value="#agent_name#" type="text">
-							     
-			<label id="taxa_formula">ID Formula:</label>
-			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr">
-					<option>#taxa_formula#</option>
-					
-			</select>
-	
-	
-					</div>
-				</div>
+								</div>
+							</div>
 
 				<!------------------------------------ citations ------------------------------------------>
 	
