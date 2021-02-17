@@ -3565,6 +3565,7 @@ function gridLoaded(gridId, searchType) {
 		</div>
 	</div>	
 	</div><!--- overlaycontainer --->
+														</cfoutput>
 <script>
 // For accessibility of tabs //
 window.addEventListener("DOMContentLoaded", () => {
@@ -3629,5 +3630,5 @@ function changeTabs(e) {
 }
 </script>
 
-</cfoutput>
+
 <cfinclude template="/shared/_footer.cfm">
