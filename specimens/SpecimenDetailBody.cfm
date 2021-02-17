@@ -615,10 +615,10 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-							<div class="dialog" title="Edit Identification (id: #identification_id#)">
+				<!---			<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationNewForm">Stuff here...</div>
-							</div>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
+							</div>--->
+						<button type="button" class="btn btn-xs small float-right" onclick="window.parent.loadEditApp('editIdentification');">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
