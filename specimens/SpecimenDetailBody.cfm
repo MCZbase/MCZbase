@@ -621,8 +621,7 @@ limitations under the License.
 <!---<div class="dialog" title="Edit Identification (id: #identification_id#)">
 	<div id="identificationNewForm">Stuff here...</div>
 </div>--->
-	<cfinclude template="/specimens/identificationDialog.cfm">
-		
+
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -763,6 +762,8 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
+												<cfinclude template="/specimens/identificationDialog.cfm">
+		
 				<!------------------------------------ citations ------------------------------------------>
 	
 				<cfif len(citations.cited_name) gt 0>
