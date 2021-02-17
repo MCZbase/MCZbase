@@ -1722,6 +1722,9 @@ input#readMore_check_id {
 .card-header {
 	padding: .5rem .25rem 0rem .25rem;
 }
+.accordion .card-header {
+	padding: .25rem .5rem;
+}
 div[aria-hidden='true'] {
 	display: none;
 }
