@@ -1,14 +1,11 @@
-<cfquery name="ctShip" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
-	select shipped_carrier_method from ctshipped_carrier_method order by shipped_carrier_method
-</cfquery>
 <cfoutput>
-<!----  Shipment Popup Dialog autoOpen is false --->
+<!----  Identification Popup Dialog autoOpen is false --->
 	
 <script>
-	////shipment dialog needs to have a minimum of 320px and then be 90% of ipad and up
+	////identification dialog needs to have a minimum of 320px and then be 90% of ipad and up
 	$( document ).ready(function() {
-		console.log("initializing dialog-shipment");
-		$("##dialog-shipment").dialog({
+		console.log("initializing dialog-identification");
+		$("##dialog-identification").dialog({
 			autoOpen: false,
 			modal: true,
 			width: 'auto',
@@ -16,7 +13,7 @@
 			minWidth: 320,
 			minHeight: 500,
 			buttons: {
-				"Save": function() {  saveShipment(#transaction_id#); } ,
+				"Save": function() {  saveIdentification(#identification_id#); } ,
 				Cancel: function() { $(this).dialog( "close" ); }
 			},
 			close: function() {
@@ -26,70 +23,59 @@
 	});
 </script>
 <script>
-	/** Given a form with id shipmentForm (with form fields matching shipment fields), invoke a backing
-	 *  function to save that shipment.
-	 *  Assumes an element with id shipmentFormStatus exists to present feedback.
+	/** Given a form with id identificationForm (with form fields matching identification fields), invoke a backing
+	 *  function to save that identification.
+	 *  Assumes an element with id identificationFormStatus exists to present feedback.
 	 *  Assumes the form has an id of shipmentForm
-	 *
-	 *  @param transactionId the transaction_id of the transaction to which the shipment is to be added.
 	 */
-	function saveShipment(transactionId) { 
+	function saveIdentification(identificationId) { 
 		var valid = false;
-		if (checkFormValidity('shipmentForm')) { 
+		if (checkFormValidity('identificationForm')) { 
 			// save result
-			$('##methodSaveShipmentQF').remove();
-			$('<input id="methodSaveShipmentQF" />').attr('type', 'hidden')
+			$('##methodSaveIdentificationQF').remove();
+			$('<input id="methodSaveIdentificationQF" />').attr('type', 'hidden')
 				.attr('name', "queryformat")
 				.attr('value', "column")
-				.appendTo('##shipmentForm');
-			$('##methodSaveShipmentInput').remove();
-			$('<input id="methodSaveShipmentInput" />').attr('type', 'hidden')
+				.appendTo('##identificationForm');
+			$('##methodSaveIdentificationInput').remove();
+			$('<input id="methodSaveIdentificationInput" />').attr('type', 'hidden')
 				.attr('name', "method")
-				.attr('value', "saveShipment")
-				.appendTo('##shipmentForm');
+				.attr('value', "saveIdentification")
+				.appendTo('##identificationForm');
 			$.ajax({
-				url : "/transactions/component/functions.cfc",
+				url : "/specimens/component/functions.cfc",
 				type : "post",
 				dataType : "json",
-				data: $("##shipmentForm").serialize(),
+				data: $("##identificationForm").serialize(),
 				success: function (result) {
 					if (result.DATA.STATUS[0]==0) { 
-						$("##shipmentFormStatus").empty().append(result.DATA.MESSAGE[0]);
+						$("##identificationFormStatus").empty().append(result.DATA.MESSAGE[0]);
 					} else { 
-						loadShipments(transactionId);
+						loadIdentifications(identificationId);
 						valid = true;
-						$("##dialog-shipment").dialog( "close" );
+						$("##dialog-identification").dialog( "close" );
 					}
 				},
 				error: function (jqXHR, status, error) {
-					$("##shipmentFormStatus").empty().append("Error Submitting Form: " + status);
-					handleFail(jqXHR,status,error,"opening dialog to for project creation from transaction dialog");
+					$("##identificationFormStatus").empty().append("Error Submitting Form: " + status);
+					handleFail(jqXHR,status,error,"opening dialog for identification dialog");
 				}
 			});
 		}
 		return valid;
 	};
 </script>
-	<dialog id="dialog-shipment" title="Create New Shipment">
+	<dialog id="dialog-identification" title="Create New Identification">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12 px-0">
-					<form name="shipmentForm" id="shipmentForm" >
+					<form name="identificationForm" id="identificationForm" >
 						<fieldset>
-							<input type="hidden" name="transaction_id" value="#transaction_id#" id="shipmentForm_transaction_id" >
-							<input type="hidden" name="shipment_id" value="" id="shipment_id">
+							<input type="hidden" name="identification_id" value="#identification_id#" id="identificationForm_identification_id" >
+							<input type="hidden" name="identification_id" value="" id="identification_id">
 							<input type="hidden" name="returnFormat" value="json" id="returnFormat">
 								<div class="border bg-light px-3 rounded mt-3 pt-2 pb-3">
 									<div class="row">
-										<div class="col-12 col-md-4">
-											<label for="shipped_carrier_method" class="data-entry-label">Shipping Method</label>
-											<select name="shipped_carrier_method" id="shipped_carrier_method" size="1" class="reqdClr data-entry-select" required >
-												<option value=""></option>
-												<cfloop query="ctShip">
-													<option value="#ctShip.shipped_carrier_method#">#ctShip.shipped_carrier_method#</option>
-												</cfloop>
-											</select>
-										</div>
 										<div class="col-12 col-md-8">
 											<label for="carriers_tracking_number" class="data-entry-label">Tracking Number</label>
 											<input type="text" value="" name="carriers_tracking_number" id="carriers_tracking_number" size="30" class="data-entry-input" >
@@ -197,9 +183,7 @@
 				</div>
 			</div>
 		</div>
-	<div id="shipmentFormPermits"></div>
-	<div id="shipmentFormStatus"></div>
-	<div id="addressDialog"></div>
+	<div id="identificationFormStatus"></div>
 	</dialog>
 <!----  End Shipment dialog --->
 </cfoutput>
