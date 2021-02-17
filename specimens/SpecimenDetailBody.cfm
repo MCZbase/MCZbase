@@ -622,7 +622,7 @@ limitations under the License.
 	<div id="identificationNewForm">Stuff here...</div>
 </div>--->
 	<cfinclude template="/specimens/identificationDialog.cfm">
-			<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-identification').dialog('open'); loadIdentification(#identification_id#,'identificationForm');">
+		
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
