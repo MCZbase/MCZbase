@@ -19,7 +19,7 @@
 	  	  <cfset theResult=queryNew("status, message")>
 		  <cfset t = queryaddrow(theResult,1)>
 		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No Identifications found.", 1)>
 		</cfif>
 	  <cfcatch>
 	   	<cfset theResult=queryNew("status, message")>
@@ -44,7 +44,7 @@
 	  	  <cfset theResult=queryNew("status, message")>
 		  <cfset t = queryaddrow(theResult,1)>
 		  <cfset t = QuerySetCell(theResult, "status", "0", 1)>
-		  <cfset t = QuerySetCell(theResult, "message", "No shipments found.", 1)>
+		  <cfset t = QuerySetCell(theResult, "message", "No identifications found.", 1)>
 		</cfif>
 	<cfcatch>
 	  <cfset theResult=queryNew("status, message")>
@@ -61,8 +61,7 @@
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
 	
-			
-<!--- TODO: Comment documents a shipment method, what follows is an identification method????  --->
+
 
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
@@ -97,13 +96,8 @@
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
     <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' placeholder='#agent_name#'></div>">
             <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><input type='text' class='form-control-sm' id='nature_of_id' placeholder='#nature_of_id#'></div>">
-				
 
 			<cfset resulthtml = resulthtml & "</div>">
-
-			
-        
-				
 			<cfset resulthtml = resulthtml & "<div class='col-md-12 col-sm-12 float-left'>">
          	<cfset resulthtml = resulthtml & "<div class='form-group'><label for='full_taxon_name'>Full Taxon Name:</label><input type='text' class='form-control-sm' id='full_taxon_name' placeholder='#full_taxon_name#'></div> ">
 			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='identification_remarks'>Identification Remarks:</label><textarea type='text' class='form-control' id='identification_remarks' value='#identification_remarks#'></textarea></div>">

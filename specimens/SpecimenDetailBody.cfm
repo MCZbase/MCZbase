@@ -49,6 +49,7 @@ limitations under the License.
     	minWidth: 900,
     	minHeight: 450,
 		buttons: [
+			{},
 			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
         	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
         
