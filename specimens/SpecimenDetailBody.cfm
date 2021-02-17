@@ -775,32 +775,9 @@ limitations under the License.
 			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="40"
 				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
             <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
-			<span onclick="addNewIdBy('two');">more...</span>
-			<div align="right">
-				ID By:<span onclick="clearNewIdBy('two');"> remove</span>
-			</div>
-			<input type="text" name="newIdBy_two" id="newIdBy_two" size="40"
-				onchange="getAgent('newIdBy_two_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_two_id" id="newIdBy_two_id">
-			<span class="infoLink" onclick="addNewIdBy('three');">more...</span>
-			<div align="right">
-				ID By:<span class="infoLink" onclick="clearNewIdBy('three');"> remove</span>
-			</div>
-			<input type="text" name="newIdBy_three" id="newIdBy_three" size="50"
-				onchange="getAgent('newIdBy_three_id',this.id,'newID',this.value);">
-            <input type="hidden" name="newIdBy_three_id" id="newIdBy_three_id">
 			<div id="identification.made_date">ID Date:</div>
 			<input type="text" name="made_date" id="made_date">
-			<div id="nature_of_id">Nature of ID</div>
-			<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr">
-                	<option value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-            </select>
-			<div id="identification_publication">Sensu:</div>
-			<input type="hidden" name="new_publication_id" id="new_publication_id">
-			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newID')" size="50">
-			<div id="identification_remarks">Remarks:</div>
-			<input type="text" name="identification_remarks" id="identification_remarks" size="50">
-            	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">
+	
 					</div>
 				</div>
 
