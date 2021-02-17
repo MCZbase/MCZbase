@@ -49,7 +49,7 @@ limitations under the License.
     	minWidth: 900,
     	minHeight: 450,
 		buttons: [
-			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn-sm", style:"background-color:transparent; border: none;" },
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background-color:transparent; border: none;" },
         	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
         
     	],
@@ -615,9 +615,7 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-							<div class="dialog" title="Edit Identification (id: #identification_id#)">
-								<div id="identificationForm">Stuff here...</div>
-							</div>
+					
 			
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
@@ -754,11 +752,19 @@ limitations under the License.
 								</cfif>
 								</li>
 								</ul>
+										
+										
+							<div class="dialog" title="Edit Identification (id: #identification_id#)">
+								<div id="identificationForm">
+								#agent_name#
+								</div>
+							</div>
 							</cfloop>
 						</div>
 						</div>
 					</div>
 				</div>
+
 				<!------------------------------------ citations ------------------------------------------>
 	
 				<cfif len(citations.cited_name) gt 0>
