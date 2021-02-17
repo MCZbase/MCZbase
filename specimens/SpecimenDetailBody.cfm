@@ -760,30 +760,18 @@ limitations under the License.
 									<input class="data-entry-input" value="#getTaxa.scientific_name#" type="text">
 									<label>Determiner</label>
 									<input class="data-entry-input" value="#agent_name#" type="text">
-							        <h3>Add new Determination</h3>
-
-    							<input type="hidden" name="Action" value="createNew">
-    							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
+							     
 			<label id="taxa_formula">ID Formula:</label>
-			
-			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr"  onchange="newIdFormula(this.value);">
-					<cfloop query="ctFormula">
-						<option value="#ctFormula.taxa_formula#">#taxa_formula#</option>
-					</cfloop>
+			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr">
+					<option>#taxa_formula#</option>
+					
 			</select>
 			<div id="scientific_name">Taxon A:</div>
-		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50"
-				onChange="taxaPick('taxona_id','taxona','newID',this.value); return false;"
-				onKeyPress="return noenter(event);">
+		  	<input type="text" name="taxona" id="taxona" class="reqdClr" size="50">
 			<input type="hidden" name="taxona_id" id="taxona_id" class="reqdClr">
 			<div id="user_identification">Identification:</div>
 		  	<input type="text" name="user_id" id="user_id" size="50">
-			<div align="right">Taxon B:</div>
-			<input type="text" name="taxonb" id="taxonb"  size="50"
-				onChange="taxaPick('taxonb_id','taxonb','newID',this.value); return false;"
-				onKeyPress="return noenter(event);">
-			<input type="hidden" name="taxonb_id" id="taxonb_id">
-			<div id="id_by">ID By:</div>
+						<div id="id_by">ID By:</div>
 			<input type="text" name="newIdBy" id="newIdBy" class="reqdClr" size="40"
 				onchange="getAgent('newIdBy_id',this.id,'newID',this.value);">
             <input type="hidden" name="newIdBy_id" id="newIdBy_id" class="reqdClr">
@@ -805,19 +793,14 @@ limitations under the License.
 			<input type="text" name="made_date" id="made_date">
 			<div id="nature_of_id">Nature of ID</div>
 			<select name="nature_of_id" id="nature_of_id" size="1" class="reqdClr">
-            	<cfloop query="ctnature">
-                	<option <cfif #ctnature.nature_of_id# EQ "expert id">selected</cfif> value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
-                </cfloop>
+                	<option value="#ctnature.nature_of_id#">#ctnature.nature_of_id#</option>
             </select>
 			<div id="identification_publication">Sensu:</div>
 			<input type="hidden" name="new_publication_id" id="new_publication_id">
 			<input type="text" id="newPub" onchange="getPublication(this.id,'new_publication_id',this.value,'newID')" size="50">
 			<div id="identification_remarks">Remarks:</div>
 			<input type="text" name="identification_remarks" id="identification_remarks" size="50">
-			<div align="center">
             	<input type="submit" id="newID_submit" value="Create" class="insBtn reqdClr" title="Create Identification">
-             </div>
-</form>
 					</div>
 				</div>
 
