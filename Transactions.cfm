@@ -511,7 +511,7 @@ limitations under the License.
 				<div class="col-12 pt-1 pb-3">
 					<h1 class="h3 smallcaps pl-1">Search Transactions <span class="count font-italic color-green mx-0"><small>(#getCount.cnt# records)</small></span></h1>
 						<!--- Tab header div --->
-					<div class="tabs card-header tab-card-header pb-0 js-tabs" data-existing-hx="h2">
+					<div class="tabs card-header tab-card-header pb-0">
 						<cfswitch expression="#action#">
 							<cfcase value="findLoans">
 								<cfset allTabActive = "">
@@ -599,30 +599,18 @@ limitations under the License.
 								<cfset borrowTabAria = "aria-selected=""false"" ">
 							</cfdefaultcase>
 						</cfswitch>
-						<div class="tab-headers tabList js-tablist" role="tablist" aria-label="search panel tabs">
-							<ul class="js-tablist">
-								<li class="js-tablist__item">
-									<a class="js-tablist__link px-5 #allTabActive# js-tablist__link"  href="##tab-1" role="tab" tabindex="0" aria-controls="tab-1" data-selected="#allTabAria#">All</a>
-								</li>
-								<li class="js-tablist__item">
-									<a class="js-tablist__link px-5 #loanTabActive#" href="##tab-2" role="tab" tabindex="-1" aria-controls="tab-2" data-selected="#loanTabAria#" >Loans</a> 
-								</li>
-								<li>
-									<a class="js-tablist__link px-5 #accnTabActive#" href="##tab-3" role="tab" tabindex="-1" aria-controls="tab-3" data-selected="#accnTabAria#">Accessions</a>
-								</li>
-								<li>
-									<a class="js-tablist__link px-5 #deaccnTabActive#" href="##tab-4" role="tab" tabindex="-1" aria-controls="tab-4" data-selected="#deaccnTabAria#">Deaccessions</a>
-								</li>
-								<li>
-									<a class="js-tablist__link px-5 #borrowTabActive#" href="##tab-5" role="tab" tabindex="-1" aria-controls="tab-5" data-selected="#borrowTabAria#" >Borrows</a>
-								</li>
-							</ul>
-						</div>
+						<div class="tab-headers tabList" role="tablist" aria-label="search panel tabs">
+								<button class="px-5 #allTabActive#" id="tab-1" role="tab" tabindex="0" aria-controls="panel-1" #allTabAria#>All</button> 
+								<button class="px-5 #loanTabActive#" id="tab-2" role="tab" tabindex="-1" aria-controls="panel-2"  #loanTabAria# >Loans</button> 	
+								<button class="px-5 #accnTabActive#" id="tab-3" role="tab" tabindex="-1" aria-controls="panel-3" #accnTabAria#>Accessions</button> 	
+								<button class="px-5 #deaccnTabActive#" id="tab-4" role="tab" tabindex="-1" aria-controls="panel-4" #deaccnTabAria#>Deaccessions</button> 	
+								<button class="px-5 #borrowTabActive#" id="tab-5" role="tab" tabindex="-1" aria-controls="panel-5" #borrowTabAria# >Borrows</button> 	
+							</div>
 						<!--- End tab header div ---> 
 						<!--- Tab content div --->
 						<div class="tab-content"> 
 							<!--- All Transactions search tab panel --->
-							<div id="tab-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="js-tabcontent mx-0 #allTabActive#"  #allTabShow#>
+							<div id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0" class="mx-0 #allTabActive#"  #allTabShow#>
 								<h2 class="h3 card-title my-0" >Search All Transactions <i class="fas fas-info fa-info-circle" onClick="getMCZDocs('Transaction_Search')" aria-label="help link"></i></h2>
 								<form id="searchForm" class="mt-2">
 									<input type="hidden" name="method" value="getTransactions" class="keeponclear">
@@ -802,7 +790,7 @@ limitations under the License.
 								</form>
 							</div>
 							<!--- Loan search tab panel --->
-							<div id="tab-2" role="tabpanel" aria-labelledby="tab-2" class="js-tabcontent mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
+							<div id="panel-2" role="tabpanel" aria-labelledby="tab-2" class="mx-0 #loanTabActive#" tabindex="0"  #loanTabShow#>
 								<h2 class="h3 card-title my-0">Find Loans <i class="fas fa-info-circle" onClick="getMCZDocs('Loan_Transactions##Search_for_a_Loan')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1184,8 +1172,9 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane loan search---> 
+
 							<!--- Accession search tab panel --->
-							<div id="tab-3" role="tabpanel" aria-labelledby="tab-3" class="js-tabcontent mx-0 #accnTabActive#" tabindex="0" #accnTabShow#>
+							<div id="panel-3" role="tabpanel" aria-labelledby="tab-3" class="mx-0 #accnTabActive#" tabindex="0" #accnTabShow#>
 								<h2 class="h3 card-title my-0">Find Accessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<!--- Search for just accessions ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -1626,8 +1615,9 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane accession search---> 
+
 							<!--- Deaccession search tab panel --->
-							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="js-tabcontent mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
+							<div id="panel-4" role="tabpanel" aria-labelledby="tab-4" class="mx-0 #deaccnTabActive#" tabindex="0" #deaccnTabShow#>
 								<h2 class="h3 card-title my-0">Find Deaccessions <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Accession')" aria-label="help link"></i></h2>
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 									select coll_obj_disposition from ctcoll_obj_disp
@@ -2056,8 +2046,9 @@ limitations under the License.
 									</div>
 								</form>
 							</div><!---tab-pane deaccession search---> 
+
 							<!--- Borrow search tab panel --->
-							<div id="tab-5" role="tabpanel" aria-labelledby="tab-5" class="js-tabcontent mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
+							<div id="panel-5" role="tabpanel" aria-labelledby="tab-5" class="mx-0 #borrowTabActive#" tabindex="0" #borrowTabShow#>
 								<h2 class="h3 card-title my-0">Find Borrows <i class="fas fa-info-circle" onClick="getMCZDocs('Find_Borrow')" aria-label="help link"></i></h2>
 								<!--- Search for just loans ---->
 								<cfquery name="ctCollObjDisp" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
@@ -3574,15 +3565,5 @@ function gridLoaded(gridId, searchType) {
 		</div>
 	</div>	
 	</div><!--- overlaycontainer --->
-</cfoutput>														
-<script>
-/**
- * van11y-accessible-tab-panel-aria - ES2015 accessible tabs panel system, using ARIA (compatible IE9+ when transpiled)
- * @version v2.0.4
- * @link https://van11y.net/accessible-tab-panel/
- * @license MIT : https://github.com/nico3333fr/van11y-accessible-tab-panel-aria/blob/master/LICENSE
- */
-"use strict";function _defineProperty(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}!function(e){var t="js-tabs",r="js-tablist",i="js-tablist__item",l="js-tablist__link",n="js-tabcontent",a="js-link-to-tab",o="data-tabs-prefix-class",c="data-hx",u="data-tabs-generated-hx-class",s="data-existing-hx",f="data-selected",d="label_",b="tabs",y="tabs__list",v="tabs__item",A="tabs__link",p="tabs__content",g="invisible",h="tablist",_="tab",m="tabpanel",S="presentation",P="role",q="aria-labelledby",k="aria-hidden",x="aria-controls",E="aria-selected",D=1e3,C=window.location.hash.replace("#",""),L=function(t){return e.getElementById(t)},w=function(e,t){e.classList?e.classList.add(t):e.className+=" "+t},j=function(e,t){return e.classList?e.classList.contains(t):new RegExp("(^| )"+t+"( |$)","gi").test(e.className)},T=function(e,t){Object.keys(t).forEach(function(r){e.setAttribute(r,t[r])})},K=function(e){e.forEach(function(e){var t;T(e,(t={},_defineProperty(t,E,"false"),_defineProperty(t,"tabindex","-1"),t))})},M=function(e){e.forEach(function(e){e.setAttribute(k,!0)})},N=function(e){var t,r=L(e.getAttribute(x));T(e,(t={},_defineProperty(t,E,"true"),_defineProperty(t,"tabindex","0"),t)),r.removeAttribute(k),setTimeout(function(){e.focus()},0),setTimeout(function(){history.pushState(null,null,location.pathname+location.search+"#"+e.getAttribute(x))},D)},O=function(e,t,r,i){var n=void 0;e.forEach(function(e,t){"true"===e.querySelector("."+l).getAttribute(E)&&(n=t)}),K(t),M(r),"next"===i&&(N(t[n+1]),setTimeout(function(){t[n+1].focus()},0)),"prev"===i&&(N(t[n-1]),setTimeout(function(){t[n-1].focus()},0))},B=function(e,t){for(var r=!1,i=e.parentNode;i&&r===!1;)j(i,t)===!0?r=!0:i=i.parentNode;return r===!0?i.getAttribute("id"):""},H=function(){var r=arguments.length<=0||void 0===arguments[0]?e:arguments[0];return[].slice.call(r.querySelectorAll("."+t))},I=function(e){H(e).forEach(function(e){var t=Math.random().toString(32).slice(2,12),a=e.hasAttribute(o)===!0?e.getAttribute(o)+"-":"",D=e.hasAttribute(c)===!0?e.getAttribute(c):"",N=e.hasAttribute(u)===!0?e.getAttribute(u):g,O=e.hasAttribute(s)===!0?e.getAttribute(s):"",H=[].slice.call(e.querySelectorAll("."+r)),I=[].slice.call(e.querySelectorAll("."+i)),R=[].slice.call(e.querySelectorAll("."+l)),$=[].slice.call(e.querySelectorAll("."+n)),z=!0;if(w(e,a+b),e.setAttribute("id",b+t),H.forEach(function(e){var r;w(e,a+y),T(e,(r={},_defineProperty(r,P,h),_defineProperty(r,"id",y+t),r))}),I.forEach(function(e,r){var i;w(e,a+v),T(e,(i={},_defineProperty(i,P,S),_defineProperty(i,"id",v+t+"-"+(r+1)),i))}),R.forEach(function(e){var t,r,i=e.getAttribute("href").replace("#",""),l=L(i),n=e.innerText,o=e.hasAttribute(f)===!0;if(w(e,a+A),T(e,(t={id:d+i},_defineProperty(t,P,_),_defineProperty(t,x,i),_defineProperty(t,"tabindex","-1"),_defineProperty(t,E,"false"),t)),T(l,(r={},_defineProperty(r,k,"true"),_defineProperty(r,P,m),_defineProperty(r,q,d+i),r)),w(l,a+p),o&&z&&(z=!1,T(e,_defineProperty({tabindex:"0"},E,"true")),T(l,_defineProperty({},k,"false"))),""!==D){var c=document.createElement(D);c.setAttribute("class",N),c.setAttribute("tabindex","0"),c.innerHTML=n,l.insertBefore(c,l.firstChild)}if(""!==O){var u=[].slice.call(l.querySelectorAll(O+":first-child"));u.forEach(function(e){e.setAttribute("tabindex","0")})}e.removeAttribute("href")}),""!==C){var F=L(C);if(null!==F&&null!==e.querySelector("#"+C))if(j(F,n)===!0){K(R),M($),F.removeAttribute(k);var G=L(d+C);T(G,_defineProperty({tabindex:"0"},E,"true")),z=!1}else{var J=B(F,n);if(""!==J){K(R),M($);var Q=L(J);Q.removeAttribute(k);var U=L(d+J);T(U,_defineProperty({tabindex:"0"},E,"true")),z=!1}}}if(z===!0){T(R[0],_defineProperty({tabindex:"0"},E,"true"));var V=L(R[0].getAttribute(x));V.removeAttribute(k)}})};["click","keydown"].forEach(function(r){e.body.addEventListener(r,function(e){var o=B(e.target,l);if((j(e.target,l)===!0||""!==o)&&"click"===r){var c=j(e.target,l)===!0?e.target:L(o),u=B(e.target,t),s=L(u),f=[].slice.call(s.querySelectorAll("."+l)),d=[].slice.call(s.querySelectorAll("."+n));K(f),M(d),N(c),e.preventDefault()}if((j(e.target,l)===!0||""!==o)&&"keydown"===r){var u=B(e.target,t),s=L(u),b=[].slice.call(s.querySelectorAll("."+i)),f=[].slice.call(s.querySelectorAll("."+l)),d=[].slice.call(s.querySelectorAll("."+n)),y=b[0].querySelector("."+l),v=b[b.length-1].querySelector("."+l);36===e.keyCode?(K(f),M(d),N(y),e.preventDefault()):35===e.keyCode?(K(f),M(d),N(v),e.preventDefault()):37!==e.keyCode&&38!==e.keyCode||e.ctrlKey?40!==e.keyCode&&39!==e.keyCode||e.ctrlKey||("true"===v.getAttribute(E)?(K(f),M(d),N(y),e.preventDefault()):(O(b,f,d,"next"),e.preventDefault())):"true"===y.getAttribute(E)?(K(f),M(d),N(v),e.preventDefault()):(O(b,f,d,"prev"),e.preventDefault())}var A=B(e.target,n);""!==A&&"keydown"===r&&!function(){var r=L(L(A).getAttribute(q)),a=B(e.target,t),o=L(a),c=[].slice.call(o.querySelectorAll("."+i)),u=[].slice.call(o.querySelectorAll("."+l)),s=[].slice.call(o.querySelectorAll("."+n)),f=c[0].querySelector("."+l),d=c[c.length-1].querySelector("."+l);38===e.keyCode&&e.ctrlKey&&(setTimeout(function(){r.focus()},0),e.preventDefault()),33===e.keyCode&&e.ctrlKey&&(r.focus(),e.preventDefault(),"true"===f.getAttribute(E)?(K(u),M(s),N(d)):O(c,u,s,"prev")),34===e.keyCode&&e.ctrlKey&&(r.focus(),e.preventDefault(),"true"===d.getAttribute(E)?(K(u),M(s),N(f)):O(c,u,s,"next"))}();var p=B(e.target,a);if((j(e.target,a)===!0||""!==p)&&"click"===r){var g=j(e.target,a)===!0?e.target.getAttribute("href").replace("#",""):L(p).replace("#",""),h=L(g),_=L(h.getAttribute(q)),u=B(e.target,t),s=L(u),f=[].slice.call(s.querySelectorAll("."+l)),d=[].slice.call(s.querySelectorAll("."+n));K(f),M(d),N(_),e.preventDefault()}},!0)});var R=function $(){I(),document.removeEventListener("DOMContentLoaded",$)};document.addEventListener("DOMContentLoaded",R),window.van11yAccessibleTabPanelAria=I}(document);
-</script>
-
+</cfoutput>
 <cfinclude template="/shared/_footer.cfm">
