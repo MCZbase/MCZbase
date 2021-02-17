@@ -762,7 +762,7 @@ limitations under the License.
 						</div>
 					</div>
 				</div>
-												<cfinclude template="/specimens/identificationDialog.cfm">
+										
 		
 				<!------------------------------------ citations ------------------------------------------>
 	
