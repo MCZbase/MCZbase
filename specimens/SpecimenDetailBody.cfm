@@ -611,6 +611,28 @@ limitations under the License.
 						identification.collection_object_id = <cfqueryparam value="#collection_object_id#" cfsqltype="CF_SQL_DECIMAL">
 					ORDER BY accepted_id_fg DESC,sort_order, made_date DESC
 				</cfquery>
+						<script>
+									function opendialog(page,id,title) {
+									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
+									var adialog = $(id)
+										.html(content)
+										.dialog({
+											title: title,
+											autoOpen: false,
+											dialogClass: 'dialog_fixed,ui-widget-header',
+											modal: true,
+											height: 'auto',
+											width: 'auto',
+											minWidth: 560,
+											minHeight: 450,
+											draggable:true,
+											resizable:true,
+											buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
+											close: function() { loadIdentifications(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
+										});
+										adialog.dialog('open');
+									};
+								</script>
 				<div class="accordion" id="accordionB">
 					<div class="card mb-2 bg-light">
 						<div class="card-header" id="heading1">
@@ -618,9 +640,9 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
 
-<!---<div class="dialog" title="Edit Identification (id: #identification_id#)">
-	<div id="identificationNewForm">Stuff here...</div>
-</div>--->
+							<!---<div class="dialog" title="Edit Identification (id: #identification_id#)">
+								<div id="identificationNewForm">Stuff here...</div>
+							</div>--->
 
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
