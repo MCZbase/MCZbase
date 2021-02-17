@@ -617,7 +617,7 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
 							<div class="dialog" title="Edit Identification (id: #identification_id#)">
-								<div id="identificationNewForm">Stuff here...</div>
+								<div id="identificationForm">Stuff here...</div>
 							</div>
 			
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
