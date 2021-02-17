@@ -760,8 +760,14 @@ limitations under the License.
 									<input class="data-entry-input" value="#getTaxa.scientific_name#" type="text">
 									<label>Determiner</label>
 									<input class="data-entry-input" value="#agent_name#" type="text">
+
 								</div>
 							</div>
+							</cfloop>
+						</div>
+						</div>
+					</div>
+				</div>
 
 				<!------------------------------------ citations ------------------------------------------>
 	
