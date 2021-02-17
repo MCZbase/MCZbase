@@ -764,16 +764,11 @@ limitations under the License.
 
     							<input type="hidden" name="Action" value="createNew">
     							<input type="hidden" name="collection_object_id" value="#collection_object_id#" >
-			<div id="taxa_formula">ID Formula:</div>
-			<cfif not isdefined("taxa_formula")>
-				<cfset taxa_formula='A'>
-			</cfif>
-			<cfset thisForm = "#taxa_formula#">
-			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr"
-				onchange="newIdFormula(this.value);">
+			<label id="taxa_formula">ID Formula:</label>
+			
+			<select name="taxa_formula" id="taxa_formula" size="1" class="reqdClr"  onchange="newIdFormula(this.value);">
 					<cfloop query="ctFormula">
-						<option
-							<cfif #thisForm# is "#ctFormula.taxa_formula#"> selected </cfif>value="#ctFormula.taxa_formula#">#taxa_formula#</option>
+						<option value="#ctFormula.taxa_formula#">#taxa_formula#</option>
 					</cfloop>
 			</select>
 			<div id="scientific_name">Taxon A:</div>
