@@ -1,5 +1,5 @@
 <cfcomponent>
-<cfinclude template = "../../shared/functionLib.cfm">
+<cfinclude template = "/shared/functionLib.cfm">
 
 <cffunction name="getExternalStatus" access="remote">
 	<cfargument name="uri" type="string" required="yes">
@@ -60,10 +60,10 @@
     </cfif>
 </cffunction>
 <!----------------------------------------------------------------------------------------------------------------->
+	
+			
 <!--- TODO: Comment documents a shipment method, what follows is an identification method????  --->
-<!--- NEW NEW NEW Obtain the list of shipments and their permits for a transaction formatted in html for display on a transaction page --->
-<!---  @param transaction_id  the transaction for which to obtain a list of shipments and their permits.  --->
-<!---  @return html list of shipments and permits, including editing controls for adding/editing/removing shipments and permits. --->
+
 <cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
    <cfset r=1>

@@ -630,21 +630,21 @@ function opendialog(page,id,title) {
 	modal: true,
 	height: 'auto',
 	width: 'auto',
-	minWidth: 360,
+	minWidth: 800,
 	minHeight: 450,
 	draggable:true,
 	resizable:true,
-	buttons: { "Ok": function () { loadShipments(#transaction_id#); $(this).dialog("destroy"); $(id).html(''); } },
-	close: function() { loadShipments(#transaction_id#);  $(this).dialog("destroy"); $(id).html(''); }
+	buttons: { "Ok": function () { loadIdentifications(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
+	close: function() { loadIdentifications(#identfication_id#);  $(this).dialog("destroy"); $(id).html(''); }
 	});
 	adialog.dialog('open');
 	};
 </script>
 <div class="dialog" title="Edit Identification (id: #identification_id#)">
-	<div id="identificationNewForm">Stuff here...</div>
+	<div id="identificationForm">Stuff here...</div>
 </div>
 	<cfinclude template="/specimens/identificationDialog.cfm">
-			<input type='button' value='Edit this Shipment' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
+			<input type='button' value='Edit this Identification' class='btn btn-xs btn-secondary' onClick="$('##dialog-shipment').dialog('open'); loadShipment(#shipment_id#,'shipmentForm');">
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
