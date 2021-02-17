@@ -103,6 +103,7 @@ limitations under the License.
 <!--- Multiselect widget used on specimen search, probably not needed everywhere ---> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.js"></script> 
 <script type="text/javascript" src="/lib/misc/jquery-ui-multiselect-widget-3.0.0/src/jquery.multiselect.filter.js"></script>
+	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 <cfif isdefined("addheaderresource")>
 	<cfif addheaderresource EQ "feedreader">
 		<script type="text/javascript" src="/lib/misc/jquery-migrate-1.0.0.js"></script> 
@@ -111,6 +112,7 @@ limitations under the License.
 </cfif>
 <cfif CGI.script_name CONTAINS "/transactions/" OR CGI.script_name IS "/Transactions.cfm">
 	<script type="text/javascript" src="/transactions/js/transactions.js"></script>
+	<script type="text/javascript" src="/shared/js/tabs.js"></script>
 </cfif>
 <cfif CGI.script_name CONTAINS "/taxonomy/" OR CGI.script_name IS "/Taxa.cfm">
 	<script type="text/javascript" src="/taxonomy/js/taxonomy.js"></script>
