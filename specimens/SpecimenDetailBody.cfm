@@ -586,7 +586,8 @@ limitations under the License.
 		<div class="col-12 col-sm-12 px-0 <cfif mediaS2.recordcount gt 1>col-md-9 col-lg-9 col-xl-10<cfelse>col-md-12 col-lg-12 col-xl-12</cfif> float-left">
 			<div class="col-12 col-md-6 px-1 float-left"> 
 				<!----------------------------- identifications ----------------------------------> 
-
+	<script type='text/javascript' src='/specimens/shared/js/internalAjax.js'></script>
+		<script type='text/javascript' src='/specimens/component/functions.cfc'></script>	
 				<cfquery name="identification" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
 					SELECT
 						identification.scientific_name,
@@ -615,9 +616,9 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-				<!---			<div class="dialog" title="Edit Identification (id: #identification_id#)">
+							<div class="dialog" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationNewForm">Stuff here...</div>
-							</div>--->
+							</div>
 						<button type="button" class="btn btn-xs small float-right" onclick="window.parent.loadEditApp('editIdentification');">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
