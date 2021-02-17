@@ -3565,7 +3565,7 @@ function gridLoaded(gridId, searchType) {
 		</div>
 	</div>	
 	</div><!--- overlaycontainer --->
-														</cfoutput>
+</cfoutput>
 <script>
 // For accessibility of tabs //
 window.addEventListener("DOMContentLoaded", () => {
