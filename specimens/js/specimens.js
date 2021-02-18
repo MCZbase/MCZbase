@@ -23,7 +23,7 @@ targetDiv="CitPubFormMedia";
         Title: {style:"font-size: 1.3em;"},
 		bgiframe: true,
         autoOpen: false,
-    	width: 'auto',
+    	width: '500px',
     	minWidth: 'auto',
     	minHeight: 450,
 		buttons: [
