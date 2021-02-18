@@ -52,7 +52,7 @@ targetDiv="CitPubFormMedia";
       );
     }
    );
-function loadIdentification(identfication_id,form) {
+function loadIdentification(identification_id,form) {
 	jQuery.ajax({
 		url: "/specimens/component/functions.cfc",
 		data : {
