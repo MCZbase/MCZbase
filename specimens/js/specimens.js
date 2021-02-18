@@ -26,12 +26,13 @@ targetDiv="CitPubFormMedia";
     	width: '500px',
     	minWidth: 500,
     	minHeight: 450,
-		buttons: {
-			"Ok": function () { loadIdentification(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
-			close: function() { loadIdentification(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
-        // },
-        //close: function() {
-        //    $(this).dialog( "close" );
+		buttons: [
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        
+    	],
+        close: function() {
+            $(this).dialog( "close" );
         },
         modal: true
        }
@@ -56,12 +57,12 @@ targetDiv="CitPubFormMedia";
  *  @param form the id without a leading # selector of the shipment form.
  */
 function loadIdentification(identfication_id,form) {
-	$("#dialog").dialog( "option", "title", "Edit Identification " + identfication_id );
+	$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
 	$("#identificationForm").html(""); 
 	$("#identificationFormStatus").html(""); 
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
-			method : "getidentification",
+			method : "getIdentificationHTML",
 			shipmentidList : identfication_id,
 			returnformat : "json",
 			queryformat : 'column'
@@ -74,7 +75,7 @@ function loadIdentification(identfication_id,form) {
 					$("#identification_id").val(result.DATA.identification_ID[i]);
 					$("#scientific_name").val(result.DATA.scientific_name[i]);	
 				} else { 
-					 $("#dialog-identification").dialog( "close" );
+					 $("#dialog").dialog( "close" );
 				}
 				loadIdentificationForm(identification_id);
 			}
