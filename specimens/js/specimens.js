@@ -73,11 +73,7 @@ function getIdentification(identfication_id,form) {
 					var i = 0;
 					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
 					$("#identification_id").val(result.DATA.identification_ID[i]);
-					$("#scientific_name").val(result.DATA.scientific_name[i]);
-
-					var target = "#shipped_carrier_method option[value='" + result.DATA.SHIPPED_CARRIER_METHOD[i] + "']";
-$(target).attr("selected",true);
-	
+					$("#scientific_name").val(result.DATA.scientific_name[i]);	
 				} else { 
 					 $("#dialog-identification").dialog( "close" );
 				}
@@ -89,4 +85,31 @@ $(target).attr("selected",true);
 		handleFail(jqXHR,textStatus,error,"loading identification");
 	});
 };
-
+function loadIdentification(identification_id,form) {
+	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identification_id );
+	$("#identificationFormStatus").html(""); 
+	jQuery.getJSON("/transactions/component/functions.cfc",
+		{
+			method : "getIdentification",
+			shipmentidList : identification_id,
+			returnformat : "json",
+			queryformat : 'column'
+		},
+		function (result) {
+			try{
+				if (result.ROWCOUNT == 1) {
+					var i = 0;
+					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
+					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
+					$("#scientific_name").val(result.DATA.scientific_name[i]);
+					
+				} else { 
+					 $("#dialog-identification").dialog( "close" );
+				}
+			}
+			catch(e){ alert(e); }
+		}
+	).fail(function(jqXHR,textStatus,error){
+		handleFail(jqXHR,textStatus,error,"loading identification record");
+	});
+};
