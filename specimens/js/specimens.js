@@ -72,7 +72,7 @@ targetDiv="CitPubFormMedia";
 //	});
 //};
 function loadIdentification(identification_id,form) {
-	$(".dialog").dialog( "option", "title", "Edit Identification here:" + identification_id );
+	//$(".dialog").dialog( "option", "title", "Edit Identification here:" + identification_id );
 	$("#identificationHTML").html(""); 
 	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
