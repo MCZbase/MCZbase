@@ -96,7 +96,7 @@
 			<cfset resulthtml = resulthtml & "<div class='form-group w-50 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
     		<cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' value='#agent_name#'></div>">
-            <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><select name='nature_of_id' id='nature_of_id' size='1' class='reqdClr'><cfloop query='theResult'><option <cfif #theResult.nature_of_id# EQ 'expert id'>selected</cfif> value='#theResult.nature_of_id#'>#theResult.nature_of_id#</option></cfloop></select><input type='text' class='form-control-sm' id='nature_of_id' value='#nature_of_id#'></div>">
+            <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><select name='nature_of_id' id='nature_of_id' size='1' class='reqdClr'><cfloop query='theResult'><option value='#nature_of_id#'>#nature_of_id#</option></cfloop></select><input type='text' class='form-control-sm' id='nature_of_id' value='#nature_of_id#'></cfloop></div>">
 			<cfset resulthtml = resulthtml & "</div>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-12 col-sm-12 float-left'>">
          	<cfset resulthtml = resulthtml & "<div class='form-group'><label for='full_taxon_name'>Full Taxon Name:</label><input type='text' class='form-control-sm' id='full_taxon_name' value='#full_taxon_name#'></div> ">
