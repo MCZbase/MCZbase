@@ -7,7 +7,7 @@
 	<cfreturn left(cfhttp.statuscode,3)>
 </cffunction>
 <!------EXISTING----------------------------------------------------------------------------------------------------------->
-<cffunction name="getIdentifications" returntype="query" access="remote">
+<cffunction name="getIdentification" returntype="query" access="remote">
 	<cfargument name="identification_id" type="string" required="yes">
 	<cftry>
 		<cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
