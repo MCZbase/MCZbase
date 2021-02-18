@@ -56,35 +56,35 @@ targetDiv="CitPubFormMedia";
  *  @param shipmentId the shipment_id of the shipment to edit
  *  @param form the id without a leading # selector of the shipment form.
  */
-function getIdentification(identfication_id,form) {
-	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identfication_id );
-	$("#identificationForm").html(""); 
-	$("#identificationFormStatus").html(""); 
-	jQuery.getJSON("/transactions/component/functions.cfc",
-		{
-			method : "getidentification",
-			shipmentidList : identfication_id,
-			returnformat : "json",
-			queryformat : 'column'
-		},
-		function (result) {
-			try{
-				if (result.ROWCOUNT == 1) {
-					var i = 0;
-					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
-					$("#identification_id").val(result.DATA.identification_ID[i]);
-					$("#scientific_name").val(result.DATA.scientific_name[i]);	
-				} else { 
-					 $("#dialog-identification").dialog( "close" );
-				}
-				loadIdentificationForm(identification_id);
-			}
-			catch(e){ alert(e); }
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"loading identification");
-	});
-};
+//function getIdentification(identfication_id,form) {
+//	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identfication_id );
+//	$("#identificationForm").html(""); 
+//	$("#identificationFormStatus").html(""); 
+//	jQuery.getJSON("/transactions/component/functions.cfc",
+//		{
+//			method : "getidentification",
+//			shipmentidList : identfication_id,
+//			returnformat : "json",
+//			queryformat : 'column'
+//		},
+//		function (result) {
+//			try{
+//				if (result.ROWCOUNT == 1) {
+//					var i = 0;
+//					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
+//					$("#identification_id").val(result.DATA.identification_ID[i]);
+//					$("#scientific_name").val(result.DATA.scientific_name[i]);	
+//				} else { 
+//					 $("#dialog-identification").dialog( "close" );
+//				}
+//				loadIdentificationForm(identification_id);
+//			}
+//			catch(e){ alert(e); }
+//		}
+//	).fail(function(jqXHR,textStatus,error){
+//		handleFail(jqXHR,textStatus,error,"loading identification");
+//	});
+//};
 function loadIdentification(identification_id,form) {
 	$("#dialog-identification").dialog( "option", "title", "Edit Identification " + identification_id );
 	$("#identificationFormStatus").html(""); 
