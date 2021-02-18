@@ -627,7 +627,7 @@ limitations under the License.
 											dialogClass: 'dialog_fixed,ui-widget-header',
 											modal: true,
 											height: 'auto',
-											width: 'auto',
+											width: '560px',
 											minWidth: 560,
 											minHeight: 450,
 											draggable:true,
