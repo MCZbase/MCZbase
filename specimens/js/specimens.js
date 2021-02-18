@@ -60,29 +60,20 @@ function loadIdentification(identfication_id,form) {
 	$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
 	$("#identificationHTML").html(""); 
 	$("#identificationFormStatus").html(""); 
-	jQuery.getJSON("/specimens/component/functions.cfc",
-		{
-			method : "getIdentificationHTML",
-			identification_id : identfication_id,
-			returnformat : "json",
-			queryformat : 'column'
+			jQuery.ajax({
+		url: "/specimens/component/functions.cfc",
+		data : {
+			method : "getIdentificationHtml",
+			transaction_id: transaction_id,
+			transaction_type: transaction_type
 		},
-		function (result) {
-			try{
-				if (result.ROWCOUNT == 1) {
-					var i = 0;
-					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);	
-				} else { 
-					 $("#dialog").dialog( "close" );
-				}
-				loadIdentification(identification_id);
-			}
-			catch(e){ alert(e); }
-		}
-	).fail(function(jqXHR,textStatus,error){
-		handleFail(jqXHR,textStatus,error,"loading identification");
+		success: function (result) {
+			$("#identificationHTML").html(result);
+		},
+		error: function (jqXHR, textStatus, error) {
+			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+		},
+		dataType: "html"
 	});
 };
 //function loadIdentification(identification_id,form) {
