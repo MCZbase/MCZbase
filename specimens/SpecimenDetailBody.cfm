@@ -617,7 +617,7 @@ limitations under the License.
 							</h3>
 					
 
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); getIdentifications(#identification_id#);">Edit</button>
+						<button type="button" class="btn btn-xs small float-right" onClick="$('##dialog-identification').dialog('open'); getIdentifications(#identification_id#);">Edit</button>
 						</div>
 							
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -755,7 +755,7 @@ limitations under the License.
 								</ul>
 										
 										
-							<div class="dialog" id="dialog-identification" title="Edit Identification (id: #identification_id#)">
+							<div class="dialog" id="" title="Edit Identification (id: #identification_id#)">
 								<div id="identificationForm"></div>
 							</div>
 							</cfloop>
