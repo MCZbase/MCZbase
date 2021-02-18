@@ -60,7 +60,7 @@ function loadIdentification(identfication_id,form) {
 	$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
 	$("#identificationForm").html(""); 
 	$("#identificationFormStatus").html(""); 
-	jQuery.getJSON("/transactions/component/functions.cfc",
+	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
 			method : "getIdentificationHTML",
 			identification_id : identfication_id,
