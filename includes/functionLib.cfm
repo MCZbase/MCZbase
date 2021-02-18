@@ -44,7 +44,7 @@
 	<cfargument name="mt" required="false" type="string">
 	<cfset r=0>
 	<cfif len(puri) gt 0>
-		<cfif not isdefined(session.mczmediafail)><cfset session.mczmediafail=0></cfif>
+		<cfif not isdefined("session.mczmediafail")><cfset session.mczmediafail=0></cfif>
 		<cfif puri contains 'mczbase.mcz.harvard.edu/specimen_images/' and session.mczmediafail GT 3>
 			<!--- decrement the fail counter --->
 			<cfset session.mczmediafail = session.mczmediafail-1 >
