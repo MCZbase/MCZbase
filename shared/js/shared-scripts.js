@@ -215,8 +215,19 @@ function autogrow (event) {
 	$(this).css('overflow-y','hidden');  // temporarily hide the vertical scrollbar so as not to flash
 	if ( $(this).outerHeight() < $(this)[0].scrollHeight + tb + bb )       
 	{
-		// increase the height such that the text fits into the scroll bar height, taking borders into account.
-		$(this).height($(this)[0].scrollHeight+tb+bb);
+		var em = $(this).val().length * parseInt(window.getComputedStyle(document.getElementsByTagName('html')[0])['fontSize']);
+		var width = $(this).width();
+		var fontsize = $(this).css("font-size");
+		var widthem = width/fontsize;
+		var lines = floor(em/widthem)+1;
+		var newlines = $(this).val().split("\n");
+		lines=newlines+lines;
+		lines=lines+2;
+		var needs = lines*fontsize;
+		if ($(this)[0].scrollHeight+tb+bb < needs) { 
+			// increase the height such that the text fits into the scroll bar height, taking borders into account.
+			$(this).height($(this)[0].scrollHeight+tb+bb);
+		}
 	}
 	$(this).css('overflow-y','auto');
 };
