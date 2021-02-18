@@ -65,10 +65,10 @@
 	
 
 
-<cffunction name="getIdentificationHtml" returntype="string" access="remote" returnformat="plain">
+<cffunction name="getIdentificationHTML" returntype="string" access="remote" returnformat="plain">
    <cfargument name="identification_id" type="string" required="yes">
    <cfset r=1>
-   <cfthread name="getSBTHtmlThread">
+   <cfthread name="getIdentificationThread">
    <cftry>
        <cfquery name="theResult" datasource="user_login" username="#session.dbuser#" password="#decrypt(session.epw,cfid)#">
          select 1 as status, identification.identification_id, identification.collection_object_id, identification.scientific_name, identification.made_date, identification.nature_of_id, identification.stored_as_fg,identification.identification_remarks, identification.accepted_id_fg, identification.taxa_formula, identification.sort_order, taxonomy.full_taxon_name, taxonomy.author_text, identification_agent.agent_id, concatidagent(identification.identification_id) agent_name
@@ -85,7 +85,7 @@
       </cfquery>
 	
 	
-      <cfset resulthtml = "<div id='identification'> ">
+      <cfset resulthtml = "<div id='identificationHTML'> ">
 
       <cfloop query="theResult">
 
@@ -118,8 +118,8 @@
    </cftry>
      <cfoutput>#resulthtml#</cfoutput>
    </cfthread>
-    <cfthread action="join" name="getSBTHtmlThread" />
-    <cfreturn getSBTHtmlThread.output>
+    <cfthread action="join" name="getIdentificationThread" />
+    <cfreturn getIdentificationThread.output>
 </cffunction>
 
 <!----------------------------------------------------------------------------------------------------------------->
