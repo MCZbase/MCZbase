@@ -94,7 +94,7 @@
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
 			<cfset resulthtml = resulthtml & "<div class='form-group'><label for='scientific_name'>Scientific Name:</label><input type='text' class='form-control-sm' id='scientific_name' value='#scientific_name#'></div>">
 			<cfset resulthtml = resulthtml & "<div class='form-group w-25 mb-3 float-left'><label for='taxa_formula'>Formula:</label><select class='border custom-select form-control input-sm id='select'><option value='' disabled='' selected=''>#taxa_formula#</option><option value='A'>A</option><option value='B'>B</option><option value='sp.'>sp.</option></select></div>">
-					<cfset resulthtml = resulthtml & "<div class='form-group w-25 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
+					<cfset resulthtml = resulthtml & "<div class='form-group w-50 mb-3 ml-3 float-left'><label for='made_date'>Made Date:</label><input type='text' class='form-control ml-0 input-sm' id='made_date' value='#dateformat(made_date,'yyyy-mm-dd')#&nbsp;'></div></div>">
 			<cfset resulthtml = resulthtml & "<div class='col-md-6 col-sm-12 float-left'>">
     <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Determined By:</label><input type='text' class='form-control-sm' id='nature_of_id' placeholder='#agent_name#'></div>">
             <cfset resulthtml = resulthtml & "<div class='form-group'><label for='nature_of_id'>Nature of ID:</label><input type='text' class='form-control-sm' id='nature_of_id' placeholder='#nature_of_id#'></div>">
