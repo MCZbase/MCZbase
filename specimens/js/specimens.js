@@ -86,7 +86,7 @@ targetDiv="CitPubFormMedia";
 //	});
 //};
 function loadIdentification(identification_id,form) {
-	$("#dialog_identification").dialog( "option", "title", "Edit Identification " + identification_id );
+	$("#dialog_identification").dialog( "option", "title", "Edit Identification here:" + identification_id );
 	$("#identificationForm").html(""); 
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
