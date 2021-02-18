@@ -64,14 +64,13 @@ function loadIdentification(identfication_id,form) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getIdentificationHtml",
-			transaction_id: transaction_id,
-			transaction_type: transaction_type
+			transaction_id: identification_id,
 		},
 		success: function (result) {
 			$("#identificationHTML").html(result);
 		},
 		error: function (jqXHR, textStatus, error) {
-			handleFail(jqXHR,textStatus,error,"removing subloan from master exhibition loan");
+			handleFail(jqXHR,textStatus,error,"removing identification");
 		},
 		dataType: "html"
 	});
