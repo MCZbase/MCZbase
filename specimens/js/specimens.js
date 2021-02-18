@@ -77,7 +77,7 @@ function loadIdentification(identfication_id,form) {
 				} else { 
 					 $("#dialog").dialog( "close" );
 				}
-				loadIdentificationForm(identification_id);
+				loadIdentification(identification_id);
 			}
 			catch(e){ alert(e); }
 		}
