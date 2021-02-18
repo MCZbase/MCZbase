@@ -64,7 +64,7 @@ function loadIdentification(identfication_id,form) {
 		url: "/specimens/component/functions.cfc",
 		data : {
 			method : "getIdentificationHtml",
-			transaction_id: identification_id,
+			identification_id: identification_id,
 		},
 		success: function (result) {
 			$("#identificationHTML").html(result);
