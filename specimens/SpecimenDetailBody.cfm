@@ -615,29 +615,6 @@ limitations under the License.
 							<h3 class="h4 my-0 float-left collapsed btn-link">
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
-					
-										<script>
-//									function opendialog(page,id,title) {
-//									var content = '<iframe style="border: 0px; " src="' + page + '" width="100%" height="100%"></iframe>'
-//									var adialog = $(id)
-//										.html(content)
-//										.dialog({
-//											title: title,
-//											autoOpen: false,
-//											dialogClass: 'dialog_fixed,ui-widget-header',
-//											modal: true,
-//											height: 'auto',
-//											width: '560px',
-//											minWidth: 560,
-//											minHeight: 450,
-//											draggable:true,
-//											resizable:true,
-//											buttons: { "Ok": function () { loadIdentification(#identification_id#); $(this).dialog("destroy"); $(id).html(''); } },
-//											close: function() { loadIdentification(#identification_id#);  $(this).dialog("destroy"); $(id).html(''); }
-//										});
-//										adialog.dialog('open');
-//									};
-								</script>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
@@ -773,8 +750,7 @@ limitations under the License.
 								</cfif>
 								</li>
 								</ul>
-										
-										
+	
 							<div id="identification" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 							
 							</cfloop>
