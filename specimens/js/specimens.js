@@ -87,7 +87,7 @@ targetDiv="CitPubFormMedia";
 //};
 function loadIdentification(identification_id,form) {
 	$("#dialog_identification").dialog( "option", "title", "Edit Identification " + identification_id );
-	$("#identificationFormStatus").html(""); 
+	$("#identificationForm").html(""); 
 	jQuery.getJSON("/transactions/component/functions.cfc",
 		{
 			method : "getIdentification",
@@ -101,7 +101,7 @@ function loadIdentification(identification_id,form) {
 					var i = 0;
 					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
 					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
-					$("#scientific_name").val(result.DATA.scientific_name[i]);
+					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);
 					
 				} else { 
 					 $("#dialog_identification").dialog( "close" );

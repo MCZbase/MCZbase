@@ -775,10 +775,8 @@ limitations under the License.
 								</ul>
 										
 										
-							<div class="dialog" title="Edit Identification (id: #identification_id#)">
-								<div id="loadIdentificationForm">			<script>
-									$( document ).ready(loadIdentification(#identification_id#));
-								</script></div>
+							<div id="loadIdentificationForm" class="dialog" title="Edit Identification (id: #identification_id#)">
+							</div>
 							</div>
 							</cfloop>
 						</div>
