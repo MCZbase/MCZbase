@@ -638,7 +638,7 @@ limitations under the License.
 										adialog.dialog('open');
 									};
 								</script>
-						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); loadIdentification(#identification_id#);">Edit</button>
+						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open');">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
 							<div class="card-body mb-2 float-left">
