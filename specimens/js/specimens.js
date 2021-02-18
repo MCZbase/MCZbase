@@ -17,9 +17,7 @@ targetDiv="CitPubFormMedia";
 	});
 }
 
-	$(function(dialogid,identification_id,okcallback) {
-		var datasub = $('#identificationForm').serialize();
-		var content = '<div id="'+dialogid+'_div">Loading....</div>';
+	$(function(identification_id) {
      $(".dialog").dialog({
 		open: function(event,ui){},
         Title: {style:"font-size: 1.3em;"},
@@ -28,31 +26,24 @@ targetDiv="CitPubFormMedia";
     	width: '700px',
     	minWidth: 500,
     	minHeight: 450,
-		buttons: [
+	buttons: [
 			{ text: "Cancel", click: function () { $(this).dialog( "close" );}, class: "btn", style:"background: none; border: none;" },
-        	{ text: "Save", click: function(){ $('#identificationForm').serialize();
-			
-					$.ajax({
-						url: "/specimens/component/functions.cfc",
-						type: 'post',
-						returnformat: 'plain',
-						data: datasub,
-						success: function(data) { 
-							if (jQuery.type(this)==='function') {
-								this();
-							}
-							$("#"+dialogid+"_div").html(data);
-						},
-						fail: function (jqXHR, textStatus,error) { 
-							'error saving identification';
-						}	
-					});},class:"btn btn-primary"}],
+        	{ text: "Save", class:"btn btn-primary", click: function() { 
+				$('#identificationForm').serialize(); 
+				$.ajax({
+					url: "/specimens/component/functions.cfc",
+					data : {
+						method : "saveIdentification",
+						identification_id: identification_id
+					} 
+				});
+		},
         close: function() {
             $(this).dialog( "close" );
         },
         modal: true
        }
-      );
+      ],
      $('body')
       .bind(
        'click',
