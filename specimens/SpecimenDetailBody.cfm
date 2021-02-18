@@ -752,7 +752,7 @@ limitations under the License.
 								</ul>
 							</cfloop>
 						</div>
-							<div id="identification" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
+							<div id="identificationHTML" class="dialog" title="Edit Identification (id: #identification_id#)"></div>
 						</div>
 					</div>
 				</div>

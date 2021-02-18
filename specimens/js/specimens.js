@@ -58,7 +58,7 @@ targetDiv="CitPubFormMedia";
  */
 function loadIdentification(identfication_id,form) {
 	$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
-	$("#identificationForm").html(""); 
+	$("#identificationHTML").html(""); 
 	$("#identificationFormStatus").html(""); 
 	jQuery.getJSON("/specimens/component/functions.cfc",
 		{
@@ -71,9 +71,9 @@ function loadIdentification(identfication_id,form) {
 			try{
 				if (result.ROWCOUNT == 1) {
 					var i = 0;
-					$(" #" + form + " input[name=identification_id]").val(result.DATA.identification_id[i]);
-					$("#identification_id").val(result.DATA.identification_ID[i]);
-					$("#scientific_name").val(result.DATA.scientific_name[i]);	
+					$(" #" + form + " input[name=identification_id]").val(result.DATA.IDENTIFICATION_ID[i]);
+					$("#identification_id").val(result.DATA.IDENTIFICATION_ID[i]);
+					$("#scientific_name").val(result.DATA.SCIENTIFIC_NAME[i]);	
 				} else { 
 					 $("#dialog").dialog( "close" );
 				}
