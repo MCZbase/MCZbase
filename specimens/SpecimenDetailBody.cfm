@@ -616,7 +616,9 @@ limitations under the License.
 								<a href="##" role="button" data-toggle="collapse" data-target="##collapseID">Identifications</a>
 							</h3>
 					
-			
+					<script>
+									$( document ).ready(loadIdentifications(#identification_id#));
+								</script>
 						<button type="button" class="btn btn-xs small float-right" onClick="$('.dialog').dialog('open'); getIdentifications(#identification_id#);">Edit</button>
 						</div>
 						<div id="collapseID" class="collapse show" aria-labelledby="heading1" data-parent="##accordionB">
