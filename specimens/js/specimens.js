@@ -104,7 +104,7 @@ function loadIdentification(identification_id,form) {
 					$("#scientific_name").val(result.DATA.scientific_name[i]);
 					
 				} else { 
-					 $("#dialog-identification").dialog( "close" );
+					 $("#dialog_identification").dialog( "close" );
 				}
 			}
 			catch(e){ alert(e); }

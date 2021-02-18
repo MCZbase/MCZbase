@@ -617,7 +617,7 @@ limitations under the License.
 							</h3>
 					
 
-						<button type="button" class="btn btn-xs small float-right" onClick="$('##dialog_identification').dialog('open'); getIdentification(#identification_id#);">Edit</button>
+						<button type="button" class="btn btn-xs small float-right" onClick="$('##dialog_identification').dialog('open'); loadIdentification(#identification_id#);">Edit</button>
 						
 						</div>
 							
