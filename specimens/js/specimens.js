@@ -26,27 +26,16 @@ targetDiv="CitPubFormMedia";
     	width: '500px',
     	minWidth: 500,
     	minHeight: 450,
-		buttons: "Save Permit Record": function(){ 
-				var datasub = $('#identificationHTML').serialize();
-				if ($('#identificationHTML')[0].checkValidity()) {
-					$.ajax({
-						url: "/specimens/component/functions.cfc",
-						type: 'post',
-						returnformat: 'plain',
-						data: datasub,
-						success: function(data) { 
-							if (jQuery.type(okcallback)==='function') {
-								okcallback();
-							};
-							$("#"+dialogid+"_div").html(data);
-						},
-						fail: function (jqXHR, textStatus,error) { 
-							handleFail(jqXHR,textStatus,error,"saving identification");
-						}	
-					});
-		 		} else { 
-					messageDialog('Missing required elements in form.  Fill in all yellow boxes. ','Form Submission Error, missing required values');
-		 		};
+		buttons: [
+			{ text: "Cancel", click: function () { $(this).dialog( "close" ); ;}, class: "btn", style:"background: none; border: none;" },
+        	{ text: "Save", click: function () { alert("save"); }, class:"btn btn-primary"}
+        
+    	],
+        close: function() {
+            $(this).dialog( "close" );
+        },
+        modal: true
+       }
       );
      $('body')
       .bind(
