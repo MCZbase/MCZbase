@@ -57,7 +57,7 @@ targetDiv="CitPubFormMedia";
  *  @param form the id without a leading # selector of the shipment form.
  */
 function loadIdentification(identfication_id,form) {
-	$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
+	//$("#dialog").dialog( "option", "title", "Edit Identification hi " + identfication_id );
 	$("#identificationHTML").html(""); 
 	$("#identificationFormStatus").html(""); 
 			jQuery.ajax({
